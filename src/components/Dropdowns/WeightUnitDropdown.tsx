@@ -28,10 +28,6 @@ export const WeightUnitDropdown = ({
         ...prev,
         weight_unit: e.target.value,
       }));
-
-      if (isSetEdited !== undefined && setIsSetEdited && !isSetEdited) {
-        setIsSetEdited(true);
-      }
     }
 
     if (targetType === "set-user-weight-unit" && setSet !== undefined) {
@@ -39,6 +35,14 @@ export const WeightUnitDropdown = ({
         ...prev,
         user_weight_unit: e.target.value,
       }));
+    }
+
+    if (
+      isSetEdited !== undefined &&
+      setIsSetEdited !== undefined &&
+      !isSetEdited
+    ) {
+      setIsSetEdited(true);
     }
 
     if (targetType === "equipment" && setEquipmentWeight !== undefined) {

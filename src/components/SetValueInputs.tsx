@@ -657,6 +657,8 @@ export const SetValueInputs = ({
               setSet={setOperatingSet as SetWorkoutSetAction}
               targetType="set-user-weight-unit"
               isSmall={true}
+              isSetEdited={isSetEdited}
+              setIsSetEdited={setIsSetEdited}
             />
           </div>
           {userWeight && userWeightModal && (
