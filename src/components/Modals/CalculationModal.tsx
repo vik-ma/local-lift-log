@@ -264,8 +264,6 @@ export const CalculationModal = ({
     <Modal
       isOpen={calculationModal.isOpen}
       onOpenChange={calculationModal.onOpenChange}
-      // TODO: REMOVE WHEN BUG IS FIXED
-      disableAnimation
     >
       <ModalContent>
         {(onClose) => (

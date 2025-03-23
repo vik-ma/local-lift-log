@@ -119,8 +119,6 @@ export const MultisetModal = ({
     <Modal
       isOpen={multisetModal.isOpen}
       onOpenChange={closeMultisetModal}
-      // TODO: REMOVE WHEN BUG IS FIXED
-      disableAnimation
     >
       <ModalContent>
         {(onClose) => (
