@@ -82,9 +82,6 @@ type AnalyticsChartProps = {
     activeUnitCategory: ChartDataUnitCategory
   ) => void;
   updateShownReferenceAreas: (timePeriodIds: Set<string>) => void;
-  handleOpenListModal: (
-    modalListType: AnalyticsChartListModalPage
-  ) => Promise<void>;
   formatXAxisDate: (date: string) => string;
   changeChartDataAreaToLine: (chartDataArea: ChartDataCategory) => void;
   changeChartDataLineToArea: (chartDataLine: ChartDataCategory) => void;
@@ -98,6 +95,9 @@ type AnalyticsChartProps = {
   changeChartDataLineCategoryToArea: (
     unitCategory: ChartDataUnitCategory
   ) => void;
+  handleOpenTimePeriodListModal:
+    | ((modalListType: AnalyticsChartListModalPage) => Promise<void>)
+    | (() => Promise<void>);
   circumferenceUnit?: string;
   circumferenceCharts?: Set<Exclude<ChartDataCategory, undefined>>;
 };
@@ -137,7 +137,6 @@ export const AnalyticsChart = ({
   updateLeftYAxis,
   updateRightYAxis,
   updateShownReferenceAreas,
-  handleOpenListModal,
   formatXAxisDate,
   changeChartDataAreaToLine,
   changeChartDataLineToArea,
@@ -146,6 +145,7 @@ export const AnalyticsChart = ({
   removeChartStat,
   handleChangeUnit,
   changeChartDataLineCategoryToArea,
+  handleOpenTimePeriodListModal,
   circumferenceUnit,
   circumferenceCharts,
 }: AnalyticsChartProps) => {
@@ -239,7 +239,7 @@ export const AnalyticsChart = ({
         <Button
           className="font-medium"
           variant="flat"
-          onPress={() => handleOpenListModal("time-period-list")}
+          onPress={() => handleOpenTimePeriodListModal("time-period-list")}
         >
           Load Time Period
         </Button>

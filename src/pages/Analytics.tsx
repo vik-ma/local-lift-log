@@ -3052,7 +3052,7 @@ export default function Analytics() {
               updateLeftYAxis={updateLeftYAxis}
               updateRightYAxis={updateRightYAxis}
               updateShownReferenceAreas={updateShownReferenceAreas}
-              handleOpenListModal={handleOpenListModal}
+              handleOpenTimePeriodListModal={handleOpenListModal}
               formatXAxisDate={formatXAxisDate}
               changeChartDataAreaToLine={changeChartDataAreaToLine}
               changeChartDataLineToArea={changeChartDataLineToArea}
