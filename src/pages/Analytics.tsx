@@ -3043,11 +3043,9 @@ export default function Analytics() {
               weightUnit={weightUnit}
               distanceUnit={distanceUnit}
               paceUnit={paceUnit}
-              circumferenceUnit={circumferenceUnit}
               weightCharts={weightCharts}
               distanceCharts={distanceCharts}
               paceCharts={paceCharts}
-              circumferenceCharts={circumferenceCharts}
               deleteModal={deleteModal}
               filterMinAndMaxDatesModal={filterMinAndMaxDatesModal}
               updateShownChartLines={updateShownChartLines}
@@ -3065,6 +3063,8 @@ export default function Analytics() {
               changeChartDataLineCategoryToArea={
                 changeChartDataLineCategoryToArea
               }
+              circumferenceUnit={circumferenceUnit}
+              circumferenceCharts={circumferenceCharts}
             />
           )}
           <div className="flex flex-col items-center gap-3">

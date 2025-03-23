@@ -70,11 +70,9 @@ type AnalyticsChartProps = {
   weightUnit: string;
   distanceUnit: string;
   paceUnit: string;
-  circumferenceUnit: string;
   weightCharts: Set<Exclude<ChartDataCategory, undefined>>;
   distanceCharts: Set<Exclude<ChartDataCategory, undefined>>;
   paceCharts: Set<Exclude<ChartDataCategory, undefined>>;
-  circumferenceCharts: Set<Exclude<ChartDataCategory, undefined>>;
   deleteModal: UseDisclosureReturnType;
   filterMinAndMaxDatesModal: UseDisclosureReturnType;
   updateShownChartLines: (chartLines: ChartDataCategory[]) => void;
@@ -100,6 +98,8 @@ type AnalyticsChartProps = {
   changeChartDataLineCategoryToArea: (
     unitCategory: ChartDataUnitCategory
   ) => void;
+  circumferenceUnit?: string;
+  circumferenceCharts?: Set<Exclude<ChartDataCategory, undefined>>;
 };
 
 export const AnalyticsChart = ({
@@ -128,11 +128,9 @@ export const AnalyticsChart = ({
   weightUnit,
   distanceUnit,
   paceUnit,
-  circumferenceUnit,
   weightCharts,
   distanceCharts,
   paceCharts,
-  circumferenceCharts,
   deleteModal,
   filterMinAndMaxDatesModal,
   updateShownChartLines,
@@ -148,6 +146,8 @@ export const AnalyticsChart = ({
   removeChartStat,
   handleChangeUnit,
   changeChartDataLineCategoryToArea,
+  circumferenceUnit,
+  circumferenceCharts,
 }: AnalyticsChartProps) => {
   const dateMap = useChartDateMap();
 
@@ -505,15 +505,17 @@ export const AnalyticsChart = ({
               changeUnitInChart={handleChangeUnit}
             />
           )}
-          {circumferenceCharts.size > 0 && (
-            <MeasurementUnitDropdown
-              value={circumferenceUnit}
-              targetType="chart"
-              changeUnitInChart={handleChangeUnit}
-              customWidthString="w-[7.5rem]"
-              customLabel="Circumference Unit"
-            />
-          )}
+          {circumferenceUnit !== undefined &&
+            circumferenceCharts !== undefined &&
+            circumferenceCharts.size > 0 && (
+              <MeasurementUnitDropdown
+                value={circumferenceUnit}
+                targetType="chart"
+                changeUnitInChart={handleChangeUnit}
+                customWidthString="w-[7.5rem]"
+                customLabel="Circumference Unit"
+              />
+            )}
         </div>
       </div>
     </div>
