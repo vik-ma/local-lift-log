@@ -78,7 +78,7 @@ export const MeasurementUnitDropdown = ({
             : "sm"
         }
         classNames={{
-          label: showCustomLabel ? "pl-0.5 mt-1 text-clip" : "",
+          label: showCustomLabel ? "pl-[3px] mt-1 text-clip" : "",
           mainWrapper:
             customWidthString !== undefined ? customWidthString : "w-[5rem]",
         }}

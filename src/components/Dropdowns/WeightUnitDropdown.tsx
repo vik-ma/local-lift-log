@@ -74,7 +74,7 @@ export const WeightUnitDropdown = ({
         label={showCustomLabel ? customLabel : showLabel ? "Unit" : null}
         labelPlacement={showCustomLabel ? "outside" : "inside"}
         classNames={{
-          label: showCustomLabel ? "pl-0.5 mt-1" : "",
+          label: showCustomLabel ? "pl-[3px] mt-1" : "",
           mainWrapper:
             customWidthString !== undefined
               ? customWidthString
