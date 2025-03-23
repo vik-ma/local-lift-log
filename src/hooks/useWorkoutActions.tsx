@@ -195,12 +195,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         const validUnits = GetValidatedUserSettingsUnits(userSettings);
 
-        setOperatingSet((prev) => ({
-          ...prev,
+        const emptySet: WorkoutSet = {
+          ...defaultSet,
           weight_unit: validUnits.weightUnit,
           distance_unit: validUnits.distanceUnit,
           user_weight_unit: validUnits.weightUnit,
-        }));
+        };
+
+        setOperatingSet(emptySet);
+        operatingSetInputs.setUneditedSet({ ...emptySet });
 
         setIncludeSecondaryGroups(
           userSettings.show_secondary_exercise_groups === 1
@@ -549,13 +552,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setOperationType("add");
     setSelectedExercise(undefined);
     setOperatingGroupedSet(undefined);
-    setOperatingSet({
+
+    const emptySet: WorkoutSet = {
       ...defaultSet,
       weight_unit: userSettings!.default_unit_weight!,
       distance_unit: userSettings!.default_unit_distance!,
       user_weight_unit: userSettings!.default_unit_weight!,
-    });
-    operatingSetInputs.setUneditedSet(undefined);
+    };
+
+    setOperatingSet(emptySet);
+    operatingSetInputs.setUneditedSet({ ...emptySet });
     operatingSetInputs.setIsSetEdited(false);
     operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
   };
@@ -1210,15 +1216,26 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const resetSetInputValues = (isOperatingSet: boolean) => {
+    if (selectedExercise === undefined) return;
+
     if (
       isOperatingSet &&
       operatingSetInputs.uneditedSet?.id === operatingSet.id
     ) {
-      const oldSet = { ...operatingSetInputs.uneditedSet };
+      const oldSet =
+        operatingSet.id === 0
+          ? AssignTrackingValuesIfCardio(
+              operatingSetInputs.uneditedSet,
+              selectedExercise.formattedGroupStringPrimary ?? ""
+            )
+          : { ...operatingSetInputs.uneditedSet };
+
       setOperatingSet(oldSet);
       operatingSetInputs.setIsSetEdited(false);
       operatingSetInputs.setTrackingValuesInputStrings(oldSet);
-    } else if (
+    }
+
+    if (
       !isOperatingSet &&
       activeSet !== undefined &&
       activeSetInputs.uneditedSet?.id === activeSet.id
