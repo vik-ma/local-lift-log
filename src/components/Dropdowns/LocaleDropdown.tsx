@@ -30,9 +30,7 @@ export const LocaleDropdown = ({
       disallowEmptySelection
     >
       {localeList.map((unit) => (
-        <SelectItem key={unit.code} value={unit.code}>
-          {unit.label}
-        </SelectItem>
+        <SelectItem key={unit.code}>{unit.label}</SelectItem>
       ))}
     </Select>
   );

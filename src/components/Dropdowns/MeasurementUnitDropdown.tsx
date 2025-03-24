@@ -92,9 +92,7 @@ export const MeasurementUnitDropdown = ({
         disallowEmptySelection
       >
         {validMeasurementUnits.map((unit) => (
-          <SelectItem key={unit} value={unit}>
-            {unit}
-          </SelectItem>
+          <SelectItem key={unit}>{unit}</SelectItem>
         ))}
       </Select>
     </div>

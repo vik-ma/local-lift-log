@@ -65,9 +65,7 @@ export const AvailablePlatesDropdown = ({
       disallowEmptySelection
     >
       {availableNumbers.map((unit) => (
-        <SelectItem key={unit} value={unit}>
-          {unit}
-        </SelectItem>
+        <SelectItem key={unit}>{unit}</SelectItem>
       ))}
     </Select>
   );

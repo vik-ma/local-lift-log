@@ -46,9 +46,7 @@ export const NumSetsDropdown = ({
       disallowEmptySelection
     >
       {numSetsOptions.map((num) => (
-        <SelectItem key={num} value={num}>
-          {num}
-        </SelectItem>
+        <SelectItem key={num}>{num}</SelectItem>
       ))}
     </Select>
   );

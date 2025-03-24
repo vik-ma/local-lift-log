@@ -74,9 +74,7 @@ export const DistanceUnitDropdown = ({
         disallowEmptySelection
       >
         {validDistanceUnits.map((unit) => (
-          <SelectItem key={unit} value={unit}>
-            {unit}
-          </SelectItem>
+          <SelectItem key={unit}>{unit}</SelectItem>
         ))}
       </Select>
     </div>

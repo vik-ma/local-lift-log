@@ -319,9 +319,7 @@ export const SetValueConfig = ({
                 {Array.from({ length: numMultisetSets }, (_, i) =>
                   (i + 1).toString()
                 ).map((num) => (
-                  <SelectItem key={num} value={num}>
-                    {num}
-                  </SelectItem>
+                  <SelectItem key={num}>{num}</SelectItem>
                 ))}
               </Select>
             )}

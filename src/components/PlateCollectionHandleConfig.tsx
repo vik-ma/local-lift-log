@@ -36,12 +36,8 @@ export const PlateCollectionHandleConfig = ({
             onChange={(e) => handleHandlesChange(e)}
             disallowEmptySelection
           >
-            <SelectItem key="1" value="1">
-              1
-            </SelectItem>
-            <SelectItem key="2" value="2">
-              2
-            </SelectItem>
+            <SelectItem key="1">1</SelectItem>
+            <SelectItem key="2">2</SelectItem>
           </Select>
         </div>
       </div>

@@ -64,12 +64,8 @@ export const SettingsModal = ({
                       onChange={(e) => setUnitType(e.target.value)}
                       disallowEmptySelection
                     >
-                      <SelectItem key="metric" value="metric">
-                        Metric
-                      </SelectItem>
-                      <SelectItem key="imperial" value="imperial">
-                        Imperial
-                      </SelectItem>
+                      <SelectItem key="metric">Metric</SelectItem>
+                      <SelectItem key="imperial">Imperial</SelectItem>
                     </Select>
                   </div>
                   <div className="flex gap-3 items-center justify-between">

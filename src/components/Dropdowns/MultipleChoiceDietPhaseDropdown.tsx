@@ -37,9 +37,7 @@ export const MultipleChoiceDietPhaseDropdown = ({
         disableAnimation
       >
         {dietPhaseTypes.map((type) => (
-          <SelectItem key={type} value={type}>
-            {type}
-          </SelectItem>
+          <SelectItem key={type}>{type}</SelectItem>
         ))}
       </Select>
       {values.size > 0 && (

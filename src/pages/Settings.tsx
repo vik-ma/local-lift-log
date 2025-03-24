@@ -809,9 +809,7 @@ export default function Settings() {
               disallowEmptySelection
             >
               {Array.from(timeInputMap).map(([key, value]) => (
-                <SelectItem key={key} value={key}>
-                  {value}
-                </SelectItem>
+                <SelectItem key={key}>{value}</SelectItem>
               ))}
             </Select>
           </div>
@@ -1006,12 +1004,8 @@ export default function Settings() {
               onChange={(e) => handleDefaultCalculationTabChange(e)}
               disallowEmptySelection
             >
-              <SelectItem key="plate" value="plate">
-                Plate
-              </SelectItem>
-              <SelectItem key="sum" value="sum">
-                Sum
-              </SelectItem>
+              <SelectItem key="plate">Plate</SelectItem>
+              <SelectItem key="sum">Sum</SelectItem>
             </Select>
           </div>
           <div className="flex gap-3 items-center justify-between pr-1">

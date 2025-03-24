@@ -57,9 +57,7 @@ export const MultipleChoiceUnitDropdown = ({
       disableAnimation
     >
       {unitList.map((item) => (
-        <SelectItem key={item} value={item}>
-          {item}
-        </SelectItem>
+        <SelectItem key={item}>{item}</SelectItem>
       ))}
     </Select>
   );

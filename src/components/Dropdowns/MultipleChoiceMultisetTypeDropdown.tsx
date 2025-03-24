@@ -41,9 +41,7 @@ export const MultipleChoiceMultisetTypeDropdown = ({
       disableAnimation
     >
       {Array.from(multisetTypeMap).map(([key, value]) => (
-        <SelectItem key={key.toString()} value={key.toString()}>
-          {value}
-        </SelectItem>
+        <SelectItem key={key.toString()}>{value}</SelectItem>
       ))}
     </Select>
   );

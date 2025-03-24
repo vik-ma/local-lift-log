@@ -44,9 +44,7 @@ export const MultisetTypeDropdown = ({
       disallowEmptySelection
     >
       {Array.from(multisetTypeMap).map(([key, value]) => (
-        <SelectItem key={key} value={key}>
-          {value}
-        </SelectItem>
+        <SelectItem key={key}>{value}</SelectItem>
       ))}
     </Select>
   );

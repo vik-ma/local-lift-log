@@ -170,7 +170,7 @@ export const AnalyticsChart = ({
           disallowEmptySelection
         >
           {chartDataAreas.map((area) => (
-            <SelectItem key={area} value={area}>
+            <SelectItem key={area}>
               {chartConfig[area ?? "default"].label}
             </SelectItem>
           ))}
@@ -187,7 +187,7 @@ export const AnalyticsChart = ({
           isDisabled={chartDataLines.length === 0}
         >
           {chartDataLines.map((line) => (
-            <SelectItem key={line} value={line}>
+            <SelectItem key={line}>
               {chartConfig[line ?? "default"].label}
             </SelectItem>
           ))}
@@ -211,9 +211,7 @@ export const AnalyticsChart = ({
           isDisabled={chartLineUnitCategorySet.size < 2}
         >
           {Array.from(chartLineUnitCategorySet).map((category) => (
-            <SelectItem key={category} value={category}>
-              {category}
-            </SelectItem>
+            <SelectItem key={category}>{category}</SelectItem>
           ))}
         </Select>
         <Select
@@ -228,10 +226,7 @@ export const AnalyticsChart = ({
           isDisabled={referenceAreas.length === 0}
         >
           {referenceAreas.map((area) => (
-            <SelectItem
-              key={area.timePeriodId.toString()}
-              value={area.timePeriodId.toString()}
-            >
+            <SelectItem key={area.timePeriodId.toString()}>
               {area.label}
             </SelectItem>
           ))}

@@ -425,9 +425,7 @@ export const LoadExerciseChartModal = ({
                     >
                       {Array.from(loadExerciseOptionsUnitCategoriesPrimary).map(
                         (category) => (
-                          <SelectItem key={category} value={category}>
-                            {category}
-                          </SelectItem>
+                          <SelectItem key={category}>{category}</SelectItem>
                         )
                       )}
                     </Select>
@@ -454,9 +452,7 @@ export const LoadExerciseChartModal = ({
                     >
                       {loadExerciseOptionsUnitCategoriesSecondary.map(
                         (category) => (
-                          <SelectItem key={category} value={category}>
-                            {category}
-                          </SelectItem>
+                          <SelectItem key={category}>{category}</SelectItem>
                         )
                       )}
                     </Select>

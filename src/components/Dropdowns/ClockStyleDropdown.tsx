@@ -26,12 +26,8 @@ export const ClockStyleDropdown = ({
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      <SelectItem key="24h" value="24h">
-        24 Hours
-      </SelectItem>
-      <SelectItem key="12h" value="12h">
-        12 Hours
-      </SelectItem>
+      <SelectItem key="24h">24 Hours</SelectItem>
+      <SelectItem key="12h">12 Hours</SelectItem>
     </Select>
   );
 };

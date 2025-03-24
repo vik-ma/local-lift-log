@@ -34,9 +34,7 @@ export const WeekdayDropdown = ({
       disableAnimation
     >
       {Array.from(weekdayMap).map(([weekdayNum, weekdayLabel]) => (
-        <SelectItem key={weekdayNum} value={weekdayNum}>
-          {weekdayLabel}
-        </SelectItem>
+        <SelectItem key={weekdayNum}>{weekdayLabel}</SelectItem>
       ))}
     </Select>
   );
