@@ -93,7 +93,7 @@ export const SetValueConfig = ({
           )}
         </h2>
       </div>
-      <ScrollShadow className="flex flex-col gap-2">
+      <ScrollShadow className="flex flex-col gap-2 pb-1">
         <div className="flex flex-col gap-2 w-[24rem]">
           {showNoteInput && (
             <Input
