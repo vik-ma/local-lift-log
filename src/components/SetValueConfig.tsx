@@ -8,7 +8,7 @@ import {
 } from "@heroui/react";
 import { useMemo, useState } from "react";
 import { SetValueInputs } from ".";
-import { CommentIcon } from "../assets";
+import { ChevronIcon, CommentIcon } from "../assets";
 import {
   Exercise,
   WorkoutSet,
@@ -57,8 +57,9 @@ export const SetValueConfig = ({
   userWeight,
   userWeightModal,
 }: SetValueConfigProps) => {
-  const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [showNoteInput, setShowNoteInput] = useState<boolean>(false);
+  const [isValuesAccordionExpanded, setIsValuesAccordionExpanded] =
+    useState<boolean>(true);
 
   const { isSetEdited, setIsSetEdited } = useSetTrackingInputs;
 
@@ -146,8 +147,8 @@ export const SetValueConfig = ({
           )}
         </h2>
       </div>
-      <ScrollShadow className="pb-1">
-        <div className="flex flex-col gap-1.5 w-[24rem]">
+      <ScrollShadow className="pb-1.5">
+        <div className="flex flex-col gap-2 w-[24rem]">
           {showNoteInput && (
             <Input
               value={operatingSet.note ?? ""}
@@ -309,21 +310,29 @@ export const SetValueConfig = ({
             </div>
           </div>
           <div className="flex flex-col gap-1.5">
-            <div className="flex items-center px-0.5">
-              <h3 className="text-xl font-semibold">
-                {isSetCompleted ? "Completed Values" : "Default Values"}
-              </h3>
-              <div className="flex flex-grow gap-2 justify-end">
-                <Button
-                  variant="flat"
-                  size="sm"
-                  onPress={() => setShowDefaultValues(!showDefaultValues)}
-                >
-                  {showDefaultValues ? "Hide" : "Show"}
-                </Button>
+            <div
+              aria-label="Set Values Accordion"
+              className="flex flex-col select-none cursor-pointer px-0.5"
+            >
+              <div
+                className="flex relative cursor-pointer pb-0.5"
+                onClick={() =>
+                  setIsValuesAccordionExpanded(!isValuesAccordionExpanded)
+                }
+              >
+                <h3 className="text-xl font-semibold">
+                  {isSetCompleted ? "Completed Values" : "Default Values"}
+                </h3>
+                <div className="absolute top-0 right-0">
+                  <ChevronIcon
+                    size={31}
+                    color="#505050"
+                    direction={isValuesAccordionExpanded ? "down" : "left"}
+                  />
+                </div>
               </div>
             </div>
-            {showDefaultValues && (
+            {isValuesAccordionExpanded && (
               <SetValueInputs
                 operatingSet={operatingSet}
                 setOperatingSet={setOperatingSet}
