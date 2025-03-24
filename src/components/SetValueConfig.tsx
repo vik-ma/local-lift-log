@@ -60,13 +60,66 @@ export const SetValueConfig = ({
   const [showDefaultValues, setShowDefaultValues] = useState<boolean>(false);
   const [showNoteInput, setShowNoteInput] = useState<boolean>(false);
 
-  const { isSetEdited } = useSetTrackingInputs;
+  const { isSetEdited, setIsSetEdited } = useSetTrackingInputs;
 
   const isSetCompleted = useMemo(() => {
     if (operatingSet.is_completed === 1) return true;
 
     return false;
   }, [operatingSet.is_completed]);
+
+  const handleTrackingCheckboxClick = (value: boolean, key: string) => {
+    const updatedSet = { ...operatingSet };
+    const numValue = value ? 1 : 0;
+
+    switch (key) {
+      case "weight": {
+        updatedSet.is_tracking_weight = numValue;
+        break;
+      }
+      case "reps": {
+        updatedSet.is_tracking_reps = numValue;
+        break;
+      }
+      case "distance": {
+        updatedSet.is_tracking_distance = numValue;
+        break;
+      }
+      case "time": {
+        updatedSet.is_tracking_time = numValue;
+        break;
+      }
+      case "rir": {
+        updatedSet.is_tracking_rir = numValue;
+        break;
+      }
+      case "rpe": {
+        updatedSet.is_tracking_rpe = numValue;
+        break;
+      }
+      case "resistance_level": {
+        updatedSet.is_tracking_resistance_level = numValue;
+        break;
+      }
+      case "partial_reps": {
+        updatedSet.is_tracking_partial_reps = numValue;
+        break;
+      }
+      case "user_weight": {
+        updatedSet.is_tracking_user_weight = numValue;
+        break;
+      }
+      case "warmup": {
+        updatedSet.is_warmup = numValue;
+        break;
+      }
+      default:
+        break;
+    }
+
+    setOperatingSet(updatedSet);
+    if (!isSetEdited) setIsSetEdited(true);
+  };
 
   return (
     <div className="flex flex-col gap-1 h-[400px]">
@@ -130,10 +183,7 @@ export const SetValueConfig = ({
                 color="primary"
                 isSelected={operatingSet.is_tracking_weight ? true : false}
                 onValueChange={(value) =>
-                  setOperatingSet((prev) => ({
-                    ...prev,
-                    is_tracking_weight: value ? 1 : 0,
-                  }))
+                  handleTrackingCheckboxClick(value, "weight")
                 }
               >
                 Weight
@@ -145,10 +195,7 @@ export const SetValueConfig = ({
                 color="primary"
                 isSelected={operatingSet.is_tracking_reps ? true : false}
                 onValueChange={(value) =>
-                  setOperatingSet((prev) => ({
-                    ...prev,
-                    is_tracking_reps: value ? 1 : 0,
-                  }))
+                  handleTrackingCheckboxClick(value, "reps")
                 }
               >
                 Reps
@@ -160,10 +207,7 @@ export const SetValueConfig = ({
                 color="primary"
                 isSelected={operatingSet.is_tracking_distance ? true : false}
                 onValueChange={(value) =>
-                  setOperatingSet((prev) => ({
-                    ...prev,
-                    is_tracking_distance: value ? 1 : 0,
-                  }))
+                  handleTrackingCheckboxClick(value, "distance")
                 }
               >
                 Distance
@@ -175,10 +219,7 @@ export const SetValueConfig = ({
                 color="primary"
                 isSelected={operatingSet.is_tracking_time ? true : false}
                 onValueChange={(value) =>
-                  setOperatingSet((prev) => ({
-                    ...prev,
-                    is_tracking_time: value ? 1 : 0,
-                  }))
+                  handleTrackingCheckboxClick(value, "time")
                 }
               >
                 Time
@@ -190,10 +231,7 @@ export const SetValueConfig = ({
                 color="primary"
                 isSelected={operatingSet.is_tracking_rir ? true : false}
                 onValueChange={(value) =>
-                  setOperatingSet((prev) => ({
-                    ...prev,
-                    is_tracking_rir: value ? 1 : 0,
-                  }))
+                  handleTrackingCheckboxClick(value, "rir")
                 }
               >
                 RIR
@@ -205,10 +243,7 @@ export const SetValueConfig = ({
                 color="primary"
                 isSelected={operatingSet.is_tracking_rpe ? true : false}
                 onValueChange={(value) =>
-                  setOperatingSet((prev) => ({
-                    ...prev,
-                    is_tracking_rpe: value ? 1 : 0,
-                  }))
+                  handleTrackingCheckboxClick(value, "rpe")
                 }
               >
                 RPE
@@ -222,10 +257,7 @@ export const SetValueConfig = ({
                   operatingSet.is_tracking_resistance_level ? true : false
                 }
                 onValueChange={(value) =>
-                  setOperatingSet((prev) => ({
-                    ...prev,
-                    is_tracking_resistance_level: value ? 1 : 0,
-                  }))
+                  handleTrackingCheckboxClick(value, "resistance_level")
                 }
               >
                 Resistance Level
@@ -239,10 +271,7 @@ export const SetValueConfig = ({
                   operatingSet.is_tracking_partial_reps ? true : false
                 }
                 onValueChange={(value) =>
-                  setOperatingSet((prev) => ({
-                    ...prev,
-                    is_tracking_partial_reps: value ? 1 : 0,
-                  }))
+                  handleTrackingCheckboxClick(value, "partial_reps")
                 }
               >
                 Partial Reps
@@ -254,10 +283,7 @@ export const SetValueConfig = ({
                 color="primary"
                 isSelected={operatingSet.is_tracking_user_weight ? true : false}
                 onValueChange={(value) =>
-                  setOperatingSet((prev) => ({
-                    ...prev,
-                    is_tracking_user_weight: value ? 1 : 0,
-                  }))
+                  handleTrackingCheckboxClick(value, "user_weight")
                 }
               >
                 User Weight
@@ -269,10 +295,7 @@ export const SetValueConfig = ({
                 color="primary"
                 isSelected={operatingSet.is_warmup ? true : false}
                 onValueChange={(value) =>
-                  setOperatingSet((prev) => ({
-                    ...prev,
-                    is_warmup: value ? 1 : 0,
-                  }))
+                  handleTrackingCheckboxClick(value, "warmup")
                 }
               >
                 <span className="text-yellow-500">Warmup Set</span>
