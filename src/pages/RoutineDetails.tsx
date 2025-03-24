@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom";
 import {
   Routine,
   RoutineScheduleItem,
-  UserSettingsOptional,
   WorkoutTemplate,
   NoDayRoutineScheduleItem,
+  UserSettings,
 } from "../typings";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Button, useDisclosure, Chip, Switch } from "@heroui/react";
@@ -60,7 +60,7 @@ export default function RoutineDetails() {
     operatingNoDayRoutineScheduleItem,
     setOperatingNoDayRoutineScheduleItem,
   ] = useState<NoDayRoutineScheduleItem>();
-  const [userSettings, setUserSettings] = useState<UserSettingsOptional>();
+  const [userSettings, setUserSettings] = useState<UserSettings>();
   const [noDayWorkoutTemplateList, setNoDayWorkoutTemplateList] = useState<
     NoDayRoutineScheduleItem[]
   >([]);
@@ -205,7 +205,7 @@ export default function RoutineDetails() {
       loadUserSettings();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isRoutineLoaded.current, isWorkoutTemplateListLoaded.current]);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Routine");
 
@@ -331,7 +331,7 @@ export default function RoutineDetails() {
 
     const newValue = value ? routine.id : 0;
 
-    const updatedSettings: UserSettingsOptional = {
+    const updatedSettings: UserSettings = {
       ...userSettings,
       active_routine_id: newValue,
     };
