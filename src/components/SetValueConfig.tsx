@@ -69,7 +69,7 @@ export const SetValueConfig = ({
   }, [operatingSet.is_completed]);
 
   return (
-    <div className="flex flex-col gap-2 h-[400px]">
+    <div className="flex flex-col gap-1 h-[400px]">
       <div className="flex items-center justify-between">
         <h2 className="flex text-2xl font-semibold justify-between w-full items-end">
           <div className="flex gap-1 max-w-[21rem]">
@@ -93,23 +93,23 @@ export const SetValueConfig = ({
           )}
         </h2>
       </div>
-      <ScrollShadow className="flex flex-col gap-2 pb-1">
-        <div className="flex flex-col gap-2 w-[24rem]">
-          {showNoteInput && (
-            <Input
-              value={operatingSet.note ?? ""}
-              label="Note"
-              variant="faded"
-              size="sm"
-              onValueChange={(value) =>
-                setOperatingSet((prev) => ({
-                  ...prev,
-                  note: value,
-                }))
-              }
-              isClearable
-            />
-          )}
+      <ScrollShadow className="flex flex-col gap-1.5 w-[24rem] pb-1">
+        {showNoteInput && (
+          <Input
+            value={operatingSet.note ?? ""}
+            label="Note"
+            variant="faded"
+            size="sm"
+            onValueChange={(value) =>
+              setOperatingSet((prev) => ({
+                ...prev,
+                note: value,
+              }))
+            }
+            isClearable
+          />
+        )}
+        <div className="flex flex-col gap-1">
           <div className="flex justify-between items-center h-8">
             <h3 className="text-xl font-semibold px-0.5">Track</h3>
             {isSetEdited && (
@@ -279,6 +279,8 @@ export const SetValueConfig = ({
               </Checkbox>
             </div>
           </div>
+        </div>
+        <div className="flex flex-col gap-1.5">
           <div className="flex items-center px-0.5">
             <h3 className="text-xl font-semibold">
               {isSetCompleted ? "Completed Values" : "Default Values"}
@@ -306,26 +308,26 @@ export const SetValueConfig = ({
               openCalculationModal={openCalculationModal}
             />
           )}
-          {operationType === "add-sets-to-multiset" &&
-            numMultisetSets &&
-            multisetSetTarget &&
-            setMultisetSetTarget && (
-              <Select
-                label="Add To Multiset Set"
-                size="sm"
-                variant="faded"
-                selectedKeys={[multisetSetTarget]}
-                onChange={(e) => setMultisetSetTarget(e.target.value)}
-                disallowEmptySelection
-              >
-                {Array.from({ length: numMultisetSets }, (_, i) =>
-                  (i + 1).toString()
-                ).map((num) => (
-                  <SelectItem key={num}>{num}</SelectItem>
-                ))}
-              </Select>
-            )}
         </div>
+        {operationType === "add-sets-to-multiset" &&
+          numMultisetSets &&
+          multisetSetTarget &&
+          setMultisetSetTarget && (
+            <Select
+              label="Add To Multiset Set"
+              size="sm"
+              variant="faded"
+              selectedKeys={[multisetSetTarget]}
+              onChange={(e) => setMultisetSetTarget(e.target.value)}
+              disallowEmptySelection
+            >
+              {Array.from({ length: numMultisetSets }, (_, i) =>
+                (i + 1).toString()
+              ).map((num) => (
+                <SelectItem key={num}>{num}</SelectItem>
+              ))}
+            </Select>
+          )}
       </ScrollShadow>
     </div>
   );
