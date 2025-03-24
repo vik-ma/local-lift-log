@@ -110,7 +110,19 @@ export const SetValueConfig = ({
               isClearable
             />
           )}
-          <h3 className="text-xl font-semibold px-0.5">Track</h3>
+          <div className="flex justify-between items-center h-8">
+            <h3 className="text-xl font-semibold px-0.5">Track</h3>
+            {isSetEdited && (
+              <Button
+                variant="flat"
+                size="sm"
+                color="danger"
+                onPress={() => resetSetInputValues(true)}
+              >
+                Reset
+              </Button>
+            )}
+          </div>
           <div className="grid grid-cols-2 gap-1 px-1">
             <div className="w-[11rem]">
               <Checkbox
@@ -272,16 +284,6 @@ export const SetValueConfig = ({
               {isSetCompleted ? "Completed Values" : "Default Values"}
             </h3>
             <div className="flex flex-grow gap-2 justify-end">
-              {showDefaultValues && isSetEdited && (
-                <Button
-                  variant="flat"
-                  size="sm"
-                  color="danger"
-                  onPress={() => resetSetInputValues(true)}
-                >
-                  Reset Values
-                </Button>
-              )}
               <Button
                 variant="flat"
                 size="sm"
