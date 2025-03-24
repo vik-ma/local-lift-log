@@ -78,16 +78,16 @@ export const WorkoutModal = ({
                 <div className="flex flex-col gap-3.5">
                   {workoutTemplateNote && (
                     <div className="flex flex-col px-0.5">
-                      <span className="font-medium text-secondary">
+                      <h3 className="font-medium text-secondary">
                         Workout Template Note
-                      </span>
+                      </h3>
                       <span className="break-all text-sm text-stone-500">
                         {workoutTemplateNote}
                       </span>
                     </div>
                   )}
                   <div className="flex flex-col gap-1">
-                    <span className="font-medium px-0.5">Workout Note</span>
+                    <h3 className="font-medium px-0.5">Workout Note</h3>
                     <Input
                       className="w-[23.75rem]"
                       aria-label="Workout Note Input"
@@ -107,7 +107,7 @@ export const WorkoutModal = ({
                         setIsRatingAccordionExpanded(!isRatingAccordionExpanded)
                       }
                     >
-                      <span className="font-medium">Workout Ratings</span>
+                      <h3 className="font-medium">Workout Ratings</h3>
                       <div className="absolute top-1 right-0">
                         <ChevronIcon
                           size={31}
@@ -145,9 +145,7 @@ export const WorkoutModal = ({
                       handleRemoveWorkoutTemplateButton !== undefined && (
                         <div className="flex flex-col px-0.5">
                           <div className="flex items-center gap-px">
-                            <span className="font-medium">
-                              Workout Template
-                            </span>
+                            <h3 className="font-medium">Workout Template</h3>
                             <Popover placement="top" offset={4} showArrow>
                               <PopoverTrigger>
                                 <Button size="sm" variant="light" isIconOnly>
@@ -169,7 +167,7 @@ export const WorkoutModal = ({
                           <div className="flex justify-between items-center">
                             {workout.workoutTemplate !== undefined ? (
                               <>
-                                <span className="w-[14rem] break-all text-sm text-secondary">
+                                <span className="w-[14rem] pl-px break-all text-sm text-secondary">
                                   {workout.workoutTemplate.name}
                                 </span>
                                 <div className="flex gap-1">
@@ -227,7 +225,7 @@ export const WorkoutModal = ({
                       handleRemoveRoutineButton !== undefined && (
                         <div className="flex flex-col px-0.5">
                           <div className="flex items-center gap-px">
-                            <span className="font-medium">Routine</span>
+                            <h3 className="font-medium">Routine</h3>
                             <Popover placement="top" offset={4} showArrow>
                               <PopoverTrigger>
                                 <Button size="sm" variant="light" isIconOnly>
@@ -249,7 +247,7 @@ export const WorkoutModal = ({
                           <div className="flex justify-between items-center">
                             {workout.routine !== undefined ? (
                               <>
-                                <span className="w-[14rem] break-all text-sm text-secondary">
+                                <span className="w-[14rem] pl-px break-all text-sm text-secondary">
                                   {workout.routine.name}
                                 </span>
                                 <div className="flex gap-1">
