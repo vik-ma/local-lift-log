@@ -92,7 +92,9 @@ export const WeightUnitDropdown = ({
             ? customWidthString
             : showLabel
             ? "w-[5rem]"
-            : "w-[4.5rem] mt-0.5",
+            : showBigLabel
+            ? "w-[4.5rem] mt-0.5"
+            : "w-[4.5rem]",
       }}
       size={isSmall ? "sm" : "md"}
       variant="faded"
