@@ -6,7 +6,7 @@ import {
   Select,
   SelectItem,
 } from "@heroui/react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { SetValueInputs } from ".";
 import { ChevronIcon, CommentIcon } from "../assets";
 import {
@@ -63,12 +63,6 @@ export const SetValueConfig = ({
     useState<boolean>(false);
 
   const { isSetEdited, setIsSetEdited } = useSetTrackingInputs;
-
-  const isSetCompleted = useMemo(() => {
-    if (operatingSet.is_completed === 1) return true;
-
-    return false;
-  }, [operatingSet.is_completed]);
 
   const handleTrackingCheckboxClick = (value: boolean, key: string) => {
     const updatedSet = { ...operatingSet };
@@ -321,9 +315,7 @@ export const SetValueConfig = ({
                   setIsValuesAccordionExpanded(!isValuesAccordionExpanded)
                 }
               >
-                <h3 className="text-xl font-semibold">
-                  {isSetCompleted ? "Completed Values" : "Default Values"}
-                </h3>
+                <h3 className="text-xl font-semibold">Set Values</h3>
                 <div className="absolute top-0 right-0">
                   <ChevronIcon
                     size={31}
