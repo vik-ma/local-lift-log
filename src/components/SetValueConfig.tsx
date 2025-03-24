@@ -17,6 +17,7 @@ import {
   UserWeight,
   UseDisclosureReturnType,
 } from "../typings";
+import { AnimatePresence, motion } from "framer-motion";
 
 type SetValueConfigProps = {
   selectedExercise: Exercise;
@@ -59,7 +60,7 @@ export const SetValueConfig = ({
 }: SetValueConfigProps) => {
   const [showNoteInput, setShowNoteInput] = useState<boolean>(false);
   const [isValuesAccordionExpanded, setIsValuesAccordionExpanded] =
-    useState<boolean>(true);
+    useState<boolean>(false);
 
   const { isSetEdited, setIsSetEdited } = useSetTrackingInputs;
 
@@ -315,7 +316,7 @@ export const SetValueConfig = ({
               className="flex flex-col select-none cursor-pointer px-0.5"
             >
               <div
-                className="flex relative cursor-pointer pb-0.5"
+                className="flex relative cursor-pointer pb-1"
                 onClick={() =>
                   setIsValuesAccordionExpanded(!isValuesAccordionExpanded)
                 }
@@ -332,19 +333,30 @@ export const SetValueConfig = ({
                 </div>
               </div>
             </div>
-            {isValuesAccordionExpanded && (
-              <SetValueInputs
-                operatingSet={operatingSet}
-                setOperatingSet={setOperatingSet}
-                useSetTrackingInputs={useSetTrackingInputs}
-                userSettings={userSettings}
-                userWeight={userWeight}
-                userWeightModal={userWeightModal}
-                exercise={selectedExercise}
-                isActiveSet={false}
-                openCalculationModal={openCalculationModal}
-              />
-            )}
+            <AnimatePresence>
+              {isValuesAccordionExpanded && (
+                <motion.div
+                  initial={{ height: 0, overflow: "hidden" }}
+                  animate={{ height: "auto" }}
+                  exit={{ height: 0, overflow: "hidden" }}
+                  transition={{
+                    height: { duration: 0.07 },
+                  }}
+                >
+                  <SetValueInputs
+                    operatingSet={operatingSet}
+                    setOperatingSet={setOperatingSet}
+                    useSetTrackingInputs={useSetTrackingInputs}
+                    userSettings={userSettings}
+                    userWeight={userWeight}
+                    userWeightModal={userWeightModal}
+                    exercise={selectedExercise}
+                    isActiveSet={false}
+                    openCalculationModal={openCalculationModal}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
           {operationType === "add-sets-to-multiset" &&
             numMultisetSets &&
