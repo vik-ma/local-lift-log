@@ -133,7 +133,7 @@ export const FilterMultisetListModal = ({
                           {filterExercises.size > 0 &&
                             `(${filterExercises.size})`}
                         </h3>
-                        <div className="flex justify-between items-center px-0.5">
+                        <div className="flex justify-between items-center pl-[3px]">
                           <div
                             className={
                               filterExercises.size === 0
@@ -159,7 +159,7 @@ export const FilterMultisetListModal = ({
                           {filterExerciseGroups.length > 0 &&
                             `(${filterExerciseGroups.length})`}
                         </h3>
-                        <div className="flex justify-between items-center px-0.5">
+                        <div className="flex justify-between items-center pl-[3px]">
                           <div
                             className={
                               filterExerciseGroups.length === 0

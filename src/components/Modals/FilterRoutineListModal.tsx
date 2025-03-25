@@ -160,7 +160,7 @@ export const FilterRoutineListModal = ({
                           {filterWorkoutTemplates.size > 0 &&
                             `(${filterWorkoutTemplates.size})`}
                         </h3>
-                        <div className="flex justify-between items-center pl-0.5">
+                        <div className="flex justify-between items-center pl-[3px]">
                           <div
                             className={
                               filterWorkoutTemplates.size === 0

@@ -84,7 +84,7 @@ export const FilterUserMeasurementListModal = ({
                         {filterMeasurements.size > 0 &&
                           `(${filterMeasurements.size})`}
                       </h3>
-                      <div className="flex justify-between items-center px-0.5">
+                      <div className="flex justify-between items-center pl-[3px]">
                         <div
                           className={
                             filterMeasurements.size === 0

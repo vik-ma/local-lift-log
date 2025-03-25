@@ -191,7 +191,7 @@ export const FilterWorkoutListModal = ({
                           {filterRoutines.size > 0 &&
                             `(${filterRoutines.size})`}
                         </h3>
-                        <div className="flex justify-between items-center pl-0.5">
+                        <div className="flex justify-between items-center pl-[3px]">
                           <div
                             className={
                               filterRoutines.size === 0
@@ -217,7 +217,7 @@ export const FilterWorkoutListModal = ({
                           {filterWorkoutTemplates.size > 0 &&
                             `(${filterWorkoutTemplates.size})`}
                         </h3>
-                        <div className="flex justify-between items-center pl-0.5">
+                        <div className="flex justify-between items-center pl-[3px]">
                           <div
                             className={
                               filterWorkoutTemplates.size === 0
@@ -245,7 +245,7 @@ export const FilterWorkoutListModal = ({
                           {filterExercises.size > 0 &&
                             `(${filterExercises.size})`}
                         </h3>
-                        <div className="flex justify-between items-center pl-0.5">
+                        <div className="flex justify-between items-center pl-[3px]">
                           <div
                             className={
                               filterExercises.size === 0
@@ -271,7 +271,7 @@ export const FilterWorkoutListModal = ({
                           {filterExerciseGroups.length > 0 &&
                             `(${filterExerciseGroups.length})`}
                         </h3>
-                        <div className="flex justify-between items-center pl-0.5">
+                        <div className="flex justify-between items-center pl-[3px]">
                           <div
                             className={
                               filterExerciseGroups.length === 0
