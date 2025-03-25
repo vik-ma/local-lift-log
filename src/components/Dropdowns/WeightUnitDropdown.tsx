@@ -84,7 +84,7 @@ export const WeightUnitDropdown = ({
         labelPlacement={showCustomLabel || showBigLabel ? "outside" : "inside"}
         classNames={{
           label: showBigLabel
-            ? "!text-default-500 text-base font-semibold pl-1 mt-1.5"
+            ? "!text-default-500 text-base font-semibold pl-0.5 mt-1.5"
             : showCustomLabel
             ? "pl-[3px] mt-1"
             : "",

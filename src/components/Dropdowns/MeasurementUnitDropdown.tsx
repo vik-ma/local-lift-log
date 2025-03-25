@@ -80,7 +80,7 @@ export const MeasurementUnitDropdown = ({
         }
         classNames={{
           label: showBigLabel
-            ? "!text-foreground-500 text-base pl-1 mt-[5px] text-clip"
+            ? "!text-foreground-500 text-base pl-0.5 mt-[5px] text-clip"
             : showCustomLabel
             ? "pl-[3px] mt-1 text-clip"
             : "",
