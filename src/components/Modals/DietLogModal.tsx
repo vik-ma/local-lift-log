@@ -438,8 +438,8 @@ export const DietLogModal = ({
                   <div className="flex flex-col">
                     <I18nProvider locale={userSettings.locale}>
                       <DatePicker
-                        classNames={{ base: "gap-0.5" }}
-                        dateInputClassNames={{
+                        classNames={{
+                          base: "gap-0.5",
                           inputWrapper: "!bg-default-100",
                         }}
                         label={

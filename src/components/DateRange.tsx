@@ -26,8 +26,8 @@ export const DateRange = ({
       <I18nProvider locale={locale}>
         <DatePicker
           className="w-[9.25rem]"
-          classNames={{ base: "gap-0.5" }}
-          dateInputClassNames={{
+          classNames={{
+            base: "gap-0.5",
             inputWrapper: "!bg-default-100",
             innerWrapper: "gap-x-0.5",
           }}
@@ -43,8 +43,8 @@ export const DateRange = ({
       <I18nProvider locale={locale}>
         <DatePicker
           className="w-[9.25rem]"
-          classNames={{ base: "gap-0.5" }}
-          dateInputClassNames={{
+          classNames={{
+            base: "gap-0.5",
             inputWrapper: "!bg-default-100",
             innerWrapper: "gap-x-0.5",
             errorMessage: "w-[10.5rem]",

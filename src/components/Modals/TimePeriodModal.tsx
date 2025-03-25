@@ -75,8 +75,10 @@ export const TimePeriodModal = ({
                 <div className="flex relative gap-4 justify-between pb-1.5">
                   <I18nProvider locale={userSettings.locale}>
                     <DatePicker
-                      classNames={{ base: "gap-0.5" }}
-                      dateInputClassNames={{ inputWrapper: "!bg-default-100" }}
+                      classNames={{
+                        base: "gap-0.5",
+                        inputWrapper: "!bg-default-100",
+                      }}
                       label={
                         <span className="font-medium text-base px-0.5">
                           Start Date
@@ -92,8 +94,10 @@ export const TimePeriodModal = ({
                   </I18nProvider>
                   <I18nProvider locale={userSettings.locale}>
                     <DatePicker
-                      classNames={{ base: "gap-0.5" }}
-                      dateInputClassNames={{ inputWrapper: "!bg-default-100" }}
+                      classNames={{
+                        base: "gap-0.5",
+                        inputWrapper: "!bg-default-100",
+                      }}
                       label={
                         <span className="font-medium text-base px-0.5">
                           End Date

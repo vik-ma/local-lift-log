@@ -109,7 +109,7 @@ export const TimeInputModal = ({
                     <DatePicker
                       aria-label="Current Time Read-Only DatePicker"
                       className="w-[9.25rem]"
-                      dateInputClassNames={{ innerWrapper: "gap-x-0.5" }}
+                      classNames={{ innerWrapper: "gap-x-0.5" }}
                       variant="faded"
                       isDisabled
                       value={currentDate}
@@ -133,7 +133,7 @@ export const TimeInputModal = ({
                     <DatePicker
                       aria-label="New Time DatePicker"
                       className="w-[9.25rem]"
-                      dateInputClassNames={{ innerWrapper: "gap-x-0.5" }}
+                      classNames={{ innerWrapper: "gap-x-0.5" }}
                       variant="faded"
                       value={newDate}
                       onChange={setNewDate}
