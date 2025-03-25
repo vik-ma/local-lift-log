@@ -79,6 +79,7 @@ export const TimePeriodModal = ({
                         base: "gap-0.5",
                         inputWrapper: "!bg-default-100",
                         label: "text-neutral-700",
+                        helperWrapper: "px-0.5",
                       }}
                       label={
                         <span className="font-medium text-base px-0.5">
@@ -99,6 +100,7 @@ export const TimePeriodModal = ({
                         base: "gap-0.5",
                         inputWrapper: "!bg-default-100",
                         label: "text-neutral-700",
+                        helperWrapper: "px-0.5",
                       }}
                       label={
                         <span className="font-medium text-base px-0.5">
@@ -126,9 +128,9 @@ export const TimePeriodModal = ({
                   )}
                 </div>
                 <h3 className="font-medium px-0.5 pb-1">
-                  Additional Information
+                  Optional Information
                 </h3>
-                <div className="flex flex-col gap-2.5">
+                <div className="flex flex-col gap-2">
                   <Input
                     value={timePeriod.note ?? ""}
                     label="Note"
