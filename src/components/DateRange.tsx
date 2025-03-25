@@ -30,6 +30,7 @@ export const DateRange = ({
             base: "gap-0.5",
             inputWrapper: "!bg-default-100",
             innerWrapper: "gap-x-0.5",
+            label: "text-neutral-700",
           }}
           label={
             <span className="text-base font-medium px-0.5">Start Date</span>
@@ -49,6 +50,7 @@ export const DateRange = ({
             innerWrapper: "gap-x-0.5",
             errorMessage: "w-[10.5rem]",
             helperWrapper: "px-px",
+            label: "text-neutral-700",
           }}
           label={<span className="text-base font-medium px-0.5">End Date</span>}
           labelPlacement="outside"

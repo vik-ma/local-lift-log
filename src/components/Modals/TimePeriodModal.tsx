@@ -78,6 +78,7 @@ export const TimePeriodModal = ({
                       classNames={{
                         base: "gap-0.5",
                         inputWrapper: "!bg-default-100",
+                        label: "text-neutral-700",
                       }}
                       label={
                         <span className="font-medium text-base px-0.5">
@@ -97,6 +98,7 @@ export const TimePeriodModal = ({
                       classNames={{
                         base: "gap-0.5",
                         inputWrapper: "!bg-default-100",
+                        label: "text-neutral-700",
                       }}
                       label={
                         <span className="font-medium text-base px-0.5">

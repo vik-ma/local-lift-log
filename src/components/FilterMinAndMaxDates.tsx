@@ -35,7 +35,11 @@ export const FilterMinAndMaxDates = ({
       <div className="relative w-full">
         <I18nProvider locale={locale}>
           <DatePicker
-            classNames={{ base: "gap-0.5", inputWrapper: "!bg-default-100" }}
+            classNames={{
+              base: "gap-0.5",
+              inputWrapper: "!bg-default-100",
+              label: "text-neutral-700",
+            }}
             label={
               <span
                 className={
@@ -81,6 +85,7 @@ export const FilterMinAndMaxDates = ({
               base: "gap-0.5",
               inputWrapper: "!bg-default-100",
               helperWrapper: "px-0.5",
+              label: "text-neutral-700",
             }}
             label={
               <span

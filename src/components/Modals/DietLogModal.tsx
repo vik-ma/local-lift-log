@@ -441,6 +441,7 @@ export const DietLogModal = ({
                         classNames={{
                           base: "gap-0.5",
                           inputWrapper: "!bg-default-100",
+                          label: "text-neutral-700",
                         }}
                         label={
                           <span className="text-base font-medium px-0.5">
