@@ -72,14 +72,12 @@ export const FilterPresetsListModal = ({
                           filterMinAndMaxValueInputs
                         }
                       />
-                      <div>
-                        <WeightUnitDropdown
-                          value={filterWeightRangeUnit}
-                          setState={setFilterWeightRangeUnit}
-                          targetType="state"
-                          showBigLabel
-                        />
-                      </div>
+                      <WeightUnitDropdown
+                        value={filterWeightRangeUnit}
+                        setState={setFilterWeightRangeUnit}
+                        targetType="state"
+                        showBigLabel
+                      />
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
@@ -106,14 +104,12 @@ export const FilterPresetsListModal = ({
                           filterMinAndMaxValueInputs
                         }
                       />
-                      <div>
-                        <DistanceUnitDropdown
-                          value={filterDistanceRangeUnit}
-                          setState={setFilterDistanceRangeUnit}
-                          targetType="state"
-                          showBigLabel
-                        />
-                      </div>
+                      <DistanceUnitDropdown
+                        value={filterDistanceRangeUnit}
+                        setState={setFilterDistanceRangeUnit}
+                        targetType="state"
+                        showBigLabel
+                      />
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">

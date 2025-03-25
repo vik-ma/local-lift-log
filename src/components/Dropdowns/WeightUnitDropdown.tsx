@@ -71,41 +71,43 @@ export const WeightUnitDropdown = ({
   const showCustomLabel = customLabel !== undefined;
 
   return (
-    <Select
-      aria-label="Weight Unit Dropdown List"
-      label={
-        showCustomLabel
-          ? customLabel
-          : showLabel || showBigLabel
-          ? "Unit"
-          : null
-      }
-      labelPlacement={showCustomLabel || showBigLabel ? "outside" : "inside"}
-      classNames={{
-        label: showBigLabel
-          ? "!text-default-500 text-base font-semibold pl-1 mt-1.5"
-          : showCustomLabel
-          ? "pl-[3px] mt-1"
-          : "",
-        mainWrapper:
-          customWidthString !== undefined
-            ? customWidthString
-            : showLabel
-            ? "w-[5rem]"
-            : showBigLabel
-            ? "w-[4.5rem] mt-0.5"
-            : "w-[4.5rem]",
-      }}
-      size={isSmall ? "sm" : "md"}
-      variant="faded"
-      selectedKeys={[value]}
-      onChange={(e) => handleChange(e)}
-      disallowEmptySelection
-    >
-      {validWeightUnits.map((unit) => (
-        <SelectItem key={unit}>{unit}</SelectItem>
-      ))}
-    </Select>
+    <div>
+      <Select
+        aria-label="Weight Unit Dropdown List"
+        label={
+          showCustomLabel
+            ? customLabel
+            : showLabel || showBigLabel
+            ? "Unit"
+            : null
+        }
+        labelPlacement={showCustomLabel || showBigLabel ? "outside" : "inside"}
+        classNames={{
+          label: showBigLabel
+            ? "!text-default-500 text-base font-semibold pl-1 mt-1.5"
+            : showCustomLabel
+            ? "pl-[3px] mt-1"
+            : "",
+          mainWrapper:
+            customWidthString !== undefined
+              ? customWidthString
+              : showLabel
+              ? "w-[5rem]"
+              : showBigLabel
+              ? "w-[4.5rem] mt-0.5"
+              : "w-[4.5rem]",
+        }}
+        size={isSmall ? "sm" : "md"}
+        variant="faded"
+        selectedKeys={[value]}
+        onChange={(e) => handleChange(e)}
+        disallowEmptySelection
+      >
+        {validWeightUnits.map((unit) => (
+          <SelectItem key={unit}>{unit}</SelectItem>
+        ))}
+      </Select>
+    </div>
   );
 };
 

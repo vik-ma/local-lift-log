@@ -63,44 +63,46 @@ export const MeasurementUnitDropdown = ({
   const showCustomLabel = customLabel !== undefined;
 
   return (
-    <Select
-      aria-label="Measurement Unit Dropdown List"
-      label={
-        showCustomLabel
-          ? customLabel
-          : showLabel || showBigLabel
-          ? "Unit"
-          : null
-      }
-      labelPlacement={
-        targetType === "modal" || showCustomLabel || showBigLabel
-          ? "outside"
-          : "inside"
-      }
-      classNames={{
-        label: showBigLabel
-          ? "!text-foreground-500 text-base pl-1 mt-[5px] text-clip"
-          : showCustomLabel
-          ? "pl-[3px] mt-1 text-clip"
-          : "",
-        mainWrapper:
-          customWidthString !== undefined
-            ? customWidthString
-            : showBigLabel
-            ? "w-[5rem] mt-[3px]"
-            : "w-[5rem]",
-      }}
-      size={targetType === "modal" || targetType === "settings" ? "md" : "sm"}
-      variant="faded"
-      selectedKeys={[displayValue]}
-      onChange={(e) => handleChange(e)}
-      isDisabled={isDisabled}
-      disallowEmptySelection
-    >
-      {validMeasurementUnits.map((unit) => (
-        <SelectItem key={unit}>{unit}</SelectItem>
-      ))}
-    </Select>
+    <div>
+      <Select
+        aria-label="Measurement Unit Dropdown List"
+        label={
+          showCustomLabel
+            ? customLabel
+            : showLabel || showBigLabel
+            ? "Unit"
+            : null
+        }
+        labelPlacement={
+          targetType === "modal" || showCustomLabel || showBigLabel
+            ? "outside"
+            : "inside"
+        }
+        classNames={{
+          label: showBigLabel
+            ? "!text-foreground-500 text-base pl-1 mt-[5px] text-clip"
+            : showCustomLabel
+            ? "pl-[3px] mt-1 text-clip"
+            : "",
+          mainWrapper:
+            customWidthString !== undefined
+              ? customWidthString
+              : showBigLabel
+              ? "w-[5rem] mt-[3px]"
+              : "w-[5rem]",
+        }}
+        size={targetType === "modal" || targetType === "settings" ? "md" : "sm"}
+        variant="faded"
+        selectedKeys={[displayValue]}
+        onChange={(e) => handleChange(e)}
+        isDisabled={isDisabled}
+        disallowEmptySelection
+      >
+        {validMeasurementUnits.map((unit) => (
+          <SelectItem key={unit}>{unit}</SelectItem>
+        ))}
+      </Select>
+    </div>
   );
 };
 

@@ -80,14 +80,12 @@ export const FilterUserWeightListModal = ({
                               filterMinAndMaxValueInputs
                             }
                           />
-                          <div>
-                            <WeightUnitDropdown
-                              value={filterWeightRangeUnit}
-                              setState={setFilterWeightRangeUnit}
-                              targetType="state"
-                              showBigLabel
-                            />
-                          </div>
+                          <WeightUnitDropdown
+                            value={filterWeightRangeUnit}
+                            setState={setFilterWeightRangeUnit}
+                            targetType="state"
+                            showBigLabel
+                          />
                         </div>
                       </div>
                       <div className="flex flex-col gap-px">

@@ -75,19 +75,15 @@ export const MeasurementModal = ({
                       </Radio>
                     ))}
                   </RadioGroup>
-                  <div>
-                    <MeasurementUnitDropdown
-                      measurement={measurement}
-                      isDisabled={
-                        measurement.measurement_type === "Caliper"
-                          ? true
-                          : false
-                      }
-                      setMeasurement={setMeasurement}
-                      targetType="modal"
-                      showBigLabel
-                    />
-                  </div>
+                  <MeasurementUnitDropdown
+                    measurement={measurement}
+                    isDisabled={
+                      measurement.measurement_type === "Caliper" ? true : false
+                    }
+                    setMeasurement={setMeasurement}
+                    targetType="modal"
+                    showBigLabel
+                  />
                 </div>
               </div>
             </ModalBody>
