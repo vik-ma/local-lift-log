@@ -79,10 +79,10 @@ export const FilterTimePeriodListModal = ({
         {(onClose) => (
           <>
             <ModalHeader>Filter Time Periods</ModalHeader>
-            <ModalBody>
+            <ModalBody className="pt-0">
               <ScrollShadow className="h-[400px]">
-                <div className="flex flex-col gap-0.5 w-[24rem]">
-                  <div className="flex flex-col gap-2">
+                <div className="flex flex-col w-[24rem]">
+                  <div className="flex flex-col gap-2 pt-2">
                     <FilterMinAndMaxDates
                       filterMinDate={filterMinStartDate}
                       setFilterMinDate={setFilterMinStartDate}
@@ -114,79 +114,81 @@ export const FilterTimePeriodListModal = ({
                       isSmall
                     />
                   </div>
-                  <div className="flex flex-col gap-0.5">
-                    <h3 className="font-semibold text-lg px-0.5">
-                      Diet Phase Types
-                    </h3>
-                    <MultipleChoiceDietPhaseDropdown
-                      values={filterDietPhaseTypes}
-                      setValues={setFilterDietPhaseTypes}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-0.5 pt-3.5">
-                    <h3 className="font-semibold text-lg px-0.5">Injury</h3>
-                    <div className="relative w-full">
-                      <Select
-                        selectionMode="multiple"
-                        label="Injury"
-                        variant="faded"
-                        size="sm"
-                        radius="md"
-                        selectedKeys={filterHasInjury}
-                        onSelectionChange={
-                          setFilterHasInjury as React.Dispatch<
-                            React.SetStateAction<SharedSelection>
-                          >
-                        }
-                        disableAnimation
-                      >
-                        <SelectItem key="Has Injury">Has Injury</SelectItem>
-                        <SelectItem key="No Injury">No Injury</SelectItem>
-                      </Select>
-                      {filterHasInjury.size > 0 && (
-                        <Button
-                          aria-label="Reset Injury Filter"
-                          className="absolute right-0 -top-[2rem] h-7"
-                          size="sm"
-                          variant="flat"
-                          onPress={() => setFilterHasInjury(new Set())}
-                        >
-                          Reset
-                        </Button>
-                      )}
+                  <div className="flex flex-col gap-3 pt-0.5">
+                    <div className="flex flex-col gap-0.5">
+                      <h3 className="font-semibold text-lg px-0.5">
+                        Diet Phase Types
+                      </h3>
+                      <MultipleChoiceDietPhaseDropdown
+                        values={filterDietPhaseTypes}
+                        setValues={setFilterDietPhaseTypes}
+                      />
                     </div>
-                  </div>
-                  <div className="flex flex-col gap-0.5 pt-3.5">
-                    <h3 className="font-semibold text-lg px-0.5">Status</h3>
-                    <div className="relative w-full">
-                      <Select
-                        selectionMode="multiple"
-                        label="Status"
-                        variant="faded"
-                        size="sm"
-                        radius="md"
-                        selectedKeys={filterStatus}
-                        onSelectionChange={
-                          setFilterStatus as React.Dispatch<
-                            React.SetStateAction<SharedSelection>
-                          >
-                        }
-                        disableAnimation
-                      >
-                        <SelectItem key="Ongoing">Ongoing</SelectItem>
-                        <SelectItem key="Ended">Ended</SelectItem>
-                      </Select>
-                      {filterStatus.size > 0 && (
-                        <Button
-                          aria-label="Reset Status Filter"
-                          className="absolute right-0 -top-[2rem] h-7"
+                    <div className="flex flex-col gap-0.5">
+                      <h3 className="font-semibold text-lg px-0.5">Injury</h3>
+                      <div className="relative w-full">
+                        <Select
+                          selectionMode="multiple"
+                          label="Injury"
+                          variant="faded"
                           size="sm"
-                          variant="flat"
-                          onPress={() => setFilterStatus(new Set())}
+                          radius="md"
+                          selectedKeys={filterHasInjury}
+                          onSelectionChange={
+                            setFilterHasInjury as React.Dispatch<
+                              React.SetStateAction<SharedSelection>
+                            >
+                          }
+                          disableAnimation
                         >
-                          Reset
-                        </Button>
-                      )}
+                          <SelectItem key="Has Injury">Has Injury</SelectItem>
+                          <SelectItem key="No Injury">No Injury</SelectItem>
+                        </Select>
+                        {filterHasInjury.size > 0 && (
+                          <Button
+                            aria-label="Reset Injury Filter"
+                            className="absolute right-0 -top-[2rem] h-7"
+                            size="sm"
+                            variant="flat"
+                            onPress={() => setFilterHasInjury(new Set())}
+                          >
+                            Reset
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      <h3 className="font-semibold text-lg px-0.5">Status</h3>
+                      <div className="relative w-full">
+                        <Select
+                          selectionMode="multiple"
+                          label="Status"
+                          variant="faded"
+                          size="sm"
+                          radius="md"
+                          selectedKeys={filterStatus}
+                          onSelectionChange={
+                            setFilterStatus as React.Dispatch<
+                              React.SetStateAction<SharedSelection>
+                            >
+                          }
+                          disableAnimation
+                        >
+                          <SelectItem key="Ongoing">Ongoing</SelectItem>
+                          <SelectItem key="Ended">Ended</SelectItem>
+                        </Select>
+                        {filterStatus.size > 0 && (
+                          <Button
+                            aria-label="Reset Status Filter"
+                            className="absolute right-0 -top-[2rem] h-7"
+                            size="sm"
+                            variant="flat"
+                            onPress={() => setFilterStatus(new Set())}
+                          >
+                            Reset
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
