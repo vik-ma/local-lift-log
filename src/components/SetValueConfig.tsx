@@ -130,7 +130,7 @@ export const SetValueConfig = ({
         </h2>
       </div>
       <ScrollShadow className="pb-1.5">
-        <div className="flex flex-col gap-2 w-[24rem]">
+        <div className="flex flex-col gap-2.5 w-[24rem]">
           {showNoteInput && (
             <Input
               value={operatingSet.note ?? ""}
@@ -303,9 +303,9 @@ export const SetValueConfig = ({
                 }
               >
                 <h3 className="text-xl font-semibold">Set Values</h3>
-                <div className="absolute top-0 right-0">
+                <div className="absolute top-px right-0">
                   <ChevronIcon
-                    size={31}
+                    size={29}
                     color="#505050"
                     direction={isValuesAccordionExpanded ? "down" : "left"}
                   />
@@ -319,7 +319,7 @@ export const SetValueConfig = ({
                   animate={{ height: "auto" }}
                   exit={{ height: 0, overflow: "hidden" }}
                   transition={{
-                    height: { duration: 0.07 },
+                    height: { duration: 0.05 },
                   }}
                 >
                   <SetValueInputs
