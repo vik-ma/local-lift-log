@@ -139,7 +139,9 @@ export const RoutineModal = ({
                     disallowEmptySelection
                   >
                     {numDaysInScheduleOptions.map((number) => (
-                      <SelectItem key={number}>{number}</SelectItem>
+                      <SelectItem key={number.toString()}>
+                        {number.toString()}
+                      </SelectItem>
                     ))}
                   </Select>
                 </div>
