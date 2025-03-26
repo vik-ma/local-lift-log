@@ -80,6 +80,7 @@ export const TimePeriodModal = ({
                         inputWrapper: "!bg-default-100",
                         label: "text-neutral-700",
                         helperWrapper: "px-0.5",
+                        segment: "data-[invalid=true]:focus:bg-danger-600/15",
                       }}
                       label={
                         <span className="font-medium text-base px-0.5">
@@ -101,6 +102,7 @@ export const TimePeriodModal = ({
                         inputWrapper: "!bg-default-100",
                         label: "text-neutral-700",
                         helperWrapper: "px-0.5",
+                        segment: "data-[invalid=true]:focus:bg-danger-600/15",
                       }}
                       label={
                         <span className="font-medium text-base px-0.5">

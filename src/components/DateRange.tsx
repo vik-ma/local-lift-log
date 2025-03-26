@@ -51,6 +51,7 @@ export const DateRange = ({
             errorMessage: "w-[10.5rem]",
             helperWrapper: "px-px",
             label: "text-neutral-700",
+            segment: "data-[invalid=true]:focus:bg-danger-600/15"
           }}
           label={<span className="text-base font-medium px-0.5">End Date</span>}
           labelPlacement="outside"

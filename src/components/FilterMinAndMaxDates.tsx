@@ -86,6 +86,7 @@ export const FilterMinAndMaxDates = ({
               inputWrapper: "!bg-default-100",
               helperWrapper: "px-0.5",
               label: "text-neutral-700",
+              segment: "data-[invalid=true]:focus:bg-danger-600/15"
             }}
             label={
               <span
