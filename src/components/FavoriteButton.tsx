@@ -29,7 +29,11 @@ export const FavoriteButton = <T,>({
       variant="light"
       onPress={() => toggleFavorite(item)}
     >
-      <FavoriteIcon isChecked={isFavorite} size={isInDetailsHeader ? 26 : 32} />
+      <FavoriteIcon
+        isChecked={isFavorite}
+        size={isInDetailsHeader ? 26 : 32}
+        isInDetailsHeader
+      />
     </Button>
   );
 };
