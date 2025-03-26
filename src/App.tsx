@@ -16,7 +16,6 @@ import {
   BodyMeasurementsPage,
   UserWeightListPage,
   PresetsPage,
-  ExerciseHistoryPage,
   MeasurementListPage,
   TestPage,
   UserMeasurementListPage,
@@ -49,7 +48,6 @@ function App() {
                 <Route index element={<ExerciseListPage />} />
                 <Route path=":id">
                   <Route index element={<ExerciseDetailsPage />} />
-                  <Route path="history" element={<ExerciseHistoryPage />} />
                 </Route>
               </Route>
               <Route path="/multisets" element={<MultisetsPage />} />
