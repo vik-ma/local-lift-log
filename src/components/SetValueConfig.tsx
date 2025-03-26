@@ -274,7 +274,7 @@ export const SetValueConfig = ({
                     handleTrackingCheckboxClick(value, "user_weight")
                   }
                 >
-                  User Weight
+                  Body Weight
                 </Checkbox>
               </div>
               <div className="w-[9rem]">

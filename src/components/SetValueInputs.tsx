@@ -670,8 +670,8 @@ export const SetValueInputs = ({
                 onPress={handleUserWeightButton}
               >
                 {userWeight.id === 0
-                  ? "Enter New User Weight"
-                  : "Fill In Latest User Weight Entry"}
+                  ? "Enter New Body Weight"
+                  : "Fill In Latest Body Weight Entry"}
               </Button>
               {isUserWeightOlderThanOneWeek && (
                 <>
@@ -683,7 +683,7 @@ export const SetValueInputs = ({
                     variant="flat"
                     onPress={() => userWeightModal.onOpen()}
                   >
-                    Update User Weight
+                    Update Body Weight
                   </Button>
                 </>
               )}
