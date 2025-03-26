@@ -6,6 +6,7 @@ type FavoriteButtonProps<T> = {
   isFavorite: boolean;
   item: T;
   toggleFavorite: (item: T, key?: string) => void;
+  isInDetailsHeader?: boolean;
 };
 
 export const FavoriteButton = <T,>({
@@ -13,6 +14,7 @@ export const FavoriteButton = <T,>({
   isFavorite,
   item,
   toggleFavorite,
+  isInDetailsHeader,
 }: FavoriteButtonProps<T>) => {
   return (
     <Button
@@ -22,11 +24,12 @@ export const FavoriteButton = <T,>({
       isIconOnly
       className="z-1"
       color={isFavorite ? "primary" : "default"}
-      radius="lg"
+      size={isInDetailsHeader ? "sm" : "md"}
+      radius={isInDetailsHeader ? "sm" : "lg"}
       variant="light"
       onPress={() => toggleFavorite(item)}
     >
-      <FavoriteIcon isChecked={isFavorite} size={32} />
+      <FavoriteIcon isChecked={isFavorite} size={isInDetailsHeader ? 26 : 32} />
     </Button>
   );
 };
