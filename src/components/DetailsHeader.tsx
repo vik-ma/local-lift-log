@@ -8,8 +8,9 @@ import {
 import { CrossIcon, EditIcon, VerticalMenuIcon } from "../assets";
 import { UseDetailsHeaderOptionsMenuReturnType } from "../typings";
 import { ReactNode, useMemo } from "react";
+import { FavoriteButton } from "./FavoriteButton";
 
-type DetailsHeaderProps = {
+type DetailsHeaderProps<T> = {
   header: string;
   subHeader: string;
   note: string | null;
@@ -17,9 +18,12 @@ type DetailsHeaderProps = {
   editButtonAction: () => void;
   useDetailsHeaderOptions: UseDetailsHeaderOptionsMenuReturnType;
   extraContent?: ReactNode;
+  isFavorite?: boolean;
+  item?: T;
+  toggleFavorite?: (item: T, key?: string) => void;
 };
 
-export const DetailsHeader = ({
+export const DetailsHeader = <T,>({
   header,
   subHeader,
   note,
@@ -27,7 +31,10 @@ export const DetailsHeader = ({
   editButtonAction,
   useDetailsHeaderOptions,
   extraContent,
-}: DetailsHeaderProps) => {
+  isFavorite,
+  item,
+  toggleFavorite,
+}: DetailsHeaderProps<T>) => {
   const { showNote, setShowNote, menuItems, handleOptionMenuSelection } =
     useDetailsHeaderOptions;
 
@@ -42,9 +49,25 @@ export const DetailsHeader = ({
     return true;
   }, [menuItems, note]);
 
+  const showFavoriteButton =
+    isFavorite !== undefined &&
+    item !== undefined &&
+    toggleFavorite !== undefined;
+
   return (
     <div className="flex flex-col gap-3.5">
       <div className="relative w-full flex">
+        <div className="absolute left-0 top-0">
+          {showFavoriteButton && (
+            <FavoriteButton
+              name={header}
+              isFavorite={isFavorite}
+              item={item}
+              toggleFavorite={toggleFavorite}
+              isInDetailsHeader
+            />
+          )}
+        </div>
         <div className="flex flex-col gap-0.5 w-full">
           <div className="flex justify-center">
             <h1 className="text-3xl text-secondary font-semibold w-[20rem] truncate text-center">
