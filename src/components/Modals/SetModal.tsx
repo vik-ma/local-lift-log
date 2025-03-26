@@ -123,11 +123,14 @@ export const SetModal = ({
                 )}
                 {operationType === "add-sets-to-multiset" &&
                   selectedExercise !== undefined &&
-                  numMultisetSets &&
-                  multisetSetTarget &&
-                  setMultisetSetTarget && (
+                  numMultisetSets !== undefined &&
+                  multisetSetTarget !== undefined &&
+                  setMultisetSetTarget !== undefined && (
                     <Select
                       className="w-[10.25rem]"
+                      classNames={{
+                        trigger: "bg-amber-50 border-amber-200",
+                      }}
                       label="Add To Multiset Set"
                       size="sm"
                       variant="faded"
