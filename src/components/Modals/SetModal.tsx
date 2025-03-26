@@ -5,6 +5,8 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
+  Select,
+  SelectItem,
 } from "@heroui/react";
 import { ExerciseModalList, NumSetsDropdown, SetValueConfig } from "../";
 import {
@@ -99,16 +101,14 @@ export const SetModal = ({
                   useSetTrackingInputs={useSetTrackingInputs}
                   userSettings={userSettings}
                   resetSetInputValues={resetSetInputValues}
-                  numMultisetSets={numMultisetSets}
                   openCalculationModal={openCalculationModal}
-                  multisetSetTarget={multisetSetTarget}
-                  setMultisetSetTarget={setMultisetSetTarget}
                 />
               )}
             </ModalBody>
             <ModalFooter
               className={
-                operationType === "add"
+                operationType === "add" ||
+                operationType === "add-sets-to-multiset"
                   ? "flex justify-between items-center h-[5rem]"
                   : "flex justify-between items-center"
               }
@@ -121,6 +121,27 @@ export const SetModal = ({
                     setNumNewSets={setNumNewSets}
                   />
                 )}
+                {operationType === "add-sets-to-multiset" &&
+                  selectedExercise !== undefined &&
+                  numMultisetSets &&
+                  multisetSetTarget &&
+                  setMultisetSetTarget && (
+                    <Select
+                      className="w-[10.25rem]"
+                      label="Add To Multiset Set"
+                      size="sm"
+                      variant="faded"
+                      selectedKeys={[multisetSetTarget]}
+                      onChange={(e) => setMultisetSetTarget(e.target.value)}
+                      disallowEmptySelection
+                    >
+                      {Array.from({ length: numMultisetSets }, (_, i) =>
+                        (i + 1).toString()
+                      ).map((num) => (
+                        <SelectItem key={num}>{num}</SelectItem>
+                      ))}
+                    </Select>
+                  )}
               </div>
               <div className="flex gap-2">
                 <Button

@@ -1,11 +1,4 @@
-import {
-  Button,
-  Input,
-  ScrollShadow,
-  Checkbox,
-  Select,
-  SelectItem,
-} from "@heroui/react";
+import { Button, Input, ScrollShadow, Checkbox } from "@heroui/react";
 import { useState } from "react";
 import { SetValueInputs } from ".";
 import { ChevronIcon, CommentIcon } from "../assets";
@@ -35,9 +28,6 @@ type SetValueConfigProps = {
     set: WorkoutSet
   ) => Promise<void>;
   isMultiset?: boolean;
-  numMultisetSets?: number;
-  multisetSetTarget?: string;
-  setMultisetSetTarget?: React.Dispatch<React.SetStateAction<string>>;
   userWeight?: UserWeight;
   userWeightModal?: UseDisclosureReturnType;
 };
@@ -52,9 +42,6 @@ export const SetValueConfig = ({
   resetSetInputValues,
   openCalculationModal,
   isMultiset,
-  numMultisetSets,
-  multisetSetTarget,
-  setMultisetSetTarget,
   userWeight,
   userWeightModal,
 }: SetValueConfigProps) => {
@@ -350,25 +337,6 @@ export const SetValueConfig = ({
               )}
             </AnimatePresence>
           </div>
-          {operationType === "add-sets-to-multiset" &&
-            numMultisetSets &&
-            multisetSetTarget &&
-            setMultisetSetTarget && (
-              <Select
-                label="Add To Multiset Set"
-                size="sm"
-                variant="faded"
-                selectedKeys={[multisetSetTarget]}
-                onChange={(e) => setMultisetSetTarget(e.target.value)}
-                disallowEmptySelection
-              >
-                {Array.from({ length: numMultisetSets }, (_, i) =>
-                  (i + 1).toString()
-                ).map((num) => (
-                  <SelectItem key={num}>{num}</SelectItem>
-                ))}
-              </Select>
-            )}
         </div>
       </ScrollShadow>
     </div>
