@@ -82,7 +82,6 @@ export const WorkoutListModal = ({
                       setSelectedWorkoutProperties={
                         setSelectedWorkoutProperties
                       }
-                      hideDetailsButtonOption
                     />
                   </div>
                   {filterMap.size > 0 && (

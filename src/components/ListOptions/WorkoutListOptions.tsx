@@ -19,7 +19,6 @@ type WorkoutListOptionsProps = {
   setUserSettings?: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
-  hideDetailsButtonOption?: boolean;
   handleOptionMenuSelection?: (key: string) => void;
 };
 
@@ -29,7 +28,6 @@ export const WorkoutListOptions = ({
   setSelectedWorkoutProperties,
   userSettings,
   setUserSettings,
-  hideDetailsButtonOption,
   handleOptionMenuSelection,
 }: WorkoutListOptionsProps) => {
   const {
@@ -85,7 +83,6 @@ export const WorkoutListOptions = ({
         setSelectedWorkoutProperties={setSelectedWorkoutProperties}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
-        hideDetailsButtonOption={hideDetailsButtonOption}
       />
       {handleOptionMenuSelection !== undefined && (
         <Dropdown>
