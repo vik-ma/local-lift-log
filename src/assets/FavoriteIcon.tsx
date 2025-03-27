@@ -1,14 +1,12 @@
 type FavoriteIconProps = {
   isChecked: boolean;
   size?: number;
-  isInPrimaryButton?: boolean;
   isInDetailsHeader?: boolean;
 };
 
 export const FavoriteIcon = ({
   isChecked,
   size,
-  isInPrimaryButton,
   isInDetailsHeader,
 }: FavoriteIconProps) => {
   return (
@@ -30,8 +28,6 @@ export const FavoriteIcon = ({
             ? "#e4b20c"
             : !isChecked && isInDetailsHeader
             ? "#808080"
-            : isChecked && isInPrimaryButton
-            ? "#ffe57d"
             : isChecked
             ? "#f7bf24"
             : "#808080"
