@@ -424,11 +424,9 @@ export default function WorkoutList() {
       <WorkoutModal
         workoutModal={workoutModal}
         workout={operatingWorkout}
-        setWorkout={setOperatingWorkout}
         workoutNote={newWorkoutNote}
         setWorkoutNote={setNewWorkoutNote}
         workoutTemplateNote={null}
-        workoutRatingsOrder={userSettings.workout_ratings_order}
         buttonAction={updateWorkout}
         header={operatingWorkout.formattedDate}
         handleChangeWorkoutTemplateButton={handleOpenWorkoutTemplateListModal}

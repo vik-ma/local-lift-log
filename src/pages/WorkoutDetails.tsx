@@ -421,11 +421,9 @@ export default function WorkoutDetails() {
       <WorkoutModal
         workoutModal={workoutModal}
         workout={workout}
-        setWorkout={setWorkout}
         workoutNote={workoutNote}
         setWorkoutNote={setWorkoutNote}
         workoutTemplateNote={workoutTemplateNote}
-        workoutRatingsOrder={userSettings.workout_ratings_order}
         buttonAction={handleWorkoutModalSaveButton}
       />
       <WorkoutTemplateListModal

@@ -25,7 +25,6 @@ export { SumCalculator } from "./SumCalculator";
 export { PlateCollectionButton } from "./PlateCollectionButton";
 export { PlateCollectionHandleConfig } from "./PlateCollectionHandleConfig";
 export { UserWeightListItem } from "./UserWeightListItem";
-export { WorkoutRatingSliders } from "./WorkoutRatingSliders";
 export { WorkoutListItem } from "./WorkoutListItem";
 export { ListFilters } from "./ListFilters";
 export { FilterDateRangeAndWeekdays } from "./FilterDateRangeAndWeekdays";

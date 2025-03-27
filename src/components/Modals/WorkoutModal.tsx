@@ -13,19 +13,14 @@ import {
 } from "@heroui/react";
 import { UseDisclosureReturnType, Workout } from "../../typings";
 import { ConvertEmptyStringToNull } from "../../helpers";
-import { useState } from "react";
-import { ChevronIcon, InfoIcon } from "../../assets";
-import { AnimatePresence, motion } from "framer-motion";
-import { WorkoutRatingSliders } from "../../components";
+import { InfoIcon } from "../../assets";
 
 type WorkoutModalProps = {
   workoutModal: UseDisclosureReturnType;
   workout: Workout;
-  setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
   workoutNote: string;
   setWorkoutNote: React.Dispatch<React.SetStateAction<string>>;
   workoutTemplateNote: string | null;
-  workoutRatingsOrder: string;
   buttonAction: (updatedWorkout: Workout) => void;
   header?: string;
   handleChangeWorkoutTemplateButton?: () => void;
@@ -39,11 +34,9 @@ type WorkoutModalProps = {
 export const WorkoutModal = ({
   workoutModal,
   workout,
-  setWorkout,
   workoutNote,
   setWorkoutNote,
   workoutTemplateNote,
-  workoutRatingsOrder,
   buttonAction,
   header = "Workout Details",
   handleChangeWorkoutTemplateButton,
@@ -53,9 +46,6 @@ export const WorkoutModal = ({
   handleRemoveRoutineButton,
   handleReassignRoutineButton,
 }: WorkoutModalProps) => {
-  const [isRatingAccordionExpanded, setIsRatingAccordionExpanded] =
-    useState<boolean>(true);
-
   const handleSaveButton = () => {
     const noteToInsert = ConvertEmptyStringToNull(workoutNote);
 
@@ -96,49 +86,6 @@ export const WorkoutModal = ({
                       onValueChange={(value) => setWorkoutNote(value)}
                       isClearable
                     />
-                  </div>
-                  <div
-                    aria-label="Workout Ratings Accordion"
-                    className="flex flex-col select-none cursor-pointer px-0.5"
-                  >
-                    <div
-                      className="flex relative cursor-pointer w-[23.75rem] pb-0.5"
-                      onClick={() =>
-                        setIsRatingAccordionExpanded(!isRatingAccordionExpanded)
-                      }
-                    >
-                      <h3 className="font-medium">Workout Ratings</h3>
-                      <div className="absolute top-1 right-0">
-                        <ChevronIcon
-                          size={31}
-                          color="#a8a29e"
-                          direction={
-                            isRatingAccordionExpanded ? "down" : "left"
-                          }
-                        />
-                      </div>
-                    </div>
-                    <AnimatePresence>
-                      {isRatingAccordionExpanded && (
-                        <motion.div
-                          className="pt-5"
-                          initial={{ height: 0, overflow: "hidden" }}
-                          animate={{ height: "auto" }}
-                          exit={{ height: 0, overflow: "hidden" }}
-                          transition={{
-                            height: { duration: 0.15 },
-                          }}
-                        >
-                          <div className="flex flex-col gap-4 w-[23.25rem] px-4">
-                            <WorkoutRatingSliders
-                              workout={workout}
-                              setWorkout={setWorkout}
-                              workoutRatingsOrder={workoutRatingsOrder}
-                            />
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
                   </div>
                   <div className="flex flex-col gap-1">
                     {handleChangeWorkoutTemplateButton !== undefined &&
