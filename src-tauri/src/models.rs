@@ -128,14 +128,6 @@ pub struct Workout {
     pub date: String,
     pub exercise_order: String,
     pub note: Option<String>,
-    pub rating_general: i32,
-    pub rating_energy: i32,
-    pub rating_injury: i32,
-    pub rating_sleep: i32,
-    pub rating_calories: i32,
-    pub rating_fasting: i32,
-    pub rating_time: i32,
-    pub rating_stress: i32,
     pub routine_id: i32,
 }
 
