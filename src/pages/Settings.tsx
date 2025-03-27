@@ -12,8 +12,6 @@ import {
   IsStringInvalidNumberOr0,
   ConvertNumberToTwoDecimals,
   CreateShownPropertiesSet,
-  WorkoutRatingsMap,
-  GetWorkoutRatingOrder,
   CreateLoadExerciseOptionsList,
   GetValidatedUserSettingsUnits,
 } from "../helpers";
@@ -174,21 +172,6 @@ export default function Settings() {
         "time-period"
       );
       setSelectedTimePeriodProperties(timePeriodPropertySet);
-
-      const workoutRatingsOrder = GetWorkoutRatingOrder(
-        userSettings.workout_ratings_order
-      );
-
-      const workoutRatingsList = Object.values(WorkoutRatingsMap());
-
-      workoutRatingsList.sort((a, b) => {
-        return (
-          workoutRatingsOrder.indexOf(a.num) -
-          workoutRatingsOrder.indexOf(b.num)
-        );
-      });
-
-      setWorkoutRatingsList(workoutRatingsList);
 
       setFilterWeightRangeUnit(userSettings.default_unit_weight);
       setFilterDistanceRangeUnit(userSettings.default_unit_distance);
@@ -557,19 +540,6 @@ export default function Settings() {
 
   const handleSaveSpecificSettingButton = async () => {
     if (userSettings === undefined) return;
-
-    if (specificSettingModalPage === "workout-rating-order") {
-      const updatedWorkoutRatingOrder = workoutRatingsList
-        .map((item) => item.num)
-        .join(",");
-
-      const updatedSettings: UserSettings = {
-        ...userSettings,
-        workout_ratings_order: updatedWorkoutRatingOrder,
-      };
-
-      await updateSettings(updatedSettings);
-    }
 
     if (specificSettingModalPage === "default-load-exercise-options") {
       const loadExerciseOptionsString = loadExerciseOptions.join(",");
