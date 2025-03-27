@@ -6,7 +6,7 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import { Workout } from "../typings";
-import { RatingIcon, VerticalMenuIcon } from "../assets";
+import { VerticalMenuIcon } from "../assets";
 import { FormatNumItemsString } from "../helpers";
 
 type WorkoutListItemProps = {
@@ -88,16 +88,7 @@ export const WorkoutListItem = ({
       </div>
       {editWorkout !== undefined &&
         handleWorkoutOptionSelection !== undefined && (
-          <div className="flex items-center gap-1 pr-1">
-            {selectedWorkoutProperties.has("details") && (
-              <Button
-                variant="flat"
-                isIconOnly
-                onPress={() => editWorkout(workout)}
-              >
-                <RatingIcon />
-              </Button>
-            )}
+          <div className="pr-1">
             <Dropdown>
               <DropdownTrigger>
                 <Button
