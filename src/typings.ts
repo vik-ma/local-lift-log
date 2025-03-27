@@ -37,7 +37,6 @@ export type UserSettings = {
   default_calculation_tab: string;
   shown_workout_properties: string;
   default_plate_collection_id: number;
-  workout_ratings_order: string;
   show_secondary_exercise_groups: number;
   automatically_update_active_measurements: number;
   default_num_new_sets: string;

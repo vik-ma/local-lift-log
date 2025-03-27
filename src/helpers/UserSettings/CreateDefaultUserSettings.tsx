@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../../typings";
-import { LocaleList, WorkoutRatingsMap } from "..";
+import { LocaleList } from "..";
 
 export const CreateDefaultUserSettings = async (
   useMetricUnits: boolean,
@@ -52,10 +52,6 @@ export const CreateDefaultUserSettings = async (
 
   const automatically_update_active_measurements = 1;
 
-  const workout_ratings_order = Object.values(WorkoutRatingsMap())
-    .map((item) => item.num)
-    .join(",");
-
   const default_num_new_sets = "3";
 
   const default_diet_log_day_is_yesterday = 0;
@@ -83,12 +79,12 @@ export const CreateDefaultUserSettings = async (
         default_increment_time, default_increment_resistance_level, 
         save_calculation_string, show_calculation_buttons, 
         default_increment_calculation_multiplier, default_calculation_tab, 
-        shown_workout_properties, default_plate_collection_id, workout_ratings_order,
+        shown_workout_properties, default_plate_collection_id,
         show_secondary_exercise_groups, automatically_update_active_measurements, 
         default_num_new_sets, shown_time_period_properties, default_diet_log_day_is_yesterday, 
         default_load_exercise_options) 
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, 
-        $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28)`,
+        $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -111,7 +107,6 @@ export const CreateDefaultUserSettings = async (
         default_calculation_tab,
         shown_workout_properties,
         default_plate_collection_id,
-        workout_ratings_order,
         show_secondary_exercise_groups,
         automatically_update_active_measurements,
         default_num_new_sets,
@@ -146,7 +141,6 @@ export const CreateDefaultUserSettings = async (
       default_calculation_tab,
       shown_workout_properties,
       default_plate_collection_id,
-      workout_ratings_order,
       show_secondary_exercise_groups,
       automatically_update_active_measurements,
       default_num_new_sets,

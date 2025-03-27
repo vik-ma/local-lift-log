@@ -21,11 +21,10 @@ export const UpdateAllUserSettings = async (
       save_calculation_string = $16, show_calculation_buttons = $17,
       default_increment_calculation_multiplier = $18, default_calculation_tab = $19,
       shown_workout_properties = $20, default_plate_collection_id = $21, 
-      workout_ratings_order = $22, show_secondary_exercise_groups = $23, 
-      automatically_update_active_measurements = $24, default_num_new_sets = $25, 
-      shown_time_period_properties = $26, default_diet_log_day_is_yesterday = $27, 
-      default_load_exercise_options = $28 
-      WHERE id = $29`,
+      show_secondary_exercise_groups = $22, automatically_update_active_measurements = $23,
+      default_num_new_sets = $24, shown_time_period_properties = $25,
+      default_diet_log_day_is_yesterday = $26, default_load_exercise_options = $27 
+      WHERE id = $28`,
       [
         userSettings.show_timestamp_on_completed_set,
         userSettings.active_routine_id,
@@ -48,7 +47,6 @@ export const UpdateAllUserSettings = async (
         userSettings.default_calculation_tab,
         userSettings.shown_workout_properties,
         userSettings.default_plate_collection_id,
-        userSettings.workout_ratings_order,
         userSettings.show_secondary_exercise_groups,
         userSettings.automatically_update_active_measurements,
         userSettings.default_num_new_sets,

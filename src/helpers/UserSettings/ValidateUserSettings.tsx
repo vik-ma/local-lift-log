@@ -14,7 +14,6 @@ import {
   IsNumberValidId,
   ValidCalculationModalTabs,
   ValidateShownPropertiesString,
-  ValidateWorkoutRatingsOrderString,
   NumNewSetsOptionList,
   ValidateDefaultLoadExerciseOptionsString,
 } from "..";
@@ -103,9 +102,6 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
     return false;
 
   if (!IsNumberValidId(userSettings.default_plate_collection_id)) return false;
-
-  if (!ValidateWorkoutRatingsOrderString(userSettings.workout_ratings_order))
-    return false;
 
   if (!IsNumberValidBinary(userSettings.show_secondary_exercise_groups))
     return false;
