@@ -1,7 +1,7 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Exercise } from "../typings";
 import { useState, useEffect } from "react";
-import { Button, useDisclosure } from "@heroui/react";
+import { useDisclosure } from "@heroui/react";
 import { LoadingSpinner, ExerciseModal, DetailsHeader } from "../components";
 import {
   GetExerciseWithId,
@@ -18,7 +18,6 @@ import {
   useExerciseGroupDictionary,
   useMultiplierInputMap,
 } from "../hooks";
-import { FavoriteIcon } from "../assets";
 import toast from "react-hot-toast";
 
 export default function ExerciseDetails() {
@@ -29,8 +28,6 @@ export default function ExerciseDetails() {
 
   const [editedExercise, setEditedExercise] =
     useState<Exercise>(defaultExercise);
-
-  const navigate = useNavigate();
 
   const exerciseModal = useDisclosure();
 
@@ -136,33 +133,10 @@ export default function ExerciseDetails() {
           detailsType="Exercise"
           editButtonAction={() => exerciseModal.onOpen()}
           useDetailsHeaderOptions={useDetailsHeaderOptions}
+          isFavorite={!!exercise.is_favorite}
+          item={exercise}
+          toggleFavorite={toggleFavorite}
         />
-        <div className="flex justify-center gap-2">
-          <Button
-            aria-label={
-              exercise.is_favorite
-                ? `Unset Favorite For ${exercise.name}`
-                : `Set Favorite For ${exercise.name}`
-            }
-            className="z-1"
-            color={exercise.is_favorite ? "primary" : "default"}
-            startContent={
-              <FavoriteIcon
-                isChecked={!!exercise.is_favorite}
-                size={30}
-                isInPrimaryButton={true}
-              />
-            }
-            onPress={toggleFavorite}
-          >
-            <span className="w-[4rem]">
-              {exercise.is_favorite ? "Favorited" : "Favorite"}
-            </span>
-          </Button>
-          <Button onPress={() => navigate(`/exercises/${id}/history`)}>
-            History
-          </Button>
-        </div>
       </div>
     </>
   );
