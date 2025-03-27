@@ -11,7 +11,6 @@ import { FormatNumItemsString } from "../helpers";
 
 type WorkoutListItemProps = {
   workout: Workout;
-  listItemTextWidth: string;
   selectedWorkoutProperties: Set<string>;
   onClickAction: () => void;
   editWorkout?: (workout: Workout) => void;
@@ -20,7 +19,6 @@ type WorkoutListItemProps = {
 
 export const WorkoutListItem = ({
   workout,
-  listItemTextWidth,
   selectedWorkoutProperties,
   onClickAction,
   editWorkout,
@@ -34,39 +32,29 @@ export const WorkoutListItem = ({
       className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
       onClick={onClickAction}
     >
-      <div className="flex flex-col pl-2 py-1">
-        <span className={`${listItemTextWidth} truncate text-stone-600`}>
-          {workout.formattedDate}
-        </span>
+      <div className="flex flex-col w-[21.75rem] pl-2 py-1">
+        <span className="truncate text-stone-600">{workout.formattedDate}</span>
         {workout.workoutTemplate !== undefined &&
           selectedWorkoutProperties.has("template") && (
-            <span
-              className={`${listItemTextWidth} truncate text-xs text-indigo-500`}
-            >
+            <span className="truncate text-xs text-indigo-500">
               {workout.workoutTemplate.name}
             </span>
           )}
         {workout.hasInvalidWorkoutTemplate &&
           selectedWorkoutProperties.has("template") && (
-            <span
-              className={`${listItemTextWidth} truncate text-xs text-red-700`}
-            >
+            <span className="truncate text-xs text-red-700">
               Unknown Workout Template
             </span>
           )}
         {workout.routine !== undefined &&
           selectedWorkoutProperties.has("routine") && (
-            <span
-              className={`${listItemTextWidth} truncate text-xs text-violet-700`}
-            >
+            <span className="truncate text-xs text-violet-700">
               {workout.routine.name}
             </span>
           )}
         {workout.hasInvalidRoutine &&
           selectedWorkoutProperties.has("routine") && (
-            <span
-              className={`${listItemTextWidth} truncate text-xs text-red-700`}
-            >
+            <span className="truncate text-xs text-red-700">
               Unknown Routine
             </span>
           )}
@@ -79,9 +67,7 @@ export const WorkoutListItem = ({
           <span className="text-xs text-stone-400">Empty</span>
         )}
         {selectedWorkoutProperties.has("note") && (
-          <span
-            className={`${listItemTextWidth} break-all text-xs text-stone-500 text-left`}
-          >
+          <span className="break-all text-xs text-stone-500 text-left">
             {workout.note}
           </span>
         )}
@@ -92,7 +78,7 @@ export const WorkoutListItem = ({
             <Dropdown>
               <DropdownTrigger>
                 <Button
-                  aria-label={`Toggle Workout On ${workout.formattedDate} Options Menu`}
+                  aria-label="Toggle Workout On ${workout.formattedDate} Options Menu"
                   isIconOnly
                   className="z-1"
                   radius="lg"
@@ -102,7 +88,7 @@ export const WorkoutListItem = ({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
-                aria-label={`Option Menu For Workout On ${workout.formattedDate}`}
+                aria-label="Option Menu For Workout On ${workout.formattedDate}"
                 onAction={(key) =>
                   handleWorkoutOptionSelection(key as string, workout)
                 }

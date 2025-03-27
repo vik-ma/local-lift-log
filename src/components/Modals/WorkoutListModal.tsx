@@ -98,7 +98,6 @@ export const WorkoutListModal = ({
                     <WorkoutListItem
                       key={workout.id}
                       workout={workout}
-                      listItemTextWidth="w-[23rem]"
                       selectedWorkoutProperties={selectedWorkoutProperties}
                       onClickAction={() =>
                         onClickAction(workout, keepSetValues)

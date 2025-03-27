@@ -387,10 +387,6 @@ export default function WorkoutList() {
     routineList.handleOpenRoutineListModal();
   };
 
-  const listItemTextWidth = selectedWorkoutProperties.has("details")
-    ? "w-[18rem]"
-    : "w-[21rem]";
-
   if (userSettings === undefined || !isWorkoutListLoaded.current)
     return <LoadingSpinner />;
 
@@ -526,7 +522,6 @@ export default function WorkoutList() {
             <WorkoutListItem
               key={workout.id}
               workout={workout}
-              listItemTextWidth={listItemTextWidth}
               selectedWorkoutProperties={selectedWorkoutProperties}
               onClickAction={() => navigate(`/workouts/${workout.id}`)}
               editWorkout={editWorkout}
