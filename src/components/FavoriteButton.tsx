@@ -31,7 +31,7 @@ export const FavoriteButton = <T,>({
     >
       <FavoriteIcon
         isChecked={isFavorite}
-        size={isInDetailsHeader ? 26 : 32}
+        size={isInDetailsHeader ? 28 : 32}
         isInDetailsHeader
       />
     </Button>

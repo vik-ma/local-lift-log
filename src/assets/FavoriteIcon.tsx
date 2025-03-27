@@ -27,7 +27,7 @@ export const FavoriteIcon = ({
         }
         fill={
           isChecked && isInDetailsHeader
-            ? "#f3b60c"
+            ? "#e4b20c"
             : !isChecked && isInDetailsHeader
             ? "#808080"
             : isChecked && isInPrimaryButton
