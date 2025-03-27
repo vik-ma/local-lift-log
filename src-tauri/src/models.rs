@@ -39,7 +39,6 @@ pub struct UserSetting {
     pub default_calculation_tab: String,
     pub shown_workout_properties: String,
     pub default_plate_collection_id: i32,
-    pub workout_ratings_order: String,
     pub show_secondary_exercise_groups: i32,
     pub automatically_update_active_measurements: i32,
     pub default_num_new_sets: String,
