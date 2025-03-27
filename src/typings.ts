@@ -288,14 +288,6 @@ export type Workout = {
   date: string;
   exercise_order: string;
   note: string | null;
-  rating_general: number;
-  rating_energy: number;
-  rating_injury: number;
-  rating_sleep: number;
-  rating_calories: number;
-  rating_fasting: number;
-  rating_time: number;
-  rating_stress: number;
   routine_id: number;
   numSets?: number;
   numExercises?: number;
