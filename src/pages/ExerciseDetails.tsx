@@ -31,6 +31,9 @@ export default function ExerciseDetails() {
   const [dateSetListMap, setDateSetListMap] = useState<
     Map<string, WorkoutSet[]>
   >(new Map());
+  const [dateSetListMapReversed, setDateSetListMapReversed] = useState<
+    Map<string, WorkoutSet[]>
+  >(new Map());
   const [weightUnit, setWeightUnit] = useState<string>("kg");
   const [distanceUnit, setDistanceUnit] = useState<string>("km");
   const [paceUnit, setPaceUnit] = useState<string>("km/h");
@@ -91,7 +94,12 @@ export default function ExerciseDetails() {
       }
     }
 
-    setDateSetListMap(dateMap);
+    const sortedDateMapArray = Array.from(dateMap).sort(
+      (a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime()
+    );
+
+    setDateSetListMap(new Map(sortedDateMapArray));
+    setDateSetListMapReversed(new Map([...sortedDateMapArray].reverse()));
 
     isSetListLoaded.current = true;
 
@@ -232,6 +240,31 @@ export default function ExerciseDetails() {
           item={exercise}
           toggleFavorite={toggleFavorite}
         />
+        <div className="flex flex-col gap-1">
+          <h3 className="font-semibold text-2xl text-center text-foreground-600">
+            Exercise History
+          </h3>
+          {Array.from(dateSetListMapReversed).map(([date, setList]) => (
+            <div key={date} className="flex flex-col text-stone-600">
+              <h4 className="font-semibold text-lg">{date}</h4>
+              <div className="flex flex-col">
+                {setList.map((set) => (
+                  <div className="flex gap-1 text-sm font-medium">
+                    {set.is_tracking_weight === 1 && (
+                      <div>
+                        <span className="text-stone-500">Weight:</span>{" "}
+                        <span className="text-yellow-600">{set.weight}</span>{" "}
+                        <span className="text-yellow-600">
+                          {set.weight_unit}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
