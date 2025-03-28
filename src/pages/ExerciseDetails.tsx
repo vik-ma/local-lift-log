@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Exercise, WorkoutSet } from "../typings";
+import { Exercise, UserSettings, WorkoutSet } from "../typings";
 import { useState, useEffect, useRef } from "react";
 import { useDisclosure } from "@heroui/react";
 import { LoadingSpinner, ExerciseModal, DetailsHeader } from "../components";
@@ -12,6 +12,7 @@ import {
   GetCompletedSetsWithExerciseId,
   GetUserSettings,
   GetValidatedUserSettingsUnits,
+  FormatDateToShortString,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -26,12 +27,12 @@ import toast from "react-hot-toast";
 export default function ExerciseDetails() {
   const { id } = useParams();
   const [exercise, setExercise] = useState<Exercise>();
-  const [setListDateMap, setSetListDateMap] = useState<
+  const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [dateSetListMap, setDateSetListMap] = useState<
     Map<string, WorkoutSet[]>
   >(new Map());
   const [weightUnit, setWeightUnit] = useState<string>("kg");
   const [distanceUnit, setDistanceUnit] = useState<string>("km");
-  const [circumferenceUnit, setCircumferenceUnit] = useState<string>("cm");
   const [paceUnit, setPaceUnit] = useState<string>("km/h");
 
   const defaultExercise = useDefaultExercise();
@@ -51,6 +52,54 @@ export default function ExerciseDetails() {
 
   const isSetListLoaded = useRef<boolean>(false);
 
+  const getDateSetListMap = async (
+    weightUnit: string,
+    distanceUnit: string,
+    paceUnit: string,
+    locale: string
+  ) => {
+    const fullSetList = await GetCompletedSetsWithExerciseId(Number(id));
+
+    if (fullSetList.length === 0) {
+      isSetListLoaded.current = true;
+      return;
+    }
+
+    const dateMap = new Map<string, WorkoutSet[]>();
+
+    // const loadExerciseOptions = ValidLoadExerciseOptionsMap().keys();
+
+    // const highestValueMap = new Map<ChartDataExerciseCategoryBase, number>();
+
+    // const chartDataKeys: Set<ChartDataExerciseCategoryBase> = new Set();
+
+    // for (const option of loadExerciseOptions) {
+    //   highestValueMap.set(option, -1);
+    //   chartDataKeys.add(option);
+    // }
+
+    for (const set of fullSetList) {
+      const date = FormatDateToShortString(
+        new Date(set.time_completed!),
+        locale
+      );
+
+      if (dateMap.has(date)) {
+        dateMap.get(date)!.push(set);
+      } else {
+        dateMap.set(date, [set]);
+      }
+    }
+
+    setDateSetListMap(dateMap);
+
+    isSetListLoaded.current = true;
+
+    // TODO: ADD COMMENTMAP
+    // TODO: ADD MULTISETMAP
+    // TODO: ADD DEFAULT LOAD EXERCISE OPTIONS AND MAKE CHARTDATA ETC
+  };
+
   useEffect(() => {
     const getExercise = async () => {
       const currentExercise = await GetExerciseWithId(
@@ -62,35 +111,33 @@ export default function ExerciseDetails() {
       setEditedExercise(currentExercise);
     };
 
-    const getSetListDateMap = async () => {
-      const fullSetList = await GetCompletedSetsWithExerciseId(Number(id));
-
-      if (fullSetList.length === 0) {
-        isSetListLoaded.current = true;
-        return;
-      }
-    };
-
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
       const validUnits = GetValidatedUserSettingsUnits(userSettings);
 
-      setWeightUnit(validUnits.weightUnit);
-      setDistanceUnit(validUnits.distanceUnit);
-      setCircumferenceUnit(validUnits.measurementUnit);
-      setPaceUnit(
-        validUnits.distanceUnit === "km" || validUnits.distanceUnit === "m"
-          ? "km/h"
-          : "mph"
+      const weightUnit = validUnits.weightUnit;
+      const distanceUnit = validUnits.distanceUnit;
+      const paceUnit =
+        distanceUnit === "km" || distanceUnit === "m" ? "km/h" : "mph";
+
+      setWeightUnit(weightUnit);
+      setDistanceUnit(distanceUnit);
+      setPaceUnit(paceUnit);
+
+      // TODO: ADD DEFAULT LOAD EXERCISE OPTIONS FOR CHART DATA
+      await getDateSetListMap(
+        weightUnit,
+        distanceUnit,
+        paceUnit,
+        userSettings.locale
       );
 
-      // TODO: ADD DEFAULT LOAD EXERCISE OPTIONS
+      setUserSettings(userSettings);
     };
 
     getExercise();
-    getSetListDateMap();
     loadUserSettings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -148,7 +195,13 @@ export default function ExerciseDetails() {
     setExercise(updatedExercise);
   };
 
-  if (exercise === undefined || !isSetListLoaded.current)
+  console.log(dateSetListMap);
+
+  if (
+    exercise === undefined ||
+    userSettings === undefined ||
+    !isSetListLoaded.current
+  )
     return <LoadingSpinner />;
 
   return (
