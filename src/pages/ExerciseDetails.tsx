@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { Exercise } from "../typings";
-import { useState, useEffect } from "react";
+import { Exercise, WorkoutSet } from "../typings";
+import { useState, useEffect, useRef } from "react";
 import { useDisclosure } from "@heroui/react";
 import { LoadingSpinner, ExerciseModal, DetailsHeader } from "../components";
 import {
@@ -9,6 +9,9 @@ import {
   IsExerciseValid,
   ConvertEmptyStringToNull,
   UpdateExerciseValues,
+  GetCompletedSetsWithExerciseId,
+  GetUserSettings,
+  GetValidatedUserSettingsUnits,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -23,6 +26,13 @@ import toast from "react-hot-toast";
 export default function ExerciseDetails() {
   const { id } = useParams();
   const [exercise, setExercise] = useState<Exercise>();
+  const [setListDateMap, setSetListDateMap] = useState<
+    Map<string, WorkoutSet[]>
+  >(new Map());
+  const [weightUnit, setWeightUnit] = useState<string>("kg");
+  const [distanceUnit, setDistanceUnit] = useState<string>("km");
+  const [circumferenceUnit, setCircumferenceUnit] = useState<string>("cm");
+  const [paceUnit, setPaceUnit] = useState<string>("km/h");
 
   const defaultExercise = useDefaultExercise();
 
@@ -39,6 +49,8 @@ export default function ExerciseDetails() {
     multiplierInputInvaliditySet,
   } = useMultiplierInputMap();
 
+  const isSetListLoaded = useRef<boolean>(false);
+
   useEffect(() => {
     const getExercise = async () => {
       const currentExercise = await GetExerciseWithId(
@@ -50,7 +62,36 @@ export default function ExerciseDetails() {
       setEditedExercise(currentExercise);
     };
 
+    const getSetListDateMap = async () => {
+      const fullSetList = await GetCompletedSetsWithExerciseId(Number(id));
+
+      if (fullSetList.length === 0) {
+        isSetListLoaded.current = true;
+        return;
+      }
+    };
+
+    const loadUserSettings = async () => {
+      const userSettings = await GetUserSettings();
+
+      if (userSettings === undefined) return;
+      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
+      setWeightUnit(validUnits.weightUnit);
+      setDistanceUnit(validUnits.distanceUnit);
+      setCircumferenceUnit(validUnits.measurementUnit);
+      setPaceUnit(
+        validUnits.distanceUnit === "km" || validUnits.distanceUnit === "m"
+          ? "km/h"
+          : "mph"
+      );
+
+      // TODO: ADD DEFAULT LOAD EXERCISE OPTIONS
+    };
+
     getExercise();
+    getSetListDateMap();
+    loadUserSettings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -107,7 +148,8 @@ export default function ExerciseDetails() {
     setExercise(updatedExercise);
   };
 
-  if (exercise === undefined) return <LoadingSpinner />;
+  if (exercise === undefined || !isSetListLoaded.current)
+    return <LoadingSpinner />;
 
   return (
     <>
