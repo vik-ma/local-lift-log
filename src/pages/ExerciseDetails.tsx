@@ -62,6 +62,8 @@ export default function ExerciseDetails() {
     paceUnit: string,
     locale: string
   ) => {
+    if (isSetListLoaded.current) return;
+
     const fullSetList = await GetCompletedSetsWithExerciseId(Number(id));
 
     if (fullSetList.length === 0) {
@@ -285,6 +287,50 @@ export default function ExerciseDetails() {
                           {FormatTimeInSecondsToHhmmssString(
                             set.time_in_seconds
                           )}
+                        </div>
+                      )}
+                      {set.is_tracking_rpe === 1 && (
+                        <div className="flex gap-1 w-[5rem]">
+                          <span>RPE</span>
+                          <span className="max-w-[2.5rem] truncate">
+                            {set.rpe}
+                          </span>
+                        </div>
+                      )}
+                      {set.is_tracking_rir === 1 && (
+                        <div className="flex gap-1 w-[5rem]">
+                          <span className="max-w-[4rem] truncate">
+                            {set.rir}
+                          </span>
+                          <span>RIR</span>
+                        </div>
+                      )}
+                      {set.is_tracking_rpe === 1 && (
+                        <div className="flex gap-1 w-[10rem]">
+                          <span>Resistance Level</span>
+                          <span className="max-w-[2.75rem] truncate">
+                            {set.resistance_level}
+                          </span>
+                        </div>
+                      )}
+                      {set.is_tracking_partial_reps === 1 && (
+                        <div className="flex gap-1 w-[10rem]">
+                          <span className="max-w-[2.75rem] truncate">
+                            {set.partial_reps}
+                          </span>
+                          <span>
+                            partial rep
+                            {set.partial_reps !== 1 && "s"}
+                          </span>
+                        </div>
+                      )}
+                      {set.is_tracking_user_weight === 1 && (
+                        <div className="flex gap-1 w-[10rem] text-slate-500">
+                          <span>Body Weight</span>
+                          <span className="max-w-[3rem] truncate">
+                            {set.user_weight}
+                          </span>
+                          <span>{set.user_weight_unit}</span>
                         </div>
                       )}
                     </div>
