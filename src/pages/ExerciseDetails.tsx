@@ -248,17 +248,30 @@ export default function ExerciseDetails() {
               <div className="flex flex-col">
                 {setList.map((set, index) => (
                   <div key={set.id} className="flex gap-1 text-sm font-medium">
-                    <span className="text-foreground-500 w-[4rem] truncate">
+                    <span className="text-foreground-500 w-[4.5rem] truncate">
                       Set {index + 1}
                     </span>
-                    {set.is_tracking_weight === 1 && (
-                      <div className="flex gap-1 font-normal text-yellow-600">
-                        <span className="max-w-16 truncate">
-                          {set.weight}
-                        </span>
-                        <span>{set.weight_unit}</span>
-                      </div>
-                    )}
+                    <div className="flex flex-wrap max-w-[20.75rem] font-normal text-yellow-600">
+                      {set.is_tracking_weight === 1 && (
+                        <div className="flex gap-1 w-[5rem]">
+                          <span className="max-w-[4rem] truncate">
+                            {set.weight}
+                          </span>
+                          <span>{set.weight_unit}</span>
+                        </div>
+                      )}
+                      {set.is_tracking_reps === 1 && (
+                        <div className="flex gap-1 w-[4rem]">
+                          <span className="max-w-[3rem] truncate">
+                            {set.reps}
+                          </span>
+                          <span>
+                            rep
+                            {set.reps !== 1 && "s"}
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
