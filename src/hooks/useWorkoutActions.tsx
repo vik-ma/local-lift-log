@@ -919,6 +919,26 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       setWorkoutNumbers(updatedWorkoutNumbers);
 
+      if (!isTemplate) {
+        const deletedSetIds = operatingGroupedSet.setList.map(
+          (item) => item.id
+        );
+
+        const updatedIncompleteSetIds = incompleteSetIds.filter(
+          (num) => !deletedSetIds.includes(num)
+        );
+
+        setIncompleteSetIds(updatedIncompleteSetIds);
+
+        if (activeGroupedSet?.id === operatingGroupedSet.id) {
+          setActiveSet(undefined);
+          setActiveGroupedSet(undefined);
+          activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
+          activeSetInputs.setIsSetEdited(false);
+          activeSetInputs.setUneditedSet(undefined);
+        }
+      }
+
       resetOperatingSet();
 
       deleteModal.onClose();
