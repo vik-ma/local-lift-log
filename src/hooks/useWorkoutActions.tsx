@@ -1291,7 +1291,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (activeSetInputs.isSetTrackingValuesInvalid) return;
 
-    const isUpdatingActiveSet = activeSet.is_completed === 1 ? true : false;
+    const isUpdatingActiveSet = activeSet.is_completed === 1;
 
     const currentDateString = GetCurrentDateTimeISOString();
 
@@ -1309,9 +1309,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       resistance_level: setTrackingValuesNumbers.resistance_level,
       partial_reps: setTrackingValuesNumbers.partial_reps,
       user_weight: setTrackingValuesNumbers.user_weight,
-      is_completed: 1,
-      time_completed: currentDateString,
     };
+
+    if (!isUpdatingActiveSet) {
+      updatedSet.is_completed = 1;
+      updatedSet.time_completed = currentDateString;
+    }
 
     const success = await UpdateSet(updatedSet);
 
@@ -1326,7 +1329,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const completedSetsValue = completedSetsMap.get(activeGroupedSet.id) ?? 0;
 
-    if (activeSet.is_completed === 0) {
+    if (!isUpdatingActiveSet) {
       completedSetsMap.set(activeGroupedSet.id, completedSetsValue + 1);
     }
 
