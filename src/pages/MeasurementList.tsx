@@ -394,7 +394,7 @@ export default function MeasurementList() {
                 </Button>
                 <MeasurementListOptions useMeasurementList={measurementList} />
               </div>
-              <span className="px-1 text-xs italic text-stone-500 font-normal">
+              <span className="px-1 text-xs text-stone-500 font-normal">
                 Click on a Measurement to add to Active Measurements
               </span>
               {filterMap.size > 0 && (

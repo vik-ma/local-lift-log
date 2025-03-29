@@ -615,7 +615,7 @@ export default function RoutineDetails() {
                 <h2 className="text-xl font-semibold">Workout Order</h2>
                 {routine.schedule_type === 2 &&
                   noDayWorkoutTemplateList.length > 1 && (
-                    <span className="text-xs italic text-stone-500 font-normal">
+                    <span className="text-xs text-stone-500 font-normal">
                       Drag Workouts To Change Order
                     </span>
                   )}

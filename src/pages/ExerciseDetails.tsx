@@ -247,9 +247,13 @@ export default function ExerciseDetails() {
           <h3 className="font-semibold text-2xl text-center text-foreground-600">
             Exercise History
           </h3>
-          {dateSetListMapReversed.size > 0 && (
-            <span className="text-xs italic text-stone-500 text-center font-normal px-0.5">
+          {dateSetListMapReversed.size > 0 ? (
+            <span className="text-xs text-stone-500 text-center font-normal">
               Click on set to go to workout
+            </span>
+          ) : (
+            <span className="text-stone-500 text-center text-sm">
+              No sets completed for exercise
             </span>
           )}
           <div className="flex flex-col gap-1">
@@ -261,7 +265,7 @@ export default function ExerciseDetails() {
                     <div
                       key={set.id}
                       aria-label="Go to workout of set"
-                      className="flex flex-col text-sm font-medium rounded-sm px-[3px] cursor-pointer hover:bg-violet-100"
+                      className="flex flex-col text-sm font-medium rounded-sm px-[3px] cursor-pointer hover:bg-indigo-100"
                       onClick={() => navigate(`/workouts/${set.workout_id}`)}
                     >
                       <div className="flex">

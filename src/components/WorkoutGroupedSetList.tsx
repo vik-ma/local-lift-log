@@ -92,7 +92,7 @@ export const WorkoutGroupedSetList = ({
             Set List
           </h2>
           {groupedSets.length > 1 && (
-            <span className="text-xs italic text-stone-500 font-normal">
+            <span className="text-xs text-stone-500 font-normal">
               Drag Exercises To Reorder Set List
             </span>
           )}
