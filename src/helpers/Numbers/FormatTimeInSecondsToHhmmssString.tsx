@@ -9,7 +9,7 @@ export const FormatTimeInSecondsToHhmmssString = (
   const minutes = Math.floor((time_in_seconds % 3600) / 60);
   const remainingSeconds = time_in_seconds % 60;
 
-  const formattedHours = String(hours).padStart(2, "0");
+  const formattedHours = String(hours);
   const formattedMinutes = String(minutes).padStart(2, "0");
   const formattedSeconds = String(remainingSeconds).padStart(2, "0");
 
