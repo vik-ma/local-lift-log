@@ -203,8 +203,6 @@ export default function ExerciseDetails() {
     setExercise(updatedExercise);
   };
 
-  console.log(dateSetListMap);
-
   if (
     exercise === undefined ||
     userSettings === undefined ||
@@ -242,21 +240,23 @@ export default function ExerciseDetails() {
         />
         <div className="flex flex-col gap-1">
           <h3 className="font-semibold text-2xl text-center text-foreground-600">
-            Exercise History
+            History
           </h3>
           {Array.from(dateSetListMapReversed).map(([date, setList]) => (
-            <div key={date} className="flex flex-col text-stone-600">
+            <div key={date} className="flex flex-col text-foreground-600">
               <h4 className="font-semibold text-lg">{date}</h4>
               <div className="flex flex-col">
-                {setList.map((set) => (
-                  <div className="flex gap-1 text-sm font-medium">
+                {setList.map((set, index) => (
+                  <div key={set.id} className="flex gap-1 text-sm font-medium">
+                    <span className="text-foreground-500 w-[4rem] truncate">
+                      Set {index + 1}
+                    </span>
                     {set.is_tracking_weight === 1 && (
-                      <div>
-                        <span className="text-stone-500">Weight:</span>{" "}
-                        <span className="text-yellow-600">{set.weight}</span>{" "}
-                        <span className="text-yellow-600">
-                          {set.weight_unit}
+                      <div className="flex gap-1 font-normal text-yellow-600">
+                        <span className="max-w-16 truncate">
+                          {set.weight}
                         </span>
+                        <span>{set.weight_unit}</span>
                       </div>
                     )}
                   </div>
