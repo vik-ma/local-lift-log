@@ -13,6 +13,7 @@ import {
   GetUserSettings,
   GetValidatedUserSettingsUnits,
   FormatDateToShortString,
+  FormatTimeInSecondsToHhmmssString,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -261,14 +262,29 @@ export default function ExerciseDetails() {
                         </div>
                       )}
                       {set.is_tracking_reps === 1 && (
-                        <div className="flex gap-1 w-[4rem]">
-                          <span className="max-w-[3rem] truncate">
+                        <div className="flex gap-1 w-[5rem]">
+                          <span className="max-w-[4rem] truncate">
                             {set.reps}
                           </span>
                           <span>
                             rep
                             {set.reps !== 1 && "s"}
                           </span>
+                        </div>
+                      )}
+                      {set.is_tracking_distance === 1 && (
+                        <div className="flex gap-1 w-[5rem]">
+                          <span className="max-w-[4rem] truncate">
+                            {set.distance}
+                          </span>
+                          <span>{set.distance_unit}</span>
+                        </div>
+                      )}
+                      {set.is_tracking_time === 1 && (
+                        <div className="w-[5rem] truncate">
+                          {FormatTimeInSecondsToHhmmssString(
+                            set.time_in_seconds
+                          )}
                         </div>
                       )}
                     </div>
