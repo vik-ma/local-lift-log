@@ -55,25 +55,32 @@ export const SetList = ({
   isTemplate,
   handleToggleSetCommentButton,
 }: SetListProps) => {
+  let setNum = 0;
+
   return (
     <>
       {groupedSet.setList.map((set, index) => {
-        const isMultiset = groupedSet.isMultiset ? true : false;
+        const isMultiset = groupedSet.isMultiset === true;
 
         const exercise = isMultiset
           ? groupedSet.exerciseList[index]
           : groupedSet.exerciseList[0];
 
-        const setNum = groupedSet.multiset?.setListIndexCutoffs?.get(index);
+        const multisetSetNum =
+          groupedSet.multiset?.setListIndexCutoffs?.get(index);
+
+        if (!isMultiset && set.is_warmup === 0) {
+          setNum++;
+        }
 
         return (
           <div
             // Add multiset-divider to Multiset Sets above 1
             // Highlight activeSet in different color
             className={
-              setNum && setNum !== 1 && set.id === activeSetId
+              multisetSetNum && multisetSetNum !== 1 && set.id === activeSetId
                 ? "flex flex-col multiset-divider pl-1.5 bg-[#fffbd0] text-secondary text-sm font-medium break-words cursor-pointer"
-                : setNum && setNum !== 1
+                : multisetSetNum && multisetSetNum !== 1
                 ? "flex flex-col multiset-divider pl-1.5 text-sm font-medium break-words cursor-pointer hover:bg-stone-100"
                 : set.id === activeSetId
                 ? "flex flex-col pl-1.5 bg-[#fffbd0] text-secondary text-sm font-medium break-words cursor-pointer"
@@ -93,9 +100,9 @@ export const SetList = ({
                       : "flex items-center"
                   }
                 >
-                  {isMultiset && setNum && (
+                  {isMultiset && multisetSetNum && (
                     <span className="absolute right-0 w-[3rem] text-stone-400">
-                      Set {setNum}
+                      Set {multisetSetNum}
                     </span>
                   )}
                   <span
@@ -111,8 +118,10 @@ export const SetList = ({
                       >
                         {exercise.name}
                       </span>
+                    ) : !isMultiset && set.is_warmup === 1 ? (
+                      <span className="text-secondary text-xs">Warmup</span>
                     ) : (
-                      `Set ${index + 1}`
+                      `Set ${setNum}`
                     )}
                   </span>
                 </div>
