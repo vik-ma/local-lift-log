@@ -206,7 +206,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         defaultSet.current = emptySet;
 
-        setOperatingSet(emptySet);
+        setOperatingSet({ ...emptySet });
         operatingSetInputs.setUneditedSet({ ...emptySet });
 
         setIncludeSecondaryGroups(

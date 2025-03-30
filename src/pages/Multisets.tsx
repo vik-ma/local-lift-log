@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Multiset,
   Exercise,
@@ -11,7 +11,6 @@ import {
 import {
   useCalculationModal,
   useDefaultMultiset,
-  useDefaultSet,
   useExerciseList,
   useFilterExerciseList,
   useMultisetActions,
@@ -33,6 +32,7 @@ import {
   UpdateItemInList,
   UpdateCalculationString,
   GetValidatedUserSettingsUnits,
+  DefaultNewSet,
 } from "../helpers";
 import {
   CalculationModal,
@@ -62,13 +62,11 @@ export default function Multisets() {
 
   const deleteModal = useDisclosure();
 
-  const defaultSet: WorkoutSet = {
-    ...useDefaultSet(true),
-    is_tracking_weight: 1,
-    is_tracking_reps: 1,
-  };
+  const defaultSet = useRef<WorkoutSet>(DefaultNewSet(true));
 
-  const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultSet);
+  const [operatingSet, setOperatingSet] = useState<WorkoutSet>(
+    defaultSet.current
+  );
 
   const operatingSetInputs = useSetTrackingInputs();
 
@@ -107,12 +105,16 @@ export default function Multisets() {
 
       const validUnits = GetValidatedUserSettingsUnits(userSettings);
 
-      setOperatingSet((prev) => ({
-        ...prev,
+      const emptySet: WorkoutSet = {
+        ...defaultSet.current,
         weight_unit: validUnits.weightUnit,
         distance_unit: validUnits.distanceUnit,
         user_weight_unit: validUnits.weightUnit,
-      }));
+      };
+
+      defaultSet.current = emptySet;
+
+      setOperatingSet({ ...emptySet });
 
       setIncludeSecondaryGroups(
         userSettings.show_secondary_exercise_groups === 1
@@ -136,12 +138,7 @@ export default function Multisets() {
   const resetOperatingMultiset = () => {
     setOperationType("add");
     setOperatingMultiset(defaultMultiset);
-    setOperatingSet({
-      ...defaultSet,
-      weight_unit: userSettings!.default_unit_weight!,
-      distance_unit: userSettings!.default_unit_distance!,
-      user_weight_unit: userSettings!.default_unit_weight,
-    });
+    setOperatingSet({ ...defaultSet.current });
     multisetActions.clearMultiset("base");
   };
 
