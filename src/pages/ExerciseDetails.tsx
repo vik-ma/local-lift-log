@@ -259,13 +259,13 @@ export default function ExerciseDetails() {
           <div className="flex flex-col gap-1">
             {Array.from(dateSetListMapReversed).map(([date, setList]) => (
               <div key={date} className="flex flex-col text-foreground-600">
-                <h4 className="font-semibold text-lg px-0.5">{date}</h4>
+                <h4 className="font-semibold text-lg px-[3px]">{date}</h4>
                 <div className="flex flex-col">
                   {setList.map((set, index) => (
                     <div
                       key={set.id}
                       aria-label="Go to workout of set"
-                      className="flex flex-col text-sm font-medium rounded-sm px-[3px] cursor-pointer hover:bg-indigo-100"
+                      className="flex flex-col text-sm font-medium rounded-sm pl-1 cursor-pointer hover:bg-indigo-50"
                       onClick={() => navigate(`/workouts/${set.workout_id}`)}
                     >
                       <div className="flex">
@@ -355,7 +355,7 @@ export default function ExerciseDetails() {
                       </div>
                       {set.comment !== null && (
                         <div className="flex font-normal text-xs text-stone-400">
-                          <span className="w-[5rem] pl-0.5">Comment</span>
+                          <span className="w-[5rem] pl-px">Comment</span>
                           <span className="font-light max-w-[20rem] break-all">
                             {set.comment}
                           </span>
