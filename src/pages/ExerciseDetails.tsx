@@ -257,115 +257,137 @@ export default function ExerciseDetails() {
             </span>
           )}
           <div className="flex flex-col gap-1">
-            {Array.from(dateSetListMapReversed).map(([date, setList]) => (
-              <div key={date} className="flex flex-col text-foreground-600">
-                <h4 className="font-semibold text-lg px-[3px]">{date}</h4>
-                <div className="flex flex-col">
-                  {setList.map((set, index) => (
-                    <div
-                      key={set.id}
-                      aria-label="Go to workout of set"
-                      className="flex flex-col text-sm font-medium rounded-sm pl-1 cursor-pointer hover:bg-indigo-50"
-                      onClick={() => navigate(`/workouts/${set.workout_id}`)}
-                    >
-                      <div className="flex">
-                        <span className="text-foreground-500 w-[5rem] truncate">
-                          Set {index + 1}
-                        </span>
-                        <div className="flex flex-wrap max-w-[20rem] font-normal text-indigo-800">
-                          {set.is_tracking_weight === 1 && (
-                            <div className="flex gap-1 w-[5rem]">
-                              <span className="max-w-[4rem] truncate">
-                                {set.weight}
+            {Array.from(dateSetListMapReversed).map(([date, setList]) => {
+              let setNum = 0;
+
+              return (
+                <div key={date} className="flex flex-col text-foreground-600">
+                  <h4 className="font-semibold text-lg px-[3px]">{date}</h4>
+                  <div className="flex flex-col">
+                    {setList.map((set) => {
+                      if (set.is_warmup === 0) setNum++;
+
+                      return (
+                        <div
+                          key={set.id}
+                          aria-label="Go to workout of set"
+                          className="flex flex-col text-sm font-medium rounded-sm pl-1 cursor-pointer hover:bg-indigo-50"
+                          onClick={() =>
+                            navigate(`/workouts/${set.workout_id}`)
+                          }
+                        >
+                          <div className="flex">
+                            {set.is_warmup === 1 ? (
+                              <span className="text-yellow-600 w-[5rem]">
+                                Warmup
                               </span>
-                              <span>{set.weight_unit}</span>
-                            </div>
-                          )}
-                          {set.is_tracking_reps === 1 && (
-                            <div className="flex gap-1 w-[5rem]">
-                              <span className="max-w-[4rem] truncate">
-                                {set.reps}
+                            ) : (
+                              <span className="text-foreground-500 w-[5rem] truncate">
+                                Set {setNum}
                               </span>
-                              <span>
-                                rep
-                                {set.reps !== 1 && "s"}
-                              </span>
-                            </div>
-                          )}
-                          {set.is_tracking_distance === 1 && (
-                            <div className="flex gap-1 w-[5rem]">
-                              <span className="max-w-[4rem] truncate">
-                                {set.distance}
-                              </span>
-                              <span>{set.distance_unit}</span>
-                            </div>
-                          )}
-                          {set.is_tracking_time === 1 && (
-                            <div className="w-[5rem] truncate">
-                              {FormatTimeInSecondsToHhmmssString(
-                                set.time_in_seconds
+                            )}
+                            <div
+                              className={
+                                set.is_warmup === 1
+                                  ? "flex flex-wrap max-w-[20rem] font-normal text-foreground-500"
+                                  : "flex flex-wrap max-w-[20rem] font-normal text-indigo-800"
+                              }
+                            >
+                              {set.is_tracking_weight === 1 && (
+                                <div className="flex gap-1 w-[5rem]">
+                                  <span className="max-w-[4rem] truncate">
+                                    {set.weight}
+                                  </span>
+                                  <span>{set.weight_unit}</span>
+                                </div>
+                              )}
+                              {set.is_tracking_reps === 1 && (
+                                <div className="flex gap-1 w-[5rem]">
+                                  <span className="max-w-[4rem] truncate">
+                                    {set.reps}
+                                  </span>
+                                  <span>
+                                    rep
+                                    {set.reps !== 1 && "s"}
+                                  </span>
+                                </div>
+                              )}
+                              {set.is_tracking_distance === 1 && (
+                                <div className="flex gap-1 w-[5rem]">
+                                  <span className="max-w-[4rem] truncate">
+                                    {set.distance}
+                                  </span>
+                                  <span>{set.distance_unit}</span>
+                                </div>
+                              )}
+                              {set.is_tracking_time === 1 && (
+                                <div className="w-[5rem] truncate">
+                                  {FormatTimeInSecondsToHhmmssString(
+                                    set.time_in_seconds
+                                  )}
+                                </div>
+                              )}
+                              {set.is_tracking_rpe === 1 && (
+                                <div className="flex gap-1 w-[5rem]">
+                                  <span>RPE</span>
+                                  <span className="max-w-[2.5rem] truncate">
+                                    {set.rpe}
+                                  </span>
+                                </div>
+                              )}
+                              {set.is_tracking_rir === 1 && (
+                                <div className="flex gap-1 w-[5rem]">
+                                  <span className="max-w-[4rem] truncate">
+                                    {set.rir}
+                                  </span>
+                                  <span>RIR</span>
+                                </div>
+                              )}
+                              {set.is_tracking_resistance_level === 1 && (
+                                <div className="flex gap-1 w-[10rem]">
+                                  <span>Resistance Level</span>
+                                  <span className="max-w-[2.75rem] truncate">
+                                    {set.resistance_level}
+                                  </span>
+                                </div>
+                              )}
+                              {set.is_tracking_partial_reps === 1 && (
+                                <div className="flex gap-1 w-[10rem]">
+                                  <span className="max-w-[2.75rem] truncate">
+                                    {set.partial_reps}
+                                  </span>
+                                  <span>
+                                    partial rep
+                                    {set.partial_reps !== 1 && "s"}
+                                  </span>
+                                </div>
+                              )}
+                              {set.is_tracking_user_weight === 1 && (
+                                <div className="flex gap-1 w-[10rem]">
+                                  <span>Body Weight</span>
+                                  <span className="max-w-[3rem] truncate">
+                                    {set.user_weight}
+                                  </span>
+                                  <span>{set.user_weight_unit}</span>
+                                </div>
                               )}
                             </div>
-                          )}
-                          {set.is_tracking_rpe === 1 && (
-                            <div className="flex gap-1 w-[5rem]">
-                              <span>RPE</span>
-                              <span className="max-w-[2.5rem] truncate">
-                                {set.rpe}
+                          </div>
+                          {set.comment !== null && (
+                            <div className="flex font-normal text-xs text-stone-400">
+                              <span className="w-[5rem] pl-px">Comment</span>
+                              <span className="font-light max-w-[20rem] break-all">
+                                {set.comment}
                               </span>
-                            </div>
-                          )}
-                          {set.is_tracking_rir === 1 && (
-                            <div className="flex gap-1 w-[5rem]">
-                              <span className="max-w-[4rem] truncate">
-                                {set.rir}
-                              </span>
-                              <span>RIR</span>
-                            </div>
-                          )}
-                          {set.is_tracking_resistance_level === 1 && (
-                            <div className="flex gap-1 w-[10rem]">
-                              <span>Resistance Level</span>
-                              <span className="max-w-[2.75rem] truncate">
-                                {set.resistance_level}
-                              </span>
-                            </div>
-                          )}
-                          {set.is_tracking_partial_reps === 1 && (
-                            <div className="flex gap-1 w-[10rem]">
-                              <span className="max-w-[2.75rem] truncate">
-                                {set.partial_reps}
-                              </span>
-                              <span>
-                                partial rep
-                                {set.partial_reps !== 1 && "s"}
-                              </span>
-                            </div>
-                          )}
-                          {set.is_tracking_user_weight === 1 && (
-                            <div className="flex gap-1 w-[10rem]">
-                              <span>Body Weight</span>
-                              <span className="max-w-[3rem] truncate">
-                                {set.user_weight}
-                              </span>
-                              <span>{set.user_weight_unit}</span>
                             </div>
                           )}
                         </div>
-                      </div>
-                      {set.comment !== null && (
-                        <div className="flex font-normal text-xs text-stone-400">
-                          <span className="w-[5rem] pl-px">Comment</span>
-                          <span className="font-light max-w-[20rem] break-all">
-                            {set.comment}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
