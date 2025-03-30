@@ -101,13 +101,20 @@ export const SetList = ({
                   }
                 >
                   {isMultiset && multisetSetNum && (
-                    <span className="absolute right-0 w-[3rem] text-stone-400">
-                      Set {multisetSetNum}
-                    </span>
+                    <div className="absolute right-0 flex gap-1.5 items-baseline">
+                      {set.is_warmup === 1 && (
+                        <span className="text-xs">Warmup</span>
+                      )}
+                      <span className="w-[3rem] truncate text-stone-400">
+                        Set {multisetSetNum}
+                      </span>
+                    </div>
                   )}
                   <span
                     className={
-                      isMultiset
+                      isMultiset && set.is_warmup === 1
+                        ? "truncate text-stone-500 max-w-[12.5rem] pt-0.5"
+                        : isMultiset && set.is_warmup === 0
                         ? "truncate text-stone-500 max-w-[15.5rem] pt-0.5"
                         : "truncate text-stone-500 w-[3rem]"
                     }
