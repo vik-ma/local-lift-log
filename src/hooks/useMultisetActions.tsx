@@ -56,7 +56,7 @@ export const useMultisetActions = ({
     defaultPage ?? "base"
   );
   const [multisetSetOperationType, setMultisetSetOperationType] =
-    useState<MultisetOperationType>("");
+    useState<MultisetOperationType>("add");
   const [calledOutsideModal, setCalledOutsideModal] = useState<boolean>(false);
   const [multisets, setMultisets] = useState<Multiset[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
@@ -286,7 +286,7 @@ export const useMultisetActions = ({
 
     setOperatingMultiset(updatedMultiset);
 
-    setMultisetSetOperationType("");
+    setMultisetSetOperationType("add");
     setModalPage("base");
   };
 
@@ -358,7 +358,7 @@ export const useMultisetActions = ({
 
       const updatedMultisets = UpdateItemInList(multisets, updatedMultiset);
 
-      setMultisetSetOperationType("");
+      setMultisetSetOperationType("add");
 
       closeMultisetModal();
 
@@ -418,7 +418,7 @@ export const useMultisetActions = ({
 
     setMultisets(updatedMultisets);
 
-    setMultisetSetOperationType("");
+    setMultisetSetOperationType("add");
 
     if (calledOutsideModal) {
       closeMultisetModal();
@@ -455,8 +455,6 @@ export const useMultisetActions = ({
   };
 
   const updateOperatingSet = async () => {
-    if (operatingMultiset.id === 0) return;
-
     if (operatingSetInputs.isSetTrackingValuesInvalid) return;
 
     const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(

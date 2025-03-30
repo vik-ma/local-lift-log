@@ -905,7 +905,7 @@ export type MultisetModalPage =
   | "edit-set";
 
 export type MultisetOperationType =
-  | ""
+  | "add"
   | "change-exercise"
   | "reassign-exercise";
 

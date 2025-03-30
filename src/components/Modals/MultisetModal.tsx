@@ -73,8 +73,12 @@ export const MultisetModal = ({
     userSettings.default_num_new_sets
   );
 
-  const { multisetModal, updateOperatingSet, undoOperatingMultisetChanges } =
-    useMultisetActions;
+  const {
+    multisetModal,
+    updateOperatingSet,
+    undoOperatingMultisetChanges,
+    setMultisetSetOperationType,
+  } = useMultisetActions;
 
   const resetSetInputValues = () => {
     if (operatingSetInputs.uneditedSet?.id !== operatingSet.id) return;
@@ -114,6 +118,11 @@ export const MultisetModal = ({
 
     return true;
   }, [modalPage, isAddingMultisetToWorkout]);
+
+  const handleAddExerciseButton = () => {
+    setMultisetSetOperationType("add");
+    setModalPage("exercise-list");
+  };
 
   return (
     <Modal isOpen={multisetModal.isOpen} onOpenChange={closeMultisetModal}>
@@ -188,7 +197,7 @@ export const MultisetModal = ({
                       color="secondary"
                       variant="flat"
                       size="sm"
-                      onPress={() => setModalPage("exercise-list")}
+                      onPress={handleAddExerciseButton}
                     >
                       Add Exercise
                     </Button>
