@@ -103,7 +103,7 @@ export const SetList = ({
                   {isMultiset && multisetSetNum && (
                     <div className="absolute right-0 flex gap-1.5 items-baseline">
                       {set.is_warmup === 1 && (
-                        <span className="text-xs">Warmup</span>
+                        <span className="text-xs text-secondary">Warmup</span>
                       )}
                       <span className="w-[3rem] truncate text-stone-400">
                         Set {multisetSetNum}

@@ -20,8 +20,8 @@ export const MultisetSetList = ({
     <Reorder.Group
       className={
         multiset.setList.length > 0
-          ? "flex flex-col w-full border rounded divide-y overflow-hidden divide-stone-200"
-          : "flex flex-col w-full rounded divide-y divide-stone-200"
+          ? "flex flex-col w-full border rounded-md divide-y overflow-hidden divide-stone-200"
+          : "flex flex-col w-full rounded-md divide-y divide-stone-200"
       }
       ref={dragConstraintsRef}
       values={multiset.setList}
