@@ -54,9 +54,9 @@ import {
   UpdateCalculationString,
   DeleteMultisetWithId,
   GetValidatedUserSettingsUnits,
+  DefaultNewSet,
 } from "../helpers";
 import {
-  useDefaultSet,
   useNumSetsOptions,
   useSetTrackingInputs,
   useDefaultSetInputValues,
@@ -128,9 +128,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const numSetsOptions = useNumSetsOptions();
 
-  const defaultSet = useDefaultSet(isTemplate);
+  const defaultSet = useRef<WorkoutSet>(DefaultNewSet(isTemplate));
 
-  const [operatingSet, setOperatingSet] = useState<WorkoutSet>(defaultSet);
+  const [operatingSet, setOperatingSet] = useState<WorkoutSet>(
+    defaultSet.current
+  );
 
   const defaultMultiset = useDefaultMultiset();
 
@@ -196,11 +198,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         const validUnits = GetValidatedUserSettingsUnits(userSettings);
 
         const emptySet: WorkoutSet = {
-          ...defaultSet,
+          ...defaultSet.current,
           weight_unit: validUnits.weightUnit,
           distance_unit: validUnits.distanceUnit,
           user_weight_unit: validUnits.weightUnit,
         };
+
+        defaultSet.current = emptySet;
 
         setOperatingSet(emptySet);
         operatingSetInputs.setUneditedSet({ ...emptySet });
@@ -553,12 +557,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setSelectedExercise(undefined);
     setOperatingGroupedSet(undefined);
 
-    const emptySet: WorkoutSet = {
-      ...defaultSet,
-      weight_unit: userSettings!.default_unit_weight!,
-      distance_unit: userSettings!.default_unit_distance!,
-      user_weight_unit: userSettings!.default_unit_weight!,
-    };
+    const emptySet: WorkoutSet = { ...defaultSet.current };
 
     setOperatingSet(emptySet);
     operatingSetInputs.setUneditedSet({ ...emptySet });
@@ -784,12 +783,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     const exercise = groupedWorkoutSet.exerciseList[0];
 
     let newSet: WorkoutSet = {
-      ...defaultSet,
+      ...defaultSet.current,
       exercise_id: exercise.id,
-      weight_unit: userSettings!.default_unit_weight!,
-      distance_unit: userSettings!.default_unit_distance!,
       exercise_name: exercise.name,
-      user_weight_unit: userSettings!.default_unit_weight!,
     };
 
     if (isTemplate && workoutTemplate.id !== 0) {
