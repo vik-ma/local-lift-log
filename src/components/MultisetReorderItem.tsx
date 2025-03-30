@@ -180,8 +180,8 @@ export const MultisetReorderItem = ({
       <div
         className={
           set.id < 0 || set.isEditedInMultiset
-            ? "flex justify-between items-center px-2 py-1 font-medium bg-yellow-50 hover:bg-stone-100"
-            : "flex justify-between items-center px-2 py-1 font-medium hover:bg-stone-100"
+            ? "flex justify-between items-center px-2 py-0.5 font-medium bg-yellow-50 hover:bg-stone-100"
+            : "flex justify-between items-center px-2 py-0.5 font-medium hover:bg-stone-100"
         }
         id={multisetId}
       >

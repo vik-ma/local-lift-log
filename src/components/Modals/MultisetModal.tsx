@@ -116,10 +116,7 @@ export const MultisetModal = ({
   }, [modalPage, isAddingMultisetToWorkout]);
 
   return (
-    <Modal
-      isOpen={multisetModal.isOpen}
-      onOpenChange={closeMultisetModal}
-    >
+    <Modal isOpen={multisetModal.isOpen} onOpenChange={closeMultisetModal}>
       <ModalContent>
         {(onClose) => (
           <>
@@ -164,7 +161,7 @@ export const MultisetModal = ({
                   setModalPage={setModalPage}
                 />
               ) : (
-                <div className="flex flex-col items-center gap-2 h-[400px]">
+                <div className="flex flex-col items-center gap-1.5 h-[400px]">
                   <div className="flex items-center gap-2">
                     <MultisetTypeDropdown
                       multiset_type={multiset.multiset_type}
@@ -190,6 +187,7 @@ export const MultisetModal = ({
                     <Button
                       color="secondary"
                       variant="flat"
+                      size="sm"
                       onPress={() => setModalPage("exercise-list")}
                     >
                       Add Exercise
@@ -197,13 +195,18 @@ export const MultisetModal = ({
                     {multiset.isEditedInModal && multiset.id !== 0 && (
                       <Button
                         variant="flat"
-                        onClick={undoOperatingMultisetChanges}
+                        size="sm"
+                        onPress={undoOperatingMultisetChanges}
                       >
                         Undo Changes
                       </Button>
                     )}
                     {showClearAllButton && (
-                      <Button variant="flat" onPress={() => clearMultiset()}>
+                      <Button
+                        variant="flat"
+                        size="sm"
+                        onPress={() => clearMultiset()}
+                      >
                         Clear All
                       </Button>
                     )}

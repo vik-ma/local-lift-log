@@ -42,7 +42,7 @@ export const MultisetSetMenu = ({
           } Options Menu`}
           isIconOnly
           className="z-1"
-          radius="lg"
+          radius="md"
           size="sm"
           variant="light"
         >
