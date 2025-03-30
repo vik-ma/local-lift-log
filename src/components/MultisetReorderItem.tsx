@@ -180,13 +180,13 @@ export const MultisetReorderItem = ({
       <div
         className={
           set.id < 0 || set.isEditedInMultiset
-            ? "flex justify-between items-center px-2 py-0.5 font-medium bg-yellow-50 hover:bg-stone-100"
-            : "flex justify-between items-center px-2 py-0.5 font-medium hover:bg-stone-100"
+            ? "flex justify-between items-center pl-[7px] pr-2 py-0.5 font-medium bg-yellow-50 hover:bg-stone-100"
+            : "flex justify-between items-center pl-[7px] pr-2 py-0.5 font-medium hover:bg-stone-100"
         }
         id={multisetId}
       >
         {/* Change number in handleSetNumDragEnd loop if editing layout */}
-        <div className="flex justify-between gap-1 items-center w-full max-w-[19rem]">
+        <div className="flex justify-between gap-1 items-center w-full max-w-[20rem]">
           <span
             className={
               set.hasInvalidExerciseId
