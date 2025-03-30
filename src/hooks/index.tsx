@@ -7,7 +7,6 @@ export { useValidDistanceUnits } from "./useValidDistanceUnits";
 export { useValidWeightUnits } from "./useValidWeightUnits";
 export { useValidMeasurementUnits } from "./useValidMeasurementUnits";
 export { useLocaleList } from "./useLocaleList";
-export { useDefaultSet } from "./useDefaultSet";
 export { useExerciseList } from "./useExerciseList";
 export { useValidTimeInputBehaviors } from "./useValidTimeInputBehaviors";
 export { useDefaultRoutine } from "./useDefaultRoutine";
