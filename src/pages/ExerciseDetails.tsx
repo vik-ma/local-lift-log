@@ -289,24 +289,26 @@ export default function ExerciseDetails() {
                             <div
                               className={
                                 set.is_warmup === 1
-                                  ? "flex flex-wrap max-w-[20rem] font-normal text-foreground-500"
-                                  : "flex flex-wrap max-w-[20rem] font-normal text-indigo-800"
+                                  ? "flex flex-wrap max-w-[20rem] text-foreground-500"
+                                  : "flex flex-wrap max-w-[20rem] text-indigo-800"
                               }
                             >
                               {set.is_tracking_weight === 1 && (
                                 <div className="flex gap-1 w-[5rem]">
-                                  <span className="max-w-[4rem] truncate">
+                                  <span className="max-w-[4rem] truncate font-semibold">
                                     {set.weight}
                                   </span>
-                                  <span>{set.weight_unit}</span>
+                                  <span className="font-normal">
+                                    {set.weight_unit}
+                                  </span>
                                 </div>
                               )}
                               {set.is_tracking_reps === 1 && (
                                 <div className="flex gap-1 w-[5rem]">
-                                  <span className="max-w-[4rem] truncate">
+                                  <span className="max-w-[4rem] truncate font-semibold">
                                     {set.reps}
                                   </span>
-                                  <span>
+                                  <span className="font-normal">
                                     rep
                                     {set.reps !== 1 && "s"}
                                   </span>
@@ -314,14 +316,16 @@ export default function ExerciseDetails() {
                               )}
                               {set.is_tracking_distance === 1 && (
                                 <div className="flex gap-1 w-[5rem]">
-                                  <span className="max-w-[4rem] truncate">
+                                  <span className="max-w-[4rem] truncate font-semibold">
                                     {set.distance}
                                   </span>
-                                  <span>{set.distance_unit}</span>
+                                  <span className="font-normal">
+                                    {set.distance_unit}
+                                  </span>
                                 </div>
                               )}
                               {set.is_tracking_time === 1 && (
-                                <div className="w-[5rem] truncate">
+                                <div className="w-[5rem] truncate font-semibold">
                                   {FormatTimeInSecondsToHhmmssString(
                                     set.time_in_seconds
                                   )}
@@ -329,34 +333,36 @@ export default function ExerciseDetails() {
                               )}
                               {set.is_tracking_rpe === 1 && (
                                 <div className="flex gap-1 w-[5rem]">
-                                  <span>RPE</span>
-                                  <span className="max-w-[2.5rem] truncate">
+                                  <span className="font-normal">RPE</span>
+                                  <span className="max-w-[2.5rem] truncate font-semibold">
                                     {set.rpe}
                                   </span>
                                 </div>
                               )}
                               {set.is_tracking_rir === 1 && (
                                 <div className="flex gap-1 w-[5rem]">
-                                  <span className="max-w-[4rem] truncate">
+                                  <span className="max-w-[4rem] truncate font-semibold">
                                     {set.rir}
                                   </span>
-                                  <span>RIR</span>
+                                  <span className="font-normal">RIR</span>
                                 </div>
                               )}
                               {set.is_tracking_resistance_level === 1 && (
                                 <div className="flex gap-1 w-[10rem]">
-                                  <span>Resistance Level</span>
-                                  <span className="max-w-[2.75rem] truncate">
+                                  <span className="font-normal">
+                                    Resistance Level
+                                  </span>
+                                  <span className="max-w-[2.75rem] truncate font-semibold">
                                     {set.resistance_level}
                                   </span>
                                 </div>
                               )}
                               {set.is_tracking_partial_reps === 1 && (
                                 <div className="flex gap-1 w-[10rem]">
-                                  <span className="max-w-[2.75rem] truncate">
+                                  <span className="max-w-[2.75rem] truncate font-semibold">
                                     {set.partial_reps}
                                   </span>
-                                  <span>
+                                  <span className="font-normal">
                                     partial rep
                                     {set.partial_reps !== 1 && "s"}
                                   </span>
@@ -364,11 +370,15 @@ export default function ExerciseDetails() {
                               )}
                               {set.is_tracking_user_weight === 1 && (
                                 <div className="flex gap-1 w-[10rem]">
-                                  <span>Body Weight</span>
-                                  <span className="max-w-[3rem] truncate">
+                                  <span className="font-normal">
+                                    Body Weight
+                                  </span>
+                                  <span className="max-w-[3rem] truncate font-semibold">
                                     {set.user_weight}
                                   </span>
-                                  <span>{set.user_weight_unit}</span>
+                                  <span className="font-normal">
+                                    {set.user_weight_unit}
+                                  </span>
                                 </div>
                               )}
                             </div>
