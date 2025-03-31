@@ -41,7 +41,7 @@ diesel::table! {
         default_num_new_sets -> Text,
         shown_time_period_properties -> Text,
         default_diet_log_day_is_yesterday -> Integer,
-        default_load_exercise_options -> Text,
+        load_exercise_options_analytics -> Text,
     }
 }
 
