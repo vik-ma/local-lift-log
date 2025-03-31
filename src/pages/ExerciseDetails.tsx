@@ -256,14 +256,19 @@ export default function ExerciseDetails() {
               No sets completed for exercise
             </span>
           )}
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1.5">
             {Array.from(dateSetListMapReversed).map(([date, setList]) => {
               let setNum = 0;
 
               return (
-                <div key={date} className="flex flex-col text-foreground-600">
-                  <h4 className="font-semibold text-lg px-[3px]">{date}</h4>
-                  <div className="flex flex-col">
+                <div
+                  key={date}
+                  className="flex flex-col divide-y divide-foreground-400 text-foreground-600"
+                >
+                  <h4 className="font-semibold text-lg px-[3px] text-secondary leading-tight">
+                    {date}
+                  </h4>
+                  <div className="flex flex-col pt-px">
                     {setList.map((set) => {
                       if (set.is_warmup === 0) setNum++;
 
@@ -385,7 +390,7 @@ export default function ExerciseDetails() {
                           </div>
                           {set.comment !== null && (
                             <div className="flex font-normal text-xs text-foreground-500">
-                              <span className="w-[5rem] pl-1">Comment</span>
+                              <span className="w-[5rem] pl-0.5">Comment</span>
                               <span className="font-light max-w-[20rem] break-all">
                                 {set.comment}
                               </span>
