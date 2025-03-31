@@ -273,10 +273,10 @@ export default function ExerciseDetails() {
                       if (set.is_warmup === 0) setNum++;
 
                       return (
-                        <div
+                        <button
                           key={set.id}
                           aria-label="Go to workout of set"
-                          className="flex flex-col text-sm font-medium rounded-sm pl-1 cursor-pointer hover:bg-foreground-200"
+                          className="flex flex-col text-left text-sm font-medium rounded-sm pl-1 cursor-pointer hover:bg-foreground-200 focus:bg-foreground-200"
                           onClick={() =>
                             navigate(`/workouts/${set.workout_id}`)
                           }
@@ -397,14 +397,14 @@ export default function ExerciseDetails() {
                                   </span>
                                 )}
                               </div>
-                              <div className="max-w-[20rem] break-all">
+                              <div className="max-w-[19.75rem] break-all">
                                 {set.comment !== null && (
                                   <span>{set.comment}</span>
                                 )}
                               </div>
                             </div>
                           )}
-                        </div>
+                        </button>
                       );
                     })}
                   </div>
