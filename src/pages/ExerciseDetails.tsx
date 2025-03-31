@@ -283,11 +283,11 @@ export default function ExerciseDetails() {
                         >
                           <div className="flex">
                             {set.is_warmup === 1 ? (
-                              <span className="text-foreground-400 w-[5rem]">
+                              <span className="text-foreground-400 w-[4.75rem] truncate">
                                 Warmup
                               </span>
                             ) : (
-                              <span className="text-foreground-600 w-[5rem] truncate">
+                              <span className="text-foreground-600 w-[4.75rem] truncate">
                                 Set {setNum}
                               </span>
                             )}
@@ -390,14 +390,14 @@ export default function ExerciseDetails() {
                           </div>
                           {(set.comment !== null || set.multiset_id > 0) && (
                             <div className="flex text-xs font-normal leading-none text-yellow-600">
-                              <div className="w-[5rem]">
+                              <div className="w-[4.75rem]">
                                 {set.multiset_id > 0 && (
                                   <span className="text-slate-500">
                                     Multiset
                                   </span>
                                 )}
                               </div>
-                              <div className="max-w-[19.75rem] break-all">
+                              <div className="max-w-[20rem] break-all">
                                 {set.comment !== null && (
                                   <span>{set.comment}</span>
                                 )}
