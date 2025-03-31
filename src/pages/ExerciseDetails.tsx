@@ -268,7 +268,7 @@ export default function ExerciseDetails() {
                   <h4 className="font-semibold text-lg px-[3px] text-secondary leading-tight">
                     {date}
                   </h4>
-                  <div className="flex flex-col pt-px">
+                  <div className="flex flex-col pt-0.5">
                     {setList.map((set) => {
                       if (set.is_warmup === 0) setNum++;
 
@@ -276,7 +276,7 @@ export default function ExerciseDetails() {
                         <div
                           key={set.id}
                           aria-label="Go to workout of set"
-                          className="flex flex-col text-sm font-medium rounded-sm pl-1 cursor-pointer hover:bg-indigo-50"
+                          className="flex flex-col text-sm font-medium rounded-sm pl-1 cursor-pointer hover:bg-foreground-200"
                           onClick={() =>
                             navigate(`/workouts/${set.workout_id}`)
                           }
@@ -389,7 +389,7 @@ export default function ExerciseDetails() {
                             </div>
                           </div>
                           {(set.comment !== null || set.multiset_id > 0) && (
-                            <div className="flex text-xs font-normal leading-none text-yellow-600">
+                            <div className="flex text-xs font-normal leading-none pb-0.5 text-yellow-600">
                               <div className="w-[4.75rem]">
                                 {set.multiset_id > 0 && (
                                   <span className="text-slate-500">
