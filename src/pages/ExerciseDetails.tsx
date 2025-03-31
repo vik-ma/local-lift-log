@@ -278,19 +278,19 @@ export default function ExerciseDetails() {
                         >
                           <div className="flex">
                             {set.is_warmup === 1 ? (
-                              <span className="text-yellow-600 w-[5rem]">
+                              <span className="text-foreground-400 w-[5rem]">
                                 Warmup
                               </span>
                             ) : (
-                              <span className="text-foreground-500 w-[5rem] truncate">
+                              <span className="text-foreground-600 w-[5rem] truncate">
                                 Set {setNum}
                               </span>
                             )}
                             <div
                               className={
                                 set.is_warmup === 1
-                                  ? "flex flex-wrap max-w-[20rem] text-foreground-500"
-                                  : "flex flex-wrap max-w-[20rem] text-indigo-800"
+                                  ? "flex flex-wrap max-w-[20rem] text-foreground-400"
+                                  : "flex flex-wrap max-w-[20rem] text-foreground-900"
                               }
                             >
                               {set.is_tracking_weight === 1 && (
@@ -384,8 +384,8 @@ export default function ExerciseDetails() {
                             </div>
                           </div>
                           {set.comment !== null && (
-                            <div className="flex font-normal text-xs text-stone-400">
-                              <span className="w-[5rem] pl-px">Comment</span>
+                            <div className="flex font-normal text-xs text-foreground-500">
+                              <span className="w-[5rem] pl-1">Comment</span>
                               <span className="font-light max-w-[20rem] break-all">
                                 {set.comment}
                               </span>
