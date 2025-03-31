@@ -244,7 +244,7 @@ export default function ExerciseDetails() {
           item={exercise}
           toggleFavorite={toggleFavorite}
         />
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
           <div className="flex flex-col">
             <h3 className="font-semibold text-2xl text-center leading-tight text-foreground-600">
               Exercise History
@@ -258,15 +258,17 @@ export default function ExerciseDetails() {
                 No sets completed for exercise
               </span>
             )}
-          </div>
-          <div className="flex">
-            <Checkbox
-              className="hover:underline"
-              isSelected={showWarmups}
-              onValueChange={setShowWarmups}
-            >
-              Show Warmups
-            </Checkbox>
+            {dateSetListMapReversed.size > 0 && (
+              <div className="flex pt-1">
+                <Checkbox
+                  className="hover:underline"
+                  isSelected={showWarmups}
+                  onValueChange={setShowWarmups}
+                >
+                  Show Warmups
+                </Checkbox>
+              </div>
+            )}
           </div>
           <div className="flex flex-col gap-1.5">
             {Array.from(dateSetListMapReversed).map(([date, setList]) => {
