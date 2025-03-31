@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Exercise, UserSettings, WorkoutSet } from "../typings";
 import { useState, useEffect, useRef } from "react";
-import { useDisclosure } from "@heroui/react";
+import { Checkbox, useDisclosure } from "@heroui/react";
 import { LoadingSpinner, ExerciseModal, DetailsHeader } from "../components";
 import {
   GetExerciseWithId,
@@ -38,6 +38,7 @@ export default function ExerciseDetails() {
   const [weightUnit, setWeightUnit] = useState<string>("kg");
   const [distanceUnit, setDistanceUnit] = useState<string>("km");
   const [paceUnit, setPaceUnit] = useState<string>("km/h");
+  const [showWarmups, setShowWarmups] = useState<boolean>(true);
 
   const defaultExercise = useDefaultExercise();
 
@@ -258,6 +259,15 @@ export default function ExerciseDetails() {
               </span>
             )}
           </div>
+          <div className="flex">
+            <Checkbox
+              className="hover:underline"
+              isSelected={showWarmups}
+              onValueChange={setShowWarmups}
+            >
+              Show Warmups
+            </Checkbox>
+          </div>
           <div className="flex flex-col gap-1.5">
             {Array.from(dateSetListMapReversed).map(([date, setList]) => {
               let setNum = 0;
@@ -272,6 +282,8 @@ export default function ExerciseDetails() {
                   </h4>
                   <div className="flex flex-col pt-0.5">
                     {setList.map((set) => {
+                      if (set.is_warmup === 1 && !showWarmups) return null;
+
                       if (set.is_warmup === 0) setNum++;
 
                       return (
