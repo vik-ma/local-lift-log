@@ -177,7 +177,7 @@ export default function Settings() {
       setFilterDistanceRangeUnit(userSettings.default_unit_distance);
 
       const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
-        userSettings.default_load_exercise_options
+        userSettings.load_exercise_options_analytics
       );
       setLoadExerciseOptions(loadExerciseOptionsList);
     };
@@ -546,7 +546,7 @@ export default function Settings() {
 
       const updatedSettings: UserSettings = {
         ...userSettings,
-        default_load_exercise_options: loadExerciseOptionsString,
+        load_exercise_options_analytics: loadExerciseOptionsString,
       };
 
       await updateSettings(updatedSettings);
@@ -634,7 +634,8 @@ export default function Settings() {
                   ? "Set Default Plate Collection"
                   : specificSettingModalPage === "workout-rating-order"
                   ? "Set Workout Rating Order"
-                  : "Set Default Load Exercise Options"}
+                  : // TODO: ADD SEPARATE FOR EXERCISEDETAILS PAGE
+                    "Analytics Page Load Exercise Options"}
               </ModalHeader>
               <ModalBody>
                 <div className="h-[400px] flex flex-col gap-2">
@@ -673,7 +674,7 @@ export default function Settings() {
                   ) : (
                     <ScrollShadow className="pb-1">
                       <CheckboxGroup
-                        aria-label="Select Default Load Exercise Options"
+                        aria-label="Select Default Load Exercise Options For Analytics Page"
                         value={loadExerciseOptions as string[]}
                         onValueChange={(value) =>
                           setLoadExerciseOptions(
@@ -899,7 +900,9 @@ export default function Settings() {
             />
           </div>
           <div className="flex gap-3 items-center justify-between pr-1">
-            <span className="text-lg">Default Load Exercise Options</span>
+            <span className="text-lg">
+              Default Load Exercise Options For Analytics Page
+            </span>
             <Button
               color="primary"
               size="sm"

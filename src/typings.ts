@@ -42,7 +42,7 @@ export type UserSettings = {
   default_num_new_sets: string;
   shown_time_period_properties: string;
   default_diet_log_day_is_yesterday: number;
-  default_load_exercise_options: string;
+  load_exercise_options_analytics: string;
 };
 
 export type UserSettingsOptional = {
@@ -75,7 +75,7 @@ export type UserSettingsOptional = {
   default_num_new_sets?: string;
   shown_time_period_properties?: string;
   default_diet_log_day_is_yesterday?: number;
-  default_load_exercise_options?: string;
+  load_exercise_options_analytics?: string;
 };
 
 export type Exercise = {

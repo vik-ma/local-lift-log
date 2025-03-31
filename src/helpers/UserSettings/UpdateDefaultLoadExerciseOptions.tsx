@@ -5,6 +5,8 @@ export const UpdateDefaultLoadExerciseOptions = async (
   defaultLoadExerciseOptionsString: string,
   userSettingsId: number
 ) => {
+  // TODO: ADD PROP FOR ANALYTICS OR EXERCISEDETAILS PAGE
+
   if (
     !ValidateDefaultLoadExerciseOptionsString(defaultLoadExerciseOptionsString)
   )
@@ -14,7 +16,7 @@ export const UpdateDefaultLoadExerciseOptions = async (
     const db = await Database.load(import.meta.env.VITE_DB);
 
     await db.execute(
-      "UPDATE user_settings SET default_load_exercise_options = $1 WHERE id = $2",
+      "UPDATE user_settings SET load_exercise_options_analytics = $1 WHERE id = $2",
       [defaultLoadExerciseOptionsString, userSettingsId]
     );
 

@@ -127,7 +127,7 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
 
   if (
     !ValidateDefaultLoadExerciseOptionsString(
-      userSettings.default_load_exercise_options
+      userSettings.load_exercise_options_analytics
     )
   )
     return false;

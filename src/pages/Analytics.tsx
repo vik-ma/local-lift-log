@@ -368,7 +368,7 @@ export default function Analytics() {
   useEffect(() => {
     if (userSettings === undefined) return;
 
-    updateLoadExerciseOptions(userSettings.default_load_exercise_options);
+    updateLoadExerciseOptions(userSettings.load_exercise_options_analytics);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedExercise]);
 
@@ -383,7 +383,7 @@ export default function Analytics() {
 
         assignDefaultUnits(userSettings);
 
-        updateLoadExerciseOptions(userSettings.default_load_exercise_options);
+        updateLoadExerciseOptions(userSettings.load_exercise_options_analytics);
       };
 
       loadUserSettings();
@@ -1998,7 +1998,7 @@ export default function Analytics() {
 
     const updatedUserSettings: UserSettings = {
       ...userSettings,
-      default_load_exercise_options: loadExerciseOptionsString,
+      load_exercise_options_analytics: loadExerciseOptionsString,
     };
 
     await UpdateDefaultLoadExerciseOptions(
