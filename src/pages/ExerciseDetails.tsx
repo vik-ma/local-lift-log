@@ -243,19 +243,21 @@ export default function ExerciseDetails() {
           item={exercise}
           toggleFavorite={toggleFavorite}
         />
-        <div className="flex flex-col">
-          <h3 className="font-semibold text-2xl text-center text-foreground-600">
-            Exercise History
-          </h3>
-          {dateSetListMapReversed.size > 0 ? (
-            <span className="text-xs text-stone-500 text-center font-normal">
-              Click on set to go to workout
-            </span>
-          ) : (
-            <span className="text-stone-500 text-center text-sm">
-              No sets completed for exercise
-            </span>
-          )}
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col">
+            <h3 className="font-semibold text-2xl text-center leading-tight text-foreground-600">
+              Exercise History
+            </h3>
+            {dateSetListMapReversed.size > 0 ? (
+              <span className="text-xs text-stone-500 text-center font-normal">
+                Click on set to go to workout
+              </span>
+            ) : (
+              <span className="text-stone-500 text-center text-sm">
+                No sets completed for exercise
+              </span>
+            )}
+          </div>
           <div className="flex flex-col gap-1.5">
             {Array.from(dateSetListMapReversed).map(([date, setList]) => {
               let setNum = 0;
@@ -276,7 +278,7 @@ export default function ExerciseDetails() {
                         <button
                           key={set.id}
                           aria-label="Go to workout of set"
-                          className="flex flex-col text-left text-sm font-medium rounded-sm pl-1 cursor-pointer hover:bg-foreground-200 focus:bg-foreground-200"
+                          className="flex flex-col text-left text-sm font-medium rounded-sm pl-1 cursor-pointer hover:bg-default-200 focus:bg-default-200"
                           onClick={() =>
                             navigate(`/workouts/${set.workout_id}`)
                           }
