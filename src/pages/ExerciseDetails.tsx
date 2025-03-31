@@ -388,12 +388,20 @@ export default function ExerciseDetails() {
                               )}
                             </div>
                           </div>
-                          {set.comment !== null && (
+                          {(set.comment !== null || set.multiset_id > 0) && (
                             <div className="flex text-xs font-normal leading-none text-yellow-600">
-                              <span className="w-[5rem] pl-px"></span>
-                              <span className="max-w-[20rem] break-all">
-                                {set.comment}
-                              </span>
+                              <div className="w-[5rem]">
+                                {set.multiset_id > 0 && (
+                                  <span className="text-slate-500">
+                                    Multiset
+                                  </span>
+                                )}
+                              </div>
+                              <div className="max-w-[19.75rem] break-all">
+                                {set.comment !== null && (
+                                  <span>{set.comment}</span>
+                                )}
+                              </div>
                             </div>
                           )}
                         </div>
