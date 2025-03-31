@@ -389,9 +389,9 @@ export default function ExerciseDetails() {
                             </div>
                           </div>
                           {set.comment !== null && (
-                            <div className="flex font-normal text-xs text-foreground-500">
-                              <span className="w-[5rem] pl-0.5">Comment</span>
-                              <span className="font-light max-w-[20rem] break-all">
+                            <div className="flex text-xs font-normal leading-none text-yellow-600">
+                              <span className="w-[5rem] pl-px"></span>
+                              <span className="max-w-[20rem] break-all">
                                 {set.comment}
                               </span>
                             </div>
