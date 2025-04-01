@@ -60,6 +60,9 @@ export const CreateDefaultUserSettings = async (
 
   const load_exercise_options_analytics = "";
 
+  const show_warmups_in_exercise_details = 1;
+  const show_multisets_in_exercise_details = 1;
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -72,7 +75,7 @@ export const CreateDefaultUserSettings = async (
 
     const result = await db.execute(
       `INSERT into user_settings 
-      (show_timestamp_on_completed_set, active_routine_id, default_unit_weight, 
+        (show_timestamp_on_completed_set, active_routine_id, default_unit_weight, 
         default_unit_distance, default_time_input, default_unit_measurement, 
         active_tracking_measurements, locale, clock_style, time_input_behavior_hhmmss, 
         time_input_behavior_mmss, default_increment_weight, default_increment_distance, 
@@ -82,9 +85,10 @@ export const CreateDefaultUserSettings = async (
         shown_workout_properties, default_plate_collection_id,
         show_secondary_exercise_groups, automatically_update_active_measurements, 
         default_num_new_sets, shown_time_period_properties, default_diet_log_day_is_yesterday, 
-        load_exercise_options_analytics) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, 
-        $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)`,
+        load_exercise_options_analytics, show_warmups_in_exercise_details,
+        show_multisets_in_exercise_details) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, 
+        $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -113,6 +117,8 @@ export const CreateDefaultUserSettings = async (
         shown_time_period_properties,
         default_diet_log_day_is_yesterday,
         load_exercise_options_analytics,
+        show_warmups_in_exercise_details,
+        show_multisets_in_exercise_details,
       ]
     );
 
@@ -147,6 +153,8 @@ export const CreateDefaultUserSettings = async (
       shown_time_period_properties,
       default_diet_log_day_is_yesterday,
       load_exercise_options_analytics,
+      show_warmups_in_exercise_details,
+      show_multisets_in_exercise_details,
     };
 
     return defaultUserSettings;

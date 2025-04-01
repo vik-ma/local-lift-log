@@ -11,20 +11,21 @@ export const UpdateAllUserSettings = async (
     const db = await Database.load(import.meta.env.VITE_DB);
 
     db.execute(
-      `UPDATE user_settings 
-      SET show_timestamp_on_completed_set = $1, active_routine_id = $2, 
-      default_unit_weight = $3, default_unit_distance = $4, default_time_input = $5,
-      default_unit_measurement = $6, active_tracking_measurements = $7, locale = $8,
-      clock_style = $9, time_input_behavior_hhmmss = $10, time_input_behavior_mmss = $11,
-      default_increment_weight = $12, default_increment_distance = $13, 
-      default_increment_time = $14, default_increment_resistance_level = $15,
-      save_calculation_string = $16, show_calculation_buttons = $17,
-      default_increment_calculation_multiplier = $18, default_calculation_tab = $19,
-      shown_workout_properties = $20, default_plate_collection_id = $21, 
-      show_secondary_exercise_groups = $22, automatically_update_active_measurements = $23,
-      default_num_new_sets = $24, shown_time_period_properties = $25,
-      default_diet_log_day_is_yesterday = $26, load_exercise_options_analytics = $27 
-      WHERE id = $28`,
+      `UPDATE user_settings SET 
+        show_timestamp_on_completed_set = $1, active_routine_id = $2, 
+        default_unit_weight = $3, default_unit_distance = $4, default_time_input = $5,
+        default_unit_measurement = $6, active_tracking_measurements = $7, locale = $8,
+        clock_style = $9, time_input_behavior_hhmmss = $10, time_input_behavior_mmss = $11,
+        default_increment_weight = $12, default_increment_distance = $13, 
+        default_increment_time = $14, default_increment_resistance_level = $15,
+        save_calculation_string = $16, show_calculation_buttons = $17,
+        default_increment_calculation_multiplier = $18, default_calculation_tab = $19,
+        shown_workout_properties = $20, default_plate_collection_id = $21, 
+        show_secondary_exercise_groups = $22, automatically_update_active_measurements = $23,
+        default_num_new_sets = $24, shown_time_period_properties = $25,
+        default_diet_log_day_is_yesterday = $26, load_exercise_options_analytics = $27, 
+        show_warmups_in_exercise_details = $28, show_multisets_in_exercise_details = $29, 
+       WHERE id = $30`,
       [
         userSettings.show_timestamp_on_completed_set,
         userSettings.active_routine_id,
@@ -53,6 +54,8 @@ export const UpdateAllUserSettings = async (
         userSettings.shown_time_period_properties,
         userSettings.default_diet_log_day_is_yesterday,
         userSettings.load_exercise_options_analytics,
+        userSettings.show_warmups_in_exercise_details,
+        userSettings.show_multisets_in_exercise_details,
         userSettings.id,
       ]
     );
