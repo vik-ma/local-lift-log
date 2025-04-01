@@ -50,6 +50,9 @@ export default function ExerciseDetails() {
 
   const exerciseGroupDictionary = useExerciseGroupDictionary();
 
+  const datesThatAreNotOnlyWarmups = useRef<Set<string>>(new Set());
+  const datesThatAreNotOnlyMultisets = useRef<Set<string>>(new Set());
+
   const {
     multiplierInputMap,
     setMultiplierInputMap,
@@ -99,6 +102,9 @@ export default function ExerciseDetails() {
       } else {
         dateMap.set(date, [set]);
       }
+
+      if (set.is_warmup === 0) datesThatAreNotOnlyWarmups.current.add(date);
+      if (set.multiset_id === 0) datesThatAreNotOnlyMultisets.current.add(date);
     }
 
     const sortedDateMapArray = Array.from(dateMap).sort(
@@ -282,6 +288,21 @@ export default function ExerciseDetails() {
           </div>
           <div className="flex flex-col gap-1.5">
             {Array.from(dateSetListMapReversed).map(([date, setList]) => {
+              // Hide entire date if all sets in setList are warmups/multisets and if corresponding checkbox is unchecked
+              if (
+                !showMultisets &&
+                !datesThatAreNotOnlyMultisets.current.has(date)
+              ) {
+                return null;
+              }
+
+              if (
+                !showWarmups &&
+                !datesThatAreNotOnlyWarmups.current.has(date)
+              ) {
+                return null;
+              }
+
               let setNum = 0;
 
               return (
@@ -294,8 +315,8 @@ export default function ExerciseDetails() {
                   </h4>
                   <div className="flex flex-col pt-0.5">
                     {setList.map((set) => {
-                      if (set.is_warmup === 1 && !showWarmups) return null;
-                      if (set.multiset_id > 0 && !showMultisets) return null;
+                      if (!showWarmups && set.is_warmup === 1) return null;
+                      if (!showMultisets && set.multiset_id > 0) return null;
 
                       if (set.is_warmup === 0) setNum++;
 
