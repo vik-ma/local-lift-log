@@ -299,7 +299,7 @@ export default function ExerciseDetails() {
                         >
                           <div className="flex">
                             {set.is_warmup === 1 ? (
-                              <span className="text-foreground-400 w-[4.75rem] truncate">
+                              <span className="text-slate-400 w-[4.75rem] truncate">
                                 Warmup
                               </span>
                             ) : (
@@ -310,7 +310,7 @@ export default function ExerciseDetails() {
                             <div
                               className={
                                 set.is_warmup === 1
-                                  ? "flex flex-wrap max-w-[20rem] text-foreground-400"
+                                  ? "flex flex-wrap max-w-[20rem] text-slate-400"
                                   : "flex flex-wrap max-w-[20rem] text-foreground-900"
                               }
                             >
