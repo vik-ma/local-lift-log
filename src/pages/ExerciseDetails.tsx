@@ -24,6 +24,7 @@ import {
   useMultiplierInputMap,
 } from "../hooks";
 import toast from "react-hot-toast";
+import Database from "tauri-plugin-sql-api";
 
 export default function ExerciseDetails() {
   const { id } = useParams();
@@ -147,6 +148,9 @@ export default function ExerciseDetails() {
       setDistanceUnit(distanceUnit);
       setPaceUnit(paceUnit);
 
+      setShowWarmups(userSettings.show_warmups_in_exercise_details === 1);
+      setShowMultisets(userSettings.show_multisets_in_exercise_details === 1);
+
       // TODO: ADD DEFAULT LOAD EXERCISE OPTIONS FOR CHART DATA
       await getDateSetListMap(
         weightUnit,
@@ -216,6 +220,44 @@ export default function ExerciseDetails() {
     setExercise(updatedExercise);
   };
 
+  const handleShowWarmupsChange = async (value: boolean) => {
+    if (userSettings === undefined) return;
+
+    const numValue = value ? 1 : 0;
+
+    setShowWarmups(value);
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        "UPDATE user_settings SET show_warmups_in_exercise_details = $1 WHERE id = $2",
+        [numValue, userSettings.id]
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleShowMultisetsChange = async (value: boolean) => {
+    if (userSettings === undefined) return;
+
+    const numValue = value ? 1 : 0;
+
+    setShowMultisets(value);
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      await db.execute(
+        "UPDATE user_settings SET show_multisets_in_exercise_details = $1 WHERE id = $2",
+        [numValue, userSettings.id]
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (
     exercise === undefined ||
     userSettings === undefined ||
@@ -271,7 +313,7 @@ export default function ExerciseDetails() {
                   className="hover:underline"
                   size="sm"
                   isSelected={showWarmups}
-                  onValueChange={setShowWarmups}
+                  onValueChange={(value) => handleShowWarmupsChange(value)}
                 >
                   Show Warmups
                 </Checkbox>
@@ -279,7 +321,7 @@ export default function ExerciseDetails() {
                   className="hover:underline"
                   size="sm"
                   isSelected={showMultisets}
-                  onValueChange={setShowMultisets}
+                  onValueChange={(value) => handleShowMultisetsChange(value)}
                 >
                   Show Multisets
                 </Checkbox>
