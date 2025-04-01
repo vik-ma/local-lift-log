@@ -39,6 +39,7 @@ export default function ExerciseDetails() {
   const [distanceUnit, setDistanceUnit] = useState<string>("km");
   const [paceUnit, setPaceUnit] = useState<string>("km/h");
   const [showWarmups, setShowWarmups] = useState<boolean>(true);
+  const [showMultisets, setShowMultisets] = useState<boolean>(true);
 
   const defaultExercise = useDefaultExercise();
 
@@ -259,13 +260,22 @@ export default function ExerciseDetails() {
               </span>
             )}
             {dateSetListMapReversed.size > 0 && (
-              <div className="flex pt-1">
+              <div className="flex justify-center pt-px gap-8">
                 <Checkbox
                   className="hover:underline"
+                  size="sm"
                   isSelected={showWarmups}
                   onValueChange={setShowWarmups}
                 >
                   Show Warmups
+                </Checkbox>
+                <Checkbox
+                  className="hover:underline"
+                  size="sm"
+                  isSelected={showMultisets}
+                  onValueChange={setShowMultisets}
+                >
+                  Show Multisets
                 </Checkbox>
               </div>
             )}
@@ -285,6 +295,7 @@ export default function ExerciseDetails() {
                   <div className="flex flex-col pt-0.5">
                     {setList.map((set) => {
                       if (set.is_warmup === 1 && !showWarmups) return null;
+                      if (set.multiset_id > 0 && !showMultisets) return null;
 
                       if (set.is_warmup === 0) setNum++;
 
