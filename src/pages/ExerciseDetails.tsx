@@ -251,7 +251,7 @@ export default function ExerciseDetails() {
           item={exercise}
           toggleFavorite={toggleFavorite}
         />
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2.5">
           <div className="flex flex-col">
             <h3 className="font-semibold text-2xl text-center leading-tight text-foreground-600">
               Exercise History
@@ -331,7 +331,7 @@ export default function ExerciseDetails() {
                         >
                           <div className="flex">
                             {set.is_warmup === 1 ? (
-                              <span className="text-slate-400 w-[4.75rem] truncate">
+                              <span className="text-foreground-400 w-[4.75rem] truncate">
                                 Warmup
                               </span>
                             ) : (
@@ -342,7 +342,7 @@ export default function ExerciseDetails() {
                             <div
                               className={
                                 set.is_warmup === 1
-                                  ? "flex flex-wrap max-w-[20rem] text-slate-400"
+                                  ? "flex flex-wrap max-w-[20rem] text-foreground-400"
                                   : "flex flex-wrap max-w-[20rem] text-foreground-900"
                               }
                             >
