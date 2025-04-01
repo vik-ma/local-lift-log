@@ -30,7 +30,7 @@ export default {
         light: {
           colors: {
             primary: {
-              DEFAULT: "#f7bf24",
+              DEFAULT: "#f0c63b",
               600: "#ad7f00",
             },
             secondary: {
