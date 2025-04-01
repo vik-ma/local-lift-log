@@ -555,6 +555,28 @@ export default function Settings() {
     specificSettingModal.onClose();
   };
 
+  const handleShowWarmupsInExerciseDetailsChange = async (value: boolean) => {
+    if (userSettings === undefined) return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      show_warmups_in_exercise_details: value ? 1 : 0,
+    };
+
+    updateSettings(updatedSettings);
+  };
+
+  const handleShowMultisetsInExerciseDetailsChange = async (value: boolean) => {
+    if (userSettings === undefined) return;
+
+    const updatedSettings: UserSettings = {
+      ...userSettings,
+      show_multisets_in_exercise_details: value ? 1 : 0,
+    };
+
+    updateSettings(updatedSettings);
+  };
+
   const restoreDefaultSettings = async (
     unitType: string,
     locale: string,
@@ -910,6 +932,40 @@ export default function Settings() {
             >
               Select
             </Button>
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Show Warmup Sets In Exercise Details Page
+            </span>
+            <Switch
+              aria-label="Show Warmup Sets In Exercise Details Page Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={
+                userSettings.show_warmups_in_exercise_details ? true : false
+              }
+              onValueChange={(value) =>
+                handleShowWarmupsInExerciseDetailsChange(value)
+              }
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Show Multiset Sets In Exercise Details Page
+            </span>
+            <Switch
+              aria-label="Show Multiset Sets In Exercise Details Page Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={
+                userSettings.show_multisets_in_exercise_details ? true : false
+              }
+              onValueChange={(value) =>
+                handleShowMultisetsInExerciseDetailsChange(value)
+              }
+            />
           </div>
           <h3 className="flex justify-center text-lg font-medium">Workouts</h3>
           <div className="flex gap-3 items-center justify-between">
