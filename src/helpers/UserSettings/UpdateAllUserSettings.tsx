@@ -24,7 +24,7 @@ export const UpdateAllUserSettings = async (
         show_secondary_exercise_groups = $22, automatically_update_active_measurements = $23,
         default_num_new_sets = $24, shown_time_period_properties = $25,
         default_diet_log_day_is_yesterday = $26, load_exercise_options_analytics = $27, 
-        show_warmups_in_exercise_details = $28, show_multisets_in_exercise_details = $29, 
+        show_warmups_in_exercise_details = $28, show_multisets_in_exercise_details = $29 
        WHERE id = $30`,
       [
         userSettings.show_timestamp_on_completed_set,

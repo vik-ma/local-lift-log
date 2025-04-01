@@ -44,7 +44,7 @@ export const CreateDefaultUserSettings = async (
 
   const default_calculation_tab = "plate";
 
-  const shown_workout_properties = "template,routine,note,details";
+  const shown_workout_properties = "template,routine,note";
 
   const default_plate_collection_id = 1;
 
