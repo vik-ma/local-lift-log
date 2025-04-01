@@ -129,21 +129,23 @@ export const DetailsHeader = <T,>({
         </div>
       </div>
       {showNote && note !== null && (
-        <div className="flex flex-col bg-stone-100 w-full px-2 pt-1 pb-1.5 border-2 border-stone-500 rounded">
-          <div className="flex justify-between items-center">
-            <h3 className="break-all font-medium text-stone-700 text-lg">
-              {detailsType} Note
-            </h3>
-            <Button
-              isIconOnly
-              size="sm"
-              variant="light"
-              onPress={() => setShowNote(false)}
-            >
-              <CrossIcon color="#606060" size={20} />
-            </Button>
-          </div>
-          <span className="break-words text-stone-500 text-sm">{note}</span>
+        <div className="relative flex flex-col bg-default-100 w-full px-2 py-1.5 rounded-xl border-2 border-default-300">
+          <h3 className="break-all font-medium leading-snug text-lg">
+            {detailsType} Note
+          </h3>
+          <Button
+            className="absolute right-0.5 top-0.5"
+            isIconOnly
+            size="sm"
+            variant="light"
+            radius="lg"
+            onPress={() => setShowNote(false)}
+          >
+            <CrossIcon color="#808080" size={20} />
+          </Button>
+          <span className="break-words text-foreground-600 text-sm">
+            {note}
+          </span>
         </div>
       )}
       {extraContent}
