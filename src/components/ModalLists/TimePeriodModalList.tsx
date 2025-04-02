@@ -6,10 +6,10 @@ import {
 } from "../../typings";
 import { Button, ScrollShadow } from "@heroui/react";
 import {
-  DietPhaseTypeSpan,
   EmptyListLabel,
   ListFilters,
   SearchInput,
+  TimePeriodListItemContent,
   TimePeriodListOptions,
 } from "..";
 import { GoToArrowIcon } from "../../assets";
@@ -97,59 +97,11 @@ export const TimePeriodModalList = ({
             }
             onClick={() => handleTimePeriodClick(timePeriod)}
           >
-            <div className="flex flex-col justify-start items-start">
-              <div className="flex gap-1 items-baseline">
-                <span
-                  className={
-                    timePeriod.isOngoing &&
-                    selectedTimePeriodProperties.has("ongoing")
-                      ? "max-w-[18.25rem] truncate text-stone-600"
-                      : "max-w-[22.75rem] truncate text-stone-600"
-                  }
-                >
-                  {timePeriod.name}
-                </span>
-                {timePeriod.isOngoing &&
-                  selectedTimePeriodProperties.has("ongoing") && (
-                    <span className="text-sm text-orange-400">(Ongoing)</span>
-                  )}
-              </div>
-              <div className="text-xs text-left max-w-[22.75rem] truncate">
-                <span className="text-secondary">
-                  <span className="font-medium text-stone-500">
-                    Start Date:{" "}
-                  </span>
-                  {timePeriod.formattedStartDate}
-                </span>
-                {timePeriod.formattedEndDate && (
-                  <span className="text-secondary">
-                    <span className="font-medium text-stone-500 pl-0.5">
-                      {" "}
-                      End Date:{" "}
-                    </span>
-                    {timePeriod.formattedEndDate}
-                  </span>
-                )}
-                <span className="text-slate-400 pl-1">
-                  ({timePeriod.numDaysBetweenDates} Days)
-                </span>
-              </div>
-              {selectedTimePeriodProperties.has("diet-phase") && (
-                <DietPhaseTypeSpan value={timePeriod.diet_phase} />
-              )}
-              {selectedTimePeriodProperties.has("note") && (
-                <span className="w-[22.75rem] break-all text-xs text-stone-400 text-left">
-                  {timePeriod.note}
-                </span>
-              )}
-              {timePeriod.injury !== null &&
-                selectedTimePeriodProperties.has("injury") && (
-                  <span className="w-[22.75rem] break-all text-xs text-red-600">
-                    <span className="font-medium text-red-800">Injury: </span>
-                    {timePeriod.injury}
-                  </span>
-                )}
-            </div>
+            <TimePeriodListItemContent
+              timePeriod={timePeriod}
+              selectedTimePeriodProperties={selectedTimePeriodProperties}
+              isInModalList={true}
+            />
           </div>
         ))}
         {filteredTimePeriods.length === 0 && (

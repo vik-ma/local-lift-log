@@ -7,7 +7,6 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import {
-  DietPhaseTypeSpan,
   DeleteModal,
   EmptyListLabel,
   FilterTimePeriodListModal,
@@ -16,6 +15,7 @@ import {
   LoadingSpinner,
   TimePeriodListOptions,
   TimePeriodModal,
+  TimePeriodListItemContent,
 } from "../components";
 import {
   useDefaultTimePeriod,
@@ -345,59 +345,11 @@ export default function TimePeriodList() {
             className="flex justify-between items-center cursor-pointer w-full bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
             onClick={() => handleTimePeriodOptionSelection("edit", timePeriod)}
           >
-            <div className="flex flex-col justify-start items-start">
-              <div className="flex gap-1 items-baseline">
-                <span
-                  className={
-                    timePeriod.isOngoing &&
-                    selectedTimePeriodProperties.has("ongoing")
-                      ? "max-w-[16.75rem] truncate text-stone-600"
-                      : "max-w-[20.75rem] truncate text-stone-600"
-                  }
-                >
-                  {timePeriod.name}
-                </span>
-                {timePeriod.isOngoing &&
-                  selectedTimePeriodProperties.has("ongoing") && (
-                    <span className="text-sm text-orange-400">(Ongoing)</span>
-                  )}
-              </div>
-              <div className="text-xs text-left max-w-[20.75rem] truncate">
-                <span className="text-secondary">
-                  <span className="font-medium text-stone-500">
-                    Start Date:{" "}
-                  </span>
-                  {timePeriod.formattedStartDate}
-                </span>
-                {timePeriod.formattedEndDate && (
-                  <span className="text-secondary">
-                    <span className="font-medium text-stone-500 pl-0.5">
-                      {" "}
-                      End Date:{" "}
-                    </span>
-                    {timePeriod.formattedEndDate}
-                  </span>
-                )}
-                <span className="text-slate-400 pl-1">
-                  ({timePeriod.numDaysBetweenDates} Days)
-                </span>
-              </div>
-              {selectedTimePeriodProperties.has("diet-phase") && (
-                <DietPhaseTypeSpan value={timePeriod.diet_phase} />
-              )}
-              {selectedTimePeriodProperties.has("note") && (
-                <span className="w-[20.75rem] break-all text-xs text-stone-400 text-left">
-                  {timePeriod.note}
-                </span>
-              )}
-              {timePeriod.injury !== null &&
-                selectedTimePeriodProperties.has("injury") && (
-                  <span className="w-[20.75rem] break-all text-xs text-red-600">
-                    <span className="font-medium text-red-800">Injury: </span>
-                    {timePeriod.injury}
-                  </span>
-                )}
-            </div>
+            <TimePeriodListItemContent
+              timePeriod={timePeriod}
+              selectedTimePeriodProperties={selectedTimePeriodProperties}
+              isInModalList={false}
+            />
             <Dropdown>
               <DropdownTrigger>
                 <Button

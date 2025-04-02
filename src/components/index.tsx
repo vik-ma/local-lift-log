@@ -34,6 +34,7 @@ export { FilterMinAndMaxDates } from "./FilterMinAndMaxDates";
 export { DietLogAccordions } from "./DietLogAccordions";
 export { DateRange } from "./DateRange";
 export { AnalyticsChart } from "./AnalyticsChart";
+export { TimePeriodListItemContent } from "./TimePeriodListItemContent";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
