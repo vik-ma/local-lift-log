@@ -59,6 +59,7 @@ export const CreateDefaultUserSettings = async (
   const shown_time_period_properties = "ongoing,diet-phase,injury,note";
 
   const load_exercise_options_analytics = "";
+  const load_exercise_options_exercise_details = "";
 
   const show_warmups_in_exercise_details = 1;
   const show_multisets_in_exercise_details = 1;
@@ -85,10 +86,10 @@ export const CreateDefaultUserSettings = async (
         shown_workout_properties, default_plate_collection_id,
         show_secondary_exercise_groups, automatically_update_active_measurements, 
         default_num_new_sets, shown_time_period_properties, default_diet_log_day_is_yesterday, 
-        load_exercise_options_analytics, show_warmups_in_exercise_details,
-        show_multisets_in_exercise_details) 
+        load_exercise_options_analytics, load_exercise_options_exercise_details, 
+        show_warmups_in_exercise_details, show_multisets_in_exercise_details) 
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, 
-        $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29)`,
+        $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -117,6 +118,7 @@ export const CreateDefaultUserSettings = async (
         shown_time_period_properties,
         default_diet_log_day_is_yesterday,
         load_exercise_options_analytics,
+        load_exercise_options_exercise_details,
         show_warmups_in_exercise_details,
         show_multisets_in_exercise_details,
       ]
@@ -153,6 +155,7 @@ export const CreateDefaultUserSettings = async (
       shown_time_period_properties,
       default_diet_log_day_is_yesterday,
       load_exercise_options_analytics,
+      load_exercise_options_exercise_details,
       show_warmups_in_exercise_details,
       show_multisets_in_exercise_details,
     };

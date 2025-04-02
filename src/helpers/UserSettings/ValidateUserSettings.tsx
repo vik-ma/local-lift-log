@@ -132,6 +132,13 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
   )
     return false;
 
+  if (
+    !ValidateDefaultLoadExerciseOptionsString(
+      userSettings.load_exercise_options_exercise_details
+    )
+  )
+    return false;
+
   if (!IsNumberValidBinary(userSettings.show_warmups_in_exercise_details))
     return false;
 
