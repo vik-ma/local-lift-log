@@ -45,6 +45,7 @@ pub struct UserSetting {
     pub shown_time_period_properties: String,
     pub default_diet_log_day_is_yesterday: i32,
     pub load_exercise_options_analytics: String,
+    pub load_exercise_options_exercise_details: String,
     pub show_warmups_in_exercise_details: i32,
     pub show_multisets_in_exercise_details: i32,
 }

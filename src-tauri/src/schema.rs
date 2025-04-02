@@ -42,6 +42,7 @@ diesel::table! {
         shown_time_period_properties -> Text,
         default_diet_log_day_is_yesterday -> Integer,
         load_exercise_options_analytics -> Text,
+        load_exercise_options_exercise_details -> Text,
         show_warmups_in_exercise_details -> Integer,
         how_multisets_in_exercise_details -> Integer,
     }
