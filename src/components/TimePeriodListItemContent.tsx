@@ -34,7 +34,7 @@ export const TimePeriodListItemContent = ({
         </span>
         {timePeriod.isOngoing &&
           selectedTimePeriodProperties.has("ongoing") && (
-            <span className="text-sm text-orange-400">(Ongoing)</span>
+            <span className="text-sm text-indigo-500">(Ongoing)</span>
           )}
       </div>
       <div className={`${contentWidth} text-xs text-left truncate`}>
@@ -68,7 +68,7 @@ export const TimePeriodListItemContent = ({
       {timePeriod.injury !== null &&
         selectedTimePeriodProperties.has("injury") && (
           <span className={`${contentWidth} break-all text-xs text-red-600`}>
-            <span className="font-medium text-red-800">Injury: </span>
+            <span className="font-medium">Injury: </span>
             {timePeriod.injury}
           </span>
         )}
