@@ -382,7 +382,7 @@ export default function TimePeriodList() {
                   ({timePeriod.numDaysBetweenDates} Days)
                 </span>
               </div>
-              {selectedTimePeriodProperties.has("diet_phase") && (
+              {selectedTimePeriodProperties.has("diet-phase") && (
                 <DietPhaseTypeSpan value={timePeriod.diet_phase} />
               )}
               {selectedTimePeriodProperties.has("note") && (
