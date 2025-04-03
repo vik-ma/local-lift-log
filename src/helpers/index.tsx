@@ -73,7 +73,7 @@ export { UpdateDefaultPlateCollectionId } from "./UserSettings/UpdateDefaultPlat
 export { UpdateShowSecondaryExerciseGroups } from "./UserSettings/UpdateShowSecondaryExerciseGroups";
 export { UpdateDefaultDietLogDayIsYesterday } from "./UserSettings/UpdateDefaultDietLogDayIsYesterday";
 export { ValidateDefaultLoadExerciseOptionsString } from "./UserSettings/ValidateDefaultLoadExerciseOptionsString";
-export { UpdateDefaultLoadExerciseOptions } from "./UserSettings/UpdateDefaultLoadExerciseOptions";
+export { UpdateLoadExerciseOptions } from "./UserSettings/UpdateLoadExerciseOptions";
 export { CreateLoadExerciseOptionsList } from "./UserSettings/CreateLoadExerciseOptionsList";
 export { GetValidatedUserSettingsUnits } from "./UserSettings/GetValidatedUserSettingsUnits";
 

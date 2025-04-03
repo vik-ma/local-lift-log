@@ -72,7 +72,7 @@ import {
   GetUserSettings,
   GetValidatedUserSettingsUnits,
   UpdateChartCommentMapForExercise,
-  UpdateDefaultLoadExerciseOptions,
+  UpdateLoadExerciseOptions,
   ValidMeasurementUnits,
 } from "../helpers";
 import { ChartConfig } from "../components/ui/chart";
@@ -2001,10 +2001,7 @@ export default function Analytics() {
       load_exercise_options_analytics: loadExerciseOptionsString,
     };
 
-    await UpdateDefaultLoadExerciseOptions(
-      loadExerciseOptionsString,
-      userSettings.id
-    );
+    await UpdateLoadExerciseOptions(loadExerciseOptionsString, userSettings.id);
 
     setUserSettings(updatedUserSettings);
   };
