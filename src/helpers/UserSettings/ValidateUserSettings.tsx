@@ -15,7 +15,7 @@ import {
   ValidCalculationModalTabs,
   ValidateShownPropertiesString,
   NumNewSetsOptionList,
-  ValidateDefaultLoadExerciseOptionsString,
+  ValidateLoadExerciseOptionsString,
   ValidateLoadExerciseOptionsCategoriesString,
 } from "..";
 
@@ -127,14 +127,14 @@ export const ValidateUserSettings = (userSettings: UserSettings): boolean => {
     return false;
 
   if (
-    !ValidateDefaultLoadExerciseOptionsString(
+    !ValidateLoadExerciseOptionsString(
       userSettings.load_exercise_options_analytics
     )
   )
     return false;
 
   if (
-    !ValidateDefaultLoadExerciseOptionsString(
+    !ValidateLoadExerciseOptionsString(
       userSettings.load_exercise_options_exercise_details
     )
   )

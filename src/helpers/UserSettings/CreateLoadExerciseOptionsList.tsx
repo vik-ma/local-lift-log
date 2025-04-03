@@ -1,9 +1,9 @@
 import { ChartDataExerciseCategoryBase } from "../../typings";
 import { IsStringEmpty } from "../Strings/IsStringEmpty";
-import { ValidateDefaultLoadExerciseOptionsString } from "./ValidateDefaultLoadExerciseOptionsString";
+import { ValidateLoadExerciseOptionsString } from "./ValidateLoadExerciseOptionsString";
 
 export const CreateLoadExerciseOptionsList = (str: string) => {
-  if (!ValidateDefaultLoadExerciseOptionsString(str)) return [];
+  if (!ValidateLoadExerciseOptionsString(str)) return [];
 
   if (IsStringEmpty(str)) return [];
 

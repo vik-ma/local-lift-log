@@ -2001,7 +2001,7 @@ export default function Analytics() {
       load_exercise_options_analytics: loadExerciseOptionsString,
     };
 
-    await UpdateLoadExerciseOptions(loadExerciseOptionsString, userSettings.id);
+    await UpdateLoadExerciseOptions(loadExerciseOptionsString, userSettings.id, true);
 
     setUserSettings(updatedUserSettings);
   };

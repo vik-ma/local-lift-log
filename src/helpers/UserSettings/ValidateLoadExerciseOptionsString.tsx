@@ -1,7 +1,7 @@
 import { IsStringEmpty, ValidLoadExerciseOptionsMap } from "..";
 import { ChartDataExerciseCategoryBase } from "../../typings";
 
-export const ValidateDefaultLoadExerciseOptionsString = (str: string) => {
+export const ValidateLoadExerciseOptionsString = (str: string) => {
   if (IsStringEmpty(str)) return true;
 
   const options = str.split(",");

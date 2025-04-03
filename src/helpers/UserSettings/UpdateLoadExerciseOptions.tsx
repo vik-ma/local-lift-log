@@ -1,14 +1,12 @@
 import Database from "tauri-plugin-sql-api";
-import { ValidateDefaultLoadExerciseOptionsString } from "..";
+import { ValidateLoadExerciseOptionsString } from "..";
 
 export const UpdateLoadExerciseOptions = async (
   loadExerciseOptionsString: string,
   userSettingsId: number,
   isAnalytics: boolean
 ) => {
-  if (
-    !ValidateDefaultLoadExerciseOptionsString(loadExerciseOptionsString)
-  )
+  if (!ValidateLoadExerciseOptionsString(loadExerciseOptionsString))
     return false;
 
   const column = isAnalytics
