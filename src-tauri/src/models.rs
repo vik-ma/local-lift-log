@@ -48,6 +48,8 @@ pub struct UserSetting {
     pub load_exercise_options_exercise_details: String,
     pub show_warmups_in_exercise_details: i32,
     pub show_multisets_in_exercise_details: i32,
+    pub load_exercise_options_categories_analytics: String,
+    pub load_exercise_options_categories_exercise_details: String,
 }
 
 #[derive(Queryable, Selectable)]
