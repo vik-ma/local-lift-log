@@ -76,6 +76,7 @@ export { ValidateDefaultLoadExerciseOptionsString } from "./UserSettings/Validat
 export { UpdateLoadExerciseOptions } from "./UserSettings/UpdateLoadExerciseOptions";
 export { CreateLoadExerciseOptionsList } from "./UserSettings/CreateLoadExerciseOptionsList";
 export { GetValidatedUserSettingsUnits } from "./UserSettings/GetValidatedUserSettingsUnits";
+export { ValidateLoadExerciseOptionsCategoriesString } from "./UserSettings/ValidateLoadExerciseOptionsCategoriesString";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
@@ -226,6 +227,7 @@ export { ValidTimePeriodPropertiesMap } from "./Constants/ValidTimePeriodPropert
 export { RoutineScheduleTypes } from "./Constants/RoutineScheduleTypes";
 export { ValidLoadExerciseOptionsMap } from "./Constants/ValidLoadExerciseOptionsMap";
 export { ValidPaceUnits } from "./Constants/ValidPaceUnits";
+export { ValidLoadExerciseOptionsCategories } from "./Constants/ValidLoadExerciseOptionsCategories";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
