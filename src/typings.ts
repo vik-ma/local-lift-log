@@ -46,6 +46,8 @@ export type UserSettings = {
   load_exercise_options_exercise_details: string;
   show_warmups_in_exercise_details: number;
   show_multisets_in_exercise_details: number;
+  load_exercise_options_categories_analytics: string;
+  load_exercise_options_categories_exercise_details: string;
 };
 
 export type UserSettingsOptional = {

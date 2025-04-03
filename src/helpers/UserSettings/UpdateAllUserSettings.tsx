@@ -25,8 +25,9 @@ export const UpdateAllUserSettings = async (
         default_num_new_sets = $24, shown_time_period_properties = $25,
         default_diet_log_day_is_yesterday = $26, load_exercise_options_analytics = $27, 
         load_exercise_options_exercise_details = $28, show_warmups_in_exercise_details = $29,
-        show_multisets_in_exercise_details = $30 
-       WHERE id = $31`,
+        show_multisets_in_exercise_details = $30, load_exercise_options_categories_analytics = $31,
+        load_exercise_options_categories_exercise_details = $32 
+       WHERE id = $33`,
       [
         userSettings.show_timestamp_on_completed_set,
         userSettings.active_routine_id,
@@ -55,10 +56,11 @@ export const UpdateAllUserSettings = async (
         userSettings.shown_time_period_properties,
         userSettings.default_diet_log_day_is_yesterday,
         userSettings.load_exercise_options_analytics,
-        userSettings.show_warmups_in_exercise_details,
+        userSettings.load_exercise_options_exercise_details,
         userSettings.show_warmups_in_exercise_details,
         userSettings.show_multisets_in_exercise_details,
-        userSettings.id,
+        userSettings.load_exercise_options_categories_analytics,
+        userSettings.load_exercise_options_categories_exercise_details,
       ]
     );
     return true;
