@@ -57,16 +57,11 @@ export { CreateNoDayWorkoutTemplateList } from "./Routines/CreateNoDayWorkoutTem
 export { DeleteWorkoutRoutineSchedule } from "./Routines/DeleteWorkoutRoutineSchedule";
 
 export { CreateDefaultUserSettings } from "./UserSettings/CreateDefaultUserSettings";
-export { GetActiveRoutineId } from "./UserSettings/GetActiveRoutineId";
-export { GetDefaultUnitValues } from "./UserSettings/GetDefaultUnitValues";
 export { GetUserSettings } from "./UserSettings/GetUserSettings";
 export { UpdateActiveRoutineId } from "./UserSettings/UpdateActiveRoutineId";
 export { UpdateAllUserSettings } from "./UserSettings/UpdateAllUserSettings";
-export { UpdateShowTimestamp } from "./UserSettings/UpdateShowTimestamp";
-export { GetDefaultUnitMeasurement } from "./UserSettings/GetDefaultUnitMeasurement";
 export { UpdateActiveTrackingMeasurements } from "./UserSettings/UpdateActiveTrackingMeasurements";
 export { ValidateUserSettings } from "./UserSettings/ValidateUserSettings";
-export { GetClockStyle } from "./UserSettings/GetClockStyle";
 export { ValidateShownPropertiesString } from "./UserSettings/ValidateShownPropertiesString";
 export { CreateShownPropertiesSet } from "./UserSettings/CreateShownPropertiesSet";
 export { UpdateDefaultPlateCollectionId } from "./UserSettings/UpdateDefaultPlateCollectionId";

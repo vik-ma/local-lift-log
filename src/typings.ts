@@ -50,39 +50,6 @@ export type UserSettings = {
   load_exercise_options_categories_exercise_details: string;
 };
 
-export type UserSettingsOptional = {
-  id: number;
-  show_timestamp_on_completed_set?: number;
-  active_routine_id?: number;
-  default_unit_weight?: string;
-  default_unit_distance?: string;
-  default_time_input?: string;
-  default_unit_measurement?: string;
-  active_tracking_measurements?: string;
-  locale?: string;
-  clock_style?: string;
-  time_input_behavior_hhmmss?: string;
-  time_input_behavior_mmss?: string;
-  default_increment_weight?: number;
-  default_increment_distance?: number;
-  default_increment_time?: number;
-  default_increment_resistance_level?: number;
-  save_calculation_string?: number;
-  default_equipment_weight_id?: number;
-  show_calculation_buttons?: number;
-  default_increment_calculation_multiplier?: number;
-  default_num_handles?: number;
-  default_calculation_tab?: string;
-  shown_workout_properties?: string;
-  default_plate_collection_id?: number;
-  show_secondary_exercise_groups?: number;
-  automatically_update_active_measurements?: number;
-  default_num_new_sets?: string;
-  shown_time_period_properties?: string;
-  default_diet_log_day_is_yesterday?: number;
-  load_exercise_options_analytics?: string;
-};
-
 export type Exercise = {
   id: number;
   name: string;
