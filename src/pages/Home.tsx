@@ -10,7 +10,7 @@ import {
   CreateDefaultMeasurements,
   CreateDefaultDistances,
 } from "../helpers";
-import { SettingsModal } from "../components";
+import { CreateDefaultSettingsModal } from "../components";
 
 export default function Home() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -19,7 +19,7 @@ export default function Home() {
 
   const isUserSettingsLoaded = useRef(false);
 
-  const settingsModal = useDisclosure();
+  const createDefaultSettingsModal = useDisclosure();
 
   const createDefaultUserSettings = async (
     unitType: string,
@@ -48,7 +48,7 @@ export default function Home() {
       await CreateDefaultDistances(useMetricUnits);
 
       isUserSettingsLoaded.current = true;
-      settingsModal.onClose();
+      createDefaultSettingsModal.onClose();
     }
   };
 
@@ -63,7 +63,7 @@ export default function Home() {
           setUserSettings(userSettings);
           isUserSettingsLoaded.current = true;
         } else {
-          settingsModal.onOpen();
+          createDefaultSettingsModal.onOpen();
         }
       } catch (error) {
         console.log(error);
@@ -76,8 +76,8 @@ export default function Home() {
 
   return (
     <>
-      <SettingsModal
-        settingsModal={settingsModal}
+      <CreateDefaultSettingsModal
+        createDefaultSettingsModal={createDefaultSettingsModal}
         doneButtonAction={createDefaultUserSettings}
       />
       <div className="flex flex-col gap-4">

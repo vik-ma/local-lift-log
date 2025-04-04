@@ -59,7 +59,7 @@ export { PaceUnitDropdown } from "./Dropdowns/PaceUnitDropdown";
 export { DeleteModal } from "./Modals/DeleteModal";
 export { SetModal } from "./Modals/SetModal";
 export { RoutineModal } from "./Modals/RoutineModal";
-export { SettingsModal } from "./Modals/SettingsModal";
+export { CreateDefaultSettingsModal } from "./Modals/CreateDefaultSettingsModal";
 export { WorkoutTemplateModal } from "./Modals/WorkoutTemplateModal";
 export { ExerciseModal } from "./Modals/ExerciseModal";
 export { WorkoutModal } from "./Modals/WorkoutModal";

@@ -39,7 +39,7 @@ import {
   LocaleDropdown,
   ClockStyleDropdown,
   TimeInputBehaviorDropdown,
-  SettingsModal,
+  CreateDefaultSettingsModal,
   TimeInput,
   WorkoutPropertyDropdown,
   PlateCollectionModalList,
@@ -85,7 +85,7 @@ export default function Settings() {
     ChartDataExerciseCategoryBase[]
   >([]);
 
-  const restoreSettingsModal = useDisclosure();
+  const createDefaultSettingsModal = useDisclosure();
   const specificSettingModal = useDisclosure();
 
   const emptyDefaultIncrementValues: DefaultIncrementInputs = useMemo(() => {
@@ -598,7 +598,7 @@ export default function Settings() {
 
       if (newUserSettings !== undefined) {
         setUserSettings(newUserSettings);
-        restoreSettingsModal.onClose();
+        createDefaultSettingsModal.onClose();
         toast.success("Settings Restored To Defaults");
       }
     } catch (error) {
@@ -629,8 +629,8 @@ export default function Settings() {
 
   return (
     <>
-      <SettingsModal
-        settingsModal={restoreSettingsModal}
+      <CreateDefaultSettingsModal
+        createDefaultSettingsModal={createDefaultSettingsModal}
         doneButtonAction={restoreDefaultSettings}
         header="Restore Default Settings"
         extraContent={
@@ -1214,7 +1214,7 @@ export default function Settings() {
           <div className="flex justify-center">
             <Button
               variant="flat"
-              onPress={() => restoreSettingsModal.onOpen()}
+              onPress={() => createDefaultSettingsModal.onOpen()}
             >
               Restore Default Settings
             </Button>

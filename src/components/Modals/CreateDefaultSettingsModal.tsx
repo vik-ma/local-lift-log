@@ -13,7 +13,7 @@ import { useState, ReactNode } from "react";
 import { UseDisclosureReturnType } from "../../typings";
 
 type SettingsModalProps = {
-  settingsModal: UseDisclosureReturnType;
+  createDefaultSettingsModal: UseDisclosureReturnType;
   doneButtonAction: (
     unitType: string,
     locale: string,
@@ -26,8 +26,8 @@ type SettingsModalProps = {
   isRestoreSettings?: boolean;
 };
 
-export const SettingsModal = ({
-  settingsModal,
+export const CreateDefaultSettingsModal = ({
+  createDefaultSettingsModal,
   doneButtonAction,
   header = "Choose Settings",
   extraContent,
@@ -40,8 +40,8 @@ export const SettingsModal = ({
   const [clockStyle, setClockStyle] = useState<string>("24h");
   return (
     <Modal
-      isOpen={settingsModal.isOpen}
-      onOpenChange={settingsModal.onOpenChange}
+      isOpen={createDefaultSettingsModal.isOpen}
+      onOpenChange={createDefaultSettingsModal.onOpenChange}
       isDismissable={isDismissible}
       isKeyboardDismissDisabled={isDismissible ? false : true}
       hideCloseButton={isDismissible ? false : true}
