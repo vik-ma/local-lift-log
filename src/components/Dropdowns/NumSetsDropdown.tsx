@@ -1,12 +1,11 @@
 import { Select, SelectItem } from "@heroui/react";
 import { useNumSetsOptions } from "../../hooks";
-import { HTMLSelectElementChange } from "../../typings";
 
 type NumSetsDropdownProps = {
   numNewSets: string;
   targetType: "state" | "settings";
   setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;
-  setUserSettings?: HTMLSelectElementChange;
+  setUserSettings?: (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void>;
 };
 
 export const NumSetsDropdown = ({

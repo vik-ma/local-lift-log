@@ -1,6 +1,5 @@
 import {
   WorkoutSet,
-  SetWorkoutSetAction,
   UseSetTrackingInputsReturnType,
   UserSettings,
   UserWeight,
@@ -23,7 +22,7 @@ import { CalculateIcon } from "../assets";
 
 type SetValueInputsProps = {
   operatingSet: WorkoutSet;
-  setOperatingSet: SetWorkoutSetAction;
+  setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   userSettings: UserSettings;
   userWeight?: UserWeight;
@@ -421,7 +420,7 @@ export const SetValueInputs = ({
           />
           <WeightUnitDropdown
             value={operatingSet.weight_unit}
-            setSet={setOperatingSet as SetWorkoutSetAction}
+            setSet={setOperatingSet as React.Dispatch<React.SetStateAction<WorkoutSet>>}
             targetType="set"
             isSmall={true}
             isSetEdited={isSetEdited}
@@ -481,7 +480,7 @@ export const SetValueInputs = ({
           />
           <DistanceUnitDropdown
             value={operatingSet.distance_unit}
-            setSet={setOperatingSet as SetWorkoutSetAction}
+            setSet={setOperatingSet as React.Dispatch<React.SetStateAction<WorkoutSet>>}
             targetType="set"
             isSmall={true}
             isSetEdited={isSetEdited}
@@ -654,7 +653,7 @@ export const SetValueInputs = ({
             />
             <WeightUnitDropdown
               value={operatingSet.user_weight_unit}
-              setSet={setOperatingSet as SetWorkoutSetAction}
+              setSet={setOperatingSet as React.Dispatch<React.SetStateAction<WorkoutSet>>}
               targetType="set-user-weight-unit"
               isSmall={true}
               isSetEdited={isSetEdited}

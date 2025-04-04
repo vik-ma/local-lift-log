@@ -149,26 +149,6 @@ export type GroupedWorkoutSet = {
   multiset?: Multiset;
 };
 
-export type SetWorkoutSetAction = React.Dispatch<
-  React.SetStateAction<WorkoutSet>
->;
-
-export type SetMeasurementsAction = React.Dispatch<
-  React.SetStateAction<Measurement[]>
->;
-
-export type SetMeasurementAction = React.Dispatch<
-  React.SetStateAction<Measurement>
->;
-
-export type SetUserWeightAction = React.Dispatch<
-  React.SetStateAction<UserWeight>
->;
-
-export type HTMLSelectElementChange = (
-  e: React.ChangeEvent<HTMLSelectElement>
-) => Promise<void>;
-
 export type UnitDropdownProps = {
   value: string;
   targetType:
@@ -180,8 +160,8 @@ export type UnitDropdownProps = {
     | "set-user-weight-unit"
     | "plate-collection"
     | "chart";
-  setSet?: SetWorkoutSetAction;
-  setUserSettings?: HTMLSelectElementChange;
+  setSet?: React.Dispatch<React.SetStateAction<WorkoutSet>>;
+  setUserSettings?: (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void>;
   setState?: React.Dispatch<React.SetStateAction<string>>;
   setEquipmentWeight?: React.Dispatch<React.SetStateAction<EquipmentWeight>>;
   setDistance?: React.Dispatch<React.SetStateAction<Distance>>;
@@ -205,10 +185,10 @@ export type MeasurementDropdownProps = {
   measurement?: Measurement;
   isDisabled?: boolean;
   measurements?: Measurement[];
-  setMeasurements?: SetMeasurementsAction;
-  setMeasurement?: SetMeasurementAction;
+  setMeasurements?: React.Dispatch<React.SetStateAction<Measurement[]>>;
+  setMeasurement?: React.Dispatch<React.SetStateAction<Measurement>>;
   value?: string;
-  setUserSettings?: HTMLSelectElementChange;
+  setUserSettings?: (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void>;
   showLabel?: boolean;
   showBigLabel?: boolean;
   customLabel?: string;

@@ -1,12 +1,12 @@
 import { Select, SelectItem } from "@heroui/react";
-import { HTMLSelectElementChange, UserSettings } from "../../typings";
+import { UserSettings } from "../../typings";
 import { UpdateDefaultDietLogDayIsYesterday } from "../../helpers";
 
 type DietLogDayDropdownProps = {
   value: string;
   targetType: "state" | "settings";
   setState?: React.Dispatch<React.SetStateAction<string>>;
-  setUserSettings?: HTMLSelectElementChange;
+  setUserSettings?: (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void>;
   userSettings?: UserSettings;
   disabledKeys?: string[];
 };
