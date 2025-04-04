@@ -5,7 +5,7 @@ import { useValidDistanceUnits } from "../../hooks";
 export const DistanceUnitDropdown = ({
   value,
   setSet,
-  setUserSettings,
+  updateUserSettings,
   setState,
   setDistance,
   targetType,
@@ -36,8 +36,8 @@ export const DistanceUnitDropdown = ({
       setDistance((prev) => ({ ...prev, distance_unit: e.target.value }));
     }
 
-    if (targetType === "settings" && setUserSettings !== undefined) {
-      setUserSettings(e);
+    if (targetType === "settings" && updateUserSettings !== undefined) {
+      updateUserSettings(e);
     }
 
     if (targetType === "state" && setState !== undefined) {

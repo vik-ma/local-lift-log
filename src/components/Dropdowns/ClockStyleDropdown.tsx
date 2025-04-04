@@ -3,13 +3,13 @@ import { UnitDropdownProps } from "../../typings";
 
 export const ClockStyleDropdown = ({
   value,
-  setUserSettings,
+  updateUserSettings,
   setState,
   targetType,
 }: UnitDropdownProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (targetType === "settings" && setUserSettings !== undefined) {
-      setUserSettings(e);
+    if (targetType === "settings" && updateUserSettings !== undefined) {
+      updateUserSettings(e);
     }
 
     if (targetType === "state" && setState !== undefined) {

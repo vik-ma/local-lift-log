@@ -6,7 +6,9 @@ type DietLogDayDropdownProps = {
   value: string;
   targetType: "state" | "settings";
   setState?: React.Dispatch<React.SetStateAction<string>>;
-  setUserSettings?: (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void>;
+  updateUserSettings?: (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => Promise<void>;
   userSettings?: UserSettings;
   disabledKeys?: string[];
 };
@@ -15,7 +17,7 @@ export const DietLogDayDropdown = ({
   value,
   targetType,
   setState,
-  setUserSettings,
+  updateUserSettings,
   userSettings,
   disabledKeys,
 }: DietLogDayDropdownProps) => {
@@ -29,8 +31,8 @@ export const DietLogDayDropdown = ({
       }
     }
 
-    if (targetType === "settings" && setUserSettings !== undefined) {
-      setUserSettings(e);
+    if (targetType === "settings" && updateUserSettings !== undefined) {
+      updateUserSettings(e);
     }
   };
 

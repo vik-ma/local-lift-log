@@ -766,7 +766,7 @@ export default function Settings() {
             <span className="text-lg">Default Weight Unit</span>
             <WeightUnitDropdown
               value={userSettings.default_unit_weight}
-              setUserSettings={handleDefaultUnitWeightChange}
+              updateUserSettings={handleDefaultUnitWeightChange}
               targetType="settings"
             />
           </div>
@@ -774,7 +774,7 @@ export default function Settings() {
             <span className="text-lg">Default Distance Unit</span>
             <DistanceUnitDropdown
               value={userSettings.default_unit_distance}
-              setUserSettings={handleDefaultUnitDistanceChange}
+              updateUserSettings={handleDefaultUnitDistanceChange}
               targetType="settings"
             />
           </div>
@@ -812,7 +812,7 @@ export default function Settings() {
             </span>
             <MeasurementUnitDropdown
               value={userSettings.default_unit_measurement}
-              setUserSettings={handleDefaultUnitMeasurementChange}
+              updateUserSettings={handleDefaultUnitMeasurementChange}
               targetType="settings"
             />
           </div>
@@ -820,7 +820,7 @@ export default function Settings() {
             <span className="text-lg">Date Format</span>
             <LocaleDropdown
               value={userSettings.locale}
-              setUserSettings={handleLocaleChange}
+              updateUserSettings={handleLocaleChange}
               targetType="settings"
             />
           </div>
@@ -828,7 +828,7 @@ export default function Settings() {
             <span className="text-lg">Clock Format</span>
             <ClockStyleDropdown
               value={userSettings.clock_style}
-              setUserSettings={handleClockStyleChange}
+              updateUserSettings={handleClockStyleChange}
               targetType="settings"
             />
           </div>
@@ -894,7 +894,7 @@ export default function Settings() {
             <NumSetsDropdown
               numNewSets={userSettings.default_num_new_sets}
               targetType="settings"
-              setUserSettings={handleDefaultNumNewSetsChange}
+              updateUserSettings={handleDefaultNumNewSetsChange}
             />
           </div>
           <div className="flex gap-3 items-center justify-between">
@@ -918,7 +918,7 @@ export default function Settings() {
                   : "Today"
               }
               targetType="settings"
-              setUserSettings={handleDefaultDietLogDayIsYesterdayChange}
+              updateUserSettings={handleDefaultDietLogDayIsYesterdayChange}
             />
           </div>
           <div className="flex gap-3 items-center justify-between pr-1">

@@ -161,7 +161,7 @@ export type UnitDropdownProps = {
     | "plate-collection"
     | "chart";
   setSet?: React.Dispatch<React.SetStateAction<WorkoutSet>>;
-  setUserSettings?: (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void>;
+  updateUserSettings?: (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void>;
   setState?: React.Dispatch<React.SetStateAction<string>>;
   setEquipmentWeight?: React.Dispatch<React.SetStateAction<EquipmentWeight>>;
   setDistance?: React.Dispatch<React.SetStateAction<Distance>>;
@@ -188,7 +188,7 @@ export type MeasurementDropdownProps = {
   setMeasurements?: React.Dispatch<React.SetStateAction<Measurement[]>>;
   setMeasurement?: React.Dispatch<React.SetStateAction<Measurement>>;
   value?: string;
-  setUserSettings?: (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void>;
+  updateUserSettings?: (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void>;
   showLabel?: boolean;
   showBigLabel?: boolean;
   customLabel?: string;

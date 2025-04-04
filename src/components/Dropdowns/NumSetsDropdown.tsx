@@ -5,13 +5,15 @@ type NumSetsDropdownProps = {
   numNewSets: string;
   targetType: "state" | "settings";
   setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;
-  setUserSettings?: (e: React.ChangeEvent<HTMLSelectElement>) => Promise<void>;
+  updateUserSettings?: (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => Promise<void>;
 };
 
 export const NumSetsDropdown = ({
   numNewSets,
   setNumNewSets,
-  setUserSettings,
+  updateUserSettings,
   targetType,
 }: NumSetsDropdownProps) => {
   const numSetsOptions = useNumSetsOptions();
@@ -21,8 +23,8 @@ export const NumSetsDropdown = ({
       setNumNewSets(e.target.value);
     }
 
-    if (targetType === "settings" && setUserSettings !== undefined) {
-      setUserSettings(e);
+    if (targetType === "settings" && updateUserSettings !== undefined) {
+      updateUserSettings(e);
     }
   };
 

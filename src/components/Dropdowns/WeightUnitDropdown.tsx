@@ -5,7 +5,7 @@ import { useValidWeightUnits } from "../../hooks";
 export const WeightUnitDropdown = ({
   value,
   setSet,
-  setUserSettings,
+  updateUserSettings,
   setState,
   setEquipmentWeight,
   targetType,
@@ -49,8 +49,8 @@ export const WeightUnitDropdown = ({
       setEquipmentWeight((prev) => ({ ...prev, weight_unit: e.target.value }));
     }
 
-    if (targetType === "settings" && setUserSettings !== undefined) {
-      setUserSettings(e);
+    if (targetType === "settings" && updateUserSettings !== undefined) {
+      updateUserSettings(e);
     }
 
     if (targetType === "state" && setState !== undefined) {
