@@ -41,6 +41,12 @@ export const WorkoutListOptions = ({
 
   return (
     <div className="flex gap-1 pr-0.5">
+      <WorkoutPropertyDropdown
+        selectedWorkoutProperties={selectedWorkoutProperties}
+        setSelectedWorkoutProperties={setSelectedWorkoutProperties}
+        userSettings={userSettings}
+        setUserSettings={setUserSettings}
+      />
       <Button
         className="z-1"
         variant="flat"
@@ -78,12 +84,6 @@ export const WorkoutListOptions = ({
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
-      <WorkoutPropertyDropdown
-        selectedWorkoutProperties={selectedWorkoutProperties}
-        setSelectedWorkoutProperties={setSelectedWorkoutProperties}
-        userSettings={userSettings}
-        setUserSettings={setUserSettings}
-      />
       {handleOptionMenuSelection !== undefined && (
         <Dropdown>
           <DropdownTrigger>

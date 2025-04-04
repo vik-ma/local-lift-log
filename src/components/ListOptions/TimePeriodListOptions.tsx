@@ -32,6 +32,12 @@ export const TimePeriodListOptions = ({
 
   return (
     <div className="flex gap-1 pr-0.5">
+      <TimePeriodPropertyDropdown
+        selectedTimePeriodProperties={selectedTimePeriodProperties}
+        setSelectedTimePeriodProperties={setSelectedTimePeriodProperties}
+        userSettings={userSettings}
+        setUserSettings={setUserSettings}
+      />
       <Button
         className="z-1"
         variant="flat"
@@ -77,12 +83,6 @@ export const TimePeriodListOptions = ({
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
-      <TimePeriodPropertyDropdown
-        selectedTimePeriodProperties={selectedTimePeriodProperties}
-        setSelectedTimePeriodProperties={setSelectedTimePeriodProperties}
-        userSettings={userSettings}
-        setUserSettings={setUserSettings}
-      />
     </div>
   );
 };
