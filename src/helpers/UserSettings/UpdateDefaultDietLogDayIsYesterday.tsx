@@ -5,7 +5,7 @@ export const UpdateDefaultDietLogDayIsYesterday = async (
   value: number,
   userSettingsId: number
 ) => {
-  if (!IsNumberValidBinary(value)) return;
+  if (!IsNumberValidBinary(value)) return false;
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
@@ -14,7 +14,10 @@ export const UpdateDefaultDietLogDayIsYesterday = async (
       "UPDATE user_settings SET default_diet_log_day_is_yesterday = $1 WHERE id = $2",
       [value, userSettingsId]
     );
+
+    return true;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
