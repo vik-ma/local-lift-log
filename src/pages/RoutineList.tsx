@@ -111,7 +111,10 @@ export default function RoutineList() {
       active_routine_id: newActiveRoutineId,
     };
 
-    const success = await UpdateActiveRoutineId(updatedSettings);
+    const success = await UpdateActiveRoutineId(
+      newActiveRoutineId,
+      userSettings.id
+    );
 
     if (!success) return;
 
@@ -194,7 +197,7 @@ export default function RoutineList() {
           active_routine_id: 0,
         };
 
-        await UpdateActiveRoutineId(updatedSettings);
+        await UpdateActiveRoutineId(0, userSettings.id);
         setUserSettings(updatedSettings);
       }
 
