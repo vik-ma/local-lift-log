@@ -296,6 +296,7 @@ export default function DietLogList() {
         useDietLogEntryInputs={dietLogEntryInputs}
         dietLogMap={dietLogMap}
         userSettings={userSettings}
+        setUserSettings={setUserSettings}
         isEditing={operationType === "edit"}
         doneButtonAction={
           operationType === "edit" ? updateDietLogEntry : addDietLogEntry

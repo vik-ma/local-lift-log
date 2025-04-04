@@ -10,6 +10,9 @@ type DietLogDayDropdownProps = {
     e: React.ChangeEvent<HTMLSelectElement>
   ) => Promise<void>;
   userSettings?: UserSettings;
+  setUserSettings?: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
   disabledKeys?: string[];
 };
 
@@ -19,15 +22,29 @@ export const DietLogDayDropdown = ({
   setState,
   updateUserSettings,
   userSettings,
+  setUserSettings,
   disabledKeys,
 }: DietLogDayDropdownProps) => {
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "state" && setState !== undefined) {
       setState(e.target.value);
 
-      if (userSettings !== undefined) {
-        const value = e.target.value === "Yesterday" ? 1 : 0;
-        await UpdateDefaultDietLogDayIsYesterday(value, userSettings.id);
+      if (userSettings !== undefined && setUserSettings !== undefined) {
+        const numValue = e.target.value === "Yesterday" ? 1 : 0;
+
+        const success = await UpdateDefaultDietLogDayIsYesterday(
+          numValue,
+          userSettings.id
+        );
+
+        if (!success) return;
+
+        const updatedUserSettings: UserSettings = {
+          ...userSettings,
+          default_diet_log_day_is_yesterday: numValue,
+        };
+
+        setUserSettings(updatedUserSettings);
       }
     }
 

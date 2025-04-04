@@ -26,10 +26,7 @@ import {
   ConvertCalendarDateToYmdString,
   ConvertDateToYmdString,
 } from "../../helpers";
-import {
-  getLocalTimeZone,
-  // today
-} from "@internationalized/date";
+import { getLocalTimeZone } from "@internationalized/date";
 
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
@@ -37,6 +34,9 @@ type DietLogModalProps = {
   useDietLogEntryInputs: UseDietLogEntryInputsReturnType;
   dietLogMap: DietLogMap;
   userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
   isEditing: boolean;
   doneButtonAction: (date: string) => void;
   saveRangeButtonAction: (
@@ -52,6 +52,7 @@ export const DietLogModal = ({
   useDietLogEntryInputs,
   dietLogMap,
   userSettings,
+  setUserSettings,
   isEditing,
   doneButtonAction,
   saveRangeButtonAction,
@@ -365,6 +366,7 @@ export const DietLogModal = ({
                         setState={setTargetDay}
                         targetType="state"
                         userSettings={userSettings}
+                        setUserSettings={setUserSettings}
                         disabledKeys={disabledDropdownKeys}
                       />
                     </div>
