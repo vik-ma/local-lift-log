@@ -336,7 +336,9 @@ export default function RoutineDetails() {
       active_routine_id: newValue,
     };
 
-    await UpdateActiveRoutineId(updatedSettings);
+    const success = await UpdateActiveRoutineId(updatedSettings);
+
+    if (!success) return;
 
     setUserSettings(updatedSettings);
   };
