@@ -1,13 +1,13 @@
 import { Select, SelectItem } from "@heroui/react";
-import { UnitDropdownProps } from "../../typings";
 import { useLocaleList } from "../../hooks";
+import { SettingsDropdownProps } from "../../typings";
 
 export const LocaleDropdown = ({
   value,
-  updateUserSettings,
-  setState,
   targetType,
-}: UnitDropdownProps) => {
+  setValue,
+  updateUserSettings,
+}: SettingsDropdownProps) => {
   const localeList = useLocaleList();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -15,8 +15,8 @@ export const LocaleDropdown = ({
       updateUserSettings(e);
     }
 
-    if (targetType === "state" && setState !== undefined) {
-      setState(e.target.value);
+    if (targetType === "state" && setValue !== undefined) {
+      setValue(e.target.value);
     }
   };
 

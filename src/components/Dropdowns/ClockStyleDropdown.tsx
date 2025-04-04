@@ -1,19 +1,19 @@
 import { Select, SelectItem } from "@heroui/react";
-import { UnitDropdownProps } from "../../typings";
+import { SettingsDropdownProps } from "../../typings";
 
 export const ClockStyleDropdown = ({
   value,
-  updateUserSettings,
-  setState,
   targetType,
-}: UnitDropdownProps) => {
+  setValue,
+  updateUserSettings,
+}: SettingsDropdownProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "settings" && updateUserSettings !== undefined) {
       updateUserSettings(e);
     }
 
-    if (targetType === "state" && setState !== undefined) {
-      setState(e.target.value);
+    if (targetType === "state" && setValue !== undefined) {
+      setValue(e.target.value);
     }
   };
 

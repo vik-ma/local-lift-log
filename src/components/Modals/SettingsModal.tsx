@@ -72,7 +72,7 @@ export const SettingsModal = ({
                     <span className="text-lg">Date Format</span>
                     <LocaleDropdown
                       value={locale}
-                      setState={setLocale}
+                      setValue={setLocale}
                       targetType="state"
                     />
                   </div>
@@ -80,7 +80,7 @@ export const SettingsModal = ({
                     <span className="text-lg">Clock Format</span>
                     <ClockStyleDropdown
                       value={clockStyle}
-                      setState={setClockStyle}
+                      setValue={setClockStyle}
                       targetType="state"
                     />
                   </div>
