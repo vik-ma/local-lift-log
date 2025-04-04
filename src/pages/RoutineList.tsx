@@ -89,7 +89,7 @@ export default function RoutineList() {
   const { filterMap } = listFilters;
 
   useEffect(() => {
-    const getActiveRoutineId = async () => {
+    const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
@@ -97,7 +97,7 @@ export default function RoutineList() {
       setUserSettings(userSettings);
     };
 
-    getActiveRoutineId();
+    loadUserSettings();
   }, []);
 
   const handleSetActiveButton = async (routine: Routine) => {
