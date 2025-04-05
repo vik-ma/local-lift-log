@@ -72,6 +72,7 @@ export { UpdateLoadExerciseOptions } from "./UserSettings/UpdateLoadExerciseOpti
 export { CreateLoadExerciseOptionsList } from "./UserSettings/CreateLoadExerciseOptionsList";
 export { GetValidatedUserSettingsUnits } from "./UserSettings/GetValidatedUserSettingsUnits";
 export { ValidateLoadExerciseOptionsCategoriesString } from "./UserSettings/ValidateLoadExerciseOptionsCategoriesString";
+export { ValidateUserSetting } from "./UserSettings/ValidateUserSetting";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
