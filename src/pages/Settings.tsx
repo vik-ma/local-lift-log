@@ -14,6 +14,7 @@ import {
   CreateShownPropertiesSet,
   CreateLoadExerciseOptionsList,
   GetValidatedUserSettingsUnits,
+  ValidateUserSetting,
 } from "../helpers";
 import {
   Switch,
@@ -186,6 +187,32 @@ export default function Settings() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const updateUserSetting = async <K extends keyof UserSettings>(
+    key: K,
+    value: UserSettings[K]
+  ) => {
+    if (userSettings === undefined || !ValidateUserSetting(key, value)) return;
+
+    const updatedUserSettings: UserSettings = {
+      ...userSettings,
+      [key]: value,
+    };
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      db.execute(`UPDATE user_settings SET ${key} = $1 WHERE id = $2`, [
+        value,
+        userSettings.id,
+      ]);
+
+      setUserSettings(updatedUserSettings);
+      toast.success("Setting Updated");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const updateSettings = async (
     updatedSettings: UserSettings
   ): Promise<boolean> => {
@@ -214,16 +241,9 @@ export default function Settings() {
   const handleDefaultUnitWeightChange = async (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    if (userSettings === undefined) return;
-
     const weightUnit: string = e.target.value;
 
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      default_unit_weight: weightUnit,
-    };
-
-    updateSettings(updatedSettings);
+    updateUserSetting("default_unit_weight", weightUnit);
   };
 
   const handleDefaultUnitDistanceChange = async (
