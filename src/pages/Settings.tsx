@@ -253,36 +253,6 @@ export default function Settings() {
     updateSettings(updatedSettings);
   };
 
-  const handleLocaleChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (userSettings === undefined) return;
-
-    const localeValue: string = e.target.value;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      locale: localeValue,
-    };
-
-    updateSettings(updatedSettings);
-  };
-
-  const handleClockStyleChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (userSettings === undefined) return;
-
-    const clockStyleValue: string = e.target.value;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      clock_style: clockStyleValue,
-    };
-
-    updateSettings(updatedSettings);
-  };
-
   const handleTimeInputBehaviorChange = async (
     e: React.ChangeEvent<HTMLSelectElement>,
     isHhmmss: boolean
@@ -802,7 +772,7 @@ export default function Settings() {
             <span className="text-lg">Date Format</span>
             <LocaleDropdown
               value={userSettings.locale}
-              updateUserSettings={handleLocaleChange}
+              updateUserSetting={updateUserSetting}
               targetType="settings"
             />
           </div>
@@ -810,7 +780,7 @@ export default function Settings() {
             <span className="text-lg">Clock Format</span>
             <ClockStyleDropdown
               value={userSettings.clock_style}
-              updateUserSettings={handleClockStyleChange}
+              updateUserSetting={updateUserSetting}
               targetType="settings"
             />
           </div>

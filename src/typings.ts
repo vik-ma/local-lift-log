@@ -189,9 +189,7 @@ export type SettingsDropdownProps = {
   value: string;
   targetType: "settings" | "state";
   setValue?: React.Dispatch<React.SetStateAction<string>>;
-  updateUserSettings?: (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => Promise<void>;
+  updateUserSetting?: UpdateUserSettingFunction;
 };
 
 export type SetTrackingValuesInput = {

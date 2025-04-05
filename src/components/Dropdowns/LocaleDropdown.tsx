@@ -6,13 +6,13 @@ export const LocaleDropdown = ({
   value,
   targetType,
   setValue,
-  updateUserSettings,
+  updateUserSetting,
 }: SettingsDropdownProps) => {
   const localeList = useLocaleList();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (targetType === "settings" && updateUserSettings !== undefined) {
-      updateUserSettings(e);
+    if (targetType === "settings" && updateUserSetting !== undefined) {
+      updateUserSetting("locale", e.target.value);
     }
 
     if (targetType === "state" && setValue !== undefined) {

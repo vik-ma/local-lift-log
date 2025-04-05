@@ -5,11 +5,11 @@ export const ClockStyleDropdown = ({
   value,
   targetType,
   setValue,
-  updateUserSettings,
+  updateUserSetting,
 }: SettingsDropdownProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (targetType === "settings" && updateUserSettings !== undefined) {
-      updateUserSettings(e);
+    if (targetType === "settings" && updateUserSetting !== undefined) {
+      updateUserSetting("clock_style", e.target.value);
     }
 
     if (targetType === "state" && setValue !== undefined) {
