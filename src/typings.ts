@@ -50,6 +50,11 @@ export type UserSettings = {
   load_exercise_options_categories_exercise_details: string;
 };
 
+export type UpdateUserSettingFunction = <K extends keyof UserSettings>(
+  key: K,
+  value: UserSettings[K]
+) => Promise<void>;
+
 export type Exercise = {
   id: number;
   name: string;
@@ -161,10 +166,7 @@ export type UnitDropdownProps = {
     | "plate-collection"
     | "chart";
   setSet?: React.Dispatch<React.SetStateAction<WorkoutSet>>;
-  updateUserSetting?: <K extends keyof UserSettings>(
-    key: K,
-    value: UserSettings[K]
-  ) => Promise<void>;
+  updateUserSetting?: UpdateUserSettingFunction;
   setState?: React.Dispatch<React.SetStateAction<string>>;
   setEquipmentWeight?: React.Dispatch<React.SetStateAction<EquipmentWeight>>;
   setDistance?: React.Dispatch<React.SetStateAction<Distance>>;
