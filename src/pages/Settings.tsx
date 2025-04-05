@@ -227,21 +227,6 @@ export default function Settings() {
     return false;
   };
 
-  const handleDefaultTimeInputChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (userSettings === undefined) return;
-
-    const timeInputType: string = e.target.value;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      default_time_input: timeInputType,
-    };
-
-    updateSettings(updatedSettings);
-  };
-
   const handleTimeInputBehaviorChange = async (
     e: React.ChangeEvent<HTMLSelectElement>,
     isHhmmss: boolean
@@ -369,19 +354,6 @@ export default function Settings() {
     const success = await updateSettings(updatedSettings);
 
     if (success) setDefaultIncrementOriginalValues(updatedOriginalValues);
-  };
-
-  const handleDefaultCalculationTabChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (userSettings === undefined) return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      default_calculation_tab: e.target.value,
-    };
-
-    updateSettings(updatedSettings);
   };
 
   const handleDefaultPlateCollectionIdChange = async (
@@ -674,7 +646,9 @@ export default function Settings() {
               className="w-32"
               variant="faded"
               selectedKeys={[userSettings.default_time_input]}
-              onChange={(value) => handleDefaultTimeInputChange(value)}
+              onChange={(e) =>
+                updateUserSetting("default_time_input", e.target.value)
+              }
               disallowEmptySelection
             >
               {Array.from(timeInputMap).map(([key, value]) => (
@@ -918,7 +892,9 @@ export default function Settings() {
               className="w-[6rem]"
               variant="faded"
               selectedKeys={[userSettings.default_calculation_tab]}
-              onChange={(e) => handleDefaultCalculationTabChange(e)}
+              onChange={(e) =>
+                updateUserSetting("default_calculation_tab", e.target.value)
+              }
               disallowEmptySelection
             >
               <SelectItem key="plate">Plate</SelectItem>
