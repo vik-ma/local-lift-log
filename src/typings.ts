@@ -161,7 +161,7 @@ export type UnitDropdownProps = {
     | "plate-collection"
     | "chart";
   setSet?: React.Dispatch<React.SetStateAction<WorkoutSet>>;
-  updateUserSettings?: <K extends keyof UserSettings>(
+  updateUserSetting?: <K extends keyof UserSettings>(
     key: K,
     value: UserSettings[K]
   ) => Promise<void>;
