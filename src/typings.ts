@@ -185,27 +185,6 @@ export type UnitDropdownProps = {
   customWidthString?: string;
 };
 
-export type MeasurementDropdownProps = {
-  targetType: "modal" | "settings" | "active" | "chart";
-  measurement?: Measurement;
-  isDisabled?: boolean;
-  measurements?: Measurement[];
-  setMeasurements?: React.Dispatch<React.SetStateAction<Measurement[]>>;
-  setMeasurement?: React.Dispatch<React.SetStateAction<Measurement>>;
-  value?: string;
-  updateUserSettings?: (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => Promise<void>;
-  showLabel?: boolean;
-  showBigLabel?: boolean;
-  customLabel?: string;
-  changeUnitInChart?: (
-    newUnit: string,
-    unitCategory: "Weight" | "Distance" | "Pace" | "Circumference"
-  ) => void;
-  customWidthString?: string;
-};
-
 export type SettingsDropdownProps = {
   value: string;
   targetType: "settings" | "state";

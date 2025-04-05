@@ -253,21 +253,6 @@ export default function Settings() {
     updateSettings(updatedSettings);
   };
 
-  const handleDefaultUnitMeasurementChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (userSettings === undefined) return;
-
-    const measurementUnit: string = e.target.value;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      default_unit_measurement: measurementUnit,
-    };
-
-    updateSettings(updatedSettings);
-  };
-
   const handleLocaleChange = async (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -809,7 +794,7 @@ export default function Settings() {
             </span>
             <MeasurementUnitDropdown
               value={userSettings.default_unit_measurement}
-              updateUserSettings={handleDefaultUnitMeasurementChange}
+              updateUserSetting={updateUserSetting}
               targetType="settings"
             />
           </div>

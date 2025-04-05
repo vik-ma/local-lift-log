@@ -1,6 +1,25 @@
 import { Select, SelectItem } from "@heroui/react";
-import { MeasurementDropdownProps } from "../../typings";
 import { useValidMeasurementUnits } from "../../hooks";
+import { Measurement, UpdateUserSettingFunction } from "../../typings";
+
+type MeasurementDropdownProps = {
+  targetType: "modal" | "settings" | "active" | "chart";
+  measurement?: Measurement;
+  isDisabled?: boolean;
+  measurements?: Measurement[];
+  setMeasurements?: React.Dispatch<React.SetStateAction<Measurement[]>>;
+  setMeasurement?: React.Dispatch<React.SetStateAction<Measurement>>;
+  value?: string;
+  updateUserSetting?: UpdateUserSettingFunction;
+  showLabel?: boolean;
+  showBigLabel?: boolean;
+  customLabel?: string;
+  changeUnitInChart?: (
+    newUnit: string,
+    unitCategory: "Weight" | "Distance" | "Pace" | "Circumference"
+  ) => void;
+  customWidthString?: string;
+};
 
 export const MeasurementUnitDropdown = ({
   targetType,
@@ -10,7 +29,7 @@ export const MeasurementUnitDropdown = ({
   setMeasurements,
   setMeasurement,
   value,
-  setUserSettings,
+  updateUserSetting,
   showLabel,
   showBigLabel,
   customLabel,
@@ -39,8 +58,8 @@ export const MeasurementUnitDropdown = ({
       }));
     }
 
-    if (targetType === "settings" && setUserSettings !== undefined) {
-      setUserSettings(e);
+    if (targetType === "settings" && updateUserSetting !== undefined) {
+      updateUserSetting("default_unit_measurement", e.target.value);
     }
 
     if (
