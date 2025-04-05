@@ -227,25 +227,6 @@ export default function Settings() {
     return false;
   };
 
-  const handleTimeInputBehaviorChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>,
-    isHhmmss: boolean
-  ) => {
-    if (userSettings === undefined) return;
-
-    const timeInputBehavior: string = e.target.value;
-
-    const updatedSettings: UserSettings = { ...userSettings };
-
-    if (isHhmmss) {
-      updatedSettings.time_input_behavior_hhmmss = timeInputBehavior;
-    } else {
-      updatedSettings.time_input_behavior_mmss = timeInputBehavior;
-    }
-
-    updateSettings(updatedSettings);
-  };
-
   const handleDefaultIncrementValueChange = async (key: string) => {
     if (userSettings === undefined) return;
 
@@ -373,34 +354,6 @@ export default function Settings() {
     updateSettings(updatedSettings);
 
     specificSettingModal.onClose();
-  };
-
-  const handleDefaultNumNewSetsChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (userSettings === undefined) return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      default_num_new_sets: e.target.value,
-    };
-
-    updateSettings(updatedSettings);
-  };
-
-  const handleDefaultDietLogDayIsYesterdayChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (userSettings === undefined) return;
-
-    const value = e.target.value === "Yesterday" ? 1 : 0;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      default_diet_log_day_is_yesterday: value,
-    };
-
-    updateSettings(updatedSettings);
   };
 
   const handleSaveSpecificSettingButton = async () => {
@@ -688,7 +641,7 @@ export default function Settings() {
             </span>
             <TimeInputBehaviorDropdown
               value={userSettings.time_input_behavior_hhmmss}
-              setUserSettings={handleTimeInputBehaviorChange}
+              updateUserSetting={updateUserSetting}
               isHhmmss={true}
             />
           </div>
@@ -698,7 +651,7 @@ export default function Settings() {
             </span>
             <TimeInputBehaviorDropdown
               value={userSettings.time_input_behavior_mmss}
-              setUserSettings={handleTimeInputBehaviorChange}
+              updateUserSetting={updateUserSetting}
               isHhmmss={false}
             />
           </div>
@@ -750,7 +703,7 @@ export default function Settings() {
             <NumSetsDropdown
               numNewSets={userSettings.default_num_new_sets}
               targetType="settings"
-              updateUserSettings={handleDefaultNumNewSetsChange}
+              updateUserSetting={updateUserSetting}
             />
           </div>
           <div className="flex gap-3 items-center justify-between">
@@ -774,7 +727,7 @@ export default function Settings() {
                   : "Today"
               }
               targetType="settings"
-              updateUserSettings={handleDefaultDietLogDayIsYesterdayChange}
+              updateUserSetting={updateUserSetting}
             />
           </div>
           <div className="flex gap-3 items-center justify-between pr-1">

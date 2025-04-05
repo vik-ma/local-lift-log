@@ -1,14 +1,12 @@
 import { Select, SelectItem } from "@heroui/react";
-import { UserSettings } from "../../typings";
+import { UpdateUserSettingFunction, UserSettings } from "../../typings";
 import { UpdateDefaultDietLogDayIsYesterday } from "../../helpers";
 
 type DietLogDayDropdownProps = {
   value: string;
   targetType: "state" | "settings";
   setState?: React.Dispatch<React.SetStateAction<string>>;
-  updateUserSettings?: (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => Promise<void>;
+  updateUserSetting?: UpdateUserSettingFunction;
   userSettings?: UserSettings;
   setUserSettings?: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
@@ -20,7 +18,7 @@ export const DietLogDayDropdown = ({
   value,
   targetType,
   setState,
-  updateUserSettings,
+  updateUserSetting,
   userSettings,
   setUserSettings,
   disabledKeys,
@@ -48,8 +46,11 @@ export const DietLogDayDropdown = ({
       }
     }
 
-    if (targetType === "settings" && updateUserSettings !== undefined) {
-      updateUserSettings(e);
+    if (targetType === "settings" && updateUserSetting !== undefined) {
+      updateUserSetting(
+        "default_diet_log_day_is_yesterday",
+        e.target.value === "Yesterday" ? 1 : 0
+      );
     }
   };
 

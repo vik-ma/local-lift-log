@@ -1,25 +1,26 @@
 import { Select, SelectItem } from "@heroui/react";
 import { useValidTimeInputBehaviors } from "../../hooks";
+import { UpdateUserSettingFunction } from "../../typings";
 
 type TimeInputBehaviorDropdownProps = {
   value: string;
   isHhmmss: boolean;
-  setUserSettings?: (
-    e: React.ChangeEvent<HTMLSelectElement>,
-    isHhmmss: boolean
-  ) => Promise<void>;
+  updateUserSetting?: UpdateUserSettingFunction;
 };
 
 export const TimeInputBehaviorDropdown = ({
   value,
   isHhmmss,
-  setUserSettings,
+  updateUserSetting,
 }: TimeInputBehaviorDropdownProps) => {
   const validTimeInputBehaviors = useValidTimeInputBehaviors(isHhmmss);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (setUserSettings !== undefined) {
-      setUserSettings(e, isHhmmss);
+    if (updateUserSetting !== undefined) {
+      updateUserSetting(
+        isHhmmss ? "time_input_behavior_hhmmss" : "time_input_behavior_mmss",
+        e.target.value
+      );
     }
   };
 
