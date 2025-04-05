@@ -50,11 +50,6 @@ export type UserSettings = {
   load_exercise_options_categories_exercise_details: string;
 };
 
-export type UpdateUserSettingFunction = <K extends keyof UserSettings>(
-  key: K,
-  value: UserSettings[K]
-) => Promise<void>;
-
 export type Exercise = {
   id: number;
   name: string;
@@ -153,6 +148,11 @@ export type GroupedWorkoutSet = {
   isMultiset?: boolean;
   multiset?: Multiset;
 };
+
+export type UpdateUserSettingFunction = <K extends keyof UserSettings>(
+  key: K,
+  value: UserSettings[K]
+) => Promise<void>;
 
 export type UnitDropdownProps = {
   value: string;

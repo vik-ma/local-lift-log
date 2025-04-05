@@ -227,17 +227,6 @@ export default function Settings() {
     return false;
   };
 
-  const handleShowTimestampChange = async (value: boolean) => {
-    if (userSettings === undefined) return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      show_timestamp_on_completed_set: value ? 1 : 0,
-    };
-
-    updateSettings(updatedSettings);
-  };
-
   const handleDefaultTimeInputChange = async (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -268,17 +257,6 @@ export default function Settings() {
     } else {
       updatedSettings.time_input_behavior_mmss = timeInputBehavior;
     }
-
-    updateSettings(updatedSettings);
-  };
-
-  const handleSaveCalculationStringChange = async (value: boolean) => {
-    if (userSettings === undefined) return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      save_calculation_string: value ? 1 : 0,
-    };
 
     updateSettings(updatedSettings);
   };
@@ -393,17 +371,6 @@ export default function Settings() {
     if (success) setDefaultIncrementOriginalValues(updatedOriginalValues);
   };
 
-  const handleShowCalculationButtonsChange = async (value: boolean) => {
-    if (userSettings === undefined) return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      show_calculation_buttons: value ? 1 : 0,
-    };
-
-    updateSettings(updatedSettings);
-  };
-
   const handleDefaultCalculationTabChange = async (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -434,32 +401,6 @@ export default function Settings() {
     updateSettings(updatedSettings);
 
     specificSettingModal.onClose();
-  };
-
-  const handleShowSecondaryExerciseGroupsButtonsChange = async (
-    value: boolean
-  ) => {
-    if (userSettings === undefined) return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      show_secondary_exercise_groups: value ? 1 : 0,
-    };
-
-    updateSettings(updatedSettings);
-  };
-
-  const handleAutomaticallyUpdateActiveMeasurementsChange = async (
-    value: boolean
-  ) => {
-    if (userSettings === undefined) return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      automatically_update_active_measurements: value ? 1 : 0,
-    };
-
-    updateSettings(updatedSettings);
   };
 
   const handleDefaultNumNewSetsChange = async (
@@ -505,28 +446,6 @@ export default function Settings() {
     }
 
     specificSettingModal.onClose();
-  };
-
-  const handleShowWarmupsInExerciseDetailsChange = async (value: boolean) => {
-    if (userSettings === undefined) return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      show_warmups_in_exercise_details: value ? 1 : 0,
-    };
-
-    updateSettings(updatedSettings);
-  };
-
-  const handleShowMultisetsInExerciseDetailsChange = async (value: boolean) => {
-    if (userSettings === undefined) return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      show_multisets_in_exercise_details: value ? 1 : 0,
-    };
-
-    updateSettings(updatedSettings);
   };
 
   const restoreDefaultSettings = async (
@@ -740,7 +659,12 @@ export default function Settings() {
               isSelected={
                 userSettings.show_timestamp_on_completed_set ? true : false
               }
-              onValueChange={(value) => handleShowTimestampChange(value)}
+              onValueChange={(value) =>
+                updateUserSetting(
+                  "show_timestamp_on_completed_set",
+                  value ? 1 : 0
+                )
+              }
             />
           </div>
           <div className="flex gap-3 items-center justify-between">
@@ -817,7 +741,10 @@ export default function Settings() {
                 userSettings.show_secondary_exercise_groups ? true : false
               }
               onValueChange={(value) =>
-                handleShowSecondaryExerciseGroupsButtonsChange(value)
+                updateUserSetting(
+                  "show_secondary_exercise_groups",
+                  value ? 1 : 0
+                )
               }
             />
           </div>
@@ -837,7 +764,10 @@ export default function Settings() {
                   : false
               }
               onValueChange={(value) =>
-                handleAutomaticallyUpdateActiveMeasurementsChange(value)
+                updateUserSetting(
+                  "automatically_update_active_measurements",
+                  value ? 1 : 0
+                )
               }
             />
           </div>
@@ -898,7 +828,10 @@ export default function Settings() {
                 userSettings.show_warmups_in_exercise_details ? true : false
               }
               onValueChange={(value) =>
-                handleShowWarmupsInExerciseDetailsChange(value)
+                updateUserSetting(
+                  "show_warmups_in_exercise_details",
+                  value ? 1 : 0
+                )
               }
             />
           </div>
@@ -915,7 +848,10 @@ export default function Settings() {
                 userSettings.show_multisets_in_exercise_details ? true : false
               }
               onValueChange={(value) =>
-                handleShowMultisetsInExerciseDetailsChange(value)
+                updateUserSetting(
+                  "show_multisets_in_exercise_details",
+                  value ? 1 : 0
+                )
               }
             />
           </div>
@@ -956,7 +892,7 @@ export default function Settings() {
               size="lg"
               isSelected={userSettings.show_calculation_buttons ? true : false}
               onValueChange={(value) =>
-                handleShowCalculationButtonsChange(value)
+                updateUserSetting("show_calculation_buttons", value ? 1 : 0)
               }
             />
           </div>
@@ -971,7 +907,7 @@ export default function Settings() {
               size="lg"
               isSelected={userSettings.save_calculation_string ? true : false}
               onValueChange={(value) =>
-                handleSaveCalculationStringChange(value)
+                updateUserSetting("save_calculation_string", value ? 1 : 0)
               }
             />
           </div>
