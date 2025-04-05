@@ -37,7 +37,7 @@ export const DistanceUnitDropdown = ({
     }
 
     if (targetType === "settings" && updateUserSettings !== undefined) {
-      updateUserSettings(e);
+      updateUserSettings("default_unit_distance", e.target.value);
     }
 
     if (targetType === "state" && setState !== undefined) {

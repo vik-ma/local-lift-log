@@ -50,7 +50,7 @@ export const WeightUnitDropdown = ({
     }
 
     if (targetType === "settings" && updateUserSettings !== undefined) {
-      updateUserSettings(e);
+      updateUserSettings("default_unit_weight", e.target.value);
     }
 
     if (targetType === "state" && setState !== undefined) {

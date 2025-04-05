@@ -238,29 +238,6 @@ export default function Settings() {
     updateSettings(updatedSettings);
   };
 
-  const handleDefaultUnitWeightChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const weightUnit: string = e.target.value;
-
-    updateUserSetting("default_unit_weight", weightUnit);
-  };
-
-  const handleDefaultUnitDistanceChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (userSettings === undefined) return;
-
-    const distanceUnit: string = e.target.value;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      default_unit_distance: distanceUnit,
-    };
-
-    updateSettings(updatedSettings);
-  };
-
   const handleDefaultTimeInputChange = async (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -786,7 +763,7 @@ export default function Settings() {
             <span className="text-lg">Default Weight Unit</span>
             <WeightUnitDropdown
               value={userSettings.default_unit_weight}
-              updateUserSettings={handleDefaultUnitWeightChange}
+              updateUserSettings={updateUserSetting}
               targetType="settings"
             />
           </div>
@@ -794,7 +771,7 @@ export default function Settings() {
             <span className="text-lg">Default Distance Unit</span>
             <DistanceUnitDropdown
               value={userSettings.default_unit_distance}
-              updateUserSettings={handleDefaultUnitDistanceChange}
+              updateUserSettings={updateUserSetting}
               targetType="settings"
             />
           </div>
