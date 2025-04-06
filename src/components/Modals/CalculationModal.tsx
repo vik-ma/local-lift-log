@@ -220,11 +220,15 @@ export const CalculationModal = ({
   };
 
   useEffect(() => {
-    if (calculationModal.isOpen && calculationModalTab === "plate") {
+    if (
+      calculationModal.isOpen &&
+      calculationModalTab === "plate" &&
+      !isEquipmentWeightListLoaded.current
+    ) {
       loadPresets();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calculationModal.isOpen]);
+  }, [calculationModal.isOpen, calculationModalTab]);
 
   const showBackButton = useMemo(() => {
     if (calculationModalTab === "sum" && sumCalculatorPage !== "base")
