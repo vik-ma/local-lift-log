@@ -70,7 +70,7 @@ type WorkoutRatingValues = { label: string; num: number };
 type SpecificSettingModalPage =
   | "default-plate-calc"
   | "workout-rating-order"
-  | "default-load-exercise-options";
+  | "load-exercise-options-analytics";
 
 export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -340,18 +340,7 @@ export default function Settings() {
   const handleDefaultPlateCollectionIdChange = async (
     plateCollection: PlateCollection
   ) => {
-    if (
-      userSettings === undefined ||
-      userSettings.default_plate_collection_id === plateCollection.id
-    )
-      return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      default_plate_collection_id: plateCollection.id,
-    };
-
-    updateSettings(updatedSettings);
+    await updateUserSetting("default_plate_collection_id", plateCollection.id);
 
     specificSettingModal.onClose();
   };
@@ -359,15 +348,13 @@ export default function Settings() {
   const handleSaveSpecificSettingButton = async () => {
     if (userSettings === undefined) return;
 
-    if (specificSettingModalPage === "default-load-exercise-options") {
+    if (specificSettingModalPage === "load-exercise-options-analytics") {
       const loadExerciseOptionsString = loadExerciseOptions.join(",");
 
-      const updatedSettings: UserSettings = {
-        ...userSettings,
-        load_exercise_options_analytics: loadExerciseOptionsString,
-      };
-
-      await updateSettings(updatedSettings);
+      await updateUserSetting(
+        "load_exercise_options_analytics",
+        loadExerciseOptionsString
+      );
     }
 
     specificSettingModal.onClose();
@@ -403,7 +390,7 @@ export default function Settings() {
   };
 
   const handleSetDefaultPlateCollectionButton = async () => {
-    if (!presetsList.isEquipmentWeightListLoaded) {
+    if (!presetsList.isEquipmentWeightListLoaded.current) {
       await presetsList.getEquipmentWeights();
     }
 
@@ -417,7 +404,7 @@ export default function Settings() {
   };
 
   const handleLoadExerciseOptionsButton = () => {
-    setSpecificSettingModalPage("default-load-exercise-options");
+    setSpecificSettingModalPage("load-exercise-options-analytics");
     specificSettingModal.onOpen();
   };
 
@@ -522,7 +509,7 @@ export default function Settings() {
               <ModalFooter className="flex justify-between">
                 <div>
                   {specificSettingModalPage ===
-                    "default-load-exercise-options" &&
+                    "load-exercise-options-analytics" &&
                     loadExerciseOptions.length > 0 && (
                       <Button
                         color="danger"
