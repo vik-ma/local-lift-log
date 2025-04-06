@@ -40,7 +40,7 @@ import {
   ClockStyleDropdown,
   TimeInputBehaviorDropdown,
   CreateDefaultSettingsModal,
-  TimeInput,
+  TimeValueInput,
   WorkoutPropertyDropdown,
   PlateCollectionModalList,
   NumSetsDropdown,
@@ -914,7 +914,7 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Time</span>
             <div className="flex gap-2 items-center">
-              <TimeInput
+              <TimeValueInput
                 defaultTimeInput={userSettings.default_time_input}
                 time_input_behavior_hhmmss={
                   userSettings.time_input_behavior_hhmmss

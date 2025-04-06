@@ -1,6 +1,6 @@
 export { LoadingSpinner } from "./LoadingSpinner";
 export { SiteHeader } from "./SiteHeader";
-export { TimeInput } from "./TimeInput";
+export { TimeValueInput } from "./TimeValueInput";
 export { SetList } from "./SetList";
 export { WorkoutGroupedSetList } from "./WorkoutGroupedSetList";
 export { ActiveSet } from "./ActiveSet";

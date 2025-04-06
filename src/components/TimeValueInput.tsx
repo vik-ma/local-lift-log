@@ -19,7 +19,7 @@ import {
 import { ChevronIcon } from "../assets";
 import { useTimeInputMap } from "../hooks";
 
-type TimeInputProps = {
+type TimeValueInputProps = {
   defaultTimeInput: string;
   time_input_behavior_hhmmss: string;
   time_input_behavior_mmss: string;
@@ -52,7 +52,7 @@ type TimeInputBehaviorMapType = {
   [key: string]: number;
 };
 
-export const TimeInput = ({
+export const TimeValueInput = ({
   defaultTimeInput,
   time_input_behavior_hhmmss,
   time_input_behavior_mmss,
@@ -66,7 +66,7 @@ export const TimeInput = ({
   showTimeLabel = true,
   isSetEdited,
   setIsSetEdited,
-}: TimeInputProps) => {
+}: TimeValueInputProps) => {
   const [inputType, setInputType] = useState<string>(defaultTimeInput);
 
   const timeInputBehaviorMap: TimeInputBehaviorMapType = useMemo(() => {
@@ -516,5 +516,3 @@ export const TimeInput = ({
     </div>
   );
 };
-
-export default TimeInput;
