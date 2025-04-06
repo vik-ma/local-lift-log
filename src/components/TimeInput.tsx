@@ -320,8 +320,7 @@ export const TimeInput = ({
     if (defaultIncrementInputValues !== undefined) {
       setTimeInSeconds(defaultIncrementInputValues.time);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [set]);
+  }, [set, defaultIncrementInputValues]);
 
   useEffect(() => {
     setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());
