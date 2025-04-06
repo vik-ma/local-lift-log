@@ -68,42 +68,50 @@ export const PlateCollectionModalList = ({
           <LoadingSpinner />
         ) : (
           <>
-            {filteredPlateCollections.map((plate) => (
-              <div
-                className={
-                  plate.id === defaultPlateCollectionId
-                    ? "flex justify-between items-center gap-1 cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                    : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                }
-                key={`plate-calculation-${plate.id}`}
-                onClick={() => handlePlateCollectionClick(plate)}
-              >
-                <div className="flex flex-col justify-start items-start pl-2 py-1">
-                  <span className="w-[19rem] truncate">{plate.name}</span>
-                  <span className="w-[19rem] truncate text-xs text-secondary">
-                    {plate.formattedAvailablePlatesString} {plate.weight_unit}
-                  </span>
-                  <span className="text-xs text-stone-400">
-                    {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
-                    {plate.handle !== undefined ? (
-                      ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`
-                    ) : (
-                      <span className="text-red-700"> (Unknown Handle)</span>
+            {filteredPlateCollections.map((plate) => {
+              if (
+                plate.handle === undefined ||
+                plate.formattedAvailablePlatesString === ""
+              )
+                return null;
+
+              return (
+                <div
+                  className={
+                    plate.id === defaultPlateCollectionId
+                      ? "flex justify-between items-center gap-1 cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                      : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  }
+                  key={`plate-calculation-${plate.id}`}
+                  onClick={() => handlePlateCollectionClick(plate)}
+                >
+                  <div className="flex flex-col justify-start items-start pl-2 py-1">
+                    <span className="w-[19rem] truncate">{plate.name}</span>
+                    <span className="w-[19rem] truncate text-xs text-secondary">
+                      {plate.formattedAvailablePlatesString} {plate.weight_unit}
+                    </span>
+                    <span className="text-xs text-stone-400">
+                      {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
+                      {plate.handle !== undefined ? (
+                        ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`
+                      ) : (
+                        <span className="text-red-700"> (Unknown Handle)</span>
+                      )}
+                    </span>
+                  </div>
+                  {userSettings !== undefined &&
+                    setUserSettings !== undefined && (
+                      <div className="flex items-center pr-1">
+                        <PlateCollectionButton
+                          userSettings={userSettings}
+                          setUserSettings={setUserSettings}
+                          plateCollection={plate}
+                        />
+                      </div>
                     )}
-                  </span>
                 </div>
-                {userSettings !== undefined &&
-                  setUserSettings !== undefined && (
-                    <div className="flex items-center pr-1">
-                      <PlateCollectionButton
-                        userSettings={userSettings}
-                        setUserSettings={setUserSettings}
-                        plateCollection={plate}
-                      />
-                    </div>
-                  )}
-              </div>
-            ))}
+              );
+            })}
             {filteredPlateCollections.length === 0 && (
               <EmptyListLabel itemName="Plate Collections" />
             )}
