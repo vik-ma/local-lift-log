@@ -53,7 +53,11 @@ type LoadExerciseChartModalProps = {
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>;
   loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
   secondaryDataUnitCategory: ChartDataUnitCategory;
-  loadExerciseStats: (ignoreWarmups: boolean, ignoreMultisets: boolean) => void;
+  loadExerciseStats?: (
+    ignoreWarmups: boolean,
+    ignoreMultisets: boolean
+  ) => Promise<void>;
+  updateLoadExerciseOptions?: () => Promise<void>;
 };
 
 export const LoadExerciseChartModal = ({
@@ -75,6 +79,7 @@ export const LoadExerciseChartModal = ({
   loadExerciseOptionsMap,
   secondaryDataUnitCategory,
   loadExerciseStats,
+  updateLoadExerciseOptions,
 }: LoadExerciseChartModalProps) => {
   const [filterCategories, setFilterCategories] = useState<
     Set<ChartDataUnitCategory>
@@ -383,24 +388,26 @@ export const LoadExerciseChartModal = ({
                     )}
                   </div>
                 </ScrollShadow>
-                <div className="px-0.5 py-0.5 flex gap-12">
-                  <Checkbox
-                    className="hover:underline"
-                    color="default"
-                    isSelected={ignoreWarmups}
-                    onValueChange={setIgnoreWarmups}
-                  >
-                    Ignore Warmups
-                  </Checkbox>
-                  <Checkbox
-                    className="hover:underline"
-                    color="default"
-                    isSelected={ignoreMultisets}
-                    onValueChange={setIgnoreMultisets}
-                  >
-                    Ignore Multisets
-                  </Checkbox>
-                </div>
+                {loadExerciseStats !== undefined && (
+                  <div className="px-0.5 py-0.5 flex gap-12">
+                    <Checkbox
+                      className="hover:underline"
+                      color="default"
+                      isSelected={ignoreWarmups}
+                      onValueChange={setIgnoreWarmups}
+                    >
+                      Ignore Warmups
+                    </Checkbox>
+                    <Checkbox
+                      className="hover:underline"
+                      color="default"
+                      isSelected={ignoreMultisets}
+                      onValueChange={setIgnoreMultisets}
+                    >
+                      Ignore Multisets
+                    </Checkbox>
+                  </div>
+                )}
                 <div className="flex gap-3">
                   <div className="w-[11.75rem]">
                     <Select
@@ -483,8 +490,12 @@ export const LoadExerciseChartModal = ({
                     loadExerciseOptions.size === 0 ||
                     loadExerciseOptionsUnitCategoryPrimary === undefined
                   }
-                  onPress={() =>
-                    loadExerciseStats(ignoreWarmups, ignoreMultisets)
+                  onPress={
+                    updateLoadExerciseOptions !== undefined
+                      ? () => updateLoadExerciseOptions
+                      : loadExerciseStats !== undefined
+                      ? () => loadExerciseStats(ignoreWarmups, ignoreMultisets)
+                      : () => {}
                   }
                 >
                   Load
