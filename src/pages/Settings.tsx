@@ -4,6 +4,7 @@ import {
   DefaultIncrementInputs,
   PlateCollection,
   ChartDataExerciseCategoryBase,
+  ChartDataUnitCategory,
 } from "../typings";
 import {
   GetUserSettings,
@@ -27,9 +28,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  ScrollShadow,
-  Checkbox,
-  CheckboxGroup,
 } from "@heroui/react";
 import {
   LoadingSpinner,
@@ -46,10 +44,12 @@ import {
   NumSetsDropdown,
   TimePeriodPropertyDropdown,
   DietLogDayDropdown,
+  LoadExerciseOptionsModal,
 } from "../components";
 import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 import {
+  useDefaultChartMapsAndConfig,
   useLoadExerciseOptionsMap,
   usePresetsList,
   useTimeInputMap,
@@ -82,11 +82,28 @@ export default function Settings() {
   const [selectedTimePeriodProperties, setSelectedTimePeriodProperties] =
     useState<Set<string>>(new Set());
   const [loadExerciseOptions, setLoadExerciseOptions] = useState<
-    ChartDataExerciseCategoryBase[]
-  >([]);
+    Set<ChartDataExerciseCategoryBase>
+  >(new Set());
+  const [
+    loadExerciseOptionsUnitCategoryPrimary,
+    setLoadExerciseOptionsUnitCategoryPrimary,
+  ] = useState<ChartDataUnitCategory>();
+  const [
+    loadExerciseOptionsUnitCategorySecondary,
+    setLoadExerciseOptionsUnitCategorySecondary,
+  ] = useState<ChartDataUnitCategory>();
+  const [
+    loadExerciseOptionsUnitCategoriesPrimary,
+    setLoadExerciseOptionsUnitCategoriesPrimary,
+  ] = useState<Set<ChartDataUnitCategory>>(new Set());
+  const [
+    loadExerciseOptionsUnitCategoriesSecondary,
+    setLoadExerciseOptionsUnitCategoriesSecondary,
+  ] = useState<ChartDataUnitCategory[]>([]);
 
   const createDefaultSettingsModal = useDisclosure();
   const specificSettingModal = useDisclosure();
+  const loadExerciseOptionsModal = useDisclosure();
 
   const emptyDefaultIncrementValues: DefaultIncrementInputs = useMemo(() => {
     return {
@@ -134,6 +151,8 @@ export default function Settings() {
 
   const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
 
+  const { defaultChartDataUnitCategoryMap } = useDefaultChartMapsAndConfig();
+
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
@@ -176,10 +195,11 @@ export default function Settings() {
       setFilterWeightRangeUnit(userSettings.default_unit_weight);
       setFilterDistanceRangeUnit(userSettings.default_unit_distance);
 
-      const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
-        userSettings.load_exercise_options_analytics
-      );
-      setLoadExerciseOptions(loadExerciseOptionsList);
+      // TODO: FIX
+      // const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
+      //   userSettings.load_exercise_options_analytics
+      // );
+      // setLoadExerciseOptions(loadExerciseOptionsList);
     };
 
     loadUserSettings();
@@ -342,7 +362,8 @@ export default function Settings() {
     if (userSettings === undefined) return;
 
     if (specificSettingModalPage === "load-exercise-options-analytics") {
-      const loadExerciseOptionsString = loadExerciseOptions.join(",");
+      const loadExerciseOptionsString =
+        Array.from(loadExerciseOptions).join(",");
 
       const success = await updateUserSetting(
         "load_exercise_options_analytics",
@@ -398,11 +419,6 @@ export default function Settings() {
     specificSettingModal.onOpen();
   };
 
-  const handleLoadExerciseOptionsButton = () => {
-    setSpecificSettingModalPage("load-exercise-options-analytics");
-    specificSettingModal.onOpen();
-  };
-
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -449,7 +465,7 @@ export default function Settings() {
                         userSettings.default_plate_collection_id
                       }
                     />
-                  ) : specificSettingModalPage === "workout-rating-order" ? (
+                  ) : (
                     <div className="flex flex-col gap-1">
                       <span className="text-xs text-stone-400 px-0.5">
                         Drag To Reorder Ratings
@@ -471,68 +487,62 @@ export default function Settings() {
                         ))}
                       </Reorder.Group>
                     </div>
-                  ) : (
-                    <ScrollShadow className="pb-1">
-                      <CheckboxGroup
-                        aria-label="Select Default Load Exercise Options For Analytics Page"
-                        value={loadExerciseOptions as string[]}
-                        onValueChange={(value) =>
-                          setLoadExerciseOptions(
-                            value as ChartDataExerciseCategoryBase[]
-                          )
-                        }
-                      >
-                        <div className="columns-2">
-                          {Array.from(loadExerciseOptionsMap).map(
-                            ([key, value]) => (
-                              <Checkbox
-                                key={key}
-                                value={key}
-                                className="hover:underline w-full min-w-full -mb-1"
-                                color="primary"
-                              >
-                                {value}
-                              </Checkbox>
-                            )
-                          )}
-                        </div>
-                      </CheckboxGroup>
-                    </ScrollShadow>
                   )}
                 </div>
               </ModalBody>
               <ModalFooter className="flex justify-between">
-                <div>
-                  {specificSettingModalPage ===
-                    "load-exercise-options-analytics" &&
-                    loadExerciseOptions.length > 0 && (
-                      <Button
-                        color="danger"
-                        variant="flat"
-                        onPress={() => setLoadExerciseOptions([])}
-                      >
-                        Reset
-                      </Button>
-                    )}
-                </div>
-                <div className="flex gap-2">
-                  <Button color="primary" variant="light" onPress={onClose}>
-                    Close
+                <Button color="primary" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                {specificSettingModalPage !== "default-plate-calc" && (
+                  <Button
+                    color="primary"
+                    onPress={handleSaveSpecificSettingButton}
+                  >
+                    Save
                   </Button>
-                  {specificSettingModalPage !== "default-plate-calc" && (
-                    <Button
-                      color="primary"
-                      onPress={handleSaveSpecificSettingButton}
-                    >
-                      Save
-                    </Button>
-                  )}
-                </div>
+                )}
               </ModalFooter>
             </>
           )}
         </ModalContent>
       </Modal>
+      <LoadExerciseOptionsModal
+        loadExerciseOptionsModal={loadExerciseOptionsModal}
+        selectedExercise={undefined}
+        loadExerciseOptions={loadExerciseOptions}
+        setLoadExerciseOptions={setLoadExerciseOptions}
+        disabledLoadExerciseOptions={new Set()}
+        loadExerciseOptionsUnitCategoryPrimary={
+          loadExerciseOptionsUnitCategoryPrimary
+        }
+        setLoadExerciseOptionsUnitCategoryPrimary={
+          setLoadExerciseOptionsUnitCategoryPrimary
+        }
+        loadExerciseOptionsUnitCategorySecondary={
+          loadExerciseOptionsUnitCategorySecondary
+        }
+        setLoadExerciseOptionsUnitCategorySecondary={
+          setLoadExerciseOptionsUnitCategorySecondary
+        }
+        loadExerciseOptionsUnitCategoriesPrimary={
+          loadExerciseOptionsUnitCategoriesPrimary
+        }
+        setLoadExerciseOptionsUnitCategoriesPrimary={
+          setLoadExerciseOptionsUnitCategoriesPrimary
+        }
+        loadExerciseOptionsUnitCategoriesSecondary={
+          loadExerciseOptionsUnitCategoriesSecondary
+        }
+        setLoadExerciseOptionsUnitCategoriesSecondary={
+          setLoadExerciseOptionsUnitCategoriesSecondary
+        }
+        chartDataAreas={[]}
+        chartDataUnitCategoryMap={defaultChartDataUnitCategoryMap}
+        loadExerciseOptionsMap={loadExerciseOptionsMap}
+        secondaryDataUnitCategory={undefined}
+        // updateLoadExerciseOptions={() => {}}
+      />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
@@ -719,7 +729,7 @@ export default function Settings() {
             <Button
               color="primary"
               size="sm"
-              onPress={handleLoadExerciseOptionsButton}
+              onPress={() => loadExerciseOptionsModal.onOpen()}
             >
               Select
             </Button>
