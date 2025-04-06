@@ -71,7 +71,7 @@ export const PlateCollectionModalList = ({
             {filteredPlateCollections.map((plate) => {
               if (
                 plate.handle === undefined ||
-                plate.formattedAvailablePlatesString === ""
+                plate.availablePlatesMap!.size === 0
               )
                 return null;
 

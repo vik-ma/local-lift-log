@@ -1209,10 +1209,16 @@ export default function Presets() {
                           <span className="w-[17.5rem] truncate">
                             {plate.name}
                           </span>
-                          <span className="w-[17.5rem] truncate text-xs text-secondary">
-                            {plate.formattedAvailablePlatesString}{" "}
-                            {plate.weight_unit}
-                          </span>
+                          {plate.availablePlatesMap!.size === 0 ? (
+                            <span className="text-xs text-red-700">
+                              No Available Plates
+                            </span>
+                          ) : (
+                            <span className="w-[17.5rem] truncate text-xs text-secondary">
+                              {plate.formattedAvailablePlatesString}{" "}
+                              {plate.weight_unit}
+                            </span>
+                          )}
                           <span className="text-xs text-stone-400">
                             {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
                             {plate.handle !== undefined ? (
