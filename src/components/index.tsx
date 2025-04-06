@@ -89,7 +89,7 @@ export { DietLogModal } from "./Modals/DietLogModal";
 export { GroupedWorkoutSetListModal } from "./Modals/GroupedWorkoutSetListModal";
 export { FilterDietLogListModal } from "./Modals/FilterDietLogListModal";
 export { FilterMinAndMaxDatesModal } from "./Modals/FilterMinAndMaxDatesModal";
-export { LoadExerciseChartModal } from "./Modals/LoadExerciseChartModal";
+export { LoadExerciseOptionsModal } from "./Modals/LoadExerciseOptionsModal";
 
 export { ExerciseModalList } from "./ModalLists/ExerciseModalList";
 export { MultisetTemplateModalList } from "./ModalLists/MultisetTemplateModalList";

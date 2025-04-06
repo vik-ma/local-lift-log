@@ -30,7 +30,7 @@ import {
   ExerciseModalList,
   FilterExerciseGroupsModal,
   FilterMinAndMaxDatesModal,
-  LoadExerciseChartModal,
+  LoadExerciseOptionsModal,
   LoadingSpinner,
   MeasurementModalList,
   TimePeriodModalList,
@@ -187,7 +187,7 @@ export default function Analytics() {
   );
 
   const listModal = useDisclosure();
-  const loadExerciseChartModal = useDisclosure();
+  const loadExerciseOptionsModal = useDisclosure();
   const filterMinAndMaxDatesModal = useDisclosure();
   const deleteModal = useDisclosure();
 
@@ -1769,7 +1769,7 @@ export default function Analytics() {
   const handleClickExercise = (exercise: Exercise) => {
     setSelectedExercise(exercise);
     listModal.onClose();
-    loadExerciseChartModal.onOpen();
+    loadExerciseOptionsModal.onOpen();
   };
 
   const loadExerciseStats = async (
@@ -1887,7 +1887,7 @@ export default function Analytics() {
 
       setSelectedExercise(undefined);
       toast.error("No Values Found For Selected Stats");
-      loadExerciseChartModal.onClose();
+      loadExerciseOptionsModal.onClose();
       return;
     }
 
@@ -1988,7 +1988,7 @@ export default function Analytics() {
     await updateDefaultLoadExerciseOptions();
     setSelectedExercise(undefined);
     isChartDataLoaded.current = true;
-    loadExerciseChartModal.onClose();
+    loadExerciseOptionsModal.onClose();
   };
 
   const updateDefaultLoadExerciseOptions = async () => {
@@ -2970,8 +2970,8 @@ export default function Analytics() {
           )}
         </ModalContent>
       </Modal>
-      <LoadExerciseChartModal
-        loadExerciseChartModal={loadExerciseChartModal}
+      <LoadExerciseOptionsModal
+        loadExerciseOptionsModal={loadExerciseOptionsModal}
         selectedExercise={selectedExercise}
         loadExerciseOptions={loadExerciseOptions}
         setLoadExerciseOptions={setLoadExerciseOptions}

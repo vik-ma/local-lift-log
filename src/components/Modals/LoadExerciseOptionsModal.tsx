@@ -26,8 +26,8 @@ import {
 import { useMemo, useState } from "react";
 import { ValidLoadExerciseOptionsCategories } from "../../helpers";
 
-type LoadExerciseChartModalProps = {
-  loadExerciseChartModal: UseDisclosureReturnType;
+type LoadExerciseOptionsModalProps = {
+  loadExerciseOptionsModal: UseDisclosureReturnType;
   selectedExercise: Exercise | undefined;
   loadExerciseOptions: Set<ChartDataExerciseCategoryBase>;
   setLoadExerciseOptions: React.Dispatch<
@@ -61,8 +61,8 @@ type LoadExerciseChartModalProps = {
   updateLoadExerciseOptions?: () => Promise<void>;
 };
 
-export const LoadExerciseChartModal = ({
-  loadExerciseChartModal,
+export const LoadExerciseOptionsModal = ({
+  loadExerciseOptionsModal,
   selectedExercise,
   loadExerciseOptions,
   setLoadExerciseOptions,
@@ -81,7 +81,7 @@ export const LoadExerciseChartModal = ({
   secondaryDataUnitCategory,
   loadExerciseStats,
   updateLoadExerciseOptions,
-}: LoadExerciseChartModalProps) => {
+}: LoadExerciseOptionsModalProps) => {
   const [filterCategories, setFilterCategories] = useState<
     Set<ChartDataUnitCategory>
   >(new Set());
@@ -264,8 +264,8 @@ export const LoadExerciseChartModal = ({
 
   return (
     <Modal
-      isOpen={loadExerciseChartModal.isOpen}
-      onOpenChange={loadExerciseChartModal.onOpenChange}
+      isOpen={loadExerciseOptionsModal.isOpen}
+      onOpenChange={loadExerciseOptionsModal.onOpenChange}
     >
       <ModalContent>
         {(onClose) => (
