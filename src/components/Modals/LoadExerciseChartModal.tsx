@@ -24,6 +24,7 @@ import {
   UseDisclosureReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
+import { ValidLoadExerciseOptionsCategories } from "../../helpers";
 
 type LoadExerciseChartModalProps = {
   loadExerciseChartModal: UseDisclosureReturnType;
@@ -87,17 +88,7 @@ export const LoadExerciseChartModal = ({
   const [ignoreWarmups, setIgnoreWarmups] = useState<boolean>(true);
   const [ignoreMultisets, setIgnoreMultisets] = useState<boolean>(false);
 
-  const optionCategories = [
-    "Weight",
-    "Number Of Sets",
-    "Number Of Reps",
-    "RIR",
-    "RPE",
-    "Distance",
-    "Time",
-    "Pace",
-    "Resistance Level",
-  ];
+  const optionCategories = ValidLoadExerciseOptionsCategories();
 
   const filteredLoadExerciseOptionsMap = useMemo(() => {
     if (filterCategories.size > 0) {
@@ -335,7 +326,7 @@ export const LoadExerciseChartModal = ({
                             >
                           }
                         >
-                          {optionCategories.map((category) => (
+                          {Array.from(optionCategories).map((category) => (
                             <DropdownItem key={category}>
                               {category}
                             </DropdownItem>
