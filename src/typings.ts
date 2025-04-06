@@ -152,7 +152,7 @@ export type GroupedWorkoutSet = {
 export type UpdateUserSettingFunction = <K extends keyof UserSettings>(
   key: K,
   value: UserSettings[K]
-) => Promise<void>;
+) => Promise<boolean>;
 
 export type UnitDropdownProps = {
   value: string;

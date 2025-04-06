@@ -7,7 +7,6 @@ import {
 } from "../typings";
 import {
   GetUserSettings,
-  UpdateAllUserSettings,
   CreateDefaultUserSettings,
   IsStringInvalidNumberOr0,
   ConvertNumberToTwoDecimals,
@@ -58,7 +57,7 @@ import {
 import { Reorder } from "framer-motion";
 import { ReorderIcon } from "../assets";
 
-type DefaultIncrementInputValidityMap = {
+type DefaultIncrementInputInvalidityMap = {
   weight: boolean;
   distance: boolean;
   resistanceLevel: boolean;
@@ -114,9 +113,9 @@ export default function Settings() {
   const [defaultIncrementOriginalValues, setDefaultIncrementOriginalValues] =
     useState<DefaultIncrementInputs>(emptyDefaultIncrementValues);
 
-  const defaultIncrementInputsValidityMap =
-    useMemo((): DefaultIncrementInputValidityMap => {
-      const values: DefaultIncrementInputValidityMap = {
+  const defaultIncrementInputsInvalidityMap =
+    useMemo((): DefaultIncrementInputInvalidityMap => {
+      const values: DefaultIncrementInputInvalidityMap = {
         weight: IsStringInvalidNumberOr0(defaultIncrementInputValues.weight),
         distance: IsStringInvalidNumberOr0(
           defaultIncrementInputValues.distance
@@ -191,7 +190,8 @@ export default function Settings() {
     key: K,
     value: UserSettings[K]
   ) => {
-    if (userSettings === undefined || !ValidateUserSetting(key, value)) return;
+    if (userSettings === undefined || !ValidateUserSetting(key, value))
+      return false;
 
     const updatedUserSettings: UserSettings = {
       ...userSettings,
@@ -208,133 +208,121 @@ export default function Settings() {
 
       setUserSettings(updatedUserSettings);
       toast.success("Setting Updated");
+      return true;
     } catch (error) {
       console.log(error);
+      return false;
     }
-  };
-
-  const updateSettings = async (
-    updatedSettings: UserSettings
-  ): Promise<boolean> => {
-    const success = await UpdateAllUserSettings(updatedSettings);
-
-    if (success) {
-      setUserSettings(updatedSettings);
-      toast.success("Setting Updated");
-      return true;
-    }
-
-    return false;
   };
 
   const handleDefaultIncrementValueChange = async (key: string) => {
-    if (userSettings === undefined) return;
-
-    const updatedSettings = {
-      ...userSettings,
-    };
-
     const updatedOriginalValues = { ...defaultIncrementOriginalValues };
 
-    if (key === "weight") {
-      if (
-        defaultIncrementInputsValidityMap.weight ||
-        defaultIncrementOriginalValues.weight ===
-          defaultIncrementInputValues.weight
-      )
-        return;
-
+    if (
+      key === "weight" &&
+      !defaultIncrementInputsInvalidityMap.weight &&
+      defaultIncrementOriginalValues.weight !==
+        defaultIncrementInputValues.weight
+    ) {
       const newValue = ConvertNumberToTwoDecimals(
         Number(defaultIncrementInputValues.weight)
       );
 
       const updatedInputString = newValue.toString();
 
-      updatedSettings.default_increment_weight = newValue;
-      setDefaultIncrementInputValues((prev) => ({
-        ...prev,
-        weight: updatedInputString,
-      }));
-
       updatedOriginalValues.weight = updatedInputString;
-    } else if (key === "distance") {
-      if (
-        defaultIncrementInputsValidityMap.distance ||
-        defaultIncrementOriginalValues.distance ===
-          defaultIncrementInputValues.distance
-      )
-        return;
 
+      const success = await updateUserSetting(
+        "default_increment_weight",
+        newValue
+      );
+
+      if (!success) return;
+    }
+
+    if (
+      key === "distance" &&
+      !defaultIncrementInputsInvalidityMap.distance &&
+      defaultIncrementOriginalValues.distance !==
+        defaultIncrementInputValues.distance
+    ) {
       const newValue = ConvertNumberToTwoDecimals(
         Number(defaultIncrementInputValues.distance)
       );
 
       const updatedInputString = newValue.toString();
 
-      updatedSettings.default_increment_distance = newValue;
-      setDefaultIncrementInputValues((prev) => ({
-        ...prev,
-        distance: updatedInputString,
-      }));
-
       updatedOriginalValues.distance = updatedInputString;
-    } else if (key === "time") {
-      if (
-        isTimeInputInvalid ||
-        defaultIncrementOriginalValues.time === defaultIncrementInputValues.time
-      )
-        return;
 
-      updatedSettings.default_increment_time = defaultIncrementInputValues.time;
+      const success = await updateUserSetting(
+        "default_increment_distance",
+        newValue
+      );
 
+      if (!success) return;
+    }
+
+    if (
+      key === "time" &&
+      !isTimeInputInvalid &&
+      defaultIncrementOriginalValues.time !== defaultIncrementInputValues.time
+    ) {
       updatedOriginalValues.time = defaultIncrementInputValues.time;
-    } else if (key === "resistance-level") {
-      if (
-        defaultIncrementInputsValidityMap.resistanceLevel ||
-        defaultIncrementOriginalValues.resistanceLevel ===
-          defaultIncrementInputValues.resistanceLevel
-      )
-        return;
 
+      const success = await updateUserSetting(
+        "default_increment_time",
+        defaultIncrementInputValues.time
+      );
+
+      if (!success) return;
+    }
+
+    if (
+      key === "resistance-level" &&
+      !defaultIncrementInputsInvalidityMap.resistanceLevel &&
+      defaultIncrementOriginalValues.resistanceLevel !==
+        defaultIncrementInputValues.resistanceLevel
+    ) {
       const newValue = ConvertNumberToTwoDecimals(
         Number(defaultIncrementInputValues.resistanceLevel)
       );
 
       const updatedInputString = newValue.toString();
 
-      updatedSettings.default_increment_resistance_level = newValue;
-      setDefaultIncrementInputValues((prev) => ({
-        ...prev,
-        resistanceLevel: updatedInputString,
-      }));
-
       updatedOriginalValues.resistanceLevel = updatedInputString;
-    } else if (key === "calculation-multiplier") {
-      if (
-        defaultIncrementInputsValidityMap.calculationMultiplier ||
-        defaultIncrementOriginalValues.calculationMultiplier ===
-          defaultIncrementInputValues.calculationMultiplier
-      )
-        return;
 
+      const success = await updateUserSetting(
+        "default_increment_resistance_level",
+        newValue
+      );
+
+      if (!success) return;
+    }
+
+    if (
+      key === "calculation-multiplier" &&
+      !defaultIncrementInputsInvalidityMap.calculationMultiplier &&
+      defaultIncrementOriginalValues.calculationMultiplier !==
+        defaultIncrementInputValues.calculationMultiplier
+    ) {
       const newValue = ConvertNumberToTwoDecimals(
         Number(defaultIncrementInputValues.calculationMultiplier)
       );
 
       const updatedInputString = newValue.toString();
 
-      updatedSettings.default_increment_calculation_multiplier = newValue;
-      setDefaultIncrementInputValues((prev) => ({
-        ...prev,
-        calculationMultiplier: updatedInputString,
-      }));
-
       updatedOriginalValues.calculationMultiplier = updatedInputString;
-    } else return;
 
-    const success = await updateSettings(updatedSettings);
+      const success = await updateUserSetting(
+        "default_increment_calculation_multiplier",
+        newValue
+      );
 
-    if (success) setDefaultIncrementOriginalValues(updatedOriginalValues);
+      if (!success) return;
+    }
+
+    setDefaultIncrementInputValues(updatedOriginalValues);
+    setDefaultIncrementOriginalValues({ ...updatedOriginalValues });
   };
 
   const handleDefaultPlateCollectionIdChange = async (
@@ -869,13 +857,13 @@ export default function Settings() {
                     weight: value,
                   }))
                 }
-                isInvalid={defaultIncrementInputsValidityMap.weight}
+                isInvalid={defaultIncrementInputsInvalidityMap.weight}
               />
               <Button
                 color="primary"
                 size="sm"
                 isDisabled={
-                  defaultIncrementInputsValidityMap.weight ||
+                  defaultIncrementInputsInvalidityMap.weight ||
                   defaultIncrementOriginalValues.weight ===
                     defaultIncrementInputValues.weight
                 }
@@ -900,13 +888,13 @@ export default function Settings() {
                     distance: value,
                   })
                 }
-                isInvalid={defaultIncrementInputsValidityMap.distance}
+                isInvalid={defaultIncrementInputsInvalidityMap.distance}
               />
               <Button
                 color="primary"
                 size="sm"
                 isDisabled={
-                  defaultIncrementInputsValidityMap.distance ||
+                  defaultIncrementInputsInvalidityMap.distance ||
                   defaultIncrementOriginalValues.distance ===
                     defaultIncrementInputValues.distance
                 }
@@ -962,13 +950,13 @@ export default function Settings() {
                     resistanceLevel: value,
                   })
                 }
-                isInvalid={defaultIncrementInputsValidityMap.resistanceLevel}
+                isInvalid={defaultIncrementInputsInvalidityMap.resistanceLevel}
               />
               <Button
                 color="primary"
                 size="sm"
                 isDisabled={
-                  defaultIncrementInputsValidityMap.resistanceLevel ||
+                  defaultIncrementInputsInvalidityMap.resistanceLevel ||
                   defaultIncrementOriginalValues.resistanceLevel ===
                     defaultIncrementInputValues.resistanceLevel
                 }
@@ -996,14 +984,14 @@ export default function Settings() {
                   }))
                 }
                 isInvalid={
-                  defaultIncrementInputsValidityMap.calculationMultiplier
+                  defaultIncrementInputsInvalidityMap.calculationMultiplier
                 }
               />
               <Button
                 color="primary"
                 size="sm"
                 isDisabled={
-                  defaultIncrementInputsValidityMap.calculationMultiplier ||
+                  defaultIncrementInputsInvalidityMap.calculationMultiplier ||
                   defaultIncrementOriginalValues.calculationMultiplier ===
                     defaultIncrementInputValues.calculationMultiplier
                 }
