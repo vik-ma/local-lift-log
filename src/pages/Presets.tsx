@@ -1197,90 +1197,103 @@ export default function Presets() {
                 />
                 <div className="flex flex-col gap-1.5">
                   <div className="flex flex-col gap-1">
-                    {filteredPlateCollections.map((plate) => (
-                      <div
-                        className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                        key={`plate-calculation-${plate.id}`}
-                        onClick={() =>
-                          handlePlateCollectionOptionSelection("edit", plate)
-                        }
-                      >
-                        <div className="flex flex-col justify-start items-start pl-2 py-1">
-                          <span className="w-[17.5rem] truncate">
-                            {plate.name}
-                          </span>
-                          {plate.availablePlatesMap!.size === 0 ? (
-                            <span className="text-xs text-red-700">
-                              No Available Plates
+                    {filteredPlateCollections.map((plate) => {
+                      const isAvailablePlatesStringInvalid =
+                        plate.availablePlatesMap!.size === 0;
+                      const isPlateCollectionInvalid =
+                        isAvailablePlatesStringInvalid ||
+                        plate.handle === undefined;
+
+                      return (
+                        <div
+                          className="flex justify-between items-center cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                          key={`plate-calculation-${plate.id}`}
+                          onClick={() =>
+                            handlePlateCollectionOptionSelection("edit", plate)
+                          }
+                        >
+                          <div className="flex flex-col justify-start items-start pl-2 py-1">
+                            <span className="w-[17.5rem] truncate">
+                              {plate.name}
                             </span>
-                          ) : (
-                            <span className="w-[17.5rem] truncate text-xs text-secondary">
-                              {plate.formattedAvailablePlatesString}{" "}
-                              {plate.weight_unit}
-                            </span>
-                          )}
-                          <span className="text-xs text-stone-400">
-                            {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
-                            {plate.handle !== undefined ? (
-                              ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`
+                            {isAvailablePlatesStringInvalid ? (
+                              <span className="text-xs text-red-700">
+                                No Available Plates
+                              </span>
                             ) : (
-                              <span className="text-red-700">
-                                {" "}
-                                (Unknown Handle)
+                              <span className="w-[17.5rem] truncate text-xs text-secondary">
+                                {plate.formattedAvailablePlatesString}{" "}
+                                {plate.weight_unit}
                               </span>
                             )}
-                          </span>
-                        </div>
-                        <div className="flex items-center pr-1">
-                          <PlateCollectionButton
-                            userSettings={userSettings}
-                            setUserSettings={setUserSettings}
-                            plateCollection={plate}
-                          />
-                          <Dropdown>
-                            <DropdownTrigger>
-                              <Button
-                                aria-label={`Toggle ${plate.name} Options Menu`}
-                                isIconOnly
-                                className="z-1"
-                                radius="lg"
-                                variant="light"
-                              >
-                                <VerticalMenuIcon size={19} color="#888" />
-                              </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu
-                              aria-label={`Option Menu For ${plate.name} Plate Collection`}
-                              onAction={(key) =>
-                                handlePlateCollectionOptionSelection(
-                                  key as string,
-                                  plate
-                                )
-                              }
-                            >
-                              <DropdownItem key="edit">Edit</DropdownItem>
-                              <DropdownItem
-                                className={
-                                  plate.id ===
-                                  userSettings.default_plate_collection_id
-                                    ? "hidden"
-                                    : "text-success"
+                            <span className="text-xs text-stone-400">
+                              {plate.num_handles === 1
+                                ? "1 Handle"
+                                : "2 Handles"}
+                              {plate.handle !== undefined ? (
+                                ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`
+                              ) : (
+                                <span className="text-red-700">
+                                  {" "}
+                                  (Unknown Handle)
+                                </span>
+                              )}
+                            </span>
+                          </div>
+                          <div className="flex items-center pr-1">
+                            {!isPlateCollectionInvalid && (
+                              <PlateCollectionButton
+                                userSettings={userSettings}
+                                setUserSettings={setUserSettings}
+                                plateCollection={plate}
+                              />
+                            )}
+                            <Dropdown>
+                              <DropdownTrigger>
+                                <Button
+                                  aria-label={`Toggle ${plate.name} Options Menu`}
+                                  isIconOnly
+                                  className="z-1"
+                                  radius="lg"
+                                  variant="light"
+                                >
+                                  <VerticalMenuIcon size={19} color="#888" />
+                                </Button>
+                              </DropdownTrigger>
+                              <DropdownMenu
+                                aria-label={`Option Menu For ${plate.name} Plate Collection`}
+                                onAction={(key) =>
+                                  handlePlateCollectionOptionSelection(
+                                    key as string,
+                                    plate
+                                  )
                                 }
-                                key="set-default"
                               >
-                                Set As Default
-                              </DropdownItem>
-                              <DropdownItem
-                                key="delete"
-                                className="text-danger"
-                              >
-                                Delete
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </Dropdown>
+                                <DropdownItem key="edit">Edit</DropdownItem>
+                                <DropdownItem
+                                  className={
+                                    plate.id ===
+                                      userSettings.default_plate_collection_id ||
+                                    isPlateCollectionInvalid
+                                      ? "hidden"
+                                      : "text-success"
+                                  }
+                                  key="set-default"
+                                >
+                                  Set As Default
+                                </DropdownItem>
+                                <DropdownItem
+                                  key="delete"
+                                  className="text-danger"
+                                >
+                                  Delete
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </Dropdown>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                     {filteredPlateCollections.length === 0 && (
                       <EmptyListLabel itemName="Plate Collections" />
                     )}
