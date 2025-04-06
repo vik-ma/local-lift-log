@@ -66,10 +66,7 @@ type DefaultIncrementInputInvalidityMap = {
 
 type WorkoutRatingValues = { label: string; num: number };
 
-type SpecificSettingModalPage =
-  | "default-plate-calc"
-  | "workout-rating-order"
-  | "load-exercise-options-analytics";
+type SpecificSettingModalPage = "default-plate-calc" | "workout-rating-order";
 
 export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -361,6 +358,7 @@ export default function Settings() {
   const handleSaveSpecificSettingButton = async () => {
     if (userSettings === undefined) return;
 
+    // TODO: FIX
     if (specificSettingModalPage === "load-exercise-options-analytics") {
       const loadExerciseOptionsString =
         Array.from(loadExerciseOptions).join(",");
@@ -405,17 +403,17 @@ export default function Settings() {
     }
   };
 
-  const handleSetDefaultPlateCollectionButton = async () => {
-    if (!presetsList.isEquipmentWeightListLoaded.current) {
+  const handleOpenSpecificSettingModal = async (
+    modalPage: SpecificSettingModalPage
+  ) => {
+    if (
+      modalPage === "default-plate-calc" &&
+      !presetsList.isEquipmentWeightListLoaded.current
+    ) {
       await presetsList.getEquipmentWeights();
     }
 
-    setSpecificSettingModalPage("default-plate-calc");
-    specificSettingModal.onOpen();
-  };
-
-  const handleSetWorkoutRatingsOrderButton = () => {
-    setSpecificSettingModalPage("workout-rating-order");
+    setSpecificSettingModalPage(modalPage);
     specificSettingModal.onOpen();
   };
 
@@ -448,10 +446,7 @@ export default function Settings() {
               <ModalHeader>
                 {specificSettingModalPage === "default-plate-calc"
                   ? "Set Default Plate Collection"
-                  : specificSettingModalPage === "workout-rating-order"
-                  ? "Set Workout Rating Order"
-                  : // TODO: ADD SEPARATE FOR EXERCISEDETAILS PAGE
-                    "Analytics Page Load Exercise Options"}
+                  : "Set Workout Rating Order"}
               </ModalHeader>
               <ModalBody>
                 <div className="h-[400px] flex flex-col gap-2">
@@ -792,7 +787,9 @@ export default function Settings() {
             <Button
               color="primary"
               size="sm"
-              onPress={handleSetWorkoutRatingsOrderButton}
+              onPress={() =>
+                handleOpenSpecificSettingModal("workout-rating-order")
+              }
             >
               Select
             </Button>
@@ -851,7 +848,9 @@ export default function Settings() {
             <Button
               color="primary"
               size="sm"
-              onPress={handleSetDefaultPlateCollectionButton}
+              onPress={() =>
+                handleOpenSpecificSettingModal("default-plate-calc")
+              }
             >
               Select
             </Button>
