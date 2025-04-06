@@ -59,9 +59,7 @@ export { DeleteWorkoutRoutineSchedule } from "./Routines/DeleteWorkoutRoutineSch
 export { CreateDefaultUserSettings } from "./UserSettings/CreateDefaultUserSettings";
 export { GetUserSettings } from "./UserSettings/GetUserSettings";
 export { UpdateActiveRoutineId } from "./UserSettings/UpdateActiveRoutineId";
-export { UpdateAllUserSettings } from "./UserSettings/UpdateAllUserSettings";
 export { UpdateActiveTrackingMeasurements } from "./UserSettings/UpdateActiveTrackingMeasurements";
-export { ValidateUserSettings } from "./UserSettings/ValidateUserSettings";
 export { ValidateShownPropertiesString } from "./UserSettings/ValidateShownPropertiesString";
 export { CreateShownPropertiesSet } from "./UserSettings/CreateShownPropertiesSet";
 export { UpdateDefaultPlateCollectionId } from "./UserSettings/UpdateDefaultPlateCollectionId";
