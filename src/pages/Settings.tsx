@@ -328,7 +328,12 @@ export default function Settings() {
   const handleDefaultPlateCollectionIdChange = async (
     plateCollection: PlateCollection
   ) => {
-    await updateUserSetting("default_plate_collection_id", plateCollection.id);
+    const success = await updateUserSetting(
+      "default_plate_collection_id",
+      plateCollection.id
+    );
+
+    if (!success) return;
 
     specificSettingModal.onClose();
   };
@@ -339,10 +344,12 @@ export default function Settings() {
     if (specificSettingModalPage === "load-exercise-options-analytics") {
       const loadExerciseOptionsString = loadExerciseOptions.join(",");
 
-      await updateUserSetting(
+      const success = await updateUserSetting(
         "load_exercise_options_analytics",
         loadExerciseOptionsString
       );
+
+      if (!success) return;
     }
 
     specificSettingModal.onClose();
