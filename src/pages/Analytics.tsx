@@ -1996,12 +1996,29 @@ export default function Analytics() {
 
     const loadExerciseOptionsString = Array.from(loadExerciseOptions).join(",");
 
+    const optionCategories = [loadExerciseOptionsUnitCategoryPrimary];
+
+    if (loadExerciseOptionsUnitCategorySecondary !== undefined) {
+      optionCategories.push(loadExerciseOptionsUnitCategorySecondary);
+    }
+
+    const loadExerciseOptionsCategoriesString = optionCategories.join(",");
+
+    const success = await UpdateLoadExerciseOptions(
+      loadExerciseOptionsString,
+      loadExerciseOptionsCategoriesString,
+      userSettings.id,
+      true
+    );
+
+    if (!success) return;
+
     const updatedUserSettings: UserSettings = {
       ...userSettings,
       load_exercise_options_analytics: loadExerciseOptionsString,
+      load_exercise_options_categories_analytics:
+        loadExerciseOptionsCategoriesString,
     };
-
-    await UpdateLoadExerciseOptions(loadExerciseOptionsString, userSettings.id, true);
 
     setUserSettings(updatedUserSettings);
   };
