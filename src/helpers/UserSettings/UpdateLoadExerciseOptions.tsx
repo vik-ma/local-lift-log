@@ -3,20 +3,35 @@ import {
   ValidateLoadExerciseOptionsCategoriesString,
   ValidateLoadExerciseOptionsString,
 } from "..";
+import { ChartDataExerciseCategoryBase, ChartDataUnitCategory, UserSettings } from "../../typings";
 
 export const UpdateLoadExerciseOptions = async (
-  loadExerciseOptionsString: string,
-  loadExerciseOptionsCategoriesString: string,
-  userSettingsId: number,
-  isAnalytics: boolean
+  isAnalytics: boolean,
+  loadExerciseOptions: Set<ChartDataExerciseCategoryBase>,
+  loadExerciseOptionsUnitCategoryPrimary: ChartDataUnitCategory,
+  loadExerciseOptionsUnitCategorySecondary: ChartDataUnitCategory,
+  userSettings: UserSettings,
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >
 ) => {
+  const loadExerciseOptionsString = Array.from(loadExerciseOptions).join(",");
+
+  const optionCategories = [loadExerciseOptionsUnitCategoryPrimary];
+
+  if (loadExerciseOptionsUnitCategorySecondary !== undefined) {
+    optionCategories.push(loadExerciseOptionsUnitCategorySecondary);
+  }
+
+  const loadExerciseOptionsCategoriesString = optionCategories.join(",");
+
   if (
     !ValidateLoadExerciseOptionsString(loadExerciseOptionsString) ||
     !ValidateLoadExerciseOptionsCategoriesString(
       loadExerciseOptionsCategoriesString
     )
   )
-    return false;
+    return;
 
   const optionsColumn = isAnalytics
     ? "load_exercise_options_analytics"
@@ -34,13 +49,19 @@ export const UpdateLoadExerciseOptions = async (
       [
         loadExerciseOptionsString,
         loadExerciseOptionsCategoriesString,
-        userSettingsId,
+        userSettings.id,
       ]
     );
 
-    return true;
+    const updatedUserSettings: UserSettings = {
+      ...userSettings,
+      load_exercise_options_analytics: loadExerciseOptionsString,
+      load_exercise_options_categories_analytics:
+        loadExerciseOptionsCategoriesString,
+    };
+
+    setUserSettings(updatedUserSettings);
   } catch (error) {
     console.log(error);
-    return false;
   }
 };
