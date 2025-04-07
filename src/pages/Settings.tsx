@@ -12,10 +12,10 @@ import {
   IsStringInvalidNumberOr0,
   ConvertNumberToTwoDecimals,
   CreateShownPropertiesSet,
-  CreateLoadExerciseOptionsList,
   GetValidatedUserSettingsUnits,
   ValidateUserSetting,
   ValidLoadExerciseOptionsCategories,
+  FillInLoadExerciseOptions,
 } from "../helpers";
 import {
   Switch,
@@ -196,11 +196,21 @@ export default function Settings() {
       setFilterWeightRangeUnit(userSettings.default_unit_weight);
       setFilterDistanceRangeUnit(userSettings.default_unit_distance);
 
-      // TODO: FIX
-      // const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
-      //   userSettings.load_exercise_options_analytics
-      // );
-      // setLoadExerciseOptions(loadExerciseOptionsList);
+      FillInLoadExerciseOptions(
+        userSettings.load_exercise_options_analytics,
+        userSettings.load_exercise_options_categories_analytics,
+        undefined,
+        new Set(),
+        validLoadExerciseOptionsCategories,
+        defaultChartDataUnitCategoryMap,
+        [],
+        undefined,
+        setLoadExerciseOptions,
+        setLoadExerciseOptionsUnitCategoryPrimary,
+        setLoadExerciseOptionsUnitCategorySecondary,
+        setLoadExerciseOptionsUnitCategoriesPrimary,
+        setLoadExerciseOptionsUnitCategoriesSecondary
+      );
     };
 
     loadUserSettings();
