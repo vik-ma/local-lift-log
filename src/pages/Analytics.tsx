@@ -73,6 +73,7 @@ import {
   GetValidatedUserSettingsUnits,
   UpdateChartCommentMapForExercise,
   UpdateLoadExerciseOptions,
+  ValidLoadExerciseOptionsCategories,
   ValidMeasurementUnits,
 } from "../helpers";
 import { ChartConfig } from "../components/ui/chart";
@@ -277,7 +278,10 @@ export default function Analytics() {
       return { weightCharts, distanceCharts, paceCharts, circumferenceCharts };
     }, [allChartDataCategories]);
 
-  const updateLoadExerciseOptions = (loadExerciseOptionsString: string) => {
+  const updateLoadExerciseOptions = (
+    loadExerciseOptionsString: string,
+    loadExerciseOptionsCategoriesString: string
+  ) => {
     const disabledKeys = new Set<ChartDataExerciseCategoryBase>();
 
     // Disable any options that have already been loaded for Exercise
@@ -308,21 +312,45 @@ export default function Analytics() {
 
     setLoadExerciseOptions(new Set(loadExerciseOptionsList));
 
-    const chartAreaUnitCategory = chartDataUnitCategoryMap.current.get(
-      chartDataAreas[0]
-    );
-
     const unitCategoriesPrimary: ChartDataUnitCategory[] = [];
-
-    if (chartAreaUnitCategory !== undefined) {
-      unitCategoriesPrimary.push(chartAreaUnitCategory);
-    }
 
     unitCategoriesPrimary.push(
       ...loadExerciseOptionsList.map((option) =>
         chartDataUnitCategoryMap.current.get(option)
       )
     );
+
+    const validUnitCategories = ValidLoadExerciseOptionsCategories();
+
+    const savedCategories = loadExerciseOptionsCategoriesString.split(
+      ","
+    ) as Exclude<ChartDataUnitCategory, undefined>[];
+
+    let unitCategoryPrimary: ChartDataUnitCategory = undefined;
+
+    const chartAreaUnitCategory = chartDataUnitCategoryMap.current.get(
+      chartDataAreas[0]
+    );
+
+    if (chartAreaUnitCategory !== undefined) {
+      // Use Chart Area category if Chart is already loaded
+      unitCategoryPrimary = chartAreaUnitCategory;
+      unitCategoriesPrimary.push(chartAreaUnitCategory);
+    } else {
+      // Use saved category string if Chart is not loaded
+      const isSavedCategoryValid =
+        validUnitCategories.has(savedCategories[0]) &&
+        unitCategoriesPrimary.includes(savedCategories[0]);
+
+      // Use first unit category from saved options string if saved string is invalid
+      // (Will be undefined if unitCategoriesPrimary is empty)
+      unitCategoryPrimary = isSavedCategoryValid
+        ? savedCategories[0]
+        : unitCategoriesPrimary[0];
+      unitCategoriesPrimary.push(unitCategoryPrimary);
+    }
+
+    setLoadExerciseOptionsUnitCategoryPrimary(unitCategoryPrimary);
 
     const unitCategorySetPrimary = new Set(unitCategoriesPrimary);
 
@@ -336,18 +364,30 @@ export default function Analytics() {
 
     unitCategoriesSecondary.push(
       ...Array.from(unitCategorySetPrimary).filter(
-        (value) => value !== unitCategoriesPrimary[0]
+        (value) => value !== unitCategoryPrimary
       )
     );
 
     setLoadExerciseOptionsUnitCategoriesPrimary(unitCategorySetPrimary);
     setLoadExerciseOptionsUnitCategoriesSecondary(unitCategoriesSecondary);
-    setLoadExerciseOptionsUnitCategoryPrimary(unitCategoriesPrimary[0]);
-    setLoadExerciseOptionsUnitCategorySecondary(
-      secondaryDataUnitCategory !== undefined
-        ? secondaryDataUnitCategory
-        : Array.from(unitCategorySetPrimary)[1]
-    );
+
+    let unitCategorySecondary: ChartDataUnitCategory = undefined;
+
+    if (secondaryDataUnitCategory === undefined) {
+      // Change to saved category string if no Chart Lines are loaded
+      const isSavedCategoryValid =
+        validUnitCategories.has(savedCategories[1]) &&
+        unitCategoriesSecondary.includes(savedCategories[1]);
+
+      // Use first unit category from non-primary saved options string
+      // if saved string is invalid
+      // (Will be undefined if unitCategoriesSecondary is empty)
+      unitCategorySecondary = isSavedCategoryValid
+        ? savedCategories[1]
+        : unitCategoriesSecondary[0];
+
+      setLoadExerciseOptionsUnitCategorySecondary(unitCategorySecondary);
+    }
   };
 
   const assignDefaultUnits = (userSettings: UserSettings) => {
@@ -368,7 +408,10 @@ export default function Analytics() {
   useEffect(() => {
     if (userSettings === undefined) return;
 
-    updateLoadExerciseOptions(userSettings.load_exercise_options_analytics);
+    updateLoadExerciseOptions(
+      userSettings.load_exercise_options_analytics,
+      userSettings.load_exercise_options_categories_analytics
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedExercise]);
 
@@ -383,7 +426,10 @@ export default function Analytics() {
 
         assignDefaultUnits(userSettings);
 
-        updateLoadExerciseOptions(userSettings.load_exercise_options_analytics);
+        updateLoadExerciseOptions(
+          userSettings.load_exercise_options_analytics,
+          userSettings.load_exercise_options_categories_analytics
+        );
       };
 
       loadUserSettings();
