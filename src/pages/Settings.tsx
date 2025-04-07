@@ -16,6 +16,7 @@ import {
   ValidateUserSetting,
   ValidLoadExerciseOptionsCategories,
   FillInLoadExerciseOptions,
+  UpdateLoadExerciseOptions,
 } from "../helpers";
 import {
   Switch,
@@ -69,6 +70,8 @@ type WorkoutRatingValues = { label: string; num: number };
 
 type SpecificSettingModalPage = "default-plate-calc" | "workout-rating-order";
 
+type LoadExerciseOptionsPage = "analytics" | "exercise-details";
+
 export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
@@ -98,6 +101,8 @@ export default function Settings() {
     loadExerciseOptionsUnitCategoriesSecondary,
     setLoadExerciseOptionsUnitCategoriesSecondary,
   ] = useState<ChartDataUnitCategory[]>([]);
+  const [loadExerciseOptionsPage, setLoadExerciseOptionsPage] =
+    useState<LoadExerciseOptionsPage>("analytics");
 
   const createDefaultSettingsModal = useDisclosure();
   const specificSettingModal = useDisclosure();
@@ -369,23 +374,22 @@ export default function Settings() {
     specificSettingModal.onClose();
   };
 
-  const handleSaveSpecificSettingButton = async () => {
+  const updateLoadExerciseOptions = async () => {
     if (userSettings === undefined) return;
 
-    // TODO: FIX
-    if (specificSettingModalPage === "load-exercise-options-analytics") {
-      const loadExerciseOptionsString =
-        Array.from(loadExerciseOptions).join(",");
+    const success = await UpdateLoadExerciseOptions(
+      loadExerciseOptionsPage === "analytics",
+      loadExerciseOptions,
+      loadExerciseOptionsUnitCategoryPrimary,
+      loadExerciseOptionsUnitCategorySecondary,
+      userSettings,
+      setUserSettings
+    );
 
-      const success = await updateUserSetting(
-        "load_exercise_options_analytics",
-        loadExerciseOptionsString
-      );
+    if (!success) return;
 
-      if (!success) return;
-    }
-
-    specificSettingModal.onClose();
+    loadExerciseOptionsModal.onClose();
+    toast.success("Setting Updated");
   };
 
   const restoreDefaultSettings = async (
@@ -503,14 +507,6 @@ export default function Settings() {
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                {specificSettingModalPage !== "default-plate-calc" && (
-                  <Button
-                    color="primary"
-                    onPress={handleSaveSpecificSettingButton}
-                  >
-                    Save
-                  </Button>
-                )}
               </ModalFooter>
             </>
           )}
@@ -551,7 +547,7 @@ export default function Settings() {
         loadExerciseOptionsMap={loadExerciseOptionsMap}
         secondaryDataUnitCategory={undefined}
         validLoadExerciseOptionsCategories={validLoadExerciseOptionsCategories}
-        // updateLoadExerciseOptions={() => {}}
+        updateLoadExerciseOptions={updateLoadExerciseOptions}
         customHeader="Load Exercise Options (Analytics)"
       />
       <div className="flex flex-col items-center gap-4">

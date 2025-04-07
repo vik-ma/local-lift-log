@@ -31,7 +31,7 @@ export const UpdateLoadExerciseOptions = async (
       loadExerciseOptionsCategoriesString
     )
   )
-    return;
+    return false;
 
   const optionsColumn = isAnalytics
     ? "load_exercise_options_analytics"
@@ -61,7 +61,9 @@ export const UpdateLoadExerciseOptions = async (
     };
 
     setUserSettings(updatedUserSettings);
+    return true;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };

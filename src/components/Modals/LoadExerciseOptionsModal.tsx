@@ -492,7 +492,7 @@ export const LoadExerciseOptionsModal = ({
                   }
                   onPress={
                     updateLoadExerciseOptions !== undefined
-                      ? () => updateLoadExerciseOptions
+                      ? updateLoadExerciseOptions
                       : loadExerciseStats !== undefined
                       ? () => loadExerciseStats(ignoreWarmups, ignoreMultisets)
                       : () => {}
