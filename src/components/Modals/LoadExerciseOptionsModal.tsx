@@ -59,6 +59,7 @@ type LoadExerciseOptionsModalProps = {
     ignoreMultisets: boolean
   ) => Promise<void>;
   updateLoadExerciseOptions?: () => Promise<void>;
+  customHeader?: string;
 };
 
 export const LoadExerciseOptionsModal = ({
@@ -81,6 +82,7 @@ export const LoadExerciseOptionsModal = ({
   secondaryDataUnitCategory,
   loadExerciseStats,
   updateLoadExerciseOptions,
+  customHeader,
 }: LoadExerciseOptionsModalProps) => {
   const [filterCategories, setFilterCategories] = useState<
     Set<ChartDataUnitCategory>
@@ -271,14 +273,18 @@ export const LoadExerciseOptionsModal = ({
         {(onClose) => (
           <>
             <ModalHeader>
-              <span className="w-[24rem] truncate">
-                Stats To Load For{" "}
-                {selectedExercise !== undefined && (
-                  <span className="text-secondary">
-                    {selectedExercise.name}
-                  </span>
-                )}
-              </span>
+              {customHeader !== undefined ? (
+                customHeader
+              ) : (
+                <span className="w-[24rem] truncate">
+                  Stats To Load For{" "}
+                  {selectedExercise !== undefined && (
+                    <span className="text-secondary">
+                      {selectedExercise.name}
+                    </span>
+                  )}
+                </span>
+              )}
             </ModalHeader>
             <ModalBody className="py-0">
               <div className="h-[456px] flex flex-col gap-1.5">

@@ -537,6 +537,7 @@ export default function Settings() {
         loadExerciseOptionsMap={loadExerciseOptionsMap}
         secondaryDataUnitCategory={undefined}
         // updateLoadExerciseOptions={() => {}}
+        customHeader="Load Exercise Options (Analytics)"
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
