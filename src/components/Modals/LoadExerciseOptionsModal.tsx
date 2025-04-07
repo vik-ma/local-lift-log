@@ -24,7 +24,6 @@ import {
   UseDisclosureReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
-import { ValidLoadExerciseOptionsCategories } from "../../helpers";
 
 type LoadExerciseOptionsModalProps = {
   loadExerciseOptionsModal: UseDisclosureReturnType;
@@ -54,6 +53,9 @@ type LoadExerciseOptionsModalProps = {
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>;
   loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
   secondaryDataUnitCategory: ChartDataUnitCategory;
+  validLoadExerciseOptionsCategories: Set<
+    Exclude<ChartDataUnitCategory, undefined>
+  >;
   loadExerciseStats?: (
     ignoreWarmups: boolean,
     ignoreMultisets: boolean
@@ -80,6 +82,7 @@ export const LoadExerciseOptionsModal = ({
   chartDataUnitCategoryMap,
   loadExerciseOptionsMap,
   secondaryDataUnitCategory,
+  validLoadExerciseOptionsCategories,
   loadExerciseStats,
   updateLoadExerciseOptions,
   customHeader,
@@ -89,8 +92,6 @@ export const LoadExerciseOptionsModal = ({
   >(new Set());
   const [ignoreWarmups, setIgnoreWarmups] = useState<boolean>(true);
   const [ignoreMultisets, setIgnoreMultisets] = useState<boolean>(false);
-
-  const optionCategories = ValidLoadExerciseOptionsCategories();
 
   const filteredLoadExerciseOptionsMap = useMemo(() => {
     if (filterCategories.size > 0) {
@@ -332,11 +333,13 @@ export const LoadExerciseOptionsModal = ({
                             >
                           }
                         >
-                          {Array.from(optionCategories).map((category) => (
-                            <DropdownItem key={category}>
-                              {category}
-                            </DropdownItem>
-                          ))}
+                          {Array.from(validLoadExerciseOptionsCategories).map(
+                            (category) => (
+                              <DropdownItem key={category}>
+                                {category}
+                              </DropdownItem>
+                            )
+                          )}
                         </DropdownMenu>
                       </Dropdown>
                     </div>

@@ -243,6 +243,8 @@ export default function Analytics() {
 
   const disabledExerciseGroups = useRef<string[]>([]);
 
+  const validLoadExerciseOptionsCategories = ValidLoadExerciseOptionsCategories();
+
   const { weightCharts, distanceCharts, paceCharts, circumferenceCharts } =
     useMemo(() => {
       const weightCharts = new Set<Exclude<ChartDataCategory, undefined>>();
@@ -3050,6 +3052,7 @@ export default function Analytics() {
         chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
         loadExerciseOptionsMap={loadExerciseOptionsMap}
         secondaryDataUnitCategory={secondaryDataUnitCategory}
+        validLoadExerciseOptionsCategories={validLoadExerciseOptionsCategories}
         loadExerciseStats={loadExerciseStats}
       />
       <FilterMinAndMaxDatesModal

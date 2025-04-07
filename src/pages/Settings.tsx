@@ -15,6 +15,7 @@ import {
   CreateLoadExerciseOptionsList,
   GetValidatedUserSettingsUnits,
   ValidateUserSetting,
+  ValidLoadExerciseOptionsCategories,
 } from "../helpers";
 import {
   Switch,
@@ -149,6 +150,9 @@ export default function Settings() {
   const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
 
   const { defaultChartDataUnitCategoryMap } = useDefaultChartMapsAndConfig();
+
+  const validLoadExerciseOptionsCategories =
+    ValidLoadExerciseOptionsCategories();
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -536,6 +540,7 @@ export default function Settings() {
         chartDataUnitCategoryMap={defaultChartDataUnitCategoryMap}
         loadExerciseOptionsMap={loadExerciseOptionsMap}
         secondaryDataUnitCategory={undefined}
+        validLoadExerciseOptionsCategories={validLoadExerciseOptionsCategories}
         // updateLoadExerciseOptions={() => {}}
         customHeader="Load Exercise Options (Analytics)"
       />
