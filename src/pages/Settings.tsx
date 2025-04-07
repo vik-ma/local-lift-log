@@ -101,7 +101,7 @@ export default function Settings() {
     loadExerciseOptionsUnitCategoriesSecondary,
     setLoadExerciseOptionsUnitCategoriesSecondary,
   ] = useState<ChartDataUnitCategory[]>([]);
-  const [loadExerciseOptionsPage, setLoadExerciseOptionsPage] =
+  const [loadExerciseOptionsTarget, setLoadExerciseOptionsTarget] =
     useState<LoadExerciseOptionsPage>("analytics");
 
   const createDefaultSettingsModal = useDisclosure();
@@ -378,7 +378,7 @@ export default function Settings() {
     if (userSettings === undefined) return;
 
     const success = await UpdateLoadExerciseOptions(
-      loadExerciseOptionsPage === "analytics",
+      loadExerciseOptionsTarget === "analytics",
       loadExerciseOptions,
       loadExerciseOptionsUnitCategoryPrimary,
       loadExerciseOptionsUnitCategorySecondary,
@@ -433,6 +433,13 @@ export default function Settings() {
 
     setSpecificSettingModalPage(modalPage);
     specificSettingModal.onOpen();
+  };
+
+  const handleOpenLoadExerciseOptionsModal = (
+    optionsPage: LoadExerciseOptionsPage
+  ) => {
+    setLoadExerciseOptionsTarget(optionsPage);
+    loadExerciseOptionsModal.onOpen();
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -548,7 +555,11 @@ export default function Settings() {
         secondaryDataUnitCategory={undefined}
         validLoadExerciseOptionsCategories={validLoadExerciseOptionsCategories}
         updateLoadExerciseOptions={updateLoadExerciseOptions}
-        customHeader="Load Exercise Options (Analytics)"
+        customHeader={
+          loadExerciseOptionsTarget === "analytics"
+            ? "Load Exercise Options (Analytics)"
+            : "Load Exercise Options (Exercise Details)"
+        }
       />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
@@ -736,7 +747,7 @@ export default function Settings() {
             <Button
               color="primary"
               size="sm"
-              onPress={() => loadExerciseOptionsModal.onOpen()}
+              onPress={() => handleOpenLoadExerciseOptionsModal("analytics")}
             >
               Select
             </Button>
