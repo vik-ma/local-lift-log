@@ -59,8 +59,8 @@ import {
   ConvertNumberToTwoDecimals,
   ConvertPaceValue,
   ConvertWeightValue,
-  CreateLoadExerciseOptionsList,
   CreateShownPropertiesSet,
+  FillInLoadExerciseOptions,
   FormatDateToShortString,
   GetAllDietLogs,
   GetAllUserWeights,
@@ -243,7 +243,8 @@ export default function Analytics() {
 
   const disabledExerciseGroups = useRef<string[]>([]);
 
-  const validLoadExerciseOptionsCategories = ValidLoadExerciseOptionsCategories();
+  const validLoadExerciseOptionsCategories =
+    ValidLoadExerciseOptionsCategories();
 
   const { weightCharts, distanceCharts, paceCharts, circumferenceCharts } =
     useMemo(() => {
@@ -280,118 +281,6 @@ export default function Analytics() {
       return { weightCharts, distanceCharts, paceCharts, circumferenceCharts };
     }, [allChartDataCategories]);
 
-  const updateLoadExerciseOptions = (
-    loadExerciseOptionsString: string,
-    loadExerciseOptionsCategoriesString: string
-  ) => {
-    const disabledKeys = new Set<ChartDataExerciseCategoryBase>();
-
-    // Disable any options that have already been loaded for Exercise
-    if (selectedExercise !== undefined) {
-      const id = selectedExercise.id;
-
-      // Check if a ChartDataExerciseCategoryBase value exists for selectedExercise id
-      for (const chart of loadedCharts.current) {
-        const lastIndex = chart.lastIndexOf("_");
-
-        if (lastIndex === -1) continue;
-
-        const chartName = chart.substring(0, lastIndex);
-        const chartId = chart.substring(lastIndex + 1);
-
-        if (chartId === id.toString() && chartName !== "measurement") {
-          disabledKeys.add(chartName as ChartDataExerciseCategoryBase);
-        }
-      }
-    }
-
-    setDisabledLoadExerciseOptions(disabledKeys);
-
-    // Create list from default string, without any disabled options
-    const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
-      loadExerciseOptionsString
-    ).filter((option) => !disabledKeys.has(option));
-
-    setLoadExerciseOptions(new Set(loadExerciseOptionsList));
-
-    const unitCategoriesPrimary: ChartDataUnitCategory[] = [];
-
-    unitCategoriesPrimary.push(
-      ...loadExerciseOptionsList.map((option) =>
-        chartDataUnitCategoryMap.current.get(option)
-      )
-    );
-
-    const validUnitCategories = ValidLoadExerciseOptionsCategories();
-
-    const savedCategories = loadExerciseOptionsCategoriesString.split(
-      ","
-    ) as Exclude<ChartDataUnitCategory, undefined>[];
-
-    let unitCategoryPrimary: ChartDataUnitCategory = undefined;
-
-    const chartAreaUnitCategory = chartDataUnitCategoryMap.current.get(
-      chartDataAreas[0]
-    );
-
-    if (chartAreaUnitCategory !== undefined) {
-      // Use Chart Area category if Chart is already loaded
-      unitCategoryPrimary = chartAreaUnitCategory;
-      unitCategoriesPrimary.push(chartAreaUnitCategory);
-    } else {
-      // Use saved category string if Chart is not loaded
-      const isSavedCategoryValid =
-        validUnitCategories.has(savedCategories[0]) &&
-        unitCategoriesPrimary.includes(savedCategories[0]);
-
-      // Use first unit category from saved options string if saved string is invalid
-      // (Will be undefined if unitCategoriesPrimary is empty)
-      unitCategoryPrimary = isSavedCategoryValid
-        ? savedCategories[0]
-        : unitCategoriesPrimary[0];
-      unitCategoriesPrimary.push(unitCategoryPrimary);
-    }
-
-    setLoadExerciseOptionsUnitCategoryPrimary(unitCategoryPrimary);
-
-    const unitCategorySetPrimary = new Set(unitCategoriesPrimary);
-
-    unitCategorySetPrimary.delete(undefined);
-
-    const unitCategoriesSecondary: ChartDataUnitCategory[] = [];
-
-    if (secondaryDataUnitCategory !== undefined) {
-      unitCategoriesSecondary.push(secondaryDataUnitCategory);
-    }
-
-    unitCategoriesSecondary.push(
-      ...Array.from(unitCategorySetPrimary).filter(
-        (value) => value !== unitCategoryPrimary
-      )
-    );
-
-    setLoadExerciseOptionsUnitCategoriesPrimary(unitCategorySetPrimary);
-    setLoadExerciseOptionsUnitCategoriesSecondary(unitCategoriesSecondary);
-
-    let unitCategorySecondary: ChartDataUnitCategory = undefined;
-
-    if (secondaryDataUnitCategory === undefined) {
-      // Change to saved category string if no Chart Lines are loaded
-      const isSavedCategoryValid =
-        validUnitCategories.has(savedCategories[1]) &&
-        unitCategoriesSecondary.includes(savedCategories[1]);
-
-      // Use first unit category from non-primary saved options string
-      // if saved string is invalid
-      // (Will be undefined if unitCategoriesSecondary is empty)
-      unitCategorySecondary = isSavedCategoryValid
-        ? savedCategories[1]
-        : unitCategoriesSecondary[0];
-
-      setLoadExerciseOptionsUnitCategorySecondary(unitCategorySecondary);
-    }
-  };
-
   const assignDefaultUnits = (userSettings: UserSettings) => {
     const validUnits = GetValidatedUserSettingsUnits(userSettings);
 
@@ -410,9 +299,21 @@ export default function Analytics() {
   useEffect(() => {
     if (userSettings === undefined) return;
 
-    updateLoadExerciseOptions(
+    FillInLoadExerciseOptions(
       userSettings.load_exercise_options_analytics,
-      userSettings.load_exercise_options_categories_analytics
+      userSettings.load_exercise_options_categories_analytics,
+      selectedExercise,
+      loadedCharts.current,
+      validLoadExerciseOptionsCategories,
+      chartDataUnitCategoryMap.current,
+      chartDataAreas,
+      secondaryDataUnitCategory,
+      setLoadExerciseOptions,
+      setLoadExerciseOptionsUnitCategoryPrimary,
+      setLoadExerciseOptionsUnitCategorySecondary,
+      setLoadExerciseOptionsUnitCategoriesPrimary,
+      setLoadExerciseOptionsUnitCategoriesSecondary,
+      setDisabledLoadExerciseOptions
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedExercise]);
@@ -428,9 +329,21 @@ export default function Analytics() {
 
         assignDefaultUnits(userSettings);
 
-        updateLoadExerciseOptions(
+        FillInLoadExerciseOptions(
           userSettings.load_exercise_options_analytics,
-          userSettings.load_exercise_options_categories_analytics
+          userSettings.load_exercise_options_categories_analytics,
+          selectedExercise,
+          loadedCharts.current,
+          validLoadExerciseOptionsCategories,
+          chartDataUnitCategoryMap.current,
+          chartDataAreas,
+          secondaryDataUnitCategory,
+          setLoadExerciseOptions,
+          setLoadExerciseOptionsUnitCategoryPrimary,
+          setLoadExerciseOptionsUnitCategorySecondary,
+          setLoadExerciseOptionsUnitCategoriesPrimary,
+          setLoadExerciseOptionsUnitCategoriesSecondary,
+          setDisabledLoadExerciseOptions
         );
       };
 

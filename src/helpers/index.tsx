@@ -256,3 +256,4 @@ export { DeleteDietLogWithId } from "./DietLogs/DeleteDietLogWithId";
 export { GetAllDietLogs } from "./DietLogs/GetAllDietLogs";
 
 export { UpdateChartCommentMapForExercise } from "./Analytics/UpdateChartCommentMapForExercise";
+export { FillInLoadExerciseOptions } from "./Analytics/FillInLoadExerciseOptions"
