@@ -47,6 +47,7 @@ diesel::table! {
         show_multisets_in_exercise_details -> Integer,
         load_exercise_options_categories_analytics -> Text,
         load_exercise_options_categories_exercise_details -> Text,
+        show_pace_in_exercise_details -> Integer,
     }
 }
 
