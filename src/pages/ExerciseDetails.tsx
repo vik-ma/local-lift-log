@@ -298,11 +298,7 @@ export default function ExerciseDetails() {
             <h3 className="font-semibold text-2xl text-center leading-tight text-foreground-600">
               Exercise History
             </h3>
-            {dateSetListMapReversed.size > 0 ? (
-              <span className="text-xs text-stone-500 text-center font-normal">
-                Click on set to go to workout
-              </span>
-            ) : (
+            {dateSetListMapReversed.size === 0 && (
               <span className="text-stone-500 text-center text-sm">
                 No sets completed for exercise
               </span>
@@ -328,7 +324,12 @@ export default function ExerciseDetails() {
               </div>
             )}
           </div>
-          <div className="flex flex-col gap-1.5">
+          <div className="relative flex flex-col gap-1.5">
+            <div className="absolute right-0 -top-px">
+              <span className="text-xs text-stone-500 text-center font-normal">
+                Click on set to go to workout
+              </span>
+            </div>
             {Array.from(dateSetListMapReversed).map(([date, setList]) => {
               // Hide entire date if all sets in setList are warmups/multisets and if corresponding checkbox is unchecked
               if (
