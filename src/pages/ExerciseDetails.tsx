@@ -440,6 +440,17 @@ export default function ExerciseDetails() {
                                   )}
                                 </div>
                               )}
+                              {set.pace !== undefined && (
+                                <div className="flex gap-1 w-[5rem] text-slate-500">
+                                  <span className="max-w-[4rem] truncate font-semibold">
+                                    <span className="font-normal">(</span>
+                                    {set.pace}
+                                  </span>
+                                  <span className="font-normal">
+                                    {set.paceUnit})
+                                  </span>
+                                </div>
+                              )}
                               {set.is_tracking_rpe === 1 && (
                                 <div className="flex gap-1 w-[5rem]">
                                   <span className="font-normal">RPE</span>
