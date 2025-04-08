@@ -11,6 +11,7 @@ import {
 import {
   DistanceUnitDropdown,
   MeasurementUnitDropdown,
+  PaceUnitDropdown,
   SpeedUnitDropdown,
   WeightUnitDropdown,
 } from "../components";
@@ -71,9 +72,11 @@ type AnalyticsChartProps = {
   weightUnit: string;
   distanceUnit: string;
   speedUnit: string;
+  paceUnit: string;
   weightCharts: Set<Exclude<ChartDataCategory, undefined>>;
   distanceCharts: Set<Exclude<ChartDataCategory, undefined>>;
   speedCharts: Set<Exclude<ChartDataCategory, undefined>>;
+  paceCharts: Set<Exclude<ChartDataCategory, undefined>>;
   deleteModal: UseDisclosureReturnType;
   filterMinAndMaxDatesModal: UseDisclosureReturnType;
   updateShownChartLines: (chartLines: ChartDataCategory[]) => void;
@@ -89,10 +92,7 @@ type AnalyticsChartProps = {
   updateMinDateFilter: (minDate: Date | null) => void;
   updateMaxDateFilter: (maxDate: Date | null) => void;
   removeChartStat: (dataKey: ChartDataCategory) => void;
-  handleChangeUnit: (
-    newUnit: string,
-    unitCategory: UnitCategory
-  ) => void;
+  handleChangeUnit: (newUnit: string, unitCategory: UnitCategory) => void;
   changeChartDataLineCategoryToArea: (
     unitCategory: ChartDataUnitCategory
   ) => void;
@@ -129,9 +129,11 @@ export const AnalyticsChart = ({
   weightUnit,
   distanceUnit,
   speedUnit,
+  paceUnit,
   weightCharts,
   distanceCharts,
   speedCharts,
+  paceCharts,
   deleteModal,
   filterMinAndMaxDatesModal,
   updateShownChartLines,
@@ -497,6 +499,13 @@ export const AnalyticsChart = ({
           {speedCharts.size > 0 && (
             <SpeedUnitDropdown
               value={speedUnit}
+              targetType="chart"
+              changeUnitInChart={handleChangeUnit}
+            />
+          )}
+          {paceCharts.size > 0 && (
+            <PaceUnitDropdown
+              value={paceUnit}
               targetType="chart"
               changeUnitInChart={handleChangeUnit}
             />

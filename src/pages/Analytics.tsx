@@ -60,6 +60,7 @@ import {
   ConvertNumberToTwoDecimals,
   ConvertSpeedValue,
   ConvertWeightValue,
+  ConvertPaceValue,
   CreateShownPropertiesSet,
   FillInLoadExerciseOptions,
   FormatDateToShortString,
@@ -250,40 +251,55 @@ export default function Analytics() {
   const validLoadExerciseOptionsCategories =
     ValidLoadExerciseOptionsCategories();
 
-  const { weightCharts, distanceCharts, speedCharts, circumferenceCharts } =
-    useMemo(() => {
-      const weightCharts = new Set<Exclude<ChartDataCategory, undefined>>();
-      const distanceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
-      const speedCharts = new Set<Exclude<ChartDataCategory, undefined>>();
-      const circumferenceCharts = new Set<
-        Exclude<ChartDataCategory, undefined>
-      >();
+  const {
+    weightCharts,
+    distanceCharts,
+    paceCharts,
+    speedCharts,
+    circumferenceCharts,
+  } = useMemo(() => {
+    const weightCharts = new Set<Exclude<ChartDataCategory, undefined>>();
+    const distanceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
+    const speedCharts = new Set<Exclude<ChartDataCategory, undefined>>();
+    const paceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
+    const circumferenceCharts = new Set<
+      Exclude<ChartDataCategory, undefined>
+    >();
 
-      for (const chart of allChartDataCategories) {
-        if (chart === undefined) continue;
+    for (const chart of allChartDataCategories) {
+      if (chart === undefined) continue;
 
-        const unitCategory = chartDataUnitCategoryMap.current.get(chart);
+      const unitCategory = chartDataUnitCategoryMap.current.get(chart);
 
-        switch (unitCategory) {
-          case "Weight":
-            weightCharts.add(chart);
-            break;
-          case "Distance":
-            distanceCharts.add(chart);
-            break;
-          case "Speed":
-            speedCharts.add(chart);
-            break;
-          case "Circumference":
-            circumferenceCharts.add(chart);
-            break;
-          default:
-            break;
-        }
+      switch (unitCategory) {
+        case "Weight":
+          weightCharts.add(chart);
+          break;
+        case "Distance":
+          distanceCharts.add(chart);
+          break;
+        case "Speed":
+          speedCharts.add(chart);
+          break;
+        case "Pace":
+          paceCharts.add(chart);
+          break;
+        case "Circumference":
+          circumferenceCharts.add(chart);
+          break;
+        default:
+          break;
       }
+    }
 
-      return { weightCharts, distanceCharts, speedCharts, circumferenceCharts };
-    }, [allChartDataCategories]);
+    return {
+      weightCharts,
+      distanceCharts,
+      paceCharts,
+      speedCharts,
+      circumferenceCharts,
+    };
+  }, [allChartDataCategories]);
 
   const assignDefaultUnits = (userSettings: UserSettings) => {
     const validUnits = GetValidatedUserSettingsUnits(userSettings);
@@ -1986,6 +2002,9 @@ export default function Analytics() {
       case "Speed":
         unit = ` ${speedUnit}`;
         break;
+      case "Pace":
+        unit = ` ${paceUnit}`;
+        break;
       case "Number Of Sets":
         unit = " sets";
         break;
@@ -2557,6 +2576,14 @@ export default function Analytics() {
       setSpeedUnit(newUnit);
     }
 
+    if (unitCategory === "Pace") {
+      if (newUnit === paceUnit) return;
+
+      changeUnitInChartData(newUnit, paceUnit, paceCharts, ConvertPaceValue);
+
+      setPaceUnit(newUnit);
+    }
+
     if (unitCategory === "Circumference") {
       if (newUnit === circumferenceUnit) return;
 
@@ -2999,9 +3026,11 @@ export default function Analytics() {
               weightUnit={weightUnit}
               distanceUnit={distanceUnit}
               speedUnit={speedUnit}
+              paceUnit={paceUnit}
               weightCharts={weightCharts}
               distanceCharts={distanceCharts}
               speedCharts={speedCharts}
+              paceCharts={paceCharts}
               deleteModal={deleteModal}
               filterMinAndMaxDatesModal={filterMinAndMaxDatesModal}
               updateShownChartLines={updateShownChartLines}
