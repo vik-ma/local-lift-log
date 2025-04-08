@@ -14,7 +14,9 @@ import {
   GetValidatedUserSettingsUnits,
   FormatDateToShortString,
   FormatTimeInSecondsToHhmmssString,
-  CalculateSpeedValue,
+  CalculatePaceValue,
+  GetSpeedUnitFromDistanceUnit,
+  GetPaceUnitFromDistanceUnit,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -42,6 +44,7 @@ export default function ExerciseDetails() {
   const [weightUnit, setWeightUnit] = useState<string>("kg");
   const [distanceUnit, setDistanceUnit] = useState<string>("km");
   const [speedUnit, setSpeedUnit] = useState<string>("km/h");
+  const [paceUnit, setPaceUnit] = useState<string>("min/km");
   const [showWarmups, setShowWarmups] = useState<boolean>(true);
   const [showMultisets, setShowMultisets] = useState<boolean>(true);
   const [showPace, setShowPace] = useState<boolean>(true);
@@ -74,6 +77,7 @@ export default function ExerciseDetails() {
     weightUnit: string,
     distanceUnit: string,
     speedUnit: string,
+    paceUnit: string,
     locale: string
   ) => {
     if (isSetListLoaded.current) return;
@@ -105,16 +109,15 @@ export default function ExerciseDetails() {
       );
 
       if (set.is_tracking_distance && set.is_tracking_time) {
-        // TODO: FIX
-        // const pace = CalculatePaceValue(
-        //   set.distance,
-        //   set.distance_unit,
-        //   set.time_in_seconds,
-        //   speedUnit
-        // );
+        const pace = CalculatePaceValue(
+          set.distance,
+          set.distance_unit,
+          set.time_in_seconds,
+          paceUnit
+        );
 
-        // set.pace = pace;
-        // set.paceUnit = speedUnit;
+        set.pace = pace;
+        set.paceUnit = paceUnit;
 
         showPaceCheckbox.current = true;
       }
@@ -162,12 +165,13 @@ export default function ExerciseDetails() {
 
       const weightUnit = validUnits.weightUnit;
       const distanceUnit = validUnits.distanceUnit;
-      const speedUnit =
-        distanceUnit === "km" || distanceUnit === "m" ? "km/h" : "mph";
+      const speedUnit = GetSpeedUnitFromDistanceUnit(validUnits.distanceUnit);
+      const paceUnit = GetPaceUnitFromDistanceUnit(validUnits.distanceUnit);
 
       setWeightUnit(weightUnit);
       setDistanceUnit(distanceUnit);
       setSpeedUnit(speedUnit);
+      setPaceUnit(paceUnit);
 
       setShowWarmups(!!userSettings.show_warmups_in_exercise_details);
       setShowMultisets(!!userSettings.show_multisets_in_exercise_details);
@@ -178,6 +182,7 @@ export default function ExerciseDetails() {
         weightUnit,
         distanceUnit,
         speedUnit,
+        paceUnit,
         userSettings.locale
       );
 
