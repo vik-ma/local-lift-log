@@ -460,7 +460,13 @@ export default function ExerciseDetails() {
                                 </div>
                               )}
                               {set.pace !== undefined && showPace && (
-                                <div className="flex gap-1 w-[5rem] text-slate-500">
+                                <div
+                                  className={
+                                    set.is_warmup === 1
+                                      ? "flex gap-1 w-[5rem] text-foreground-400"
+                                      : "flex gap-1 w-[5rem] text-slate-500"
+                                  }
+                                >
                                   <span className="max-w-[4rem] truncate font-semibold">
                                     {set.pace}
                                   </span>
