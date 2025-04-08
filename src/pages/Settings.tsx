@@ -438,6 +438,33 @@ export default function Settings() {
   const handleOpenLoadExerciseOptionsModal = (
     optionsPage: LoadExerciseOptionsPage
   ) => {
+    if (userSettings === undefined) return;
+
+    const loadExerciseOptionsString =
+      optionsPage === "analytics"
+        ? userSettings.load_exercise_options_analytics
+        : userSettings.load_exercise_options_exercise_details;
+    const loadExerciseOptionsCategoriesString =
+      optionsPage === "analytics"
+        ? userSettings.load_exercise_options_categories_analytics
+        : userSettings.load_exercise_options_categories_exercise_details;
+
+    FillInLoadExerciseOptions(
+      loadExerciseOptionsString,
+      loadExerciseOptionsCategoriesString,
+      undefined,
+      new Set(),
+      validLoadExerciseOptionsCategories,
+      defaultChartDataUnitCategoryMap,
+      [],
+      undefined,
+      setLoadExerciseOptions,
+      setLoadExerciseOptionsUnitCategoryPrimary,
+      setLoadExerciseOptionsUnitCategorySecondary,
+      setLoadExerciseOptionsUnitCategoriesPrimary,
+      setLoadExerciseOptionsUnitCategoriesSecondary
+    );
+
     setLoadExerciseOptionsTarget(optionsPage);
     loadExerciseOptionsModal.onOpen();
   };
@@ -748,6 +775,20 @@ export default function Settings() {
               color="primary"
               size="sm"
               onPress={() => handleOpenLoadExerciseOptionsModal("analytics")}
+            >
+              Select
+            </Button>
+          </div>
+          <div className="flex gap-3 items-center justify-between pr-1">
+            <span className="text-lg">
+              Default Load Exercise Options For Exercise Details Page
+            </span>
+            <Button
+              color="primary"
+              size="sm"
+              onPress={() =>
+                handleOpenLoadExerciseOptionsModal("exercise-details")
+              }
             >
               Select
             </Button>
