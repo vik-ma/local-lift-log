@@ -42,6 +42,7 @@ export default function ExerciseDetails() {
   const [paceUnit, setPaceUnit] = useState<string>("km/h");
   const [showWarmups, setShowWarmups] = useState<boolean>(true);
   const [showMultisets, setShowMultisets] = useState<boolean>(true);
+  const [showPace, setShowPace] = useState<boolean>(true);
 
   const defaultExercise = useDefaultExercise();
 
@@ -62,6 +63,8 @@ export default function ExerciseDetails() {
   } = useMultiplierInputMap();
 
   const isSetListLoaded = useRef<boolean>(false);
+
+  const showPaceCheckbox = useRef<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -109,6 +112,8 @@ export default function ExerciseDetails() {
 
         set.pace = pace;
         set.paceUnit = paceUnit;
+
+        showPaceCheckbox.current = true;
       }
 
       if (dateMap.has(date)) {
@@ -334,6 +339,16 @@ export default function ExerciseDetails() {
                 >
                   Show Multisets
                 </Checkbox>
+                {showPaceCheckbox.current && (
+                  <Checkbox
+                    className="hover:underline"
+                    size="sm"
+                    isSelected={showPace}
+                    onValueChange={(value) => setShowPace(value)}
+                  >
+                    Show Pace
+                  </Checkbox>
+                )}
               </div>
             )}
           </div>
@@ -440,7 +455,7 @@ export default function ExerciseDetails() {
                                   )}
                                 </div>
                               )}
-                              {set.pace !== undefined && (
+                              {set.pace !== undefined && showPace && (
                                 <div className="flex gap-1 w-[5rem] text-slate-500">
                                   <span className="max-w-[4rem] truncate font-semibold">
                                     <span className="font-normal">(</span>
