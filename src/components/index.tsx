@@ -55,6 +55,7 @@ export { MultipleChoiceDietPhaseDropdown } from "./Dropdowns/MultipleChoiceDietP
 export { DietLogDayDropdown } from "./Dropdowns/DietLogDayDropdown";
 export { WeekdayDropdown } from "./Dropdowns/WeekdayDropdown";
 export { SpeedUnitDropdown } from "./Dropdowns/SpeedUnitDropdown";
+export { PaceUnitDropdown } from "./Dropdowns/PaceUnitDropdown";
 
 export { DeleteModal } from "./Modals/DeleteModal";
 export { SetModal } from "./Modals/SetModal";
