@@ -231,7 +231,7 @@ export { FormatNumItemsString } from "./Strings/FormatNumItemsString";
 export { ReplaceIdsInOrderString } from "./Strings/ReplaceIdsInOrderString";
 export { IsCalculationStringValid } from "./Strings/IsCalculationStringValid";
 export { FormatNumUserMeasurementEntriesString } from "./Strings/FormatNumUserMeasurementEntriesString";
-export { IsMetricUnit } from "./Strings/IsMetricUnit";
+export { GetSpeedUnitFromDistanceUnit } from "./Strings/GetSpeedUnitFromDistanceUnit";
 
 export { UpdateItemInList } from "./Lists/UpdateItemInList";
 export { DeleteItemFromList } from "./Lists/DeleteItemFromList";
