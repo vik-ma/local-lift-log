@@ -137,6 +137,8 @@ export type WorkoutSet = {
   set_index?: number;
   hasInvalidExerciseId?: boolean;
   isEditedInMultiset?: boolean;
+  pace?: number;
+  paceUnit?: string;
 };
 
 export type GroupedWorkoutSet = {

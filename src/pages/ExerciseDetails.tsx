@@ -14,6 +14,7 @@ import {
   GetValidatedUserSettingsUnits,
   FormatDateToShortString,
   FormatTimeInSecondsToHhmmssString,
+  CalculatePaceValue,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -97,6 +98,18 @@ export default function ExerciseDetails() {
         new Date(set.time_completed!),
         locale
       );
+
+      if (set.is_tracking_distance && set.is_tracking_time) {
+        const pace = CalculatePaceValue(
+          set.distance,
+          set.distance_unit,
+          set.time_in_seconds,
+          paceUnit
+        );
+
+        set.pace = pace;
+        set.paceUnit = paceUnit;
+      }
 
       if (dateMap.has(date)) {
         dateMap.get(date)!.push(set);
