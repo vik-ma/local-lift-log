@@ -294,7 +294,7 @@ export default function ExerciseDetails() {
           toggleFavorite={toggleFavorite}
         />
         <div className="flex flex-col gap-2.5">
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-1.5">
             <h3 className="font-semibold text-2xl text-center leading-tight text-foreground-600">
               Exercise History
             </h3>
@@ -304,7 +304,7 @@ export default function ExerciseDetails() {
               </span>
             )}
             {dateSetListMapReversed.size > 0 && (
-              <div className="flex justify-center pt-px gap-8">
+              <div className="flex justify-center pt-px gap-6">
                 <Checkbox
                   className="hover:underline"
                   size="sm"
