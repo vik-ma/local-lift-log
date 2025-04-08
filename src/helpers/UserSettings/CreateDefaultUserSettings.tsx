@@ -59,13 +59,14 @@ export const CreateDefaultUserSettings = async (
   const shown_time_period_properties = "ongoing,diet-phase,injury,note";
 
   const load_exercise_options_analytics = "";
-  const load_exercise_options_exercise_details = "";
+  const load_exercise_options_exercise_details = "weight_max,num_reps_max";
 
   const show_warmups_in_exercise_details = 1;
   const show_multisets_in_exercise_details = 1;
 
   const load_exercise_options_categories_analytics = "";
-  const load_exercise_options_categories_exercise_details = "";
+  const load_exercise_options_categories_exercise_details =
+    "Weight,Number Of Reps";
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
