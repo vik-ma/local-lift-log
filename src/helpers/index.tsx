@@ -231,6 +231,7 @@ export { FormatNumItemsString } from "./Strings/FormatNumItemsString";
 export { ReplaceIdsInOrderString } from "./Strings/ReplaceIdsInOrderString";
 export { IsCalculationStringValid } from "./Strings/IsCalculationStringValid";
 export { FormatNumUserMeasurementEntriesString } from "./Strings/FormatNumUserMeasurementEntriesString";
+export { IsMetricUnit } from "./Strings/IsMetricUnit";
 
 export { UpdateItemInList } from "./Lists/UpdateItemInList";
 export { DeleteItemFromList } from "./Lists/DeleteItemFromList";
@@ -256,4 +257,4 @@ export { DeleteDietLogWithId } from "./DietLogs/DeleteDietLogWithId";
 export { GetAllDietLogs } from "./DietLogs/GetAllDietLogs";
 
 export { UpdateChartCommentMapForExercise } from "./Analytics/UpdateChartCommentMapForExercise";
-export { FillInLoadExerciseOptions } from "./Analytics/FillInLoadExerciseOptions"
+export { FillInLoadExerciseOptions } from "./Analytics/FillInLoadExerciseOptions";
