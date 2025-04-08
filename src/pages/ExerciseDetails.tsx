@@ -469,15 +469,16 @@ export default function ExerciseDetails() {
                                 <div
                                   className={
                                     set.is_warmup === 1
-                                      ? "flex gap-1 w-[5rem] text-foreground-400"
-                                      : "flex gap-1 w-[5rem] text-slate-500"
+                                      ? "flex gap-1 w-[10rem] text-foreground-400"
+                                      : "flex gap-1 w-[10rem] text-slate-500"
                                   }
                                 >
                                   <span className="max-w-[4rem] truncate font-semibold">
+                                    <span className="font-normal">(</span>
                                     {set.pace}
                                   </span>
                                   <span className="font-normal">
-                                    {set.paceUnit}
+                                    {set.paceUnit})
                                   </span>
                                 </div>
                               )}
