@@ -222,6 +222,7 @@ export { RoutineScheduleTypes } from "./Constants/RoutineScheduleTypes";
 export { ValidLoadExerciseOptionsMap } from "./Constants/ValidLoadExerciseOptionsMap";
 export { ValidSpeedUnits } from "./Constants/ValidSpeedUnits";
 export { ValidLoadExerciseOptionsCategories } from "./Constants/ValidLoadExerciseOptionsCategories";
+export { ValidPaceUnits } from "./Constants/ValidPaceUnits";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
@@ -232,6 +233,7 @@ export { ReplaceIdsInOrderString } from "./Strings/ReplaceIdsInOrderString";
 export { IsCalculationStringValid } from "./Strings/IsCalculationStringValid";
 export { FormatNumUserMeasurementEntriesString } from "./Strings/FormatNumUserMeasurementEntriesString";
 export { GetSpeedUnitFromDistanceUnit } from "./Strings/GetSpeedUnitFromDistanceUnit";
+export { GetPaceUnitFromDistanceUnit } from "./Strings/GetPaceUnitFromDistanceUnit";
 
 export { UpdateItemInList } from "./Lists/UpdateItemInList";
 export { DeleteItemFromList } from "./Lists/DeleteItemFromList";
