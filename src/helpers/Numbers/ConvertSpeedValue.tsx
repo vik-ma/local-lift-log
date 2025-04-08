@@ -1,6 +1,6 @@
 import { IsNumberValidAndAbove0 } from "..";
 
-export const ConvertPaceValue = (
+export const ConvertSpeedValue = (
   value: number,
   currentUnit: string,
   newUnit: string

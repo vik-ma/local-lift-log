@@ -54,7 +54,7 @@ export { TimePeriodPropertyDropdown } from "./Dropdowns/TimePeriodPropertyDropdo
 export { MultipleChoiceDietPhaseDropdown } from "./Dropdowns/MultipleChoiceDietPhaseDropdown";
 export { DietLogDayDropdown } from "./Dropdowns/DietLogDayDropdown";
 export { WeekdayDropdown } from "./Dropdowns/WeekdayDropdown";
-export { PaceUnitDropdown } from "./Dropdowns/PaceUnitDropdown";
+export { SpeedUnitDropdown } from "./Dropdowns/SpeedUnitDropdown";
 
 export { DeleteModal } from "./Modals/DeleteModal";
 export { SetModal } from "./Modals/SetModal";

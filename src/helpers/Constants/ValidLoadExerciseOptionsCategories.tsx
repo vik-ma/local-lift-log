@@ -7,6 +7,7 @@ export const ValidLoadExerciseOptionsCategories = () => {
     "Weight",
     "Distance",
     "Time",
+    "Speed",
     "Pace",
     "Number Of Sets",
     "Number Of Reps",

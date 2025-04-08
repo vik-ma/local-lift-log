@@ -57,7 +57,7 @@ import {
   ConvertISODateStringToYmdDateString,
   ConvertMeasurementValue,
   ConvertNumberToTwoDecimals,
-  ConvertPaceValue,
+  ConvertSpeedValue,
   ConvertWeightValue,
   CreateShownPropertiesSet,
   FillInLoadExerciseOptions,
@@ -67,6 +67,7 @@ import {
   GetAnalyticsValuesForSetList,
   GetCompletedSetsWithExerciseId,
   GetCurrentYmdDateString,
+  GetSpeedUnitFromDistanceUnit,
   GetTimeCompletedForSetsWithExerciseId,
   GetUserMeasurementsWithMeasurementId,
   GetUserSettings,
@@ -113,7 +114,7 @@ export default function Analytics() {
   const [weightUnit, setWeightUnit] = useState<string>("kg");
   const [distanceUnit, setDistanceUnit] = useState<string>("km");
   const [circumferenceUnit, setCircumferenceUnit] = useState<string>("cm");
-  const [paceUnit, setPaceUnit] = useState<string>("km/h");
+  const [speedUnit, setSpeedUnit] = useState<string>("km/h");
   const [chartCommentMap, setChartCommentMap] = useState<
     Map<string, ChartComment[]>
   >(new Map());
@@ -246,11 +247,11 @@ export default function Analytics() {
   const validLoadExerciseOptionsCategories =
     ValidLoadExerciseOptionsCategories();
 
-  const { weightCharts, distanceCharts, paceCharts, circumferenceCharts } =
+  const { weightCharts, distanceCharts, speedCharts, circumferenceCharts } =
     useMemo(() => {
       const weightCharts = new Set<Exclude<ChartDataCategory, undefined>>();
       const distanceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
-      const paceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
+      const speedCharts = new Set<Exclude<ChartDataCategory, undefined>>();
       const circumferenceCharts = new Set<
         Exclude<ChartDataCategory, undefined>
       >();
@@ -267,8 +268,8 @@ export default function Analytics() {
           case "Distance":
             distanceCharts.add(chart);
             break;
-          case "Pace":
-            paceCharts.add(chart);
+          case "Speed":
+            speedCharts.add(chart);
             break;
           case "Circumference":
             circumferenceCharts.add(chart);
@@ -278,7 +279,7 @@ export default function Analytics() {
         }
       }
 
-      return { weightCharts, distanceCharts, paceCharts, circumferenceCharts };
+      return { weightCharts, distanceCharts, speedCharts, circumferenceCharts };
     }, [allChartDataCategories]);
 
   const assignDefaultUnits = (userSettings: UserSettings) => {
@@ -287,11 +288,7 @@ export default function Analytics() {
     setWeightUnit(validUnits.weightUnit);
     setDistanceUnit(validUnits.distanceUnit);
     setCircumferenceUnit(validUnits.measurementUnit);
-    setPaceUnit(
-      validUnits.distanceUnit === "km" || validUnits.distanceUnit === "m"
-        ? "km/h"
-        : "mph"
-    );
+    setSpeedUnit(GetSpeedUnitFromDistanceUnit(validUnits.distanceUnit));
 
     chartDataUnitMap.current.set("body_weight", ` ${validUnits.weightUnit}`);
   };
@@ -1788,7 +1785,7 @@ export default function Analytics() {
           loadExerciseOptions,
           weightUnit,
           distanceUnit,
-          paceUnit,
+          speedUnit,
           ignoreWarmups,
           ignoreMultisets
         );
@@ -1981,8 +1978,8 @@ export default function Analytics() {
       case "Time":
         unit = " min";
         break;
-      case "Pace":
-        unit = ` ${paceUnit}`;
+      case "Speed":
+        unit = ` ${speedUnit}`;
         break;
       case "Number Of Sets":
         unit = " sets";
@@ -2522,7 +2519,7 @@ export default function Analytics() {
 
   const handleChangeUnit = (
     newUnit: string,
-    unitCategory: "Weight" | "Distance" | "Pace" | "Circumference"
+    unitCategory: "Weight" | "Distance" | "Speed" | "Circumference"
   ) => {
     if (unitCategory === "Weight") {
       if (newUnit === weightUnit) return;
@@ -2550,12 +2547,12 @@ export default function Analytics() {
       setDistanceUnit(newUnit);
     }
 
-    if (unitCategory === "Pace") {
-      if (newUnit === paceUnit) return;
+    if (unitCategory === "Speed") {
+      if (newUnit === speedUnit) return;
 
-      changeUnitInChartData(newUnit, paceUnit, paceCharts, ConvertPaceValue);
+      changeUnitInChartData(newUnit, speedUnit, speedCharts, ConvertSpeedValue);
 
-      setPaceUnit(newUnit);
+      setSpeedUnit(newUnit);
     }
 
     if (unitCategory === "Circumference") {
@@ -2999,10 +2996,10 @@ export default function Analytics() {
               userSettings={userSettings}
               weightUnit={weightUnit}
               distanceUnit={distanceUnit}
-              paceUnit={paceUnit}
+              speedUnit={speedUnit}
               weightCharts={weightCharts}
               distanceCharts={distanceCharts}
-              paceCharts={paceCharts}
+              speedCharts={speedCharts}
               deleteModal={deleteModal}
               filterMinAndMaxDatesModal={filterMinAndMaxDatesModal}
               updateShownChartLines={updateShownChartLines}

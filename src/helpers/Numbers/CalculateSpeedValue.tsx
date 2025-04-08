@@ -1,11 +1,11 @@
 import { ConvertNumberToTwoDecimals } from "./ConvertNumberToTwoDecimals";
 import { IsNumberValidAndAbove0 } from "./IsNumberValidAndAbove0";
 
-export const CalculatePaceValue = (
+export const CalculateSpeedValue = (
   distance: number,
   distanceUnit: string,
   timeInSeconds: number,
-  paceUnit: string
+  speedUnit: string
 ) => {
   if (
     !IsNumberValidAndAbove0(distance) ||
@@ -30,17 +30,17 @@ export const CalculatePaceValue = (
     }
   })();
 
-  const paceInMetersPerSecond = distanceInMeters / timeInSeconds;
+  const speedInMetersPerSecond = distanceInMeters / timeInSeconds;
 
-  switch (paceUnit) {
+  switch (speedUnit) {
     case "m/s":
-      return ConvertNumberToTwoDecimals(paceInMetersPerSecond);
+      return ConvertNumberToTwoDecimals(speedInMetersPerSecond);
     case "km/h":
-      return ConvertNumberToTwoDecimals(paceInMetersPerSecond * 3.6);
+      return ConvertNumberToTwoDecimals(speedInMetersPerSecond * 3.6);
     case "mph":
-      return ConvertNumberToTwoDecimals(paceInMetersPerSecond * 2.23694);
+      return ConvertNumberToTwoDecimals(speedInMetersPerSecond * 2.23694);
     case "fps":
-      return ConvertNumberToTwoDecimals(paceInMetersPerSecond * 3.28084);
+      return ConvertNumberToTwoDecimals(speedInMetersPerSecond * 3.28084);
     default:
       return 0;
   }

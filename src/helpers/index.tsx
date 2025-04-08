@@ -137,8 +137,8 @@ export { ConvertInputStringToNumberWithTwoDecimalsOrNull } from "./Numbers/Conve
 export { IsNumberValidPercentage } from "./Numbers/IsNumberValidPercentage";
 export { ConvertMeasurementValue } from "./Numbers/ConvertMeasurementValue";
 export { ConvertSecondsToMinutes } from "./Numbers/ConvertSecondsToMinutes";
-export { CalculatePaceValue } from "./Numbers/CalculatePaceValue";
-export { ConvertPaceValue } from "./Numbers/ConvertPaceValue";
+export { CalculateSpeedValue } from "./Numbers/CalculateSpeedValue";
+export { ConvertSpeedValue } from "./Numbers/ConvertSpeedValue";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
@@ -220,7 +220,7 @@ export { DietPhaseTypes } from "./Constants/DietPhaseTypes";
 export { ValidTimePeriodPropertiesMap } from "./Constants/ValidTimePeriodPropertiesMap";
 export { RoutineScheduleTypes } from "./Constants/RoutineScheduleTypes";
 export { ValidLoadExerciseOptionsMap } from "./Constants/ValidLoadExerciseOptionsMap";
-export { ValidPaceUnits } from "./Constants/ValidPaceUnits";
+export { ValidSpeedUnits } from "./Constants/ValidSpeedUnits";
 export { ValidLoadExerciseOptionsCategories } from "./Constants/ValidLoadExerciseOptionsCategories";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";

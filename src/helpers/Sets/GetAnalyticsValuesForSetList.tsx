@@ -1,5 +1,5 @@
 import { ChartDataExerciseCategoryBase, WorkoutSet } from "../../typings";
-import { CalculatePaceValue } from "../Numbers/CalculatePaceValue";
+import { CalculateSpeedValue } from "../Numbers/CalculateSpeedValue";
 import { ConvertDistanceValue } from "../Numbers/ConvertDistanceValue";
 import { ConvertNumberToTwoDecimals } from "../Numbers/ConvertNumberToTwoDecimals";
 import { ConvertSecondsToMinutes } from "../Numbers/ConvertSecondsToMinutes";
@@ -10,7 +10,7 @@ export const GetAnalyticsValuesForSetList = (
   loadExerciseOptions: Set<ChartDataExerciseCategoryBase>,
   weightUnit: string,
   distanceUnit: string,
-  paceUnit: string,
+  speedUnit: string,
   ignoreWarmups: boolean,
   ignoreMultisets: boolean
 ) => {
@@ -35,10 +35,10 @@ export const GetAnalyticsValuesForSetList = (
   let totalTime = -1;
   let numTimeSets = 0;
 
-  let minPace = Infinity;
-  let maxPace = -1;
-  let totalPace = -1;
-  let numPaceSets = 0;
+  let minSpeed = Infinity;
+  let maxSpeed = -1;
+  let totalSpeed = -1;
+  let numSpeedSets = 0;
 
   let minReps = Infinity;
   let maxReps = -1;
@@ -124,24 +124,24 @@ export const GetAnalyticsValuesForSetList = (
       totalDistance += distance;
 
       if (set.is_tracking_time) {
-        numPaceSets++;
+        numSpeedSets++;
 
-        if (maxPace === -1) {
-          maxPace = 0;
-          totalPace = 0;
+        if (maxSpeed === -1) {
+          maxSpeed = 0;
+          totalSpeed = 0;
         }
 
-        const pace = CalculatePaceValue(
+        const speed = CalculateSpeedValue(
           distance,
           distanceUnit,
           set.time_in_seconds,
-          paceUnit
+          speedUnit
         );
 
-        if (pace < minPace) minPace = pace;
-        if (pace > maxPace) maxPace = pace;
+        if (speed < minSpeed) minSpeed = speed;
+        if (speed > maxSpeed) maxSpeed = speed;
 
-        totalPace += pace;
+        totalSpeed += speed;
       }
     }
 
@@ -350,18 +350,18 @@ export const GetAnalyticsValuesForSetList = (
     analyticsValuesMap.set("time_total", totalTime);
   }
 
-  if (loadExerciseOptions.has("pace_min")) {
-    analyticsValuesMap.set("pace_min", minPace === Infinity ? -1 : minPace);
+  if (loadExerciseOptions.has("speed_min")) {
+    analyticsValuesMap.set("speed_min", minSpeed === Infinity ? -1 : minSpeed);
   }
 
-  if (loadExerciseOptions.has("pace_max")) {
-    analyticsValuesMap.set("pace_max", maxPace);
+  if (loadExerciseOptions.has("speed_max")) {
+    analyticsValuesMap.set("speed_max", maxSpeed);
   }
 
-  if (loadExerciseOptions.has("pace_avg")) {
+  if (loadExerciseOptions.has("speed_avg")) {
     analyticsValuesMap.set(
-      "pace_avg",
-      totalPace === -1 ? -1 : Math.round(totalPace / numPaceSets)
+      "speed_avg",
+      totalSpeed === -1 ? -1 : Math.round(totalSpeed / numSpeedSets)
     );
   }
 

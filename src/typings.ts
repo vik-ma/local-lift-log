@@ -183,7 +183,7 @@ export type UnitDropdownProps = {
   customLabel?: string;
   changeUnitInChart?: (
     newUnit: string,
-    unitCategory: "Weight" | "Distance" | "Pace" | "Circumference"
+    unitCategory: "Weight" | "Distance" | "Speed" | "Pace" | "Circumference"
   ) => void;
   customWidthString?: string;
 };
@@ -1213,6 +1213,7 @@ export type ChartDataExerciseCategoryBase =
   | `weight_${"min" | "max" | "avg" | "volume"}`
   | `distance_${"min" | "max" | "avg" | "total"}`
   | `time_${"min" | "max" | "avg" | "total"}`
+  | `speed_${"min" | "max" | "avg"}`
   | `pace_${"min" | "max" | "avg"}`
   | `num_sets`
   | `num_reps_${"min" | "max" | "avg" | "total"}`
@@ -1237,6 +1238,7 @@ export type ChartDataUnitCategory =
   | "Circumference"
   | "Distance"
   | "Time"
+  | "Speed"
   | "Pace"
   | "Number Of Sets"
   | "Number Of Reps"

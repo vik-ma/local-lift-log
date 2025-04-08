@@ -1,32 +1,32 @@
 import { Select, SelectItem } from "@heroui/react";
-import { ValidPaceUnits } from "../../helpers";
+import { ValidSpeedUnits } from "../../helpers";
 
-type PaceUnitDropdownProps = {
+type SpeedUnitDropdownProps = {
   value: string;
   targetType: "chart";
   changeUnitInChart?: (
     newUnit: string,
-    unitCategory: "Weight" | "Distance" | "Pace"
+    unitCategory: "Weight" | "Distance" | "Speed"
   ) => void;
 };
 
-export const PaceUnitDropdown = ({
+export const SpeedUnitDropdown = ({
   value,
   targetType,
   changeUnitInChart,
-}: PaceUnitDropdownProps) => {
-  const validPaceUnits = ValidPaceUnits();
+}: SpeedUnitDropdownProps) => {
+  const validSpeedUnits = ValidSpeedUnits();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "chart" && changeUnitInChart !== undefined) {
-      changeUnitInChart(e.target.value, "Pace");
+      changeUnitInChart(e.target.value, "Speed");
     }
   };
 
   return (
     <Select
-      aria-label="Pace Unit Dropdown List"
-      label="Pace Unit"
+      aria-label="Speed Unit Dropdown List"
+      label="Speed Unit"
       labelPlacement="outside"
       classNames={{
         label: "pl-[3px] mt-1",
@@ -38,7 +38,7 @@ export const PaceUnitDropdown = ({
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      {validPaceUnits.map((unit) => (
+      {validSpeedUnits.map((unit) => (
         <SelectItem key={unit}>{unit}</SelectItem>
       ))}
     </Select>

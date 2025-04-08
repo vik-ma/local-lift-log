@@ -16,7 +16,7 @@ type MeasurementDropdownProps = {
   customLabel?: string;
   changeUnitInChart?: (
     newUnit: string,
-    unitCategory: "Weight" | "Distance" | "Pace" | "Circumference"
+    unitCategory: "Weight" | "Distance" | "Speed" | "Pace" | "Circumference"
   ) => void;
   customWidthString?: string;
 };
