@@ -22,7 +22,6 @@ export const ValidLoadExerciseOptionsMap = () => {
     ["num_partial_reps_max", "Max Partial Reps"],
     ["num_partial_reps_avg", "Average Partial Reps"],
     ["num_partial_reps_total", "Total Partial Reps"],
-    ["set_body_weight", "Body Weight"],
     ["rir_min", "Min RIR"],
     ["rir_max", "Max RIR"],
     ["rir_avg", "Average RIR"],
@@ -46,6 +45,7 @@ export const ValidLoadExerciseOptionsMap = () => {
     ["resistance_level_min", "Min Resistance Level"],
     ["resistance_level_max", "Max Resistance Level"],
     ["resistance_level_avg", "Average Resistance Level"],
+    ["set_body_weight", "Body Weight"],
   ]);
 
   Object.freeze(VALID_LOAD_EXERCISE_OPTIONS_MAP);

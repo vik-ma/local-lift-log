@@ -1,4 +1,5 @@
 import { ChartDataExerciseCategoryBase, WorkoutSet } from "../../typings";
+import { CalculatePaceValue } from "../Numbers/CalculatePaceValue";
 import { CalculateSpeedValue } from "../Numbers/CalculateSpeedValue";
 import { ConvertDistanceValue } from "../Numbers/ConvertDistanceValue";
 import { ConvertNumberToTwoDecimals } from "../Numbers/ConvertNumberToTwoDecimals";
@@ -11,6 +12,7 @@ export const GetAnalyticsValuesForSetList = (
   weightUnit: string,
   distanceUnit: string,
   speedUnit: string,
+  paceUnit: string,
   ignoreWarmups: boolean,
   ignoreMultisets: boolean
 ) => {
@@ -39,6 +41,11 @@ export const GetAnalyticsValuesForSetList = (
   let maxSpeed = -1;
   let totalSpeed = -1;
   let numSpeedSets = 0;
+
+  let minPace = Infinity;
+  let maxPace = -1;
+  let totalPace = -1;
+  let numPaceSets = 0;
 
   let minReps = Infinity;
   let maxReps = -1;
@@ -125,10 +132,13 @@ export const GetAnalyticsValuesForSetList = (
 
       if (set.is_tracking_time) {
         numSpeedSets++;
+        numPaceSets++;
 
         if (maxSpeed === -1) {
           maxSpeed = 0;
           totalSpeed = 0;
+          maxPace = 0;
+          totalPace = 0;
         }
 
         const speed = CalculateSpeedValue(
@@ -142,6 +152,18 @@ export const GetAnalyticsValuesForSetList = (
         if (speed > maxSpeed) maxSpeed = speed;
 
         totalSpeed += speed;
+
+        const pace = CalculatePaceValue(
+          distance,
+          distanceUnit,
+          set.time_in_seconds,
+          paceUnit
+        );
+
+        if (pace < minPace) minPace = pace;
+        if (pace > maxPace) maxPace = pace;
+
+        totalPace += pace;
       }
     }
 
@@ -362,6 +384,21 @@ export const GetAnalyticsValuesForSetList = (
     analyticsValuesMap.set(
       "speed_avg",
       totalSpeed === -1 ? -1 : Math.round(totalSpeed / numSpeedSets)
+    );
+  }
+
+  if (loadExerciseOptions.has("pace_min")) {
+    analyticsValuesMap.set("pace_min", minPace === Infinity ? -1 : minPace);
+  }
+
+  if (loadExerciseOptions.has("pace_max")) {
+    analyticsValuesMap.set("pace_max", maxPace);
+  }
+
+  if (loadExerciseOptions.has("pace_avg")) {
+    analyticsValuesMap.set(
+      "pace_avg",
+      totalPace === -1 ? -1 : Math.round(totalPace / numPaceSets)
     );
   }
 

@@ -68,6 +68,7 @@ import {
   GetAnalyticsValuesForSetList,
   GetCompletedSetsWithExerciseId,
   GetCurrentYmdDateString,
+  GetPaceUnitFromDistanceUnit,
   GetSpeedUnitFromDistanceUnit,
   GetTimeCompletedForSetsWithExerciseId,
   GetUserMeasurementsWithMeasurementId,
@@ -116,6 +117,7 @@ export default function Analytics() {
   const [distanceUnit, setDistanceUnit] = useState<string>("km");
   const [circumferenceUnit, setCircumferenceUnit] = useState<string>("cm");
   const [speedUnit, setSpeedUnit] = useState<string>("km/h");
+  const [paceUnit, setPaceUnit] = useState<string>("min/km");
   const [chartCommentMap, setChartCommentMap] = useState<
     Map<string, ChartComment[]>
   >(new Map());
@@ -290,6 +292,7 @@ export default function Analytics() {
     setDistanceUnit(validUnits.distanceUnit);
     setCircumferenceUnit(validUnits.measurementUnit);
     setSpeedUnit(GetSpeedUnitFromDistanceUnit(validUnits.distanceUnit));
+    setPaceUnit(GetPaceUnitFromDistanceUnit(validUnits.distanceUnit));
 
     chartDataUnitMap.current.set("body_weight", ` ${validUnits.weightUnit}`);
   };
@@ -1787,6 +1790,7 @@ export default function Analytics() {
           weightUnit,
           distanceUnit,
           speedUnit,
+          paceUnit,
           ignoreWarmups,
           ignoreMultisets
         );
