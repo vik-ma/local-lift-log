@@ -87,6 +87,8 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
       return IsNumberValidBinary(value as number);
     case "show_multisets_in_exercise_details":
       return IsNumberValidBinary(value as number);
+    case "show_pace_in_exercise_details":
+      return IsNumberValidBinary(value as number);
     case "load_exercise_options_categories_analytics":
       return ValidateLoadExerciseOptionsCategoriesString(value as string);
     case "load_exercise_options_categories_exercise_details":
