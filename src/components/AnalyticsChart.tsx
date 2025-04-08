@@ -39,6 +39,7 @@ import {
   ChartDataItem,
   ChartDataUnitCategory,
   ChartReferenceAreaItem,
+  UnitCategory,
   UseDisclosureReturnType,
   UserSettings,
 } from "../typings";
@@ -90,7 +91,7 @@ type AnalyticsChartProps = {
   removeChartStat: (dataKey: ChartDataCategory) => void;
   handleChangeUnit: (
     newUnit: string,
-    unitCategory: "Weight" | "Distance" | "Speed" | "Pace" | "Circumference"
+    unitCategory: UnitCategory
   ) => void;
   changeChartDataLineCategoryToArea: (
     unitCategory: ChartDataUnitCategory

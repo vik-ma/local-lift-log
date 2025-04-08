@@ -1,13 +1,11 @@
 import { Select, SelectItem } from "@heroui/react";
 import { ValidSpeedUnits } from "../../helpers";
+import { UnitCategory } from "../../typings";
 
 type SpeedUnitDropdownProps = {
   value: string;
   targetType: "chart";
-  changeUnitInChart?: (
-    newUnit: string,
-    unitCategory: "Weight" | "Distance" | "Speed"
-  ) => void;
+  changeUnitInChart?: (newUnit: string, unitCategory: UnitCategory) => void;
 };
 
 export const SpeedUnitDropdown = ({

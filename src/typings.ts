@@ -157,6 +157,13 @@ export type UpdateUserSettingFunction = <K extends keyof UserSettings>(
   value: UserSettings[K]
 ) => Promise<boolean>;
 
+export type UnitCategory =
+  | "Weight"
+  | "Distance"
+  | "Speed"
+  | "Pace"
+  | "Circumference";
+
 export type UnitDropdownProps = {
   value: string;
   targetType:
@@ -181,10 +188,7 @@ export type UnitDropdownProps = {
   switchWeightUnit?: () => void;
   showBigLabel?: boolean;
   customLabel?: string;
-  changeUnitInChart?: (
-    newUnit: string,
-    unitCategory: "Weight" | "Distance" | "Speed" | "Pace" | "Circumference"
-  ) => void;
+  changeUnitInChart?: (newUnit: string, unitCategory: UnitCategory) => void;
   customWidthString?: string;
 };
 

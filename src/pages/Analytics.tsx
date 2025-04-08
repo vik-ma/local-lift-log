@@ -47,6 +47,7 @@ import {
   Exercise,
   Measurement,
   TimePeriod,
+  UnitCategory,
   UserMeasurementValues,
   UserSettings,
   WorkoutSet,
@@ -2517,10 +2518,7 @@ export default function Analytics() {
     }
   };
 
-  const handleChangeUnit = (
-    newUnit: string,
-    unitCategory: "Weight" | "Distance" | "Speed" | "Circumference"
-  ) => {
+  const handleChangeUnit = (newUnit: string, unitCategory: UnitCategory) => {
     if (unitCategory === "Weight") {
       if (newUnit === weightUnit) return;
 

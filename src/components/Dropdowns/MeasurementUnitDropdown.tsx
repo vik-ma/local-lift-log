@@ -1,6 +1,6 @@
 import { Select, SelectItem } from "@heroui/react";
 import { useValidMeasurementUnits } from "../../hooks";
-import { Measurement, UpdateUserSettingFunction } from "../../typings";
+import { Measurement, UnitCategory, UpdateUserSettingFunction } from "../../typings";
 
 type MeasurementDropdownProps = {
   targetType: "modal" | "settings" | "active" | "chart";
@@ -16,7 +16,7 @@ type MeasurementDropdownProps = {
   customLabel?: string;
   changeUnitInChart?: (
     newUnit: string,
-    unitCategory: "Weight" | "Distance" | "Speed" | "Pace" | "Circumference"
+    unitCategory: UnitCategory
   ) => void;
   customWidthString?: string;
 };
