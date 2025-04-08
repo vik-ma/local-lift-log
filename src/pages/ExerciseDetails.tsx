@@ -27,6 +27,8 @@ import {
 import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 
+type ShowCheckboxType = "warmup" | "multiset" | "pace";
+
 export default function ExerciseDetails() {
   const { id } = useParams();
   const [exercise, setExercise] = useState<Exercise>();
@@ -166,8 +168,9 @@ export default function ExerciseDetails() {
       setDistanceUnit(distanceUnit);
       setPaceUnit(paceUnit);
 
-      setShowWarmups(userSettings.show_warmups_in_exercise_details === 1);
-      setShowMultisets(userSettings.show_multisets_in_exercise_details === 1);
+      setShowWarmups(!!userSettings.show_warmups_in_exercise_details);
+      setShowMultisets(!!userSettings.show_multisets_in_exercise_details);
+      setShowPace(!!userSettings.show_pace_in_exercise_details);
 
       // TODO: ADD DEFAULT LOAD EXERCISE OPTIONS FOR CHART DATA
       await getDateSetListMap(
@@ -238,37 +241,32 @@ export default function ExerciseDetails() {
     setExercise(updatedExercise);
   };
 
-  const handleShowWarmupsChange = async (value: boolean) => {
+  const handleShowCheckboxChange = async (
+    value: boolean,
+    checkbox: ShowCheckboxType
+  ) => {
     if (userSettings === undefined) return;
 
     const numValue = value ? 1 : 0;
 
-    setShowWarmups(value);
+    let column = "";
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      await db.execute(
-        "UPDATE user_settings SET show_warmups_in_exercise_details = $1 WHERE id = $2",
-        [numValue, userSettings.id]
-      );
-    } catch (error) {
-      console.log(error);
+    if (checkbox === "warmup") {
+      column = "show_warmups_in_exercise_details";
+      setShowWarmups(value);
+    } else if (checkbox === "multiset") {
+      column = "show_multisets_in_exercise_details";
+      setShowMultisets(value);
+    } else {
+      column = "show_pace_in_exercise_details";
+      setShowPace(value);
     }
-  };
-
-  const handleShowMultisetsChange = async (value: boolean) => {
-    if (userSettings === undefined) return;
-
-    const numValue = value ? 1 : 0;
-
-    setShowMultisets(value);
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute(
-        "UPDATE user_settings SET show_multisets_in_exercise_details = $1 WHERE id = $2",
+        `UPDATE user_settings SET ${column} = $1 WHERE id = $2`,
         [numValue, userSettings.id]
       );
     } catch (error) {
@@ -327,7 +325,9 @@ export default function ExerciseDetails() {
                   className="hover:underline"
                   size="sm"
                   isSelected={showWarmups}
-                  onValueChange={(value) => handleShowWarmupsChange(value)}
+                  onValueChange={(value) =>
+                    handleShowCheckboxChange(value, "warmup")
+                  }
                 >
                   Show Warmups
                 </Checkbox>
@@ -335,7 +335,9 @@ export default function ExerciseDetails() {
                   className="hover:underline"
                   size="sm"
                   isSelected={showMultisets}
-                  onValueChange={(value) => handleShowMultisetsChange(value)}
+                  onValueChange={(value) =>
+                    handleShowCheckboxChange(value, "multiset")
+                  }
                 >
                   Show Multisets
                 </Checkbox>
@@ -344,7 +346,9 @@ export default function ExerciseDetails() {
                     className="hover:underline"
                     size="sm"
                     isSelected={showPace}
-                    onValueChange={(value) => setShowPace(value)}
+                    onValueChange={(value) =>
+                      handleShowCheckboxChange(value, "pace")
+                    }
                   >
                     Show Pace
                   </Checkbox>
@@ -458,11 +462,10 @@ export default function ExerciseDetails() {
                               {set.pace !== undefined && showPace && (
                                 <div className="flex gap-1 w-[5rem] text-slate-500">
                                   <span className="max-w-[4rem] truncate font-semibold">
-                                    <span className="font-normal">(</span>
                                     {set.pace}
                                   </span>
                                   <span className="font-normal">
-                                    {set.paceUnit})
+                                    {set.paceUnit}
                                   </span>
                                 </div>
                               )}
