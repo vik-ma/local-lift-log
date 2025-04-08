@@ -139,6 +139,7 @@ export { ConvertMeasurementValue } from "./Numbers/ConvertMeasurementValue";
 export { ConvertSecondsToMinutes } from "./Numbers/ConvertSecondsToMinutes";
 export { CalculateSpeedValue } from "./Numbers/CalculateSpeedValue";
 export { ConvertSpeedValue } from "./Numbers/ConvertSpeedValue";
+export { CalculatePaceValue } from "./Numbers/CalculatePaceValue";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
