@@ -772,6 +772,7 @@ export default function Settings() {
               Default Load Exercise Options For Analytics Page
             </span>
             <Button
+              aria-label="Select Default Load Exercise Options For Analytics Page Button"
               color="primary"
               size="sm"
               onPress={() => handleOpenLoadExerciseOptionsModal("analytics")}
@@ -784,6 +785,7 @@ export default function Settings() {
               Default Load Exercise Options For Exercise Details Page
             </span>
             <Button
+              aria-label="Select Default Load Exercise Options For Exercise Details Button"
               color="primary"
               size="sm"
               onPress={() =>
@@ -849,6 +851,7 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Workout Ratings Order</span>
             <Button
+              aria-label="Select Workout Ratings Order Button"
               color="primary"
               size="sm"
               onPress={() =>
@@ -910,6 +913,7 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between pr-1">
             <span className="text-lg">Default Plate Collection</span>
             <Button
+              aria-label="Select Default Plate Collection Button"
               color="primary"
               size="sm"
               onPress={() =>
@@ -940,6 +944,7 @@ export default function Settings() {
                 isInvalid={defaultIncrementInputsInvalidityMap.weight}
               />
               <Button
+                aria-label="Change Default Weight Increment Button"
                 color="primary"
                 size="sm"
                 isDisabled={
@@ -971,6 +976,7 @@ export default function Settings() {
                 isInvalid={defaultIncrementInputsInvalidityMap.distance}
               />
               <Button
+                aria-label="Change Default Distance Increment Button"
                 color="primary"
                 size="sm"
                 isDisabled={
@@ -1001,6 +1007,7 @@ export default function Settings() {
                 showTimeLabel={false}
               />
               <Button
+                aria-label="Change Default Time Increment Button"
                 color="primary"
                 size="sm"
                 isDisabled={
@@ -1033,6 +1040,7 @@ export default function Settings() {
                 isInvalid={defaultIncrementInputsInvalidityMap.resistanceLevel}
               />
               <Button
+                aria-label="Change Default Resistance Level Increment Button"
                 color="primary"
                 size="sm"
                 isDisabled={
@@ -1068,6 +1076,7 @@ export default function Settings() {
                 }
               />
               <Button
+                aria-label="Change Default Calculation Multiplier Increment Button"
                 color="primary"
                 size="sm"
                 isDisabled={
