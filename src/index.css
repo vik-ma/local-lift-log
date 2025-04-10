@@ -149,6 +149,14 @@ body {
   row-gap: 2px;
 }
 
+#exercise-details-tabs:has(:only-child) {
+  display: block;
+}
+
+#exercise-details-tabs:has(:only-child) > * {
+  width: 100%;
+}
+
 #exercise-details-tab-0 {
   grid-area: a;
 }
