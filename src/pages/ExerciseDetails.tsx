@@ -71,6 +71,7 @@ export default function ExerciseDetails() {
   const isSetListLoaded = useRef<boolean>(false);
 
   const showWeightAndRepsTabs = useRef<boolean>(false);
+  const showDistanceAndTimeTabs = useRef<boolean>(false);
 
   const showPaceCheckbox = useRef<boolean>(false);
 
@@ -127,6 +128,7 @@ export default function ExerciseDetails() {
         set.paceUnit = paceUnit;
 
         showPaceCheckbox.current = true;
+        showDistanceAndTimeTabs.current = true;
       }
 
       if (dateMap.has(date)) {
@@ -330,6 +332,10 @@ export default function ExerciseDetails() {
           ) : (
             <Tabs
               className="sticky top-16 z-30"
+              classNames={{
+                tabList: "flex-wrap justify-evenly gap-y-px",
+                tab: "max-w-[7.75rem]",
+              }}
               aria-label="Exercise Stat Pages"
               fullWidth
               selectedKey={tabPage}
@@ -590,6 +596,20 @@ export default function ExerciseDetails() {
                     className="px-0 py-2.5"
                     key="Reps Records"
                     title="Reps Records"
+                  ></Tab>
+                </>
+              )}
+              {showDistanceAndTimeTabs.current && (
+                <>
+                  <Tab
+                    className="px-0 py-2.5"
+                    key="Distance Records"
+                    title="Distance Records"
+                  ></Tab>
+                  <Tab
+                    className="px-0 py-2.5"
+                    key="Time Records"
+                    title="Time Records"
                   ></Tab>
                 </>
               )}
