@@ -332,12 +332,12 @@ export default function ExerciseDetails() {
               onSelectionChange={(key) => setTabPage(key as TabPage)}
             >
               <Tab
-                className="p-0"
+                className="px-0 py-2.5"
                 key="Exercise History"
                 title="Exercise History"
               >
-                <div className="flex flex-col gap-3">
-                  <div className="flex justify-center pt-px gap-6">
+                <div className="flex flex-col gap-2.5">
+                  <div className="flex justify-center gap-6">
                     <Checkbox
                       className="hover:underline"
                       size="sm"
@@ -576,7 +576,7 @@ export default function ExerciseDetails() {
                 </div>
               </Tab>
               <Tab
-                className="p-0"
+                className="px-0 py-2.5"
                 key="Max Weight And Reps"
                 title="Max Weight And Reps"
               ></Tab>

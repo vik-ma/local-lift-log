@@ -910,7 +910,7 @@ export default function Presets() {
       <div className="flex flex-col items-center">
         <Tabs
           className="sticky top-16 z-30"
-          aria-label="Preset Type Option"
+          aria-label="Preset Types"
           size="sm"
           fullWidth
           selectedKey={selectedTab}
