@@ -140,3 +140,30 @@ body {
     --radius: 0.5rem;
   }
 }
+
+#exercise-details-tabs {
+  display: grid;
+  grid-template-areas:
+    "a a b b c c"
+    "d d d e e e";
+}
+
+#exercise-details-tab-0 {
+  grid-area: a;
+}
+
+#exercise-details-tab-1 {
+  grid-area: b;
+}
+
+#exercise-details-tab-2 {
+  grid-area: c;
+}
+
+#exercise-details-tab-3 {
+  grid-area: d;
+}
+
+#exercise-details-tab-4 {
+  grid-area: e;
+}
