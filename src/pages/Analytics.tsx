@@ -39,6 +39,7 @@ import {
   AnalyticsChartListModalPage,
   ChartComment,
   ChartDataCategory,
+  ChartDataCategoryNoUndefined,
   ChartDataExerciseCategory,
   ChartDataExerciseCategoryBase,
   ChartDataItem,
@@ -179,7 +180,7 @@ export default function Analytics() {
     shownReferenceAreas
   );
 
-  const loadedCharts = useRef<Set<Exclude<ChartDataCategory, undefined>>>(
+  const loadedCharts = useRef<Set<ChartDataCategoryNoUndefined>>(
     new Set()
   );
 
@@ -258,12 +259,12 @@ export default function Analytics() {
     speedCharts,
     circumferenceCharts,
   } = useMemo(() => {
-    const weightCharts = new Set<Exclude<ChartDataCategory, undefined>>();
-    const distanceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
-    const speedCharts = new Set<Exclude<ChartDataCategory, undefined>>();
-    const paceCharts = new Set<Exclude<ChartDataCategory, undefined>>();
+    const weightCharts = new Set<ChartDataCategoryNoUndefined>();
+    const distanceCharts = new Set<ChartDataCategoryNoUndefined>();
+    const speedCharts = new Set<ChartDataCategoryNoUndefined>();
+    const paceCharts = new Set<ChartDataCategoryNoUndefined>();
     const circumferenceCharts = new Set<
-      Exclude<ChartDataCategory, undefined>
+      ChartDataCategoryNoUndefined
     >();
 
     for (const chart of allChartDataCategories) {
@@ -1636,7 +1637,7 @@ export default function Analytics() {
       const areCommentsAlreadyLoaded = Object.keys(userMeasurementValues).some(
         (item) =>
           allChartDataCategories.has(
-            `measurement_${item}` as Exclude<ChartDataCategory, undefined>
+            `measurement_${item}` as ChartDataCategoryNoUndefined
           )
       );
 
@@ -2521,7 +2522,7 @@ export default function Analytics() {
 
         Object.keys(entry).forEach((key) => {
           if (key !== "date") {
-            const category = key as Exclude<ChartDataCategory, undefined>;
+            const category = key as ChartDataCategoryNoUndefined;
             const value = entry[category] ?? 0;
 
             if (
@@ -2601,7 +2602,7 @@ export default function Analytics() {
   const changeUnitInChartData = (
     newUnit: string,
     oldUnit: string,
-    categoryChart: Set<Exclude<ChartDataCategory, undefined>>,
+    categoryChart: Set<ChartDataCategoryNoUndefined>,
     conversionFunction: (
       value: number,
       currentUnit: string,

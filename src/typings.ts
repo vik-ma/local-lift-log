@@ -1213,6 +1213,11 @@ export type ChartDataCategory =
   | `exercise_group_${string}`
   | ChartDataExerciseCategory;
 
+export type ChartDataCategoryNoUndefined = Exclude<
+  ChartDataCategory,
+  undefined
+>;
+
 export type ChartDataExerciseCategoryBase =
   | `weight_${"min" | "max" | "avg" | "volume"}`
   | `distance_${"min" | "max" | "avg" | "total"}`
@@ -1250,6 +1255,11 @@ export type ChartDataUnitCategory =
   | "RPE"
   | "Resistance Level";
 
+export type ChartDataUnitCategoryNoUndefined = Exclude<
+  ChartDataUnitCategory,
+  undefined
+>;
+
 export type ChartComment = {
   dataKeys: Set<ChartDataCategory>;
   label: string;
@@ -1272,7 +1282,7 @@ export type TimeCompleted = {
 export type ChartDataItem = {
   date: string;
 } & {
-  [key in Exclude<ChartDataCategory, undefined>]?: number;
+  [key in ChartDataCategoryNoUndefined]?: number;
 };
 
 export type AnalyticsChartListModalPage =

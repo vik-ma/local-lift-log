@@ -1,8 +1,10 @@
 import { CreateLoadExerciseOptionsList } from "..";
 import {
   ChartDataCategory,
+  ChartDataCategoryNoUndefined,
   ChartDataExerciseCategoryBase,
   ChartDataUnitCategory,
+  ChartDataUnitCategoryNoUndefined,
   Exercise,
 } from "../../typings";
 
@@ -10,10 +12,8 @@ export const FillInLoadExerciseOptions = (
   loadExerciseOptionsString: string,
   loadExerciseOptionsCategoriesString: string,
   selectedExercise: Exercise | undefined,
-  loadedCharts: Set<Exclude<ChartDataCategory, undefined>>,
-  validLoadExerciseOptionsCategories: Set<
-    Exclude<ChartDataUnitCategory, undefined>
-  >,
+  loadedCharts: Set<ChartDataCategoryNoUndefined>,
+  validLoadExerciseOptionsCategories: Set<ChartDataUnitCategoryNoUndefined>,
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>,
   chartDataAreas: ChartDataCategory[],
   secondaryDataUnitCategory: ChartDataUnitCategory,
@@ -78,7 +78,7 @@ export const FillInLoadExerciseOptions = (
 
   const savedCategories = loadExerciseOptionsCategoriesString.split(
     ","
-  ) as Exclude<ChartDataUnitCategory, undefined>[];
+  ) as ChartDataUnitCategoryNoUndefined[];
 
   let unitCategoryPrimary: ChartDataUnitCategory = undefined;
 

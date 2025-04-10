@@ -20,6 +20,7 @@ import {
   ChartDataCategory,
   ChartDataExerciseCategoryBase,
   ChartDataUnitCategory,
+  ChartDataUnitCategoryNoUndefined,
   Exercise,
   UseDisclosureReturnType,
 } from "../../typings";
@@ -53,9 +54,7 @@ type LoadExerciseOptionsModalProps = {
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>;
   loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
   secondaryDataUnitCategory: ChartDataUnitCategory;
-  validLoadExerciseOptionsCategories: Set<
-    Exclude<ChartDataUnitCategory, undefined>
-  >;
+  validLoadExerciseOptionsCategories: Set<ChartDataUnitCategoryNoUndefined>;
   loadExerciseStats?: (
     ignoreWarmups: boolean,
     ignoreMultisets: boolean

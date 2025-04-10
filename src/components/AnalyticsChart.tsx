@@ -37,6 +37,7 @@ import {
   AnalyticsChartListModalPage,
   ChartComment,
   ChartDataCategory,
+  ChartDataCategoryNoUndefined,
   ChartDataItem,
   ChartDataUnitCategory,
   ChartReferenceAreaItem,
@@ -73,10 +74,10 @@ type AnalyticsChartProps = {
   distanceUnit: string;
   speedUnit: string;
   paceUnit: string;
-  weightCharts: Set<Exclude<ChartDataCategory, undefined>>;
-  distanceCharts: Set<Exclude<ChartDataCategory, undefined>>;
-  speedCharts: Set<Exclude<ChartDataCategory, undefined>>;
-  paceCharts: Set<Exclude<ChartDataCategory, undefined>>;
+  weightCharts: Set<ChartDataCategoryNoUndefined>;
+  distanceCharts: Set<ChartDataCategoryNoUndefined>;
+  speedCharts: Set<ChartDataCategoryNoUndefined>;
+  paceCharts: Set<ChartDataCategoryNoUndefined>;
   deleteModal: UseDisclosureReturnType;
   filterMinAndMaxDatesModal: UseDisclosureReturnType;
   updateShownChartLines: (chartLines: ChartDataCategory[]) => void;
@@ -100,7 +101,7 @@ type AnalyticsChartProps = {
     | ((modalListType: AnalyticsChartListModalPage) => Promise<void>)
     | (() => Promise<void>);
   circumferenceUnit?: string;
-  circumferenceCharts?: Set<Exclude<ChartDataCategory, undefined>>;
+  circumferenceCharts?: Set<ChartDataCategoryNoUndefined>;
 };
 
 export const AnalyticsChart = ({
