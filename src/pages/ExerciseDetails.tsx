@@ -351,7 +351,7 @@ export default function ExerciseDetails() {
               No sets completed for exercise
             </div>
           ) : (
-            <>
+            <div className="flex flex-col gap-3">
               <div
                 className="p-1 bg-default-100 rounded-xl"
                 id="exercise-details-tabs"
@@ -611,7 +611,19 @@ export default function ExerciseDetails() {
                   </div>
                 </div>
               )}
-            </>
+              {tabPage === "weight" && (
+                <div className="flex justify-center">Weight Records</div>
+              )}
+              {tabPage === "reps" && (
+                <div className="flex justify-center">Reps Records</div>
+              )}
+              {tabPage === "distance" && (
+                <div className="flex justify-center">Distance Records</div>
+              )}
+              {tabPage === "time" && (
+                <div className="flex justify-center">Time Records</div>
+              )}
+            </div>
           )}
         </div>
       </div>
