@@ -31,8 +31,6 @@ import Database from "tauri-plugin-sql-api";
 
 type ShowCheckboxType = "warmup" | "multiset" | "pace";
 
-type TabPage = "Exercise History" | "Max Weight And Reps";
-
 export default function ExerciseDetails() {
   const { id } = useParams();
   const [exercise, setExercise] = useState<Exercise>();
@@ -50,7 +48,7 @@ export default function ExerciseDetails() {
   const [showWarmups, setShowWarmups] = useState<boolean>(true);
   const [showMultisets, setShowMultisets] = useState<boolean>(true);
   const [showPace, setShowPace] = useState<boolean>(true);
-  const [tabPage, setTabPage] = useState<TabPage>("Exercise History");
+  const [tabPage, setTabPage] = useState<string>("Exercise History");
 
   const defaultExercise = useDefaultExercise();
 
@@ -71,6 +69,8 @@ export default function ExerciseDetails() {
   } = useMultiplierInputMap();
 
   const isSetListLoaded = useRef<boolean>(false);
+
+  const showWeightAndRepsTabs = useRef<boolean>(false);
 
   const showPaceCheckbox = useRef<boolean>(false);
 
@@ -110,6 +110,10 @@ export default function ExerciseDetails() {
         new Date(set.time_completed!),
         locale
       );
+
+      if (set.is_tracking_weight && set.is_tracking_reps) {
+        showWeightAndRepsTabs.current = true;
+      }
 
       if (set.is_tracking_distance && set.is_tracking_time) {
         const pace = CalculatePaceValue(
@@ -329,7 +333,7 @@ export default function ExerciseDetails() {
               aria-label="Exercise Stat Pages"
               fullWidth
               selectedKey={tabPage}
-              onSelectionChange={(key) => setTabPage(key as TabPage)}
+              onSelectionChange={(key) => setTabPage(key as string)}
             >
               <Tab
                 className="px-0 py-2.5"
@@ -575,11 +579,20 @@ export default function ExerciseDetails() {
                   </div>
                 </div>
               </Tab>
-              <Tab
-                className="px-0 py-2.5"
-                key="Max Weight And Reps"
-                title="Max Weight And Reps"
-              ></Tab>
+              {showWeightAndRepsTabs.current && (
+                <>
+                  <Tab
+                    className="px-0 py-2.5"
+                    key="Weight Records"
+                    title="Weight Records"
+                  ></Tab>
+                  <Tab
+                    className="px-0 py-2.5"
+                    key="Reps Records"
+                    title="Reps Records"
+                  ></Tab>
+                </>
+              )}
             </Tabs>
           )}
         </div>
