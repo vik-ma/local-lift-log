@@ -146,6 +146,7 @@ body {
   grid-template-areas:
     "a a b b c c"
     "d d d e e e";
+  row-gap: 1px;
 }
 
 #exercise-details-tab-0 {

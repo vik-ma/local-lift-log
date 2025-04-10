@@ -52,13 +52,7 @@ export default function ExerciseDetails() {
   const [showPace, setShowPace] = useState<boolean>(true);
   const [tabPage, setTabPage] = useState<TabPage>("history");
 
-  const tabPages = [
-    ["history", "Exercise History"],
-    ["weight", "Weight Records"],
-    ["reps", "Reps Records"],
-    ["distance", "Distance Records"],
-    ["time", "Time Records"],
-  ];
+  const tabPages = useRef<string[][]>([["history", "Exercise History"]]);
 
   const defaultExercise = useDefaultExercise();
 
@@ -123,7 +117,15 @@ export default function ExerciseDetails() {
       );
 
       if (set.is_tracking_weight && set.is_tracking_reps) {
-        showWeightAndRepsTabs.current = true;
+        if (!showWeightAndRepsTabs.current) {
+          tabPages.current.push(
+            ...[
+              ["weight", "Weight Records"],
+              ["reps", "Reps Records"],
+            ]
+          );
+          showWeightAndRepsTabs.current = true;
+        }
       }
 
       if (set.is_tracking_distance && set.is_tracking_time) {
@@ -138,7 +140,16 @@ export default function ExerciseDetails() {
         set.paceUnit = paceUnit;
 
         showPaceCheckbox.current = true;
-        showDistanceAndTimeTabs.current = true;
+
+        if (!showDistanceAndTimeTabs.current) {
+          tabPages.current.push(
+            ...[
+              ["distance", "Distance Records"],
+              ["time", "Time Records"],
+            ]
+          );
+          showDistanceAndTimeTabs.current = true;
+        }
       }
 
       if (dateMap.has(date)) {
@@ -342,18 +353,17 @@ export default function ExerciseDetails() {
           ) : (
             <>
               <div
-                className="p-1 bg-default-100 rounded-lg"
+                className="p-1 bg-default-100 rounded-xl"
                 id="exercise-details-tabs"
               >
-                {tabPages.map(([key, value], index) => (
+                {tabPages.current.map(([key, value], index) => (
                   <button
                     key={key}
                     className={
                       key === tabPage
-                        ? "shadow-small bg-white text-black text-sm py-1.5 rounded-lg"
+                        ? "text-sm py-1.5 rounded-lg shadow-small bg-white text-black"
                         : "text-sm py-1.5 rounded-lg text-default-500 transition-colors hover:opacity-50 focus:opacity-50"
                     }
-
                     id={`exercise-details-tab-${index}`}
                     onClick={() => setTabPage(key as TabPage)}
                   >
