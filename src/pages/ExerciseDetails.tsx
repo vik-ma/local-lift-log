@@ -77,6 +77,8 @@ export default function ExerciseDetails() {
   const showWeightAndRepsTabs = useRef<boolean>(false);
   const showDistanceAndTimeTabs = useRef<boolean>(false);
 
+  const showWarmupsCheckbox = useRef<boolean>(false);
+  const showMultisetsCheckbox = useRef<boolean>(false);
   const showPaceCheckbox = useRef<boolean>(false);
 
   const navigate = useNavigate();
@@ -152,14 +154,23 @@ export default function ExerciseDetails() {
         }
       }
 
+      if (set.is_warmup === 0) {
+        datesThatAreNotOnlyWarmups.current.add(date);
+      } else {
+        showWarmupsCheckbox.current = true;
+      }
+
+      if (set.multiset_id === 0) {
+        datesThatAreNotOnlyMultisets.current.add(date);
+      } else {
+        showMultisetsCheckbox.current = true;
+      }
+
       if (dateMap.has(date)) {
         dateMap.get(date)!.push(set);
       } else {
         dateMap.set(date, [set]);
       }
-
-      if (set.is_warmup === 0) datesThatAreNotOnlyWarmups.current.add(date);
-      if (set.multiset_id === 0) datesThatAreNotOnlyMultisets.current.add(date);
     }
 
     const sortedDateMapArray = Array.from(dateMap).sort(
@@ -373,40 +384,48 @@ export default function ExerciseDetails() {
               </div>
               {tabPage === "history" && (
                 <div className="flex flex-col gap-2.5">
-                  <div className="flex justify-center gap-6">
-                    <Checkbox
-                      className="hover:underline"
-                      size="sm"
-                      isSelected={showWarmups}
-                      onValueChange={(value) =>
-                        handleShowCheckboxChange(value, "warmup")
-                      }
-                    >
-                      Show Warmups
-                    </Checkbox>
-                    <Checkbox
-                      className="hover:underline"
-                      size="sm"
-                      isSelected={showMultisets}
-                      onValueChange={(value) =>
-                        handleShowCheckboxChange(value, "multiset")
-                      }
-                    >
-                      Show Multisets
-                    </Checkbox>
-                    {showPaceCheckbox.current && (
-                      <Checkbox
-                        className="hover:underline"
-                        size="sm"
-                        isSelected={showPace}
-                        onValueChange={(value) =>
-                          handleShowCheckboxChange(value, "pace")
-                        }
-                      >
-                        Show Pace
-                      </Checkbox>
-                    )}
-                  </div>
+                  {(showWarmupsCheckbox.current ||
+                    showMultisetsCheckbox.current ||
+                    showPaceCheckbox.current) && (
+                    <div className="flex justify-center gap-6">
+                      {showWarmupsCheckbox.current && (
+                        <Checkbox
+                          className="hover:underline"
+                          size="sm"
+                          isSelected={showWarmups}
+                          onValueChange={(value) =>
+                            handleShowCheckboxChange(value, "warmup")
+                          }
+                        >
+                          Show Warmups
+                        </Checkbox>
+                      )}
+                      {showMultisetsCheckbox.current && (
+                        <Checkbox
+                          className="hover:underline"
+                          size="sm"
+                          isSelected={showMultisets}
+                          onValueChange={(value) =>
+                            handleShowCheckboxChange(value, "multiset")
+                          }
+                        >
+                          Show Multisets
+                        </Checkbox>
+                      )}
+                      {showPaceCheckbox.current && (
+                        <Checkbox
+                          className="hover:underline"
+                          size="sm"
+                          isSelected={showPace}
+                          onValueChange={(value) =>
+                            handleShowCheckboxChange(value, "pace")
+                          }
+                        >
+                          Show Pace
+                        </Checkbox>
+                      )}
+                    </div>
+                  )}
                   <div className="relative flex flex-col gap-1.5">
                     <div className="absolute right-0 -top-px">
                       <span className="text-xs text-stone-500 text-center font-normal">
