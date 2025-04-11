@@ -17,6 +17,8 @@ import {
   CalculatePaceValue,
   GetSpeedUnitFromDistanceUnit,
   GetPaceUnitFromDistanceUnit,
+  ConvertWeightValue,
+  ConvertNumberToTwoDecimals,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -81,6 +83,8 @@ export default function ExerciseDetails() {
   const showMultisetsCheckbox = useRef<boolean>(false);
   const showPaceCheckbox = useRef<boolean>(false);
 
+  const maxWeightMap = useRef<Map<number, number>>(new Map());
+
   const navigate = useNavigate();
 
   const getDateSetListMap = async (
@@ -119,6 +123,24 @@ export default function ExerciseDetails() {
       );
 
       if (set.is_tracking_weight && set.is_tracking_reps) {
+        const weight = ConvertNumberToTwoDecimals(
+          ConvertWeightValue(set.weight, set.weight_unit, weightUnit)
+        );
+
+        const areWeightAndRepsValid = weight > 0 && set.reps > 0;
+
+        const doesWeightExistInMap = maxWeightMap.current.has(weight);
+
+        // Add highest number of reps for specific weight to Map
+        if (
+          areWeightAndRepsValid &&
+          ((doesWeightExistInMap &&
+            maxWeightMap.current.get(weight)! > set.reps) ||
+            !doesWeightExistInMap)
+        ) {
+          maxWeightMap.current.set(weight, set.reps);
+        }
+
         if (!showWeightAndRepsTabs.current) {
           tabPages.current.push(
             ...[
