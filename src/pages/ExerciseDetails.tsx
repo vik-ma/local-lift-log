@@ -656,28 +656,31 @@ export default function ExerciseDetails() {
               )}
               {tabPage === "weight" && (
                 <div className="flex flex-col text-foreground-900">
-                  <div className="flex flex-col divide-y divide-foreground-400">
-                    <div className="flex text-secondary text-lg leading-tight font-semibold">
+                  <div className="flex flex-col">
+                    <div className="flex text-secondary text-lg leading-tight font-semibold pl-0.5 border-b-1 border-foreground-400">
                       <span className="w-[8rem]">Weight</span>
                       <span className="w-[8rem]">Max Reps</span>
                       <span>First Completed</span>
                     </div>
-                    <div className="flex flex-col text-sm pt-0.5">
+                    <div className="flex flex-col text-sm">
                       {Array.from(maxWeightMap.current).map(
                         ([weight, values]) => (
-                          <div key={weight} className="flex">
-                            <span className="w-[8rem] px-px truncate">
+                          <div
+                            key={weight}
+                            className="flex py-1 odd:bg-default-50 even:bg-default-100/60 last:!rounded-b-lg"
+                          >
+                            <span className="w-[8rem] pl-1 truncate">
                               <span className="font-semibold">{weight} </span>
                               {weightUnit}
                             </span>
-                            <span className="w-[8rem] font-semibold px-px truncate">
+                            <span className="w-[8rem] font-semibold pl-[3px] truncate">
                               {values.value}{" "}
                               <span className="font-normal">
                                 rep
                                 {values.value !== 1 && "s"}
                               </span>
                             </span>
-                            <span className="font-medium px-px text-slate-500">
+                            <span className="font-medium pl-[3px] text-stone-500">
                               {values.formattedDate}
                             </span>
                           </div>
