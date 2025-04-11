@@ -86,6 +86,7 @@ export default function ExerciseDetails() {
   const showPaceCheckbox = useRef<boolean>(false);
 
   const maxWeightMap = useRef<Map<number, MaxListValue>>(new Map());
+  const maxRepsMap = useRef<Map<number, MaxListValue>>(new Map());
 
   const navigate = useNavigate();
 
@@ -129,7 +130,9 @@ export default function ExerciseDetails() {
           ConvertWeightValue(set.weight, set.weight_unit, weightUnit)
         );
 
-        const areWeightAndRepsValid = weight >= 0 && set.reps > 0;
+        const reps = set.reps;
+
+        const areWeightAndRepsValid = weight >= 0 && reps > 0;
 
         const doesWeightExistInMap = maxWeightMap.current.has(weight);
 
@@ -138,14 +141,32 @@ export default function ExerciseDetails() {
         if (
           areWeightAndRepsValid &&
           ((doesWeightExistInMap &&
-            (set.reps > maxWeightMap.current.get(weight)!.value ||
-              (set.reps === maxWeightMap.current.get(weight)!.value &&
+            (reps > maxWeightMap.current.get(weight)!.value ||
+              (reps === maxWeightMap.current.get(weight)!.value &&
                 new Date(set.time_completed!) <
                   new Date(maxWeightMap.current.get(weight)!.date!)))) ||
             !doesWeightExistInMap)
         ) {
           maxWeightMap.current.set(weight, {
-            value: set.reps,
+            value: reps,
+            date: set.time_completed as string,
+            formattedDate: date,
+          });
+        }
+
+        const doesRepsExistInMap = maxRepsMap.current.has(weight);
+
+        if (
+          areWeightAndRepsValid &&
+          ((doesRepsExistInMap &&
+            (weight > maxRepsMap.current.get(reps)!.value ||
+              (weight === maxRepsMap.current.get(reps)!.value &&
+                new Date(set.time_completed!) <
+                  new Date(maxRepsMap.current.get(reps)!.date!)))) ||
+            !doesRepsExistInMap)
+        ) {
+          maxRepsMap.current.set(reps, {
+            value: weight,
             date: set.time_completed as string,
             formattedDate: date,
           });
@@ -214,6 +235,10 @@ export default function ExerciseDetails() {
       [...maxWeightMap.current.entries()].sort((a, b) => b[0] - a[0])
     );
 
+    maxRepsMap.current = new Map(
+      [...maxRepsMap.current.entries()].sort((a, b) => b[0] - a[0])
+    );
+
     const sortedDateMapArray = Array.from(dateMap).sort(
       (a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime()
     );
@@ -227,8 +252,6 @@ export default function ExerciseDetails() {
     // TODO: ADD MULTISETMAP
     // TODO: ADD DEFAULT LOAD EXERCISE OPTIONS AND MAKE CHARTDATA ETC
   };
-
-  console.log(maxWeightMap.current);
 
   useEffect(() => {
     const getExercise = async () => {
