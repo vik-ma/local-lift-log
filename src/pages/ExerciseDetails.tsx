@@ -396,11 +396,10 @@ export default function ExerciseDetails() {
               >
                 {tabPages.current.map(([key, value], index) => (
                   <button
-                    key={key}
                     className={
                       key === tabPage
-                        ? "text-sm py-1.5 rounded-lg shadow-small bg-white text-black"
-                        : "text-sm py-1.5 rounded-lg text-default-500 transition-colors hover:opacity-50 focus:opacity-50"
+                        ? "text-sm py-1.5 rounded-lg transition-colors duration-200 shadow-small bg-white text-black"
+                        : "text-sm py-1.5 rounded-lg transition-colors duration-200 text-default-500 hover:opacity-50 focus:opacity-50"
                     }
                     id={`exercise-details-tab-${index}`}
                     onClick={() => setTabPage(key as TabPage)}
