@@ -35,6 +35,8 @@ type ShowCheckboxType = "warmup" | "multiset" | "pace";
 
 type TabPage = "history" | "weight" | "reps" | "distance" | "time";
 
+type MaxListValue = { value: number; date: string; formattedDate: string };
+
 export default function ExerciseDetails() {
   const { id } = useParams();
   const [exercise, setExercise] = useState<Exercise>();
@@ -83,7 +85,7 @@ export default function ExerciseDetails() {
   const showMultisetsCheckbox = useRef<boolean>(false);
   const showPaceCheckbox = useRef<boolean>(false);
 
-  const maxWeightMap = useRef<Map<number, WorkoutSet>>(new Map());
+  const maxWeightMap = useRef<Map<number, MaxListValue>>(new Map());
 
   const navigate = useNavigate();
 
@@ -136,15 +138,17 @@ export default function ExerciseDetails() {
         if (
           areWeightAndRepsValid &&
           ((doesWeightExistInMap &&
-            (set.reps > maxWeightMap.current.get(weight)!.reps ||
-              (set.reps === maxWeightMap.current.get(weight)!.reps &&
+            (set.reps > maxWeightMap.current.get(weight)!.value ||
+              (set.reps === maxWeightMap.current.get(weight)!.value &&
                 new Date(set.time_completed!) <
-                  new Date(
-                    maxWeightMap.current.get(weight)!.time_completed!
-                  )))) ||
+                  new Date(maxWeightMap.current.get(weight)!.date!)))) ||
             !doesWeightExistInMap)
         ) {
-          maxWeightMap.current.set(weight, set);
+          maxWeightMap.current.set(weight, {
+            value: set.reps,
+            date: set.time_completed as string,
+            formattedDate: date,
+          });
         }
 
         if (!showWeightAndRepsTabs.current) {
@@ -661,20 +665,22 @@ export default function ExerciseDetails() {
                       </span>
                     </div>
                     <div className="flex flex-col text-sm">
-                      {Array.from(maxWeightMap.current).map(([weight, set]) => (
-                        <div key={weight} className="flex">
-                          <span className="w-[6rem] px-px truncate">
-                            <span className="font-semibold">{weight} </span>{" "}
-                            {weightUnit}
-                          </span>
-                          <span className="w-[6rem] px-px truncate font-semibold">
-                            {set.reps}
-                          </span>
-                          <span className="px-px">
-                            {set.time_completed?.substring(0, 10)}
-                          </span>
-                        </div>
-                      ))}
+                      {Array.from(maxWeightMap.current).map(
+                        ([weight, values]) => (
+                          <div key={weight} className="flex">
+                            <span className="w-[6rem] px-px truncate">
+                              <span className="font-semibold">{weight} </span>{" "}
+                              {weightUnit}
+                            </span>
+                            <span className="w-[6rem] px-px truncate font-semibold">
+                              {values.value}
+                            </span>
+                            <span className="px-px">
+                              {values.formattedDate}
+                            </span>
+                          </div>
+                        )
+                      )}
                     </div>
                   </div>
                 </div>
