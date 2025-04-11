@@ -142,12 +142,16 @@ export default function ExerciseDetails() {
         }
 
         if (!showWeightAndRepsTabs.current) {
-          tabPages.current.push(
+          // Always insert Weight and Reps tabs before Distance and Time
+          tabPages.current.splice(
+            1,
+            0,
             ...[
               ["weight", "Weight Records"],
               ["reps", "Reps Records"],
             ]
           );
+
           showWeightAndRepsTabs.current = true;
         }
       }
@@ -172,6 +176,7 @@ export default function ExerciseDetails() {
               ["time", "Time Records"],
             ]
           );
+
           showDistanceAndTimeTabs.current = true;
         }
       }
