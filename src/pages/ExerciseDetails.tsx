@@ -83,7 +83,7 @@ export default function ExerciseDetails() {
   const showMultisetsCheckbox = useRef<boolean>(false);
   const showPaceCheckbox = useRef<boolean>(false);
 
-  const maxWeightMap = useRef<Map<number, number>>(new Map());
+  const maxWeightMap = useRef<Map<number, WorkoutSet>>(new Map());
 
   const navigate = useNavigate();
 
@@ -135,10 +135,10 @@ export default function ExerciseDetails() {
         if (
           areWeightAndRepsValid &&
           ((doesWeightExistInMap &&
-            maxWeightMap.current.get(weight)! > set.reps) ||
+            set.reps > maxWeightMap.current.get(weight)!.reps) ||
             !doesWeightExistInMap)
         ) {
-          maxWeightMap.current.set(weight, set.reps);
+          maxWeightMap.current.set(weight, set);
         }
 
         if (!showWeightAndRepsTabs.current) {
@@ -396,6 +396,7 @@ export default function ExerciseDetails() {
               >
                 {tabPages.current.map(([key, value], index) => (
                   <button
+                    key={key}
                     className={
                       key === tabPage
                         ? "text-sm py-1.5 rounded-lg transition-colors duration-200 shadow-small bg-white text-black"
