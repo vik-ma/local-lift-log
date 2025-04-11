@@ -132,10 +132,16 @@ export default function ExerciseDetails() {
         const doesWeightExistInMap = maxWeightMap.current.has(weight);
 
         // Add highest number of reps for specific weight to Map
+        // If same amount of reps for weight, pick set which time_completed date occurred first
         if (
           areWeightAndRepsValid &&
           ((doesWeightExistInMap &&
-            set.reps > maxWeightMap.current.get(weight)!.reps) ||
+            (set.reps > maxWeightMap.current.get(weight)!.reps ||
+              (set.reps === maxWeightMap.current.get(weight)!.reps &&
+                new Date(set.time_completed!) <
+                  new Date(
+                    maxWeightMap.current.get(weight)!.time_completed!
+                  )))) ||
             !doesWeightExistInMap)
         ) {
           maxWeightMap.current.set(weight, set);
@@ -200,6 +206,10 @@ export default function ExerciseDetails() {
       }
     }
 
+    maxWeightMap.current = new Map(
+      [...maxWeightMap.current.entries()].sort((a, b) => b[0] - a[0])
+    );
+
     const sortedDateMapArray = Array.from(dateMap).sort(
       (a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime()
     );
@@ -213,6 +223,8 @@ export default function ExerciseDetails() {
     // TODO: ADD MULTISETMAP
     // TODO: ADD DEFAULT LOAD EXERCISE OPTIONS AND MAKE CHARTDATA ETC
   };
+
+  console.log(maxWeightMap.current);
 
   useEffect(() => {
     const getExercise = async () => {
