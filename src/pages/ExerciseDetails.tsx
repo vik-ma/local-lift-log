@@ -127,7 +127,7 @@ export default function ExerciseDetails() {
           ConvertWeightValue(set.weight, set.weight_unit, weightUnit)
         );
 
-        const areWeightAndRepsValid = weight > 0 && set.reps > 0;
+        const areWeightAndRepsValid = weight >= 0 && set.reps > 0;
 
         const doesWeightExistInMap = maxWeightMap.current.has(weight);
 
@@ -651,7 +651,33 @@ export default function ExerciseDetails() {
                 </div>
               )}
               {tabPage === "weight" && (
-                <div className="flex justify-center">Weight Records</div>
+                <div className="flex flex-col text-foreground-900">
+                  <div className="flex flex-col divide-y divide-foreground-400">
+                    <div className="flex text-secondary leading-snug">
+                      <span className="w-[6rem] font-semibold">Weight</span>
+                      <span className="w-[6rem] font-semibold">Max Reps</span>
+                      <span className="font-semibold">
+                        First Date Completed
+                      </span>
+                    </div>
+                    <div className="flex flex-col text-sm">
+                      {Array.from(maxWeightMap.current).map(([weight, set]) => (
+                        <div key={weight} className="flex">
+                          <span className="w-[6rem] px-px truncate">
+                            <span className="font-semibold">{weight} </span>{" "}
+                            {weightUnit}
+                          </span>
+                          <span className="w-[6rem] px-px truncate font-semibold">
+                            {set.reps}
+                          </span>
+                          <span className="px-px">
+                            {set.time_completed?.substring(0, 10)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               )}
               {tabPage === "reps" && (
                 <div className="flex justify-center">Reps Records</div>
