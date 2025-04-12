@@ -11,7 +11,8 @@ import {
 export const FillInLoadExerciseOptions = (
   loadExerciseOptionsString: string,
   loadExerciseOptionsCategoriesString: string,
-  selectedExercise: Exercise | undefined,
+  selectedExercise: Exercise,
+  isInAnalytics: boolean,
   loadedCharts: Set<ChartDataCategoryNoUndefined>,
   validLoadExerciseOptionsCategories: Set<ChartDataUnitCategoryNoUndefined>,
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>,
@@ -32,14 +33,16 @@ export const FillInLoadExerciseOptions = (
   setLoadExerciseOptionsUnitCategoriesSecondary: React.Dispatch<
     React.SetStateAction<ChartDataUnitCategory[]>
   >,
-  setDisabledLoadExerciseOptions?: React.Dispatch<
+  setDisabledLoadExerciseOptions: React.Dispatch<
     React.SetStateAction<Set<ChartDataExerciseCategoryBase>>
   >
 ) => {
   const disabledKeys = new Set<ChartDataExerciseCategoryBase>();
 
   // Disable any options that have already been loaded for Exercise
-  if (selectedExercise !== undefined) {
+  if (isInAnalytics) {
+    // TODO: FIX FOR EXERCISEDETAILS
+
     const id = selectedExercise.id;
 
     // Check if a ChartDataExerciseCategoryBase value exists for selectedExercise id
@@ -57,13 +60,12 @@ export const FillInLoadExerciseOptions = (
     }
   }
 
-  if (setDisabledLoadExerciseOptions !== undefined) {
-    setDisabledLoadExerciseOptions(disabledKeys);
-  }
+  setDisabledLoadExerciseOptions(disabledKeys);
 
   // Create list from default string, without any disabled options
   const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
-    loadExerciseOptionsString
+    loadExerciseOptionsString,
+    selectedExercise.exercise_group_set_string_primary
   ).filter((option) => !disabledKeys.has(option));
 
   setLoadExerciseOptions(new Set(loadExerciseOptionsList));

@@ -333,6 +333,7 @@ export default function Analytics() {
       selectedExercise.chart_load_exercise_options,
       selectedExercise.chart_load_exercise_options_categories,
       selectedExercise,
+      true,
       loadedCharts.current,
       validLoadExerciseOptionsCategories,
       chartDataUnitCategoryMap.current,
