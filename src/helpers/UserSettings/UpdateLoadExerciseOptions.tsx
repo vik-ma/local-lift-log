@@ -3,17 +3,16 @@ import {
   ValidateLoadExerciseOptionsCategoriesString,
   ValidateLoadExerciseOptionsString,
 } from "..";
-import { ChartDataExerciseCategoryBase, ChartDataUnitCategory, UserSettings } from "../../typings";
+import {
+  ChartDataExerciseCategoryBase,
+  ChartDataUnitCategory,
+} from "../../typings";
 
 export const UpdateLoadExerciseOptions = async (
-  isAnalytics: boolean,
   loadExerciseOptions: Set<ChartDataExerciseCategoryBase>,
   loadExerciseOptionsUnitCategoryPrimary: ChartDataUnitCategory,
   loadExerciseOptionsUnitCategorySecondary: ChartDataUnitCategory,
-  userSettings: UserSettings,
-  setUserSettings: React.Dispatch<
-    React.SetStateAction<UserSettings | undefined>
-  >
+  exerciseId: number
 ) => {
   const loadExerciseOptionsString = Array.from(loadExerciseOptions).join(",");
 
@@ -31,39 +30,28 @@ export const UpdateLoadExerciseOptions = async (
       loadExerciseOptionsCategoriesString
     )
   )
-    return false;
-
-  const optionsColumn = isAnalytics
-    ? "load_exercise_options_analytics"
-    : "load_exercise_options_exercise_details";
-
-  const categoriesColumn = isAnalytics
-    ? "load_exercise_options_categories_analytics"
-    : "load_exercise_options_categories_exercise_details";
+    return { success: false, loadExerciseOptionsString: "" };
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
     await db.execute(
-      `UPDATE user_settings SET ${optionsColumn} = $1, ${categoriesColumn} = $2 WHERE id = $3`,
+      `UPDATE exercises SET 
+        chart_load_exercise_options = $1,
+        chart_load_exercise_options_categories = $2 
+       WHERE id = $3`,
       [
         loadExerciseOptionsString,
         loadExerciseOptionsCategoriesString,
-        userSettings.id,
+        exerciseId,
       ]
     );
-
-    const updatedUserSettings: UserSettings = {
-      ...userSettings,
-      load_exercise_options_analytics: loadExerciseOptionsString,
-      load_exercise_options_categories_analytics:
-        loadExerciseOptionsCategoriesString,
+    return {
+      success: true,
+      loadExerciseOptionsString: loadExerciseOptionsString,
     };
-
-    setUserSettings(updatedUserSettings);
-    return true;
   } catch (error) {
     console.log(error);
-    return false;
+    return { success: false, loadExerciseOptionsString: "" };
   }
 };
