@@ -313,11 +313,25 @@ export default function Analytics() {
   };
 
   useEffect(() => {
-    if (userSettings === undefined) return;
+    const loadUserSettings = async () => {
+      const userSettings = await GetUserSettings();
+
+      if (userSettings === undefined) return;
+
+      setUserSettings(userSettings);
+
+      assignDefaultUnits(userSettings);
+    };
+
+    loadUserSettings();
+  }, []);
+
+  useEffect(() => {
+    if (selectedExercise === undefined) return;
 
     FillInLoadExerciseOptions(
-      userSettings.load_exercise_options_analytics,
-      userSettings.load_exercise_options_categories_analytics,
+      selectedExercise.chart_load_exercise_options,
+      selectedExercise.chart_load_exercise_options_categories,
       selectedExercise,
       loadedCharts.current,
       validLoadExerciseOptionsCategories,
@@ -333,41 +347,6 @@ export default function Analytics() {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedExercise]);
-
-  useEffect(
-    () => {
-      const loadUserSettings = async () => {
-        const userSettings = await GetUserSettings();
-
-        if (userSettings === undefined) return;
-
-        setUserSettings(userSettings);
-
-        assignDefaultUnits(userSettings);
-
-        FillInLoadExerciseOptions(
-          userSettings.load_exercise_options_analytics,
-          userSettings.load_exercise_options_categories_analytics,
-          selectedExercise,
-          loadedCharts.current,
-          validLoadExerciseOptionsCategories,
-          chartDataUnitCategoryMap.current,
-          chartDataAreas,
-          secondaryDataUnitCategory,
-          setLoadExerciseOptions,
-          setLoadExerciseOptionsUnitCategoryPrimary,
-          setLoadExerciseOptionsUnitCategorySecondary,
-          setLoadExerciseOptionsUnitCategoriesPrimary,
-          setLoadExerciseOptionsUnitCategoriesSecondary,
-          setDisabledLoadExerciseOptions
-        );
-      };
-
-      loadUserSettings();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
 
   const handleOpenListModal = async (
     modalListType: AnalyticsChartListModalPage
