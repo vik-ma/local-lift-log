@@ -137,19 +137,7 @@ export default function WorkoutList() {
         operatingWorkout.id,
       ]);
 
-      let updatedWorkoutsHasEmptyWorkouts = false;
-
-      const updatedWorkouts: Workout[] = [];
-
-      for (const workout of workouts) {
-        if (workout.id !== operatingWorkout.id) {
-          updatedWorkouts.push(workout);
-
-          if (workout.numSets === 0) updatedWorkoutsHasEmptyWorkouts = true;
-        }
-      }
-
-      workoutListHasEmptyWorkouts.current = updatedWorkoutsHasEmptyWorkouts;
+      const updatedWorkouts = removeWorkoutFromList(operatingWorkout.id);
 
       setWorkouts(updatedWorkouts);
 
@@ -162,6 +150,38 @@ export default function WorkoutList() {
     deleteModal.onClose();
   };
 
+  const deleteEmptyWorkout = async (workout: Workout) => {
+    if (workout.id === 0) return;
+
+    const success = await DeleteWorkoutWithId(workout.id);
+
+    if (!success) return;
+
+    const updatedWorkouts = removeWorkoutFromList(workout.id);
+
+    setWorkouts(updatedWorkouts);
+
+    toast.success("Workout Deleted");
+  };
+
+  const removeWorkoutFromList = (workoutId: number) => {
+    let updatedWorkoutsHasEmptyWorkouts = false;
+
+    const updatedWorkouts: Workout[] = [];
+
+    for (const workout of workouts) {
+      if (workout.id !== workoutId) {
+        updatedWorkouts.push(workout);
+
+        if (workout.numSets === 0) updatedWorkoutsHasEmptyWorkouts = true;
+      }
+    }
+
+    workoutListHasEmptyWorkouts.current = updatedWorkoutsHasEmptyWorkouts;
+
+    return updatedWorkouts;
+  };
+
   const resetOperatingWorkout = () => {
     setOperatingWorkout(defaultWorkout);
     setOperationType("edit");
@@ -171,6 +191,8 @@ export default function WorkoutList() {
   const handleWorkoutOptionSelection = (key: string, workout: Workout) => {
     if (key === "edit") {
       editWorkout(workout);
+    } else if (key === "delete" && workout.numSets === 0) {
+      deleteEmptyWorkout(workout);
     } else if (key === "delete") {
       setOperationType("delete");
       setOperatingWorkout(workout);
