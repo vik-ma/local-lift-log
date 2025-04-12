@@ -78,7 +78,7 @@ export default function WorkoutList() {
     listFilters,
     workoutTemplateList,
     routineList,
-    isWorkoutListLoaded,
+    isWorkoutListLoaded, workoutListHasEmptyWorkouts
   } = workoutList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
@@ -224,6 +224,7 @@ export default function WorkoutList() {
       toast.error("No Empty Workouts In List");
     }
 
+    workoutListHasEmptyWorkouts.current = false;
     resetOperatingWorkout();
     deleteModal.onClose();
   };

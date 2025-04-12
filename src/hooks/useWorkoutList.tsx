@@ -69,6 +69,7 @@ export const useWorkoutList = (
   } = listFilters;
 
   const isWorkoutListLoaded = useRef(false);
+  const workoutListHasEmptyWorkouts = useRef(false);
 
   const workoutListModal = useDisclosure();
   const filterWorkoutListModal = useDisclosure();
@@ -166,6 +167,10 @@ export const useWorkoutList = (
           (ignoreEmptyWorkouts && row.numSets === 0)
         )
           continue;
+
+        if (row.numSets === 0) {
+          workoutListHasEmptyWorkouts.current = true;
+        }
 
         const formattedDate = FormatDateString(row.date);
 
@@ -364,5 +369,6 @@ export const useWorkoutList = (
     listFilters,
     workoutTemplateList,
     isWorkoutListLoaded,
+    workoutListHasEmptyWorkouts,
   };
 };

@@ -35,6 +35,7 @@ export const WorkoutListOptions = ({
     handleSortOptionSelection,
     handleOpenFilterButton,
     listFilters,
+    workoutListHasEmptyWorkouts,
   } = useWorkoutList;
 
   const { filterMap } = listFilters;
@@ -93,6 +94,7 @@ export const WorkoutListOptions = ({
               className="z-1"
               size="sm"
               variant="light"
+              isDisabled={!workoutListHasEmptyWorkouts.current}
             >
               <VerticalMenuIcon size={19} />
             </Button>

@@ -458,6 +458,7 @@ export type UseWorkoutListReturnType = {
   listFilters: UseListFiltersReturnType;
   workoutTemplateList: UseWorkoutTemplateListReturnType;
   isWorkoutListLoaded: React.RefObject<boolean>;
+  workoutListHasEmptyWorkouts: React.RefObject<boolean>;
 };
 
 export type UseListFiltersReturnType = {
