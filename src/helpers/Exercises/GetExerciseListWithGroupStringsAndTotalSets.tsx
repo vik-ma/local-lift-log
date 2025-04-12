@@ -48,6 +48,9 @@ export const GetExerciseListWithGroupStringsAndTotalSets = async (
         note: row.note,
         is_favorite: row.is_favorite,
         calculation_string: row.calculation_string,
+        chart_load_exercise_options: row.chart_load_exercise_options,
+        chart_load_exercise_options_categories:
+          row.chart_load_exercise_options_categories,
         exerciseGroupStringSetPrimary: convertedValuesPrimary.set,
         formattedGroupStringPrimary: convertedValuesPrimary.formattedString,
         set_count: row.set_count,

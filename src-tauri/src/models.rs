@@ -59,7 +59,7 @@ pub struct Exercise {
     pub exercise_group_map_string_secondary: Option<String>,
     pub note: Option<String>,
     pub is_favorite: i32,
-    pub calculation_string: String,
+    pub calculation_string: Option<String>,
     pub chart_load_exercise_options: String,
     pub chart_load_exercise_options_categories: String,
 }

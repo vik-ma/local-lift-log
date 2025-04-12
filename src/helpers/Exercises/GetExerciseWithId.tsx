@@ -18,6 +18,8 @@ export const GetExerciseWithId = async (
     is_favorite: 0,
     isInvalid: true,
     calculation_string: null,
+    chart_load_exercise_options: "",
+    chart_load_exercise_options_categories: "",
   };
 
   try {

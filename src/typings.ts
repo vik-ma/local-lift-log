@@ -55,6 +55,8 @@ export type Exercise = {
   note: string | null;
   is_favorite: number;
   calculation_string: string | null;
+  chart_load_exercise_options: string;
+  chart_load_exercise_options_categories: string;
   exerciseGroupStringSetPrimary?: Set<string>;
   formattedGroupStringPrimary?: string;
   exerciseGroupStringMapSecondary?: Map<string, string>;

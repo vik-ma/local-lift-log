@@ -9,6 +9,8 @@ export const DefaultNewExercise = () => {
     note: "",
     is_favorite: 0,
     calculation_string: null,
+    chart_load_exercise_options: "",
+    chart_load_exercise_options_categories: "",
     exerciseGroupStringSetPrimary: new Set(),
     formattedGroupStringPrimary: "",
   };
