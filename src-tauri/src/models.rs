@@ -60,6 +60,8 @@ pub struct Exercise {
     pub note: Option<String>,
     pub is_favorite: i32,
     pub calculation_string: String,
+    pub chart_load_exercise_options: String,
+    pub chart_load_exercise_options_categories: String,
 }
 
 #[derive(Queryable, Selectable)]

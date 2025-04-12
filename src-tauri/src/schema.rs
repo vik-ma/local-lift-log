@@ -56,6 +56,8 @@ diesel::table! {
         note -> Nullable<Text>,
         is_favorite -> Integer,
         calculation_string -> Nullable<Text>,
+        chart_load_exercise_options -> Text,
+        chart_load_exercise_options_categories -> Text,
     }
 }
 
