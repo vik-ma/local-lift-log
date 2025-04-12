@@ -80,6 +80,7 @@ import {
   UpdateLoadExerciseOptions,
   ValidLoadExerciseOptionsCategories,
   ValidMeasurementUnits,
+  UpdateItemInList,
 } from "../helpers";
 import { ChartConfig } from "../components/ui/chart";
 import toast from "react-hot-toast";
@@ -180,9 +181,7 @@ export default function Analytics() {
     shownReferenceAreas
   );
 
-  const loadedCharts = useRef<Set<ChartDataCategoryNoUndefined>>(
-    new Set()
-  );
+  const loadedCharts = useRef<Set<ChartDataCategoryNoUndefined>>(new Set());
 
   // Don't replace with size of loadedCharts
   const isChartDataLoaded = useRef<boolean>(false);
@@ -207,6 +206,7 @@ export default function Analytics() {
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
     exercises,
+    setExercises,
   } = exerciseList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
@@ -263,9 +263,7 @@ export default function Analytics() {
     const distanceCharts = new Set<ChartDataCategoryNoUndefined>();
     const speedCharts = new Set<ChartDataCategoryNoUndefined>();
     const paceCharts = new Set<ChartDataCategoryNoUndefined>();
-    const circumferenceCharts = new Set<
-      ChartDataCategoryNoUndefined
-    >();
+    const circumferenceCharts = new Set<ChartDataCategoryNoUndefined>();
 
     for (const chart of allChartDataCategories) {
       if (chart === undefined) continue;
@@ -1972,16 +1970,31 @@ export default function Analytics() {
   };
 
   const updateDefaultLoadExerciseOptions = async () => {
-    if (userSettings === undefined) return;
+    if (selectedExercise === undefined) return;
 
-    await UpdateLoadExerciseOptions(
-      true,
+    const {
+      success,
+      loadExerciseOptionsString,
+      loadExerciseOptionsCategoriesString,
+    } = await UpdateLoadExerciseOptions(
       loadExerciseOptions,
       loadExerciseOptionsUnitCategoryPrimary,
       loadExerciseOptionsUnitCategorySecondary,
-      userSettings,
-      setUserSettings
+      selectedExercise.id
     );
+
+    if (!success) return;
+
+    const updatedExercise: Exercise = {
+      ...selectedExercise,
+      chart_load_exercise_options: loadExerciseOptionsString,
+      chart_load_exercise_options_categories:
+        loadExerciseOptionsCategoriesString,
+    };
+
+    const updatedExercises = UpdateItemInList(exercises, updatedExercise);
+
+    setExercises(updatedExercises);
   };
 
   const updateExerciseStatUnit = (

@@ -8,12 +8,18 @@ import {
   ChartDataUnitCategory,
 } from "../../typings";
 
+type UpdateLoadExerciseOptionsReturnType = {
+  success: boolean;
+  loadExerciseOptionsString: string;
+  loadExerciseOptionsCategoriesString: string;
+};
+
 export const UpdateLoadExerciseOptions = async (
   loadExerciseOptions: Set<ChartDataExerciseCategoryBase>,
   loadExerciseOptionsUnitCategoryPrimary: ChartDataUnitCategory,
   loadExerciseOptionsUnitCategorySecondary: ChartDataUnitCategory,
   exerciseId: number
-) => {
+): Promise<UpdateLoadExerciseOptionsReturnType> => {
   const loadExerciseOptionsString = Array.from(loadExerciseOptions).join(",");
 
   const optionCategories = [loadExerciseOptionsUnitCategoryPrimary];
@@ -30,7 +36,11 @@ export const UpdateLoadExerciseOptions = async (
       loadExerciseOptionsCategoriesString
     )
   )
-    return { success: false, loadExerciseOptionsString: "" };
+    return {
+      success: false,
+      loadExerciseOptionsString: "",
+      loadExerciseOptionsCategoriesString: "",
+    };
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
@@ -49,9 +59,14 @@ export const UpdateLoadExerciseOptions = async (
     return {
       success: true,
       loadExerciseOptionsString: loadExerciseOptionsString,
+      loadExerciseOptionsCategoriesString: loadExerciseOptionsCategoriesString,
     };
   } catch (error) {
     console.log(error);
-    return { success: false, loadExerciseOptionsString: "" };
+    return {
+      success: false,
+      loadExerciseOptionsString: "",
+      loadExerciseOptionsCategoriesString: "",
+    };
   }
 };
