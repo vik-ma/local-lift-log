@@ -3,8 +3,6 @@ import {
   UserSettings,
   DefaultIncrementInputs,
   PlateCollection,
-  ChartDataExerciseCategoryBase,
-  ChartDataUnitCategory,
 } from "../typings";
 import {
   GetUserSettings,
@@ -14,9 +12,6 @@ import {
   CreateShownPropertiesSet,
   GetValidatedUserSettingsUnits,
   ValidateUserSetting,
-  ValidLoadExerciseOptionsCategories,
-  FillInLoadExerciseOptions,
-  UpdateLoadExerciseOptions,
 } from "../helpers";
 import {
   Switch,
@@ -46,16 +41,10 @@ import {
   NumSetsDropdown,
   TimePeriodPropertyDropdown,
   DietLogDayDropdown,
-  LoadExerciseOptionsModal,
 } from "../components";
 import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
-import {
-  useDefaultChartMapsAndConfig,
-  useLoadExerciseOptionsMap,
-  usePresetsList,
-  useTimeInputMap,
-} from "../hooks";
+import { usePresetsList, useTimeInputMap } from "../hooks";
 import { Reorder } from "framer-motion";
 import { ReorderIcon } from "../assets";
 
@@ -70,8 +59,6 @@ type WorkoutRatingValues = { label: string; num: number };
 
 type SpecificSettingModalPage = "default-plate-calc" | "workout-rating-order";
 
-type LoadExerciseOptionsPage = "analytics" | "exercise-details";
-
 export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
@@ -82,31 +69,9 @@ export default function Settings() {
     useState<SpecificSettingModalPage>("default-plate-calc");
   const [selectedTimePeriodProperties, setSelectedTimePeriodProperties] =
     useState<Set<string>>(new Set());
-  const [loadExerciseOptions, setLoadExerciseOptions] = useState<
-    Set<ChartDataExerciseCategoryBase>
-  >(new Set());
-  const [
-    loadExerciseOptionsUnitCategoryPrimary,
-    setLoadExerciseOptionsUnitCategoryPrimary,
-  ] = useState<ChartDataUnitCategory>();
-  const [
-    loadExerciseOptionsUnitCategorySecondary,
-    setLoadExerciseOptionsUnitCategorySecondary,
-  ] = useState<ChartDataUnitCategory>();
-  const [
-    loadExerciseOptionsUnitCategoriesPrimary,
-    setLoadExerciseOptionsUnitCategoriesPrimary,
-  ] = useState<Set<ChartDataUnitCategory>>(new Set());
-  const [
-    loadExerciseOptionsUnitCategoriesSecondary,
-    setLoadExerciseOptionsUnitCategoriesSecondary,
-  ] = useState<ChartDataUnitCategory[]>([]);
-  const [loadExerciseOptionsTarget, setLoadExerciseOptionsTarget] =
-    useState<LoadExerciseOptionsPage>("analytics");
 
   const createDefaultSettingsModal = useDisclosure();
   const specificSettingModal = useDisclosure();
-  const loadExerciseOptionsModal = useDisclosure();
 
   const emptyDefaultIncrementValues: DefaultIncrementInputs = useMemo(() => {
     return {
@@ -152,13 +117,6 @@ export default function Settings() {
 
   const timeInputMap = useTimeInputMap();
 
-  const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
-
-  const { defaultChartDataUnitCategoryMap } = useDefaultChartMapsAndConfig();
-
-  const validLoadExerciseOptionsCategories =
-    ValidLoadExerciseOptionsCategories();
-
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
@@ -200,22 +158,6 @@ export default function Settings() {
 
       setFilterWeightRangeUnit(userSettings.default_unit_weight);
       setFilterDistanceRangeUnit(userSettings.default_unit_distance);
-
-      FillInLoadExerciseOptions(
-        userSettings.load_exercise_options_analytics,
-        userSettings.load_exercise_options_categories_analytics,
-        undefined,
-        new Set(),
-        validLoadExerciseOptionsCategories,
-        defaultChartDataUnitCategoryMap,
-        [],
-        undefined,
-        setLoadExerciseOptions,
-        setLoadExerciseOptionsUnitCategoryPrimary,
-        setLoadExerciseOptionsUnitCategorySecondary,
-        setLoadExerciseOptionsUnitCategoriesPrimary,
-        setLoadExerciseOptionsUnitCategoriesSecondary
-      );
     };
 
     loadUserSettings();
@@ -374,24 +316,6 @@ export default function Settings() {
     specificSettingModal.onClose();
   };
 
-  const updateLoadExerciseOptions = async () => {
-    if (userSettings === undefined) return;
-
-    const success = await UpdateLoadExerciseOptions(
-      loadExerciseOptionsTarget === "analytics",
-      loadExerciseOptions,
-      loadExerciseOptionsUnitCategoryPrimary,
-      loadExerciseOptionsUnitCategorySecondary,
-      userSettings,
-      setUserSettings
-    );
-
-    if (!success) return;
-
-    loadExerciseOptionsModal.onClose();
-    toast.success("Setting Updated");
-  };
-
   const restoreDefaultSettings = async (
     unitType: string,
     locale: string,
@@ -433,40 +357,6 @@ export default function Settings() {
 
     setSpecificSettingModalPage(modalPage);
     specificSettingModal.onOpen();
-  };
-
-  const handleOpenLoadExerciseOptionsModal = (
-    optionsPage: LoadExerciseOptionsPage
-  ) => {
-    if (userSettings === undefined) return;
-
-    const loadExerciseOptionsString =
-      optionsPage === "analytics"
-        ? userSettings.load_exercise_options_analytics
-        : userSettings.load_exercise_options_exercise_details;
-    const loadExerciseOptionsCategoriesString =
-      optionsPage === "analytics"
-        ? userSettings.load_exercise_options_categories_analytics
-        : userSettings.load_exercise_options_categories_exercise_details;
-
-    FillInLoadExerciseOptions(
-      loadExerciseOptionsString,
-      loadExerciseOptionsCategoriesString,
-      undefined,
-      new Set(),
-      validLoadExerciseOptionsCategories,
-      defaultChartDataUnitCategoryMap,
-      [],
-      undefined,
-      setLoadExerciseOptions,
-      setLoadExerciseOptionsUnitCategoryPrimary,
-      setLoadExerciseOptionsUnitCategorySecondary,
-      setLoadExerciseOptionsUnitCategoriesPrimary,
-      setLoadExerciseOptionsUnitCategoriesSecondary
-    );
-
-    setLoadExerciseOptionsTarget(optionsPage);
-    loadExerciseOptionsModal.onOpen();
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -546,48 +436,6 @@ export default function Settings() {
           )}
         </ModalContent>
       </Modal>
-      <LoadExerciseOptionsModal
-        loadExerciseOptionsModal={loadExerciseOptionsModal}
-        selectedExercise={undefined}
-        loadExerciseOptions={loadExerciseOptions}
-        setLoadExerciseOptions={setLoadExerciseOptions}
-        disabledLoadExerciseOptions={new Set()}
-        loadExerciseOptionsUnitCategoryPrimary={
-          loadExerciseOptionsUnitCategoryPrimary
-        }
-        setLoadExerciseOptionsUnitCategoryPrimary={
-          setLoadExerciseOptionsUnitCategoryPrimary
-        }
-        loadExerciseOptionsUnitCategorySecondary={
-          loadExerciseOptionsUnitCategorySecondary
-        }
-        setLoadExerciseOptionsUnitCategorySecondary={
-          setLoadExerciseOptionsUnitCategorySecondary
-        }
-        loadExerciseOptionsUnitCategoriesPrimary={
-          loadExerciseOptionsUnitCategoriesPrimary
-        }
-        setLoadExerciseOptionsUnitCategoriesPrimary={
-          setLoadExerciseOptionsUnitCategoriesPrimary
-        }
-        loadExerciseOptionsUnitCategoriesSecondary={
-          loadExerciseOptionsUnitCategoriesSecondary
-        }
-        setLoadExerciseOptionsUnitCategoriesSecondary={
-          setLoadExerciseOptionsUnitCategoriesSecondary
-        }
-        chartDataAreas={[]}
-        chartDataUnitCategoryMap={defaultChartDataUnitCategoryMap}
-        loadExerciseOptionsMap={loadExerciseOptionsMap}
-        secondaryDataUnitCategory={undefined}
-        validLoadExerciseOptionsCategories={validLoadExerciseOptionsCategories}
-        updateLoadExerciseOptions={updateLoadExerciseOptions}
-        customHeader={
-          loadExerciseOptionsTarget === "analytics"
-            ? "Load Exercise Options (Analytics)"
-            : "Load Exercise Options (Exercise Details)"
-        }
-      />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
@@ -766,34 +614,6 @@ export default function Settings() {
               targetType="settings"
               updateUserSetting={updateUserSetting}
             />
-          </div>
-          <div className="flex gap-3 items-center justify-between pr-1">
-            <span className="text-lg">
-              Default Load Exercise Options For Analytics Page
-            </span>
-            <Button
-              aria-label="Select Default Load Exercise Options For Analytics Page Button"
-              color="primary"
-              size="sm"
-              onPress={() => handleOpenLoadExerciseOptionsModal("analytics")}
-            >
-              Select
-            </Button>
-          </div>
-          <div className="flex gap-3 items-center justify-between pr-1">
-            <span className="text-lg">
-              Default Load Exercise Options For Exercise Details Page
-            </span>
-            <Button
-              aria-label="Select Default Load Exercise Options For Exercise Details Button"
-              color="primary"
-              size="sm"
-              onPress={() =>
-                handleOpenLoadExerciseOptionsModal("exercise-details")
-              }
-            >
-              Select
-            </Button>
           </div>
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">

@@ -6,8 +6,6 @@ import {
   LocaleList,
   NumNewSetsOptionList,
   ValidateActiveMeasurementsString,
-  ValidateLoadExerciseOptionsCategoriesString,
-  ValidateLoadExerciseOptionsString,
   ValidateShownPropertiesString,
   ValidCalculationModalTabs,
   ValidClockStyles,
@@ -79,19 +77,11 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
       return ValidateShownPropertiesString(value as string, "time-period");
     case "default_diet_log_day_is_yesterday":
       return IsNumberValidBinary(value as number);
-    case "load_exercise_options_analytics":
-      return ValidateLoadExerciseOptionsString(value as string);
-    case "load_exercise_options_exercise_details":
-      return ValidateLoadExerciseOptionsString(value as string);
     case "show_warmups_in_exercise_details":
       return IsNumberValidBinary(value as number);
     case "show_multisets_in_exercise_details":
       return IsNumberValidBinary(value as number);
     case "show_pace_in_exercise_details":
       return IsNumberValidBinary(value as number);
-    case "load_exercise_options_categories_analytics":
-      return ValidateLoadExerciseOptionsCategoriesString(value as string);
-    case "load_exercise_options_categories_exercise_details":
-      return ValidateLoadExerciseOptionsCategoriesString(value as string);
   }
 };
