@@ -22,7 +22,6 @@ import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
 import {
   CreateShownPropertiesSet,
-  DeleteItemFromList,
   DeleteMultisetWithId,
   DeleteWorkoutWithId,
   GetUniqueMultisetIds,
@@ -78,7 +77,8 @@ export default function WorkoutList() {
     listFilters,
     workoutTemplateList,
     routineList,
-    isWorkoutListLoaded, workoutListHasEmptyWorkouts
+    isWorkoutListLoaded,
+    workoutListHasEmptyWorkouts,
   } = workoutList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
@@ -137,7 +137,19 @@ export default function WorkoutList() {
         operatingWorkout.id,
       ]);
 
-      const updatedWorkouts = DeleteItemFromList(workouts, operatingWorkout.id);
+      let updatedWorkoutsHasEmptyWorkouts = false;
+
+      const updatedWorkouts: Workout[] = [];
+
+      for (const workout of workouts) {
+        if (workout.id !== operatingWorkout.id) {
+          updatedWorkouts.push(workout);
+
+          if (workout.numSets === 0) updatedWorkoutsHasEmptyWorkouts = true;
+        }
+      }
+
+      workoutListHasEmptyWorkouts.current = updatedWorkoutsHasEmptyWorkouts;
 
       setWorkouts(updatedWorkouts);
 
