@@ -11,13 +11,16 @@ export const CreateDefaultExercises = async () => {
       db.execute(
         `INSERT into exercises 
          (name, exercise_group_set_string_primary, 
-         exercise_group_map_string_secondary, is_favorite) 
-         VALUES ($1, $2, $3, $4)`,
+         exercise_group_map_string_secondary, is_favorite, 
+         chart_load_exercise_options, chart_load_exercise_options_categories) 
+         VALUES ($1, $2, $3, $4, $5, $6)`,
         [
           exercise.name,
           exercise.exercise_group_set_string_primary,
           exercise.exercise_group_map_string_secondary,
           0,
+          "",
+          "",
         ]
       );
     });

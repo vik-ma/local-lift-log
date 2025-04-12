@@ -115,14 +115,17 @@ export default function ExerciseList() {
       const result = await db.execute(
         `INSERT into exercises 
         (name, exercise_group_set_string_primary, 
-        exercise_group_map_string_secondary, note, is_favorite) 
-        VALUES ($1, $2, $3, $4, $5)`,
+        exercise_group_map_string_secondary, note, is_favorite,
+        chart_load_exercise_options, chart_load_exercise_options_categories) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7)`,
         [
           operatingExercise.name,
           operatingExercise.exercise_group_set_string_primary,
           operatingExercise.exercise_group_map_string_secondary,
           operatingExercise.note,
           operatingExercise.is_favorite,
+          operatingExercise.chart_load_exercise_options,
+          operatingExercise.chart_load_exercise_options_categories,
         ]
       );
 
