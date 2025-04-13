@@ -1,8 +1,18 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Exercise, UserSettings, WorkoutSet } from "../typings";
+import {
+  Exercise,
+  ExerciseMaxListValue,
+  UserSettings,
+  WorkoutSet,
+} from "../typings";
 import { useState, useEffect, useRef } from "react";
 import { Checkbox, useDisclosure } from "@heroui/react";
-import { LoadingSpinner, ExerciseModal, DetailsHeader } from "../components";
+import {
+  LoadingSpinner,
+  ExerciseModal,
+  DetailsHeader,
+  ExerciseMaxValues,
+} from "../components";
 import {
   GetExerciseWithId,
   UpdateExercise,
@@ -34,8 +44,6 @@ import Database from "tauri-plugin-sql-api";
 type ShowCheckboxType = "warmup" | "multiset" | "pace";
 
 type TabPage = "history" | "weight" | "reps" | "distance" | "time";
-
-type MaxListValue = { value: number; date: string; formattedDate: string };
 
 export default function ExerciseDetails() {
   const { id } = useParams();
@@ -85,8 +93,8 @@ export default function ExerciseDetails() {
   const showMultisetsCheckbox = useRef<boolean>(false);
   const showPaceCheckbox = useRef<boolean>(false);
 
-  const maxWeightMap = useRef<Map<number, MaxListValue>>(new Map());
-  const maxRepsMap = useRef<Map<number, MaxListValue>>(new Map());
+  const maxWeightMap = useRef<Map<number, ExerciseMaxListValue>>(new Map());
+  const maxRepsMap = useRef<Map<number, ExerciseMaxListValue>>(new Map());
 
   const navigate = useNavigate();
 
@@ -678,40 +686,14 @@ export default function ExerciseDetails() {
                 </div>
               )}
               {tabPage === "weight" && (
-                <div className="flex flex-col text-foreground-900">
-                  <div className="flex flex-col">
-                    <div className="flex text-secondary text-lg leading-tight font-semibold pl-0.5 border-b-1 border-foreground-400">
-                      <span className="w-[8rem]">Weight</span>
-                      <span className="w-[8rem]">Max Reps</span>
-                      <span>First Completed</span>
-                    </div>
-                    <div className="flex flex-col text-sm">
-                      {Array.from(maxWeightMap.current).map(
-                        ([weight, values]) => (
-                          <div
-                            key={weight}
-                            className="flex py-1 odd:bg-default-50 even:bg-default-100/60 last:!rounded-b-lg"
-                          >
-                            <span className="w-[8rem] pl-1 truncate">
-                              <span className="font-semibold">{weight} </span>
-                              {weightUnit}
-                            </span>
-                            <span className="w-[8rem] font-semibold pl-[3px] truncate">
-                              {values.value}{" "}
-                              <span className="font-normal">
-                                rep
-                                {values.value !== 1 && "s"}
-                              </span>
-                            </span>
-                            <span className="font-medium pl-[3px] text-stone-500">
-                              {values.formattedDate}
-                            </span>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </div>
-                </div>
+                <ExerciseMaxValues
+                  maxMap={maxWeightMap.current}
+                  header1="Weight"
+                  suffix1={weightUnit}
+                  header2="Max Reps"
+                  suffix2="rep"
+                  suffix2IsReps
+                />
               )}
               {tabPage === "reps" && (
                 <div className="flex justify-center">Reps Records</div>

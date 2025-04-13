@@ -35,6 +35,7 @@ export { DietLogAccordions } from "./DietLogAccordions";
 export { DateRange } from "./DateRange";
 export { AnalyticsChart } from "./AnalyticsChart";
 export { TimePeriodListItemContent } from "./TimePeriodListItemContent";
+export { ExerciseMaxValues } from "./ExerciseMaxValues";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";

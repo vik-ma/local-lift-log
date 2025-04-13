@@ -1289,3 +1289,9 @@ export type AnalyticsChartListModalPage =
   | "measurement-list"
   | "time-period-list"
   | "exercise-groups";
+
+export type ExerciseMaxListValue = {
+  value: number;
+  date: string;
+  formattedDate: string;
+};
