@@ -146,7 +146,7 @@ body {
   grid-template-areas:
     "a a b b c c"
     "d d d e e e";
-  column-gap: 2px;
+  column-gap: 4px;
   row-gap: 2px;
 }
 
