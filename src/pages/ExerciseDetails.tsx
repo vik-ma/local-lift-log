@@ -29,6 +29,7 @@ import {
   GetPaceUnitFromDistanceUnit,
   ConvertWeightValue,
   ConvertNumberToTwoDecimals,
+  ConvertDistanceValue,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -142,31 +143,30 @@ export default function ExerciseDetails() {
 
         const areWeightAndRepsValid = weight >= 0 && reps > 0;
 
-        const doesWeightExistInMap = maxWeightMap.current.has(weight);
-
-        // Add highest number of reps for specific weight to Map
-        // If same amount of reps for weight, pick set which time_completed date occurred first
-        if (
-          areWeightAndRepsValid &&
-          ((doesWeightExistInMap &&
-            (reps > maxWeightMap.current.get(weight)!.value ||
-              (reps === maxWeightMap.current.get(weight)!.value &&
-                new Date(set.time_completed!) <
-                  new Date(maxWeightMap.current.get(weight)!.date!)))) ||
-            !doesWeightExistInMap)
-        ) {
-          maxWeightMap.current.set(weight, {
-            value: reps,
-            date: set.time_completed as string,
-            formattedDate: date,
-          });
-        }
-
-        const doesRepsExistInMap = maxRepsMap.current.has(reps);
-
-        // Add highest weight for specific number of reps to Map, and all number of reps lower than it
-        // If same amount of reps for weight, pick set which time_completed date occurred first
         if (areWeightAndRepsValid) {
+          const doesWeightExistInMap = maxWeightMap.current.has(weight);
+
+          // Add highest number of reps for specific weight to Map
+          // If same amount of reps for weight, pick set which time_completed date occurred first
+          if (
+            (doesWeightExistInMap &&
+              (reps > maxWeightMap.current.get(weight)!.value ||
+                (reps === maxWeightMap.current.get(weight)!.value &&
+                  new Date(set.time_completed!) <
+                    new Date(maxWeightMap.current.get(weight)!.date!)))) ||
+            !doesWeightExistInMap
+          ) {
+            maxWeightMap.current.set(weight, {
+              value: reps,
+              date: set.time_completed as string,
+              formattedDate: date,
+            });
+          }
+
+          const doesRepsExistInMap = maxRepsMap.current.has(reps);
+
+          // Add highest weight for specific number of reps to Map, and all number of reps lower than it
+          // If same amount of reps for weight, pick set which time_completed date occurred first
           for (let i = 1; i <= reps; i++) {
             if (
               (doesRepsExistInMap &&
@@ -183,35 +183,45 @@ export default function ExerciseDetails() {
               });
             }
           }
-        }
 
-        if (!showWeightAndRepsTabs.current) {
-          // Always insert Weight and Reps tabs before Distance and Time
-          tabPages.current.splice(
-            1,
-            0,
-            ...[
-              ["weight", "Weight Records"],
-              ["reps", "Reps Records"],
-            ]
-          );
+          if (!showWeightAndRepsTabs.current) {
+            // Always insert Weight and Reps tabs before Distance and Time
+            tabPages.current.splice(
+              1,
+              0,
+              ...[
+                ["weight", "Weight Records"],
+                ["reps", "Reps Records"],
+              ]
+            );
 
-          showWeightAndRepsTabs.current = true;
+            showWeightAndRepsTabs.current = true;
+          }
         }
       }
 
       if (set.is_tracking_distance && set.is_tracking_time) {
-        const pace = CalculatePaceValue(
-          set.distance,
-          set.distance_unit,
-          set.time_in_seconds,
-          paceUnit
+        const distance = ConvertNumberToTwoDecimals(
+          ConvertDistanceValue(set.distance, set.distance_unit, distanceUnit)
         );
 
-        set.pace = pace;
-        set.paceUnit = paceUnit;
+        const time = set.time_in_seconds;
 
-        showPaceCheckbox.current = true;
+        const areDistanceAndTimeValid = distance >= 0 && time > 0;
+
+        if (areDistanceAndTimeValid) {
+          const pace = CalculatePaceValue(
+            set.distance,
+            set.distance_unit,
+            time,
+            paceUnit
+          );
+
+          set.pace = pace;
+          set.paceUnit = paceUnit;
+
+          showPaceCheckbox.current = true;
+        }
 
         if (!showDistanceAndTimeTabs.current) {
           tabPages.current.push(
