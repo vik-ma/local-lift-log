@@ -96,6 +96,7 @@ export default function ExerciseDetails() {
 
   const maxWeightMap = useRef<Map<number, ExerciseMaxListValue>>(new Map());
   const maxRepsMap = useRef<Map<number, ExerciseMaxListValue>>(new Map());
+  const maxDistanceMap = useRef<Map<number, ExerciseMaxListValue>>(new Map());
 
   const navigate = useNavigate();
 
@@ -210,6 +211,25 @@ export default function ExerciseDetails() {
         const areDistanceAndTimeValid = distance >= 0 && time > 0;
 
         if (areDistanceAndTimeValid) {
+          const doesDistanceExistInMap = maxDistanceMap.current.has(distance);
+
+          // Add lowest time for specific distance to Map
+          // If same time for distance, pick set which time_completed date occurred first
+          if (
+            (doesDistanceExistInMap &&
+              (time < maxDistanceMap.current.get(distance)!.value ||
+                (time === maxDistanceMap.current.get(distance)!.value &&
+                  new Date(set.time_completed!) <
+                    new Date(maxDistanceMap.current.get(distance)!.date!)))) ||
+            !doesDistanceExistInMap
+          ) {
+            maxDistanceMap.current.set(distance, {
+              value: time,
+              date: set.time_completed as string,
+              formattedDate: date,
+            });
+          }
+
           const pace = CalculatePaceValue(
             set.distance,
             set.distance_unit,
