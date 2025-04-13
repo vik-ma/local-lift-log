@@ -162,22 +162,27 @@ export default function ExerciseDetails() {
           });
         }
 
-        const doesRepsExistInMap = maxRepsMap.current.has(weight);
+        const doesRepsExistInMap = maxRepsMap.current.has(reps);
 
-        if (
-          areWeightAndRepsValid &&
-          ((doesRepsExistInMap &&
-            (weight > maxRepsMap.current.get(reps)!.value ||
-              (weight === maxRepsMap.current.get(reps)!.value &&
-                new Date(set.time_completed!) <
-                  new Date(maxRepsMap.current.get(reps)!.date!)))) ||
-            !doesRepsExistInMap)
-        ) {
-          maxRepsMap.current.set(reps, {
-            value: weight,
-            date: set.time_completed as string,
-            formattedDate: date,
-          });
+        // Add highest weight for specific number of reps to Map, and all number of reps lower than it
+        // If same amount of reps for weight, pick set which time_completed date occurred first
+        if (areWeightAndRepsValid) {
+          for (let i = 1; i <= reps; i++) {
+            if (
+              (doesRepsExistInMap &&
+                (weight > maxRepsMap.current.get(i)!.value ||
+                  (weight === maxRepsMap.current.get(i)!.value &&
+                    new Date(set.time_completed!) <
+                      new Date(maxRepsMap.current.get(i)!.date!)))) ||
+              !doesRepsExistInMap
+            ) {
+              maxRepsMap.current.set(i, {
+                value: weight,
+                date: set.time_completed as string,
+                formattedDate: date,
+              });
+            }
+          }
         }
 
         if (!showWeightAndRepsTabs.current) {
