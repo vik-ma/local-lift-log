@@ -696,7 +696,14 @@ export default function ExerciseDetails() {
                 />
               )}
               {tabPage === "reps" && (
-                <div className="flex justify-center">Reps Records</div>
+                <ExerciseMaxValues
+                  maxMap={maxRepsMap.current}
+                  header1="Reps"
+                  suffix1="rep"
+                  header2="Max Weight"
+                  suffix2={weightUnit}
+                  suffix1IsReps
+                />
               )}
               {tabPage === "distance" && (
                 <div className="flex justify-center">Distance Records</div>

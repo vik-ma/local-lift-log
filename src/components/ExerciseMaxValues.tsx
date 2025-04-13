@@ -6,6 +6,7 @@ type ExerciseMaxValuesProps = {
   suffix1: string;
   header2: string;
   suffix2: string;
+  suffix1IsReps?: boolean;
   suffix2IsReps?: boolean;
 };
 
@@ -15,15 +16,16 @@ export const ExerciseMaxValues = ({
   suffix1,
   header2,
   suffix2,
+  suffix1IsReps,
   suffix2IsReps,
 }: ExerciseMaxValuesProps) => {
   return (
     <div className="flex flex-col text-foreground-900">
       <div className="flex flex-col">
-        <div className="flex text-secondary text-lg leading-tight font-semibold pl-0.5 border-b-1 border-foreground-400">
-          <span className="w-[8rem]">{header1}</span>
-          <span className="w-[8rem]">{header2}</span>
-          <span>First Completed</span>
+        <div className="flex text-secondary text-lg leading-tight font-semibold border-b-1 border-foreground-400">
+          <span className="w-[8rem] pl-[3px]">{header1}</span>
+          <span className="w-[8rem] pl-0.5">{header2}</span>
+          <span className="pl-0.5">First Completed</span>
         </div>
         <div className="flex flex-col text-sm">
           {Array.from(maxMap).map(([key, values]) => (
@@ -34,6 +36,7 @@ export const ExerciseMaxValues = ({
               <span className="w-[8rem] pl-1 truncate">
                 <span className="font-semibold">{key} </span>
                 {suffix1}
+                {suffix1IsReps && key !== 1 && "s"}
               </span>
               <span className="w-[8rem] font-semibold pl-[3px] truncate">
                 {values.value}{" "}
