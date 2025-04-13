@@ -727,7 +727,7 @@ export default function ExerciseDetails() {
                   suffix1={weightUnit}
                   header2="Max Reps"
                   suffix2="rep"
-                  suffix2IsReps
+                  isSuffix2Reps
                 />
               )}
               {tabPage === "reps" && (
@@ -737,11 +737,18 @@ export default function ExerciseDetails() {
                   suffix1="rep"
                   header2="Max Weight"
                   suffix2={weightUnit}
-                  suffix1IsReps
+                  isSuffix1Reps
                 />
               )}
               {tabPage === "distance" && (
-                <div className="flex justify-center">Distance Records</div>
+                <ExerciseMaxValues
+                  maxMap={maxDistanceMap.current}
+                  header1="Distance"
+                  suffix1={distanceUnit}
+                  header2="Min Time"
+                  suffix2=""
+                  isSuffix2Time
+                />
               )}
               {tabPage === "time" && (
                 <div className="flex justify-center">Time Records</div>

@@ -1,3 +1,4 @@
+import { FormatTimeInSecondsToHhmmssString } from "../helpers";
 import { ExerciseMaxListValue } from "../typings";
 
 type ExerciseMaxValuesProps = {
@@ -6,8 +7,9 @@ type ExerciseMaxValuesProps = {
   suffix1: string;
   header2: string;
   suffix2: string;
-  suffix1IsReps?: boolean;
-  suffix2IsReps?: boolean;
+  isSuffix1Reps?: boolean;
+  isSuffix2Reps?: boolean;
+  isSuffix2Time?: boolean;
 };
 
 export const ExerciseMaxValues = ({
@@ -16,8 +18,9 @@ export const ExerciseMaxValues = ({
   suffix1,
   header2,
   suffix2,
-  suffix1IsReps,
-  suffix2IsReps,
+  isSuffix1Reps,
+  isSuffix2Reps,
+  isSuffix2Time,
 }: ExerciseMaxValuesProps) => {
   return (
     <div className="flex flex-col text-foreground-900">
@@ -36,14 +39,20 @@ export const ExerciseMaxValues = ({
               <span className="w-[8rem] pl-1 truncate">
                 <span className="font-semibold">{key} </span>
                 {suffix1}
-                {suffix1IsReps && key !== 1 && "s"}
+                {isSuffix1Reps && key !== 1 && "s"}
               </span>
               <span className="w-[8rem] font-semibold pl-[3px] truncate">
-                {values.value}{" "}
-                <span className="font-normal">
-                  {suffix2}
-                  {suffix2IsReps && values.value !== 1 && "s"}
-                </span>
+                {isSuffix2Time ? (
+                  FormatTimeInSecondsToHhmmssString(values.value)
+                ) : (
+                  <>
+                    {values.value}{" "}
+                    <span className="font-normal">
+                      {suffix2}
+                      {isSuffix2Reps && values.value !== 1 && "s"}
+                    </span>
+                  </>
+                )}
               </span>
               <span className="font-medium pl-[3px] text-stone-500">
                 {values.formattedDate}
