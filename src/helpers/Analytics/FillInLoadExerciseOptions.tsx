@@ -41,10 +41,6 @@ export const FillInLoadExerciseOptions = (
 
   // Disable any options that have already been loaded for Exercise
   if (isInAnalytics) {
-    // TODO: FIX FOR EXERCISEDETAILS
-
-    const id = selectedExercise.id;
-
     // Check if a ChartDataExerciseCategoryBase value exists for selectedExercise id
     for (const chart of loadedCharts) {
       const lastIndex = chart.lastIndexOf("_");
@@ -54,9 +50,16 @@ export const FillInLoadExerciseOptions = (
       const chartName = chart.substring(0, lastIndex);
       const chartId = chart.substring(lastIndex + 1);
 
-      if (chartId === id.toString() && chartName !== "measurement") {
+      if (
+        chartId === selectedExercise.id.toString() &&
+        chartName !== "measurement"
+      ) {
         disabledKeys.add(chartName as ChartDataExerciseCategoryBase);
       }
+    }
+  } else {
+    for (const chart of loadedCharts) {
+      disabledKeys.add(chart as ChartDataExerciseCategoryBase);
     }
   }
 
