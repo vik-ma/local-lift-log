@@ -282,6 +282,10 @@ export default function ExerciseDetails() {
       [...maxRepsMap.current.entries()].sort((a, b) => b[0] - a[0])
     );
 
+    maxDistanceMap.current = new Map(
+      [...maxDistanceMap.current.entries()].sort((a, b) => b[0] - a[0])
+    );
+
     const sortedDateMapArray = Array.from(dateMap).sort(
       (a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime()
     );
