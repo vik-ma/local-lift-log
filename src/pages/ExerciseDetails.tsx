@@ -30,6 +30,7 @@ import {
   ConvertWeightValue,
   ConvertNumberToTwoDecimals,
   ConvertDistanceValue,
+  CalculateSpeedValue,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -45,6 +46,14 @@ import Database from "tauri-plugin-sql-api";
 type ShowCheckboxType = "warmup" | "multiset" | "pace";
 
 type TabPage = "history" | "weight" | "reps" | "distance" | "time";
+
+type PaceRecord = {
+  pace: number;
+  speed: number;
+  distance: number;
+  time: number;
+  date: string;
+};
 
 export default function ExerciseDetails() {
   const { id } = useParams();
@@ -98,6 +107,8 @@ export default function ExerciseDetails() {
   const maxRepsMap = useRef<Map<number, ExerciseMaxListValue>>(new Map());
   const maxDistanceMap = useRef<Map<number, ExerciseMaxListValue>>(new Map());
 
+  const paceRecords = useRef<PaceRecord[]>([]);
+
   const navigate = useNavigate();
 
   const getDateSetListMap = async (
@@ -108,7 +119,6 @@ export default function ExerciseDetails() {
     locale: string
   ) => {
     if (isSetListLoaded.current) return;
-
     const fullSetList = await GetCompletedSetsWithExerciseId(Number(id));
 
     if (fullSetList.length === 0) {
@@ -241,17 +251,34 @@ export default function ExerciseDetails() {
           set.paceUnit = paceUnit;
 
           showPaceCheckbox.current = true;
-        }
 
-        if (!showDistanceAndTimeTabs.current) {
-          tabPages.current.push(
-            ...[
-              ["distance", "Distance Records"],
-              ["time", "Time Records"],
-            ]
+          const speed = CalculateSpeedValue(
+            set.distance,
+            set.distance_unit,
+            time,
+            speedUnit
           );
 
-          showDistanceAndTimeTabs.current = true;
+          const paceRecord: PaceRecord = {
+            pace: pace,
+            speed: speed,
+            distance: distance,
+            time: time,
+            date: date,
+          };
+
+          paceRecords.current.push(paceRecord);
+
+          if (!showDistanceAndTimeTabs.current) {
+            tabPages.current.push(
+              ...[
+                ["distance", "Distance Records"],
+                ["time", "Time Records"],
+              ]
+            );
+
+            showDistanceAndTimeTabs.current = true;
+          }
         }
       }
 
@@ -286,6 +313,10 @@ export default function ExerciseDetails() {
       [...maxDistanceMap.current.entries()].sort((a, b) => b[0] - a[0])
     );
 
+    paceRecords.current = paceRecords.current
+      .sort((a, b) => a.pace - b.pace)
+      .slice(0, 30);
+
     const sortedDateMapArray = Array.from(dateMap).sort(
       (a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime()
     );
@@ -299,6 +330,8 @@ export default function ExerciseDetails() {
     // TODO: ADD MULTISETMAP
     // TODO: ADD DEFAULT LOAD EXERCISE OPTIONS AND MAKE CHARTDATA ETC
   };
+
+  console.log(paceRecords.current);
 
   useEffect(() => {
     const getExercise = async () => {
