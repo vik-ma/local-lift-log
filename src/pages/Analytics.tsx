@@ -1952,12 +1952,16 @@ export default function Analytics() {
   const updateDefaultLoadExerciseOptions = async () => {
     if (selectedExercise === undefined) return;
 
+    const allLoadedOptions = getAllLoadedOptionsForExercise(
+      selectedExercise.id
+    );
+
     const {
       success,
       loadExerciseOptionsString,
       loadExerciseOptionsCategoriesString,
     } = await UpdateLoadExerciseOptions(
-      loadExerciseOptions,
+      allLoadedOptions,
       loadExerciseOptionsUnitCategoryPrimary,
       loadExerciseOptionsUnitCategorySecondary,
       selectedExercise.id
@@ -2833,6 +2837,25 @@ export default function Analytics() {
     }
 
     return exerciseMultiplierMap;
+  };
+
+  const getAllLoadedOptionsForExercise = (exerciseId: number) => {
+    const loadedOptions = new Set<ChartDataExerciseCategoryBase>();
+
+    for (const chart of loadedCharts.current) {
+      const lastIndex = chart.lastIndexOf("_");
+
+      if (lastIndex === -1) continue;
+
+      const chartName = chart.substring(0, lastIndex);
+      const chartId = chart.substring(lastIndex + 1);
+
+      if (chartId === exerciseId.toString() && chartName !== "measurement") {
+        loadedOptions.add(chartName as ChartDataExerciseCategoryBase);
+      }
+    }
+
+    return loadedOptions;
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
