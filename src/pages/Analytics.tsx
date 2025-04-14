@@ -83,6 +83,8 @@ import {
   UpdateItemInList,
   FillInMissingChartDates,
   MergeChartData,
+  UpdateChartDataAndFilteredHighestCategoryValues,
+  UpdateExerciseStatUnit,
 } from "../helpers";
 import { ChartConfig } from "../components/ui/chart";
 import toast from "react-hot-toast";
@@ -466,10 +468,15 @@ export default function Analytics() {
 
     highestCategoryValues.current.set("calories", highestValue);
 
-    updateChartDataAndFilteredHighestCategoryValues(
+    UpdateChartDataAndFilteredHighestCategoryValues(
       mergedChartData,
       filterMinDate,
-      filterMaxDate
+      filterMaxDate,
+      chartData,
+      setChartData,
+      setFilteredChartData,
+      highestCategoryValues,
+      filteredHighestCategoryValues
     );
 
     if (loadPrimary) {
@@ -587,10 +594,15 @@ export default function Analytics() {
 
     highestCategoryValues.current.set(macroType, highestValue);
 
-    updateChartDataAndFilteredHighestCategoryValues(
+    UpdateChartDataAndFilteredHighestCategoryValues(
       mergedChartData,
       filterMinDate,
-      filterMaxDate
+      filterMaxDate,
+      chartData,
+      setChartData,
+      setFilteredChartData,
+      highestCategoryValues,
+      filteredHighestCategoryValues
     );
 
     if (loadPrimary) {
@@ -948,10 +960,15 @@ export default function Analytics() {
 
     highestCategoryValues.current.set("body_weight", highestValue);
 
-    updateChartDataAndFilteredHighestCategoryValues(
+    UpdateChartDataAndFilteredHighestCategoryValues(
       mergedChartData,
       filterMinDate,
-      filterMaxDate
+      filterMaxDate,
+      chartData,
+      setChartData,
+      setFilteredChartData,
+      highestCategoryValues,
+      filteredHighestCategoryValues
     );
 
     if (loadPrimary) {
@@ -1054,10 +1071,15 @@ export default function Analytics() {
 
     highestCategoryValues.current.set("body_fat_percentage", highestValue);
 
-    updateChartDataAndFilteredHighestCategoryValues(
+    UpdateChartDataAndFilteredHighestCategoryValues(
       mergedChartData,
       filterMinDate,
-      filterMaxDate
+      filterMaxDate,
+      chartData,
+      setChartData,
+      setFilteredChartData,
+      highestCategoryValues,
+      filteredHighestCategoryValues
     );
 
     if (loadPrimary) {
@@ -1573,10 +1595,15 @@ export default function Analytics() {
 
     highestCategoryValues.current.set(measurementIdString, highestValue);
 
-    updateChartDataAndFilteredHighestCategoryValues(
+    UpdateChartDataAndFilteredHighestCategoryValues(
       mergedChartData,
       filterMinDate,
-      filterMaxDate
+      filterMaxDate,
+      chartData,
+      setChartData,
+      setFilteredChartData,
+      highestCategoryValues,
+      filteredHighestCategoryValues
     );
 
     if (measurementType === "Caliper") {
@@ -1783,10 +1810,15 @@ export default function Analytics() {
       ...updatedHighestValueMap,
     ]);
 
-    updateChartDataAndFilteredHighestCategoryValues(
+    UpdateChartDataAndFilteredHighestCategoryValues(
       mergedChartData,
       filterMinDate,
-      filterMaxDate
+      filterMaxDate,
+      chartData,
+      setChartData,
+      setFilteredChartData,
+      highestCategoryValues,
+      filteredHighestCategoryValues
     );
 
     const primaryDataKeys: ChartDataCategory[] = [];
@@ -1815,7 +1847,15 @@ export default function Analytics() {
         label: chartLabel,
       };
 
-      updateExerciseStatUnit(chartName, optionCategory);
+      UpdateExerciseStatUnit(
+        chartName,
+        optionCategory,
+        weightUnit,
+        distanceUnit,
+        speedUnit,
+        paceUnit,
+        chartDataUnitMap
+      );
 
       if (loadExerciseOptionsUnitCategoryPrimary === optionCategory) {
         primaryDataKeys.push(chartName);
@@ -1890,50 +1930,6 @@ export default function Analytics() {
     const updatedExercises = UpdateItemInList(exercises, updatedExercise);
 
     setExercises(updatedExercises);
-  };
-
-  const updateExerciseStatUnit = (
-    chartName: ChartDataExerciseCategory,
-    optionCategory: ChartDataUnitCategory
-  ) => {
-    let unit = "";
-
-    switch (optionCategory) {
-      case "Weight":
-        unit = ` ${weightUnit}`;
-        break;
-      case "Distance":
-        unit = ` ${distanceUnit}`;
-        break;
-      case "Time":
-        unit = " min";
-        break;
-      case "Speed":
-        unit = ` ${speedUnit}`;
-        break;
-      case "Pace":
-        unit = ` ${paceUnit}`;
-        break;
-      case "Number Of Sets":
-        unit = " sets";
-        break;
-      case "Number Of Reps":
-        unit = " reps";
-        break;
-      case "RIR":
-        unit = " RIR";
-        break;
-      case "RPE":
-        unit = " RPE";
-        break;
-      case "Resistance Level":
-        unit = " RL";
-        break;
-      default:
-        break;
-    }
-
-    chartDataUnitMap.current.set(chartName, unit);
   };
 
   const showAllLinesAndAreas = () => {
@@ -2671,10 +2667,15 @@ export default function Analytics() {
       ...updatedHighestValueMap,
     ]);
 
-    updateChartDataAndFilteredHighestCategoryValues(
+    UpdateChartDataAndFilteredHighestCategoryValues(
       mergedChartData,
       filterMinDate,
-      filterMaxDate
+      filterMaxDate,
+      chartData,
+      setChartData,
+      setFilteredChartData,
+      highestCategoryValues,
+      filteredHighestCategoryValues
     );
 
     const primaryDataKeys: ChartDataCategory[] = [];

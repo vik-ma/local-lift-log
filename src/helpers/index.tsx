@@ -264,3 +264,5 @@ export { UpdateChartCommentMapForExercise } from "./Analytics/UpdateChartComment
 export { FillInLoadExerciseOptions } from "./Analytics/FillInLoadExerciseOptions";
 export { FillInMissingChartDates } from "./Analytics/FillInMissingChartDates";
 export { MergeChartData } from "./Analytics/MergeChartData";
+export { UpdateChartDataAndFilteredHighestCategoryValues } from "./Analytics/UpdateChartDataAndFilteredHighestCategoryValues";
+export { UpdateExerciseStatUnit } from "./Analytics/UpdateExerciseStatUnit";
