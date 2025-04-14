@@ -262,3 +262,5 @@ export { GetAllDietLogs } from "./DietLogs/GetAllDietLogs";
 
 export { UpdateChartCommentMapForExercise } from "./Analytics/UpdateChartCommentMapForExercise";
 export { FillInLoadExerciseOptions } from "./Analytics/FillInLoadExerciseOptions";
+export { FillInMissingChartDates } from "./Analytics/FillInMissingChartDates";
+export { MergeChartData } from "./Analytics/MergeChartData";

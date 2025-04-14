@@ -81,6 +81,8 @@ import {
   ValidLoadExerciseOptionsCategories,
   ValidMeasurementUnits,
   UpdateItemInList,
+  FillInMissingChartDates,
+  MergeChartData,
 } from "../helpers";
 import { ChartConfig } from "../components/ui/chart";
 import toast from "react-hot-toast";
@@ -449,15 +451,17 @@ export default function Analytics() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = fillInMissingDates(
+    const filledInChartData = FillInMissingChartDates(
       loadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = mergeChartData(
+    const mergedChartData = MergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale
+      userSettings.locale,
+      setChartStartDate,
+      setChartEndDate
     );
 
     highestCategoryValues.current.set("calories", highestValue);
@@ -568,15 +572,17 @@ export default function Analytics() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = fillInMissingDates(
+    const filledInChartData = FillInMissingChartDates(
       loadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = mergeChartData(
+    const mergedChartData = MergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale
+      userSettings.locale,
+      setChartStartDate,
+      setChartEndDate
     );
 
     highestCategoryValues.current.set(macroType, highestValue);
@@ -810,41 +816,6 @@ export default function Analytics() {
     setShownReferenceAreas(updatedShownReferenceAreas);
   };
 
-  const fillInMissingDates = (
-    loadedChartData: ChartDataItem[],
-    locale: string
-  ): ChartDataItem[] => {
-    if (loadedChartData.length === 0) return [];
-
-    const filledInChartData: ChartDataItem[] = [];
-
-    const chartDataDateMap = new Map(
-      loadedChartData.map((item) => [item.date, item])
-    );
-
-    const currentDate = new Date(loadedChartData[0].date);
-    const endDate = new Date(loadedChartData[loadedChartData.length - 1].date);
-
-    while (currentDate <= endDate) {
-      const dateString = FormatDateToShortString(currentDate, locale);
-
-      if (chartDataDateMap.has(dateString)) {
-        filledInChartData.push(chartDataDateMap.get(dateString)!);
-      } else {
-        // Fill in empty ChartDataItems for missing dates
-        const chartDataItem: ChartDataItem = {
-          date: dateString,
-        };
-
-        filledInChartData.push(chartDataItem);
-      }
-
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-
-    return filledInChartData;
-  };
-
   const getTimePeriodStartAndEndDates = (
     startDateString: string,
     endDateString: string | null,
@@ -962,15 +933,17 @@ export default function Analytics() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = fillInMissingDates(
+    const filledInChartData = FillInMissingChartDates(
       loadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = mergeChartData(
+    const mergedChartData = MergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale
+      userSettings.locale,
+      setChartStartDate,
+      setChartEndDate
     );
 
     highestCategoryValues.current.set("body_weight", highestValue);
@@ -1066,15 +1039,17 @@ export default function Analytics() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = fillInMissingDates(
+    const filledInChartData = FillInMissingChartDates(
       loadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = mergeChartData(
+    const mergedChartData = MergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale
+      userSettings.locale,
+      setChartStartDate,
+      setChartEndDate
     );
 
     highestCategoryValues.current.set("body_fat_percentage", highestValue);
@@ -1093,74 +1068,6 @@ export default function Analytics() {
 
     loadedCharts.current.add("body_fat_percentage");
     isChartDataLoaded.current = true;
-  };
-
-  const mergeChartData = (
-    list1: ChartDataItem[],
-    list2: ChartDataItem[],
-    locale: string
-  ) => {
-    const chartDataDateMap = new Map<string, ChartDataItem>();
-
-    if (list1.length > 0 && list2.length > 0) {
-      const minDate1 = new Date(list1[0].date);
-      const maxDate1 = new Date(list1[list1.length - 1].date);
-      maxDate1.setDate(maxDate1.getDate() + 1);
-      const minDate2 = new Date(list2[0].date);
-      const maxDate2 = new Date(list2[list2.length - 1].date);
-      maxDate2.setDate(maxDate2.getDate() + 1);
-
-      // Check if there is a gap of dates between the end of one list and the start of the other
-      const isGapAndList1ComesFirst = maxDate1.getTime() < minDate2.getTime();
-      const isGapAndList2ComesFirst = maxDate2.getTime() < minDate1.getTime();
-
-      if (isGapAndList1ComesFirst || isGapAndList2ComesFirst) {
-        const currentDate = isGapAndList1ComesFirst ? maxDate1 : maxDate2;
-        const endDate = isGapAndList1ComesFirst ? minDate2 : minDate1;
-
-        while (currentDate < endDate) {
-          const dateString = FormatDateToShortString(currentDate, locale);
-
-          const chartDataItem: ChartDataItem = { date: dateString };
-
-          // Fill in the gaps in list that is chronologically first
-          if (isGapAndList1ComesFirst) {
-            list1.push(chartDataItem);
-          } else {
-            list2.push(chartDataItem);
-          }
-
-          currentDate.setDate(currentDate.getDate() + 1);
-        }
-      }
-    }
-
-    // Add all props from both lists to ChartDataItem of same date
-    const mergeIntoMap = (list: ChartDataItem[]) => {
-      for (const item of list) {
-        if (!chartDataDateMap.has(item.date)) {
-          chartDataDateMap.set(item.date, { ...item });
-        } else {
-          chartDataDateMap.set(item.date, {
-            ...chartDataDateMap.get(item.date),
-            ...item,
-          });
-        }
-      }
-    };
-
-    mergeIntoMap(list1);
-    mergeIntoMap(list2);
-
-    // Create chartData array with dates sorted from oldest to newest
-    const mergedChartData = Array.from(chartDataDateMap.values()).sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-    );
-
-    setChartStartDate(new Date(mergedChartData[0].date));
-    setChartEndDate(new Date(mergedChartData[mergedChartData.length - 1].date));
-
-    return mergedChartData;
   };
 
   const changeChartDataLineToArea = (chartDataLine: ChartDataCategory) => {
@@ -1651,15 +1558,17 @@ export default function Analytics() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = fillInMissingDates(
+    const filledInChartData = FillInMissingChartDates(
       loadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = mergeChartData(
+    const mergedChartData = MergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale
+      userSettings.locale,
+      setChartStartDate,
+      setChartEndDate
     );
 
     highestCategoryValues.current.set(measurementIdString, highestValue);
@@ -1856,15 +1765,17 @@ export default function Analytics() {
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
 
-    const filledInChartData = fillInMissingDates(
+    const filledInChartData = FillInMissingChartDates(
       sortedLoadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = mergeChartData(
+    const mergedChartData = MergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale
+      userSettings.locale,
+      setChartStartDate,
+      setChartEndDate
     );
 
     highestCategoryValues.current = new Map([
@@ -2742,15 +2653,17 @@ export default function Analytics() {
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
 
-    const filledInChartData = fillInMissingDates(
+    const filledInChartData = FillInMissingChartDates(
       sortedLoadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = mergeChartData(
+    const mergedChartData = MergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale
+      userSettings.locale,
+      setChartStartDate,
+      setChartEndDate
     );
 
     highestCategoryValues.current = new Map([
