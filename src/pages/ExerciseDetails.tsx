@@ -45,7 +45,7 @@ import Database from "tauri-plugin-sql-api";
 
 type ShowCheckboxType = "warmup" | "multiset" | "pace";
 
-type TabPage = "history" | "weight" | "reps" | "distance" | "time";
+type TabPage = "history" | "weight" | "reps" | "distance" | "pace";
 
 type PaceRecord = {
   pace: number;
@@ -97,7 +97,7 @@ export default function ExerciseDetails() {
   const isSetListLoaded = useRef<boolean>(false);
 
   const showWeightAndRepsTabs = useRef<boolean>(false);
-  const showDistanceAndTimeTabs = useRef<boolean>(false);
+  const showDistanceAndPaceTabs = useRef<boolean>(false);
 
   const showWarmupsCheckbox = useRef<boolean>(false);
   const showMultisetsCheckbox = useRef<boolean>(false);
@@ -196,7 +196,7 @@ export default function ExerciseDetails() {
           }
 
           if (!showWeightAndRepsTabs.current) {
-            // Always insert Weight and Reps tabs before Distance and Time
+            // Always insert Weight and Reps tabs before Distance and Pace
             tabPages.current.splice(
               1,
               0,
@@ -269,15 +269,15 @@ export default function ExerciseDetails() {
 
           paceRecords.current.push(paceRecord);
 
-          if (!showDistanceAndTimeTabs.current) {
+          if (!showDistanceAndPaceTabs.current) {
             tabPages.current.push(
               ...[
                 ["distance", "Distance Records"],
-                ["time", "Time Records"],
+                ["pace", "Pace Records"],
               ]
             );
 
-            showDistanceAndTimeTabs.current = true;
+            showDistanceAndPaceTabs.current = true;
           }
         }
       }
@@ -789,8 +789,51 @@ export default function ExerciseDetails() {
                   isSuffix2Time
                 />
               )}
-              {tabPage === "time" && (
-                <div className="flex justify-center">Time Records</div>
+              {tabPage === "pace" && (
+                <div className="flex flex-col text-foreground-900">
+                  <div className="flex flex-col">
+                    <div className="flex text-secondary leading-tight font-semibold border-b-1 border-foreground-400">
+                      <span className="w-[5.25rem] pl-[3px]">Pace</span>
+                      <span className="w-[5.25rem] pl-0.5">Speed</span>
+                      <span className="w-[5rem] pl-0.5">Distance</span>
+                      <span className="w-[4.25em] pl-0.5">Time</span>
+                      <span className="pl-0.5">Date</span>
+                    </div>
+                    <div className="flex flex-col text-xs">
+                      {paceRecords.current.map((paceRecord, index) => (
+                        <div
+                          key={index}
+                          className="flex py-1 odd:bg-default-50 even:bg-default-100/60 last:!rounded-b-lg"
+                        >
+                          <span className="w-[5.25rem] pl-1 truncate">
+                            <span className="font-semibold">
+                              {paceRecord.pace}{" "}
+                            </span>
+                            {paceUnit}
+                          </span>
+                          <span className="w-[5.25rem] pl-1 truncate">
+                            <span className="font-semibold">
+                              {paceRecord.speed}{" "}
+                            </span>
+                            {speedUnit}
+                          </span>
+                          <span className="w-[5rem] pl-1 truncate">
+                            <span className="font-semibold">
+                              {paceRecord.distance}{" "}
+                            </span>
+                            {distanceUnit}
+                          </span>
+                          <span className="w-[4.25rem] pl-1 truncate font-semibold">
+                            {FormatTimeInSecondsToHhmmssString(paceRecord.time)}
+                          </span>
+                          <span className="font-medium pl-[3px] text-stone-500">
+                            {paceRecord.date}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           )}
