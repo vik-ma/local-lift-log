@@ -111,6 +111,8 @@ export default function ExerciseDetails() {
 
   const navigate = useNavigate();
 
+  const initialized = useRef<boolean>(false);
+
   const getDateSetListMap = async (
     weightUnit: string,
     distanceUnit: string,
@@ -118,7 +120,6 @@ export default function ExerciseDetails() {
     paceUnit: string,
     locale: string
   ) => {
-    if (isSetListLoaded.current) return;
     const fullSetList = await GetCompletedSetsWithExerciseId(Number(id));
 
     if (fullSetList.length === 0) {
@@ -138,7 +139,6 @@ export default function ExerciseDetails() {
     //   highestValueMap.set(option, -1);
     //   chartDataKeys.add(option);
     // }
-
     for (const set of fullSetList) {
       const date = FormatDateToShortString(
         new Date(set.time_completed!),
@@ -331,9 +331,11 @@ export default function ExerciseDetails() {
     // TODO: ADD DEFAULT LOAD EXERCISE OPTIONS AND MAKE CHARTDATA ETC
   };
 
-  console.log(paceRecords.current);
-
   useEffect(() => {
+    if (initialized.current) return;
+
+    initialized.current = true;
+
     const getExercise = async () => {
       const currentExercise = await GetExerciseWithId(
         Number(id),
@@ -508,7 +510,7 @@ export default function ExerciseDetails() {
               No sets completed for exercise
             </div>
           ) : (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2.5">
               <div
                 className="p-1 bg-default-100 rounded-xl"
                 id="exercise-details-tabs"
