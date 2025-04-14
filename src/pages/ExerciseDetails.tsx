@@ -576,7 +576,7 @@ export default function ExerciseDetails() {
                   )}
                   <div className="relative flex flex-col gap-1.5">
                     <div className="absolute right-0 -top-px">
-                      <span className="text-xs text-stone-500 text-center font-normal">
+                      <span className="text-xs text-stone-500">
                         Click on set to go to workout
                       </span>
                     </div>
@@ -790,16 +790,19 @@ export default function ExerciseDetails() {
                 />
               )}
               {tabPage === "pace" && (
-                <div className="flex flex-col text-foreground-900">
+                <div className="flex flex-col gap-1 text-foreground-900">
+                  <span className="text-xs text-stone-500 pl-[1px]">
+                    Top 30 Fastest Paces
+                  </span>
                   <div className="flex flex-col">
                     <div className="flex text-secondary leading-tight font-semibold border-b-1 border-foreground-400">
                       <span className="w-[5.25rem] pl-[3px]">Pace</span>
-                      <span className="w-[5.25rem] pl-0.5">Speed</span>
-                      <span className="w-[5rem] pl-0.5">Distance</span>
-                      <span className="w-[4.25em] pl-0.5">Time</span>
-                      <span className="pl-0.5">Date</span>
+                      <span className="w-[5.25rem] pl-[3px]">Speed</span>
+                      <span className="w-[5rem] pl-[3px]">Distance</span>
+                      <span className="w-[4.25em] pl-[3px]">Time</span>
+                      <span className="pl-[3px]">Date</span>
                     </div>
-                    <div className="flex flex-col text-xs">
+                    <div className="flex flex-col text-xs leading-tight">
                       {paceRecords.current.map((paceRecord, index) => (
                         <div
                           key={index}
@@ -826,7 +829,7 @@ export default function ExerciseDetails() {
                           <span className="w-[4.25rem] pl-1 truncate font-semibold">
                             {FormatTimeInSecondsToHhmmssString(paceRecord.time)}
                           </span>
-                          <span className="font-medium pl-[3px] text-stone-500">
+                          <span className="font-medium pl-1 text-stone-500">
                             {paceRecord.date}
                           </span>
                         </div>
