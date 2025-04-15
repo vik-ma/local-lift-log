@@ -259,8 +259,3 @@ export { ShouldDietLogDisableExpansion } from "./DietLogs/ShouldDietLogDisableEx
 export { InsertDietLogIntoDatabase } from "./DietLogs/InsertDietLogIntoDatabase";
 export { DeleteDietLogWithId } from "./DietLogs/DeleteDietLogWithId";
 export { GetAllDietLogs } from "./DietLogs/GetAllDietLogs";
-
-export { UpdateChartCommentMapForExercise } from "./Analytics/UpdateChartCommentMapForExercise";
-export { FillInMissingChartDates } from "./Analytics/FillInMissingChartDates";
-export { MergeChartData } from "./Analytics/MergeChartData";
-export { UpdateChartDataAndFilteredHighestCategoryValues } from "./Analytics/UpdateChartDataAndFilteredHighestCategoryValues";

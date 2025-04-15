@@ -1421,4 +1421,17 @@ export type UseChartAnalyticsReturnType = {
     selectedExercise: Exercise,
     isInAnalytics: boolean
   ) => void;
+  updateChartCommentMapForExercise: (exerciseId: number) => {
+    areCommentsAlreadyLoaded: boolean;
+    updatedChartCommentMap: Map<string, ChartComment[]>;
+  };
+  fillInMissingChartDates: (
+    loadedChartData: ChartDataItem[],
+    locale: string
+  ) => ChartDataItem[];
+  mergeChartData: (
+    list1: ChartDataItem[],
+    list2: ChartDataItem[],
+    locale: string
+  ) => ChartDataItem[];
 };

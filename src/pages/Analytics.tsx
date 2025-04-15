@@ -70,12 +70,9 @@ import {
   GetTimeCompletedForSetsWithExerciseId,
   GetUserMeasurementsWithMeasurementId,
   GetUserSettings,
-  UpdateChartCommentMapForExercise,
   UpdateLoadExerciseOptions,
   ValidMeasurementUnits,
   UpdateItemInList,
-  FillInMissingChartDates,
-  MergeChartData,
 } from "../helpers";
 import toast from "react-hot-toast";
 
@@ -140,9 +137,7 @@ export default function Analytics() {
     chartCommentMap,
     setChartCommentMap,
     chartStartDate,
-    setChartStartDate,
     chartEndDate,
-    setChartEndDate,
     filterMinDate,
     setFilterMinDate,
     filterMaxDate,
@@ -173,6 +168,9 @@ export default function Analytics() {
     assignDefaultUnits,
     updateChartDataAndFilteredHighestCategoryValues,
     fillInLoadExerciseOptions,
+    updateChartCommentMapForExercise,
+    fillInMissingChartDates,
+    mergeChartData,
   } = chartAnalytics;
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
@@ -344,17 +342,15 @@ export default function Analytics() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = FillInMissingChartDates(
+    const filledInChartData = fillInMissingChartDates(
       loadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = MergeChartData(
+    const mergedChartData = mergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale,
-      setChartStartDate,
-      setChartEndDate
+      userSettings.locale
     );
 
     highestCategoryValues.current.set("calories", highestValue);
@@ -465,17 +461,15 @@ export default function Analytics() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = FillInMissingChartDates(
+    const filledInChartData = fillInMissingChartDates(
       loadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = MergeChartData(
+    const mergedChartData = mergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale,
-      setChartStartDate,
-      setChartEndDate
+      userSettings.locale
     );
 
     highestCategoryValues.current.set(macroType, highestValue);
@@ -826,17 +820,15 @@ export default function Analytics() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = FillInMissingChartDates(
+    const filledInChartData = fillInMissingChartDates(
       loadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = MergeChartData(
+    const mergedChartData = mergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale,
-      setChartStartDate,
-      setChartEndDate
+      userSettings.locale
     );
 
     highestCategoryValues.current.set("body_weight", highestValue);
@@ -932,17 +924,15 @@ export default function Analytics() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = FillInMissingChartDates(
+    const filledInChartData = fillInMissingChartDates(
       loadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = MergeChartData(
+    const mergedChartData = mergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale,
-      setChartStartDate,
-      setChartEndDate
+      userSettings.locale
     );
 
     highestCategoryValues.current.set("body_fat_percentage", highestValue);
@@ -1451,17 +1441,15 @@ export default function Analytics() {
 
     setChartCommentMap(updatedChartCommentMap);
 
-    const filledInChartData = FillInMissingChartDates(
+    const filledInChartData = fillInMissingChartDates(
       loadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = MergeChartData(
+    const mergedChartData = mergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale,
-      setChartStartDate,
-      setChartEndDate
+      userSettings.locale
     );
 
     highestCategoryValues.current.set(measurementIdString, highestValue);
@@ -1550,13 +1538,7 @@ export default function Analytics() {
     const highestValueMap = new Map<ChartDataExerciseCategory, number>();
 
     const { areCommentsAlreadyLoaded, updatedChartCommentMap } =
-      UpdateChartCommentMapForExercise(
-        loadExerciseOptions,
-        exerciseId,
-        allChartDataCategories,
-        chartCommentMap,
-        loadExerciseOptionsMap
-      );
+      updateChartCommentMapForExercise(exerciseId);
 
     const chartDataKeys: Set<ChartDataCategory> = new Set();
 
@@ -1658,17 +1640,15 @@ export default function Analytics() {
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
 
-    const filledInChartData = FillInMissingChartDates(
+    const filledInChartData = fillInMissingChartDates(
       sortedLoadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = MergeChartData(
+    const mergedChartData = mergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale,
-      setChartStartDate,
-      setChartEndDate
+      userSettings.locale
     );
 
     highestCategoryValues.current = new Map([
@@ -2418,17 +2398,15 @@ export default function Analytics() {
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
 
-    const filledInChartData = FillInMissingChartDates(
+    const filledInChartData = fillInMissingChartDates(
       sortedLoadedChartData,
       userSettings.locale
     );
 
-    const mergedChartData = MergeChartData(
+    const mergedChartData = mergeChartData(
       filledInChartData,
       chartData,
-      userSettings.locale,
-      setChartStartDate,
-      setChartEndDate
+      userSettings.locale
     );
 
     highestCategoryValues.current = new Map([
