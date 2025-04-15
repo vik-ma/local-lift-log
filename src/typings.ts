@@ -1415,4 +1415,10 @@ export type UseChartAnalyticsReturnType = {
     minDate: Date | null,
     maxDate: Date | null
   ) => void;
+  fillInLoadExerciseOptions: (
+    loadExerciseOptionsString: string,
+    loadExerciseOptionsCategoriesString: string,
+    selectedExercise: Exercise,
+    isInAnalytics: boolean
+  ) => void;
 };

@@ -61,7 +61,6 @@ import {
   ConvertWeightValue,
   ConvertPaceValue,
   CreateShownPropertiesSet,
-  FillInLoadExerciseOptions,
   FormatDateToShortString,
   GetAllDietLogs,
   GetAllUserWeights,
@@ -150,14 +149,8 @@ export default function Analytics() {
     setFilterMaxDate,
     filteredChartData,
     loadExerciseOptions,
-    setLoadExerciseOptions,
-    setDisabledLoadExerciseOptions,
     loadExerciseOptionsUnitCategoryPrimary,
-    setLoadExerciseOptionsUnitCategoryPrimary,
     loadExerciseOptionsUnitCategorySecondary,
-    setLoadExerciseOptionsUnitCategorySecondary,
-    setLoadExerciseOptionsUnitCategoriesPrimary,
-    setLoadExerciseOptionsUnitCategoriesSecondary,
     allChartDataCategories,
     chartDataUnitMap,
     chartDataUnitCategoryMap,
@@ -174,12 +167,12 @@ export default function Analytics() {
     loadExerciseOptionsMap,
     loadExerciseOptionsModal,
     deleteModal,
-    validLoadExerciseOptionsCategories,
     includesMultisetMap,
     updateExerciseStatUnit,
     resetChart,
     assignDefaultUnits,
     updateChartDataAndFilteredHighestCategoryValues,
+    fillInLoadExerciseOptions,
   } = chartAnalytics;
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
@@ -242,22 +235,11 @@ export default function Analytics() {
   useEffect(() => {
     if (selectedExercise === undefined) return;
 
-    FillInLoadExerciseOptions(
+    fillInLoadExerciseOptions(
       selectedExercise.chart_load_exercise_options,
       selectedExercise.chart_load_exercise_options_categories,
       selectedExercise,
-      true,
-      loadedCharts.current,
-      validLoadExerciseOptionsCategories,
-      chartDataUnitCategoryMap.current,
-      chartDataAreas,
-      secondaryDataUnitCategory,
-      setLoadExerciseOptions,
-      setLoadExerciseOptionsUnitCategoryPrimary,
-      setLoadExerciseOptionsUnitCategorySecondary,
-      setLoadExerciseOptionsUnitCategoriesPrimary,
-      setLoadExerciseOptionsUnitCategoriesSecondary,
-      setDisabledLoadExerciseOptions
+      true
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedExercise]);
