@@ -1350,9 +1350,7 @@ export type UseChartAnalyticsReturnType = {
     React.SetStateAction<Map<string, ChartComment[]>>
   >;
   chartStartDate: Date | null;
-  setChartStartDate: React.Dispatch<React.SetStateAction<Date | null>>;
   chartEndDate: Date | null;
-  setChartEndDate: React.Dispatch<React.SetStateAction<Date | null>>;
   filterMinDate: Date | null;
   setFilterMinDate: React.Dispatch<React.SetStateAction<Date | null>>;
   filterMaxDate: Date | null;
@@ -1363,9 +1361,6 @@ export type UseChartAnalyticsReturnType = {
     React.SetStateAction<Set<ChartDataExerciseCategoryBase>>
   >;
   disabledLoadExerciseOptions: Set<ChartDataExerciseCategoryBase>;
-  setDisabledLoadExerciseOptions: React.Dispatch<
-    React.SetStateAction<Set<ChartDataExerciseCategoryBase>>
-  >;
   loadExerciseOptionsUnitCategoryPrimary: ChartDataUnitCategory;
   setLoadExerciseOptionsUnitCategoryPrimary: React.Dispatch<
     React.SetStateAction<ChartDataUnitCategory>
