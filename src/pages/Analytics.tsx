@@ -36,7 +36,6 @@ import {
 } from "../components";
 import {
   AnalyticsChartListModalPage,
-  ChartComment,
   ChartDataCategory,
   ChartDataCategoryNoUndefined,
   ChartDataExerciseCategory,
@@ -47,26 +46,19 @@ import {
   Exercise,
   Measurement,
   TimePeriod,
-  UnitCategory,
   UserMeasurementValues,
   WorkoutSet,
 } from "../typings";
 import {
-  ConvertDateToYmdString,
-  ConvertDistanceValue,
-  ConvertISODateStringToYmdDateString,
   ConvertMeasurementValue,
   ConvertNumberToTwoDecimals,
-  ConvertSpeedValue,
   ConvertWeightValue,
-  ConvertPaceValue,
   CreateShownPropertiesSet,
   FormatDateToShortString,
   GetAllDietLogs,
   GetAllUserWeights,
   GetAnalyticsValuesForSetList,
   GetCompletedSetsWithExerciseId,
-  GetCurrentYmdDateString,
   GetTimeCompletedForSetsWithExerciseId,
   GetUserMeasurementsWithMeasurementId,
   GetUserSettings,
@@ -85,9 +77,6 @@ export default function Analytics() {
   const [listModalPage, setAnalyticsChartListModalPage] =
     useState<AnalyticsChartListModalPage>("exercise-list");
   const [loadChartAsArea, setLoadChartAsArea] = useState<boolean>(true);
-  const [loadedMeasurements, setLoadedMeasurements] = useState<
-    Map<number, Measurement>
-  >(new Map());
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
 
   const [selectedExerciseGroups, setSelectedExerciseGroups] = useState<
@@ -104,30 +93,21 @@ export default function Analytics() {
     userSettings,
     setUserSettings,
     weightUnit,
-    setWeightUnit,
     distanceUnit,
-    setDistanceUnit,
     speedUnit,
-    setSpeedUnit,
     paceUnit,
-    setPaceUnit,
     circumferenceUnit,
-    setCircumferenceUnit,
     chartData,
     chartDataAreas,
     setChartDataAreas,
     chartDataLines,
     setChartDataLines,
     primaryDataKey,
-    setPrimaryDataKey,
     secondaryDataKey,
-    setSecondaryDataKey,
     secondaryDataUnitCategory,
-    setSecondaryDataUnitCategory,
     chartLineUnitCategorySet,
     setChartLineUnitCategorySet,
     shownChartDataAreas,
-    setShownChartDataAreas,
     shownChartDataLines,
     setShownChartDataLines,
     referenceAreas,
@@ -139,10 +119,10 @@ export default function Analytics() {
     chartStartDate,
     chartEndDate,
     filterMinDate,
-    setFilterMinDate,
     filterMaxDate,
-    setFilterMaxDate,
     filteredChartData,
+    loadedMeasurements,
+    setLoadedMeasurements,
     loadExerciseOptions,
     loadExerciseOptionsUnitCategoryPrimary,
     loadExerciseOptionsUnitCategorySecondary,
@@ -153,16 +133,17 @@ export default function Analytics() {
     loadedCharts,
     isChartDataLoaded,
     highestCategoryValues,
-    filteredHighestCategoryValues,
     weightCharts,
     distanceCharts,
     paceCharts,
     speedCharts,
     circumferenceCharts,
     loadExerciseOptionsMap,
+    filterMinAndMaxDatesModal,
     loadExerciseOptionsModal,
     deleteModal,
     includesMultisetMap,
+    disabledExerciseGroups,
     updateExerciseStatUnit,
     resetChart,
     assignDefaultUnits,
@@ -171,6 +152,23 @@ export default function Analytics() {
     updateChartCommentMapForExercise,
     fillInMissingChartDates,
     mergeChartData,
+    updateShownChartLines,
+    formatXAxisDate,
+    updateShownReferenceAreas,
+    getTimePeriodStartAndEndDates,
+    changeChartDataLineToArea,
+    changeChartDataAreaToLine,
+    changeChartDataLineCategoryToArea,
+    updateCustomMinAndMaxDatesFilter,
+    updateMinDateFilter,
+    updateMaxDateFilter,
+    updateLeftYAxis,
+    updateRightYAxis,
+    loadChartAreas,
+    addChartComment,
+    loadChartLines,
+    removeChartStat,
+    handleChangeUnit,
   } = chartAnalytics;
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
@@ -185,7 +183,6 @@ export default function Analytics() {
   const areAllTestLinesAndAreasRendered = useRef<boolean>(false);
 
   const listModal = useDisclosure();
-  const filterMinAndMaxDatesModal = useDisclosure();
 
   const exerciseList = useExerciseList(false, true, true);
 
@@ -212,8 +209,6 @@ export default function Analytics() {
     isTimePeriodListLoaded,
     setSelectedTimePeriodProperties,
   } = timePeriodList;
-
-  const disabledExerciseGroups = useRef<string[]>([]);
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -500,29 +495,6 @@ export default function Analytics() {
     );
   };
 
-  const updateShownChartLines = (chartLines: ChartDataCategory[]) => {
-    const chartLineUnitCategorySet = new Set<ChartDataUnitCategory>();
-
-    for (const line of chartLines) {
-      chartLineUnitCategorySet.add(chartDataUnitCategoryMap.current.get(line));
-    }
-
-    setShownChartDataLines(chartLines);
-    setChartLineUnitCategorySet(chartLineUnitCategorySet);
-
-    const activeUnitCategory =
-      chartDataUnitCategoryMap.current.get(secondaryDataKey);
-
-    updateRightYAxis(chartLines, activeUnitCategory);
-  };
-
-  const formatXAxisDate = (date: string) => {
-    const cutoff =
-      userSettings === undefined || userSettings.locale === "en-US" ? 6 : 5;
-
-    return date.substring(0, date.length - cutoff);
-  };
-
   const addTestArea = () => {
     if (!isChartDataLoaded.current || loadedCharts.current.has("weight_min_0"))
       return;
@@ -693,56 +665,6 @@ export default function Analytics() {
     setShownReferenceAreas([...shownReferenceAreas, referenceArea]);
 
     listModal.onClose();
-  };
-
-  const updateShownReferenceAreas = (timePeriodIds: Set<string>) => {
-    const updatedShownReferenceAreas = referenceAreas.filter((item) =>
-      timePeriodIds.has(item.timePeriodId.toString())
-    );
-
-    setShownReferenceAreas(updatedShownReferenceAreas);
-  };
-
-  const getTimePeriodStartAndEndDates = (
-    startDateString: string,
-    endDateString: string | null,
-    locale: string
-  ) => {
-    if (filteredChartData.length === 0) return;
-
-    const chartStartDate = new Date(filteredChartData[0].date);
-    const chartEndDate = new Date(
-      filteredChartData[filteredChartData.length - 1].date
-    );
-
-    const ymdChartStartDate = ConvertDateToYmdString(chartStartDate);
-    const ymdChartEndDate = ConvertDateToYmdString(chartEndDate);
-
-    const timePeriodStartDate =
-      ConvertISODateStringToYmdDateString(startDateString);
-
-    // Assign if Time Period is ongoing (end_date is null) set Time Periods's end point as today
-    const timePeriodEndDate =
-      endDateString === null
-        ? GetCurrentYmdDateString()
-        : ConvertISODateStringToYmdDateString(endDateString);
-
-    // If Time Period's Start Date is outside of visible chart, set start date to first item in chart's X-axis
-    const formattedStartDate = FormatDateToShortString(
-      timePeriodStartDate < ymdChartStartDate
-        ? chartStartDate
-        : new Date(timePeriodStartDate),
-      locale
-    );
-    // If Time Period's End Date is outside of visible chart, set end date to last item in chart's X-axis
-    const formattedEndDate = FormatDateToShortString(
-      timePeriodEndDate > ymdChartEndDate
-        ? chartEndDate
-        : new Date(timePeriodEndDate),
-      locale
-    );
-
-    return { formattedStartDate, formattedEndDate };
   };
 
   const loadUserWeightListWeights = async (
@@ -951,384 +873,6 @@ export default function Analytics() {
 
     loadedCharts.current.add("body_fat_percentage");
     isChartDataLoaded.current = true;
-  };
-
-  const changeChartDataLineToArea = (chartDataLine: ChartDataCategory) => {
-    const updatedChartDataLines = chartDataLines.filter(
-      (item) => item !== chartDataLine
-    );
-    const updatedShownChartDataLines = shownChartDataLines.filter(
-      (item) => item !== chartDataLine
-    );
-
-    if (
-      chartDataUnitMap.current.get(chartDataLine) ===
-      chartDataUnitMap.current.get(shownChartDataAreas[0])
-    ) {
-      // Add new Chart Area if same unit as current Chart Area
-      setChartDataAreas([...chartDataAreas, chartDataLine]);
-
-      const updatedShownChartDataAreas = [
-        ...shownChartDataAreas,
-        chartDataLine,
-      ];
-
-      updateLeftYAxis(updatedShownChartDataAreas);
-    } else {
-      // Create new Chart Area and change all existing Chart Areas to Chart Lines
-      updatedChartDataLines.push(...[...chartDataAreas]);
-      updatedShownChartDataLines.push(...[...shownChartDataAreas]);
-
-      setChartDataAreas([chartDataLine]);
-
-      updateLeftYAxis([chartDataLine]);
-    }
-
-    setChartDataLines(updatedChartDataLines);
-    setShownChartDataLines(updatedShownChartDataLines);
-
-    const updatedChartLineUnitCategorySet = new Set(
-      updatedShownChartDataLines.map((item) =>
-        chartDataUnitCategoryMap.current.get(item)
-      )
-    );
-
-    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
-
-    const activeUnitCategory =
-      chartDataUnitCategoryMap.current.get(secondaryDataKey);
-
-    updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
-  };
-
-  const changeChartDataAreaToLine = (chartDataArea: ChartDataCategory) => {
-    if (chartDataAreas.length < 2) return;
-
-    const updatedChartDataAreas = chartDataAreas.filter(
-      (item) => item !== chartDataArea
-    );
-    const updatedShownChartDataAreas = shownChartDataAreas.filter(
-      (item) => item !== chartDataArea
-    );
-
-    setChartDataAreas(updatedChartDataAreas);
-    setChartDataLines([...chartDataLines, chartDataArea]);
-
-    const updatedShownChartDataLines = [...shownChartDataLines, chartDataArea];
-
-    const updatedChartLineUnitCategorySet = new Set(
-      updatedShownChartDataLines.map((item) =>
-        chartDataUnitCategoryMap.current.get(item)
-      )
-    );
-
-    setShownChartDataLines(updatedShownChartDataLines);
-
-    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
-
-    updateLeftYAxis(updatedShownChartDataAreas);
-
-    const activeUnitCategory =
-      chartDataUnitCategoryMap.current.get(secondaryDataKey);
-
-    updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
-  };
-
-  const changeChartDataLineCategoryToArea = (
-    unitCategory: ChartDataUnitCategory
-  ) => {
-    const updatedChartDataLines: ChartDataCategory[] = [];
-    const updatedShownChartDataLines: ChartDataCategory[] = [];
-    const updatedChartDataAreas: ChartDataCategory[] = [];
-    const updatedShownChartDataAreas: ChartDataCategory[] = [];
-
-    for (const line of chartDataLines) {
-      if (chartDataUnitCategoryMap.current.get(line) === unitCategory) {
-        updatedChartDataAreas.push(line);
-      } else {
-        updatedChartDataLines.push(line);
-      }
-    }
-
-    for (const line of shownChartDataLines) {
-      if (chartDataUnitCategoryMap.current.get(line) === unitCategory) {
-        updatedShownChartDataAreas.push(line);
-      } else {
-        updatedShownChartDataLines.push(line);
-      }
-    }
-
-    if (
-      chartDataUnitCategoryMap.current.get(shownChartDataAreas[0]) ===
-      unitCategory
-    ) {
-      updatedChartDataAreas.push(...chartDataAreas);
-      updatedShownChartDataAreas.push(...shownChartDataAreas);
-    } else {
-      updatedChartDataLines.push(...chartDataAreas);
-      updatedShownChartDataLines.push(...shownChartDataAreas);
-    }
-
-    setChartDataAreas(updatedChartDataAreas);
-    setChartDataLines(updatedChartDataLines);
-    setShownChartDataLines(updatedChartDataLines);
-
-    const updatedChartLineUnitCategorySet = new Set(
-      updatedShownChartDataLines.map((item) =>
-        chartDataUnitCategoryMap.current.get(item)
-      )
-    );
-
-    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
-
-    updateLeftYAxis(updatedShownChartDataAreas);
-
-    const activeUnitCategory =
-      chartDataUnitCategoryMap.current.get(secondaryDataKey);
-
-    updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
-  };
-
-  const updateCustomMinAndMaxDatesFilter = (
-    minDate: Date | null,
-    maxDate: Date | null
-  ) => {
-    setFilterMinDate(minDate);
-    setFilterMaxDate(maxDate);
-
-    updateChartDataAndFilteredHighestCategoryValues(
-      chartData,
-      minDate,
-      maxDate
-    );
-
-    updateLeftYAxis(shownChartDataAreas);
-    updateRightYAxis(
-      shownChartDataLines,
-      chartDataUnitCategoryMap.current.get(secondaryDataKey)
-    );
-
-    filterMinAndMaxDatesModal.onClose();
-  };
-
-  const updateMinDateFilter = (minDate: Date | null) => {
-    updateChartDataAndFilteredHighestCategoryValues(
-      chartData,
-      minDate,
-      filterMaxDate
-    );
-
-    updateLeftYAxis(shownChartDataAreas);
-    updateRightYAxis(
-      shownChartDataLines,
-      chartDataUnitCategoryMap.current.get(secondaryDataKey)
-    );
-
-    setFilterMinDate(minDate);
-  };
-
-  const updateMaxDateFilter = (maxDate: Date | null) => {
-    updateChartDataAndFilteredHighestCategoryValues(
-      chartData,
-      filterMinDate,
-      maxDate
-    );
-
-    updateLeftYAxis(shownChartDataAreas);
-    updateRightYAxis(
-      shownChartDataLines,
-      chartDataUnitCategoryMap.current.get(secondaryDataKey)
-    );
-
-    setFilterMaxDate(maxDate);
-  };
-
-  const updateRightYAxis = (
-    chartLines: ChartDataCategory[],
-    activeUnitCategory: ChartDataUnitCategory
-  ) => {
-    if (chartLines.length === 0) {
-      setSecondaryDataKey(undefined);
-      setSecondaryDataUnitCategory(undefined);
-      return;
-    }
-
-    let shouldChangeCategory = true;
-
-    for (const line of chartLines) {
-      if (chartDataUnitCategoryMap.current.get(line) === activeUnitCategory) {
-        shouldChangeCategory = false;
-        break;
-      }
-    }
-
-    const unitCategory = shouldChangeCategory
-      ? chartDataUnitCategoryMap.current.get(chartLines[0])
-      : activeUnitCategory;
-
-    const chartLineSet = new Set(chartLines);
-
-    let highestCategory: ChartDataCategory = undefined;
-    let highestValue = 0;
-
-    for (const [key, value] of filteredHighestCategoryValues.current) {
-      if (
-        !chartLineSet.has(key) ||
-        chartDataUnitCategoryMap.current.get(key) !== unitCategory
-      )
-        continue;
-
-      if (value > highestValue) {
-        highestCategory = key;
-        highestValue = value;
-      }
-    }
-
-    setSecondaryDataKey(highestCategory);
-    setSecondaryDataUnitCategory(unitCategory);
-  };
-
-  const updateLeftYAxis = (chartAreas: ChartDataCategory[]) => {
-    if (chartAreas.length === 0) return;
-
-    if (chartAreas.length === 1) {
-      setPrimaryDataKey(chartAreas[0]);
-      setShownChartDataAreas(chartAreas);
-      return;
-    }
-
-    const unitCategory = chartDataUnitCategoryMap.current.get(chartAreas[0]);
-
-    const chartAreaSet = new Set(chartAreas);
-
-    const chartAreasValueMap = new Map<ChartDataCategory, number>();
-
-    for (const [key, value] of filteredHighestCategoryValues.current) {
-      if (
-        !chartAreaSet.has(key) ||
-        chartDataUnitCategoryMap.current.get(key) !== unitCategory
-      )
-        continue;
-
-      // Create highest value Map of only chartAreas dataKeys
-      chartAreasValueMap.set(key, value);
-    }
-
-    // Sort dataKeys with highest values first
-    const sortedDataKeys = Array.from(chartAreasValueMap.entries())
-      .sort(([, valueA], [, valueB]) => valueB - valueA)
-      .map(([key]) => key);
-
-    setPrimaryDataKey(sortedDataKeys[0]);
-    setShownChartDataAreas(sortedDataKeys);
-  };
-
-  const loadChartAreas = (dataKeys: ChartDataCategory[]) => {
-    if (dataKeys.length === 0) return;
-
-    if (primaryDataKey === undefined) {
-      // If no Chart Areas exist
-      setChartDataAreas(dataKeys);
-
-      updateLeftYAxis(dataKeys);
-    }
-
-    if (
-      primaryDataKey !== undefined &&
-      chartDataUnitCategoryMap.current.get(dataKeys[0]) !==
-        chartDataUnitCategoryMap.current.get(primaryDataKey)
-    ) {
-      // Replace existing Chart Areas if existing Chart Areas does not share Unit Category
-      setChartDataAreas(dataKeys);
-
-      setChartDataLines([...chartDataLines, ...chartDataAreas]);
-      setChartLineUnitCategorySet(
-        new Set([
-          ...chartLineUnitCategorySet,
-          chartDataUnitCategoryMap.current.get(primaryDataKey),
-        ])
-      );
-
-      const updatedShownChartDataLines = [
-        ...shownChartDataLines,
-        ...shownChartDataAreas,
-      ];
-
-      setShownChartDataLines(updatedShownChartDataLines);
-
-      updateLeftYAxis(dataKeys);
-
-      const activeUnitCategory =
-        chartDataUnitCategoryMap.current.get(secondaryDataKey);
-
-      updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
-    }
-
-    if (
-      primaryDataKey !== undefined &&
-      chartDataUnitCategoryMap.current.get(dataKeys[0]) ===
-        chartDataUnitCategoryMap.current.get(primaryDataKey)
-    ) {
-      // Append new Chart Area if existing Chart Area(s) share Unit Category
-      setChartDataAreas([...chartDataAreas, ...dataKeys]);
-
-      updateLeftYAxis([...shownChartDataAreas, ...dataKeys]);
-    }
-  };
-
-  const loadChartLines = (
-    dataKeys: ChartDataCategory[],
-    unitCategories: ChartDataUnitCategory[],
-    activeUnitCategory: ChartDataUnitCategory
-  ) => {
-    setChartDataLines([...chartDataLines, ...dataKeys]);
-    setChartLineUnitCategorySet(
-      new Set([...chartLineUnitCategorySet, ...unitCategories])
-    );
-
-    const updatedShownChartDataLines = [...shownChartDataLines, ...dataKeys];
-
-    setShownChartDataLines(updatedShownChartDataLines);
-
-    updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
-  };
-
-  const addChartComment = (
-    chartCommentMap: Map<string, ChartComment[]>,
-    date: string,
-    dataKeys: Set<ChartDataCategory>,
-    label: string,
-    comment: string,
-    areCommentsAlreadyLoaded?: boolean
-  ) => {
-    const chartComment: ChartComment = {
-      dataKeys,
-      label,
-      comment,
-    };
-
-    if (chartCommentMap.has(date)) {
-      const updatedChartCommentList = chartCommentMap.get(date)!;
-
-      let shouldAddChartComment = true;
-
-      if (areCommentsAlreadyLoaded) {
-        for (const chartComment of updatedChartCommentList) {
-          if (
-            chartComment.label === label &&
-            chartComment.comment === comment
-          ) {
-            shouldAddChartComment = false;
-          }
-        }
-      }
-
-      if (shouldAddChartComment) {
-        updatedChartCommentList.push(chartComment);
-      }
-    } else {
-      chartCommentMap.set(date, [chartComment]);
-    }
   };
 
   const handleLoadMeasurementClick = async (loadPrimary: boolean) => {
@@ -1963,338 +1507,6 @@ export default function Analytics() {
 
     setReferenceAreas(updatedReferenceAreas);
     setShownReferenceAreas(updatedShownReferenceAreas);
-  };
-
-  const removeChartStat = (dataKey: ChartDataCategory) => {
-    if (allChartDataCategories.size < 2 || dataKey === undefined) return;
-
-    const updatedChartData: ChartDataItem[] = chartData.map(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ({ [dataKey]: _, ...rest }) => rest
-    );
-
-    const trimmedChartData = trimEmptyChartDataValues(updatedChartData);
-
-    updateChartDataAndFilteredHighestCategoryValues(
-      trimmedChartData,
-      filterMinDate,
-      filterMaxDate
-    );
-
-    const { categoryType, dataId } = getChartDataCategoryTypeAndId(dataKey);
-
-    if (categoryType !== "no-id") {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { [dataKey]: _, ...updatedChartConfig } = chartConfig.current;
-      chartConfig.current = updatedChartConfig;
-      chartDataUnitMap.current.delete(dataKey);
-      chartDataUnitCategoryMap.current.delete(dataKey);
-    }
-
-    loadedCharts.current.delete(dataKey);
-    highestCategoryValues.current.delete(dataKey);
-    filteredHighestCategoryValues.current.delete(dataKey);
-    includesMultisetMap.current.delete(dataKey);
-
-    if (categoryType === "measurement") {
-      const updatedLoadedMeasurements = new Map(loadedMeasurements);
-      updatedLoadedMeasurements.delete(dataId as number);
-      setLoadedMeasurements(updatedLoadedMeasurements);
-    }
-
-    if (categoryType === "exercise-group") {
-      const updatedDisabledExerciseGroups =
-        disabledExerciseGroups.current.filter((item) => item !== dataId);
-      disabledExerciseGroups.current = updatedDisabledExerciseGroups;
-    }
-
-    const updatedChartCommentMap = new Map<string, ChartComment[]>();
-
-    for (const [date, chartComments] of chartCommentMap) {
-      const updatedCommentList: ChartComment[] = [];
-
-      for (const comment of chartComments) {
-        const updatedComment: ChartComment = { ...comment };
-
-        updatedComment.dataKeys.delete(dataKey);
-
-        updatedCommentList.push(updatedComment);
-      }
-
-      if (updatedCommentList.length !== 0) {
-        updatedChartCommentMap.set(date, updatedCommentList);
-      }
-    }
-
-    setChartCommentMap(updatedChartCommentMap);
-
-    const updatedChartAreas: ChartDataCategory[] = [];
-
-    for (const area of chartDataAreas) {
-      if (area !== dataKey) updatedChartAreas.push(area);
-    }
-
-    if (updatedChartAreas.length !== chartDataAreas.length) {
-      // If dataKey was Chart Area
-
-      const updatedShownChartDataAreas = shownChartDataAreas.filter(
-        (item) => item !== dataKey
-      );
-
-      if (updatedChartAreas.length !== 0) {
-        // If more Chart Areas exist
-
-        if (updatedShownChartDataAreas.length === 0) {
-          // If dataKey was only the shown Chart Area
-          updatedShownChartDataAreas.push(updatedChartAreas[0]);
-        }
-
-        setPrimaryDataKey(updatedChartAreas[0]);
-      } else {
-        // If dataKey was last Chart Area
-
-        const newChartArea = chartDataLines[0];
-
-        updatedChartAreas.push(newChartArea);
-        updatedShownChartDataAreas.push(newChartArea);
-
-        const updatedChartDataLines = chartDataLines.filter(
-          (item) => item !== newChartArea
-        );
-        const updatedShownChartDataLines = shownChartDataLines.filter(
-          (item) => item !== newChartArea
-        );
-
-        setChartDataLines(updatedChartDataLines);
-        setShownChartDataLines(updatedShownChartDataLines);
-
-        const updatedChartLineUnitCategorySet = new Set(
-          updatedShownChartDataLines.map((item) =>
-            chartDataUnitCategoryMap.current.get(item)
-          )
-        );
-
-        setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
-
-        const activeUnitCategory =
-          chartDataUnitCategoryMap.current.get(secondaryDataKey);
-
-        updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
-      }
-
-      setChartDataAreas(updatedChartAreas);
-      setShownChartDataAreas(updatedShownChartDataAreas);
-
-      updateLeftYAxis(updatedShownChartDataAreas);
-    } else {
-      // If dataKey was Chart Line
-
-      const updatedChartDataLines = chartDataLines.filter(
-        (item) => item !== dataKey
-      );
-      const updatedShownChartDataLines = shownChartDataLines.filter(
-        (item) => item !== dataKey
-      );
-
-      setChartDataLines(updatedChartDataLines);
-      setShownChartDataLines(updatedShownChartDataLines);
-
-      const updatedChartLineUnitCategorySet = new Set(
-        updatedShownChartDataLines.map((item) =>
-          chartDataUnitCategoryMap.current.get(item)
-        )
-      );
-
-      setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
-
-      const activeUnitCategory =
-        chartDataUnitCategoryMap.current.get(secondaryDataKey);
-
-      updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
-    }
-  };
-
-  const getChartDataCategoryTypeAndId = (
-    dataKey: ChartDataCategory
-  ): { categoryType: string; dataId: number | string } => {
-    // Categories with no number ids at the end
-    if (
-      dataKey === undefined ||
-      dataKey === "calories" ||
-      dataKey === "fat" ||
-      dataKey === "carbs" ||
-      dataKey === "protein" ||
-      dataKey === "body_weight" ||
-      dataKey === "body_fat_percentage"
-    )
-      return { categoryType: "no-id", dataId: 0 };
-
-    const splitDataKey = dataKey.split("_");
-
-    const dataIdIndex = splitDataKey.length - 1;
-
-    if (splitDataKey[0] === "measurement")
-      return {
-        categoryType: "measurement",
-        dataId: Number(splitDataKey[dataIdIndex]),
-      };
-
-    if (splitDataKey[0] === "exercise")
-      // Only exercise_group categories starts with "exercise"
-      return {
-        categoryType: "exercise-group",
-        dataId: splitDataKey[dataIdIndex],
-      };
-
-    return {
-      categoryType: "exercise",
-      dataId: Number(splitDataKey[dataIdIndex]),
-    };
-  };
-
-  const trimEmptyChartDataValues = (chartData: ChartDataItem[]) => {
-    if (chartData.length === 0) return chartData;
-
-    const hasEmptyStart = Object.keys(chartData[0]).length === 1;
-    const hasEmptyEnd =
-      Object.keys(chartData[chartData.length - 1]).length === 1;
-
-    if (!hasEmptyStart && !hasEmptyEnd) return chartData;
-
-    const trimmedChartData = [...chartData];
-
-    if (hasEmptyStart) {
-      let trimIndex = 0;
-
-      for (let i = 0; i < trimmedChartData.length; i++) {
-        if (Object.keys(trimmedChartData[i]).length > 1) {
-          trimIndex = i;
-          break;
-        }
-      }
-
-      trimmedChartData.splice(0, trimIndex);
-    }
-
-    if (hasEmptyEnd) {
-      let trimIndex = 0;
-
-      for (let i = trimmedChartData.length - 1; i > 0; i--) {
-        if (Object.keys(trimmedChartData[i]).length > 1) {
-          trimIndex = i;
-          break;
-        }
-      }
-
-      trimmedChartData.splice(
-        trimIndex + 1,
-        trimmedChartData.length - trimIndex
-      );
-    }
-
-    return trimmedChartData;
-  };
-
-  const handleChangeUnit = (newUnit: string, unitCategory: UnitCategory) => {
-    if (unitCategory === "Weight") {
-      if (newUnit === weightUnit) return;
-
-      changeUnitInChartData(
-        newUnit,
-        weightUnit,
-        weightCharts,
-        ConvertWeightValue
-      );
-
-      setWeightUnit(newUnit);
-    }
-
-    if (unitCategory === "Distance") {
-      if (newUnit === distanceUnit) return;
-
-      changeUnitInChartData(
-        newUnit,
-        distanceUnit,
-        distanceCharts,
-        ConvertDistanceValue
-      );
-
-      setDistanceUnit(newUnit);
-    }
-
-    if (unitCategory === "Speed") {
-      if (newUnit === speedUnit) return;
-
-      changeUnitInChartData(newUnit, speedUnit, speedCharts, ConvertSpeedValue);
-
-      setSpeedUnit(newUnit);
-    }
-
-    if (unitCategory === "Pace") {
-      if (newUnit === paceUnit) return;
-
-      changeUnitInChartData(newUnit, paceUnit, paceCharts, ConvertPaceValue);
-
-      setPaceUnit(newUnit);
-    }
-
-    if (unitCategory === "Circumference") {
-      if (newUnit === circumferenceUnit) return;
-
-      changeUnitInChartData(
-        newUnit,
-        circumferenceUnit,
-        circumferenceCharts,
-        ConvertMeasurementValue
-      );
-
-      setCircumferenceUnit(newUnit);
-    }
-  };
-
-  const changeUnitInChartData = (
-    newUnit: string,
-    oldUnit: string,
-    categoryChart: Set<ChartDataCategoryNoUndefined>,
-    conversionFunction: (
-      value: number,
-      currentUnit: string,
-      newUnit: string
-    ) => number
-  ) => {
-    const updatedChartData: ChartDataItem[] = [];
-
-    for (const chartDataItem of chartData) {
-      const chartNames: ChartDataCategory[] = Object.keys(chartDataItem).filter(
-        (key) => key !== "date"
-      ) as ChartDataCategory[];
-
-      const newChartDataItem: ChartDataItem = { ...chartDataItem };
-
-      for (const chart of chartNames) {
-        if (chart === undefined) continue;
-
-        if (categoryChart.has(chart)) {
-          const oldValue = newChartDataItem[chart] ?? 0;
-
-          const updatedValue = conversionFunction(oldValue, oldUnit, newUnit);
-
-          newChartDataItem[chart] = ConvertNumberToTwoDecimals(updatedValue);
-        }
-      }
-
-      updatedChartData.push(newChartDataItem);
-    }
-
-    for (const chart of categoryChart) {
-      chartDataUnitMap.current.set(chart, ` ${newUnit}`);
-    }
-
-    updateChartDataAndFilteredHighestCategoryValues(
-      updatedChartData,
-      filterMinDate,
-      filterMaxDate
-    );
   };
 
   const handleLoadNumExerciseGroupSetsClick = async (loadPrimary: boolean) => {
