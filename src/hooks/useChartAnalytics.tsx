@@ -309,11 +309,6 @@ export const useChartAnalytics = () => {
     filteredHighestCategoryValues.current = new Map();
     includesMultisetMap.current = new Map();
 
-    // TODO: MOVE
-    // setLoadedMeasurements(new Map());
-    // setSelectedExercise(undefined);
-    // disabledExerciseGroups.current = [];
-
     assignDefaultUnits(userSettings);
 
     deleteModal.onClose();

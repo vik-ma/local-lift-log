@@ -236,6 +236,7 @@ export default function Analytics() {
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -2553,6 +2554,14 @@ export default function Analytics() {
     return loadedOptions;
   };
 
+  const resetChartData = () => {
+    setLoadedMeasurements(new Map());
+    setSelectedExercise(undefined);
+    disabledExerciseGroups.current = [];
+
+    resetChart();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -2675,7 +2684,7 @@ export default function Analytics() {
             Are you sure you want to completely remove all values from chart?
           </p>
         }
-        deleteButtonAction={() => resetChart()}
+        deleteButtonAction={() => resetChartData()}
         deleteButtonText="Reset"
       />
       <div className="absolute left-0 w-screen">
