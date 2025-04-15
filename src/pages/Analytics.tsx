@@ -5,21 +5,19 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  useDisclosure,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
   RadioGroup,
   Radio,
+  useDisclosure,
 } from "@heroui/react";
 import {
   useChartAnalytics,
-  useChartTimePeriodIdSets,
   useExerciseList,
   useFilterExerciseList,
   useMeasurementList,
-  useTimePeriodList,
 } from "../hooks";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -32,7 +30,6 @@ import {
   LoadExerciseOptionsModal,
   LoadingSpinner,
   MeasurementModalList,
-  TimePeriodModalList,
 } from "../components";
 import {
   AnalyticsChartListModalPage,
@@ -45,7 +42,6 @@ import {
   ChartReferenceAreaItem,
   Exercise,
   Measurement,
-  TimePeriod,
   UserMeasurementValues,
   WorkoutSet,
 } from "../typings";
@@ -53,7 +49,6 @@ import {
   ConvertMeasurementValue,
   ConvertNumberToTwoDecimals,
   ConvertWeightValue,
-  CreateShownPropertiesSet,
   FormatDateToShortString,
   GetAllDietLogs,
   GetAllUserWeights,
@@ -104,8 +99,6 @@ export default function Analytics() {
     setChartDataLines,
     primaryDataKey,
     secondaryDataKey,
-    secondaryDataUnitCategory,
-    chartLineUnitCategorySet,
     setChartLineUnitCategorySet,
     shownChartDataAreas,
     shownChartDataLines,
@@ -120,7 +113,6 @@ export default function Analytics() {
     chartEndDate,
     filterMinDate,
     filterMaxDate,
-    filteredChartData,
     loadedMeasurements,
     setLoadedMeasurements,
     loadExerciseOptions,
@@ -133,12 +125,8 @@ export default function Analytics() {
     loadedCharts,
     isChartDataLoaded,
     highestCategoryValues,
-    weightCharts,
-    distanceCharts,
-    paceCharts,
-    speedCharts,
-    circumferenceCharts,
     loadExerciseOptionsMap,
+    timePeriodListModal,
     filterMinAndMaxDatesModal,
     loadExerciseOptionsModal,
     deleteModal,
@@ -152,37 +140,19 @@ export default function Analytics() {
     updateChartCommentMapForExercise,
     fillInMissingChartDates,
     mergeChartData,
-    updateShownChartLines,
-    formatXAxisDate,
-    updateShownReferenceAreas,
-    getTimePeriodStartAndEndDates,
-    changeChartDataLineToArea,
-    changeChartDataAreaToLine,
-    changeChartDataLineCategoryToArea,
     updateCustomMinAndMaxDatesFilter,
-    updateMinDateFilter,
-    updateMaxDateFilter,
     updateLeftYAxis,
     updateRightYAxis,
     loadChartAreas,
     addChartComment,
     loadChartLines,
-    removeChartStat,
-    handleChangeUnit,
   } = chartAnalytics;
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
   const validCircumferenceUnits = new Set(ValidMeasurementUnits());
 
-  const { timePeriodIdSet, shownTimePeriodIdSet } = useChartTimePeriodIdSets(
-    referenceAreas,
-    shownReferenceAreas
-  );
-
   const areAllTestLinesAndAreasRendered = useRef<boolean>(false);
-
-  const listModal = useDisclosure();
 
   const exerciseList = useExerciseList(false, true, true);
 
@@ -202,13 +172,7 @@ export default function Analytics() {
 
   const { isMeasurementListLoaded, getMeasurements } = measurementList;
 
-  const timePeriodList = useTimePeriodList();
-
-  const {
-    getTimePeriods,
-    isTimePeriodListLoaded,
-    setSelectedTimePeriodProperties,
-  } = timePeriodList;
+  const listModal = useDisclosure();
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -257,20 +221,6 @@ export default function Analytics() {
       !isMeasurementListLoaded.current
     ) {
       await getMeasurements();
-    }
-
-    if (
-      modalListType === "time-period-list" &&
-      !isTimePeriodListLoaded.current
-    ) {
-      await getTimePeriods(userSettings.locale);
-
-      const timePeriodPropertySet = CreateShownPropertiesSet(
-        userSettings.shown_time_period_properties,
-        "time-period"
-      );
-
-      setSelectedTimePeriodProperties(timePeriodPropertySet);
     }
 
     listModal.onOpen();
@@ -632,39 +582,6 @@ export default function Analytics() {
       setReferenceAreas(updatedReferenceAreas);
       setShownReferenceAreas(updatedShownReferenceAreas);
     }
-  };
-
-  const handleClickTimePeriod = (timePeriod: TimePeriod) => {
-    if (
-      timePeriodIdSet.has(timePeriod.id.toString()) ||
-      timePeriod.start_date === null ||
-      userSettings === undefined
-    )
-      return;
-
-    const startAndEndDates = getTimePeriodStartAndEndDates(
-      timePeriod.start_date,
-      timePeriod.end_date,
-      userSettings.locale
-    );
-
-    if (startAndEndDates === undefined) return;
-
-    const { formattedStartDate, formattedEndDate } = startAndEndDates;
-
-    const referenceArea: ChartReferenceAreaItem = {
-      timePeriodId: timePeriod.id,
-      x1: formattedStartDate,
-      x2: formattedEndDate,
-      label: timePeriod.name,
-      startDate: timePeriod.start_date,
-      endDate: timePeriod.end_date,
-    };
-
-    setReferenceAreas([...referenceAreas, referenceArea]);
-    setShownReferenceAreas([...shownReferenceAreas, referenceArea]);
-
-    listModal.onClose();
   };
 
   const loadUserWeightListWeights = async (
@@ -1769,16 +1686,18 @@ export default function Analytics() {
                     hiddenMeasurements={loadedMeasurements}
                     isInAnalyticsPage
                   />
-                ) : listModalPage === "time-period-list" ? (
-                  <TimePeriodModalList
-                    useTimePeriodList={timePeriodList}
-                    handleTimePeriodClick={handleClickTimePeriod}
-                    userSettings={userSettings}
-                    setUserSettings={setUserSettings}
-                    customHeightString="h-[440px]"
-                    hiddenTimePeriods={timePeriodIdSet}
-                  />
                 ) : (
+                  // TODO: FIX
+                  // : listModalPage === "time-period-list" ? (
+                  //   <TimePeriodModalList
+                  //     useTimePeriodList={timePeriodList}
+                  //     handleTimePeriodClick={handleClickTimePeriod}
+                  //     userSettings={userSettings}
+                  //     setUserSettings={setUserSettings}
+                  //     customHeightString="h-[440px]"
+                  //     hiddenTimePeriods={timePeriodIdSet}
+                  //   />
+                  // )
                   <div className="h-[360px] flex flex-col gap-4">
                     <ExerciseGroupCheckboxes
                       isValid={true}
@@ -1862,57 +1781,7 @@ export default function Analytics() {
       <div className="absolute left-0 w-screen">
         <div className="flex flex-col gap-3">
           {isChartDataLoaded.current && (
-            <AnalyticsChart
-              chartConfig={chartConfig.current}
-              filteredChartData={filteredChartData}
-              chartStartDate={chartStartDate}
-              chartEndDate={chartEndDate}
-              chartDataAreas={chartDataAreas}
-              shownChartDataAreas={shownChartDataAreas}
-              chartDataLines={chartDataLines}
-              shownChartDataLines={shownChartDataLines}
-              primaryDataKey={primaryDataKey}
-              secondaryDataKey={secondaryDataKey}
-              chartLineUnitCategorySet={chartLineUnitCategorySet}
-              secondaryDataUnitCategory={secondaryDataUnitCategory}
-              chartDataUnitMap={chartDataUnitMap.current}
-              allChartDataCategories={allChartDataCategories}
-              referenceAreas={referenceAreas}
-              shownReferenceAreas={shownReferenceAreas}
-              shownTimePeriodIdSet={shownTimePeriodIdSet}
-              filterMinDate={filterMinDate}
-              filterMaxDate={filterMaxDate}
-              chartCommentMap={chartCommentMap}
-              includesMultisetMap={includesMultisetMap.current}
-              userSettings={userSettings}
-              weightUnit={weightUnit}
-              distanceUnit={distanceUnit}
-              speedUnit={speedUnit}
-              paceUnit={paceUnit}
-              weightCharts={weightCharts}
-              distanceCharts={distanceCharts}
-              speedCharts={speedCharts}
-              paceCharts={paceCharts}
-              deleteModal={deleteModal}
-              filterMinAndMaxDatesModal={filterMinAndMaxDatesModal}
-              updateShownChartLines={updateShownChartLines}
-              updateLeftYAxis={updateLeftYAxis}
-              updateRightYAxis={updateRightYAxis}
-              updateShownReferenceAreas={updateShownReferenceAreas}
-              handleOpenTimePeriodListModal={handleOpenListModal}
-              formatXAxisDate={formatXAxisDate}
-              changeChartDataAreaToLine={changeChartDataAreaToLine}
-              changeChartDataLineToArea={changeChartDataLineToArea}
-              updateMinDateFilter={updateMinDateFilter}
-              updateMaxDateFilter={updateMaxDateFilter}
-              removeChartStat={removeChartStat}
-              handleChangeUnit={handleChangeUnit}
-              changeChartDataLineCategoryToArea={
-                changeChartDataLineCategoryToArea
-              }
-              circumferenceUnit={circumferenceUnit}
-              circumferenceCharts={circumferenceCharts}
-            />
+            <AnalyticsChart useChartAnalytics={chartAnalytics} />
           )}
           <div className="flex flex-col items-center gap-3">
             <div className="flex gap-2">

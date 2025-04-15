@@ -12,11 +12,17 @@ import {
   ChartReferenceAreaItem,
   Exercise,
   Measurement,
+  TimePeriod,
   UnitCategory,
   UseChartAnalyticsReturnType,
   UserSettings,
 } from "../typings";
-import { useDefaultChartMapsAndConfig, useLoadExerciseOptionsMap } from ".";
+import {
+  useChartTimePeriodIdSets,
+  useDefaultChartMapsAndConfig,
+  useLoadExerciseOptionsMap,
+  useTimePeriodList,
+} from ".";
 import {
   ConvertDateToYmdString,
   ConvertDistanceValue,
@@ -27,6 +33,7 @@ import {
   ConvertSpeedValue,
   ConvertWeightValue,
   CreateLoadExerciseOptionsList,
+  CreateShownPropertiesSet,
   FormatDateToShortString,
   GetCurrentYmdDateString,
   GetPaceUnitFromDistanceUnit,
@@ -100,6 +107,7 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
     Map<number, Measurement>
   >(new Map());
 
+  const timePeriodListModal = useDisclosure();
   const filterMinAndMaxDatesModal = useDisclosure();
   const loadExerciseOptionsModal = useDisclosure();
   const deleteModal = useDisclosure();
@@ -149,6 +157,19 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
   );
 
   const disabledExerciseGroups = useRef<string[]>([]);
+
+  const { timePeriodIdSet, shownTimePeriodIdSet } = useChartTimePeriodIdSets(
+    referenceAreas,
+    shownReferenceAreas
+  );
+
+  const timePeriodList = useTimePeriodList();
+
+  const {
+    getTimePeriods,
+    isTimePeriodListLoaded,
+    setSelectedTimePeriodProperties,
+  } = timePeriodList;
 
   const {
     weightCharts,
@@ -1384,6 +1405,54 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
     );
   };
 
+  const handleClickTimePeriod = (timePeriod: TimePeriod) => {
+    if (
+      timePeriodIdSet.has(timePeriod.id.toString()) ||
+      timePeriod.start_date === null ||
+      userSettings === undefined
+    )
+      return;
+
+    const startAndEndDates = getTimePeriodStartAndEndDates(
+      timePeriod.start_date,
+      timePeriod.end_date,
+      userSettings.locale
+    );
+
+    if (startAndEndDates === undefined) return;
+
+    const { formattedStartDate, formattedEndDate } = startAndEndDates;
+
+    const referenceArea: ChartReferenceAreaItem = {
+      timePeriodId: timePeriod.id,
+      x1: formattedStartDate,
+      x2: formattedEndDate,
+      label: timePeriod.name,
+      startDate: timePeriod.start_date,
+      endDate: timePeriod.end_date,
+    };
+
+    setReferenceAreas([...referenceAreas, referenceArea]);
+    setShownReferenceAreas([...shownReferenceAreas, referenceArea]);
+
+    timePeriodListModal.onClose();
+  };
+
+  const handleOpenTimePeriodListModal = async () => {
+    if (userSettings === undefined) return;
+
+    if (!isTimePeriodListLoaded.current) {
+      await getTimePeriods(userSettings.locale);
+
+      const timePeriodPropertySet = CreateShownPropertiesSet(
+        userSettings.shown_time_period_properties,
+        "time-period"
+      );
+
+      setSelectedTimePeriodProperties(timePeriodPropertySet);
+    }
+  };
+
   return {
     userSettings,
     setUserSettings,
@@ -1442,12 +1511,15 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
     speedCharts,
     circumferenceCharts,
     loadExerciseOptionsMap,
+    timePeriodListModal,
     filterMinAndMaxDatesModal,
     deleteModal,
     loadExerciseOptionsModal,
     validLoadExerciseOptionsCategories,
     includesMultisetMap,
     disabledExerciseGroups,
+    timePeriodIdSet,
+    shownTimePeriodIdSet,
     updateExerciseStatUnit,
     resetChart,
     assignDefaultUnits,
@@ -1459,7 +1531,6 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
     updateShownChartLines,
     formatXAxisDate,
     updateShownReferenceAreas,
-    getTimePeriodStartAndEndDates,
     changeChartDataLineToArea,
     changeChartDataAreaToLine,
     changeChartDataLineCategoryToArea,
@@ -1473,5 +1544,7 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
     loadChartLines,
     removeChartStat,
     handleChangeUnit,
+    handleClickTimePeriod,
+    handleOpenTimePeriodListModal,
   };
 };

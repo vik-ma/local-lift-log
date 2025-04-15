@@ -1380,6 +1380,7 @@ export type UseChartAnalyticsReturnType = {
   paceCharts: Set<ChartDataCategoryNoUndefined>;
   speedCharts: Set<ChartDataCategoryNoUndefined>;
   circumferenceCharts: Set<ChartDataCategoryNoUndefined>;
+  timePeriodListModal: UseDisclosureReturnType;
   filterMinAndMaxDatesModal: UseDisclosureReturnType;
   loadExerciseOptionsModal: UseDisclosureReturnType;
   deleteModal: UseDisclosureReturnType;
@@ -1387,6 +1388,8 @@ export type UseChartAnalyticsReturnType = {
   validLoadExerciseOptionsCategories: Set<ChartDataUnitCategoryNoUndefined>;
   includesMultisetMap: React.RefObject<Map<string, Set<ChartDataCategory>>>;
   disabledExerciseGroups: React.RefObject<string[]>;
+  timePeriodIdSet: Set<string>;
+  shownTimePeriodIdSet: Set<string>;
   updateExerciseStatUnit: (
     chartName: ChartDataExerciseCategory,
     optionCategory: ChartDataUnitCategory
@@ -1420,16 +1423,6 @@ export type UseChartAnalyticsReturnType = {
   updateShownChartLines: (chartLines: ChartDataCategory[]) => void;
   formatXAxisDate: (date: string) => string;
   updateShownReferenceAreas: (timePeriodIds: Set<string>) => void;
-  getTimePeriodStartAndEndDates: (
-    startDateString: string,
-    endDateString: string | null,
-    locale: string
-  ) =>
-    | {
-        formattedStartDate: string;
-        formattedEndDate: string;
-      }
-    | undefined;
   changeChartDataLineToArea: (chartDataLine: ChartDataCategory) => void;
   changeChartDataAreaToLine: (chartDataArea: ChartDataCategory) => void;
   changeChartDataLineCategoryToArea: (
@@ -1462,4 +1455,6 @@ export type UseChartAnalyticsReturnType = {
   ) => void;
   removeChartStat: (dataKey: ChartDataCategory) => void;
   handleChangeUnit: (newUnit: string, unitCategory: UnitCategory) => void;
+  handleClickTimePeriod: (timePeriod: TimePeriod) => void;
+  handleOpenTimePeriodListModal: () => Promise<void>;
 };

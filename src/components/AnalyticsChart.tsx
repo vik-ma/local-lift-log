@@ -25,7 +25,6 @@ import {
   ReferenceArea,
 } from "recharts";
 import {
-  ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
@@ -34,126 +33,68 @@ import {
 } from "./ui/chart";
 import { useChartColorLists, useChartDateMap } from "../hooks";
 import {
-  AnalyticsChartListModalPage,
-  ChartComment,
   ChartDataCategory,
-  ChartDataCategoryNoUndefined,
-  ChartDataItem,
   ChartDataUnitCategory,
-  ChartReferenceAreaItem,
-  UnitCategory,
-  UseDisclosureReturnType,
-  UserSettings,
+  UseChartAnalyticsReturnType,
 } from "../typings";
 import { FormatDateToShortString } from "../helpers";
 
 type AnalyticsChartProps = {
-  chartConfig: ChartConfig;
-  filteredChartData: ChartDataItem[];
-  chartStartDate: Date | null;
-  chartEndDate: Date | null;
-  chartDataAreas: ChartDataCategory[];
-  shownChartDataAreas: ChartDataCategory[];
-  chartDataLines: ChartDataCategory[];
-  shownChartDataLines: ChartDataCategory[];
-  primaryDataKey: ChartDataCategory;
-  secondaryDataKey: ChartDataCategory;
-  chartLineUnitCategorySet: Set<ChartDataUnitCategory>;
-  secondaryDataUnitCategory: ChartDataUnitCategory;
-  chartDataUnitMap: Map<ChartDataCategory, string>;
-  allChartDataCategories: Set<ChartDataCategory>;
-  referenceAreas: ChartReferenceAreaItem[];
-  shownReferenceAreas: ChartReferenceAreaItem[];
-  shownTimePeriodIdSet: Set<string>;
-  filterMinDate: Date | null;
-  filterMaxDate: Date | null;
-  chartCommentMap: Map<string, ChartComment[]>;
-  includesMultisetMap: Map<string, Set<ChartDataCategory>>;
-  userSettings: UserSettings;
-  weightUnit: string;
-  distanceUnit: string;
-  speedUnit: string;
-  paceUnit: string;
-  weightCharts: Set<ChartDataCategoryNoUndefined>;
-  distanceCharts: Set<ChartDataCategoryNoUndefined>;
-  speedCharts: Set<ChartDataCategoryNoUndefined>;
-  paceCharts: Set<ChartDataCategoryNoUndefined>;
-  deleteModal: UseDisclosureReturnType;
-  filterMinAndMaxDatesModal: UseDisclosureReturnType;
-  updateShownChartLines: (chartLines: ChartDataCategory[]) => void;
-  updateLeftYAxis: (chartAreas: ChartDataCategory[]) => void;
-  updateRightYAxis: (
-    chartLines: ChartDataCategory[],
-    activeUnitCategory: ChartDataUnitCategory
-  ) => void;
-  updateShownReferenceAreas: (timePeriodIds: Set<string>) => void;
-  formatXAxisDate: (date: string) => string;
-  changeChartDataAreaToLine: (chartDataArea: ChartDataCategory) => void;
-  changeChartDataLineToArea: (chartDataLine: ChartDataCategory) => void;
-  updateMinDateFilter: (minDate: Date | null) => void;
-  updateMaxDateFilter: (maxDate: Date | null) => void;
-  removeChartStat: (dataKey: ChartDataCategory) => void;
-  handleChangeUnit: (newUnit: string, unitCategory: UnitCategory) => void;
-  changeChartDataLineCategoryToArea: (
-    unitCategory: ChartDataUnitCategory
-  ) => void;
-  handleOpenTimePeriodListModal:
-    | ((modalListType: AnalyticsChartListModalPage) => Promise<void>)
-    | (() => Promise<void>);
-  circumferenceUnit?: string;
-  circumferenceCharts?: Set<ChartDataCategoryNoUndefined>;
+  useChartAnalytics: UseChartAnalyticsReturnType;
 };
 
-export const AnalyticsChart = ({
-  chartConfig,
-  filteredChartData,
-  chartStartDate,
-  chartEndDate,
-  chartDataAreas,
-  shownChartDataAreas,
-  chartDataLines,
-  shownChartDataLines,
-  primaryDataKey,
-  secondaryDataKey,
-  chartLineUnitCategorySet,
-  secondaryDataUnitCategory,
-  chartDataUnitMap,
-  allChartDataCategories,
-  referenceAreas,
-  shownReferenceAreas,
-  shownTimePeriodIdSet,
-  filterMinDate,
-  filterMaxDate,
-  chartCommentMap,
-  includesMultisetMap,
-  userSettings,
-  weightUnit,
-  distanceUnit,
-  speedUnit,
-  paceUnit,
-  weightCharts,
-  distanceCharts,
-  speedCharts,
-  paceCharts,
-  deleteModal,
-  filterMinAndMaxDatesModal,
-  updateShownChartLines,
-  updateLeftYAxis,
-  updateRightYAxis,
-  updateShownReferenceAreas,
-  formatXAxisDate,
-  changeChartDataAreaToLine,
-  changeChartDataLineToArea,
-  updateMinDateFilter,
-  updateMaxDateFilter,
-  removeChartStat,
-  handleChangeUnit,
-  changeChartDataLineCategoryToArea,
-  handleOpenTimePeriodListModal,
-  circumferenceUnit,
-  circumferenceCharts,
-}: AnalyticsChartProps) => {
+export const AnalyticsChart = ({ useChartAnalytics }: AnalyticsChartProps) => {
   const dateMap = useChartDateMap();
+
+  const {
+    chartConfig,
+    filteredChartData,
+    chartStartDate,
+    chartEndDate,
+    chartDataAreas,
+    shownChartDataAreas,
+    chartDataLines,
+    shownChartDataLines,
+    primaryDataKey,
+    secondaryDataKey,
+    chartLineUnitCategorySet,
+    secondaryDataUnitCategory,
+    chartDataUnitMap,
+    allChartDataCategories,
+    referenceAreas,
+    shownReferenceAreas,
+    shownTimePeriodIdSet,
+    filterMinDate,
+    filterMaxDate,
+    chartCommentMap,
+    includesMultisetMap,
+    userSettings,
+    weightUnit,
+    distanceUnit,
+    speedUnit,
+    paceUnit,
+    weightCharts,
+    distanceCharts,
+    speedCharts,
+    paceCharts,
+    deleteModal,
+    filterMinAndMaxDatesModal,
+    updateShownChartLines,
+    updateLeftYAxis,
+    updateRightYAxis,
+    updateShownReferenceAreas,
+    formatXAxisDate,
+    changeChartDataAreaToLine,
+    changeChartDataLineToArea,
+    updateMinDateFilter,
+    updateMaxDateFilter,
+    removeChartStat,
+    handleChangeUnit,
+    changeChartDataLineCategoryToArea,
+    handleOpenTimePeriodListModal,
+    circumferenceUnit,
+    circumferenceCharts,
+  } = useChartAnalytics;
 
   const { chartLineColorList, chartAreaColorList, referenceAreaColorList } =
     useChartColorLists();
@@ -175,7 +116,7 @@ export const AnalyticsChart = ({
         >
           {chartDataAreas.map((area) => (
             <SelectItem key={area}>
-              {chartConfig[area ?? "default"].label}
+              {chartConfig.current[area ?? "default"].label}
             </SelectItem>
           ))}
         </Select>
@@ -192,7 +133,7 @@ export const AnalyticsChart = ({
         >
           {chartDataLines.map((line) => (
             <SelectItem key={line}>
-              {chartConfig[line ?? "default"].label}
+              {chartConfig.current[line ?? "default"].label}
             </SelectItem>
           ))}
         </Select>
@@ -238,7 +179,7 @@ export const AnalyticsChart = ({
         <Button
           className="font-medium"
           variant="flat"
-          onPress={() => handleOpenTimePeriodListModal("time-period-list")}
+          onPress={() => handleOpenTimePeriodListModal()}
         >
           Load Time Period
         </Button>
@@ -252,7 +193,7 @@ export const AnalyticsChart = ({
         </Button>
       </div>
       <ChartContainer
-        config={chartConfig}
+        config={chartConfig.current}
         className="grow bg-default-50 pt-4 pb-1.5 rounded-xl"
       >
         <ComposedChart
@@ -266,20 +207,20 @@ export const AnalyticsChart = ({
           />
           <YAxis
             yAxisId={primaryDataKey}
-            unit={chartDataUnitMap.get(primaryDataKey)}
+            unit={chartDataUnitMap.current.get(primaryDataKey)}
           />
           <YAxis
             dataKey={secondaryDataKey}
-            unit={chartDataUnitMap.get(secondaryDataKey)}
+            unit={chartDataUnitMap.current.get(secondaryDataKey)}
             orientation="right"
           />
           <ChartTooltip
             isAnimationActive={false}
             content={
               <ChartTooltipContent
-                chartDataUnitMap={chartDataUnitMap}
+                chartDataUnitMap={chartDataUnitMap.current}
                 chartCommentMap={chartCommentMap}
-                chartIncludesMultisetMap={includesMultisetMap}
+                chartIncludesMultisetMap={includesMultisetMap.current}
               />
             }
           />
@@ -343,7 +284,7 @@ export const AnalyticsChart = ({
                   key={area as string}
                   onPress={() => changeChartDataAreaToLine(area)}
                 >
-                  {chartConfig[area ?? "default"].label}
+                  {chartConfig.current[area ?? "default"].label}
                 </DropdownItem>
               ))}
             </DropdownMenu>
@@ -364,7 +305,7 @@ export const AnalyticsChart = ({
                   key={line as string}
                   onPress={() => changeChartDataLineToArea(line)}
                 >
-                  {chartConfig[line ?? "default"].label}
+                  {chartConfig.current[line ?? "default"].label}
                 </DropdownItem>
               ))}
             </DropdownMenu>
@@ -437,7 +378,7 @@ export const AnalyticsChart = ({
               onClick={(e) => e.stopPropagation()}
             >
               <span className="font-semibold">Min Date: </span>
-              {FormatDateToShortString(filterMinDate, userSettings.locale)}
+              {FormatDateToShortString(filterMinDate, userSettings!.locale)}
             </Chip>
           )}
           {filterMaxDate !== null && (
@@ -450,7 +391,7 @@ export const AnalyticsChart = ({
               onClick={(e) => e.stopPropagation()}
             >
               <span className="font-semibold">Max Date: </span>
-              {FormatDateToShortString(filterMaxDate, userSettings.locale)}
+              {FormatDateToShortString(filterMaxDate, userSettings!.locale)}
             </Chip>
           )}
           <Dropdown>
@@ -470,7 +411,7 @@ export const AnalyticsChart = ({
                   key={dataKey as string}
                   onPress={() => removeChartStat(dataKey)}
                 >
-                  {chartConfig[dataKey ?? "default"].label}
+                  {chartConfig.current[dataKey ?? "default"].label}
                 </DropdownItem>
               ))}
             </DropdownMenu>
