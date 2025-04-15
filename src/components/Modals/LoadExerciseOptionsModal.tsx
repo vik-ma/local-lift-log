@@ -20,41 +20,15 @@ import {
   ChartDataCategory,
   ChartDataExerciseCategoryBase,
   ChartDataUnitCategory,
-  ChartDataUnitCategoryNoUndefined,
   Exercise,
-  UseDisclosureReturnType,
+  UseChartAnalyticsReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
 
 type LoadExerciseOptionsModalProps = {
-  loadExerciseOptionsModal: UseDisclosureReturnType;
+  useChartAnalytics: UseChartAnalyticsReturnType;
   selectedExercise: Exercise | undefined;
-  loadExerciseOptions: Set<ChartDataExerciseCategoryBase>;
-  setLoadExerciseOptions: React.Dispatch<
-    React.SetStateAction<Set<ChartDataExerciseCategoryBase>>
-  >;
-  disabledLoadExerciseOptions: Set<ChartDataExerciseCategoryBase>;
-  loadExerciseOptionsUnitCategoryPrimary: ChartDataUnitCategory;
-  setLoadExerciseOptionsUnitCategoryPrimary: React.Dispatch<
-    React.SetStateAction<ChartDataUnitCategory>
-  >;
-  loadExerciseOptionsUnitCategorySecondary: ChartDataUnitCategory;
-  setLoadExerciseOptionsUnitCategorySecondary: React.Dispatch<
-    React.SetStateAction<ChartDataUnitCategory>
-  >;
-  loadExerciseOptionsUnitCategoriesPrimary: Set<ChartDataUnitCategory>;
-  setLoadExerciseOptionsUnitCategoriesPrimary: React.Dispatch<
-    React.SetStateAction<Set<ChartDataUnitCategory>>
-  >;
-  loadExerciseOptionsUnitCategoriesSecondary: ChartDataUnitCategory[];
-  setLoadExerciseOptionsUnitCategoriesSecondary: React.Dispatch<
-    React.SetStateAction<ChartDataUnitCategory[]>
-  >;
-  chartDataAreas: ChartDataCategory[];
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>;
-  loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
-  secondaryDataUnitCategory: ChartDataUnitCategory;
-  validLoadExerciseOptionsCategories: Set<ChartDataUnitCategoryNoUndefined>;
   loadExerciseStats: (
     ignoreWarmups: boolean,
     ignoreMultisets: boolean
@@ -62,26 +36,30 @@ type LoadExerciseOptionsModalProps = {
 };
 
 export const LoadExerciseOptionsModal = ({
-  loadExerciseOptionsModal,
+  useChartAnalytics,
   selectedExercise,
-  loadExerciseOptions,
-  setLoadExerciseOptions,
-  disabledLoadExerciseOptions,
-  loadExerciseOptionsUnitCategoryPrimary,
-  setLoadExerciseOptionsUnitCategoryPrimary,
-  loadExerciseOptionsUnitCategorySecondary,
-  setLoadExerciseOptionsUnitCategorySecondary,
-  loadExerciseOptionsUnitCategoriesPrimary,
-  setLoadExerciseOptionsUnitCategoriesPrimary,
-  loadExerciseOptionsUnitCategoriesSecondary,
-  setLoadExerciseOptionsUnitCategoriesSecondary,
-  chartDataAreas,
   chartDataUnitCategoryMap,
-  loadExerciseOptionsMap,
-  secondaryDataUnitCategory,
-  validLoadExerciseOptionsCategories,
   loadExerciseStats,
 }: LoadExerciseOptionsModalProps) => {
+  const {
+    loadExerciseOptionsModal,
+    loadExerciseOptions,
+    setLoadExerciseOptions,
+    disabledLoadExerciseOptions,
+    loadExerciseOptionsUnitCategoryPrimary,
+    setLoadExerciseOptionsUnitCategoryPrimary,
+    loadExerciseOptionsUnitCategorySecondary,
+    setLoadExerciseOptionsUnitCategorySecondary,
+    loadExerciseOptionsUnitCategoriesPrimary,
+    setLoadExerciseOptionsUnitCategoriesPrimary,
+    loadExerciseOptionsUnitCategoriesSecondary,
+    setLoadExerciseOptionsUnitCategoriesSecondary,
+    chartDataAreas,
+    loadExerciseOptionsMap,
+    secondaryDataUnitCategory,
+    validLoadExerciseOptionsCategories,
+  } = useChartAnalytics;
+
   const [filterCategories, setFilterCategories] = useState<
     Set<ChartDataUnitCategory>
   >(new Set());

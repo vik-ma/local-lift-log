@@ -14,11 +14,11 @@ import {
   Radio,
 } from "@heroui/react";
 import {
+  useChartAnalytics,
   useChartTimePeriodIdSets,
   useDefaultChartMapsAndConfig,
   useExerciseList,
   useFilterExerciseList,
-  useLoadExerciseOptionsMap,
   useMeasurementList,
   useTimePeriodList,
 } from "../hooks";
@@ -78,7 +78,6 @@ import {
   GetValidatedUserSettingsUnits,
   UpdateChartCommentMapForExercise,
   UpdateLoadExerciseOptions,
-  ValidLoadExerciseOptionsCategories,
   ValidMeasurementUnits,
   UpdateItemInList,
   FillInMissingChartDates,
@@ -99,15 +98,13 @@ export default function Analytics() {
     useState<AnalyticsChartListModalPage>("exercise-list");
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
-  const [chartDataAreas, setChartDataAreas] = useState<ChartDataCategory[]>([]);
   const [chartDataLines, setChartDataLines] = useState<ChartDataCategory[]>([]);
   const [primaryDataKey, setPrimaryDataKey] = useState<ChartDataCategory>();
   const [secondaryDataKey, setSecondaryDataKey] = useState<ChartDataCategory>();
   const [chartLineUnitCategorySet, setChartLineUnitCategorySet] = useState<
     Set<ChartDataUnitCategory>
   >(new Set());
-  const [secondaryDataUnitCategory, setSecondaryDataUnitCategory] =
-    useState<ChartDataUnitCategory>();
+
   const [shownChartDataAreas, setShownChartDataAreas] = useState<
     ChartDataCategory[]
   >([]);
@@ -137,27 +134,7 @@ export default function Analytics() {
     Map<number, Measurement>
   >(new Map());
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
-  const [loadExerciseOptions, setLoadExerciseOptions] = useState<
-    Set<ChartDataExerciseCategoryBase>
-  >(new Set());
-  const [
-    loadExerciseOptionsUnitCategoryPrimary,
-    setLoadExerciseOptionsUnitCategoryPrimary,
-  ] = useState<ChartDataUnitCategory>();
-  const [
-    loadExerciseOptionsUnitCategorySecondary,
-    setLoadExerciseOptionsUnitCategorySecondary,
-  ] = useState<ChartDataUnitCategory>();
-  const [
-    loadExerciseOptionsUnitCategoriesPrimary,
-    setLoadExerciseOptionsUnitCategoriesPrimary,
-  ] = useState<Set<ChartDataUnitCategory>>(new Set());
-  const [
-    loadExerciseOptionsUnitCategoriesSecondary,
-    setLoadExerciseOptionsUnitCategoriesSecondary,
-  ] = useState<ChartDataUnitCategory[]>([]);
-  const [disabledLoadExerciseOptions, setDisabledLoadExerciseOptions] =
-    useState<Set<ChartDataExerciseCategoryBase>>(new Set());
+
   const [filteredChartData, setFilteredChartData] = useState<ChartDataItem[]>(
     []
   );
@@ -168,6 +145,27 @@ export default function Analytics() {
     countSecondaryExerciseGroupsAsOne,
     setCountSecondaryExerciseGroupsAsOne,
   ] = useState<boolean>(false);
+
+  const chartAnalytics = useChartAnalytics();
+
+  const {
+    loadExerciseOptionsModal,
+    loadExerciseOptions,
+    setLoadExerciseOptions,
+    setDisabledLoadExerciseOptions,
+    loadExerciseOptionsUnitCategoryPrimary,
+    setLoadExerciseOptionsUnitCategoryPrimary,
+    loadExerciseOptionsUnitCategorySecondary,
+    setLoadExerciseOptionsUnitCategorySecondary,
+    setLoadExerciseOptionsUnitCategoriesPrimary,
+    setLoadExerciseOptionsUnitCategoriesSecondary,
+    chartDataAreas,
+    setChartDataAreas,
+    loadExerciseOptionsMap,
+    secondaryDataUnitCategory,
+    setSecondaryDataUnitCategory,
+    validLoadExerciseOptionsCategories,
+  } = chartAnalytics;
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -197,7 +195,6 @@ export default function Analytics() {
   );
 
   const listModal = useDisclosure();
-  const loadExerciseOptionsModal = useDisclosure();
   const filterMinAndMaxDatesModal = useDisclosure();
   const deleteModal = useDisclosure();
 
@@ -245,16 +242,11 @@ export default function Analytics() {
 
   const chartConfig = useRef<ChartConfig>({ ...defaultChartConfig });
 
-  const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
-
   const includesMultisetMap = useRef<Map<string, Set<ChartDataCategory>>>(
     new Map()
   );
 
   const disabledExerciseGroups = useRef<string[]>([]);
-
-  const validLoadExerciseOptionsCategories =
-    ValidLoadExerciseOptionsCategories();
 
   const {
     weightCharts,
@@ -2870,40 +2862,9 @@ export default function Analytics() {
         </ModalContent>
       </Modal>
       <LoadExerciseOptionsModal
-        loadExerciseOptionsModal={loadExerciseOptionsModal}
+        useChartAnalytics={chartAnalytics}
         selectedExercise={selectedExercise}
-        loadExerciseOptions={loadExerciseOptions}
-        setLoadExerciseOptions={setLoadExerciseOptions}
-        disabledLoadExerciseOptions={disabledLoadExerciseOptions}
-        loadExerciseOptionsUnitCategoryPrimary={
-          loadExerciseOptionsUnitCategoryPrimary
-        }
-        setLoadExerciseOptionsUnitCategoryPrimary={
-          setLoadExerciseOptionsUnitCategoryPrimary
-        }
-        loadExerciseOptionsUnitCategorySecondary={
-          loadExerciseOptionsUnitCategorySecondary
-        }
-        setLoadExerciseOptionsUnitCategorySecondary={
-          setLoadExerciseOptionsUnitCategorySecondary
-        }
-        loadExerciseOptionsUnitCategoriesPrimary={
-          loadExerciseOptionsUnitCategoriesPrimary
-        }
-        setLoadExerciseOptionsUnitCategoriesPrimary={
-          setLoadExerciseOptionsUnitCategoriesPrimary
-        }
-        loadExerciseOptionsUnitCategoriesSecondary={
-          loadExerciseOptionsUnitCategoriesSecondary
-        }
-        setLoadExerciseOptionsUnitCategoriesSecondary={
-          setLoadExerciseOptionsUnitCategoriesSecondary
-        }
-        chartDataAreas={chartDataAreas}
         chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
-        loadExerciseOptionsMap={loadExerciseOptionsMap}
-        secondaryDataUnitCategory={secondaryDataUnitCategory}
-        validLoadExerciseOptionsCategories={validLoadExerciseOptionsCategories}
         loadExerciseStats={loadExerciseStats}
       />
       <FilterMinAndMaxDatesModal

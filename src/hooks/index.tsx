@@ -66,3 +66,4 @@ export { useDefaultChartMapsAndConfig } from "./useDefaultChartMapsAndConfig";
 export { useChartColorLists } from "./useChartColorLists";
 export { useChartDateMap } from "./useChartDateMap";
 export { useChartTimePeriodIdSets } from "./useChartTimePeriodIdSets";
+export { useChartAnalytics } from "./useChartAnalytics";

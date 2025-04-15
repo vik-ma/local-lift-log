@@ -1295,3 +1295,39 @@ export type ExerciseMaxListValue = {
   date: string;
   formattedDate: string;
 };
+
+export type UseChartAnalyticsReturnType = {
+  loadExerciseOptionsModal: UseDisclosureReturnType;
+  loadExerciseOptions: Set<ChartDataExerciseCategoryBase>;
+  setLoadExerciseOptions: React.Dispatch<
+    React.SetStateAction<Set<ChartDataExerciseCategoryBase>>
+  >;
+  disabledLoadExerciseOptions: Set<ChartDataExerciseCategoryBase>;
+  setDisabledLoadExerciseOptions: React.Dispatch<
+    React.SetStateAction<Set<ChartDataExerciseCategoryBase>>
+  >;
+  loadExerciseOptionsUnitCategoryPrimary: ChartDataUnitCategory;
+  setLoadExerciseOptionsUnitCategoryPrimary: React.Dispatch<
+    React.SetStateAction<ChartDataUnitCategory>
+  >;
+  loadExerciseOptionsUnitCategorySecondary: ChartDataUnitCategory;
+  setLoadExerciseOptionsUnitCategorySecondary: React.Dispatch<
+    React.SetStateAction<ChartDataUnitCategory>
+  >;
+  loadExerciseOptionsUnitCategoriesPrimary: Set<ChartDataUnitCategory>;
+  setLoadExerciseOptionsUnitCategoriesPrimary: React.Dispatch<
+    React.SetStateAction<Set<ChartDataUnitCategory>>
+  >;
+  loadExerciseOptionsUnitCategoriesSecondary: ChartDataUnitCategory[];
+  setLoadExerciseOptionsUnitCategoriesSecondary: React.Dispatch<
+    React.SetStateAction<ChartDataUnitCategory[]>
+  >;
+  chartDataAreas: ChartDataCategory[];
+  setChartDataAreas: React.Dispatch<React.SetStateAction<ChartDataCategory[]>>;
+  loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
+  secondaryDataUnitCategory: ChartDataUnitCategory;
+  setSecondaryDataUnitCategory: React.Dispatch<
+    React.SetStateAction<ChartDataUnitCategory>
+  >;
+  validLoadExerciseOptionsCategories: Set<ChartDataUnitCategoryNoUndefined>;
+};

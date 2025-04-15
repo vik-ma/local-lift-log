@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import {
   ChartDataCategory,
-  ChartDataExerciseCategoryBase,
   ChartDataUnitCategory,
   Exercise,
   ExerciseMaxListValue,
@@ -35,7 +34,6 @@ import {
   ConvertNumberToTwoDecimals,
   ConvertDistanceValue,
   CalculateSpeedValue,
-  ValidLoadExerciseOptionsCategories,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -44,7 +42,7 @@ import {
   useDetailsHeaderOptionsMenu,
   useExerciseGroupDictionary,
   useMultiplierInputMap,
-  useLoadExerciseOptionsMap,
+  useChartAnalytics,
 } from "../hooks";
 import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -79,35 +77,8 @@ export default function ExerciseDetails() {
   const [showMultisets, setShowMultisets] = useState<boolean>(true);
   const [showPace, setShowPace] = useState<boolean>(true);
   const [tabPage, setTabPage] = useState<TabPage>("history");
-  const [loadExerciseOptions, setLoadExerciseOptions] = useState<
-    Set<ChartDataExerciseCategoryBase>
-  >(new Set());
-  const [
-    loadExerciseOptionsUnitCategoryPrimary,
-    setLoadExerciseOptionsUnitCategoryPrimary,
-  ] = useState<ChartDataUnitCategory>();
-  const [
-    loadExerciseOptionsUnitCategorySecondary,
-    setLoadExerciseOptionsUnitCategorySecondary,
-  ] = useState<ChartDataUnitCategory>();
-  const [
-    loadExerciseOptionsUnitCategoriesPrimary,
-    setLoadExerciseOptionsUnitCategoriesPrimary,
-  ] = useState<Set<ChartDataUnitCategory>>(new Set());
-  const [
-    loadExerciseOptionsUnitCategoriesSecondary,
-    setLoadExerciseOptionsUnitCategoriesSecondary,
-  ] = useState<ChartDataUnitCategory[]>([]);
-  const [disabledLoadExerciseOptions, setDisabledLoadExerciseOptions] =
-    useState<Set<ChartDataExerciseCategoryBase>>(new Set());
-  const [chartDataAreas, setChartDataAreas] = useState<ChartDataCategory[]>([]);
-  const [secondaryDataUnitCategory, setSecondaryDataUnitCategory] =
-    useState<ChartDataUnitCategory>();
 
-  const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
-
-  const validLoadExerciseOptionsCategories =
-    ValidLoadExerciseOptionsCategories();
+  const chartAnalytics = useChartAnalytics();
 
   const chartDataUnitCategoryMap = useRef<
     Map<ChartDataCategory, ChartDataUnitCategory>
@@ -121,7 +92,6 @@ export default function ExerciseDetails() {
     useState<Exercise>(defaultExercise);
 
   const exerciseModal = useDisclosure();
-  const loadExerciseOptionsModal = useDisclosure();
 
   const exerciseGroupDictionary = useExerciseGroupDictionary();
 
@@ -528,40 +498,9 @@ export default function ExerciseDetails() {
         buttonAction={updateExercise}
       />
       <LoadExerciseOptionsModal
-        loadExerciseOptionsModal={loadExerciseOptionsModal}
+        useChartAnalytics={chartAnalytics}
         selectedExercise={exercise}
-        loadExerciseOptions={loadExerciseOptions}
-        setLoadExerciseOptions={setLoadExerciseOptions}
-        disabledLoadExerciseOptions={disabledLoadExerciseOptions}
-        loadExerciseOptionsUnitCategoryPrimary={
-          loadExerciseOptionsUnitCategoryPrimary
-        }
-        setLoadExerciseOptionsUnitCategoryPrimary={
-          setLoadExerciseOptionsUnitCategoryPrimary
-        }
-        loadExerciseOptionsUnitCategorySecondary={
-          loadExerciseOptionsUnitCategorySecondary
-        }
-        setLoadExerciseOptionsUnitCategorySecondary={
-          setLoadExerciseOptionsUnitCategorySecondary
-        }
-        loadExerciseOptionsUnitCategoriesPrimary={
-          loadExerciseOptionsUnitCategoriesPrimary
-        }
-        setLoadExerciseOptionsUnitCategoriesPrimary={
-          setLoadExerciseOptionsUnitCategoriesPrimary
-        }
-        loadExerciseOptionsUnitCategoriesSecondary={
-          loadExerciseOptionsUnitCategoriesSecondary
-        }
-        setLoadExerciseOptionsUnitCategoriesSecondary={
-          setLoadExerciseOptionsUnitCategoriesSecondary
-        }
-        chartDataAreas={chartDataAreas}
         chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
-        loadExerciseOptionsMap={loadExerciseOptionsMap}
-        secondaryDataUnitCategory={secondaryDataUnitCategory}
-        validLoadExerciseOptionsCategories={validLoadExerciseOptionsCategories}
         loadExerciseStats={loadExerciseStats}
       />
       <div className="flex flex-col gap-2.5">
