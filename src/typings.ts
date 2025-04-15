@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import { CalendarDate, useDisclosure } from "@heroui/react";
+import { ChartConfig } from "./components/ui/chart";
 
 export type Routine = {
   id: number;
@@ -1297,7 +1298,66 @@ export type ExerciseMaxListValue = {
 };
 
 export type UseChartAnalyticsReturnType = {
-  loadExerciseOptionsModal: UseDisclosureReturnType;
+  userSettings: UserSettings | undefined;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
+  weightUnit: string;
+  setWeightUnit: React.Dispatch<React.SetStateAction<string>>;
+  distanceUnit: string;
+  setDistanceUnit: React.Dispatch<React.SetStateAction<string>>;
+  speedUnit: string;
+  setSpeedUnit: React.Dispatch<React.SetStateAction<string>>;
+  paceUnit: string;
+  setPaceUnit: React.Dispatch<React.SetStateAction<string>>;
+  circumferenceUnit: string;
+  setCircumferenceUnit: React.Dispatch<React.SetStateAction<string>>;
+  chartData: ChartDataItem[];
+  chartDataAreas: ChartDataCategory[];
+  setChartDataAreas: React.Dispatch<React.SetStateAction<ChartDataCategory[]>>;
+  chartDataLines: ChartDataCategory[];
+  setChartDataLines: React.Dispatch<React.SetStateAction<ChartDataCategory[]>>;
+  primaryDataKey: ChartDataCategory;
+  setPrimaryDataKey: React.Dispatch<React.SetStateAction<ChartDataCategory>>;
+  secondaryDataKey: ChartDataCategory;
+  setSecondaryDataKey: React.Dispatch<React.SetStateAction<ChartDataCategory>>;
+  secondaryDataUnitCategory: ChartDataUnitCategory;
+  setSecondaryDataUnitCategory: React.Dispatch<
+    React.SetStateAction<ChartDataUnitCategory>
+  >;
+  chartLineUnitCategorySet: Set<ChartDataUnitCategory>;
+  setChartLineUnitCategorySet: React.Dispatch<
+    React.SetStateAction<Set<ChartDataUnitCategory>>
+  >;
+  shownChartDataAreas: ChartDataCategory[];
+  setShownChartDataAreas: React.Dispatch<
+    React.SetStateAction<ChartDataCategory[]>
+  >;
+  shownChartDataLines: ChartDataCategory[];
+  setShownChartDataLines: React.Dispatch<
+    React.SetStateAction<ChartDataCategory[]>
+  >;
+  referenceAreas: ChartReferenceAreaItem[];
+  setReferenceAreas: React.Dispatch<
+    React.SetStateAction<ChartReferenceAreaItem[]>
+  >;
+  shownReferenceAreas: ChartReferenceAreaItem[];
+  setShownReferenceAreas: React.Dispatch<
+    React.SetStateAction<ChartReferenceAreaItem[]>
+  >;
+  chartCommentMap: Map<string, ChartComment[]>;
+  setChartCommentMap: React.Dispatch<
+    React.SetStateAction<Map<string, ChartComment[]>>
+  >;
+  chartStartDate: Date | null;
+  setChartStartDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  chartEndDate: Date | null;
+  setChartEndDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  filterMinDate: Date | null;
+  setFilterMinDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  filterMaxDate: Date | null;
+  setFilterMaxDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  filteredChartData: ChartDataItem[];
   loadExerciseOptions: Set<ChartDataExerciseCategoryBase>;
   setLoadExerciseOptions: React.Dispatch<
     React.SetStateAction<Set<ChartDataExerciseCategoryBase>>
@@ -1322,12 +1382,37 @@ export type UseChartAnalyticsReturnType = {
   setLoadExerciseOptionsUnitCategoriesSecondary: React.Dispatch<
     React.SetStateAction<ChartDataUnitCategory[]>
   >;
-  chartDataAreas: ChartDataCategory[];
-  setChartDataAreas: React.Dispatch<React.SetStateAction<ChartDataCategory[]>>;
-  loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
-  secondaryDataUnitCategory: ChartDataUnitCategory;
-  setSecondaryDataUnitCategory: React.Dispatch<
-    React.SetStateAction<ChartDataUnitCategory>
+  allChartDataCategories: Set<ChartDataCategory>;
+  chartDataUnitMap: React.RefObject<Map<ChartDataCategory, string>>;
+  chartDataUnitCategoryMap: React.RefObject<
+    Map<ChartDataCategory, ChartDataUnitCategory>
   >;
+  chartConfig: React.RefObject<ChartConfig>;
+  loadedCharts: React.RefObject<Set<ChartDataCategoryNoUndefined>>;
+  isChartDataLoaded: React.RefObject<boolean>;
+  highestCategoryValues: React.RefObject<Map<ChartDataCategory, number>>;
+  filteredHighestCategoryValues: React.RefObject<
+    Map<ChartDataCategory, number>
+  >;
+  weightCharts: Set<ChartDataCategoryNoUndefined>;
+  distanceCharts: Set<ChartDataCategoryNoUndefined>;
+  paceCharts: Set<ChartDataCategoryNoUndefined>;
+  speedCharts: Set<ChartDataCategoryNoUndefined>;
+  circumferenceCharts: Set<ChartDataCategoryNoUndefined>;
+  loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
   validLoadExerciseOptionsCategories: Set<ChartDataUnitCategoryNoUndefined>;
+  includesMultisetMap: React.RefObject<Map<string, Set<ChartDataCategory>>>;
+  loadExerciseOptionsModal: UseDisclosureReturnType;
+  deleteModal: UseDisclosureReturnType;
+  updateExerciseStatUnit: (
+    chartName: ChartDataExerciseCategory,
+    optionCategory: ChartDataUnitCategory
+  ) => void;
+  resetChart: () => void;
+  assignDefaultUnits: (userSettings: UserSettings) => void;
+  updateChartDataAndFilteredHighestCategoryValues: (
+    updatedChartData: ChartDataItem[],
+    minDate: Date | null,
+    maxDate: Date | null
+  ) => void;
 };
