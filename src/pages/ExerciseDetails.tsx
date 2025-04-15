@@ -1,12 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  ChartDataCategory,
-  ChartDataUnitCategory,
-  Exercise,
-  ExerciseMaxListValue,
-  UserSettings,
-  WorkoutSet,
-} from "../typings";
+import { Exercise, ExerciseMaxListValue, WorkoutSet } from "../typings";
 import { useState, useEffect, useRef } from "react";
 import { Checkbox, useDisclosure } from "@heroui/react";
 import {
@@ -62,27 +55,29 @@ type PaceRecord = {
 export default function ExerciseDetails() {
   const { id } = useParams();
   const [exercise, setExercise] = useState<Exercise>();
-  const [userSettings, setUserSettings] = useState<UserSettings>();
   const [dateSetListMap, setDateSetListMap] = useState<
     Map<string, WorkoutSet[]>
   >(new Map());
   const [dateSetListMapReversed, setDateSetListMapReversed] = useState<
     Map<string, WorkoutSet[]>
   >(new Map());
-  const [weightUnit, setWeightUnit] = useState<string>("kg");
-  const [distanceUnit, setDistanceUnit] = useState<string>("km");
-  const [speedUnit, setSpeedUnit] = useState<string>("km/h");
-  const [paceUnit, setPaceUnit] = useState<string>("min/km");
   const [showWarmups, setShowWarmups] = useState<boolean>(true);
   const [showMultisets, setShowMultisets] = useState<boolean>(true);
   const [showPace, setShowPace] = useState<boolean>(true);
   const [tabPage, setTabPage] = useState<TabPage>("history");
 
   const chartAnalytics = useChartAnalytics();
-
-  const chartDataUnitCategoryMap = useRef<
-    Map<ChartDataCategory, ChartDataUnitCategory>
-  >(new Map());
+  
+  const {
+    userSettings,
+    setUserSettings,
+    weightUnit,
+    distanceUnit,
+    speedUnit,
+    paceUnit,
+    chartDataUnitCategoryMap,
+    assignDefaultUnits,
+  } = chartAnalytics;
 
   const tabPages = useRef<string[][]>([["history", "Exercise History"]]);
 
@@ -357,10 +352,7 @@ export default function ExerciseDetails() {
       const speedUnit = GetSpeedUnitFromDistanceUnit(validUnits.distanceUnit);
       const paceUnit = GetPaceUnitFromDistanceUnit(validUnits.distanceUnit);
 
-      setWeightUnit(weightUnit);
-      setDistanceUnit(distanceUnit);
-      setSpeedUnit(speedUnit);
-      setPaceUnit(paceUnit);
+      assignDefaultUnits(userSettings);
 
       setShowWarmups(!!userSettings.show_warmups_in_exercise_details);
       setShowMultisets(!!userSettings.show_multisets_in_exercise_details);
