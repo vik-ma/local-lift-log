@@ -92,6 +92,7 @@ export { GroupedWorkoutSetListModal } from "./Modals/GroupedWorkoutSetListModal"
 export { FilterDietLogListModal } from "./Modals/FilterDietLogListModal";
 export { FilterMinAndMaxDatesModal } from "./Modals/FilterMinAndMaxDatesModal";
 export { LoadExerciseOptionsModal } from "./Modals/LoadExerciseOptionsModal";
+export { TimePeriodListModal } from "./Modals/TimePeriodListModal";
 
 export { ExerciseModalList } from "./ModalLists/ExerciseModalList";
 export { MultisetTemplateModalList } from "./ModalLists/MultisetTemplateModalList";
@@ -100,7 +101,6 @@ export { PlateCollectionModalList } from "./ModalLists/PlateCollectionModalList"
 export { RoutineModalList } from "./ModalLists/RoutineModalList";
 export { MeasurementModalList } from "./ModalLists/MeasurementModalList";
 export { WorkoutTemplateModalList } from "./ModalLists/WorkoutTemplateModalList";
-export { TimePeriodModalList } from "./ModalLists/TimePeriodModalList";
 
 export { WorkoutListOptions } from "./ListOptions/WorkoutListOptions";
 export { ExerciseListOptions } from "./ListOptions/ExerciseListOptions";
