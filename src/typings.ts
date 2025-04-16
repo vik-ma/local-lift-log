@@ -1457,4 +1457,5 @@ export type UseChartAnalyticsReturnType = {
   handleChangeUnit: (newUnit: string, unitCategory: UnitCategory) => void;
   handleClickTimePeriod: (timePeriod: TimePeriod) => void;
   handleOpenTimePeriodListModal: () => Promise<void>;
+  timePeriodList: UseTimePeriodListReturnType;
 };

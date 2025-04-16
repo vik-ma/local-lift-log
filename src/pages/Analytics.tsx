@@ -30,6 +30,7 @@ import {
   LoadExerciseOptionsModal,
   LoadingSpinner,
   MeasurementModalList,
+  TimePeriodListModal,
 } from "../components";
 import {
   AnalyticsChartListModalPage,
@@ -146,6 +147,9 @@ export default function Analytics() {
     loadChartAreas,
     addChartComment,
     loadChartLines,
+    handleClickTimePeriod,
+    timePeriodIdSet,
+    timePeriodList,
   } = chartAnalytics;
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
@@ -1687,17 +1691,6 @@ export default function Analytics() {
                     isInAnalyticsPage
                   />
                 ) : (
-                  // TODO: FIX
-                  // : listModalPage === "time-period-list" ? (
-                  //   <TimePeriodModalList
-                  //     useTimePeriodList={timePeriodList}
-                  //     handleTimePeriodClick={handleClickTimePeriod}
-                  //     userSettings={userSettings}
-                  //     setUserSettings={setUserSettings}
-                  //     customHeightString="h-[440px]"
-                  //     hiddenTimePeriods={timePeriodIdSet}
-                  //   />
-                  // )
                   <div className="h-[360px] flex flex-col gap-4">
                     <ExerciseGroupCheckboxes
                       isValid={true}
@@ -1750,6 +1743,15 @@ export default function Analytics() {
           )}
         </ModalContent>
       </Modal>
+      <TimePeriodListModal
+        timePeriodListModal={timePeriodListModal}
+        useTimePeriodList={timePeriodList}
+        handleTimePeriodClick={handleClickTimePeriod}
+        userSettings={userSettings}
+        setUserSettings={setUserSettings}
+        customHeightString="h-[440px]"
+        hiddenTimePeriods={timePeriodIdSet}
+      />
       <LoadExerciseOptionsModal
         useChartAnalytics={chartAnalytics}
         selectedExercise={selectedExercise}

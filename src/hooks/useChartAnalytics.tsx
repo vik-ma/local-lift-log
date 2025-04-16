@@ -1451,6 +1451,8 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
 
       setSelectedTimePeriodProperties(timePeriodPropertySet);
     }
+
+    timePeriodListModal.onOpen();
   };
 
   return {
@@ -1546,5 +1548,6 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
     handleChangeUnit,
     handleClickTimePeriod,
     handleOpenTimePeriodListModal,
+    timePeriodList,
   };
 };
