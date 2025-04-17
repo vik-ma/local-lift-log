@@ -68,6 +68,7 @@ export default function ExerciseDetails() {
   const [showPace, setShowPace] = useState<boolean>(true);
   const [tabPage, setTabPage] = useState<TabPage>("history");
   const [showChart, setShowChart] = useState<boolean>(false);
+  const [showSetComments, setShowSetComments] = useState<boolean>(true);
 
   const chartAnalytics = useChartAnalytics();
 
@@ -113,6 +114,7 @@ export default function ExerciseDetails() {
   const showWarmupsCheckbox = useRef<boolean>(false);
   const showMultisetsCheckbox = useRef<boolean>(false);
   const showPaceCheckbox = useRef<boolean>(false);
+  const showSetCommentsCheckbox = useRef<boolean>(false);
 
   const maxWeightMap = useRef<Map<number, ExerciseMaxListValue>>(new Map());
   const maxRepsMap = useRef<Map<number, ExerciseMaxListValue>>(new Map());
@@ -281,6 +283,10 @@ export default function ExerciseDetails() {
             showDistanceAndPaceTabs.current = true;
           }
         }
+      }
+
+      if (set.comment !== null) {
+        showSetCommentsCheckbox.current = true;
       }
 
       if (set.is_warmup === 0) {
@@ -622,6 +628,20 @@ export default function ExerciseDetails() {
                         )}
                       </div>
                     )}
+                    {showSetCommentsCheckbox.current && (
+                      <div className="flex justify-center gap-6">
+                        {showSetCommentsCheckbox.current && (
+                          <Checkbox
+                            className="hover:underline"
+                            size="sm"
+                            isSelected={showSetComments}
+                            onValueChange={setShowSetComments}
+                          >
+                            Show Set Comments
+                          </Checkbox>
+                        )}
+                      </div>
+                    )}
                     <div className="relative flex flex-col gap-1.5">
                       <div className="absolute right-0 -top-px">
                         <span className="text-xs text-stone-500">
@@ -792,11 +812,12 @@ export default function ExerciseDetails() {
                                               </span>
                                             )}
                                           </div>
-                                          <div className="max-w-[19.75rem] break-all">
-                                            {set.comment !== null && (
-                                              <span>{set.comment}</span>
+                                          {set.comment !== null &&
+                                            showSetComments && (
+                                              <div className="max-w-[19.75rem] break-all">
+                                                <span>{set.comment}</span>
+                                              </div>
                                             )}
-                                          </div>
                                         </div>
                                       )}
                                     </button>
