@@ -15,8 +15,8 @@ export const ChartIcon = ({ color, size }: ChartIconProps) => {
       strokeLinejoin="round"
     >
       <path d="M7 16 L12 11 L16 14 L19.55 6.89" fill="none" strokeWidth={2.5} />
-      <path d="M3 3 L3 21 L21 21" fill="none" strokeWidth={2.8} />
-      <path d="M19.95 6 L20.05 6" fill="none" strokeWidth={4.2} />
+      <path d="M3 3 L3 21 L21 21" fill="none" strokeWidth={2.5} />
+      <path d="M19.95 6 L20.05 6" fill="none" strokeWidth={4.5} />
     </svg>
   );
 };

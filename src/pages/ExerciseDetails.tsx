@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Exercise, ExerciseMaxListValue, WorkoutSet } from "../typings";
 import { useState, useEffect, useRef } from "react";
-import { Checkbox, useDisclosure } from "@heroui/react";
+import { Button, Checkbox, useDisclosure } from "@heroui/react";
 import {
   LoadingSpinner,
   ExerciseModal,
@@ -41,6 +41,7 @@ import {
 } from "../hooks";
 import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
+import { ChartIcon } from "../assets";
 
 type ShowCheckboxType = "warmup" | "multiset" | "pace";
 
@@ -518,6 +519,18 @@ export default function ExerciseDetails() {
               isInDetailsHeader
             />
           }
+          extraLeftButton2={
+            <Button
+              aria-label="Load Exercise Chart"
+              isIconOnly
+              className="z-1"
+              size="sm"
+              variant="light"
+              onPress={() => {}}
+            >
+              <ChartIcon size={22} />
+            </Button>
+          }
         />
         <div className="flex flex-col justify-center">
           {dateSetListMapReversed.size === 0 ? (
@@ -546,7 +559,7 @@ export default function ExerciseDetails() {
                 ))}
               </div>
               {tabPage === "history" && (
-                <div className="flex flex-col gap-2.5">
+                <div className="flex flex-col gap-2">
                   {(showWarmupsCheckbox.current ||
                     showMultisetsCheckbox.current ||
                     showPaceCheckbox.current) && (
