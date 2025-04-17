@@ -49,8 +49,8 @@ import {
   useWorkoutList,
 } from "../hooks";
 
-type WorkoutTemplateNote = {
-  note: string | null;
+type WorkoutTemplateComment = {
+  comment: string | null;
 };
 
 export default function WorkoutDetails() {
@@ -59,11 +59,11 @@ export default function WorkoutDetails() {
   const workoutModal = useDisclosure();
   const userWeightModal = useDisclosure();
 
-  const [workoutNote, setWorkoutNote] = useState<string>("");
-  const [workoutTemplateNote, setWorkoutTemplateNote] = useState<string | null>(
-    null
-  );
-  const [showWorkoutTemplateNote, setShowWorkoutTemplateNote] =
+  const [workoutComment, setWorkoutComment] = useState<string>("");
+  const [workoutTemplateNote, setWorkoutTemplateComment] = useState<
+    string | null
+  >(null);
+  const [showWorkoutTemplateComment, setShowWorkoutTemplateComment] =
     useState<boolean>(false);
 
   const {
@@ -158,9 +158,10 @@ export default function WorkoutDetails() {
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
-      "toggle-workout-template-note": {
-        text: "Toggle Workout Template Note",
-        function: () => setShowWorkoutTemplateNote(!showWorkoutTemplateNote),
+      "toggle-workout-template-comment": {
+        text: "Toggle Workout Template Comment",
+        function: () =>
+          setShowWorkoutTemplateComment(!showWorkoutTemplateComment),
         className: workoutTemplateNote === null ? "hidden" : "",
       },
       "load-workout-template": {
@@ -174,7 +175,7 @@ export default function WorkoutDetails() {
     };
   }, [
     workoutTemplateNote,
-    showWorkoutTemplateNote,
+    showWorkoutTemplateComment,
     handleOpenWorkoutListModal,
     handleOpenWorkoutTemplateListModal,
   ]);
@@ -201,26 +202,26 @@ export default function WorkoutDetails() {
     setIsUserWeightOlderThanOneWeek(false);
   };
 
-  const getWorkoutTemplateNote = async (workoutTemplateId: number) => {
+  const getWorkoutTemplateComment = async (workoutTemplateId: number) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const result = await db.select<WorkoutTemplateNote[]>(
-        "SELECT note FROM workout_templates WHERE id = $1",
+      const result = await db.select<WorkoutTemplateComment[]>(
+        "SELECT comment FROM workout_templates WHERE id = $1",
         [workoutTemplateId]
       );
 
-      const note = result[0].note;
+      const comment = result[0].comment;
 
-      if (!note) return;
+      if (!comment) return;
 
       if (workoutTemplateNote === null) {
-        setWorkoutTemplateNote(note);
+        setWorkoutTemplateComment(comment);
       } else {
-        // If a Workout Template note already exists, extend existing note
-        const newNote = workoutTemplateNote.concat(", ", note);
+        // If a Workout Template comment already exists, extend existing comment
+        const newComment = workoutTemplateNote.concat(", ", comment);
 
-        setWorkoutTemplateNote(newNote);
+        setWorkoutTemplateComment(newComment);
       }
     } catch (error) {
       console.log(error);
@@ -268,7 +269,7 @@ export default function WorkoutDetails() {
         };
         setWorkoutNumbers(workoutNumbers);
 
-        setWorkoutNote(workout.note === null ? "" : workout.note);
+        setWorkoutComment(workout.comment === null ? "" : workout.comment);
         setGroupedSets(groupedSetList);
 
         populateIncompleteSets(groupedSetList);
@@ -276,7 +277,7 @@ export default function WorkoutDetails() {
         workout.formattedDate = FormatDateString(workout.date);
 
         if (workout.workout_template_id !== 0) {
-          await getWorkoutTemplateNote(workout.workout_template_id);
+          await getWorkoutTemplateComment(workout.workout_template_id);
         }
 
         setWorkout(workout);
@@ -342,7 +343,7 @@ export default function WorkoutDetails() {
 
     populateIncompleteSets(updatedGroupedSetList);
 
-    await getWorkoutTemplateNote(workoutTemplate.id);
+    await getWorkoutTemplateComment(workoutTemplate.id);
 
     toast.success("Workout Template Loaded");
     workoutTemplateListModal.onClose();
@@ -421,8 +422,8 @@ export default function WorkoutDetails() {
       <WorkoutModal
         workoutModal={workoutModal}
         workout={workout}
-        workoutNote={workoutNote}
-        setWorkoutNote={setWorkoutNote}
+        workoutComment={workoutComment}
+        setWorkoutComment={setWorkoutComment}
         workoutTemplateNote={workoutTemplateNote}
         buttonAction={handleWorkoutModalSaveButton}
       />
@@ -593,12 +594,12 @@ export default function WorkoutDetails() {
             workoutNumbers.numExercises,
             "Exercise"
           )}, ${FormatNumItemsString(workoutNumbers.numSets, "Set")}`}
-          note={workout.note}
+          note={workout.comment}
           detailsType="Workout"
           editButtonAction={() => workoutModal.onOpen()}
           useDetailsHeaderOptions={useDetailsHeaderOptions}
           extraContent={
-            showWorkoutTemplateNote && (
+            showWorkoutTemplateComment && (
               <div className="flex justify-center w-full">
                 <span className="break-all font-medium text-stone-500">
                   {workoutTemplateNote}

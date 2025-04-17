@@ -81,7 +81,7 @@ export const useWorkoutList = (
           (item.formattedDate
             ?.toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-            item.note
+            item.comment
               ?.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase()) ||
             item.workoutTemplate?.name
@@ -185,7 +185,7 @@ export const useWorkoutList = (
           workout_template_id: row.workout_template_id,
           date: row.date,
           exercise_order: row.exercise_order,
-          note: row.note,
+          comment: row.comment,
           routine_id: row.routine_id,
           numSets: row.numSets,
           formattedDate: formattedDate,

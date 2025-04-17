@@ -6,7 +6,7 @@ export const DefaultNewWorkout = () => {
     workout_template_id: 0,
     date: "",
     exercise_order: "",
-    note: null,
+    comment: null,
     numSets: 0,
     numExercises: 0,
     routine_id: 0,

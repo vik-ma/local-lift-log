@@ -47,7 +47,7 @@ type OperationType =
 export default function WorkoutList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("edit");
-  const [newWorkoutNote, setNewWorkoutNote] = useState<string>("");
+  const [newWorkoutComment, setNewWorkoutComment] = useState<string>("");
   const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
     Set<string>
   >(new Set());
@@ -185,7 +185,7 @@ export default function WorkoutList() {
   const resetOperatingWorkout = () => {
     setOperatingWorkout(defaultWorkout);
     setOperationType("edit");
-    setNewWorkoutNote("");
+    setNewWorkoutComment("");
   };
 
   const handleWorkoutOptionSelection = (key: string, workout: Workout) => {
@@ -211,7 +211,7 @@ export default function WorkoutList() {
   const editWorkout = (workout: Workout) => {
     setOperationType("edit");
     setOperatingWorkout(workout);
-    setNewWorkoutNote(workout.note ?? "");
+    setNewWorkoutComment(workout.comment ?? "");
     workoutModal.onOpen();
   };
 
@@ -455,8 +455,8 @@ export default function WorkoutList() {
       <WorkoutModal
         workoutModal={workoutModal}
         workout={operatingWorkout}
-        workoutNote={newWorkoutNote}
-        setWorkoutNote={setNewWorkoutNote}
+        workoutComment={newWorkoutComment}
+        setWorkoutComment={setNewWorkoutComment}
         workoutTemplateNote={null}
         buttonAction={updateWorkout}
         header={operatingWorkout.formattedDate}

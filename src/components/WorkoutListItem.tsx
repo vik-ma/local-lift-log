@@ -66,9 +66,9 @@ export const WorkoutListItem = ({
         ) : (
           <span className="text-xs text-stone-400">Empty</span>
         )}
-        {selectedWorkoutProperties.has("note") && (
+        {selectedWorkoutProperties.has("comment") && (
           <span className="break-all text-xs text-stone-500 text-left">
-            {workout.note}
+            {workout.comment}
           </span>
         )}
       </div>

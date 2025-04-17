@@ -44,7 +44,7 @@ export const CreateDefaultUserSettings = async (
 
   const default_calculation_tab = "plate";
 
-  const shown_workout_properties = "template,routine,note";
+  const shown_workout_properties = "template,routine,comment";
 
   const default_plate_collection_id = 1;
 
@@ -58,11 +58,9 @@ export const CreateDefaultUserSettings = async (
 
   const shown_time_period_properties = "ongoing,diet-phase,injury,note";
 
-
   const show_warmups_in_exercise_details = 1;
   const show_multisets_in_exercise_details = 1;
   const show_pace_in_exercise_details = 1;
-
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);

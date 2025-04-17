@@ -17,8 +17,8 @@ import { InfoIcon } from "../../assets";
 type WorkoutModalProps = {
   workoutModal: UseDisclosureReturnType;
   workout: Workout;
-  workoutNote: string;
-  setWorkoutNote: React.Dispatch<React.SetStateAction<string>>;
+  workoutComment: string;
+  setWorkoutComment: React.Dispatch<React.SetStateAction<string>>;
   workoutTemplateNote: string | null;
   buttonAction: (updatedWorkout: Workout) => void;
   header?: string;
@@ -33,8 +33,8 @@ type WorkoutModalProps = {
 export const WorkoutModal = ({
   workoutModal,
   workout,
-  workoutNote,
-  setWorkoutNote,
+  workoutComment,
+  setWorkoutComment,
   workoutTemplateNote,
   buttonAction,
   header = "Workout Details",
@@ -46,9 +46,9 @@ export const WorkoutModal = ({
   handleReassignRoutineButton,
 }: WorkoutModalProps) => {
   const handleSaveButton = () => {
-    const noteToInsert = ConvertEmptyStringToNull(workoutNote);
+    const commentToInsert = ConvertEmptyStringToNull(workoutComment);
 
-    const updatedWorkout: Workout = { ...workout, note: noteToInsert };
+    const updatedWorkout: Workout = { ...workout, comment: commentToInsert };
 
     buttonAction(updatedWorkout);
   };
@@ -78,9 +78,9 @@ export const WorkoutModal = ({
                   <h3 className="font-medium px-0.5">Workout Note</h3>
                   <Input
                     aria-label="Workout Note Input"
-                    value={workoutNote}
+                    value={workoutComment}
                     variant="faded"
-                    onValueChange={(value) => setWorkoutNote(value)}
+                    onValueChange={(value) => setWorkoutComment(value)}
                     isClearable
                   />
                 </div>

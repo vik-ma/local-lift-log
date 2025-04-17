@@ -236,7 +236,7 @@ export type Workout = {
   workout_template_id: number;
   date: string;
   exercise_order: string;
-  note: string | null;
+  comment: string | null;
   routine_id: number;
   numSets?: number;
   numExercises?: number;
