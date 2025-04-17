@@ -80,6 +80,9 @@ export default function ExerciseDetails() {
     paceUnit,
     chartDataUnitCategoryMap,
     assignDefaultUnits,
+    isChartDataLoaded,
+    fillInLoadExerciseOptions,
+    loadExerciseOptionsModal,
   } = chartAnalytics;
 
   const tabPages = useRef<string[][]>([["history", "Exercise History"]]);
@@ -120,10 +123,6 @@ export default function ExerciseDetails() {
   const navigate = useNavigate();
 
   const initialized = useRef<boolean>(false);
-
-  // TODO: ADD COMMENTMAP
-  // TODO: ADD MULTISETMAP
-  // TODO: ADD DEFAULT LOAD EXERCISE OPTIONS AND MAKE CHARTDATA ETC
 
   const getDateSetListMap = async (
     weightUnit: string,
@@ -361,7 +360,6 @@ export default function ExerciseDetails() {
       setShowMultisets(!!userSettings.show_multisets_in_exercise_details);
       setShowPace(!!userSettings.show_pace_in_exercise_details);
 
-      // TODO: ADD DEFAULT LOAD EXERCISE OPTIONS FOR CHART DATA
       await getDateSetListMap(
         weightUnit,
         distanceUnit,
@@ -473,6 +471,23 @@ export default function ExerciseDetails() {
     ignoreMultisets: boolean
   ) => {};
 
+  const handleClickChartButton = () => {
+    if (exercise === undefined) return;
+
+    if (isChartDataLoaded.current) {
+      setShowChart(true);
+    } else {
+      fillInLoadExerciseOptions(
+        exercise.chart_load_exercise_options,
+        exercise.chart_load_exercise_options_categories,
+        exercise,
+        false
+      );
+
+      loadExerciseOptionsModal.onOpen();
+    }
+  };
+
   if (
     exercise === undefined ||
     userSettings === undefined ||
@@ -531,7 +546,7 @@ export default function ExerciseDetails() {
                 className="z-1"
                 size="sm"
                 variant="light"
-                onPress={() => setShowChart(true)}
+                onPress={handleClickChartButton}
               >
                 <ChartIcon size={22} />
               </Button>
