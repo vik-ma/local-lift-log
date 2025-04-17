@@ -8,9 +8,8 @@ import {
 import { CrossIcon, EditIcon, VerticalMenuIcon } from "../assets";
 import { UseDetailsHeaderOptionsMenuReturnType } from "../typings";
 import { ReactNode, useMemo } from "react";
-import { FavoriteButton } from "./FavoriteButton";
 
-type DetailsHeaderProps<T> = {
+type DetailsHeaderProps = {
   header: string;
   subHeader: string;
   note: string | null;
@@ -18,12 +17,11 @@ type DetailsHeaderProps<T> = {
   editButtonAction: () => void;
   useDetailsHeaderOptions: UseDetailsHeaderOptionsMenuReturnType;
   extraContent?: ReactNode;
-  isFavorite?: boolean;
-  item?: T;
-  toggleFavorite?: (item: T, key?: string) => void;
+  extraLeftButton1?: ReactNode;
+  extraLeftButton2?: ReactNode;
 };
 
-export const DetailsHeader = <T,>({
+export const DetailsHeader = ({
   header,
   subHeader,
   note,
@@ -31,10 +29,9 @@ export const DetailsHeader = <T,>({
   editButtonAction,
   useDetailsHeaderOptions,
   extraContent,
-  isFavorite,
-  item,
-  toggleFavorite,
-}: DetailsHeaderProps<T>) => {
+  extraLeftButton1,
+  extraLeftButton2,
+}: DetailsHeaderProps) => {
   const { showNote, setShowNote, menuItems, handleOptionMenuSelection } =
     useDetailsHeaderOptions;
 
@@ -49,24 +46,14 @@ export const DetailsHeader = <T,>({
     return true;
   }, [menuItems, note]);
 
-  const showFavoriteButton =
-    isFavorite !== undefined &&
-    item !== undefined &&
-    toggleFavorite !== undefined;
-
   return (
     <div className="flex flex-col gap-3.5">
-      <div className="relative w-full flex">
+      <div className="relative w-full flex flex-col">
         <div className="absolute left-0 top-0">
-          {showFavoriteButton && (
-            <FavoriteButton
-              name={header}
-              isFavorite={isFavorite}
-              item={item}
-              toggleFavorite={toggleFavorite}
-              isInDetailsHeader
-            />
-          )}
+          <div className="flex flex-col gap-0.5">
+            {extraLeftButton1}
+            {extraLeftButton2}
+          </div>
         </div>
         <div className="flex flex-col gap-0.5 w-full">
           <div className="flex justify-center">

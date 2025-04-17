@@ -8,6 +8,7 @@ import {
   DetailsHeader,
   ExerciseMaxValues,
   LoadExerciseOptionsModal,
+  FavoriteButton,
 } from "../components";
 import {
   GetExerciseWithId,
@@ -67,7 +68,7 @@ export default function ExerciseDetails() {
   const [tabPage, setTabPage] = useState<TabPage>("history");
 
   const chartAnalytics = useChartAnalytics();
-  
+
   const {
     userSettings,
     setUserSettings,
@@ -423,6 +424,8 @@ export default function ExerciseDetails() {
 
     const success = await UpdateExercise(updatedExercise);
 
+    console.log(success)
+
     if (!success) return;
 
     setExercise(updatedExercise);
@@ -503,9 +506,15 @@ export default function ExerciseDetails() {
           detailsType="Exercise"
           editButtonAction={() => exerciseModal.onOpen()}
           useDetailsHeaderOptions={useDetailsHeaderOptions}
-          isFavorite={!!exercise.is_favorite}
-          item={exercise}
-          toggleFavorite={toggleFavorite}
+          extraLeftButton1={
+            <FavoriteButton
+              name={exercise.name}
+              isFavorite={!!exercise.is_favorite}
+              item={exercise}
+              toggleFavorite={toggleFavorite}
+              isInDetailsHeader
+            />
+          }
         />
         <div className="flex flex-col justify-center">
           {dateSetListMapReversed.size === 0 ? (
