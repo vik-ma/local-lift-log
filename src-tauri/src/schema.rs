@@ -122,7 +122,7 @@ diesel::table! {
         workout_template_id -> Integer,
         date -> Text,
         exercise_order -> Text,
-        note -> Nullable<Text>,
+        comment -> Nullable<Text>,
         routine_id -> Integer,
     }
 }

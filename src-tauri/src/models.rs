@@ -130,7 +130,7 @@ pub struct Workout {
     pub workout_template_id: i32,
     pub date: String,
     pub exercise_order: String,
-    pub note: Option<String>,
+    pub comment: Option<String>,
     pub routine_id: i32,
 }
 
