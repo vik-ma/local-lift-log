@@ -28,6 +28,7 @@ import {
   ConvertNumberToTwoDecimals,
   ConvertDistanceValue,
   CalculateSpeedValue,
+  UpdateIsFavorite,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -422,9 +423,11 @@ export default function ExerciseDetails() {
       is_favorite: newFavoriteValue,
     };
 
-    const success = await UpdateExercise(updatedExercise);
-
-    console.log(success)
+    const success = await UpdateIsFavorite(
+      updatedExercise.id,
+      "exercise",
+      newFavoriteValue
+    );
 
     if (!success) return;
 
