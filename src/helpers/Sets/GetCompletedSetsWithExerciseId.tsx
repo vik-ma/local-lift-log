@@ -7,12 +7,12 @@ export const GetCompletedSetsWithExerciseId = async (exerciseId: number) => {
 
     const result = await db.select<WorkoutSet[]>(
       `SELECT sets.*, 
-        (SELECT json_group_object(workouts.id, workouts.comment)
+        (SELECT workouts.comment
          FROM workouts
          WHERE 
           workouts.id = sets.workout_id
           AND workouts.comment IS NOT NULL
-         ) AS workout_comment_json
+         ) AS workout_comment
        FROM 
        sets
         WHERE exercise_id = $1 
@@ -25,29 +25,9 @@ export const GetCompletedSetsWithExerciseId = async (exerciseId: number) => {
       [exerciseId]
     );
 
-    if (result.length === 0)
-      return {
-        fullSetList: [] as WorkoutSet[],
-        workoutCommentMap: new Map() as Map<number, string>,
-      };
-
-    const workoutCommentJson = JSON.parse(
-      result[0].workout_comment_json ?? "{}"
-    );
-
-    const workoutCommentMap: Map<number, string> = new Map(
-      Object.entries(workoutCommentJson).map(([key, value]) => [
-        Number(key),
-        value as string,
-      ])
-    );
-
-    return { fullSetList: result, workoutCommentMap: workoutCommentMap };
+    return result;
   } catch (error) {
     console.log(error);
-    return {
-      fullSetList: [] as WorkoutSet[],
-      workoutCommentMap: new Map() as Map<number, string>,
-    };
+    return [];
   }
 };

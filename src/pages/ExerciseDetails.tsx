@@ -134,8 +134,7 @@ export default function ExerciseDetails() {
     paceUnit: string,
     locale: string
   ) => {
-    const { fullSetList, workoutCommentMap } =
-      await GetCompletedSetsWithExerciseId(Number(id));
+    const fullSetList = await GetCompletedSetsWithExerciseId(Number(id));
 
     if (fullSetList.length === 0) {
       isSetListLoaded.current = true;
@@ -309,19 +308,17 @@ export default function ExerciseDetails() {
         dateMap.set(date, [set]);
       }
 
-      if (workoutCommentMap.has(set.workout_id)) {
-        const workoutComment = workoutCommentMap.get(set.workout_id)!;
-
+      if (set.workout_comment !== null) {
         if (dateWorkoutCommentMap.current.has(date)) {
           // Append Workout comment to existing Map (value) for date
           dateWorkoutCommentMap.current
             .get(date)!
-            .set(set.workout_id, workoutComment);
+            .set(set.workout_id, set.workout_comment!);
         } else {
           // Create new Map (value) for date with Workout comment
           dateWorkoutCommentMap.current.set(
             date,
-            new Map([[set.workout_id, workoutComment]])
+            new Map([[set.workout_id, set.workout_comment!]])
           );
         }
       }
