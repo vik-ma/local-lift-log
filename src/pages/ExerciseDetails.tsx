@@ -9,6 +9,7 @@ import {
   ExerciseMaxValues,
   LoadExerciseOptionsModal,
   FavoriteButton,
+  AnalyticsChart,
 } from "../components";
 import {
   GetExerciseWithId,
@@ -84,6 +85,7 @@ export default function ExerciseDetails() {
     isChartDataLoaded,
     fillInLoadExerciseOptions,
     loadExerciseOptionsModal,
+    loadExerciseStats,
   } = chartAnalytics;
 
   const tabPages = useRef<string[][]>([["history", "Exercise History"]]);
@@ -491,10 +493,24 @@ export default function ExerciseDetails() {
     }
   };
 
-  const loadExerciseStats = async (
+  const handleLoadExerciseStats = async (
     ignoreWarmups: boolean,
     ignoreMultisets: boolean
-  ) => {};
+  ) => {
+    if (exercise === undefined) return;
+
+    const success = loadExerciseStats(
+      dateSetListMap,
+      exercise,
+      ignoreWarmups,
+      ignoreMultisets,
+      false
+    );
+
+    if (success) {
+      setShowChart(true);
+    }
+  };
 
   const handleClickChartButton = () => {
     if (exercise === undefined) return;
@@ -540,11 +556,30 @@ export default function ExerciseDetails() {
         useChartAnalytics={chartAnalytics}
         selectedExercise={exercise}
         chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
-        loadExerciseStats={loadExerciseStats}
+        handleLoadExerciseStats={handleLoadExerciseStats}
       />
       {showChart ? (
-        <div>
-          <Button onPress={() => setShowChart(false)}>Back</Button>
+        <div className="absolute left-0 w-screen">
+          <div className="flex flex-col gap-3">
+            <AnalyticsChart useChartAnalytics={chartAnalytics} />
+            <div className="flex gap-2 justify-center">
+              <Button
+                className="font-medium"
+                variant="flat"
+                color="secondary"
+                onPress={() => {}}
+              >
+                Load Exercise Stat
+              </Button>
+              <Button
+                className="font-medium"
+                variant="flat"
+                onPress={() => setShowChart(false)}
+              >
+                Back To Exercise Details
+              </Button>
+            </div>
+          </div>
         </div>
       ) : (
         <div className="flex flex-col gap-2.5">

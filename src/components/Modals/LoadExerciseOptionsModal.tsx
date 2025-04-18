@@ -29,7 +29,7 @@ type LoadExerciseOptionsModalProps = {
   useChartAnalytics: UseChartAnalyticsReturnType;
   selectedExercise: Exercise | undefined;
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>;
-  loadExerciseStats: (
+  handleLoadExerciseStats: (
     ignoreWarmups: boolean,
     ignoreMultisets: boolean
   ) => Promise<void>;
@@ -39,7 +39,7 @@ export const LoadExerciseOptionsModal = ({
   useChartAnalytics,
   selectedExercise,
   chartDataUnitCategoryMap,
-  loadExerciseStats,
+  handleLoadExerciseStats,
 }: LoadExerciseOptionsModalProps) => {
   const {
     loadExerciseOptionsModal,
@@ -357,7 +357,7 @@ export const LoadExerciseOptionsModal = ({
                     )}
                   </div>
                 </ScrollShadow>
-                {loadExerciseStats !== undefined && (
+                {handleLoadExerciseStats !== undefined && (
                   <div className="px-0.5 py-0.5 flex gap-12">
                     <Checkbox
                       className="hover:underline"
@@ -460,7 +460,7 @@ export const LoadExerciseOptionsModal = ({
                     loadExerciseOptionsUnitCategoryPrimary === undefined
                   }
                   onPress={() =>
-                    loadExerciseStats(ignoreWarmups, ignoreMultisets)
+                    handleLoadExerciseStats(ignoreWarmups, ignoreMultisets)
                   }
                 >
                   Load

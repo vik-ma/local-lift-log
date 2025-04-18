@@ -1569,7 +1569,7 @@ export default function Analytics() {
         useChartAnalytics={chartAnalytics}
         selectedExercise={selectedExercise}
         chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
-        loadExerciseStats={handleLoadExerciseOptions}
+        handleLoadExerciseStats={handleLoadExerciseOptions}
       />
       <FilterMinAndMaxDatesModal
         filterMinAndMaxDatesModal={filterMinAndMaxDatesModal}
