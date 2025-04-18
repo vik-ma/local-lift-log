@@ -1027,17 +1027,21 @@ export default function Analytics() {
     }
 
     for (const [date, setList] of dateMap) {
-      const { analyticsValuesMap, commentMap, includesMultiset } =
-        GetAnalyticsValuesForSetList(
-          setList,
-          loadExerciseOptions,
-          weightUnit,
-          distanceUnit,
-          speedUnit,
-          paceUnit,
-          ignoreWarmups,
-          ignoreMultisets
-        );
+      const {
+        analyticsValuesMap,
+        commentMap,
+        includesMultiset,
+        workoutCommentMap,
+      } = GetAnalyticsValuesForSetList(
+        setList,
+        loadExerciseOptions,
+        weightUnit,
+        distanceUnit,
+        speedUnit,
+        paceUnit,
+        ignoreWarmups,
+        ignoreMultisets
+      );
 
       const chartDataItem: ChartDataItem = {
         date,
@@ -1079,6 +1083,19 @@ export default function Analytics() {
 
       if (includesMultiset) {
         includesMultisetMap.current.set(date, new Set(chartDataKeys));
+      }
+
+      for (const [, comment] of workoutCommentMap) {
+        const commentLabel = "Workout Comment";
+
+        addChartComment(
+          updatedChartCommentMap,
+          date,
+          chartDataKeys,
+          commentLabel,
+          comment,
+          areCommentsAlreadyLoaded
+        );
       }
     }
 

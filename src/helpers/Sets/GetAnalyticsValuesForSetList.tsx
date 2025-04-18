@@ -19,6 +19,7 @@ export const GetAnalyticsValuesForSetList = (
   const analyticsValuesMap = new Map<ChartDataExerciseCategoryBase, number>();
   const commentMap = new Map<number, string>();
   let includesMultiset = false;
+  const workoutCommentMap = new Map<number, string>();
 
   // If -1 is returned for option, no tracked value was found
   let minWeight = Infinity;
@@ -302,6 +303,10 @@ export const GetAnalyticsValuesForSetList = (
     if (set.multiset_id > 0) {
       includesMultiset = true;
     }
+
+    if (set.workout_comment !== null) {
+      workoutCommentMap.set(set.workout_id, set.workout_comment!);
+    }
   }
 
   if (loadExerciseOptions.has("weight_min")) {
@@ -533,5 +538,10 @@ export const GetAnalyticsValuesForSetList = (
     analyticsValuesMap.set("set_body_weight", bodyWeight);
   }
 
-  return { analyticsValuesMap, commentMap, includesMultiset };
+  return {
+    analyticsValuesMap,
+    commentMap,
+    includesMultiset,
+    workoutCommentMap,
+  };
 };
