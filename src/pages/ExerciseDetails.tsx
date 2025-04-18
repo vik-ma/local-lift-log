@@ -701,7 +701,7 @@ export default function ExerciseDetails() {
                                       ([id, comment]) => (
                                         <div
                                           key={id}
-                                          className="px-[3px] leading-tight text-xs text-indigo-400"
+                                          className="px-[3px] leading-tight text-xs text-indigo-700 truncate"
                                         >
                                           {comment}
                                         </div>
