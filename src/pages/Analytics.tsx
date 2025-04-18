@@ -992,7 +992,8 @@ export default function Analytics() {
 
     const exerciseId = selectedExercise.id;
 
-    const fullSetList = await GetCompletedSetsWithExerciseId(exerciseId);
+    const { fullSetList, workoutCommentMap } =
+      await GetCompletedSetsWithExerciseId(exerciseId);
 
     if (fullSetList.length === 0) return;
 

@@ -133,7 +133,8 @@ export default function ExerciseDetails() {
     paceUnit: string,
     locale: string
   ) => {
-    const fullSetList = await GetCompletedSetsWithExerciseId(Number(id));
+    const { fullSetList, workoutCommentMap } =
+      await GetCompletedSetsWithExerciseId(Number(id));
 
     if (fullSetList.length === 0) {
       isSetListLoaded.current = true;

@@ -139,6 +139,7 @@ export type WorkoutSet = {
   isEditedInMultiset?: boolean;
   pace?: number;
   paceUnit?: string;
+  workout_comment_json?: string;
 };
 
 export type GroupedWorkoutSet = {
