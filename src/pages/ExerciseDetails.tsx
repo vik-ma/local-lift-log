@@ -84,6 +84,7 @@ export default function ExerciseDetails() {
     isChartDataLoaded,
     fillInLoadExerciseOptions,
     loadExerciseOptionsModal,
+    dateWorkoutCommentMap,
   } = chartAnalytics;
 
   const tabPages = useRef<string[][]>([["history", "Exercise History"]]);
@@ -306,6 +307,23 @@ export default function ExerciseDetails() {
         dateMap.get(date)!.push(set);
       } else {
         dateMap.set(date, [set]);
+      }
+
+      if (workoutCommentMap.has(set.workout_id)) {
+        const workoutComment = workoutCommentMap.get(set.workout_id)!;
+
+        if (dateWorkoutCommentMap.current.has(date)) {
+          // Append Workout comment to existing Map (value) for date
+          dateWorkoutCommentMap.current
+            .get(date)!
+            .set(set.workout_id, workoutComment);
+        } else {
+          // Create new Map (value) for date with Workout comment
+          dateWorkoutCommentMap.current.set(
+            date,
+            new Map([[set.workout_id, workoutComment]])
+          );
+        }
       }
     }
 
@@ -666,6 +684,9 @@ export default function ExerciseDetails() {
                             return null;
                           }
 
+                          const workoutCommentMap =
+                            dateWorkoutCommentMap.current.get(date);
+
                           let setNum = 0;
 
                           return (
@@ -677,6 +698,20 @@ export default function ExerciseDetails() {
                                 {date}
                               </h4>
                               <div className="flex flex-col pt-0.5">
+                                {workoutCommentMap !== undefined && (
+                                  <div className="flex flex-col">
+                                    {Array.from(workoutCommentMap).map(
+                                      ([id, comment]) => (
+                                        <div
+                                          key={id}
+                                          className="px-[3px] leading-tight text-xs text-indigo-400"
+                                        >
+                                          {comment}
+                                        </div>
+                                      )
+                                    )}
+                                  </div>
+                                )}
                                 {setList.map((set) => {
                                   if (!showWarmups && set.is_warmup === 1)
                                     return null;
