@@ -51,7 +51,6 @@ import {
   FormatDateToShortString,
   GetAllDietLogs,
   GetAllUserWeights,
-  GetAnalyticsValuesForSetList,
   GetCompletedSetsWithExerciseId,
   GetTimeCompletedForSetsWithExerciseId,
   GetUserMeasurementsWithMeasurementId,
@@ -61,11 +60,6 @@ import {
   UpdateItemInList,
 } from "../helpers";
 import toast from "react-hot-toast";
-
-// WHEN ADDING NEW STATS:
-// UPDATE useDefaultChartMapsAndConfig
-// IF STAT HAS ID (EXERCISE STAT OR EXERCISE GROUP STAT)
-// UPDATE getChartDataCategoryTypeAndId
 
 export default function Analytics() {
   const [listModalPage, setAnalyticsChartListModalPage] =
@@ -87,16 +81,12 @@ export default function Analytics() {
     userSettings,
     setUserSettings,
     weightUnit,
-    distanceUnit,
-    speedUnit,
-    paceUnit,
     circumferenceUnit,
     chartData,
     chartDataAreas,
     setChartDataAreas,
     chartDataLines,
     setChartDataLines,
-    primaryDataKey,
     secondaryDataKey,
     setChartLineUnitCategorySet,
     shownChartDataAreas,
@@ -114,7 +104,6 @@ export default function Analytics() {
     filterMaxDate,
     loadedMeasurements,
     setLoadedMeasurements,
-    loadExerciseOptions,
     loadExerciseOptionsUnitCategoryPrimary,
     loadExerciseOptionsUnitCategorySecondary,
     allChartDataCategories,
@@ -124,19 +113,15 @@ export default function Analytics() {
     loadedCharts,
     isChartDataLoaded,
     highestCategoryValues,
-    loadExerciseOptionsMap,
     timePeriodListModal,
     filterMinAndMaxDatesModal,
     loadExerciseOptionsModal,
     deleteModal,
-    includesMultisetMap,
     disabledExerciseGroups,
-    updateExerciseStatUnit,
     resetChart,
     assignDefaultUnits,
     updateChartDataAndFilteredHighestCategoryValues,
     fillInLoadExerciseOptions,
-    updateChartCommentMapForExercise,
     fillInMissingChartDates,
     mergeChartData,
     updateCustomMinAndMaxDatesFilter,

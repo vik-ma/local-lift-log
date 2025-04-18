@@ -46,6 +46,11 @@ import {
 import { ChartConfig } from "../components/ui/chart";
 import toast from "react-hot-toast";
 
+// WHEN ADDING NEW STATS:
+// UPDATE useDefaultChartMapsAndConfig
+// IF STAT HAS ID (EXERCISE STAT OR EXERCISE GROUP STAT)
+// UPDATE getChartDataCategoryTypeAndId
+
 export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [weightUnit, setWeightUnit] = useState<string>("kg");
@@ -1759,12 +1764,10 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
     disabledExerciseGroups,
     timePeriodIdSet,
     shownTimePeriodIdSet,
-    updateExerciseStatUnit,
     resetChart,
     assignDefaultUnits,
     updateChartDataAndFilteredHighestCategoryValues,
     fillInLoadExerciseOptions,
-    updateChartCommentMapForExercise,
     fillInMissingChartDates,
     mergeChartData,
     updateShownChartLines,

@@ -1391,10 +1391,6 @@ export type UseChartAnalyticsReturnType = {
   disabledExerciseGroups: React.RefObject<string[]>;
   timePeriodIdSet: Set<string>;
   shownTimePeriodIdSet: Set<string>;
-  updateExerciseStatUnit: (
-    chartName: ChartDataExerciseCategory,
-    optionCategory: ChartDataUnitCategory
-  ) => void;
   resetChart: () => void;
   assignDefaultUnits: (userSettings: UserSettings) => void;
   updateChartDataAndFilteredHighestCategoryValues: (
@@ -1408,10 +1404,6 @@ export type UseChartAnalyticsReturnType = {
     selectedExercise: Exercise,
     isInAnalytics: boolean
   ) => void;
-  updateChartCommentMapForExercise: (exerciseId: number) => {
-    areCommentsAlreadyLoaded: boolean;
-    updatedChartCommentMap: Map<string, ChartComment[]>;
-  };
   fillInMissingChartDates: (
     loadedChartData: ChartDataItem[],
     locale: string
