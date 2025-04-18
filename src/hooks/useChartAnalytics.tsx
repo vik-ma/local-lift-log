@@ -156,10 +156,6 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
     new Map()
   );
 
-  const dateWorkoutCommentMap = useRef<Map<string, Map<number, string>>>(
-    new Map()
-  );
-
   const disabledExerciseGroups = useRef<string[]>([]);
 
   const { timePeriodIdSet, shownTimePeriodIdSet } = useChartTimePeriodIdSets(
@@ -1523,7 +1519,6 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
     loadExerciseOptionsModal,
     validLoadExerciseOptionsCategories,
     includesMultisetMap,
-    dateWorkoutCommentMap,
     disabledExerciseGroups,
     timePeriodIdSet,
     shownTimePeriodIdSet,

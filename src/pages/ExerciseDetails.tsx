@@ -84,7 +84,6 @@ export default function ExerciseDetails() {
     isChartDataLoaded,
     fillInLoadExerciseOptions,
     loadExerciseOptionsModal,
-    dateWorkoutCommentMap,
   } = chartAnalytics;
 
   const tabPages = useRef<string[][]>([["history", "Exercise History"]]);
@@ -124,6 +123,10 @@ export default function ExerciseDetails() {
   const paceRecords = useRef<PaceRecord[]>([]);
 
   const navigate = useNavigate();
+
+  const dateWorkoutCommentMap = useRef<Map<string, Map<number, string>>>(
+    new Map()
+  );
 
   const initialized = useRef<boolean>(false);
 

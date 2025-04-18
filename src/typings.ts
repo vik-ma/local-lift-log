@@ -1388,7 +1388,6 @@ export type UseChartAnalyticsReturnType = {
   loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
   validLoadExerciseOptionsCategories: Set<ChartDataUnitCategoryNoUndefined>;
   includesMultisetMap: React.RefObject<Map<string, Set<ChartDataCategory>>>;
-  dateWorkoutCommentMap: React.RefObject<Map<string, Map<number, string>>>;
   disabledExerciseGroups: React.RefObject<string[]>;
   timePeriodIdSet: Set<string>;
   shownTimePeriodIdSet: Set<string>;
