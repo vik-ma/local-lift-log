@@ -1459,4 +1459,11 @@ export type UseChartAnalyticsReturnType = {
   handleClickTimePeriod: (timePeriod: TimePeriod) => void;
   handleOpenTimePeriodListModal: () => Promise<void>;
   timePeriodList: UseTimePeriodListReturnType;
+  loadExerciseStats: (
+    fullSetList: WorkoutSet[],
+    exercise: Exercise,
+    ignoreWarmups: boolean,
+    ignoreMultisets: boolean,
+    isInAnalyticsPage: boolean
+  ) => boolean;
 };

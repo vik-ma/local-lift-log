@@ -39,12 +39,10 @@ import {
   ChartDataExerciseCategory,
   ChartDataExerciseCategoryBase,
   ChartDataItem,
-  ChartDataUnitCategory,
   ChartReferenceAreaItem,
   Exercise,
   Measurement,
   UserMeasurementValues,
-  WorkoutSet,
 } from "../typings";
 import {
   ConvertMeasurementValue,
@@ -150,6 +148,7 @@ export default function Analytics() {
     handleClickTimePeriod,
     timePeriodIdSet,
     timePeriodList,
+    loadExerciseStats,
   } = chartAnalytics;
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
@@ -984,7 +983,7 @@ export default function Analytics() {
     loadExerciseOptionsModal.onOpen();
   };
 
-  const loadExerciseStats = async (
+  const handleLoadExerciseOptions = async (
     ignoreWarmups: boolean,
     ignoreMultisets: boolean
   ) => {
@@ -996,223 +995,19 @@ export default function Analytics() {
 
     if (fullSetList.length === 0) return;
 
-    const loadedChartData: ChartDataItem[] = [];
-
-    const dateMap = new Map<string, WorkoutSet[]>();
-
-    const highestValueMap = new Map<ChartDataExerciseCategory, number>();
-
-    const { areCommentsAlreadyLoaded, updatedChartCommentMap } =
-      updateChartCommentMapForExercise(exerciseId);
-
-    const chartDataKeys: Set<ChartDataCategory> = new Set();
-
-    for (const option of loadExerciseOptions) {
-      const chartName: ChartDataExerciseCategory = `${option}_${exerciseId}`;
-      highestValueMap.set(chartName, -1);
-      chartDataKeys.add(chartName);
-    }
-
-    for (const set of fullSetList) {
-      const date = FormatDateToShortString(
-        new Date(set.time_completed!),
-        userSettings.locale
-      );
-
-      if (dateMap.has(date)) {
-        dateMap.get(date)!.push(set);
-      } else {
-        dateMap.set(date, [set]);
-      }
-    }
-
-    for (const [date, setList] of dateMap) {
-      const {
-        analyticsValuesMap,
-        commentMap,
-        includesMultiset,
-        workoutCommentMap,
-      } = GetAnalyticsValuesForSetList(
-        setList,
-        loadExerciseOptions,
-        weightUnit,
-        distanceUnit,
-        speedUnit,
-        paceUnit,
-        ignoreWarmups,
-        ignoreMultisets
-      );
-
-      const chartDataItem: ChartDataItem = {
-        date,
-      };
-
-      let shouldAddChartDataItem = false;
-
-      for (const [key, value] of analyticsValuesMap) {
-        const chartName: ChartDataCategory = `${key}_${exerciseId}`;
-
-        if (value > highestValueMap.get(chartName)!) {
-          highestValueMap.set(chartName, value);
-        }
-
-        if (value !== -1) {
-          shouldAddChartDataItem = true;
-          chartDataItem[chartName] = value;
-        }
-      }
-
-      if (shouldAddChartDataItem) {
-        loadedChartData.push(chartDataItem);
-      } else {
-        continue;
-      }
-
-      for (const [setNum, comment] of commentMap) {
-        const commentLabel = `${selectedExercise.name} Set ${setNum} Comment`;
-
-        addChartComment(
-          updatedChartCommentMap,
-          date,
-          chartDataKeys,
-          commentLabel,
-          comment,
-          areCommentsAlreadyLoaded
-        );
-      }
-
-      if (includesMultiset) {
-        includesMultisetMap.current.set(date, new Set(chartDataKeys));
-      }
-
-      for (const [, comment] of workoutCommentMap) {
-        const commentLabel = "Workout Comment";
-
-        addChartComment(
-          updatedChartCommentMap,
-          date,
-          chartDataKeys,
-          commentLabel,
-          comment,
-          areCommentsAlreadyLoaded
-        );
-      }
-    }
-
-    // Filter out categories with no values
-    const updatedHighestValueMap = new Map(
-      Array.from(highestValueMap).filter(([, value]) => value > -1)
+    const success = loadExerciseStats(
+      fullSetList,
+      selectedExercise,
+      ignoreWarmups,
+      ignoreMultisets,
+      true
     );
 
-    if (updatedHighestValueMap.size === 0) {
-      for (const chart of highestValueMap.keys()) {
-        loadedCharts.current.add(chart);
-      }
-
-      setSelectedExercise(undefined);
-      toast.error("No Values Found For Selected Stats");
-      loadExerciseOptionsModal.onClose();
-      return;
-    }
-
-    setChartCommentMap(updatedChartCommentMap);
-
-    // Sort by date, since Sets from GetCompletedSetsWithExerciseId are sorted by id
-    const sortedLoadedChartData = loadedChartData.sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-    );
-
-    const filledInChartData = fillInMissingChartDates(
-      sortedLoadedChartData,
-      userSettings.locale
-    );
-
-    const mergedChartData = mergeChartData(
-      filledInChartData,
-      chartData,
-      userSettings.locale
-    );
-
-    highestCategoryValues.current = new Map([
-      ...highestCategoryValues.current,
-      ...updatedHighestValueMap,
-    ]);
-
-    updateChartDataAndFilteredHighestCategoryValues(
-      mergedChartData,
-      filterMinDate,
-      filterMaxDate
-    );
-
-    const primaryDataKeys: ChartDataCategory[] = [];
-    const secondaryDataKeys: ChartDataCategory[] = [];
-
-    const chartLineUnitCategories = new Set<ChartDataUnitCategory>();
-
-    for (const option of loadExerciseOptions) {
-      const chartName: ChartDataCategory = `${option}_${exerciseId}`;
-
-      if (loadedCharts.current.has(chartName)) continue;
-
-      loadedCharts.current.add(chartName);
-
-      if (!updatedHighestValueMap.has(chartName)) continue;
-
-      const optionCategory = chartDataUnitCategoryMap.current.get(option);
-
-      chartDataUnitCategoryMap.current.set(chartName, optionCategory);
-
-      const chartLabel = `${loadExerciseOptionsMap.get(option)} [${
-        selectedExercise.name
-      }]`;
-
-      chartConfig.current[chartName] = {
-        label: chartLabel,
-      };
-
-      updateExerciseStatUnit(chartName, optionCategory);
-
-      if (loadExerciseOptionsUnitCategoryPrimary === optionCategory) {
-        primaryDataKeys.push(chartName);
-      } else {
-        secondaryDataKeys.push(chartName);
-        chartLineUnitCategories.add(optionCategory);
-      }
-    }
-
-    const currentChartAreaCategory =
-      chartDataUnitCategoryMap.current.get(primaryDataKey);
-
-    if (
-      loadExerciseOptionsUnitCategoryPrimary !== undefined &&
-      chartDataAreas.length > 0 &&
-      currentChartAreaCategory !== loadExerciseOptionsUnitCategoryPrimary
-    ) {
-      // Move current Chart Areas to Chart Lines if different categories
-      // (Needed because loadChartLines will update Chart Lines after loadChartAreas)
-      secondaryDataKeys.unshift(...chartDataAreas);
-      chartLineUnitCategories.add(currentChartAreaCategory);
-    }
-
-    if (
-      loadExerciseOptionsUnitCategoryPrimary !== undefined &&
-      primaryDataKeys.length > 0
-    ) {
-      loadChartAreas(primaryDataKeys);
-    }
-
-    if (secondaryDataKeys.length > 0) {
-      loadChartLines(
-        secondaryDataKeys,
-        Array.from(chartLineUnitCategories),
-        loadExerciseOptionsUnitCategorySecondary
-      );
-    }
-
-    await updateDefaultLoadExerciseOptions();
     setSelectedExercise(undefined);
-    isChartDataLoaded.current = true;
-    loadExerciseOptionsModal.onClose();
+
+    if (success) {
+      await updateDefaultLoadExerciseOptions();
+    }
   };
 
   const updateDefaultLoadExerciseOptions = async () => {
@@ -1773,7 +1568,7 @@ export default function Analytics() {
         useChartAnalytics={chartAnalytics}
         selectedExercise={selectedExercise}
         chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
-        loadExerciseStats={loadExerciseStats}
+        loadExerciseStats={handleLoadExerciseOptions}
       />
       <FilterMinAndMaxDatesModal
         filterMinAndMaxDatesModal={filterMinAndMaxDatesModal}
