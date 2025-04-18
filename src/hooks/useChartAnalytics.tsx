@@ -1464,7 +1464,7 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
   };
 
   const loadExerciseStats = (
-    fullSetList: WorkoutSet[],
+    dateMap: Map<string, WorkoutSet[]>,
     exercise: Exercise,
     ignoreWarmups: boolean,
     ignoreMultisets: boolean,
@@ -1473,8 +1473,6 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
     if (userSettings === undefined) return false;
 
     const loadedChartData: ChartDataItem[] = [];
-
-    const dateMap = new Map<string, WorkoutSet[]>();
 
     const highestValueMap = new Map<ChartDataExerciseCategory, number>();
 
@@ -1489,19 +1487,6 @@ export const useChartAnalytics = (): UseChartAnalyticsReturnType => {
         : option;
       highestValueMap.set(chartName, -1);
       chartDataKeys.add(chartName);
-    }
-
-    for (const set of fullSetList) {
-      const date = FormatDateToShortString(
-        new Date(set.time_completed!),
-        userSettings.locale
-      );
-
-      if (dateMap.has(date)) {
-        dateMap.get(date)!.push(set);
-      } else {
-        dateMap.set(date, [set]);
-      }
     }
 
     for (const [date, setList] of dateMap) {

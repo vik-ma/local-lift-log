@@ -43,6 +43,7 @@ import {
   Exercise,
   Measurement,
   UserMeasurementValues,
+  WorkoutSet,
 } from "../typings";
 import {
   ConvertMeasurementValue,
@@ -980,8 +981,23 @@ export default function Analytics() {
 
     if (fullSetList.length === 0) return;
 
+    const dateMap = new Map<string, WorkoutSet[]>();
+
+    for (const set of fullSetList) {
+      const date = FormatDateToShortString(
+        new Date(set.time_completed!),
+        userSettings.locale
+      );
+
+      if (dateMap.has(date)) {
+        dateMap.get(date)!.push(set);
+      } else {
+        dateMap.set(date, [set]);
+      }
+    }
+
     const success = loadExerciseStats(
-      fullSetList,
+      dateMap,
       selectedExercise,
       ignoreWarmups,
       ignoreMultisets,
