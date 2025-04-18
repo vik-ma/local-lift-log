@@ -298,7 +298,7 @@ const ChartTooltipContent = React.forwardRef<
         </div>
         {commentMap && dataKeys && (
           <div className="grid grid-cols-[max-content_1fr] max-w-[25rem] gap-x-1.5 text-stone-950 dark:text-stone-50">
-            {Array.from(commentMap).map((chartComment) => {
+            {Array.from(commentMap).map((chartComment, index) => {
               let showComment = false;
 
               for (const key of chartComment.dataKeys) {
@@ -312,7 +312,7 @@ const ChartTooltipContent = React.forwardRef<
               if (!showComment) return null;
 
               return (
-                <React.Fragment key={chartComment.label}>
+                <React.Fragment key={index}>
                   <span className="font-semibold max-w-[15rem] break-words">
                     {chartComment.label}:
                   </span>
