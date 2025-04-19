@@ -75,9 +75,9 @@ export const WorkoutModal = ({
                   </div>
                 )}
                 <div className="flex flex-col gap-1">
-                  <h3 className="font-medium px-0.5">Workout Note</h3>
+                  <h3 className="font-medium px-0.5">Workout Comment</h3>
                   <Input
-                    aria-label="Workout Note Input"
+                    aria-label="Workout Comment Input"
                     value={workoutComment}
                     variant="faded"
                     onValueChange={(value) => setWorkoutComment(value)}
