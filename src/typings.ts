@@ -1285,12 +1285,6 @@ export type ChartDataItem = {
   [key in ChartDataCategoryNoUndefined]?: number;
 };
 
-export type AnalyticsChartListModalPage =
-  | "exercise-list"
-  | "measurement-list"
-  | "time-period-list"
-  | "exercise-groups";
-
 export type ExerciseMaxListValue = {
   value: number;
   date: string;

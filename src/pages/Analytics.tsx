@@ -57,11 +57,10 @@ import {
   MeasurementUnitDropdown,
   PaceUnitDropdown,
   SpeedUnitDropdown,
-  TimePeriodListModal,
+  TimePeriodModalList,
   WeightUnitDropdown,
 } from "../components";
 import {
-  AnalyticsChartListModalPage,
   ChartDataCategory,
   ChartDataCategoryNoUndefined,
   ChartDataExerciseCategory,
@@ -105,6 +104,11 @@ import {
   GetValidatedUserSettingsUnits,
 } from "../helpers";
 import toast from "react-hot-toast";
+
+export type AnalyticsChartListModalPage =
+  | "measurement-list"
+  | "time-period-list"
+  | "exercise-groups";
 
 export default function Analytics() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -150,7 +154,7 @@ export default function Analytics() {
     Map<number, Measurement>
   >(new Map());
   const [listModalPage, setAnalyticsChartListModalPage] =
-    useState<AnalyticsChartListModalPage>("exercise-list");
+    useState<AnalyticsChartListModalPage>("measurement-list");
   const [loadChartAsArea, setLoadChartAsArea] = useState<boolean>(true);
   const [selectedExerciseGroups, setSelectedExerciseGroups] = useState<
     string[]
@@ -190,8 +194,6 @@ export default function Analytics() {
   const { isMeasurementListLoaded, getMeasurements } = measurementList;
 
   const listModal = useDisclosure();
-
-  const timePeriodListModal = useDisclosure();
   const filterMinAndMaxDatesModal = useDisclosure();
   const loadExerciseOptionsModal = useDisclosure();
   const deleteModal = useDisclosure();
@@ -330,6 +332,20 @@ export default function Analytics() {
       !isMeasurementListLoaded.current
     ) {
       await getMeasurements();
+    }
+
+    if (
+      modalListType === "time-period-list" &&
+      !isTimePeriodListLoaded.current
+    ) {
+      await getTimePeriods(userSettings.locale);
+
+      const timePeriodPropertySet = CreateShownPropertiesSet(
+        userSettings.shown_time_period_properties,
+        "time-period"
+      );
+
+      setSelectedTimePeriodProperties(timePeriodPropertySet);
     }
 
     listModal.onOpen();
@@ -2876,24 +2892,7 @@ export default function Analytics() {
     setReferenceAreas([...referenceAreas, referenceArea]);
     setShownReferenceAreas([...shownReferenceAreas, referenceArea]);
 
-    timePeriodListModal.onClose();
-  };
-
-  const handleOpenTimePeriodListModal = async () => {
-    if (userSettings === undefined) return;
-
-    if (!isTimePeriodListLoaded.current) {
-      await getTimePeriods(userSettings.locale);
-
-      const timePeriodPropertySet = CreateShownPropertiesSet(
-        userSettings.shown_time_period_properties,
-        "time-period"
-      );
-
-      setSelectedTimePeriodProperties(timePeriodPropertySet);
-    }
-
-    timePeriodListModal.onOpen();
+    listModal.onClose();
   };
 
   const handleOpenLoadExerciseOptionsModal = async () => {
@@ -2913,9 +2912,7 @@ export default function Analytics() {
           {(onClose) => (
             <>
               <ModalHeader>
-                {listModalPage === "exercise-list"
-                  ? "Select Exercise"
-                  : listModalPage === "measurement-list"
+                {listModalPage === "measurement-list"
                   ? "Select Measurement"
                   : listModalPage === "time-period-list"
                   ? "Select Time Period"
@@ -2929,6 +2926,15 @@ export default function Analytics() {
                     customHeightString="h-[440px]"
                     hiddenMeasurements={loadedMeasurements}
                     isInAnalyticsPage
+                  />
+                ) : listModalPage === "time-period-list" ? (
+                  <TimePeriodModalList
+                    useTimePeriodList={timePeriodList}
+                    handleTimePeriodClick={handleClickTimePeriod}
+                    userSettings={userSettings}
+                    setUserSettings={setUserSettings}
+                    customHeightString="h-[440px]"
+                    hiddenTimePeriods={timePeriodIdSet}
                   />
                 ) : (
                   <div className="h-[360px] flex flex-col gap-4">
@@ -2983,15 +2989,6 @@ export default function Analytics() {
           )}
         </ModalContent>
       </Modal>
-      <TimePeriodListModal
-        timePeriodListModal={timePeriodListModal}
-        useTimePeriodList={timePeriodList}
-        handleTimePeriodClick={handleClickTimePeriod}
-        userSettings={userSettings}
-        setUserSettings={setUserSettings}
-        customHeightString="h-[440px]"
-        hiddenTimePeriods={timePeriodIdSet}
-      />
       <LoadExerciseOptionsModal
         loadExerciseOptionsModal={loadExerciseOptionsModal}
         selectedExercise={selectedExercise}
@@ -3112,7 +3109,7 @@ export default function Analytics() {
                 <Button
                   className="font-medium"
                   variant="flat"
-                  onPress={() => handleOpenTimePeriodListModal()}
+                  onPress={() => handleOpenListModal("time-period-list")}
                 >
                   Load Time Period
                 </Button>
