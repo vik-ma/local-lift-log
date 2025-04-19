@@ -555,7 +555,7 @@ export default function ExerciseDetails() {
               No sets completed for exercise
             </div>
           ) : (
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-1.5">
               <div
                 className="p-1 bg-default-100 rounded-xl"
                 id="exercise-details-tabs"
@@ -576,11 +576,13 @@ export default function ExerciseDetails() {
                 ))}
               </div>
               {tabPage === "history" && (
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
                   {(showWarmupsCheckbox.current ||
                     showMultisetsCheckbox.current ||
-                    showPaceCheckbox.current) && (
-                    <div className="flex justify-between gap-6">
+                    showPaceCheckbox.current ||
+                    showSetCommentsCheckbox.current ||
+                    showWorkoutCommentsCheckbox.current) && (
+                    <div className="flex flex-wrap gap-x-6 gap-y-0.5">
                       {showWarmupsCheckbox.current && (
                         <Checkbox
                           className="hover:underline"
@@ -617,11 +619,6 @@ export default function ExerciseDetails() {
                           Show Pace
                         </Checkbox>
                       )}
-                    </div>
-                  )}
-                  {(showSetCommentsCheckbox.current ||
-                    showWorkoutCommentsCheckbox.current) && (
-                    <div className="flex justify-between">
                       {showSetCommentsCheckbox.current && (
                         <Checkbox
                           className="hover:underline"
