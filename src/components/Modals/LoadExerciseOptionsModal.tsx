@@ -18,53 +18,75 @@ import {
 } from "@heroui/react";
 import {
   ChartDataCategory,
+  ChartDataCategoryNoUndefined,
   ChartDataExerciseCategoryBase,
   ChartDataUnitCategory,
+  ChartDataUnitCategoryNoUndefined,
   Exercise,
-  UseChartAnalyticsReturnType,
+  UseDisclosureReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
+import {
+  CreateLoadExerciseOptionsList,
+  ValidLoadExerciseOptionsCategories,
+} from "../../helpers";
 
 type LoadExerciseOptionsModalProps = {
-  useChartAnalytics: UseChartAnalyticsReturnType;
-  selectedExercise: Exercise | undefined;
+  loadExerciseOptionsModal: UseDisclosureReturnType;
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>;
-  handleLoadExerciseStats: (
+  loadedCharts: Set<ChartDataCategoryNoUndefined>;
+  chartDataAreas: ChartDataCategory[];
+  loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
+  secondaryDataUnitCategory: ChartDataUnitCategory;
+  loadExerciseStats: (
+    exercise: Exercise,
+    loadExerciseOptions: Set<ChartDataExerciseCategoryBase>,
+    loadExerciseOptionsUnitCategoryPrimary: ChartDataUnitCategory,
+    loadExerciseOptionsUnitCategorySecondary: ChartDataUnitCategory,
     ignoreWarmups: boolean,
     ignoreMultisets: boolean
   ) => Promise<void>;
 };
 
 export const LoadExerciseOptionsModal = ({
-  useChartAnalytics,
-  selectedExercise,
+  loadExerciseOptionsModal,
   chartDataUnitCategoryMap,
-  handleLoadExerciseStats,
+  loadedCharts,
+  chartDataAreas,
+  loadExerciseOptionsMap,
+  secondaryDataUnitCategory,
+  loadExerciseStats,
 }: LoadExerciseOptionsModalProps) => {
-  const {
-    loadExerciseOptionsModal,
-    loadExerciseOptions,
-    setLoadExerciseOptions,
-    disabledLoadExerciseOptions,
-    loadExerciseOptionsUnitCategoryPrimary,
-    setLoadExerciseOptionsUnitCategoryPrimary,
-    loadExerciseOptionsUnitCategorySecondary,
-    setLoadExerciseOptionsUnitCategorySecondary,
-    loadExerciseOptionsUnitCategoriesPrimary,
-    setLoadExerciseOptionsUnitCategoriesPrimary,
-    loadExerciseOptionsUnitCategoriesSecondary,
-    setLoadExerciseOptionsUnitCategoriesSecondary,
-    chartDataAreas,
-    loadExerciseOptionsMap,
-    secondaryDataUnitCategory,
-    validLoadExerciseOptionsCategories,
-  } = useChartAnalytics;
-
+  const [selectedExercise, setSelectedExercise] = useState<Exercise>();
   const [filterCategories, setFilterCategories] = useState<
     Set<ChartDataUnitCategory>
   >(new Set());
   const [ignoreWarmups, setIgnoreWarmups] = useState<boolean>(true);
   const [ignoreMultisets, setIgnoreMultisets] = useState<boolean>(false);
+  const [loadExerciseOptions, setLoadExerciseOptions] = useState<
+    Set<ChartDataExerciseCategoryBase>
+  >(new Set());
+  const [
+    loadExerciseOptionsUnitCategoryPrimary,
+    setLoadExerciseOptionsUnitCategoryPrimary,
+  ] = useState<ChartDataUnitCategory>();
+  const [
+    loadExerciseOptionsUnitCategorySecondary,
+    setLoadExerciseOptionsUnitCategorySecondary,
+  ] = useState<ChartDataUnitCategory>();
+  const [
+    loadExerciseOptionsUnitCategoriesPrimary,
+    setLoadExerciseOptionsUnitCategoriesPrimary,
+  ] = useState<Set<ChartDataUnitCategory>>(new Set());
+  const [
+    loadExerciseOptionsUnitCategoriesSecondary,
+    setLoadExerciseOptionsUnitCategoriesSecondary,
+  ] = useState<ChartDataUnitCategory[]>([]);
+  const [disabledLoadExerciseOptions, setDisabledLoadExerciseOptions] =
+    useState<Set<ChartDataExerciseCategoryBase>>(new Set());
+
+  const validLoadExerciseOptionsCategories =
+    ValidLoadExerciseOptionsCategories();
 
   const filteredLoadExerciseOptionsMap = useMemo(() => {
     if (filterCategories.size > 0) {
@@ -238,6 +260,114 @@ export const LoadExerciseOptionsModal = ({
     setLoadExerciseOptionsUnitCategoryPrimary(value as ChartDataUnitCategory);
   };
 
+  const fillInLoadExerciseOptions = (exercise: Exercise) => {
+    const disabledKeys = new Set<ChartDataExerciseCategoryBase>();
+
+    // Disable any options that have already been loaded for Exercise
+    // Check if a ChartDataExerciseCategoryBase value exists for selectedExercise id
+    for (const chart of loadedCharts) {
+      const lastIndex = chart.lastIndexOf("_");
+
+      if (lastIndex === -1) continue;
+
+      const chartName = chart.substring(0, lastIndex);
+      const chartId = chart.substring(lastIndex + 1);
+
+      if (chartId === exercise.id.toString() && chartName !== "measurement") {
+        disabledKeys.add(chartName as ChartDataExerciseCategoryBase);
+      }
+    }
+
+    setDisabledLoadExerciseOptions(disabledKeys);
+
+    // Create list from default string, without any disabled options
+    const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
+      exercise.chart_load_exercise_options,
+      exercise.exercise_group_set_string_primary
+    ).filter((option) => !disabledKeys.has(option));
+
+    setLoadExerciseOptions(new Set(loadExerciseOptionsList));
+
+    const unitCategoriesPrimary: ChartDataUnitCategory[] = [];
+
+    unitCategoriesPrimary.push(
+      ...loadExerciseOptionsList.map((option) =>
+        chartDataUnitCategoryMap.get(option)
+      )
+    );
+
+    const savedCategories =
+      exercise.chart_load_exercise_options_categories.split(
+        ","
+      ) as ChartDataUnitCategoryNoUndefined[];
+
+    let unitCategoryPrimary: ChartDataUnitCategory = undefined;
+
+    const chartAreaUnitCategory = chartDataUnitCategoryMap.get(
+      chartDataAreas[0]
+    );
+
+    if (chartAreaUnitCategory !== undefined) {
+      // Use Chart Area category if Chart is already loaded
+      unitCategoryPrimary = chartAreaUnitCategory;
+      unitCategoriesPrimary.push(chartAreaUnitCategory);
+    } else {
+      // Use saved category string if Chart is not loaded
+      const isSavedCategoryValid =
+        validLoadExerciseOptionsCategories.has(savedCategories[0]) &&
+        unitCategoriesPrimary.includes(savedCategories[0]);
+
+      // Use first unit category from saved options string if saved string is invalid
+      // (Will be undefined if unitCategoriesPrimary is empty)
+      unitCategoryPrimary = isSavedCategoryValid
+        ? savedCategories[0]
+        : unitCategoriesPrimary[0];
+      unitCategoriesPrimary.push(unitCategoryPrimary);
+    }
+
+    setLoadExerciseOptionsUnitCategoryPrimary(unitCategoryPrimary);
+
+    const unitCategorySetPrimary = new Set(unitCategoriesPrimary);
+
+    unitCategorySetPrimary.delete(undefined);
+
+    const unitCategoriesSecondary: ChartDataUnitCategory[] = [];
+
+    if (secondaryDataUnitCategory !== undefined) {
+      unitCategoriesSecondary.push(secondaryDataUnitCategory);
+    }
+
+    unitCategoriesSecondary.push(
+      ...Array.from(unitCategorySetPrimary).filter(
+        (value) => value !== unitCategoryPrimary
+      )
+    );
+
+    setLoadExerciseOptionsUnitCategoriesPrimary(unitCategorySetPrimary);
+    setLoadExerciseOptionsUnitCategoriesSecondary(unitCategoriesSecondary);
+
+    let unitCategorySecondary: ChartDataUnitCategory = undefined;
+
+    if (secondaryDataUnitCategory === undefined) {
+      // Change to saved category string if no Chart Lines are loaded
+      const isSavedCategoryValid =
+        validLoadExerciseOptionsCategories.has(savedCategories[1]) &&
+        unitCategoriesSecondary.includes(savedCategories[1]);
+
+      // Use first unit category from non-primary saved options string
+      // if saved string is invalid
+      // (Will be undefined if unitCategoriesSecondary is empty)
+      unitCategorySecondary = isSavedCategoryValid
+        ? savedCategories[1]
+        : unitCategoriesSecondary[0];
+
+      setLoadExerciseOptionsUnitCategorySecondary(unitCategorySecondary);
+    }
+  };
+
+  // TODO: ADD TO LOAD
+  //     setSelectedExercise(undefined);
+
   return (
     <Modal
       isOpen={loadExerciseOptionsModal.isOpen}
@@ -357,7 +487,7 @@ export const LoadExerciseOptionsModal = ({
                     )}
                   </div>
                 </ScrollShadow>
-                {handleLoadExerciseStats !== undefined && (
+                {loadExerciseStats !== undefined && (
                   <div className="px-0.5 py-0.5 flex gap-12">
                     <Checkbox
                       className="hover:underline"
@@ -459,9 +589,7 @@ export const LoadExerciseOptionsModal = ({
                     loadExerciseOptions.size === 0 ||
                     loadExerciseOptionsUnitCategoryPrimary === undefined
                   }
-                  onPress={() =>
-                    handleLoadExerciseStats(ignoreWarmups, ignoreMultisets)
-                  }
+                  onPress={() => {}}
                 >
                   Load
                 </Button>

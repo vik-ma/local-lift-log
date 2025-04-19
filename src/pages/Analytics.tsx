@@ -49,7 +49,6 @@ import {
   DeleteModal,
   DistanceUnitDropdown,
   ExerciseGroupCheckboxes,
-  ExerciseModalList,
   FilterExerciseGroupsModal,
   FilterMinAndMaxDatesModal,
   LoadingSpinner,
@@ -74,7 +73,6 @@ import {
   WorkoutSet,
   ChartComment,
   ChartDataUnitCategory,
-  ChartDataUnitCategoryNoUndefined,
   TimePeriod,
   UnitCategory,
   UserSettings,
@@ -98,14 +96,12 @@ import {
   ConvertISODateStringToYmdDateString,
   ConvertPaceValue,
   ConvertSpeedValue,
-  CreateLoadExerciseOptionsList,
   CreateShownPropertiesSet,
   GetAnalyticsValuesForSetList,
   GetCurrentYmdDateString,
   GetPaceUnitFromDistanceUnit,
   GetSpeedUnitFromDistanceUnit,
   GetValidatedUserSettingsUnits,
-  ValidLoadExerciseOptionsCategories,
 } from "../helpers";
 import toast from "react-hot-toast";
 
@@ -148,35 +144,12 @@ export default function Analytics() {
   const [filteredChartData, setFilteredChartData] = useState<ChartDataItem[]>(
     []
   );
-  const [loadExerciseOptions, setLoadExerciseOptions] = useState<
-    Set<ChartDataExerciseCategoryBase>
-  >(new Set());
-  const [
-    loadExerciseOptionsUnitCategoryPrimary,
-    setLoadExerciseOptionsUnitCategoryPrimary,
-  ] = useState<ChartDataUnitCategory>();
-  const [
-    loadExerciseOptionsUnitCategorySecondary,
-    setLoadExerciseOptionsUnitCategorySecondary,
-  ] = useState<ChartDataUnitCategory>();
-  const [
-    loadExerciseOptionsUnitCategoriesPrimary,
-    setLoadExerciseOptionsUnitCategoriesPrimary,
-  ] = useState<Set<ChartDataUnitCategory>>(new Set());
-  const [
-    loadExerciseOptionsUnitCategoriesSecondary,
-    setLoadExerciseOptionsUnitCategoriesSecondary,
-  ] = useState<ChartDataUnitCategory[]>([]);
-  const [disabledLoadExerciseOptions, setDisabledLoadExerciseOptions] =
-    useState<Set<ChartDataExerciseCategoryBase>>(new Set());
   const [loadedMeasurements, setLoadedMeasurements] = useState<
     Map<number, Measurement>
   >(new Map());
   const [listModalPage, setAnalyticsChartListModalPage] =
     useState<AnalyticsChartListModalPage>("exercise-list");
   const [loadChartAsArea, setLoadChartAsArea] = useState<boolean>(true);
-  const [selectedExercise, setSelectedExercise] = useState<Exercise>();
-
   const [selectedExerciseGroups, setSelectedExerciseGroups] = useState<
     string[]
   >([]);
@@ -222,9 +195,6 @@ export default function Analytics() {
   const deleteModal = useDisclosure();
 
   const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
-
-  const validLoadExerciseOptionsCategories =
-    ValidLoadExerciseOptionsCategories();
 
   const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
     new Map()
@@ -341,17 +311,6 @@ export default function Analytics() {
 
     loadUserSettings();
   }, []);
-
-  useEffect(() => {
-    if (selectedExercise === undefined) return;
-
-    fillInLoadExerciseOptions(
-      // selectedExercise.chart_load_exercise_options,
-      // selectedExercise.chart_load_exercise_options_categories,
-      selectedExercise
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedExercise]);
 
   const handleOpenListModal = async (
     modalListType: AnalyticsChartListModalPage
@@ -1126,19 +1085,17 @@ export default function Analytics() {
     listModal.onClose();
   };
 
-  const handleClickExercise = (exercise: Exercise) => {
-    setSelectedExercise(exercise);
-    listModal.onClose();
-    loadExerciseOptionsModal.onOpen();
-  };
-
   const loadExerciseStats = async (
+    exercise: Exercise,
+    loadExerciseOptions: Set<ChartDataExerciseCategoryBase>,
+    loadExerciseOptionsUnitCategoryPrimary: ChartDataUnitCategory,
+    loadExerciseOptionsUnitCategorySecondary: ChartDataUnitCategory,
     ignoreWarmups: boolean,
     ignoreMultisets: boolean
   ) => {
-    if (selectedExercise === undefined || userSettings === undefined) return;
+    if (userSettings === undefined) return;
 
-    const exerciseId = selectedExercise.id;
+    const exerciseId = exercise.id;
 
     const fullSetList = await GetCompletedSetsWithExerciseId(exerciseId);
 
@@ -1149,12 +1106,12 @@ export default function Analytics() {
     const highestValueMap = new Map<ChartDataExerciseCategory, number>();
 
     const { areCommentsAlreadyLoaded, updatedChartCommentMap } =
-      updateChartCommentMapForExercise(selectedExercise.id);
+      updateChartCommentMapForExercise(exercise.id, loadExerciseOptions);
 
     const chartDataKeys: Set<ChartDataCategory> = new Set();
 
     for (const option of loadExerciseOptions) {
-      const chartName: ChartDataExerciseCategory = `${option}_${selectedExercise.id}`;
+      const chartName: ChartDataExerciseCategory = `${option}_${exercise.id}`;
       highestValueMap.set(chartName, -1);
       chartDataKeys.add(chartName);
     }
@@ -1198,7 +1155,7 @@ export default function Analytics() {
       let shouldAddChartDataItem = false;
 
       for (const [key, value] of analyticsValuesMap) {
-        const chartName: ChartDataCategory = `${key}_${selectedExercise.id}`;
+        const chartName: ChartDataCategory = `${key}_${exercise.id}`;
 
         if (value > highestValueMap.get(chartName)!) {
           highestValueMap.set(chartName, value);
@@ -1217,7 +1174,7 @@ export default function Analytics() {
       }
 
       for (const [setNum, comment] of commentMap) {
-        const commentLabel = `${selectedExercise.name} Set ${setNum} Comment`;
+        const commentLabel = `${exercise.name} Set ${setNum} Comment`;
 
         addChartComment(
           updatedChartCommentMap,
@@ -1297,7 +1254,7 @@ export default function Analytics() {
     const chartLineUnitCategories = new Set<ChartDataUnitCategory>();
 
     for (const option of loadExerciseOptions) {
-      const chartName: ChartDataCategory = `${option}_${selectedExercise.id}`;
+      const chartName: ChartDataCategory = `${option}_${exercise.id}`;
 
       if (loadedCharts.current.has(chartName)) continue;
 
@@ -1310,7 +1267,7 @@ export default function Analytics() {
       chartDataUnitCategoryMap.current.set(chartName, optionCategory);
 
       const chartLabel = `${loadExerciseOptionsMap.get(option)} [${
-        selectedExercise.name
+        exercise.name
       }]`;
 
       chartConfig.current[chartName] = {
@@ -1356,19 +1313,24 @@ export default function Analytics() {
       );
     }
 
-    await updateDefaultLoadExerciseOptions();
+    await updateDefaultLoadExerciseOptions(
+      exercise,
+      loadExerciseOptionsUnitCategoryPrimary,
+      loadExerciseOptionsUnitCategorySecondary
+    );
 
-    setSelectedExercise(undefined);
     isChartDataLoaded.current = true;
     loadExerciseOptionsModal.onClose();
   };
 
-  const updateDefaultLoadExerciseOptions = async () => {
-    if (selectedExercise === undefined) return;
+  const updateDefaultLoadExerciseOptions = async (
+    exercise: Exercise,
+    loadExerciseOptionsUnitCategoryPrimary: ChartDataUnitCategory,
+    loadExerciseOptionsUnitCategorySecondary: ChartDataUnitCategory
+  ) => {
+    if (exercise === undefined) return;
 
-    const allLoadedOptions = getAllLoadedOptionsForExercise(
-      selectedExercise.id
-    );
+    const allLoadedOptions = getAllLoadedOptionsForExercise(exercise.id);
 
     const {
       success,
@@ -1378,13 +1340,13 @@ export default function Analytics() {
       allLoadedOptions,
       loadExerciseOptionsUnitCategoryPrimary,
       loadExerciseOptionsUnitCategorySecondary,
-      selectedExercise.id
+      exercise.id
     );
 
     if (!success) return;
 
     const updatedExercise: Exercise = {
-      ...selectedExercise,
+      ...exercise,
       chart_load_exercise_options: loadExerciseOptionsString,
       chart_load_exercise_options_categories:
         loadExerciseOptionsCategoriesString,
@@ -1934,9 +1896,6 @@ export default function Analytics() {
     setFilterMinDate(null);
     setFilterMaxDate(null);
     setLoadedMeasurements(new Map());
-    setSelectedExercise(undefined);
-
-    setDisabledLoadExerciseOptions(new Set());
 
     isChartDataLoaded.current = false;
     chartConfig.current = { ...defaultChartConfig };
@@ -1953,112 +1912,10 @@ export default function Analytics() {
     deleteModal.onClose();
   };
 
-  const fillInLoadExerciseOptions = (exercise: Exercise) => {
-    const disabledKeys = new Set<ChartDataExerciseCategoryBase>();
-
-    // Disable any options that have already been loaded for Exercise
-    // Check if a ChartDataExerciseCategoryBase value exists for selectedExercise id
-    for (const chart of loadedCharts.current) {
-      const lastIndex = chart.lastIndexOf("_");
-
-      if (lastIndex === -1) continue;
-
-      const chartName = chart.substring(0, lastIndex);
-      const chartId = chart.substring(lastIndex + 1);
-
-      if (chartId === exercise.id.toString() && chartName !== "measurement") {
-        disabledKeys.add(chartName as ChartDataExerciseCategoryBase);
-      }
-    }
-
-    setDisabledLoadExerciseOptions(disabledKeys);
-
-    // Create list from default string, without any disabled options
-    const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
-      exercise.chart_load_exercise_options,
-      exercise.exercise_group_set_string_primary
-    ).filter((option) => !disabledKeys.has(option));
-
-    setLoadExerciseOptions(new Set(loadExerciseOptionsList));
-
-    const unitCategoriesPrimary: ChartDataUnitCategory[] = [];
-
-    unitCategoriesPrimary.push(
-      ...loadExerciseOptionsList.map((option) =>
-        chartDataUnitCategoryMap.current.get(option)
-      )
-    );
-
-    const savedCategories =
-      exercise.chart_load_exercise_options_categories.split(
-        ","
-      ) as ChartDataUnitCategoryNoUndefined[];
-
-    let unitCategoryPrimary: ChartDataUnitCategory = undefined;
-
-    const chartAreaUnitCategory = chartDataUnitCategoryMap.current.get(
-      chartDataAreas[0]
-    );
-
-    if (chartAreaUnitCategory !== undefined) {
-      // Use Chart Area category if Chart is already loaded
-      unitCategoryPrimary = chartAreaUnitCategory;
-      unitCategoriesPrimary.push(chartAreaUnitCategory);
-    } else {
-      // Use saved category string if Chart is not loaded
-      const isSavedCategoryValid =
-        validLoadExerciseOptionsCategories.has(savedCategories[0]) &&
-        unitCategoriesPrimary.includes(savedCategories[0]);
-
-      // Use first unit category from saved options string if saved string is invalid
-      // (Will be undefined if unitCategoriesPrimary is empty)
-      unitCategoryPrimary = isSavedCategoryValid
-        ? savedCategories[0]
-        : unitCategoriesPrimary[0];
-      unitCategoriesPrimary.push(unitCategoryPrimary);
-    }
-
-    setLoadExerciseOptionsUnitCategoryPrimary(unitCategoryPrimary);
-
-    const unitCategorySetPrimary = new Set(unitCategoriesPrimary);
-
-    unitCategorySetPrimary.delete(undefined);
-
-    const unitCategoriesSecondary: ChartDataUnitCategory[] = [];
-
-    if (secondaryDataUnitCategory !== undefined) {
-      unitCategoriesSecondary.push(secondaryDataUnitCategory);
-    }
-
-    unitCategoriesSecondary.push(
-      ...Array.from(unitCategorySetPrimary).filter(
-        (value) => value !== unitCategoryPrimary
-      )
-    );
-
-    setLoadExerciseOptionsUnitCategoriesPrimary(unitCategorySetPrimary);
-    setLoadExerciseOptionsUnitCategoriesSecondary(unitCategoriesSecondary);
-
-    let unitCategorySecondary: ChartDataUnitCategory = undefined;
-
-    if (secondaryDataUnitCategory === undefined) {
-      // Change to saved category string if no Chart Lines are loaded
-      const isSavedCategoryValid =
-        validLoadExerciseOptionsCategories.has(savedCategories[1]) &&
-        unitCategoriesSecondary.includes(savedCategories[1]);
-
-      // Use first unit category from non-primary saved options string
-      // if saved string is invalid
-      // (Will be undefined if unitCategoriesSecondary is empty)
-      unitCategorySecondary = isSavedCategoryValid
-        ? savedCategories[1]
-        : unitCategoriesSecondary[0];
-
-      setLoadExerciseOptionsUnitCategorySecondary(unitCategorySecondary);
-    }
-  };
-
-  const updateChartCommentMapForExercise = (exerciseId: number) => {
+  const updateChartCommentMapForExercise = (
+    exerciseId: number,
+    loadExerciseOptions: Set<ChartDataExerciseCategoryBase>
+  ) => {
     let areCommentsAlreadyLoaded = false;
     const updatedChartCommentMap = new Map(chartCommentMap);
     let existingDataKey = "";
@@ -3056,16 +2913,7 @@ export default function Analytics() {
                   : "Select Exercise Groups"}
               </ModalHeader>
               <ModalBody>
-                {listModalPage === "exercise-list" ? (
-                  <ExerciseModalList
-                    handleClickExercise={handleClickExercise}
-                    useExerciseList={exerciseList}
-                    useFilterExerciseList={filterExerciseList}
-                    userSettingsId={userSettings.id}
-                    customHeightString="h-[440px]"
-                    isInAnalyticsPage
-                  />
-                ) : listModalPage === "measurement-list" ? (
+                {listModalPage === "measurement-list" ? (
                   <MeasurementModalList
                     useMeasurementList={measurementList}
                     handleMeasurementClick={loadMeasurement}
