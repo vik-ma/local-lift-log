@@ -1,15 +1,18 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Exercise, ExerciseMaxListValue, WorkoutSet } from "../typings";
+import {
+  Exercise,
+  ExerciseMaxListValue,
+  UserSettings,
+  WorkoutSet,
+} from "../typings";
 import { useState, useEffect, useRef } from "react";
-import { Button, Checkbox, useDisclosure } from "@heroui/react";
+import { Checkbox, useDisclosure } from "@heroui/react";
 import {
   LoadingSpinner,
   ExerciseModal,
   DetailsHeader,
   ExerciseMaxValues,
-  LoadExerciseOptionsModal,
   FavoriteButton,
-  AnalyticsChart,
 } from "../components";
 import {
   GetExerciseWithId,
@@ -37,11 +40,9 @@ import {
   useDetailsHeaderOptionsMenu,
   useExerciseGroupDictionary,
   useMultiplierInputMap,
-  useChartAnalytics,
 } from "../hooks";
 import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
-import { ChartIcon } from "../assets";
 
 type ShowCheckboxType = "warmup" | "multiset" | "pace";
 
@@ -58,6 +59,11 @@ type PaceRecord = {
 export default function ExerciseDetails() {
   const { id } = useParams();
   const [exercise, setExercise] = useState<Exercise>();
+  const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [weightUnit, setWeightUnit] = useState<string>("kg");
+  const [distanceUnit, setDistanceUnit] = useState<string>("km");
+  const [speedUnit, setSpeedUnit] = useState<string>("km/h");
+  const [paceUnit, setPaceUnit] = useState<string>("min/km");
   const [dateSetListMap, setDateSetListMap] = useState<
     Map<string, WorkoutSet[]>
   >(new Map());
@@ -68,25 +74,7 @@ export default function ExerciseDetails() {
   const [showMultisets, setShowMultisets] = useState<boolean>(true);
   const [showPace, setShowPace] = useState<boolean>(true);
   const [tabPage, setTabPage] = useState<TabPage>("history");
-  const [showChart, setShowChart] = useState<boolean>(false);
   const [showSetComments, setShowSetComments] = useState<boolean>(true);
-
-  const chartAnalytics = useChartAnalytics();
-
-  const {
-    userSettings,
-    setUserSettings,
-    weightUnit,
-    distanceUnit,
-    speedUnit,
-    paceUnit,
-    chartDataUnitCategoryMap,
-    assignDefaultUnits,
-    isChartDataLoaded,
-    fillInLoadExerciseOptions,
-    loadExerciseOptionsModal,
-    loadExerciseStats,
-  } = chartAnalytics;
 
   const tabPages = useRef<string[][]>([["history", "Exercise History"]]);
 
@@ -381,7 +369,10 @@ export default function ExerciseDetails() {
       const speedUnit = GetSpeedUnitFromDistanceUnit(validUnits.distanceUnit);
       const paceUnit = GetPaceUnitFromDistanceUnit(validUnits.distanceUnit);
 
-      assignDefaultUnits(userSettings);
+      setWeightUnit(weightUnit);
+      setDistanceUnit(distanceUnit);
+      setSpeedUnit(speedUnit);
+      setPaceUnit(paceUnit);
 
       setShowWarmups(!!userSettings.show_warmups_in_exercise_details);
       setShowMultisets(!!userSettings.show_multisets_in_exercise_details);
@@ -493,42 +484,6 @@ export default function ExerciseDetails() {
     }
   };
 
-  const handleLoadExerciseStats = async (
-    ignoreWarmups: boolean,
-    ignoreMultisets: boolean
-  ) => {
-    if (exercise === undefined) return;
-
-    const success = loadExerciseStats(
-      dateSetListMap,
-      exercise,
-      ignoreWarmups,
-      ignoreMultisets,
-      false
-    );
-
-    if (success) {
-      setShowChart(true);
-    }
-  };
-
-  const handleClickChartButton = () => {
-    if (exercise === undefined) return;
-
-    if (isChartDataLoaded.current) {
-      setShowChart(true);
-    } else {
-      fillInLoadExerciseOptions(
-        exercise.chart_load_exercise_options,
-        exercise.chart_load_exercise_options_categories,
-        exercise,
-        false
-      );
-
-      loadExerciseOptionsModal.onOpen();
-    }
-  };
-
   if (
     exercise === undefined ||
     userSettings === undefined ||
@@ -552,442 +507,395 @@ export default function ExerciseDetails() {
         multiplierInputInvaliditySet={multiplierInputInvaliditySet}
         buttonAction={updateExercise}
       />
-      <LoadExerciseOptionsModal
-        useChartAnalytics={chartAnalytics}
-        selectedExercise={exercise}
-        chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
-        handleLoadExerciseStats={handleLoadExerciseStats}
-      />
-      {showChart ? (
-        <div className="absolute left-0 w-screen">
-          <div className="flex flex-col gap-3">
-            <AnalyticsChart useChartAnalytics={chartAnalytics} />
-            <div className="flex gap-2 justify-center">
-              <Button
-                className="font-medium"
-                variant="flat"
-                color="secondary"
-                onPress={() => {}}
-              >
-                Load Exercise Stat
-              </Button>
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={() => setShowChart(false)}
-              >
-                Back To Exercise Details
-              </Button>
+
+      <div className="flex flex-col gap-2.5">
+        <DetailsHeader
+          header={exercise.name}
+          subHeader={exercise.formattedGroupStringPrimary ?? ""}
+          note={exercise.note}
+          detailsType="Exercise"
+          editButtonAction={() => exerciseModal.onOpen()}
+          useDetailsHeaderOptions={useDetailsHeaderOptions}
+          extraLeftButton1={
+            <FavoriteButton
+              name={exercise.name}
+              isFavorite={!!exercise.is_favorite}
+              item={exercise}
+              toggleFavorite={toggleFavorite}
+              isInDetailsHeader
+            />
+          }
+        />
+        <div className="flex flex-col justify-center">
+          {dateSetListMapReversed.size === 0 ? (
+            <div className="text-stone-500 text-center text-lg pt-1">
+              No sets completed for exercise
             </div>
-          </div>
-        </div>
-      ) : (
-        <div className="flex flex-col gap-2.5">
-          <DetailsHeader
-            header={exercise.name}
-            subHeader={exercise.formattedGroupStringPrimary ?? ""}
-            note={exercise.note}
-            detailsType="Exercise"
-            editButtonAction={() => exerciseModal.onOpen()}
-            useDetailsHeaderOptions={useDetailsHeaderOptions}
-            extraLeftButton1={
-              <FavoriteButton
-                name={exercise.name}
-                isFavorite={!!exercise.is_favorite}
-                item={exercise}
-                toggleFavorite={toggleFavorite}
-                isInDetailsHeader
-              />
-            }
-            extraLeftButton2={
-              <Button
-                aria-label="Load Exercise Chart"
-                isIconOnly
-                className="z-1"
-                size="sm"
-                variant="light"
-                onPress={handleClickChartButton}
+          ) : (
+            <div className="flex flex-col gap-2.5">
+              <div
+                className="p-1 bg-default-100 rounded-xl"
+                id="exercise-details-tabs"
               >
-                <ChartIcon size={22} />
-              </Button>
-            }
-          />
-          <div className="flex flex-col justify-center">
-            {dateSetListMapReversed.size === 0 ? (
-              <div className="text-stone-500 text-center text-lg pt-1">
-                No sets completed for exercise
+                {tabPages.current.map(([key, value], index) => (
+                  <button
+                    key={key}
+                    className={
+                      key === tabPage
+                        ? "text-sm py-1.5 rounded-lg transition-colors duration-200 shadow-small bg-white text-black"
+                        : "text-sm py-1.5 rounded-lg transition-colors duration-200 text-default-500 hover:opacity-50 focus:opacity-50"
+                    }
+                    id={`exercise-details-tab-${index}`}
+                    onClick={() => setTabPage(key as TabPage)}
+                  >
+                    {value}
+                  </button>
+                ))}
               </div>
-            ) : (
-              <div className="flex flex-col gap-2.5">
-                <div
-                  className="p-1 bg-default-100 rounded-xl"
-                  id="exercise-details-tabs"
-                >
-                  {tabPages.current.map(([key, value], index) => (
-                    <button
-                      key={key}
-                      className={
-                        key === tabPage
-                          ? "text-sm py-1.5 rounded-lg transition-colors duration-200 shadow-small bg-white text-black"
-                          : "text-sm py-1.5 rounded-lg transition-colors duration-200 text-default-500 hover:opacity-50 focus:opacity-50"
-                      }
-                      id={`exercise-details-tab-${index}`}
-                      onClick={() => setTabPage(key as TabPage)}
-                    >
-                      {value}
-                    </button>
-                  ))}
-                </div>
-                {tabPage === "history" && (
-                  <div className="flex flex-col gap-2">
-                    {(showWarmupsCheckbox.current ||
-                      showMultisetsCheckbox.current ||
-                      showPaceCheckbox.current) && (
-                      <div className="flex justify-center gap-6">
-                        {showWarmupsCheckbox.current && (
-                          <Checkbox
-                            className="hover:underline"
-                            size="sm"
-                            isSelected={showWarmups}
-                            onValueChange={(value) =>
-                              handleShowCheckboxChange(value, "warmup")
-                            }
-                          >
-                            Show Warmups
-                          </Checkbox>
-                        )}
-                        {showMultisetsCheckbox.current && (
-                          <Checkbox
-                            className="hover:underline"
-                            size="sm"
-                            isSelected={showMultisets}
-                            onValueChange={(value) =>
-                              handleShowCheckboxChange(value, "multiset")
-                            }
-                          >
-                            Show Multisets
-                          </Checkbox>
-                        )}
-                        {showPaceCheckbox.current && (
-                          <Checkbox
-                            className="hover:underline"
-                            size="sm"
-                            isSelected={showPace}
-                            onValueChange={(value) =>
-                              handleShowCheckboxChange(value, "pace")
-                            }
-                          >
-                            Show Pace
-                          </Checkbox>
-                        )}
-                      </div>
-                    )}
-                    {showSetCommentsCheckbox.current && (
-                      <div className="flex justify-center gap-6">
-                        {showSetCommentsCheckbox.current && (
-                          <Checkbox
-                            className="hover:underline"
-                            size="sm"
-                            isSelected={showSetComments}
-                            onValueChange={setShowSetComments}
-                          >
-                            Show Set Comments
-                          </Checkbox>
-                        )}
-                      </div>
-                    )}
-                    <div className="relative flex flex-col gap-1.5">
-                      <div className="absolute right-0 -top-px">
-                        <span className="text-xs text-stone-500">
-                          Click on set to go to workout
-                        </span>
-                      </div>
-                      {Array.from(dateSetListMapReversed).map(
-                        ([date, setList]) => {
-                          // Hide entire date if all sets in setList are warmups/multisets and if corresponding checkbox is unchecked
-                          if (
-                            !showMultisets &&
-                            !datesThatAreNotOnlyMultisets.current.has(date)
-                          ) {
-                            return null;
+              {tabPage === "history" && (
+                <div className="flex flex-col gap-2">
+                  {(showWarmupsCheckbox.current ||
+                    showMultisetsCheckbox.current ||
+                    showPaceCheckbox.current) && (
+                    <div className="flex justify-center gap-6">
+                      {showWarmupsCheckbox.current && (
+                        <Checkbox
+                          className="hover:underline"
+                          size="sm"
+                          isSelected={showWarmups}
+                          onValueChange={(value) =>
+                            handleShowCheckboxChange(value, "warmup")
                           }
-
-                          if (
-                            !showWarmups &&
-                            !datesThatAreNotOnlyWarmups.current.has(date)
-                          ) {
-                            return null;
+                        >
+                          Show Warmups
+                        </Checkbox>
+                      )}
+                      {showMultisetsCheckbox.current && (
+                        <Checkbox
+                          className="hover:underline"
+                          size="sm"
+                          isSelected={showMultisets}
+                          onValueChange={(value) =>
+                            handleShowCheckboxChange(value, "multiset")
                           }
-
-                          const workoutCommentMap =
-                            dateWorkoutCommentMap.current.get(date);
-
-                          let setNum = 0;
-
-                          return (
-                            <div
-                              key={date}
-                              className="flex flex-col divide-y divide-foreground-400 text-foreground-600"
-                            >
-                              <h4 className="font-semibold text-lg px-[3px] text-secondary leading-tight">
-                                {date}
-                              </h4>
-                              <div className="flex flex-col pt-0.5">
-                                {workoutCommentMap !== undefined && (
-                                  <div className="flex flex-col">
-                                    {Array.from(workoutCommentMap).map(
-                                      ([id, comment]) => (
-                                        <div
-                                          key={id}
-                                          className="px-[3px] leading-tight text-xs text-indigo-700 truncate"
-                                        >
-                                          {comment}
-                                        </div>
-                                      )
-                                    )}
-                                  </div>
-                                )}
-                                {setList.map((set) => {
-                                  if (!showWarmups && set.is_warmup === 1)
-                                    return null;
-                                  if (!showMultisets && set.multiset_id > 0)
-                                    return null;
-
-                                  if (set.is_warmup === 0) setNum++;
-
-                                  return (
-                                    <button
-                                      key={set.id}
-                                      aria-label="Go to workout of set"
-                                      className="flex flex-col text-left text-sm font-medium rounded-sm pl-1 cursor-pointer hover:bg-default-200 focus:bg-default-200"
-                                      onClick={() =>
-                                        navigate(`/workouts/${set.workout_id}`)
-                                      }
-                                    >
-                                      <div className="flex">
-                                        {set.is_warmup === 1 ? (
-                                          <span className="text-foreground-400 w-[4.75rem] truncate">
-                                            Warmup
-                                          </span>
-                                        ) : (
-                                          <span className="text-foreground-600 w-[4.75rem] truncate">
-                                            Set {setNum}
-                                          </span>
-                                        )}
-                                        <div
-                                          className={
-                                            set.is_warmup === 1
-                                              ? "flex flex-wrap max-w-[20rem] text-foreground-400"
-                                              : "flex flex-wrap max-w-[20rem] text-foreground-900"
-                                          }
-                                        >
-                                          {set.is_tracking_weight === 1 && (
-                                            <div className="w-[5rem] font-normal">
-                                              <span className="max-w-[4rem] truncate font-semibold">
-                                                {set.weight}{" "}
-                                              </span>
-                                              {set.weight_unit}
-                                            </div>
-                                          )}
-                                          {set.is_tracking_reps === 1 && (
-                                            <div className="w-[5rem] font-normal">
-                                              <span className="max-w-[4rem] truncate font-semibold">
-                                                {set.reps}{" "}
-                                              </span>
-                                              rep
-                                              {set.reps !== 1 && "s"}
-                                            </div>
-                                          )}
-                                          {set.is_tracking_distance === 1 && (
-                                            <div className="w-[5rem] font-normal">
-                                              <span className="max-w-[4rem] truncate font-semibold">
-                                                {set.distance}{" "}
-                                              </span>
-                                              {set.distance_unit}
-                                            </div>
-                                          )}
-                                          {set.is_tracking_time === 1 && (
-                                            <div className="w-[5rem] truncate font-semibold">
-                                              {FormatTimeInSecondsToHhmmssString(
-                                                set.time_in_seconds
-                                              )}
-                                            </div>
-                                          )}
-                                          {set.pace !== undefined &&
-                                            showPace && (
-                                              <div className="w-[10rem] font-normal">
-                                                (
-                                                <span className="max-w-[4rem] truncate font-semibold">
-                                                  {set.pace}{" "}
-                                                </span>
-                                                {set.paceUnit})
-                                              </div>
-                                            )}
-                                          {set.is_tracking_rpe === 1 && (
-                                            <div className="w-[5rem] font-normal">
-                                              RPE
-                                              <span className="max-w-[2.5rem] truncate font-semibold">
-                                                {" "}
-                                                {set.rpe}
-                                              </span>
-                                            </div>
-                                          )}
-                                          {set.is_tracking_rir === 1 && (
-                                            <div className="w-[5rem] font-normal">
-                                              <span className="max-w-[4rem] truncate font-semibold">
-                                                {set.rir}{" "}
-                                              </span>
-                                              RIR
-                                            </div>
-                                          )}
-                                          {set.is_tracking_resistance_level ===
-                                            1 && (
-                                            <div className="w-[10rem] font-normal">
-                                              Resistance Level
-                                              <span className="max-w-[2.75rem] truncate font-semibold">
-                                                {" "}
-                                                {set.resistance_level}
-                                              </span>
-                                            </div>
-                                          )}
-                                          {set.is_tracking_partial_reps ===
-                                            1 && (
-                                            <div className="w-[10rem] font-normal">
-                                              <span className="max-w-[2.75rem] truncate font-semibold">
-                                                {set.partial_reps}{" "}
-                                              </span>
-                                              partial rep
-                                              {set.partial_reps !== 1 && "s"}
-                                            </div>
-                                          )}
-                                          {set.is_tracking_user_weight ===
-                                            1 && (
-                                            <div className="w-[10rem] font-normal">
-                                              Body Weight
-                                              <span className="max-w-[3rem] truncate font-semibold">
-                                                {" "}
-                                                {set.user_weight}{" "}
-                                              </span>
-                                              {set.user_weight_unit}
-                                            </div>
-                                          )}
-                                        </div>
-                                      </div>
-                                      {(set.comment !== null ||
-                                        set.multiset_id > 0) && (
-                                        <div className="flex text-xs font-normal leading-none pb-0.5 text-yellow-600">
-                                          <div className="w-[4.75rem]">
-                                            {set.multiset_id > 0 && (
-                                              <span className="text-slate-500">
-                                                Multiset
-                                              </span>
-                                            )}
-                                          </div>
-                                          {set.comment !== null &&
-                                            showSetComments && (
-                                              <div className="max-w-[19.75rem] break-all">
-                                                <span>{set.comment}</span>
-                                              </div>
-                                            )}
-                                        </div>
-                                      )}
-                                    </button>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          );
-                        }
+                        >
+                          Show Multisets
+                        </Checkbox>
+                      )}
+                      {showPaceCheckbox.current && (
+                        <Checkbox
+                          className="hover:underline"
+                          size="sm"
+                          isSelected={showPace}
+                          onValueChange={(value) =>
+                            handleShowCheckboxChange(value, "pace")
+                          }
+                        >
+                          Show Pace
+                        </Checkbox>
                       )}
                     </div>
-                  </div>
-                )}
-                {tabPage === "weight" && (
-                  <ExerciseMaxValues
-                    maxMap={maxWeightMap.current}
-                    header1="Weight"
-                    suffix1={weightUnit}
-                    header2="Max Reps"
-                    suffix2="rep"
-                    isSuffix2Reps
-                  />
-                )}
-                {tabPage === "reps" && (
-                  <ExerciseMaxValues
-                    maxMap={maxRepsMap.current}
-                    header1="Reps"
-                    suffix1="rep"
-                    header2="Max Weight"
-                    suffix2={weightUnit}
-                    isSuffix1Reps
-                  />
-                )}
-                {tabPage === "distance" && (
-                  <ExerciseMaxValues
-                    maxMap={maxDistanceMap.current}
-                    header1="Distance"
-                    suffix1={distanceUnit}
-                    header2="Min Time"
-                    suffix2=""
-                    isSuffix2Time
-                  />
-                )}
-                {tabPage === "pace" && (
-                  <div className="flex flex-col gap-1 text-foreground-900">
-                    <span className="text-xs text-stone-500 pl-[1px]">
-                      Top 30 Fastest Paces
-                    </span>
-                    <div className="flex flex-col">
-                      <div className="flex text-secondary leading-tight font-semibold border-b-1 border-foreground-400">
-                        <span className="w-[5.25rem] pl-[3px]">Pace</span>
-                        <span className="w-[5.25rem] pl-[3px]">Speed</span>
-                        <span className="w-[5rem] pl-[3px]">Distance</span>
-                        <span className="w-[4.25em] pl-[3px]">Time</span>
-                        <span className="pl-[3px]">Date</span>
-                      </div>
-                      <div className="flex flex-col text-xs leading-tight">
-                        {paceRecords.current.map((paceRecord, index) => (
+                  )}
+                  {showSetCommentsCheckbox.current && (
+                    <div className="flex justify-center gap-6">
+                      {showSetCommentsCheckbox.current && (
+                        <Checkbox
+                          className="hover:underline"
+                          size="sm"
+                          isSelected={showSetComments}
+                          onValueChange={setShowSetComments}
+                        >
+                          Show Set Comments
+                        </Checkbox>
+                      )}
+                    </div>
+                  )}
+                  <div className="relative flex flex-col gap-1.5">
+                    <div className="absolute right-0 -top-px">
+                      <span className="text-xs text-stone-500">
+                        Click on set to go to workout
+                      </span>
+                    </div>
+                    {Array.from(dateSetListMapReversed).map(
+                      ([date, setList]) => {
+                        // Hide entire date if all sets in setList are warmups/multisets and if corresponding checkbox is unchecked
+                        if (
+                          !showMultisets &&
+                          !datesThatAreNotOnlyMultisets.current.has(date)
+                        ) {
+                          return null;
+                        }
+
+                        if (
+                          !showWarmups &&
+                          !datesThatAreNotOnlyWarmups.current.has(date)
+                        ) {
+                          return null;
+                        }
+
+                        const workoutCommentMap =
+                          dateWorkoutCommentMap.current.get(date);
+
+                        let setNum = 0;
+
+                        return (
                           <div
-                            key={index}
-                            className="flex py-1 odd:bg-default-50 even:bg-default-100/60 last:!rounded-b-lg"
+                            key={date}
+                            className="flex flex-col divide-y divide-foreground-400 text-foreground-600"
                           >
-                            <span className="w-[5.25rem] pl-1 truncate">
-                              <span className="font-semibold">
-                                {paceRecord.pace}{" "}
-                              </span>
-                              {paceUnit}
-                            </span>
-                            <span className="w-[5.25rem] pl-1 truncate">
-                              <span className="font-semibold">
-                                {paceRecord.speed}{" "}
-                              </span>
-                              {speedUnit}
-                            </span>
-                            <span className="w-[5rem] pl-1 truncate">
-                              <span className="font-semibold">
-                                {paceRecord.distance}{" "}
-                              </span>
-                              {distanceUnit}
-                            </span>
-                            <span className="w-[4.25rem] pl-1 truncate font-semibold">
-                              {FormatTimeInSecondsToHhmmssString(
-                                paceRecord.time
+                            <h4 className="font-semibold text-lg px-[3px] text-secondary leading-tight">
+                              {date}
+                            </h4>
+                            <div className="flex flex-col pt-0.5">
+                              {workoutCommentMap !== undefined && (
+                                <div className="flex flex-col">
+                                  {Array.from(workoutCommentMap).map(
+                                    ([id, comment]) => (
+                                      <div
+                                        key={id}
+                                        className="px-[3px] leading-tight text-xs text-indigo-700 truncate"
+                                      >
+                                        {comment}
+                                      </div>
+                                    )
+                                  )}
+                                </div>
                               )}
-                            </span>
-                            <span className="font-medium pl-1 text-stone-500">
-                              {paceRecord.date}
-                            </span>
+                              {setList.map((set) => {
+                                if (!showWarmups && set.is_warmup === 1)
+                                  return null;
+                                if (!showMultisets && set.multiset_id > 0)
+                                  return null;
+
+                                if (set.is_warmup === 0) setNum++;
+
+                                return (
+                                  <button
+                                    key={set.id}
+                                    aria-label="Go to workout of set"
+                                    className="flex flex-col text-left text-sm font-medium rounded-sm pl-1 cursor-pointer hover:bg-default-200 focus:bg-default-200"
+                                    onClick={() =>
+                                      navigate(`/workouts/${set.workout_id}`)
+                                    }
+                                  >
+                                    <div className="flex">
+                                      {set.is_warmup === 1 ? (
+                                        <span className="text-foreground-400 w-[4.75rem] truncate">
+                                          Warmup
+                                        </span>
+                                      ) : (
+                                        <span className="text-foreground-600 w-[4.75rem] truncate">
+                                          Set {setNum}
+                                        </span>
+                                      )}
+                                      <div
+                                        className={
+                                          set.is_warmup === 1
+                                            ? "flex flex-wrap max-w-[20rem] text-foreground-400"
+                                            : "flex flex-wrap max-w-[20rem] text-foreground-900"
+                                        }
+                                      >
+                                        {set.is_tracking_weight === 1 && (
+                                          <div className="w-[5rem] font-normal">
+                                            <span className="max-w-[4rem] truncate font-semibold">
+                                              {set.weight}{" "}
+                                            </span>
+                                            {set.weight_unit}
+                                          </div>
+                                        )}
+                                        {set.is_tracking_reps === 1 && (
+                                          <div className="w-[5rem] font-normal">
+                                            <span className="max-w-[4rem] truncate font-semibold">
+                                              {set.reps}{" "}
+                                            </span>
+                                            rep
+                                            {set.reps !== 1 && "s"}
+                                          </div>
+                                        )}
+                                        {set.is_tracking_distance === 1 && (
+                                          <div className="w-[5rem] font-normal">
+                                            <span className="max-w-[4rem] truncate font-semibold">
+                                              {set.distance}{" "}
+                                            </span>
+                                            {set.distance_unit}
+                                          </div>
+                                        )}
+                                        {set.is_tracking_time === 1 && (
+                                          <div className="w-[5rem] truncate font-semibold">
+                                            {FormatTimeInSecondsToHhmmssString(
+                                              set.time_in_seconds
+                                            )}
+                                          </div>
+                                        )}
+                                        {set.pace !== undefined && showPace && (
+                                          <div className="w-[10rem] font-normal">
+                                            (
+                                            <span className="max-w-[4rem] truncate font-semibold">
+                                              {set.pace}{" "}
+                                            </span>
+                                            {set.paceUnit})
+                                          </div>
+                                        )}
+                                        {set.is_tracking_rpe === 1 && (
+                                          <div className="w-[5rem] font-normal">
+                                            RPE
+                                            <span className="max-w-[2.5rem] truncate font-semibold">
+                                              {" "}
+                                              {set.rpe}
+                                            </span>
+                                          </div>
+                                        )}
+                                        {set.is_tracking_rir === 1 && (
+                                          <div className="w-[5rem] font-normal">
+                                            <span className="max-w-[4rem] truncate font-semibold">
+                                              {set.rir}{" "}
+                                            </span>
+                                            RIR
+                                          </div>
+                                        )}
+                                        {set.is_tracking_resistance_level ===
+                                          1 && (
+                                          <div className="w-[10rem] font-normal">
+                                            Resistance Level
+                                            <span className="max-w-[2.75rem] truncate font-semibold">
+                                              {" "}
+                                              {set.resistance_level}
+                                            </span>
+                                          </div>
+                                        )}
+                                        {set.is_tracking_partial_reps === 1 && (
+                                          <div className="w-[10rem] font-normal">
+                                            <span className="max-w-[2.75rem] truncate font-semibold">
+                                              {set.partial_reps}{" "}
+                                            </span>
+                                            partial rep
+                                            {set.partial_reps !== 1 && "s"}
+                                          </div>
+                                        )}
+                                        {set.is_tracking_user_weight === 1 && (
+                                          <div className="w-[10rem] font-normal">
+                                            Body Weight
+                                            <span className="max-w-[3rem] truncate font-semibold">
+                                              {" "}
+                                              {set.user_weight}{" "}
+                                            </span>
+                                            {set.user_weight_unit}
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                    {(set.comment !== null ||
+                                      set.multiset_id > 0) && (
+                                      <div className="flex text-xs font-normal leading-none pb-0.5 text-yellow-600">
+                                        <div className="w-[4.75rem]">
+                                          {set.multiset_id > 0 && (
+                                            <span className="text-slate-500">
+                                              Multiset
+                                            </span>
+                                          )}
+                                        </div>
+                                        {set.comment !== null &&
+                                          showSetComments && (
+                                            <div className="max-w-[19.75rem] break-all">
+                                              <span>{set.comment}</span>
+                                            </div>
+                                          )}
+                                      </div>
+                                    )}
+                                  </button>
+                                );
+                              })}
+                            </div>
                           </div>
-                        ))}
-                      </div>
+                        );
+                      }
+                    )}
+                  </div>
+                </div>
+              )}
+              {tabPage === "weight" && (
+                <ExerciseMaxValues
+                  maxMap={maxWeightMap.current}
+                  header1="Weight"
+                  suffix1={weightUnit}
+                  header2="Max Reps"
+                  suffix2="rep"
+                  isSuffix2Reps
+                />
+              )}
+              {tabPage === "reps" && (
+                <ExerciseMaxValues
+                  maxMap={maxRepsMap.current}
+                  header1="Reps"
+                  suffix1="rep"
+                  header2="Max Weight"
+                  suffix2={weightUnit}
+                  isSuffix1Reps
+                />
+              )}
+              {tabPage === "distance" && (
+                <ExerciseMaxValues
+                  maxMap={maxDistanceMap.current}
+                  header1="Distance"
+                  suffix1={distanceUnit}
+                  header2="Min Time"
+                  suffix2=""
+                  isSuffix2Time
+                />
+              )}
+              {tabPage === "pace" && (
+                <div className="flex flex-col gap-1 text-foreground-900">
+                  <span className="text-xs text-stone-500 pl-[1px]">
+                    Top 30 Fastest Paces
+                  </span>
+                  <div className="flex flex-col">
+                    <div className="flex text-secondary leading-tight font-semibold border-b-1 border-foreground-400">
+                      <span className="w-[5.25rem] pl-[3px]">Pace</span>
+                      <span className="w-[5.25rem] pl-[3px]">Speed</span>
+                      <span className="w-[5rem] pl-[3px]">Distance</span>
+                      <span className="w-[4.25em] pl-[3px]">Time</span>
+                      <span className="pl-[3px]">Date</span>
+                    </div>
+                    <div className="flex flex-col text-xs leading-tight">
+                      {paceRecords.current.map((paceRecord, index) => (
+                        <div
+                          key={index}
+                          className="flex py-1 odd:bg-default-50 even:bg-default-100/60 last:!rounded-b-lg"
+                        >
+                          <span className="w-[5.25rem] pl-1 truncate">
+                            <span className="font-semibold">
+                              {paceRecord.pace}{" "}
+                            </span>
+                            {paceUnit}
+                          </span>
+                          <span className="w-[5.25rem] pl-1 truncate">
+                            <span className="font-semibold">
+                              {paceRecord.speed}{" "}
+                            </span>
+                            {speedUnit}
+                          </span>
+                          <span className="w-[5rem] pl-1 truncate">
+                            <span className="font-semibold">
+                              {paceRecord.distance}{" "}
+                            </span>
+                            {distanceUnit}
+                          </span>
+                          <span className="w-[4.25rem] pl-1 truncate font-semibold">
+                            {FormatTimeInSecondsToHhmmssString(paceRecord.time)}
+                          </span>
+                          <span className="font-medium pl-1 text-stone-500">
+                            {paceRecord.date}
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                )}
-              </div>
-            )}
-          </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 }
