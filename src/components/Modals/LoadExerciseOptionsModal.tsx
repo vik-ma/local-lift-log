@@ -617,20 +617,29 @@ export const LoadExerciseOptionsModal = ({
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div>
-                {loadExerciseOptions.size > 0 && (
-                  <Button
-                    className="z-1"
-                    variant="flat"
-                    color="secondary"
-                    onPress={handleClearAllButton}
-                  >
-                    Clear All
-                  </Button>
-                )}
+                {selectedExercise !== undefined &&
+                  loadExerciseOptions.size > 0 && (
+                    <Button
+                      className="z-1"
+                      variant="flat"
+                      color="secondary"
+                      onPress={handleClearAllButton}
+                    >
+                      Clear All
+                    </Button>
+                  )}
               </div>
               <div className="flex gap-2">
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
+                <Button
+                  color="primary"
+                  variant="light"
+                  onPress={
+                    selectedExercise === undefined
+                      ? onClose
+                      : () => setSelectedExercise(undefined)
+                  }
+                >
+                  {selectedExercise === undefined ? "Close" : "Back"}
                 </Button>
                 <Button
                   color="primary"
