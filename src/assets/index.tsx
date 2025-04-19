@@ -25,3 +25,4 @@ export { GoToArrowIcon } from "./GoToArrowIcon";
 export { RatingIcon } from "./RatingIcon";
 export { InfoIcon } from "./InfoIcon";
 export { ChartIcon } from "./ChartIcon";
+export { TrophyIcon } from "./TrophyIcon";
