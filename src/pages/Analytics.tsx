@@ -12,25 +12,53 @@ import {
   RadioGroup,
   Radio,
   useDisclosure,
+  Select,
+  SelectItem,
+  Chip,
 } from "@heroui/react";
 import {
-  useChartAnalytics,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ComposedChart,
+  Area,
+  Line,
+  ReferenceArea,
+} from "recharts";
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartConfig,
+} from "../components/ui/chart";
+import {
+  useChartColorLists,
+  useChartDateMap,
   useExerciseList,
   useFilterExerciseList,
   useMeasurementList,
+  useChartTimePeriodIdSets,
+  useDefaultChartMapsAndConfig,
+  useLoadExerciseOptionsMap,
+  useTimePeriodList,
 } from "../hooks";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import {
-  AnalyticsChart,
   DeleteModal,
+  DistanceUnitDropdown,
   ExerciseGroupCheckboxes,
   ExerciseModalList,
   FilterExerciseGroupsModal,
   FilterMinAndMaxDatesModal,
-  LoadExerciseOptionsModal,
   LoadingSpinner,
   MeasurementModalList,
+  MeasurementUnitDropdown,
+  PaceUnitDropdown,
+  SpeedUnitDropdown,
   TimePeriodListModal,
+  WeightUnitDropdown,
 } from "../components";
 import {
   AnalyticsChartListModalPage,
@@ -44,6 +72,12 @@ import {
   Measurement,
   UserMeasurementValues,
   WorkoutSet,
+  ChartComment,
+  ChartDataUnitCategory,
+  ChartDataUnitCategoryNoUndefined,
+  TimePeriod,
+  UnitCategory,
+  UserSettings,
 } from "../typings";
 import {
   ConvertMeasurementValue,
@@ -59,10 +93,85 @@ import {
   UpdateLoadExerciseOptions,
   ValidMeasurementUnits,
   UpdateItemInList,
+  ConvertDateToYmdString,
+  ConvertDistanceValue,
+  ConvertISODateStringToYmdDateString,
+  ConvertPaceValue,
+  ConvertSpeedValue,
+  CreateLoadExerciseOptionsList,
+  CreateShownPropertiesSet,
+  GetAnalyticsValuesForSetList,
+  GetCurrentYmdDateString,
+  GetPaceUnitFromDistanceUnit,
+  GetSpeedUnitFromDistanceUnit,
+  GetValidatedUserSettingsUnits,
+  ValidLoadExerciseOptionsCategories,
 } from "../helpers";
 import toast from "react-hot-toast";
 
 export default function Analytics() {
+  const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [weightUnit, setWeightUnit] = useState<string>("kg");
+  const [distanceUnit, setDistanceUnit] = useState<string>("km");
+  const [speedUnit, setSpeedUnit] = useState<string>("km/h");
+  const [paceUnit, setPaceUnit] = useState<string>("min/km");
+  const [circumferenceUnit, setCircumferenceUnit] = useState<string>("cm");
+  const [chartData, setChartData] = useState<ChartDataItem[]>([]);
+  const [chartDataAreas, setChartDataAreas] = useState<ChartDataCategory[]>([]);
+  const [chartDataLines, setChartDataLines] = useState<ChartDataCategory[]>([]);
+  const [primaryDataKey, setPrimaryDataKey] = useState<ChartDataCategory>();
+  const [secondaryDataKey, setSecondaryDataKey] = useState<ChartDataCategory>();
+  const [secondaryDataUnitCategory, setSecondaryDataUnitCategory] =
+    useState<ChartDataUnitCategory>();
+  const [chartLineUnitCategorySet, setChartLineUnitCategorySet] = useState<
+    Set<ChartDataUnitCategory>
+  >(new Set());
+  const [shownChartDataAreas, setShownChartDataAreas] = useState<
+    ChartDataCategory[]
+  >([]);
+  const [shownChartDataLines, setShownChartDataLines] = useState<
+    ChartDataCategory[]
+  >([]);
+  const [referenceAreas, setReferenceAreas] = useState<
+    ChartReferenceAreaItem[]
+  >([]);
+  const [shownReferenceAreas, setShownReferenceAreas] = useState<
+    ChartReferenceAreaItem[]
+  >([]);
+  const [chartCommentMap, setChartCommentMap] = useState<
+    Map<string, ChartComment[]>
+  >(new Map());
+  const [chartStartDate, setChartStartDate] = useState<Date | null>(null);
+  const [chartEndDate, setChartEndDate] = useState<Date | null>(null);
+  const [filterMinDate, setFilterMinDate] = useState<Date | null>(null);
+  const [filterMaxDate, setFilterMaxDate] = useState<Date | null>(null);
+  const [filteredChartData, setFilteredChartData] = useState<ChartDataItem[]>(
+    []
+  );
+  const [loadExerciseOptions, setLoadExerciseOptions] = useState<
+    Set<ChartDataExerciseCategoryBase>
+  >(new Set());
+  const [
+    loadExerciseOptionsUnitCategoryPrimary,
+    setLoadExerciseOptionsUnitCategoryPrimary,
+  ] = useState<ChartDataUnitCategory>();
+  const [
+    loadExerciseOptionsUnitCategorySecondary,
+    setLoadExerciseOptionsUnitCategorySecondary,
+  ] = useState<ChartDataUnitCategory>();
+  const [
+    loadExerciseOptionsUnitCategoriesPrimary,
+    setLoadExerciseOptionsUnitCategoriesPrimary,
+  ] = useState<Set<ChartDataUnitCategory>>(new Set());
+  const [
+    loadExerciseOptionsUnitCategoriesSecondary,
+    setLoadExerciseOptionsUnitCategoriesSecondary,
+  ] = useState<ChartDataUnitCategory[]>([]);
+  const [disabledLoadExerciseOptions, setDisabledLoadExerciseOptions] =
+    useState<Set<ChartDataExerciseCategoryBase>>(new Set());
+  const [loadedMeasurements, setLoadedMeasurements] = useState<
+    Map<number, Measurement>
+  >(new Map());
   const [listModalPage, setAnalyticsChartListModalPage] =
     useState<AnalyticsChartListModalPage>("exercise-list");
   const [loadChartAsArea, setLoadChartAsArea] = useState<boolean>(true);
@@ -76,66 +185,10 @@ export default function Analytics() {
     setCountSecondaryExerciseGroupsAsOne,
   ] = useState<boolean>(false);
 
-  const chartAnalytics = useChartAnalytics();
+  const dateMap = useChartDateMap();
 
-  const {
-    userSettings,
-    setUserSettings,
-    weightUnit,
-    circumferenceUnit,
-    chartData,
-    chartDataAreas,
-    setChartDataAreas,
-    chartDataLines,
-    setChartDataLines,
-    secondaryDataKey,
-    setChartLineUnitCategorySet,
-    shownChartDataAreas,
-    shownChartDataLines,
-    setShownChartDataLines,
-    referenceAreas,
-    setReferenceAreas,
-    shownReferenceAreas,
-    setShownReferenceAreas,
-    chartCommentMap,
-    setChartCommentMap,
-    chartStartDate,
-    chartEndDate,
-    filterMinDate,
-    filterMaxDate,
-    loadedMeasurements,
-    setLoadedMeasurements,
-    loadExerciseOptionsUnitCategoryPrimary,
-    loadExerciseOptionsUnitCategorySecondary,
-    allChartDataCategories,
-    chartDataUnitMap,
-    chartDataUnitCategoryMap,
-    chartConfig,
-    loadedCharts,
-    isChartDataLoaded,
-    highestCategoryValues,
-    timePeriodListModal,
-    filterMinAndMaxDatesModal,
-    loadExerciseOptionsModal,
-    deleteModal,
-    disabledExerciseGroups,
-    resetChart,
-    assignDefaultUnits,
-    updateChartDataAndFilteredHighestCategoryValues,
-    fillInLoadExerciseOptions,
-    fillInMissingChartDates,
-    mergeChartData,
-    updateCustomMinAndMaxDatesFilter,
-    updateLeftYAxis,
-    updateRightYAxis,
-    loadChartAreas,
-    addChartComment,
-    loadChartLines,
-    handleClickTimePeriod,
-    timePeriodIdSet,
-    timePeriodList,
-    loadExerciseStats,
-  } = chartAnalytics;
+  const { chartLineColorList, chartAreaColorList, referenceAreaColorList } =
+    useChartColorLists();
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
@@ -162,6 +215,118 @@ export default function Analytics() {
   const { isMeasurementListLoaded, getMeasurements } = measurementList;
 
   const listModal = useDisclosure();
+
+  const timePeriodListModal = useDisclosure();
+  const filterMinAndMaxDatesModal = useDisclosure();
+  const loadExerciseOptionsModal = useDisclosure();
+  const deleteModal = useDisclosure();
+
+  const loadExerciseOptionsMap = useLoadExerciseOptionsMap();
+
+  const validLoadExerciseOptionsCategories =
+    ValidLoadExerciseOptionsCategories();
+
+  const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
+    new Map()
+  );
+  const filteredHighestCategoryValues = useRef<Map<ChartDataCategory, number>>(
+    new Map()
+  );
+
+  const loadedCharts = useRef<Set<ChartDataCategoryNoUndefined>>(new Set());
+
+  // Don't replace with size of loadedCharts
+  const isChartDataLoaded = useRef<boolean>(false);
+
+  const {
+    defaultChartDataUnitMap,
+    defaultChartDataUnitCategoryMap,
+    defaultChartConfig,
+  } = useDefaultChartMapsAndConfig();
+
+  const chartDataUnitMap = useRef<Map<ChartDataCategory, string>>(
+    new Map(defaultChartDataUnitMap)
+  );
+
+  const chartDataUnitCategoryMap = useRef(
+    new Map<ChartDataCategory, ChartDataUnitCategory>(
+      defaultChartDataUnitCategoryMap
+    )
+  );
+
+  const chartConfig = useRef<ChartConfig>({ ...defaultChartConfig });
+
+  const allChartDataCategories = useMemo(
+    () => new Set([...chartDataAreas, ...chartDataLines]),
+    [chartDataAreas, chartDataLines]
+  );
+
+  const includesMultisetMap = useRef<Map<string, Set<ChartDataCategory>>>(
+    new Map()
+  );
+
+  const disabledExerciseGroups = useRef<string[]>([]);
+
+  const { timePeriodIdSet, shownTimePeriodIdSet } = useChartTimePeriodIdSets(
+    referenceAreas,
+    shownReferenceAreas
+  );
+
+  const timePeriodList = useTimePeriodList();
+
+  const {
+    getTimePeriods,
+    isTimePeriodListLoaded,
+    setSelectedTimePeriodProperties,
+  } = timePeriodList;
+
+  const {
+    weightCharts,
+    distanceCharts,
+    paceCharts,
+    speedCharts,
+    circumferenceCharts,
+  } = useMemo(() => {
+    const weightCharts = new Set<ChartDataCategoryNoUndefined>();
+    const distanceCharts = new Set<ChartDataCategoryNoUndefined>();
+    const speedCharts = new Set<ChartDataCategoryNoUndefined>();
+    const paceCharts = new Set<ChartDataCategoryNoUndefined>();
+    const circumferenceCharts = new Set<ChartDataCategoryNoUndefined>();
+
+    for (const chart of allChartDataCategories) {
+      if (chart === undefined) continue;
+
+      const unitCategory = chartDataUnitCategoryMap.current.get(chart);
+
+      switch (unitCategory) {
+        case "Weight":
+          weightCharts.add(chart);
+          break;
+        case "Distance":
+          distanceCharts.add(chart);
+          break;
+        case "Speed":
+          speedCharts.add(chart);
+          break;
+        case "Pace":
+          paceCharts.add(chart);
+          break;
+        case "Circumference":
+          circumferenceCharts.add(chart);
+          break;
+        default:
+          break;
+      }
+    }
+
+    return {
+      weightCharts,
+      distanceCharts,
+      paceCharts,
+      speedCharts,
+      circumferenceCharts,
+    };
+  }, [allChartDataCategories]);
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -1468,6 +1633,1461 @@ export default function Analytics() {
     resetChart();
   };
 
+  const updateExerciseStatUnit = (
+    chartName: ChartDataExerciseCategory,
+    optionCategory: ChartDataUnitCategory
+  ) => {
+    let unit = "";
+
+    switch (optionCategory) {
+      case "Weight":
+        unit = ` ${weightUnit}`;
+        break;
+      case "Distance":
+        unit = ` ${distanceUnit}`;
+        break;
+      case "Time":
+        unit = " min";
+        break;
+      case "Speed":
+        unit = ` ${speedUnit}`;
+        break;
+      case "Pace":
+        unit = ` ${paceUnit}`;
+        break;
+      case "Number Of Sets":
+        unit = " sets";
+        break;
+      case "Number Of Reps":
+        unit = " reps";
+        break;
+      case "RIR":
+        unit = " RIR";
+        break;
+      case "RPE":
+        unit = " RPE";
+        break;
+      case "Resistance Level":
+        unit = " RL";
+        break;
+      default:
+        break;
+    }
+
+    chartDataUnitMap.current.set(chartName, unit);
+  };
+
+  const assignDefaultUnits = (userSettings: UserSettings) => {
+    const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
+    setWeightUnit(validUnits.weightUnit);
+    setDistanceUnit(validUnits.distanceUnit);
+    setCircumferenceUnit(validUnits.measurementUnit);
+    setSpeedUnit(GetSpeedUnitFromDistanceUnit(validUnits.distanceUnit));
+    setPaceUnit(GetPaceUnitFromDistanceUnit(validUnits.distanceUnit));
+
+    chartDataUnitMap.current.set("body_weight", ` ${validUnits.weightUnit}`);
+  };
+
+  const updateChartDataAndFilteredHighestCategoryValues = (
+    updatedChartData: ChartDataItem[],
+    minDate: Date | null,
+    maxDate: Date | null
+  ) => {
+    setChartData(updatedChartData);
+
+    if (!minDate && !maxDate) {
+      setFilteredChartData(updatedChartData);
+
+      filteredHighestCategoryValues.current = highestCategoryValues.current;
+    } else {
+      const updatedFilteredChartData: ChartDataItem[] = [];
+      const updatedFilteredHighestCategoryValues = new Map<
+        ChartDataCategory,
+        number
+      >();
+
+      for (const entry of chartData) {
+        if (minDate && new Date(entry.date) < minDate) continue;
+        if (maxDate && new Date(entry.date) > maxDate) continue;
+
+        updatedFilteredChartData.push(entry);
+
+        Object.keys(entry).forEach((key) => {
+          if (key !== "date") {
+            const category = key as ChartDataCategoryNoUndefined;
+            const value = entry[category] ?? 0;
+
+            if (
+              !updatedFilteredHighestCategoryValues.has(category) ||
+              value > updatedFilteredHighestCategoryValues.get(category)!
+            ) {
+              updatedFilteredHighestCategoryValues.set(category, value);
+            }
+          }
+        });
+      }
+
+      setFilteredChartData(updatedFilteredChartData);
+
+      filteredHighestCategoryValues.current =
+        updatedFilteredHighestCategoryValues;
+    }
+  };
+
+  const resetChart = () => {
+    if (userSettings === undefined) return;
+
+    updateChartDataAndFilteredHighestCategoryValues([], null, null);
+    setChartDataAreas([]);
+    setChartDataLines([]);
+    setShownChartDataAreas([]);
+    setShownChartDataLines([]);
+    setPrimaryDataKey(undefined);
+    setSecondaryDataKey(undefined);
+    setChartLineUnitCategorySet(new Set());
+    setSecondaryDataUnitCategory(undefined);
+    setReferenceAreas([]);
+    setShownReferenceAreas([]);
+    setChartCommentMap(new Map());
+    setChartStartDate(null);
+    setChartEndDate(null);
+    setFilterMinDate(null);
+    setFilterMaxDate(null);
+
+    setDisabledLoadExerciseOptions(new Set());
+
+    isChartDataLoaded.current = false;
+    chartConfig.current = { ...defaultChartConfig };
+    loadedCharts.current = new Set();
+    chartDataUnitMap.current = new Map(defaultChartDataUnitMap);
+    chartDataUnitCategoryMap.current = new Map(defaultChartDataUnitCategoryMap);
+    highestCategoryValues.current = new Map();
+    filteredHighestCategoryValues.current = new Map();
+    includesMultisetMap.current = new Map();
+
+    assignDefaultUnits(userSettings);
+
+    deleteModal.onClose();
+  };
+
+  const fillInLoadExerciseOptions = (
+    loadExerciseOptionsString: string,
+    loadExerciseOptionsCategoriesString: string,
+    selectedExercise: Exercise,
+    isInAnalytics: boolean
+  ) => {
+    const disabledKeys = new Set<ChartDataExerciseCategoryBase>();
+
+    // Disable any options that have already been loaded for Exercise
+    if (isInAnalytics) {
+      // Check if a ChartDataExerciseCategoryBase value exists for selectedExercise id
+      for (const chart of loadedCharts.current) {
+        const lastIndex = chart.lastIndexOf("_");
+
+        if (lastIndex === -1) continue;
+
+        const chartName = chart.substring(0, lastIndex);
+        const chartId = chart.substring(lastIndex + 1);
+
+        if (
+          chartId === selectedExercise.id.toString() &&
+          chartName !== "measurement"
+        ) {
+          disabledKeys.add(chartName as ChartDataExerciseCategoryBase);
+        }
+      }
+    } else {
+      for (const chart of loadedCharts.current) {
+        disabledKeys.add(chart as ChartDataExerciseCategoryBase);
+      }
+    }
+
+    setDisabledLoadExerciseOptions(disabledKeys);
+
+    // Create list from default string, without any disabled options
+    const loadExerciseOptionsList = CreateLoadExerciseOptionsList(
+      loadExerciseOptionsString,
+      selectedExercise.exercise_group_set_string_primary
+    ).filter((option) => !disabledKeys.has(option));
+
+    setLoadExerciseOptions(new Set(loadExerciseOptionsList));
+
+    const unitCategoriesPrimary: ChartDataUnitCategory[] = [];
+
+    unitCategoriesPrimary.push(
+      ...loadExerciseOptionsList.map((option) =>
+        chartDataUnitCategoryMap.current.get(option)
+      )
+    );
+
+    const savedCategories = loadExerciseOptionsCategoriesString.split(
+      ","
+    ) as ChartDataUnitCategoryNoUndefined[];
+
+    let unitCategoryPrimary: ChartDataUnitCategory = undefined;
+
+    const chartAreaUnitCategory = chartDataUnitCategoryMap.current.get(
+      chartDataAreas[0]
+    );
+
+    if (chartAreaUnitCategory !== undefined) {
+      // Use Chart Area category if Chart is already loaded
+      unitCategoryPrimary = chartAreaUnitCategory;
+      unitCategoriesPrimary.push(chartAreaUnitCategory);
+    } else {
+      // Use saved category string if Chart is not loaded
+      const isSavedCategoryValid =
+        validLoadExerciseOptionsCategories.has(savedCategories[0]) &&
+        unitCategoriesPrimary.includes(savedCategories[0]);
+
+      // Use first unit category from saved options string if saved string is invalid
+      // (Will be undefined if unitCategoriesPrimary is empty)
+      unitCategoryPrimary = isSavedCategoryValid
+        ? savedCategories[0]
+        : unitCategoriesPrimary[0];
+      unitCategoriesPrimary.push(unitCategoryPrimary);
+    }
+
+    setLoadExerciseOptionsUnitCategoryPrimary(unitCategoryPrimary);
+
+    const unitCategorySetPrimary = new Set(unitCategoriesPrimary);
+
+    unitCategorySetPrimary.delete(undefined);
+
+    const unitCategoriesSecondary: ChartDataUnitCategory[] = [];
+
+    if (secondaryDataUnitCategory !== undefined) {
+      unitCategoriesSecondary.push(secondaryDataUnitCategory);
+    }
+
+    unitCategoriesSecondary.push(
+      ...Array.from(unitCategorySetPrimary).filter(
+        (value) => value !== unitCategoryPrimary
+      )
+    );
+
+    setLoadExerciseOptionsUnitCategoriesPrimary(unitCategorySetPrimary);
+    setLoadExerciseOptionsUnitCategoriesSecondary(unitCategoriesSecondary);
+
+    let unitCategorySecondary: ChartDataUnitCategory = undefined;
+
+    if (secondaryDataUnitCategory === undefined) {
+      // Change to saved category string if no Chart Lines are loaded
+      const isSavedCategoryValid =
+        validLoadExerciseOptionsCategories.has(savedCategories[1]) &&
+        unitCategoriesSecondary.includes(savedCategories[1]);
+
+      // Use first unit category from non-primary saved options string
+      // if saved string is invalid
+      // (Will be undefined if unitCategoriesSecondary is empty)
+      unitCategorySecondary = isSavedCategoryValid
+        ? savedCategories[1]
+        : unitCategoriesSecondary[0];
+
+      setLoadExerciseOptionsUnitCategorySecondary(unitCategorySecondary);
+    }
+  };
+
+  const updateChartCommentMapForExercise = (exerciseId: number) => {
+    let areCommentsAlreadyLoaded = false;
+    const updatedChartCommentMap = new Map(chartCommentMap);
+    let existingDataKey = "";
+
+    // Check if any Exercise option has been loaded for Exercise ID
+    for (const option of loadExerciseOptionsMap.keys()) {
+      const chartName: ChartDataExerciseCategory = `${option}_${exerciseId}`;
+
+      if (allChartDataCategories.has(chartName)) {
+        areCommentsAlreadyLoaded = true;
+        existingDataKey = chartName;
+        break;
+      }
+    }
+
+    if (areCommentsAlreadyLoaded) {
+      // Add new options to list of Chart dataKeys which should show comment
+      const newDataKeys: Set<ChartDataExerciseCategory> = new Set(
+        [...loadExerciseOptions].map(
+          (option) => `${option}_${exerciseId}` as ChartDataExerciseCategory
+        )
+      );
+
+      for (const [, chartCommentList] of updatedChartCommentMap) {
+        for (const chartComment of chartCommentList) {
+          if (chartComment.dataKeys.has(existingDataKey as ChartDataCategory)) {
+            // Replace existing dataKeys with newDataKeys for every ChartComment
+            // that has an existing comment relating to Exercise ID
+
+            const updatedDataKeys = new Set([
+              ...chartComment.dataKeys,
+              ...newDataKeys,
+            ]);
+
+            chartComment.dataKeys = updatedDataKeys;
+          }
+        }
+      }
+    }
+
+    return { areCommentsAlreadyLoaded, updatedChartCommentMap };
+  };
+
+  const fillInMissingChartDates = (
+    loadedChartData: ChartDataItem[],
+    locale: string
+  ) => {
+    if (loadedChartData.length === 0) return [];
+
+    const filledInChartData: ChartDataItem[] = [];
+
+    const chartDataDateMap = new Map(
+      loadedChartData.map((item) => [item.date, item])
+    );
+
+    const currentDate = new Date(loadedChartData[0].date);
+    const endDate = new Date(loadedChartData[loadedChartData.length - 1].date);
+
+    while (currentDate <= endDate) {
+      const dateString = FormatDateToShortString(currentDate, locale);
+
+      if (chartDataDateMap.has(dateString)) {
+        filledInChartData.push(chartDataDateMap.get(dateString)!);
+      } else {
+        // Fill in empty ChartDataItems for missing dates
+        const chartDataItem: ChartDataItem = {
+          date: dateString,
+        };
+
+        filledInChartData.push(chartDataItem);
+      }
+
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return filledInChartData;
+  };
+
+  const mergeChartData = (
+    list1: ChartDataItem[],
+    list2: ChartDataItem[],
+    locale: string
+  ) => {
+    const chartDataDateMap = new Map<string, ChartDataItem>();
+
+    if (list1.length > 0 && list2.length > 0) {
+      const minDate1 = new Date(list1[0].date);
+      const maxDate1 = new Date(list1[list1.length - 1].date);
+      maxDate1.setDate(maxDate1.getDate() + 1);
+      const minDate2 = new Date(list2[0].date);
+      const maxDate2 = new Date(list2[list2.length - 1].date);
+      maxDate2.setDate(maxDate2.getDate() + 1);
+
+      // Check if there is a gap of dates between the end of one list and the start of the other
+      const isGapAndList1ComesFirst = maxDate1.getTime() < minDate2.getTime();
+      const isGapAndList2ComesFirst = maxDate2.getTime() < minDate1.getTime();
+
+      if (isGapAndList1ComesFirst || isGapAndList2ComesFirst) {
+        const currentDate = isGapAndList1ComesFirst ? maxDate1 : maxDate2;
+        const endDate = isGapAndList1ComesFirst ? minDate2 : minDate1;
+
+        while (currentDate < endDate) {
+          const dateString = FormatDateToShortString(currentDate, locale);
+
+          const chartDataItem: ChartDataItem = { date: dateString };
+
+          // Fill in the gaps in list that is chronologically first
+          if (isGapAndList1ComesFirst) {
+            list1.push(chartDataItem);
+          } else {
+            list2.push(chartDataItem);
+          }
+
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+      }
+    }
+
+    // Add all props from both lists to ChartDataItem of same date
+    const mergeIntoMap = (list: ChartDataItem[]) => {
+      for (const item of list) {
+        if (!chartDataDateMap.has(item.date)) {
+          chartDataDateMap.set(item.date, { ...item });
+        } else {
+          chartDataDateMap.set(item.date, {
+            ...chartDataDateMap.get(item.date),
+            ...item,
+          });
+        }
+      }
+    };
+
+    mergeIntoMap(list1);
+    mergeIntoMap(list2);
+
+    // Create chartData array with dates sorted from oldest to newest
+    const mergedChartData = Array.from(chartDataDateMap.values()).sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+
+    setChartStartDate(new Date(mergedChartData[0].date));
+    setChartEndDate(new Date(mergedChartData[mergedChartData.length - 1].date));
+
+    return mergedChartData;
+  };
+
+  const updateShownChartLines = (chartLines: ChartDataCategory[]) => {
+    const chartLineUnitCategorySet = new Set<ChartDataUnitCategory>();
+
+    for (const line of chartLines) {
+      chartLineUnitCategorySet.add(chartDataUnitCategoryMap.current.get(line));
+    }
+
+    setShownChartDataLines(chartLines);
+    setChartLineUnitCategorySet(chartLineUnitCategorySet);
+
+    const activeUnitCategory =
+      chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+    updateRightYAxis(chartLines, activeUnitCategory);
+  };
+
+  const formatXAxisDate = (date: string) => {
+    const cutoff =
+      userSettings === undefined || userSettings.locale === "en-US" ? 6 : 5;
+
+    return date.substring(0, date.length - cutoff);
+  };
+
+  const updateShownReferenceAreas = (timePeriodIds: Set<string>) => {
+    const updatedShownReferenceAreas = referenceAreas.filter((item) =>
+      timePeriodIds.has(item.timePeriodId.toString())
+    );
+
+    setShownReferenceAreas(updatedShownReferenceAreas);
+  };
+
+  const getTimePeriodStartAndEndDates = (
+    startDateString: string,
+    endDateString: string | null,
+    locale: string
+  ) => {
+    if (filteredChartData.length === 0) return;
+
+    const chartStartDate = new Date(filteredChartData[0].date);
+    const chartEndDate = new Date(
+      filteredChartData[filteredChartData.length - 1].date
+    );
+
+    const ymdChartStartDate = ConvertDateToYmdString(chartStartDate);
+    const ymdChartEndDate = ConvertDateToYmdString(chartEndDate);
+
+    const timePeriodStartDate =
+      ConvertISODateStringToYmdDateString(startDateString);
+
+    // Assign if Time Period is ongoing (end_date is null) set Time Periods's end point as today
+    const timePeriodEndDate =
+      endDateString === null
+        ? GetCurrentYmdDateString()
+        : ConvertISODateStringToYmdDateString(endDateString);
+
+    // If Time Period's Start Date is outside of visible chart, set start date to first item in chart's X-axis
+    const formattedStartDate = FormatDateToShortString(
+      timePeriodStartDate < ymdChartStartDate
+        ? chartStartDate
+        : new Date(timePeriodStartDate),
+      locale
+    );
+    // If Time Period's End Date is outside of visible chart, set end date to last item in chart's X-axis
+    const formattedEndDate = FormatDateToShortString(
+      timePeriodEndDate > ymdChartEndDate
+        ? chartEndDate
+        : new Date(timePeriodEndDate),
+      locale
+    );
+
+    return { formattedStartDate, formattedEndDate };
+  };
+
+  const changeChartDataLineToArea = (chartDataLine: ChartDataCategory) => {
+    const updatedChartDataLines = chartDataLines.filter(
+      (item) => item !== chartDataLine
+    );
+    const updatedShownChartDataLines = shownChartDataLines.filter(
+      (item) => item !== chartDataLine
+    );
+
+    if (
+      chartDataUnitMap.current.get(chartDataLine) ===
+      chartDataUnitMap.current.get(shownChartDataAreas[0])
+    ) {
+      // Add new Chart Area if same unit as current Chart Area
+      setChartDataAreas([...chartDataAreas, chartDataLine]);
+
+      const updatedShownChartDataAreas = [
+        ...shownChartDataAreas,
+        chartDataLine,
+      ];
+
+      updateLeftYAxis(updatedShownChartDataAreas);
+    } else {
+      // Create new Chart Area and change all existing Chart Areas to Chart Lines
+      updatedChartDataLines.push(...[...chartDataAreas]);
+      updatedShownChartDataLines.push(...[...shownChartDataAreas]);
+
+      setChartDataAreas([chartDataLine]);
+
+      updateLeftYAxis([chartDataLine]);
+    }
+
+    setChartDataLines(updatedChartDataLines);
+    setShownChartDataLines(updatedShownChartDataLines);
+
+    const updatedChartLineUnitCategorySet = new Set(
+      updatedShownChartDataLines.map((item) =>
+        chartDataUnitCategoryMap.current.get(item)
+      )
+    );
+
+    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+
+    const activeUnitCategory =
+      chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+    updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
+  };
+
+  const changeChartDataAreaToLine = (chartDataArea: ChartDataCategory) => {
+    if (chartDataAreas.length < 2) return;
+
+    const updatedChartDataAreas = chartDataAreas.filter(
+      (item) => item !== chartDataArea
+    );
+    const updatedShownChartDataAreas = shownChartDataAreas.filter(
+      (item) => item !== chartDataArea
+    );
+
+    setChartDataAreas(updatedChartDataAreas);
+    setChartDataLines([...chartDataLines, chartDataArea]);
+
+    const updatedShownChartDataLines = [...shownChartDataLines, chartDataArea];
+
+    const updatedChartLineUnitCategorySet = new Set(
+      updatedShownChartDataLines.map((item) =>
+        chartDataUnitCategoryMap.current.get(item)
+      )
+    );
+
+    setShownChartDataLines(updatedShownChartDataLines);
+
+    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+
+    updateLeftYAxis(updatedShownChartDataAreas);
+
+    const activeUnitCategory =
+      chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+    updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
+  };
+
+  const changeChartDataLineCategoryToArea = (
+    unitCategory: ChartDataUnitCategory
+  ) => {
+    const updatedChartDataLines: ChartDataCategory[] = [];
+    const updatedShownChartDataLines: ChartDataCategory[] = [];
+    const updatedChartDataAreas: ChartDataCategory[] = [];
+    const updatedShownChartDataAreas: ChartDataCategory[] = [];
+
+    for (const line of chartDataLines) {
+      if (chartDataUnitCategoryMap.current.get(line) === unitCategory) {
+        updatedChartDataAreas.push(line);
+      } else {
+        updatedChartDataLines.push(line);
+      }
+    }
+
+    for (const line of shownChartDataLines) {
+      if (chartDataUnitCategoryMap.current.get(line) === unitCategory) {
+        updatedShownChartDataAreas.push(line);
+      } else {
+        updatedShownChartDataLines.push(line);
+      }
+    }
+
+    if (
+      chartDataUnitCategoryMap.current.get(shownChartDataAreas[0]) ===
+      unitCategory
+    ) {
+      updatedChartDataAreas.push(...chartDataAreas);
+      updatedShownChartDataAreas.push(...shownChartDataAreas);
+    } else {
+      updatedChartDataLines.push(...chartDataAreas);
+      updatedShownChartDataLines.push(...shownChartDataAreas);
+    }
+
+    setChartDataAreas(updatedChartDataAreas);
+    setChartDataLines(updatedChartDataLines);
+    setShownChartDataLines(updatedChartDataLines);
+
+    const updatedChartLineUnitCategorySet = new Set(
+      updatedShownChartDataLines.map((item) =>
+        chartDataUnitCategoryMap.current.get(item)
+      )
+    );
+
+    setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+
+    updateLeftYAxis(updatedShownChartDataAreas);
+
+    const activeUnitCategory =
+      chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+    updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
+  };
+
+  const updateCustomMinAndMaxDatesFilter = (
+    minDate: Date | null,
+    maxDate: Date | null
+  ) => {
+    setFilterMinDate(minDate);
+    setFilterMaxDate(maxDate);
+
+    updateChartDataAndFilteredHighestCategoryValues(
+      chartData,
+      minDate,
+      maxDate
+    );
+
+    updateLeftYAxis(shownChartDataAreas);
+    updateRightYAxis(
+      shownChartDataLines,
+      chartDataUnitCategoryMap.current.get(secondaryDataKey)
+    );
+
+    filterMinAndMaxDatesModal.onClose();
+  };
+
+  const updateMinDateFilter = (minDate: Date | null) => {
+    updateChartDataAndFilteredHighestCategoryValues(
+      chartData,
+      minDate,
+      filterMaxDate
+    );
+
+    updateLeftYAxis(shownChartDataAreas);
+    updateRightYAxis(
+      shownChartDataLines,
+      chartDataUnitCategoryMap.current.get(secondaryDataKey)
+    );
+
+    setFilterMinDate(minDate);
+  };
+
+  const updateMaxDateFilter = (maxDate: Date | null) => {
+    updateChartDataAndFilteredHighestCategoryValues(
+      chartData,
+      filterMinDate,
+      maxDate
+    );
+
+    updateLeftYAxis(shownChartDataAreas);
+    updateRightYAxis(
+      shownChartDataLines,
+      chartDataUnitCategoryMap.current.get(secondaryDataKey)
+    );
+
+    setFilterMaxDate(maxDate);
+  };
+
+  const updateRightYAxis = (
+    chartLines: ChartDataCategory[],
+    activeUnitCategory: ChartDataUnitCategory
+  ) => {
+    if (chartLines.length === 0) {
+      setSecondaryDataKey(undefined);
+      setSecondaryDataUnitCategory(undefined);
+      return;
+    }
+
+    let shouldChangeCategory = true;
+
+    for (const line of chartLines) {
+      if (chartDataUnitCategoryMap.current.get(line) === activeUnitCategory) {
+        shouldChangeCategory = false;
+        break;
+      }
+    }
+
+    const unitCategory = shouldChangeCategory
+      ? chartDataUnitCategoryMap.current.get(chartLines[0])
+      : activeUnitCategory;
+
+    const chartLineSet = new Set(chartLines);
+
+    let highestCategory: ChartDataCategory = undefined;
+    let highestValue = 0;
+
+    for (const [key, value] of filteredHighestCategoryValues.current) {
+      if (
+        !chartLineSet.has(key) ||
+        chartDataUnitCategoryMap.current.get(key) !== unitCategory
+      )
+        continue;
+
+      if (value > highestValue) {
+        highestCategory = key;
+        highestValue = value;
+      }
+    }
+
+    setSecondaryDataKey(highestCategory);
+    setSecondaryDataUnitCategory(unitCategory);
+  };
+
+  const updateLeftYAxis = (chartAreas: ChartDataCategory[]) => {
+    if (chartAreas.length === 0) return;
+
+    if (chartAreas.length === 1) {
+      setPrimaryDataKey(chartAreas[0]);
+      setShownChartDataAreas(chartAreas);
+      return;
+    }
+
+    const unitCategory = chartDataUnitCategoryMap.current.get(chartAreas[0]);
+
+    const chartAreaSet = new Set(chartAreas);
+
+    const chartAreasValueMap = new Map<ChartDataCategory, number>();
+
+    for (const [key, value] of filteredHighestCategoryValues.current) {
+      if (
+        !chartAreaSet.has(key) ||
+        chartDataUnitCategoryMap.current.get(key) !== unitCategory
+      )
+        continue;
+
+      // Create highest value Map of only chartAreas dataKeys
+      chartAreasValueMap.set(key, value);
+    }
+
+    // Sort dataKeys with highest values first
+    const sortedDataKeys = Array.from(chartAreasValueMap.entries())
+      .sort(([, valueA], [, valueB]) => valueB - valueA)
+      .map(([key]) => key);
+
+    setPrimaryDataKey(sortedDataKeys[0]);
+    setShownChartDataAreas(sortedDataKeys);
+  };
+
+  const loadChartAreas = (dataKeys: ChartDataCategory[]) => {
+    if (dataKeys.length === 0) return;
+
+    if (primaryDataKey === undefined) {
+      // If no Chart Areas exist
+      setChartDataAreas(dataKeys);
+
+      updateLeftYAxis(dataKeys);
+    }
+
+    if (
+      primaryDataKey !== undefined &&
+      chartDataUnitCategoryMap.current.get(dataKeys[0]) !==
+        chartDataUnitCategoryMap.current.get(primaryDataKey)
+    ) {
+      // Replace existing Chart Areas if existing Chart Areas does not share Unit Category
+      setChartDataAreas(dataKeys);
+
+      setChartDataLines([...chartDataLines, ...chartDataAreas]);
+      setChartLineUnitCategorySet(
+        new Set([
+          ...chartLineUnitCategorySet,
+          chartDataUnitCategoryMap.current.get(primaryDataKey),
+        ])
+      );
+
+      const updatedShownChartDataLines = [
+        ...shownChartDataLines,
+        ...shownChartDataAreas,
+      ];
+
+      setShownChartDataLines(updatedShownChartDataLines);
+
+      updateLeftYAxis(dataKeys);
+
+      const activeUnitCategory =
+        chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+      updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
+    }
+
+    if (
+      primaryDataKey !== undefined &&
+      chartDataUnitCategoryMap.current.get(dataKeys[0]) ===
+        chartDataUnitCategoryMap.current.get(primaryDataKey)
+    ) {
+      // Append new Chart Area if existing Chart Area(s) share Unit Category
+      setChartDataAreas([...chartDataAreas, ...dataKeys]);
+
+      updateLeftYAxis([...shownChartDataAreas, ...dataKeys]);
+    }
+  };
+
+  const loadChartLines = (
+    dataKeys: ChartDataCategory[],
+    unitCategories: ChartDataUnitCategory[],
+    activeUnitCategory: ChartDataUnitCategory
+  ) => {
+    setChartDataLines([...chartDataLines, ...dataKeys]);
+    setChartLineUnitCategorySet(
+      new Set([...chartLineUnitCategorySet, ...unitCategories])
+    );
+
+    const updatedShownChartDataLines = [...shownChartDataLines, ...dataKeys];
+
+    setShownChartDataLines(updatedShownChartDataLines);
+
+    updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
+  };
+
+  const addChartComment = (
+    chartCommentMap: Map<string, ChartComment[]>,
+    date: string,
+    dataKeys: Set<ChartDataCategory>,
+    label: string,
+    comment: string,
+    areCommentsAlreadyLoaded?: boolean
+  ) => {
+    const chartComment: ChartComment = {
+      dataKeys,
+      label,
+      comment,
+    };
+
+    if (chartCommentMap.has(date)) {
+      const updatedChartCommentList = chartCommentMap.get(date)!;
+
+      let shouldAddChartComment = true;
+
+      if (areCommentsAlreadyLoaded) {
+        for (const chartComment of updatedChartCommentList) {
+          if (
+            chartComment.label === label &&
+            chartComment.comment === comment
+          ) {
+            shouldAddChartComment = false;
+          }
+        }
+      }
+
+      if (shouldAddChartComment) {
+        updatedChartCommentList.push(chartComment);
+      }
+    } else {
+      chartCommentMap.set(date, [chartComment]);
+    }
+  };
+
+  const removeChartStat = (dataKey: ChartDataCategory) => {
+    if (allChartDataCategories.size < 2 || dataKey === undefined) return;
+
+    const updatedChartData: ChartDataItem[] = chartData.map(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ({ [dataKey]: _, ...rest }) => rest
+    );
+
+    const trimmedChartData = trimEmptyChartDataValues(updatedChartData);
+
+    updateChartDataAndFilteredHighestCategoryValues(
+      trimmedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
+
+    const { categoryType, dataId } = getChartDataCategoryTypeAndId(dataKey);
+
+    if (categoryType !== "no-id") {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [dataKey]: _, ...updatedChartConfig } = chartConfig.current;
+      chartConfig.current = updatedChartConfig;
+      chartDataUnitMap.current.delete(dataKey);
+      chartDataUnitCategoryMap.current.delete(dataKey);
+    }
+
+    loadedCharts.current.delete(dataKey);
+    highestCategoryValues.current.delete(dataKey);
+    filteredHighestCategoryValues.current.delete(dataKey);
+    includesMultisetMap.current.delete(dataKey);
+
+    if (categoryType === "measurement") {
+      const updatedLoadedMeasurements = new Map(loadedMeasurements);
+      updatedLoadedMeasurements.delete(dataId as number);
+      setLoadedMeasurements(updatedLoadedMeasurements);
+    }
+
+    if (categoryType === "exercise-group") {
+      const updatedDisabledExerciseGroups =
+        disabledExerciseGroups.current.filter((item) => item !== dataId);
+      disabledExerciseGroups.current = updatedDisabledExerciseGroups;
+    }
+
+    const updatedChartCommentMap = new Map<string, ChartComment[]>();
+
+    for (const [date, chartComments] of chartCommentMap) {
+      const updatedCommentList: ChartComment[] = [];
+
+      for (const comment of chartComments) {
+        const updatedComment: ChartComment = { ...comment };
+
+        updatedComment.dataKeys.delete(dataKey);
+
+        updatedCommentList.push(updatedComment);
+      }
+
+      if (updatedCommentList.length !== 0) {
+        updatedChartCommentMap.set(date, updatedCommentList);
+      }
+    }
+
+    setChartCommentMap(updatedChartCommentMap);
+
+    const updatedChartAreas: ChartDataCategory[] = [];
+
+    for (const area of chartDataAreas) {
+      if (area !== dataKey) updatedChartAreas.push(area);
+    }
+
+    if (updatedChartAreas.length !== chartDataAreas.length) {
+      // If dataKey was Chart Area
+
+      const updatedShownChartDataAreas = shownChartDataAreas.filter(
+        (item) => item !== dataKey
+      );
+
+      if (updatedChartAreas.length !== 0) {
+        // If more Chart Areas exist
+
+        if (updatedShownChartDataAreas.length === 0) {
+          // If dataKey was only the shown Chart Area
+          updatedShownChartDataAreas.push(updatedChartAreas[0]);
+        }
+
+        setPrimaryDataKey(updatedChartAreas[0]);
+      } else {
+        // If dataKey was last Chart Area
+
+        const newChartArea = chartDataLines[0];
+
+        updatedChartAreas.push(newChartArea);
+        updatedShownChartDataAreas.push(newChartArea);
+
+        const updatedChartDataLines = chartDataLines.filter(
+          (item) => item !== newChartArea
+        );
+        const updatedShownChartDataLines = shownChartDataLines.filter(
+          (item) => item !== newChartArea
+        );
+
+        setChartDataLines(updatedChartDataLines);
+        setShownChartDataLines(updatedShownChartDataLines);
+
+        const updatedChartLineUnitCategorySet = new Set(
+          updatedShownChartDataLines.map((item) =>
+            chartDataUnitCategoryMap.current.get(item)
+          )
+        );
+
+        setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+
+        const activeUnitCategory =
+          chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+        updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
+      }
+
+      setChartDataAreas(updatedChartAreas);
+      setShownChartDataAreas(updatedShownChartDataAreas);
+
+      updateLeftYAxis(updatedShownChartDataAreas);
+    } else {
+      // If dataKey was Chart Line
+
+      const updatedChartDataLines = chartDataLines.filter(
+        (item) => item !== dataKey
+      );
+      const updatedShownChartDataLines = shownChartDataLines.filter(
+        (item) => item !== dataKey
+      );
+
+      setChartDataLines(updatedChartDataLines);
+      setShownChartDataLines(updatedShownChartDataLines);
+
+      const updatedChartLineUnitCategorySet = new Set(
+        updatedShownChartDataLines.map((item) =>
+          chartDataUnitCategoryMap.current.get(item)
+        )
+      );
+
+      setChartLineUnitCategorySet(updatedChartLineUnitCategorySet);
+
+      const activeUnitCategory =
+        chartDataUnitCategoryMap.current.get(secondaryDataKey);
+
+      updateRightYAxis(updatedShownChartDataLines, activeUnitCategory);
+    }
+  };
+
+  const getChartDataCategoryTypeAndId = (
+    dataKey: ChartDataCategory
+  ): { categoryType: string; dataId: number | string } => {
+    // Categories with no number ids at the end
+    if (
+      dataKey === undefined ||
+      dataKey === "calories" ||
+      dataKey === "fat" ||
+      dataKey === "carbs" ||
+      dataKey === "protein" ||
+      dataKey === "body_weight" ||
+      dataKey === "body_fat_percentage"
+    )
+      return { categoryType: "no-id", dataId: 0 };
+
+    const splitDataKey = dataKey.split("_");
+
+    const dataIdIndex = splitDataKey.length - 1;
+
+    if (splitDataKey[0] === "measurement")
+      return {
+        categoryType: "measurement",
+        dataId: Number(splitDataKey[dataIdIndex]),
+      };
+
+    if (splitDataKey[0] === "exercise")
+      // Only exercise_group categories starts with "exercise"
+      return {
+        categoryType: "exercise-group",
+        dataId: splitDataKey[dataIdIndex],
+      };
+
+    return {
+      categoryType: "exercise",
+      dataId: Number(splitDataKey[dataIdIndex]),
+    };
+  };
+
+  const trimEmptyChartDataValues = (chartData: ChartDataItem[]) => {
+    if (chartData.length === 0) return chartData;
+
+    const hasEmptyStart = Object.keys(chartData[0]).length === 1;
+    const hasEmptyEnd =
+      Object.keys(chartData[chartData.length - 1]).length === 1;
+
+    if (!hasEmptyStart && !hasEmptyEnd) return chartData;
+
+    const trimmedChartData = [...chartData];
+
+    if (hasEmptyStart) {
+      let trimIndex = 0;
+
+      for (let i = 0; i < trimmedChartData.length; i++) {
+        if (Object.keys(trimmedChartData[i]).length > 1) {
+          trimIndex = i;
+          break;
+        }
+      }
+
+      trimmedChartData.splice(0, trimIndex);
+    }
+
+    if (hasEmptyEnd) {
+      let trimIndex = 0;
+
+      for (let i = trimmedChartData.length - 1; i > 0; i--) {
+        if (Object.keys(trimmedChartData[i]).length > 1) {
+          trimIndex = i;
+          break;
+        }
+      }
+
+      trimmedChartData.splice(
+        trimIndex + 1,
+        trimmedChartData.length - trimIndex
+      );
+    }
+
+    return trimmedChartData;
+  };
+
+  const handleChangeUnit = (newUnit: string, unitCategory: UnitCategory) => {
+    if (unitCategory === "Weight") {
+      if (newUnit === weightUnit) return;
+
+      changeUnitInChartData(
+        newUnit,
+        weightUnit,
+        weightCharts,
+        ConvertWeightValue
+      );
+
+      setWeightUnit(newUnit);
+    }
+
+    if (unitCategory === "Distance") {
+      if (newUnit === distanceUnit) return;
+
+      changeUnitInChartData(
+        newUnit,
+        distanceUnit,
+        distanceCharts,
+        ConvertDistanceValue
+      );
+
+      setDistanceUnit(newUnit);
+    }
+
+    if (unitCategory === "Speed") {
+      if (newUnit === speedUnit) return;
+
+      changeUnitInChartData(newUnit, speedUnit, speedCharts, ConvertSpeedValue);
+
+      setSpeedUnit(newUnit);
+    }
+
+    if (unitCategory === "Pace") {
+      if (newUnit === paceUnit) return;
+
+      changeUnitInChartData(newUnit, paceUnit, paceCharts, ConvertPaceValue);
+
+      setPaceUnit(newUnit);
+    }
+
+    if (unitCategory === "Circumference") {
+      if (newUnit === circumferenceUnit) return;
+
+      changeUnitInChartData(
+        newUnit,
+        circumferenceUnit,
+        circumferenceCharts,
+        ConvertMeasurementValue
+      );
+
+      setCircumferenceUnit(newUnit);
+    }
+  };
+
+  const changeUnitInChartData = (
+    newUnit: string,
+    oldUnit: string,
+    categoryChart: Set<ChartDataCategoryNoUndefined>,
+    conversionFunction: (
+      value: number,
+      currentUnit: string,
+      newUnit: string
+    ) => number
+  ) => {
+    const updatedChartData: ChartDataItem[] = [];
+
+    for (const chartDataItem of chartData) {
+      const chartNames: ChartDataCategory[] = Object.keys(chartDataItem).filter(
+        (key) => key !== "date"
+      ) as ChartDataCategory[];
+
+      const newChartDataItem: ChartDataItem = { ...chartDataItem };
+
+      for (const chart of chartNames) {
+        if (chart === undefined) continue;
+
+        if (categoryChart.has(chart)) {
+          const oldValue = newChartDataItem[chart] ?? 0;
+
+          const updatedValue = conversionFunction(oldValue, oldUnit, newUnit);
+
+          newChartDataItem[chart] = ConvertNumberToTwoDecimals(updatedValue);
+        }
+      }
+
+      updatedChartData.push(newChartDataItem);
+    }
+
+    for (const chart of categoryChart) {
+      chartDataUnitMap.current.set(chart, ` ${newUnit}`);
+    }
+
+    updateChartDataAndFilteredHighestCategoryValues(
+      updatedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
+  };
+
+  const handleClickTimePeriod = (timePeriod: TimePeriod) => {
+    if (
+      timePeriodIdSet.has(timePeriod.id.toString()) ||
+      timePeriod.start_date === null ||
+      userSettings === undefined
+    )
+      return;
+
+    const startAndEndDates = getTimePeriodStartAndEndDates(
+      timePeriod.start_date,
+      timePeriod.end_date,
+      userSettings.locale
+    );
+
+    if (startAndEndDates === undefined) return;
+
+    const { formattedStartDate, formattedEndDate } = startAndEndDates;
+
+    const referenceArea: ChartReferenceAreaItem = {
+      timePeriodId: timePeriod.id,
+      x1: formattedStartDate,
+      x2: formattedEndDate,
+      label: timePeriod.name,
+      startDate: timePeriod.start_date,
+      endDate: timePeriod.end_date,
+    };
+
+    setReferenceAreas([...referenceAreas, referenceArea]);
+    setShownReferenceAreas([...shownReferenceAreas, referenceArea]);
+
+    timePeriodListModal.onClose();
+  };
+
+  const handleOpenTimePeriodListModal = async () => {
+    if (userSettings === undefined) return;
+
+    if (!isTimePeriodListLoaded.current) {
+      await getTimePeriods(userSettings.locale);
+
+      const timePeriodPropertySet = CreateShownPropertiesSet(
+        userSettings.shown_time_period_properties,
+        "time-period"
+      );
+
+      setSelectedTimePeriodProperties(timePeriodPropertySet);
+    }
+
+    timePeriodListModal.onOpen();
+  };
+
+  const loadExerciseStats = (
+    dateMap: Map<string, WorkoutSet[]>,
+    exercise: Exercise,
+    ignoreWarmups: boolean,
+    ignoreMultisets: boolean,
+    isInAnalyticsPage: boolean
+  ) => {
+    if (userSettings === undefined) return false;
+
+    const loadedChartData: ChartDataItem[] = [];
+
+    const highestValueMap = new Map<ChartDataExerciseCategory, number>();
+
+    const { areCommentsAlreadyLoaded, updatedChartCommentMap } =
+      updateChartCommentMapForExercise(exercise.id);
+
+    const chartDataKeys: Set<ChartDataCategory> = new Set();
+
+    for (const option of loadExerciseOptions) {
+      const chartName: ChartDataExerciseCategory = isInAnalyticsPage
+        ? `${option}_${exercise.id}`
+        : option;
+      highestValueMap.set(chartName, -1);
+      chartDataKeys.add(chartName);
+    }
+
+    for (const [date, setList] of dateMap) {
+      const {
+        analyticsValuesMap,
+        commentMap,
+        includesMultiset,
+        workoutCommentMap,
+      } = GetAnalyticsValuesForSetList(
+        setList,
+        loadExerciseOptions,
+        weightUnit,
+        distanceUnit,
+        speedUnit,
+        paceUnit,
+        ignoreWarmups,
+        ignoreMultisets
+      );
+
+      const chartDataItem: ChartDataItem = {
+        date,
+      };
+
+      let shouldAddChartDataItem = false;
+
+      for (const [key, value] of analyticsValuesMap) {
+        const chartName: ChartDataCategory = isInAnalyticsPage
+          ? `${key}_${exercise.id}`
+          : key;
+
+        if (value > highestValueMap.get(chartName)!) {
+          highestValueMap.set(chartName, value);
+        }
+
+        if (value !== -1) {
+          shouldAddChartDataItem = true;
+          chartDataItem[chartName] = value;
+        }
+      }
+
+      if (shouldAddChartDataItem) {
+        loadedChartData.push(chartDataItem);
+      } else {
+        continue;
+      }
+
+      for (const [setNum, comment] of commentMap) {
+        const commentLabel = isInAnalyticsPage
+          ? `${exercise.name} Set ${setNum} Comment`
+          : `Set ${setNum} Comment`;
+
+        addChartComment(
+          updatedChartCommentMap,
+          date,
+          chartDataKeys,
+          commentLabel,
+          comment,
+          areCommentsAlreadyLoaded
+        );
+      }
+
+      if (includesMultiset) {
+        includesMultisetMap.current.set(date, new Set(chartDataKeys));
+      }
+
+      for (const [, comment] of workoutCommentMap) {
+        const commentLabel = "Workout Comment";
+
+        addChartComment(
+          updatedChartCommentMap,
+          date,
+          chartDataKeys,
+          commentLabel,
+          comment,
+          areCommentsAlreadyLoaded
+        );
+      }
+    }
+
+    // Filter out categories with no values
+    const updatedHighestValueMap = new Map(
+      Array.from(highestValueMap).filter(([, value]) => value > -1)
+    );
+
+    if (updatedHighestValueMap.size === 0) {
+      for (const chart of highestValueMap.keys()) {
+        loadedCharts.current.add(chart);
+      }
+
+      toast.error("No Values Found For Selected Stats");
+      loadExerciseOptionsModal.onClose();
+      return false;
+    }
+
+    setChartCommentMap(updatedChartCommentMap);
+
+    // Sort by date, since Sets from GetCompletedSetsWithExerciseId are sorted by id
+    const sortedLoadedChartData = loadedChartData.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+
+    const filledInChartData = fillInMissingChartDates(
+      sortedLoadedChartData,
+      userSettings.locale
+    );
+
+    const mergedChartData = mergeChartData(
+      filledInChartData,
+      chartData,
+      userSettings.locale
+    );
+
+    highestCategoryValues.current = new Map([
+      ...highestCategoryValues.current,
+      ...updatedHighestValueMap,
+    ]);
+
+    updateChartDataAndFilteredHighestCategoryValues(
+      mergedChartData,
+      filterMinDate,
+      filterMaxDate
+    );
+
+    const primaryDataKeys: ChartDataCategory[] = [];
+    const secondaryDataKeys: ChartDataCategory[] = [];
+
+    const chartLineUnitCategories = new Set<ChartDataUnitCategory>();
+
+    for (const option of loadExerciseOptions) {
+      const chartName: ChartDataCategory = isInAnalyticsPage
+        ? `${option}_${exercise.id}`
+        : option;
+
+      if (loadedCharts.current.has(chartName)) continue;
+
+      loadedCharts.current.add(chartName);
+
+      if (!updatedHighestValueMap.has(chartName)) continue;
+
+      const optionCategory = chartDataUnitCategoryMap.current.get(option);
+
+      chartDataUnitCategoryMap.current.set(chartName, optionCategory);
+
+      const chartLabel = isInAnalyticsPage
+        ? `${loadExerciseOptionsMap.get(option)} [${exercise.name}]`
+        : loadExerciseOptionsMap.get(option);
+
+      chartConfig.current[chartName] = {
+        label: chartLabel,
+      };
+
+      updateExerciseStatUnit(chartName, optionCategory);
+
+      if (loadExerciseOptionsUnitCategoryPrimary === optionCategory) {
+        primaryDataKeys.push(chartName);
+      } else {
+        secondaryDataKeys.push(chartName);
+        chartLineUnitCategories.add(optionCategory);
+      }
+    }
+
+    const currentChartAreaCategory =
+      chartDataUnitCategoryMap.current.get(primaryDataKey);
+
+    if (
+      loadExerciseOptionsUnitCategoryPrimary !== undefined &&
+      chartDataAreas.length > 0 &&
+      currentChartAreaCategory !== loadExerciseOptionsUnitCategoryPrimary
+    ) {
+      // Move current Chart Areas to Chart Lines if different categories
+      // (Needed because loadChartLines will update Chart Lines after loadChartAreas)
+      secondaryDataKeys.unshift(...chartDataAreas);
+      chartLineUnitCategories.add(currentChartAreaCategory);
+    }
+
+    if (
+      loadExerciseOptionsUnitCategoryPrimary !== undefined &&
+      primaryDataKeys.length > 0
+    ) {
+      loadChartAreas(primaryDataKeys);
+    }
+
+    if (secondaryDataKeys.length > 0) {
+      loadChartLines(
+        secondaryDataKeys,
+        Array.from(chartLineUnitCategories),
+        loadExerciseOptionsUnitCategorySecondary
+      );
+    }
+
+    isChartDataLoaded.current = true;
+    loadExerciseOptionsModal.onClose();
+    return true;
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -1565,12 +3185,13 @@ export default function Analytics() {
         customHeightString="h-[440px]"
         hiddenTimePeriods={timePeriodIdSet}
       />
-      <LoadExerciseOptionsModal
+      {/* TODO: FIX */}
+      {/* <LoadExerciseOptionsModal
         useChartAnalytics={chartAnalytics}
         selectedExercise={selectedExercise}
         chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
         handleLoadExerciseStats={handleLoadExerciseOptions}
-      />
+      /> */}
       <FilterMinAndMaxDatesModal
         filterMinAndMaxDatesModal={filterMinAndMaxDatesModal}
         locale={userSettings.locale}
@@ -1596,7 +3217,399 @@ export default function Analytics() {
       <div className="absolute left-0 w-screen">
         <div className="flex flex-col gap-3">
           {isChartDataLoaded.current && (
-            <AnalyticsChart useChartAnalytics={chartAnalytics} />
+            <div className="flex gap-1.5 mx-1.5">
+              <div className="flex flex-col gap-1 w-[12.25rem]">
+                <Select
+                  label="Shown Areas"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownChartDataAreas as string[]}
+                  isDisabled={chartDataAreas.length < 2}
+                  onSelectionChange={(value) =>
+                    updateLeftYAxis(Array.from(value) as ChartDataCategory[])
+                  }
+                  disallowEmptySelection
+                >
+                  {chartDataAreas.map((area) => (
+                    <SelectItem key={area}>
+                      {chartConfig.current[area ?? "default"].label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  label="Shown Lines"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownChartDataLines as string[]}
+                  onSelectionChange={(value) =>
+                    updateShownChartLines(
+                      Array.from(value) as ChartDataCategory[]
+                    )
+                  }
+                  isDisabled={chartDataLines.length === 0}
+                >
+                  {chartDataLines.map((line) => (
+                    <SelectItem key={line}>
+                      {chartConfig.current[line ?? "default"].label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  label="Right Y-Axis Value"
+                  size="sm"
+                  variant="faded"
+                  selectedKeys={
+                    secondaryDataUnitCategory !== undefined
+                      ? [secondaryDataUnitCategory]
+                      : []
+                  }
+                  onChange={(e) =>
+                    updateRightYAxis(
+                      shownChartDataLines,
+                      e.target.value as ChartDataUnitCategory
+                    )
+                  }
+                  disallowEmptySelection
+                  isDisabled={chartLineUnitCategorySet.size < 2}
+                >
+                  {Array.from(chartLineUnitCategorySet).map((category) => (
+                    <SelectItem key={category}>{category}</SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  label="Shown Time Periods"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownTimePeriodIdSet}
+                  onSelectionChange={(keys) =>
+                    updateShownReferenceAreas(new Set(keys) as Set<string>)
+                  }
+                  isDisabled={referenceAreas.length === 0}
+                >
+                  {referenceAreas.map((area) => (
+                    <SelectItem key={area.timePeriodId.toString()}>
+                      {area.label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={() => handleOpenTimePeriodListModal()}
+                >
+                  Load Time Period
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  color="danger"
+                  onPress={() => deleteModal.onOpen()}
+                >
+                  Reset Chart
+                </Button>
+              </div>
+              <ChartContainer
+                config={chartConfig.current}
+                className="grow bg-default-50 pt-4 pb-1.5 rounded-xl"
+              >
+                <ComposedChart
+                  data={filteredChartData}
+                  margin={{ top: 15, right: 5, left: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis
+                    dataKey="date"
+                    tickFormatter={(date) => formatXAxisDate(date)}
+                  />
+                  <YAxis
+                    yAxisId={primaryDataKey}
+                    unit={chartDataUnitMap.current.get(primaryDataKey)}
+                  />
+                  <YAxis
+                    dataKey={secondaryDataKey}
+                    unit={chartDataUnitMap.current.get(secondaryDataKey)}
+                    orientation="right"
+                  />
+                  <ChartTooltip
+                    isAnimationActive={false}
+                    content={
+                      <ChartTooltipContent
+                        chartDataUnitMap={chartDataUnitMap.current}
+                        chartCommentMap={chartCommentMap}
+                        chartIncludesMultisetMap={includesMultisetMap.current}
+                      />
+                    }
+                  />
+                  <ChartLegend content={<ChartLegendContent />} />
+                  {shownChartDataAreas.map((item, index) => (
+                    <Area
+                      key={item}
+                      isAnimationActive={false}
+                      yAxisId={primaryDataKey}
+                      dataKey={item ?? ""}
+                      stroke={
+                        chartAreaColorList[index % chartAreaColorList.length]
+                      }
+                      fill={
+                        chartAreaColorList[index % chartAreaColorList.length]
+                      }
+                      activeDot={{ r: 6 }}
+                      connectNulls
+                      dot
+                    />
+                  ))}
+                  {shownReferenceAreas.map((area, index) => (
+                    <ReferenceArea
+                      key={area.timePeriodId}
+                      x1={area.x1}
+                      x2={area.x2}
+                      label={{ position: "top", value: area.label }}
+                      opacity={0.2}
+                      fill={
+                        referenceAreaColorList[
+                          index % referenceAreaColorList.length
+                        ]
+                      }
+                      stroke={
+                        referenceAreaColorList[
+                          index % referenceAreaColorList.length
+                        ]
+                      }
+                    />
+                  ))}
+                  {shownChartDataLines.map((item, index) => (
+                    <Line
+                      key={item}
+                      isAnimationActive={false}
+                      dataKey={item}
+                      stroke={
+                        chartLineColorList[index % chartLineColorList.length]
+                      }
+                      strokeWidth={2}
+                      activeDot={{ r: 6 }}
+                      connectNulls
+                    />
+                  ))}
+                </ComposedChart>
+              </ChartContainer>
+              <div className="flex flex-col gap-0.5 w-[12.25rem]">
+                <div className="flex flex-col gap-1">
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        className="font-medium"
+                        variant="flat"
+                        isDisabled={chartDataAreas.length === 0}
+                      >
+                        Convert Area To Line
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Chart data areas" variant="flat">
+                      {chartDataAreas.map((area) => (
+                        <DropdownItem
+                          key={area as string}
+                          onPress={() => changeChartDataAreaToLine(area)}
+                        >
+                          {chartConfig.current[area ?? "default"].label}
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </Dropdown>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        className="font-medium"
+                        variant="flat"
+                        isDisabled={chartDataLines.length === 0}
+                      >
+                        Convert Line To Area
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Chart data lines" variant="flat">
+                      {chartDataLines.map((line) => (
+                        <DropdownItem
+                          key={line as string}
+                          onPress={() => changeChartDataLineToArea(line)}
+                        >
+                          {chartConfig.current[line ?? "default"].label}
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </Dropdown>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        className="font-medium"
+                        variant="flat"
+                        isDisabled={chartLineUnitCategorySet.size === 0}
+                      >
+                        Change Area Category
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Chart data line unit categories"
+                      variant="flat"
+                    >
+                      {Array.from(chartLineUnitCategorySet).map((category) => (
+                        <DropdownItem
+                          key={category as string}
+                          onPress={() =>
+                            changeChartDataLineCategoryToArea(category)
+                          }
+                        >
+                          {category}
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </Dropdown>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        className="font-medium"
+                        variant="flat"
+                        color={
+                          filterMinDate || filterMaxDate
+                            ? "secondary"
+                            : "default"
+                        }
+                      >
+                        Filter Dates
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Filter dates option menu"
+                      variant="flat"
+                    >
+                      <>
+                        {/* Only show the options that can meaningfully filter the Chart */}
+                        {Array.from(dateMap).map(
+                          ([label, date]) =>
+                            date > chartStartDate! &&
+                            date < chartEndDate! && (
+                              <DropdownItem
+                                key={label}
+                                onPress={() => updateMinDateFilter(date)}
+                              >
+                                {label}
+                              </DropdownItem>
+                            )
+                        )}
+                        <DropdownItem
+                          key="Custom"
+                          onPress={() => filterMinAndMaxDatesModal.onOpen()}
+                        >
+                          Custom
+                        </DropdownItem>
+                      </>
+                    </DropdownMenu>
+                  </Dropdown>
+                  {filterMinDate !== null && (
+                    <Chip
+                      classNames={{ content: "w-[10.625rem]" }}
+                      radius="sm"
+                      color="secondary"
+                      variant="flat"
+                      onClose={() => updateMinDateFilter(null)}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <span className="font-semibold">Min Date: </span>
+                      {FormatDateToShortString(
+                        filterMinDate,
+                        userSettings!.locale
+                      )}
+                    </Chip>
+                  )}
+                  {filterMaxDate !== null && (
+                    <Chip
+                      classNames={{ content: "w-[10.625rem]" }}
+                      radius="sm"
+                      color="secondary"
+                      variant="flat"
+                      onClose={() => updateMaxDateFilter(null)}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <span className="font-semibold">Max Date: </span>
+                      {FormatDateToShortString(
+                        filterMaxDate,
+                        userSettings!.locale
+                      )}
+                    </Chip>
+                  )}
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        className="font-medium"
+                        variant="flat"
+                        color="danger"
+                        isDisabled={allChartDataCategories.size < 2}
+                      >
+                        Remove Chart Stat
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Chart data lines" variant="flat">
+                      {Array.from(allChartDataCategories).map((dataKey) => (
+                        <DropdownItem
+                          key={dataKey as string}
+                          onPress={() => removeChartStat(dataKey)}
+                        >
+                          {chartConfig.current[dataKey ?? "default"].label}
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+                <div className="flex flex-col gap-0.5 px-px">
+                  {weightCharts.size > 0 && (
+                    <WeightUnitDropdown
+                      value={weightUnit}
+                      targetType="chart"
+                      changeUnitInChart={handleChangeUnit}
+                      customLabel="Weight Unit"
+                      customWidthString="w-[5rem]"
+                      isSmall
+                    />
+                  )}
+                  {distanceCharts.size > 0 && (
+                    <DistanceUnitDropdown
+                      value={distanceUnit}
+                      targetType="chart"
+                      changeUnitInChart={handleChangeUnit}
+                      customLabel="Distance Unit"
+                      customWidthString="w-[5.5rem]"
+                      isSmall
+                    />
+                  )}
+                  {speedCharts.size > 0 && (
+                    <SpeedUnitDropdown
+                      value={speedUnit}
+                      targetType="chart"
+                      changeUnitInChart={handleChangeUnit}
+                    />
+                  )}
+                  {paceCharts.size > 0 && (
+                    <PaceUnitDropdown
+                      value={paceUnit}
+                      targetType="chart"
+                      changeUnitInChart={handleChangeUnit}
+                    />
+                  )}
+                  {circumferenceUnit !== undefined &&
+                    circumferenceCharts !== undefined &&
+                    circumferenceCharts.size > 0 && (
+                      <MeasurementUnitDropdown
+                        value={circumferenceUnit}
+                        targetType="chart"
+                        changeUnitInChart={handleChangeUnit}
+                        customWidthString="w-[7.5rem]"
+                        customLabel="Circumference Unit"
+                      />
+                    )}
+                </div>
+              </div>
+            </div>
           )}
           <div className="flex flex-col items-center gap-3">
             <div className="flex gap-2">

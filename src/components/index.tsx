@@ -33,7 +33,6 @@ export { FilterMinAndMaxValues } from "./FilterMinAndMaxValues";
 export { FilterMinAndMaxDates } from "./FilterMinAndMaxDates";
 export { DietLogAccordions } from "./DietLogAccordions";
 export { DateRange } from "./DateRange";
-export { AnalyticsChart } from "./AnalyticsChart";
 export { TimePeriodListItemContent } from "./TimePeriodListItemContent";
 export { ExerciseMaxValues } from "./ExerciseMaxValues";
 
