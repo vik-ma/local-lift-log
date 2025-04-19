@@ -67,9 +67,6 @@ export default function ExerciseDetails() {
   const [dateSetListMap, setDateSetListMap] = useState<
     Map<string, WorkoutSet[]>
   >(new Map());
-  const [dateSetListMapReversed, setDateSetListMapReversed] = useState<
-    Map<string, WorkoutSet[]>
-  >(new Map());
   const [showWarmups, setShowWarmups] = useState<boolean>(true);
   const [showMultisets, setShowMultisets] = useState<boolean>(true);
   const [showPace, setShowPace] = useState<boolean>(true);
@@ -334,11 +331,10 @@ export default function ExerciseDetails() {
       .slice(0, 30);
 
     const sortedDateMapArray = Array.from(dateMap).sort(
-      (a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime()
+      (a, b) => new Date(b[0]).getTime() - new Date(a[0]).getTime()
     );
 
-    setDateSetListMap(new Map(sortedDateMapArray));
-    setDateSetListMapReversed(new Map([...sortedDateMapArray].reverse()));
+    setDateSetListMap(new Map([...sortedDateMapArray]));
 
     isSetListLoaded.current = true;
   };
@@ -527,7 +523,7 @@ export default function ExerciseDetails() {
           }
         />
         <div className="flex flex-col justify-center">
-          {dateSetListMapReversed.size === 0 ? (
+          {dateSetListMap.size === 0 ? (
             <div className="text-stone-500 text-center text-lg pt-1">
               No sets completed for exercise
             </div>
@@ -616,200 +612,198 @@ export default function ExerciseDetails() {
                         Click on set to go to workout
                       </span>
                     </div>
-                    {Array.from(dateSetListMapReversed).map(
-                      ([date, setList]) => {
-                        // Hide entire date if all sets in setList are warmups/multisets and if corresponding checkbox is unchecked
-                        if (
-                          !showMultisets &&
-                          !datesThatAreNotOnlyMultisets.current.has(date)
-                        ) {
-                          return null;
-                        }
+                    {Array.from(dateSetListMap).map(([date, setList]) => {
+                      // Hide entire date if all sets in setList are warmups/multisets and if corresponding checkbox is unchecked
+                      if (
+                        !showMultisets &&
+                        !datesThatAreNotOnlyMultisets.current.has(date)
+                      ) {
+                        return null;
+                      }
 
-                        if (
-                          !showWarmups &&
-                          !datesThatAreNotOnlyWarmups.current.has(date)
-                        ) {
-                          return null;
-                        }
+                      if (
+                        !showWarmups &&
+                        !datesThatAreNotOnlyWarmups.current.has(date)
+                      ) {
+                        return null;
+                      }
 
-                        const workoutCommentMap =
-                          dateWorkoutCommentMap.current.get(date);
+                      const workoutCommentMap =
+                        dateWorkoutCommentMap.current.get(date);
 
-                        let setNum = 0;
+                      let setNum = 0;
 
-                        return (
-                          <div
-                            key={date}
-                            className="flex flex-col divide-y divide-foreground-400 text-foreground-600"
-                          >
-                            <h4 className="font-semibold text-lg px-[3px] text-secondary leading-tight">
-                              {date}
-                            </h4>
-                            <div className="flex flex-col pt-0.5">
-                              {workoutCommentMap !== undefined && (
-                                <div className="flex flex-col">
-                                  {Array.from(workoutCommentMap).map(
-                                    ([id, comment]) => (
-                                      <div
-                                        key={id}
-                                        className="px-[3px] leading-tight text-xs text-indigo-700 truncate"
-                                      >
-                                        {comment}
-                                      </div>
-                                    )
-                                  )}
-                                </div>
-                              )}
-                              {setList.map((set) => {
-                                if (!showWarmups && set.is_warmup === 1)
-                                  return null;
-                                if (!showMultisets && set.multiset_id > 0)
-                                  return null;
-
-                                if (set.is_warmup === 0) setNum++;
-
-                                return (
-                                  <button
-                                    key={set.id}
-                                    aria-label="Go to workout of set"
-                                    className="flex flex-col text-left text-sm font-medium rounded-sm pl-1 cursor-pointer hover:bg-default-200 focus:bg-default-200"
-                                    onClick={() =>
-                                      navigate(`/workouts/${set.workout_id}`)
-                                    }
-                                  >
-                                    <div className="flex">
-                                      {set.is_warmup === 1 ? (
-                                        <span className="text-foreground-400 w-[4.75rem] truncate">
-                                          Warmup
-                                        </span>
-                                      ) : (
-                                        <span className="text-foreground-600 w-[4.75rem] truncate">
-                                          Set {setNum}
-                                        </span>
-                                      )}
-                                      <div
-                                        className={
-                                          set.is_warmup === 1
-                                            ? "flex flex-wrap max-w-[20rem] text-foreground-400"
-                                            : "flex flex-wrap max-w-[20rem] text-foreground-900"
-                                        }
-                                      >
-                                        {set.is_tracking_weight === 1 && (
-                                          <div className="w-[5rem] font-normal">
-                                            <span className="max-w-[4rem] truncate font-semibold">
-                                              {set.weight}{" "}
-                                            </span>
-                                            {set.weight_unit}
-                                          </div>
-                                        )}
-                                        {set.is_tracking_reps === 1 && (
-                                          <div className="w-[5rem] font-normal">
-                                            <span className="max-w-[4rem] truncate font-semibold">
-                                              {set.reps}{" "}
-                                            </span>
-                                            rep
-                                            {set.reps !== 1 && "s"}
-                                          </div>
-                                        )}
-                                        {set.is_tracking_distance === 1 && (
-                                          <div className="w-[5rem] font-normal">
-                                            <span className="max-w-[4rem] truncate font-semibold">
-                                              {set.distance}{" "}
-                                            </span>
-                                            {set.distance_unit}
-                                          </div>
-                                        )}
-                                        {set.is_tracking_time === 1 && (
-                                          <div className="w-[5rem] truncate font-semibold">
-                                            {FormatTimeInSecondsToHhmmssString(
-                                              set.time_in_seconds
-                                            )}
-                                          </div>
-                                        )}
-                                        {set.pace !== undefined && showPace && (
-                                          <div className="w-[10rem] font-normal">
-                                            (
-                                            <span className="max-w-[4rem] truncate font-semibold">
-                                              {set.pace}{" "}
-                                            </span>
-                                            {set.paceUnit})
-                                          </div>
-                                        )}
-                                        {set.is_tracking_rpe === 1 && (
-                                          <div className="w-[5rem] font-normal">
-                                            RPE
-                                            <span className="max-w-[2.5rem] truncate font-semibold">
-                                              {" "}
-                                              {set.rpe}
-                                            </span>
-                                          </div>
-                                        )}
-                                        {set.is_tracking_rir === 1 && (
-                                          <div className="w-[5rem] font-normal">
-                                            <span className="max-w-[4rem] truncate font-semibold">
-                                              {set.rir}{" "}
-                                            </span>
-                                            RIR
-                                          </div>
-                                        )}
-                                        {set.is_tracking_resistance_level ===
-                                          1 && (
-                                          <div className="w-[10rem] font-normal">
-                                            Resistance Level
-                                            <span className="max-w-[2.75rem] truncate font-semibold">
-                                              {" "}
-                                              {set.resistance_level}
-                                            </span>
-                                          </div>
-                                        )}
-                                        {set.is_tracking_partial_reps === 1 && (
-                                          <div className="w-[10rem] font-normal">
-                                            <span className="max-w-[2.75rem] truncate font-semibold">
-                                              {set.partial_reps}{" "}
-                                            </span>
-                                            partial rep
-                                            {set.partial_reps !== 1 && "s"}
-                                          </div>
-                                        )}
-                                        {set.is_tracking_user_weight === 1 && (
-                                          <div className="w-[10rem] font-normal">
-                                            Body Weight
-                                            <span className="max-w-[3rem] truncate font-semibold">
-                                              {" "}
-                                              {set.user_weight}{" "}
-                                            </span>
-                                            {set.user_weight_unit}
-                                          </div>
-                                        )}
-                                      </div>
+                      return (
+                        <div
+                          key={date}
+                          className="flex flex-col divide-y divide-foreground-400 text-foreground-600"
+                        >
+                          <h4 className="font-semibold text-lg px-[3px] text-secondary leading-tight">
+                            {date}
+                          </h4>
+                          <div className="flex flex-col pt-0.5">
+                            {workoutCommentMap !== undefined && (
+                              <div className="flex flex-col">
+                                {Array.from(workoutCommentMap).map(
+                                  ([id, comment]) => (
+                                    <div
+                                      key={id}
+                                      className="px-[3px] leading-tight text-xs text-indigo-700 truncate"
+                                    >
+                                      {comment}
                                     </div>
-                                    {(set.comment !== null ||
-                                      set.multiset_id > 0) && (
-                                      <div className="flex text-xs font-normal leading-none pb-0.5 text-yellow-600">
-                                        <div className="w-[4.75rem]">
-                                          {set.multiset_id > 0 && (
-                                            <span className="text-slate-500">
-                                              Multiset
-                                            </span>
+                                  )
+                                )}
+                              </div>
+                            )}
+                            {setList.map((set) => {
+                              if (!showWarmups && set.is_warmup === 1)
+                                return null;
+                              if (!showMultisets && set.multiset_id > 0)
+                                return null;
+
+                              if (set.is_warmup === 0) setNum++;
+
+                              return (
+                                <button
+                                  key={set.id}
+                                  aria-label="Go to workout of set"
+                                  className="flex flex-col text-left text-sm font-medium rounded-sm pl-1 cursor-pointer hover:bg-default-200 focus:bg-default-200"
+                                  onClick={() =>
+                                    navigate(`/workouts/${set.workout_id}`)
+                                  }
+                                >
+                                  <div className="flex">
+                                    {set.is_warmup === 1 ? (
+                                      <span className="text-foreground-400 w-[4.75rem] truncate">
+                                        Warmup
+                                      </span>
+                                    ) : (
+                                      <span className="text-foreground-600 w-[4.75rem] truncate">
+                                        Set {setNum}
+                                      </span>
+                                    )}
+                                    <div
+                                      className={
+                                        set.is_warmup === 1
+                                          ? "flex flex-wrap max-w-[20rem] text-foreground-400"
+                                          : "flex flex-wrap max-w-[20rem] text-foreground-900"
+                                      }
+                                    >
+                                      {set.is_tracking_weight === 1 && (
+                                        <div className="w-[5rem] font-normal">
+                                          <span className="max-w-[4rem] truncate font-semibold">
+                                            {set.weight}{" "}
+                                          </span>
+                                          {set.weight_unit}
+                                        </div>
+                                      )}
+                                      {set.is_tracking_reps === 1 && (
+                                        <div className="w-[5rem] font-normal">
+                                          <span className="max-w-[4rem] truncate font-semibold">
+                                            {set.reps}{" "}
+                                          </span>
+                                          rep
+                                          {set.reps !== 1 && "s"}
+                                        </div>
+                                      )}
+                                      {set.is_tracking_distance === 1 && (
+                                        <div className="w-[5rem] font-normal">
+                                          <span className="max-w-[4rem] truncate font-semibold">
+                                            {set.distance}{" "}
+                                          </span>
+                                          {set.distance_unit}
+                                        </div>
+                                      )}
+                                      {set.is_tracking_time === 1 && (
+                                        <div className="w-[5rem] truncate font-semibold">
+                                          {FormatTimeInSecondsToHhmmssString(
+                                            set.time_in_seconds
                                           )}
                                         </div>
-                                        {set.comment !== null &&
-                                          showSetComments && (
-                                            <div className="max-w-[19.75rem] break-all">
-                                              <span>{set.comment}</span>
-                                            </div>
-                                          )}
+                                      )}
+                                      {set.pace !== undefined && showPace && (
+                                        <div className="w-[10rem] font-normal">
+                                          (
+                                          <span className="max-w-[4rem] truncate font-semibold">
+                                            {set.pace}{" "}
+                                          </span>
+                                          {set.paceUnit})
+                                        </div>
+                                      )}
+                                      {set.is_tracking_rpe === 1 && (
+                                        <div className="w-[5rem] font-normal">
+                                          RPE
+                                          <span className="max-w-[2.5rem] truncate font-semibold">
+                                            {" "}
+                                            {set.rpe}
+                                          </span>
+                                        </div>
+                                      )}
+                                      {set.is_tracking_rir === 1 && (
+                                        <div className="w-[5rem] font-normal">
+                                          <span className="max-w-[4rem] truncate font-semibold">
+                                            {set.rir}{" "}
+                                          </span>
+                                          RIR
+                                        </div>
+                                      )}
+                                      {set.is_tracking_resistance_level ===
+                                        1 && (
+                                        <div className="w-[10rem] font-normal">
+                                          Resistance Level
+                                          <span className="max-w-[2.75rem] truncate font-semibold">
+                                            {" "}
+                                            {set.resistance_level}
+                                          </span>
+                                        </div>
+                                      )}
+                                      {set.is_tracking_partial_reps === 1 && (
+                                        <div className="w-[10rem] font-normal">
+                                          <span className="max-w-[2.75rem] truncate font-semibold">
+                                            {set.partial_reps}{" "}
+                                          </span>
+                                          partial rep
+                                          {set.partial_reps !== 1 && "s"}
+                                        </div>
+                                      )}
+                                      {set.is_tracking_user_weight === 1 && (
+                                        <div className="w-[10rem] font-normal">
+                                          Body Weight
+                                          <span className="max-w-[3rem] truncate font-semibold">
+                                            {" "}
+                                            {set.user_weight}{" "}
+                                          </span>
+                                          {set.user_weight_unit}
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {(set.comment !== null ||
+                                    set.multiset_id > 0) && (
+                                    <div className="flex text-xs font-normal leading-none pb-0.5 text-yellow-600">
+                                      <div className="w-[4.75rem]">
+                                        {set.multiset_id > 0 && (
+                                          <span className="text-slate-500">
+                                            Multiset
+                                          </span>
+                                        )}
                                       </div>
-                                    )}
-                                  </button>
-                                );
-                              })}
-                            </div>
+                                      {set.comment !== null &&
+                                        showSetComments && (
+                                          <div className="max-w-[19.75rem] break-all">
+                                            <span>{set.comment}</span>
+                                          </div>
+                                        )}
+                                    </div>
+                                  )}
+                                </button>
+                              );
+                            })}
                           </div>
-                        );
-                      }
-                    )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
