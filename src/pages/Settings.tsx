@@ -658,7 +658,7 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Show Pace In Exercise Details Page</span>
             <Switch
-              aria-label="Show Pace Exercise Details Page Switch Element"
+              aria-label="Show Pace Exercise In Details Page Switch Element"
               className="flex-row-reverse gap-3"
               color="primary"
               size="lg"
@@ -668,6 +668,50 @@ export default function Settings() {
               onValueChange={(value) =>
                 updateUserSetting(
                   "show_pace_in_exercise_details",
+                  value ? 1 : 0
+                )
+              }
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Show Set Comments In Exercise Details Page
+            </span>
+            <Switch
+              aria-label="Show Set Comments In Details Page Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={
+                userSettings.show_set_comments_in_exercise_details
+                  ? true
+                  : false
+              }
+              onValueChange={(value) =>
+                updateUserSetting(
+                  "show_set_comments_in_exercise_details",
+                  value ? 1 : 0
+                )
+              }
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Show Workout Comments In Exercise Details Page
+            </span>
+            <Switch
+              aria-label="Show Workout Comments In Exercise Details Page Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={
+                userSettings.show_workout_comments_in_exercise_details
+                  ? true
+                  : false
+              }
+              onValueChange={(value) =>
+                updateUserSetting(
+                  "show_workout_comments_in_exercise_details",
                   value ? 1 : 0
                 )
               }

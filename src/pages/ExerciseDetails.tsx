@@ -661,7 +661,7 @@ export default function ExerciseDetails() {
                               workoutCommentMap !== undefined && (
                                 <div className="flex flex-col">
                                   {Array.from(workoutCommentMap).map(
-                                    ([id, comment]) => (
+                                      ([id, comment]) => (
                                       <div
                                         key={id}
                                         className="px-[3px] leading-tight text-xs text-indigo-700 truncate"
