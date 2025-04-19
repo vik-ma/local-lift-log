@@ -24,20 +24,30 @@ import {
   ChartDataUnitCategoryNoUndefined,
   Exercise,
   UseDisclosureReturnType,
+  UseExerciseListReturnType,
+  UseFilterExerciseListReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
 import {
   CreateLoadExerciseOptionsList,
   ValidLoadExerciseOptionsCategories,
 } from "../../helpers";
+import { ExerciseModalList } from "..";
 
 type LoadExerciseOptionsModalProps = {
   loadExerciseOptionsModal: UseDisclosureReturnType;
+  selectedExercise: Exercise | undefined;
+  setSelectedExercise: React.Dispatch<
+    React.SetStateAction<Exercise | undefined>
+  >;
   chartDataUnitCategoryMap: Map<ChartDataCategory, ChartDataUnitCategory>;
   loadedCharts: Set<ChartDataCategoryNoUndefined>;
   chartDataAreas: ChartDataCategory[];
   loadExerciseOptionsMap: Map<ChartDataExerciseCategoryBase, string>;
   secondaryDataUnitCategory: ChartDataUnitCategory;
+  useExerciseList: UseExerciseListReturnType;
+  useFilterExerciseList: UseFilterExerciseListReturnType;
+  userSettingsId: number;
   loadExerciseStats: (
     exercise: Exercise,
     loadExerciseOptions: Set<ChartDataExerciseCategoryBase>,
@@ -50,14 +60,18 @@ type LoadExerciseOptionsModalProps = {
 
 export const LoadExerciseOptionsModal = ({
   loadExerciseOptionsModal,
+  selectedExercise,
+  setSelectedExercise,
   chartDataUnitCategoryMap,
   loadedCharts,
   chartDataAreas,
   loadExerciseOptionsMap,
   secondaryDataUnitCategory,
+  useExerciseList,
+  useFilterExerciseList,
+  userSettingsId,
   loadExerciseStats,
 }: LoadExerciseOptionsModalProps) => {
-  const [selectedExercise, setSelectedExercise] = useState<Exercise>();
   const [filterCategories, setFilterCategories] = useState<
     Set<ChartDataUnitCategory>
   >(new Set());
@@ -365,8 +379,28 @@ export const LoadExerciseOptionsModal = ({
     }
   };
 
-  // TODO: ADD TO LOAD
-  //     setSelectedExercise(undefined);
+  const handleClickExercise = (exercise: Exercise) => {
+    setSelectedExercise(exercise);
+    fillInLoadExerciseOptions(exercise);
+  };
+
+  const handleLoadButton = async () => {
+    if (
+      selectedExercise === undefined ||
+      loadExerciseOptions.size === 0 ||
+      loadExerciseOptionsUnitCategoryPrimary === undefined
+    )
+      return;
+
+    await loadExerciseStats(
+      selectedExercise,
+      loadExerciseOptions,
+      loadExerciseOptionsUnitCategoryPrimary,
+      loadExerciseOptionsUnitCategorySecondary,
+      ignoreWarmups,
+      ignoreMultisets
+    );
+  };
 
   return (
     <Modal
@@ -378,116 +412,131 @@ export const LoadExerciseOptionsModal = ({
           <>
             <ModalHeader>
               <span className="w-[24rem] truncate">
-                Stats To Load For{" "}
-                {selectedExercise !== undefined && (
-                  <span className="text-secondary">
-                    {selectedExercise.name}
-                  </span>
+                {selectedExercise === undefined ? (
+                  "Select Exercise"
+                ) : (
+                  <>
+                    Stats To Load For{" "}
+                    <span className="text-secondary">
+                      {selectedExercise.name}
+                    </span>
+                  </>
                 )}
               </span>
             </ModalHeader>
             <ModalBody className="py-0">
-              <div className="h-[456px] flex flex-col gap-1.5">
-                <div className="flex flex-col gap-0.5">
-                  <div className="relative">
-                    <div className="flex items-end">
-                      <div className="flex items-baseline gap-0.5">
-                        <span className="font-medium">
-                          <span className="text-secondary text-lg">
-                            {loadExerciseOptions.size}
-                          </span>{" "}
-                          Stat{loadExerciseOptions.size !== 1 && "s"} Selected
-                        </span>
-                        {filterCategories.size > 0 && (
-                          <span className="text-secondary text-xs px-0.5">
-                            (Showing {filteredLoadExerciseOptionsMap.size} out
-                            of {loadExerciseOptionsMap.size} options)
+              {selectedExercise === undefined ? (
+                <div className="h-[456px] flex flex-col gap-1.5">
+                  <ExerciseModalList
+                    handleClickExercise={handleClickExercise}
+                    useExerciseList={useExerciseList}
+                    useFilterExerciseList={useFilterExerciseList}
+                    userSettingsId={userSettingsId}
+                    customHeightString="h-[456px]"
+                    isInAnalyticsPage
+                  />
+                </div>
+              ) : (
+                <div className="h-[456px] flex flex-col gap-1.5">
+                  <div className="flex flex-col gap-0.5">
+                    <div className="relative">
+                      <div className="flex items-end">
+                        <div className="flex items-baseline gap-0.5">
+                          <span className="font-medium">
+                            <span className="text-secondary text-lg">
+                              {loadExerciseOptions.size}
+                            </span>{" "}
+                            Stat{loadExerciseOptions.size !== 1 && "s"} Selected
                           </span>
-                        )}
+                          {filterCategories.size > 0 && (
+                            <span className="text-secondary text-xs px-0.5">
+                              (Showing {filteredLoadExerciseOptionsMap.size} out
+                              of {loadExerciseOptionsMap.size} options)
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="absolute right-0 -top-2">
+                        <Dropdown closeOnSelect={false}>
+                          <DropdownTrigger>
+                            <Button
+                              className="z-1"
+                              variant="flat"
+                              color={
+                                filterCategories.size > 0
+                                  ? "secondary"
+                                  : "default"
+                              }
+                              size="sm"
+                            >
+                              Filter
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu
+                            aria-label="Filter Option Categories Dropdown Menu"
+                            selectedKeys={filterCategories as Set<string>}
+                            selectionMode="multiple"
+                            onSelectionChange={
+                              setFilterCategories as React.Dispatch<
+                                React.SetStateAction<SharedSelection>
+                              >
+                            }
+                          >
+                            {Array.from(validLoadExerciseOptionsCategories).map(
+                              (category) => (
+                                <DropdownItem key={category}>
+                                  {category}
+                                </DropdownItem>
+                              )
+                            )}
+                          </DropdownMenu>
+                        </Dropdown>
                       </div>
                     </div>
-                    <div className="absolute right-0 -top-2">
-                      <Dropdown closeOnSelect={false}>
-                        <DropdownTrigger>
-                          <Button
-                            className="z-1"
+                    {filterCategories.size > 0 && (
+                      <div className="flex items-center gap-1 flex-wrap max-w-[25rem]">
+                        {Array.from(filterCategories).map((category) => (
+                          <Chip
+                            key={category}
+                            classNames={{ content: "max-w-[20rem] truncate" }}
+                            radius="sm"
+                            color="secondary"
                             variant="flat"
-                            color={
-                              filterCategories.size > 0
-                                ? "secondary"
-                                : "default"
-                            }
-                            size="sm"
+                            onClose={() => removeFilter(category)}
+                            onClick={(e) => e.stopPropagation()}
                           >
-                            Filter
-                          </Button>
-                        </DropdownTrigger>
-                        <DropdownMenu
-                          aria-label="Filter Option Categories Dropdown Menu"
-                          selectedKeys={filterCategories as Set<string>}
-                          selectionMode="multiple"
-                          onSelectionChange={
-                            setFilterCategories as React.Dispatch<
-                              React.SetStateAction<SharedSelection>
-                            >
-                          }
-                        >
-                          {Array.from(validLoadExerciseOptionsCategories).map(
-                            (category) => (
-                              <DropdownItem key={category}>
-                                {category}
-                              </DropdownItem>
-                            )
-                          )}
-                        </DropdownMenu>
-                      </Dropdown>
-                    </div>
-                  </div>
-                  {filterCategories.size > 0 && (
-                    <div className="flex items-center gap-1 flex-wrap max-w-[25rem]">
-                      {Array.from(filterCategories).map((category) => (
-                        <Chip
-                          key={category}
-                          classNames={{ content: "max-w-[20rem] truncate" }}
-                          radius="sm"
-                          color="secondary"
-                          variant="flat"
-                          onClose={() => removeFilter(category)}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <span className="font-medium">{category}</span>
-                        </Chip>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <ScrollShadow className="px-0.5 pb-1">
-                  <div className="columns-2">
-                    {Array.from(filteredLoadExerciseOptionsMap).map(
-                      ([key, value]) => (
-                        <Checkbox
-                          key={key}
-                          className="hover:underline w-full min-w-full -mb-1"
-                          color="primary"
-                          isSelected={loadExerciseOptions.has(
-                            key as ChartDataExerciseCategoryBase
-                          )}
-                          onValueChange={() =>
-                            handleLoadExerciseOptionsChange(
-                              key as ChartDataExerciseCategoryBase
-                            )
-                          }
-                          isDisabled={disabledLoadExerciseOptions.has(
-                            key as ChartDataExerciseCategoryBase
-                          )}
-                        >
-                          {value}
-                        </Checkbox>
-                      )
+                            <span className="font-medium">{category}</span>
+                          </Chip>
+                        ))}
+                      </div>
                     )}
                   </div>
-                </ScrollShadow>
-                {loadExerciseStats !== undefined && (
+                  <ScrollShadow className="px-0.5 pb-1">
+                    <div className="columns-2">
+                      {Array.from(filteredLoadExerciseOptionsMap).map(
+                        ([key, value]) => (
+                          <Checkbox
+                            key={key}
+                            className="hover:underline w-full min-w-full -mb-1"
+                            color="primary"
+                            isSelected={loadExerciseOptions.has(
+                              key as ChartDataExerciseCategoryBase
+                            )}
+                            onValueChange={() =>
+                              handleLoadExerciseOptionsChange(
+                                key as ChartDataExerciseCategoryBase
+                              )
+                            }
+                            isDisabled={disabledLoadExerciseOptions.has(
+                              key as ChartDataExerciseCategoryBase
+                            )}
+                          >
+                            {value}
+                          </Checkbox>
+                        )
+                      )}
+                    </div>
+                  </ScrollShadow>
                   <div className="px-0.5 py-0.5 flex gap-12">
                     <Checkbox
                       className="hover:underline"
@@ -506,65 +555,65 @@ export const LoadExerciseOptionsModal = ({
                       Ignore Multisets
                     </Checkbox>
                   </div>
-                )}
-                <div className="flex gap-3">
-                  <div className="w-[11.75rem]">
-                    <Select
-                      label="Chart Area Category"
-                      classNames={{
-                        trigger: "bg-amber-50 border-amber-200",
-                      }}
-                      size="sm"
-                      variant="faded"
-                      selectedKeys={
-                        loadExerciseOptionsUnitCategoryPrimary !== undefined
-                          ? [loadExerciseOptionsUnitCategoryPrimary]
-                          : []
-                      }
-                      onChange={(e) =>
-                        handleLoadExerciseOptionsUnitCategoryChange(e)
-                      }
-                      isDisabled={
-                        loadExerciseOptionsUnitCategoriesPrimary.size < 2
-                      }
-                      disallowEmptySelection
-                    >
-                      {Array.from(loadExerciseOptionsUnitCategoriesPrimary).map(
-                        (category) => (
+                  <div className="flex gap-3">
+                    <div className="w-[11.75rem]">
+                      <Select
+                        label="Chart Area Category"
+                        classNames={{
+                          trigger: "bg-amber-50 border-amber-200",
+                        }}
+                        size="sm"
+                        variant="faded"
+                        selectedKeys={
+                          loadExerciseOptionsUnitCategoryPrimary !== undefined
+                            ? [loadExerciseOptionsUnitCategoryPrimary]
+                            : []
+                        }
+                        onChange={(e) =>
+                          handleLoadExerciseOptionsUnitCategoryChange(e)
+                        }
+                        isDisabled={
+                          loadExerciseOptionsUnitCategoriesPrimary.size < 2
+                        }
+                        disallowEmptySelection
+                      >
+                        {Array.from(
+                          loadExerciseOptionsUnitCategoriesPrimary
+                        ).map((category) => (
                           <SelectItem key={category}>{category}</SelectItem>
-                        )
-                      )}
-                    </Select>
-                  </div>
-                  <div className="w-[11.75rem]">
-                    <Select
-                      label="Chart Line Category"
-                      size="sm"
-                      variant="faded"
-                      selectedKeys={
-                        loadExerciseOptionsUnitCategorySecondary !== undefined
-                          ? [loadExerciseOptionsUnitCategorySecondary]
-                          : []
-                      }
-                      onChange={(e) =>
-                        setLoadExerciseOptionsUnitCategorySecondary(
-                          e.target.value as ChartDataUnitCategory
-                        )
-                      }
-                      isDisabled={
-                        loadExerciseOptionsUnitCategoriesSecondary.length < 2
-                      }
-                      disallowEmptySelection
-                    >
-                      {loadExerciseOptionsUnitCategoriesSecondary.map(
-                        (category) => (
-                          <SelectItem key={category}>{category}</SelectItem>
-                        )
-                      )}
-                    </Select>
+                        ))}
+                      </Select>
+                    </div>
+                    <div className="w-[11.75rem]">
+                      <Select
+                        label="Chart Line Category"
+                        size="sm"
+                        variant="faded"
+                        selectedKeys={
+                          loadExerciseOptionsUnitCategorySecondary !== undefined
+                            ? [loadExerciseOptionsUnitCategorySecondary]
+                            : []
+                        }
+                        onChange={(e) =>
+                          setLoadExerciseOptionsUnitCategorySecondary(
+                            e.target.value as ChartDataUnitCategory
+                          )
+                        }
+                        isDisabled={
+                          loadExerciseOptionsUnitCategoriesSecondary.length < 2
+                        }
+                        disallowEmptySelection
+                      >
+                        {loadExerciseOptionsUnitCategoriesSecondary.map(
+                          (category) => (
+                            <SelectItem key={category}>{category}</SelectItem>
+                          )
+                        )}
+                      </Select>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div>
@@ -586,10 +635,11 @@ export const LoadExerciseOptionsModal = ({
                 <Button
                   color="primary"
                   isDisabled={
+                    selectedExercise === undefined ||
                     loadExerciseOptions.size === 0 ||
                     loadExerciseOptionsUnitCategoryPrimary === undefined
                   }
-                  onPress={() => {}}
+                  onPress={handleLoadButton}
                 >
                   Load
                 </Button>

@@ -51,6 +51,7 @@ import {
   ExerciseGroupCheckboxes,
   FilterExerciseGroupsModal,
   FilterMinAndMaxDatesModal,
+  LoadExerciseOptionsModal,
   LoadingSpinner,
   MeasurementModalList,
   MeasurementUnitDropdown,
@@ -128,6 +129,7 @@ export default function Analytics() {
   const [shownChartDataLines, setShownChartDataLines] = useState<
     ChartDataCategory[]
   >([]);
+  const [selectedExercise, setSelectedExercise] = useState<Exercise>();
   const [referenceAreas, setReferenceAreas] = useState<
     ChartReferenceAreaItem[]
   >([]);
@@ -319,11 +321,7 @@ export default function Analytics() {
 
     setAnalyticsChartListModalPage(modalListType);
 
-    if (
-      (modalListType === "exercise-list" ||
-        modalListType === "exercise-groups") &&
-      !isExerciseListLoaded.current
-    ) {
+    if (modalListType === "exercise-groups" && !isExerciseListLoaded.current) {
       await getExercises();
     }
 
@@ -1214,9 +1212,10 @@ export default function Analytics() {
         loadedCharts.current.add(chart);
       }
 
+      setSelectedExercise(undefined);
       toast.error("No Values Found For Selected Stats");
       loadExerciseOptionsModal.onClose();
-      return false;
+      return;
     }
 
     setChartCommentMap(updatedChartCommentMap);
@@ -1319,6 +1318,7 @@ export default function Analytics() {
       loadExerciseOptionsUnitCategorySecondary
     );
 
+    setSelectedExercise(undefined);
     isChartDataLoaded.current = true;
     loadExerciseOptionsModal.onClose();
   };
@@ -1896,6 +1896,7 @@ export default function Analytics() {
     setFilterMinDate(null);
     setFilterMaxDate(null);
     setLoadedMeasurements(new Map());
+    setSelectedExercise(undefined);
 
     isChartDataLoaded.current = false;
     chartConfig.current = { ...defaultChartConfig };
@@ -2895,6 +2896,14 @@ export default function Analytics() {
     timePeriodListModal.onOpen();
   };
 
+  const handleOpenLoadExerciseOptionsModal = async () => {
+    if (!isExerciseListLoaded.current) {
+      await getExercises();
+    }
+
+    loadExerciseOptionsModal.onOpen();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -2983,13 +2992,20 @@ export default function Analytics() {
         customHeightString="h-[440px]"
         hiddenTimePeriods={timePeriodIdSet}
       />
-      {/* TODO: FIX */}
-      {/* <LoadExerciseOptionsModal
-        useChartAnalytics={chartAnalytics}
+      <LoadExerciseOptionsModal
+        loadExerciseOptionsModal={loadExerciseOptionsModal}
         selectedExercise={selectedExercise}
+        setSelectedExercise={setSelectedExercise}
         chartDataUnitCategoryMap={chartDataUnitCategoryMap.current}
-        handleLoadExerciseStats={handleLoadExerciseOptions}
-      /> */}
+        loadedCharts={loadedCharts.current}
+        chartDataAreas={chartDataAreas}
+        loadExerciseOptionsMap={loadExerciseOptionsMap}
+        secondaryDataUnitCategory={secondaryDataUnitCategory}
+        useExerciseList={exerciseList}
+        useFilterExerciseList={filterExerciseList}
+        userSettingsId={userSettings.id}
+        loadExerciseStats={loadExerciseStats}
+      />
       <FilterMinAndMaxDatesModal
         filterMinAndMaxDatesModal={filterMinAndMaxDatesModal}
         locale={userSettings.locale}
@@ -3415,7 +3431,7 @@ export default function Analytics() {
                 className="font-medium"
                 variant="flat"
                 color="secondary"
-                onPress={() => handleOpenListModal("exercise-list")}
+                onPress={handleOpenLoadExerciseOptionsModal}
               >
                 Load Exercise Stat
               </Button>
