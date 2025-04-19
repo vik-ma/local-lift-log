@@ -44,6 +44,8 @@ diesel::table! {
         show_warmups_in_exercise_details -> Integer,
         show_multisets_in_exercise_details -> Integer,
         show_pace_in_exercise_details -> Integer,
+        show_set_comments_in_exercise_details -> Integer,
+        show_workout_comments_in_exercise_details -> Integer,
     }
 }
 
