@@ -72,6 +72,7 @@ export default function ExerciseDetails() {
   const [showPace, setShowPace] = useState<boolean>(true);
   const [tabPage, setTabPage] = useState<TabPage>("history");
   const [showSetComments, setShowSetComments] = useState<boolean>(true);
+  const [showWorkoutComments, setShowWorkoutComments] = useState<boolean>(true);
 
   const tabPages = useRef<string[][]>([["history", "Exercise History"]]);
 
@@ -102,6 +103,7 @@ export default function ExerciseDetails() {
   const showMultisetsCheckbox = useRef<boolean>(false);
   const showPaceCheckbox = useRef<boolean>(false);
   const showSetCommentsCheckbox = useRef<boolean>(false);
+  const showWorkoutCommentsCheckbox = useRef<boolean>(false);
 
   const maxWeightMap = useRef<Map<number, ExerciseMaxListValue>>(new Map());
   const maxRepsMap = useRef<Map<number, ExerciseMaxListValue>>(new Map());
@@ -311,6 +313,8 @@ export default function ExerciseDetails() {
             new Map([[set.workout_id, set.workout_comment!]])
           );
         }
+
+        showWorkoutCommentsCheckbox.current = true;
       }
     }
 
@@ -553,7 +557,7 @@ export default function ExerciseDetails() {
                   {(showWarmupsCheckbox.current ||
                     showMultisetsCheckbox.current ||
                     showPaceCheckbox.current) && (
-                    <div className="flex justify-center gap-6">
+                    <div className="flex justify-between gap-6">
                       {showWarmupsCheckbox.current && (
                         <Checkbox
                           className="hover:underline"
@@ -592,8 +596,9 @@ export default function ExerciseDetails() {
                       )}
                     </div>
                   )}
-                  {showSetCommentsCheckbox.current && (
-                    <div className="flex justify-center gap-6">
+                  {(showSetCommentsCheckbox.current ||
+                    showWorkoutCommentsCheckbox.current) && (
+                    <div className="flex justify-between">
                       {showSetCommentsCheckbox.current && (
                         <Checkbox
                           className="hover:underline"
@@ -602,6 +607,16 @@ export default function ExerciseDetails() {
                           onValueChange={setShowSetComments}
                         >
                           Show Set Comments
+                        </Checkbox>
+                      )}
+                      {showWorkoutCommentsCheckbox.current && (
+                        <Checkbox
+                          className="hover:underline"
+                          size="sm"
+                          isSelected={showWorkoutComments}
+                          onValueChange={setShowWorkoutComments}
+                        >
+                          Show Workout Comments
                         </Checkbox>
                       )}
                     </div>
@@ -642,20 +657,21 @@ export default function ExerciseDetails() {
                             {date}
                           </h4>
                           <div className="flex flex-col pt-0.5">
-                            {workoutCommentMap !== undefined && (
-                              <div className="flex flex-col">
-                                {Array.from(workoutCommentMap).map(
-                                  ([id, comment]) => (
-                                    <div
-                                      key={id}
-                                      className="px-[3px] leading-tight text-xs text-indigo-700 truncate"
-                                    >
-                                      {comment}
-                                    </div>
-                                  )
-                                )}
-                              </div>
-                            )}
+                            {showWorkoutComments &&
+                              workoutCommentMap !== undefined && (
+                                <div className="flex flex-col">
+                                  {Array.from(workoutCommentMap).map(
+                                    ([id, comment]) => (
+                                      <div
+                                        key={id}
+                                        className="px-[3px] leading-tight text-xs text-indigo-700 truncate"
+                                      >
+                                        {comment}
+                                      </div>
+                                    )
+                                  )}
+                                </div>
+                              )}
                             {setList.map((set) => {
                               if (!showWarmups && set.is_warmup === 1)
                                 return null;
