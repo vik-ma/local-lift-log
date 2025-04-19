@@ -45,6 +45,8 @@ export type UserSettings = {
   show_warmups_in_exercise_details: number;
   show_multisets_in_exercise_details: number;
   show_pace_in_exercise_details: number;
+  show_set_comments_in_exercise_details: number;
+  show_workout_comments_in_exercise_details: number;
 };
 
 export type Exercise = {

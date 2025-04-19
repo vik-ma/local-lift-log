@@ -61,6 +61,8 @@ export const CreateDefaultUserSettings = async (
   const show_warmups_in_exercise_details = 1;
   const show_multisets_in_exercise_details = 1;
   const show_pace_in_exercise_details = 1;
+  const show_set_comments_in_exercise_details = 1;
+  const show_workout_comments_in_exercise_details = 1;
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
@@ -85,9 +87,10 @@ export const CreateDefaultUserSettings = async (
         show_secondary_exercise_groups, automatically_update_active_measurements, 
         default_num_new_sets, shown_time_period_properties, default_diet_log_day_is_yesterday, 
         show_warmups_in_exercise_details, show_multisets_in_exercise_details,
-        show_pace_in_exercise_details) 
+        show_pace_in_exercise_details, show_set_comments_in_exercise_details,
+        show_workout_comments_in_exercise_details) 
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, 
-        $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29)`,
+        $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -118,6 +121,8 @@ export const CreateDefaultUserSettings = async (
         show_warmups_in_exercise_details,
         show_multisets_in_exercise_details,
         show_pace_in_exercise_details,
+        show_set_comments_in_exercise_details,
+        show_workout_comments_in_exercise_details,
       ]
     );
 
@@ -154,6 +159,8 @@ export const CreateDefaultUserSettings = async (
       show_warmups_in_exercise_details,
       show_multisets_in_exercise_details,
       show_pace_in_exercise_details,
+      show_set_comments_in_exercise_details,
+      show_workout_comments_in_exercise_details,
     };
 
     return defaultUserSettings;

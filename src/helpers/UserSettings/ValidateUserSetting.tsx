@@ -83,5 +83,9 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
       return IsNumberValidBinary(value as number);
     case "show_pace_in_exercise_details":
       return IsNumberValidBinary(value as number);
+    case "show_set_comments_in_exercise_details":
+      return IsNumberValidBinary(value as number);
+    case "show_workout_comments_in_exercise_details":
+      return IsNumberValidBinary(value as number);
   }
 };
