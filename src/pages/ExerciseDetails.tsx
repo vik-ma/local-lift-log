@@ -44,7 +44,12 @@ import {
 import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 
-type ShowCheckboxType = "warmup" | "multiset" | "pace";
+type ShowCheckboxType =
+  | "warmup"
+  | "multiset"
+  | "pace"
+  | "set-comments"
+  | "workout-comments";
 
 type TabPage = "history" | "weight" | "reps" | "distance" | "pace";
 
@@ -377,6 +382,10 @@ export default function ExerciseDetails() {
       setShowWarmups(!!userSettings.show_warmups_in_exercise_details);
       setShowMultisets(!!userSettings.show_multisets_in_exercise_details);
       setShowPace(!!userSettings.show_pace_in_exercise_details);
+      setShowSetComments(!!userSettings.show_set_comments_in_exercise_details);
+      setShowWorkoutComments(
+        !!userSettings.show_workout_comments_in_exercise_details
+      );
 
       await getDateSetListMap(
         weightUnit,
@@ -461,15 +470,29 @@ export default function ExerciseDetails() {
 
     let column = "";
 
-    if (checkbox === "warmup") {
-      column = "show_warmups_in_exercise_details";
-      setShowWarmups(value);
-    } else if (checkbox === "multiset") {
-      column = "show_multisets_in_exercise_details";
-      setShowMultisets(value);
-    } else {
-      column = "show_pace_in_exercise_details";
-      setShowPace(value);
+    switch (checkbox) {
+      case "warmup":
+        column = "show_warmups_in_exercise_details";
+        setShowWarmups(value);
+        break;
+      case "multiset":
+        column = "show_multisets_in_exercise_details";
+        setShowMultisets(value);
+        break;
+      case "pace":
+        column = "show_pace_in_exercise_details";
+        setShowPace(value);
+        break;
+      case "set-comments":
+        column = "show_set_comments_in_exercise_details";
+        setShowSetComments(value);
+        break;
+      case "workout-comments":
+        column = "show_workout_comments_in_exercise_details";
+        setShowWorkoutComments(value);
+        break;
+      default:
+        return;
     }
 
     try {
@@ -604,7 +627,9 @@ export default function ExerciseDetails() {
                           className="hover:underline"
                           size="sm"
                           isSelected={showSetComments}
-                          onValueChange={setShowSetComments}
+                          onValueChange={(value) =>
+                            handleShowCheckboxChange(value, "set-comments")
+                          }
                         >
                           Show Set Comments
                         </Checkbox>
@@ -614,7 +639,9 @@ export default function ExerciseDetails() {
                           className="hover:underline"
                           size="sm"
                           isSelected={showWorkoutComments}
-                          onValueChange={setShowWorkoutComments}
+                          onValueChange={(value) =>
+                            handleShowCheckboxChange(value, "workout-comments")
+                          }
                         >
                           Show Workout Comments
                         </Checkbox>
@@ -661,7 +688,7 @@ export default function ExerciseDetails() {
                               workoutCommentMap !== undefined && (
                                 <div className="flex flex-col">
                                   {Array.from(workoutCommentMap).map(
-                                      ([id, comment]) => (
+                                    ([id, comment]) => (
                                       <div
                                         key={id}
                                         className="px-[3px] leading-tight text-xs text-indigo-700 truncate"
