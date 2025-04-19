@@ -43,6 +43,7 @@ import {
 } from "../hooks";
 import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
+import { TrophyIcon } from "../assets";
 
 type ShowCheckboxType =
   | "warmup"
@@ -582,7 +583,7 @@ export default function ExerciseDetails() {
                     showPaceCheckbox.current ||
                     showSetCommentsCheckbox.current ||
                     showWorkoutCommentsCheckbox.current) && (
-                    <div className="flex flex-wrap gap-x-6 gap-y-0.5">
+                    <div className="flex flex-wrap gap-x-6 gap-y-px">
                       {showWarmupsCheckbox.current && (
                         <Checkbox
                           className="hover:underline"
@@ -719,9 +720,14 @@ export default function ExerciseDetails() {
                                         Warmup
                                       </span>
                                     ) : (
-                                      <span className="text-foreground-600 w-[4.75rem] truncate">
-                                        Set {setNum}
-                                      </span>
+                                      <div className="relative text-foreground-600 w-[4.75rem]">
+                                        <div className="truncate w-[3.25rem]">
+                                          Set {setNum}
+                                        </div>
+                                        <div className="absolute right-2 top-px">
+                                          <TrophyIcon />
+                                        </div>
+                                      </div>
                                     )}
                                     <div
                                       className={

@@ -7,8 +7,8 @@ export const TrophyIcon = ({ color, size }: TrophyIconProps) => {
   return (
     <svg
       fill={color || "#e4b20c"}
-      height={size || 20}
-      width={size || 20}
+      height={size || 18}
+      width={size || 18}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
     >
