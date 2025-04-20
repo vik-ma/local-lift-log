@@ -32,6 +32,16 @@ a:hover {
 a.active {
   color: #d4aa1e;
 }
+
+.nav-menu-dropdown-item {
+  padding: 0;
+}
+
+.nav-menu-dropdown-item-link {
+  display: block;
+  padding: 0.375rem 0.5rem;
+}
+
 .nav-menu-dropdown-item-link:hover {
   color: var(--foreground-color);
 }
