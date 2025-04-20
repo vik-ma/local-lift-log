@@ -1291,4 +1291,5 @@ export type ExerciseMaxListValue = {
   value: number;
   date: string;
   formattedDate: string;
+  id?: number;
 };

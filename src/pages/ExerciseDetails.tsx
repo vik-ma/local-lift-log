@@ -115,6 +115,8 @@ export default function ExerciseDetails() {
   const maxRepsMap = useRef<Map<number, ExerciseMaxListValue>>(new Map());
   const maxDistanceMap = useRef<Map<number, ExerciseMaxListValue>>(new Map());
 
+  const maxWeights = useRef<Set<number>>(new Set());
+
   const paceRecords = useRef<PaceRecord[]>([]);
 
   const navigate = useNavigate();
@@ -173,6 +175,7 @@ export default function ExerciseDetails() {
               value: reps,
               date: set.time_completed as string,
               formattedDate: date,
+              id: set.id,
             });
           }
 
@@ -339,6 +342,12 @@ export default function ExerciseDetails() {
     paceRecords.current = paceRecords.current
       .sort((a, b) => a.pace - b.pace)
       .slice(0, 30);
+
+    if (maxWeightMap.current.size > 0) {
+      maxWeights.current = new Set(
+        Array.from(maxWeightMap.current).map(([, value]) => value.id!)
+      );
+    }
 
     const sortedDateMapArray = Array.from(dateMap).sort(
       (a, b) => new Date(b[0]).getTime() - new Date(a[0]).getTime()
@@ -577,7 +586,7 @@ export default function ExerciseDetails() {
                 ))}
               </div>
               {tabPage === "history" && (
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1.5">
                   {(showWarmupsCheckbox.current ||
                     showMultisetsCheckbox.current ||
                     showPaceCheckbox.current ||
@@ -721,12 +730,20 @@ export default function ExerciseDetails() {
                                       </span>
                                     ) : (
                                       <div className="relative text-foreground-600 w-[4.75rem]">
-                                        <div className="truncate w-[3.25rem]">
+                                        <div
+                                          className={
+                                            maxWeights.current.has(set.id)
+                                              ? "truncate w-[3rem]"
+                                              : "truncate w-[4.25rem]"
+                                          }
+                                        >
                                           Set {setNum}
                                         </div>
-                                        <div className="absolute right-2 top-px">
-                                          <TrophyIcon />
-                                        </div>
+                                        {maxWeights.current.has(set.id) && (
+                                          <div className="absolute right-2.5 top-px">
+                                            <TrophyIcon />
+                                          </div>
+                                        )}
                                       </div>
                                     )}
                                     <div
