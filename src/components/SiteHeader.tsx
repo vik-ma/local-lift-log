@@ -18,8 +18,8 @@ export const SiteHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="flex justify-center fixed top-0 inset-x-0 z-40 px-6 w-full h-16 backdrop-blur-lg backdrop-saturate-150 bg-background/70 border-b border-divider">
-      <div className="flex justify-between w-[1024px]">
+    <nav className="flex justify-center sticky top-0 inset-x-0 z-40 w-full h-16 backdrop-blur-lg backdrop-saturate-150 bg-background/70 border-b border-divider">
+      <div className="flex justify-between w-[1024px] px-4">
         <div className="flex items-center gap-1.5">
           <Button
             size="sm"
