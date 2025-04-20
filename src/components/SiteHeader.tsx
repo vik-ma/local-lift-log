@@ -1,7 +1,4 @@
 import {
-  Navbar,
-  NavbarContent,
-  NavbarItem,
   Button,
   Link,
   Dropdown,
@@ -21,9 +18,9 @@ export const SiteHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <Navbar className="h-16" isBordered>
-      <NavbarContent className="flex gap-1.5">
-        <NavbarItem className="flex">
+    <nav className="flex justify-center fixed top-0 inset-x-0 z-40 px-6 w-full h-16 backdrop-blur-lg backdrop-saturate-150 bg-background/70 border-b border-divider">
+      <div className="flex justify-between w-[1024px]">
+        <div className="flex items-center gap-1.5">
           <Button
             size="sm"
             variant="ghost"
@@ -32,8 +29,6 @@ export const SiteHeader = () => {
           >
             <ArrowLeftIcon />
           </Button>
-        </NavbarItem>
-        <NavbarItem className="flex">
           <Button
             size="sm"
             variant="ghost"
@@ -42,8 +37,6 @@ export const SiteHeader = () => {
           >
             <ArrowRightIcon />
           </Button>
-        </NavbarItem>
-        <NavbarItem className="flex">
           <Button
             size="sm"
             variant="ghost"
@@ -52,138 +45,138 @@ export const SiteHeader = () => {
           >
             <RefreshIcon />
           </Button>
-        </NavbarItem>
-      </NavbarContent>
-      <NavbarContent className="flex gap-4" justify="end">
-        <NavbarItem>
+        </div>
+        <div className="flex items-center gap-4">
           <NavLink to="/">Home</NavLink>
-        </NavbarItem>
-        <NavbarItem>
           <NavLink to="/workouts">Workouts</NavLink>
-        </NavbarItem>
-        <NavbarItem>
           <NavLink to="/analytics">Analytics</NavLink>
-        </NavbarItem>
-        <Dropdown>
-          <DropdownTrigger>
-            <Button
-              disableRipple
-              className="nav-menu-trigger-button p-0 text-[#404040] text-base font-medium bg-transparent data-[hover=true]:text-stone-400 data-[hover=true]:bg-transparent"
-              endContent={<ChevronIcon color="#404040" size={18} />}
-              radius="sm"
-              variant="light"
-              size="sm"
-            >
-              More
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="Dropdown Menu With Navigation To More Pages">
-            <DropdownItem
-              className="nav-menu-dropdown-item"
-              textValue="Exercise List"
-              key="exercises"
-            >
-              <NavLink className="nav-menu-dropdown-item-link" to="/exercises">
-                Exercise List
-              </NavLink>
-            </DropdownItem>
-            <DropdownItem
-              className="nav-menu-dropdown-item"
-              textValue="Routines"
-              key="routines"
-            >
-              <NavLink className="nav-menu-dropdown-item-link" to="/routines">
-                Routines
-              </NavLink>
-            </DropdownItem>
-            <DropdownItem
-              className="nav-menu-dropdown-item"
-              textValue="Multisets"
-              key="multisets"
-            >
-              <NavLink className="nav-menu-dropdown-item-link" to="/multisets">
-                Multisets
-              </NavLink>
-            </DropdownItem>
-            <DropdownItem
-              className="nav-menu-dropdown-item"
-              textValue="Workout Templates"
-              key="workout-templates"
-            >
-              <NavLink
-                className="nav-menu-dropdown-item-link"
-                to="/workout-templates"
+          <Dropdown shouldBlockScroll={false}>
+            <DropdownTrigger>
+              <Button
+                disableRipple
+                className="nav-menu-trigger-button p-0 text-[#404040] text-base font-medium bg-transparent data-[hover=true]:text-stone-400 data-[hover=true]:bg-transparent"
+                endContent={<ChevronIcon color="#404040" size={18} />}
+                radius="sm"
+                variant="light"
+                size="sm"
               >
-                Workout Templates
-              </NavLink>
-            </DropdownItem>
-            <DropdownItem
-              className="nav-menu-dropdown-item"
-              textValue="Body Measurements"
-              key="measurements"
-            >
-              <NavLink
-                className="nav-menu-dropdown-item-link"
-                to="/measurements"
+                More
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Dropdown Menu With Navigation To More Pages">
+              <DropdownItem
+                className="nav-menu-dropdown-item"
+                textValue="Exercise List"
+                key="exercises"
               >
-                Body Measurements
-              </NavLink>
-            </DropdownItem>
-            <DropdownItem
-              className="nav-menu-dropdown-item"
-              textValue="Presets"
-              key="presets"
-            >
-              <NavLink className="nav-menu-dropdown-item-link" to="/presets">
-                Presets
-              </NavLink>
-            </DropdownItem>
-            <DropdownItem
-              className="nav-menu-dropdown-item"
-              textValue="Time Periods"
-              key="time-periods"
-            >
-              <NavLink
-                className="nav-menu-dropdown-item-link"
-                to="/time-periods"
+                <NavLink
+                  className="nav-menu-dropdown-item-link"
+                  to="/exercises"
+                >
+                  Exercise List
+                </NavLink>
+              </DropdownItem>
+              <DropdownItem
+                className="nav-menu-dropdown-item"
+                textValue="Routines"
+                key="routines"
               >
-                Time Periods
-              </NavLink>
-            </DropdownItem>
-            <DropdownItem
-              className="nav-menu-dropdown-item"
-              textValue="Diet Log"
-              key="diet-log"
-            >
-              <NavLink className="nav-menu-dropdown-item-link" to="/diet-log">
-                Diet Log
-              </NavLink>
-            </DropdownItem>
-            <DropdownItem
-              className="nav-menu-dropdown-item"
-              textValue="Settings"
-              key="settings"
-            >
-              <NavLink className="nav-menu-dropdown-item-link" to="/settings">
-                Settings
-              </NavLink>
-            </DropdownItem>
-            <DropdownItem
-              className="nav-menu-dropdown-item"
-              textValue="TEST PAGE"
-              key="test"
-            >
-              <NavLink
-                className="nav-menu-dropdown-item-link !text-violet-500"
-                to="/test"
+                <NavLink className="nav-menu-dropdown-item-link" to="/routines">
+                  Routines
+                </NavLink>
+              </DropdownItem>
+              <DropdownItem
+                className="nav-menu-dropdown-item"
+                textValue="Multisets"
+                key="multisets"
               >
-                TEST PAGE
-              </NavLink>
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </NavbarContent>
-    </Navbar>
+                <NavLink
+                  className="nav-menu-dropdown-item-link"
+                  to="/multisets"
+                >
+                  Multisets
+                </NavLink>
+              </DropdownItem>
+              <DropdownItem
+                className="nav-menu-dropdown-item"
+                textValue="Workout Templates"
+                key="workout-templates"
+              >
+                <NavLink
+                  className="nav-menu-dropdown-item-link"
+                  to="/workout-templates"
+                >
+                  Workout Templates
+                </NavLink>
+              </DropdownItem>
+              <DropdownItem
+                className="nav-menu-dropdown-item"
+                textValue="Body Measurements"
+                key="measurements"
+              >
+                <NavLink
+                  className="nav-menu-dropdown-item-link"
+                  to="/measurements"
+                >
+                  Body Measurements
+                </NavLink>
+              </DropdownItem>
+              <DropdownItem
+                className="nav-menu-dropdown-item"
+                textValue="Presets"
+                key="presets"
+              >
+                <NavLink className="nav-menu-dropdown-item-link" to="/presets">
+                  Presets
+                </NavLink>
+              </DropdownItem>
+              <DropdownItem
+                className="nav-menu-dropdown-item"
+                textValue="Time Periods"
+                key="time-periods"
+              >
+                <NavLink
+                  className="nav-menu-dropdown-item-link"
+                  to="/time-periods"
+                >
+                  Time Periods
+                </NavLink>
+              </DropdownItem>
+              <DropdownItem
+                className="nav-menu-dropdown-item"
+                textValue="Diet Log"
+                key="diet-log"
+              >
+                <NavLink className="nav-menu-dropdown-item-link" to="/diet-log">
+                  Diet Log
+                </NavLink>
+              </DropdownItem>
+              <DropdownItem
+                className="nav-menu-dropdown-item"
+                textValue="Settings"
+                key="settings"
+              >
+                <NavLink className="nav-menu-dropdown-item-link" to="/settings">
+                  Settings
+                </NavLink>
+              </DropdownItem>
+              <DropdownItem
+                className="nav-menu-dropdown-item"
+                textValue="TEST PAGE"
+                key="test"
+              >
+                <NavLink
+                  className="nav-menu-dropdown-item-link !text-violet-500"
+                  to="/test"
+                >
+                  TEST PAGE
+                </NavLink>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+      </div>
+    </nav>
   );
 };
 
