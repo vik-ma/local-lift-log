@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { HeroUIProvider } from "@heroui/react";
 import {
   HomePage,
@@ -29,12 +29,10 @@ import { SiteHeader } from "./components";
 import { Toaster } from "react-hot-toast";
 
 function App() {
-  const navigate = useNavigate();
-
   return (
     <>
       <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
-      <HeroUIProvider navigate={navigate}>
+      <HeroUIProvider>
         <SiteHeader />
         <main className="flex justify-center p-5">
           <div className="w-[400px]">
