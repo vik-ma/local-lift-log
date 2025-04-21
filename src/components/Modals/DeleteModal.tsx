@@ -35,7 +35,7 @@ export const DeleteModal = ({
               <Button color="danger" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="danger" onPress={deleteButtonAction}>
+              <Button color="danger" onPress={() => deleteButtonAction()}>
                 {deleteButtonText}
               </Button>
             </ModalFooter>
