@@ -131,6 +131,11 @@ export default function RoutineList() {
       setOperatingRoutine(routine);
       setOperatingRoutineIndex(index);
       routineModal.onOpen();
+    } else if (
+      key === "delete" &&
+      routine.workoutTemplateIdList?.length === 0
+    ) {
+      deleteRoutine(routine);
     } else if (key === "delete") {
       setOperationType("delete");
       setOperatingRoutine(routine);
@@ -169,29 +174,24 @@ export default function RoutineList() {
     }
   };
 
-  const deleteRoutine = async () => {
-    if (
-      operatingRoutine.id === 0 ||
-      operationType !== "delete" ||
-      userSettings === undefined
-    )
-      return;
+  const deleteRoutine = async (routineToDelete?: Routine) => {
+    const routine = routineToDelete ?? operatingRoutine;
+
+    if (routine.id === 0 || userSettings === undefined) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      await db.execute("DELETE from routines WHERE id = $1", [
-        operatingRoutine.id,
-      ]);
+      await db.execute("DELETE from routines WHERE id = $1", [routine.id]);
 
       // Delete all workout_routine_schedules referencing routine
-      await DeleteWorkoutRoutineSchedule(operatingRoutine.id, "routine_id");
+      await DeleteWorkoutRoutineSchedule(routine.id, "routine_id");
 
-      const updatedRoutines = DeleteItemFromList(routines, operatingRoutine.id);
+      const updatedRoutines = DeleteItemFromList(routines, routine.id);
 
       setRoutines(updatedRoutines);
 
-      if (operatingRoutine.id === userSettings.active_routine_id) {
+      if (routine.id === userSettings.active_routine_id) {
         const updatedSettings = {
           ...userSettings,
           active_routine_id: 0,
@@ -283,7 +283,7 @@ export default function RoutineList() {
         header="Delete Routine"
         body={
           <p>
-            Are you sure you want to permanently delete
+            Are you sure you want to permanently delete{" "}
             <span className="text-secondary truncate max-w-[23rem] inline-block align-top">
               {operatingRoutine.name}
             </span>
