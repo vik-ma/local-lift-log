@@ -124,18 +124,22 @@ export default function WorkoutTemplateList() {
     }
   };
 
-  const deleteWorkoutTemplate = async () => {
-    if (operatingWorkoutTemplate.id === 0 || operationType !== "delete") return;
+  const deleteWorkoutTemplate = async (
+    workoutTemplateToDelete?: WorkoutTemplate
+  ) => {
+    const workoutTemplate = workoutTemplateToDelete ?? operatingWorkoutTemplate;
+
+    if (workoutTemplate.id === 0) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       db.execute("DELETE from workout_templates WHERE id = $1", [
-        operatingWorkoutTemplate.id,
+        workoutTemplate.id,
       ]);
 
       const workoutTemplateMultisetIds = await GetUniqueMultisetIds(
-        operatingWorkoutTemplate.id,
+        workoutTemplate.id,
         true
       );
 
@@ -147,12 +151,12 @@ export default function WorkoutTemplateList() {
       // Delete all sets referencing workout_template
       db.execute(
         "DELETE from sets WHERE workout_template_id = $1 AND is_template = 1",
-        [operatingWorkoutTemplate.id]
+        [workoutTemplate.id]
       );
 
       const updatedWorkoutTemplates = DeleteItemFromList(
         workoutTemplates,
-        operatingWorkoutTemplate.id
+        workoutTemplate.id
       );
 
       setWorkoutTemplates(updatedWorkoutTemplates);
@@ -206,6 +210,8 @@ export default function WorkoutTemplateList() {
       setOperationType("edit");
       setOperatingWorkoutTemplate(workoutTemplate);
       workoutTemplateModal.onOpen();
+    } else if (key === "delete" && workoutTemplate.numSets === 0) {
+      deleteWorkoutTemplate(workoutTemplate);
     } else if (key === "delete") {
       setOperationType("delete");
       setOperatingWorkoutTemplate(workoutTemplate);
