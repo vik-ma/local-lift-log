@@ -542,26 +542,6 @@ export default function Settings() {
           </div>
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">
-              Show Secondary Exercise Groups In Exercise List
-            </span>
-            <Switch
-              aria-label="Show Secondary Exercise Groups Switch Element"
-              className="flex-row-reverse gap-3"
-              color="primary"
-              size="lg"
-              isSelected={
-                userSettings.show_secondary_exercise_groups ? true : false
-              }
-              onValueChange={(value) =>
-                updateUserSetting(
-                  "show_secondary_exercise_groups",
-                  value ? 1 : 0
-                )
-              }
-            />
-          </div>
-          <div className="flex gap-3 items-center justify-between">
-            <span className="text-lg">
               Automatically Update Active Measurements After Saving User
               Measurements
             </span>
@@ -613,6 +593,42 @@ export default function Settings() {
               }
               targetType="settings"
               updateUserSetting={updateUserSetting}
+            />
+          </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Never Show Delete Modal Confirmation When Deleting Item
+            </span>
+            <Switch
+              aria-label="Never Show Delete Modal Confirmation Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={userSettings.never_show_delete_modal ? true : false}
+              onValueChange={(value) =>
+                updateUserSetting("never_show_delete_modal", value ? 1 : 0)
+              }
+            />
+          </div>
+          <h3 className="flex justify-center text-lg font-medium">Exercises</h3>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Show Secondary Exercise Groups In Exercise List
+            </span>
+            <Switch
+              aria-label="Show Secondary Exercise Groups Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={
+                userSettings.show_secondary_exercise_groups ? true : false
+              }
+              onValueChange={(value) =>
+                updateUserSetting(
+                  "show_secondary_exercise_groups",
+                  value ? 1 : 0
+                )
+              }
             />
           </div>
           <div className="flex gap-3 items-center justify-between">
@@ -714,21 +730,6 @@ export default function Settings() {
                   "show_workout_comments_in_exercise_details",
                   value ? 1 : 0
                 )
-              }
-            />
-          </div>
-          <div className="flex gap-3 items-center justify-between">
-            <span className="text-lg">
-              Never Show Delete Modal Confirmation When Deleting Item
-            </span>
-            <Switch
-              aria-label="Never Show Delete Modal Confirmation Switch Element"
-              className="flex-row-reverse gap-3"
-              color="primary"
-              size="lg"
-              isSelected={userSettings.never_show_delete_modal ? true : false}
-              onValueChange={(value) =>
-                updateUserSetting("never_show_delete_modal", value ? 1 : 0)
               }
             />
           </div>
