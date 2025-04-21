@@ -765,9 +765,9 @@ export default function Presets() {
             : "Delete Distance"
         }
         body={
-          <p className="break-words">
+          <p>
             Are you sure you want to permanently delete{" "}
-            <span className="font-medium text-secondary">
+            <span className="text-secondary truncate max-w-[23rem] inline-block align-top">
               {isOperatingPlateCollection
                 ? operatingPlateCollection.name
                 : presetsType === "equipment"

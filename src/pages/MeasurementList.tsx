@@ -321,9 +321,12 @@ export default function MeasurementList() {
         deleteModal={deleteModal}
         header="Delete Measurement"
         body={
-          <p className="break-words">
+          <p>
             Are you sure you want to permanently delete{" "}
-            {operatingMeasurement.name} measurement?
+            <span className="text-secondary truncate max-w-[23rem] inline-block align-top">
+              {operatingMeasurement.name}
+            </span>
+            ?
           </p>
         }
         deleteButtonAction={deleteMeasurement}

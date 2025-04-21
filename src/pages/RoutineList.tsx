@@ -282,8 +282,11 @@ export default function RoutineList() {
         deleteModal={deleteModal}
         header="Delete Routine"
         body={
-          <p className="break-words">
-            Are you sure you want to permanently delete {operatingRoutine?.name}
+          <p>
+            Are you sure you want to permanently delete
+            <span className="text-secondary truncate max-w-[23rem] inline-block align-top">
+              {operatingRoutine.name}
+            </span>
             ?
           </p>
         }

@@ -437,16 +437,17 @@ export default function WorkoutList() {
         body={
           operationType === "delete-empty-workouts" ? (
             <p>
-              Are you sure you want to permanently delete{" "}
-              <strong className="text-secondary">all empty</strong> Workouts?
+              Are you sure you want to delete{" "}
+              <span className="text-secondary">all empty</span> Workouts?
             </p>
           ) : (
-            <p className="break-words">
+            <p>
               Are you sure you want to permanently delete Workout on{" "}
               <span className="text-secondary">
                 {operatingWorkout.formattedDate}
               </span>
-              , <strong>including all Sets</strong> performed in the Workout?
+              , <strong className="font-semibold">including all sets</strong>{" "}
+              performed in the Workout?
             </p>
           )
         }

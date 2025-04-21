@@ -276,7 +276,7 @@ export default function WorkoutTemplateDetails() {
           operationType === "delete-grouped_sets-sets" ? "s" : ""
         }`}
         body={
-          <p className="break-words">
+          <p>
             Are you sure you want to remove{" "}
             {operationType === "delete-grouped_sets-sets" ? (
               operatingGroupedSet?.isMultiset ? (
@@ -291,7 +291,7 @@ export default function WorkoutTemplateDetails() {
               ) : (
                 <>
                   all{" "}
-                  <span className="text-secondary">
+                  <span className="text-secondary truncate max-w-[24rem] inline-block align-top">
                     {operatingGroupedSet?.exerciseList[0].name}
                   </span>{" "}
                   sets from Workout Template
@@ -299,7 +299,7 @@ export default function WorkoutTemplateDetails() {
               )
             ) : (
               <>
-                <span className="text-secondary">
+                <span className="text-secondary truncate max-w-[22rem] inline-block align-top">
                   {operatingSet.exercise_name}
                 </span>{" "}
                 set

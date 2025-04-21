@@ -534,7 +534,7 @@ export default function UserWeightList() {
         deleteModal={deleteModal}
         header="Delete Body Weight Entry"
         body={
-          <p className="break-words">
+          <p>
             Are you sure you want to permanently delete the Body Weight entry on{" "}
             <span className="text-secondary">
               {operatingUserWeight.formattedDate}

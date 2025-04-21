@@ -297,9 +297,12 @@ export default function TimePeriodList() {
         deleteModal={deleteModal}
         header="Delete Time Period"
         body={
-          <p className="break-words">
+          <p>
             Are you sure you want to permanently delete{" "}
-            {operatingTimePeriod.name}?
+            <span className="text-secondary truncate max-w-[23rem] inline-block align-top">
+              {operatingTimePeriod.name}
+            </span>
+            ?
           </p>
         }
         deleteButtonAction={deleteTimePeriod}

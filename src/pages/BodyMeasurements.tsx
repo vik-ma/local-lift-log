@@ -483,7 +483,7 @@ export default function BodyMeasurements() {
             : "Delete Body Measurement Entry"
         }
         body={
-          <p className="break-words">
+          <p>
             Are you sure you want to permanently delete the latest{" "}
             {operationType === "delete-weight"
               ? "Body Weight"

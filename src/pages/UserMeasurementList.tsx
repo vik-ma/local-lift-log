@@ -375,9 +375,8 @@ export default function UserMeasurementList() {
         deleteModal={deleteModal}
         header="Delete Body Measurements Entry"
         body={
-          <p className="break-words">
-            Are you sure you want to permanently delete the Body Measurements
-            entry on{" "}
+          <p>
+            Are you sure you want to delete the Body Measurements entry on{" "}
             <span className="text-secondary">
               {operatingUserMeasurements.formattedDate}
             </span>

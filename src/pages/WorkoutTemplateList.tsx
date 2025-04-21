@@ -251,7 +251,7 @@ export default function WorkoutTemplateList() {
           <p>
             Are you sure you want to permanently delete{" "}
             <span className="text-secondary truncate max-w-[23rem] inline-block align-top">
-              {operatingWorkoutTemplate?.name}
+              {operatingWorkoutTemplate.name}
             </span>
             ?
           </p>

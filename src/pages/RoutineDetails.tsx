@@ -519,9 +519,9 @@ export default function RoutineDetails() {
         header="Remove Workout Template"
         body={
           routine.schedule_type === 2 ? (
-            <p className="break-words">
+            <p>
               Are you sure you want to remove{" "}
-              <span className="font-medium text-yellow-500">
+              <span className="text-secondary truncate max-w-[23rem] inline-block align-top">
                 {operatingNoDayRoutineScheduleItem?.name}
               </span>
               ?
@@ -529,13 +529,11 @@ export default function RoutineDetails() {
           ) : (
             <p className="break-words">
               Are you sure you want to remove{" "}
-              <span className="font-medium text-yellow-500">
+              <span className="text-secondary truncate max-w-[24rem] inline-block align-top">
                 {operatingRoutineScheduleItem?.name}
               </span>{" "}
               from{" "}
-              <span className="font-medium text-yellow-500">
-                {dayNameList[selectedDay]}
-              </span>
+              <span className="text-secondary">{dayNameList[selectedDay]}</span>
               ?
             </p>
           )
