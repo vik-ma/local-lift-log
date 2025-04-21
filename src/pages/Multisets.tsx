@@ -500,35 +500,49 @@ export default function Multisets() {
         header={operationType === "delete" ? "Delete Multiset" : "Remove Set"}
         body={
           operationType === "delete" ? (
-            <p className="break-words">
+            <p className="max-h-[382px] overflow-hidden">
               Are you sure you want to permanently delete the Multiset
-              containing{" "}
-              <span className="text-secondary">
-                {operatingMultiset.setListText}
-              </span>
-              ?
+              containing the following {operatingMultiset.setList.length}{" "}
+              exercises?
+              <div className="flex flex-col text-secondary pt-1">
+                {operatingMultiset.setList.map((item) => (
+                  <span className="truncate max-w-[24rem]">
+                    {item.exercise_name}
+                  </span>
+                ))}
+              </div>
             </p>
           ) : operatingMultiset.setList.length === 1 &&
             operationType === "edit" ? (
             // If trying to delete last Set in Multiset
-            <p className="break-words">
+            <p>
               Are you sure you want to remove{" "}
-              <span className="text-secondary">
+              <span className="text-secondary truncate max-w-[24rem] inline-block align-top">
                 {operatingSet.exercise_name}
               </span>{" "}
               and permanently delete Multiset?
             </p>
           ) : (
-            <p className="break-words">
-              Are you sure you want to remove{" "}
-              <span className="text-secondary">
-                {operatingSet.exercise_name}
-              </span>{" "}
-              from{" "}
-              <span className="text-secondary">
-                {operatingMultiset.setListText}
-              </span>{" "}
+            <p className="max-h-[386px] overflow-hidden">
+              Are you sure you want to remove set of the following exercise from
               Multiset?
+              <div className="pt-1">
+                <span className="font-medium">Exercise</span>
+                <br />
+                <span className="text-secondary truncate max-w-[24rem] inline-block align-top">
+                  {operatingSet.exercise_name}
+                </span>
+              </div>
+              <div className="pt-1">
+                <span className="font-medium">Multiset</span>
+                <div className="flex flex-col text-secondary pt-px">
+                  {operatingMultiset.setList.map((item) => (
+                    <span className="truncate max-w-[24rem]">
+                      {item.exercise_name}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </p>
           )
         }
