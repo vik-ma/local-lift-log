@@ -61,7 +61,7 @@ export const UserMeasurementAccordions = ({
                 color="#a8a29e"
                 direction={measurement.isExpanded ? "down" : "left"}
               />
-              <Dropdown>
+              <Dropdown shouldBlockScroll={false}>
                 <DropdownTrigger>
                   <Button
                     aria-label={`Toggle ${measurement.formattedDate} Measurements Entry Options Menu`}

@@ -34,7 +34,7 @@ export const RoutineListOptions = ({
       >
         Filter
       </Button>
-      <Dropdown>
+      <Dropdown shouldBlockScroll={false}>
         <DropdownTrigger>
           <Button className="z-1" variant="flat" size="sm">
             Sort By

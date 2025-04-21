@@ -458,7 +458,7 @@ export default function MeasurementList() {
                       {measurement.default_unit}
                     </span>
                   </div>
-                  <Dropdown>
+                  <Dropdown shouldBlockScroll={false}>
                     <DropdownTrigger>
                       <Button
                         aria-label={`Toggle ${measurement.name} Options Menu`}

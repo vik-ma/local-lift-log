@@ -383,7 +383,7 @@ export default function ExerciseList() {
                   item={exercise}
                   toggleFavorite={toggleFavorite}
                 />
-                <Dropdown>
+                <Dropdown shouldBlockScroll={false}>
                   <DropdownTrigger>
                     <Button
                       aria-label={`Toggle ${exercise.name} Options Menu`}

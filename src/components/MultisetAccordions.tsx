@@ -58,7 +58,7 @@ export const MultisetAccordions = ({
                   color="#a8a29e"
                   direction={multiset.isExpanded ? "down" : "left"}
                 />
-                <Dropdown>
+                <Dropdown shouldBlockScroll={false}>
                   <DropdownTrigger>
                     <Button
                       aria-label={`Toggle Number ${

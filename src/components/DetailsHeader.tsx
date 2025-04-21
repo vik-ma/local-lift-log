@@ -80,7 +80,7 @@ export const DetailsHeader = ({
               <EditIcon size={22} color={"#808080"} />
             </Button>
             {showMenuButton && (
-              <Dropdown>
+              <Dropdown shouldBlockScroll={false}>
                 <DropdownTrigger>
                   <Button
                     aria-label={`Toggle ${detailsType} Options Menu`}

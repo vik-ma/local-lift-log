@@ -337,7 +337,7 @@ export const TimeValueInput = ({
 
   return (
     <div className="flex justify-between gap-0.5 items-center">
-      <Dropdown>
+      <Dropdown shouldBlockScroll={false}>
         <DropdownTrigger>
           <Button
             className="text-xs"

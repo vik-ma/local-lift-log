@@ -380,7 +380,7 @@ export default function RoutineList() {
                   >
                     {isActiveRoutine ? "Active" : "Set Active"}
                   </Button>
-                  <Dropdown>
+                  <Dropdown shouldBlockScroll={false}>
                     <DropdownTrigger>
                       <Button
                         aria-label={`Toggle ${routine.name} Options Menu`}

@@ -65,7 +65,7 @@ export const TimePeriodPropertyDropdown = ({
   };
 
   return (
-    <Dropdown>
+    <Dropdown shouldBlockScroll={false}>
       <DropdownTrigger>
         <Button
           aria-label="Toggle Display Time Period Properties Options Menu"

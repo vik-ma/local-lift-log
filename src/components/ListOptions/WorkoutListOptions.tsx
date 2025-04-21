@@ -57,7 +57,7 @@ export const WorkoutListOptions = ({
       >
         Filter
       </Button>
-      <Dropdown>
+      <Dropdown shouldBlockScroll={false}>
         <DropdownTrigger>
           <Button className="z-1" variant="flat" size="sm">
             Sort By
@@ -86,7 +86,7 @@ export const WorkoutListOptions = ({
         </DropdownMenu>
       </Dropdown>
       {handleOptionMenuSelection !== undefined && (
-        <Dropdown>
+        <Dropdown shouldBlockScroll={false}>
           <DropdownTrigger>
             <Button
               aria-label="Toggle Workout List Options Menu"

@@ -244,7 +244,7 @@ export const SetList = ({
                 {!isTemplate && (
                   <CheckmarkIcon isChecked={set.is_completed === 1} size={18} />
                 )}
-                <Dropdown>
+                <Dropdown shouldBlockScroll={false}>
                   <DropdownTrigger>
                     <Button
                       aria-label={`Toggle ${exercise.name} Set ${index} Options Menu`}

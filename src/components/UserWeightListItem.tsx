@@ -42,7 +42,7 @@ export const UserWeightListItem = ({
           {userWeight.comment}
         </span>
       </div>
-      <Dropdown>
+      <Dropdown shouldBlockScroll={false}>
         <DropdownTrigger>
           <Button
             aria-label={`Toggle ${userWeight.formattedDate} Weight Entry Options Menu`}

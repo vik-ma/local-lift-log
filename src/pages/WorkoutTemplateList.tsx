@@ -334,7 +334,7 @@ export default function WorkoutTemplateList() {
                 </span>
               </button>
               <div className="flex items-center gap-0.5 pr-1">
-                <Dropdown>
+                <Dropdown shouldBlockScroll={false}>
                   <DropdownTrigger>
                     <Button
                       aria-label={`Toggle ${template.name} Options Menu`}

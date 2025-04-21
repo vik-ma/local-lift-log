@@ -24,7 +24,7 @@ export const MeasurementListOptions = ({
 
   return (
     <div className="flex gap-1">
-      <Dropdown>
+      <Dropdown shouldBlockScroll={false}>
         <DropdownTrigger>
           <Button
             className="z-1"
@@ -46,7 +46,7 @@ export const MeasurementListOptions = ({
           ))}
         </DropdownMenu>
       </Dropdown>
-      <Dropdown>
+      <Dropdown shouldBlockScroll={false}>
         <DropdownTrigger>
           <Button className="z-1" variant="flat" size="sm">
             Sort By

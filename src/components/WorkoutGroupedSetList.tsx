@@ -179,7 +179,7 @@ export const WorkoutGroupedSetList = ({
                         color="#a8a29e"
                         direction={groupedSet.isExpanded ? "down" : "left"}
                       />
-                      <Dropdown>
+                      <Dropdown shouldBlockScroll={false}>
                         <DropdownTrigger>
                           <Button
                             aria-label={`Toggle ${title} Options Menu`}

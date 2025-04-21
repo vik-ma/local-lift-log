@@ -232,7 +232,7 @@ export const ActiveSet = ({
                         >
                           <CommentIcon size={20} />
                         </Button>
-                        <Dropdown>
+                        <Dropdown shouldBlockScroll={false}>
                           <DropdownTrigger>
                             <Button
                               aria-label="Toggle Active Set Options Menu"

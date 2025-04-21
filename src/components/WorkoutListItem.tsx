@@ -75,7 +75,7 @@ export const WorkoutListItem = ({
       {editWorkout !== undefined &&
         handleWorkoutOptionSelection !== undefined && (
           <div className="pr-1">
-            <Dropdown>
+            <Dropdown shouldBlockScroll={false}>
               <DropdownTrigger>
                 <Button
                   aria-label="Toggle Workout On ${workout.formattedDate} Options Menu"

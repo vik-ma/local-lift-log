@@ -3208,7 +3208,7 @@ export default function Analytics() {
               </ChartContainer>
               <div className="flex flex-col gap-0.5 w-[12.25rem]">
                 <div className="flex flex-col gap-1">
-                  <Dropdown>
+                  <Dropdown shouldBlockScroll={false}>
                     <DropdownTrigger>
                       <Button
                         className="font-medium"
@@ -3229,7 +3229,7 @@ export default function Analytics() {
                       ))}
                     </DropdownMenu>
                   </Dropdown>
-                  <Dropdown>
+                  <Dropdown shouldBlockScroll={false}>
                     <DropdownTrigger>
                       <Button
                         className="font-medium"
@@ -3250,7 +3250,7 @@ export default function Analytics() {
                       ))}
                     </DropdownMenu>
                   </Dropdown>
-                  <Dropdown>
+                  <Dropdown shouldBlockScroll={false}>
                     <DropdownTrigger>
                       <Button
                         className="font-medium"
@@ -3276,7 +3276,7 @@ export default function Analytics() {
                       ))}
                     </DropdownMenu>
                   </Dropdown>
-                  <Dropdown>
+                  <Dropdown shouldBlockScroll={false}>
                     <DropdownTrigger>
                       <Button
                         className="font-medium"
@@ -3349,7 +3349,7 @@ export default function Analytics() {
                       )}
                     </Chip>
                   )}
-                  <Dropdown>
+                  <Dropdown shouldBlockScroll={false}>
                     <DropdownTrigger>
                       <Button
                         className="font-medium"
@@ -3432,7 +3432,7 @@ export default function Analytics() {
               >
                 Load Exercise Stat
               </Button>
-              <Dropdown>
+              <Dropdown shouldBlockScroll={false}>
                 <DropdownTrigger>
                   <Button className="font-medium" variant="flat">
                     Load Other Stat As Area
@@ -3493,7 +3493,7 @@ export default function Analytics() {
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-              <Dropdown>
+              <Dropdown shouldBlockScroll={false}>
                 <DropdownTrigger>
                   <Button
                     className="font-medium"

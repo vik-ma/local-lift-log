@@ -71,7 +71,7 @@ export const DietLogAccordions = ({
                     direction={dietLog.isExpanded ? "down" : "left"}
                   />
                 )}
-                <Dropdown>
+                <Dropdown shouldBlockScroll={false}>
                   <DropdownTrigger>
                     <Button
                       aria-label={`Toggle ${dietLog.formattedDate} Diet Log Entry Options Menu`}

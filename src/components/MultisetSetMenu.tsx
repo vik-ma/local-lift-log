@@ -34,7 +34,7 @@ export const MultisetSetMenu = ({
   const setNum = multiset.setListIndexCutoffs?.get(index);
 
   return (
-    <Dropdown>
+    <Dropdown shouldBlockScroll={false}>
       <DropdownTrigger>
         <Button
           aria-label={`Toggle Number ${index + 1} Multiset ${

@@ -63,7 +63,7 @@ export const WorkoutPropertyDropdown = ({
   const workoutProperties = useMemo(() => ValidWorkoutPropertiesMap(), []);
 
   return (
-    <Dropdown>
+    <Dropdown shouldBlockScroll={false}>
       <DropdownTrigger>
         <Button
           aria-label="Toggle Display Workout Properties Options Menu"

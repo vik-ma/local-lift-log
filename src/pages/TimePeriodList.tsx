@@ -353,7 +353,7 @@ export default function TimePeriodList() {
               selectedTimePeriodProperties={selectedTimePeriodProperties}
               isInModalList={false}
             />
-            <Dropdown>
+            <Dropdown shouldBlockScroll={false}>
               <DropdownTrigger>
                 <Button
                   aria-label={`Toggle ${timePeriod.name} Time Period Options Menu`}

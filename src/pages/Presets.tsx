@@ -984,7 +984,7 @@ export default function Presets() {
                             item={equipment}
                             toggleFavorite={toggleFavoriteEquipmentWeight}
                           />
-                          <Dropdown>
+                          <Dropdown shouldBlockScroll={false}>
                             <DropdownTrigger>
                               <Button
                                 aria-label={`Toggle ${equipment.name} Options Menu`}
@@ -1107,7 +1107,7 @@ export default function Presets() {
                             item={distance}
                             toggleFavorite={toggleFavoriteDistance}
                           />
-                          <Dropdown>
+                          <Dropdown shouldBlockScroll={false}>
                             <DropdownTrigger>
                               <Button
                                 aria-label={`Toggle ${distance.name} Options Menu`}
@@ -1248,7 +1248,7 @@ export default function Presets() {
                                 plateCollection={plate}
                               />
                             )}
-                            <Dropdown>
+                            <Dropdown shouldBlockScroll={false}>
                               <DropdownTrigger>
                                 <Button
                                   aria-label={`Toggle ${plate.name} Options Menu`}
