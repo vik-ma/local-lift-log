@@ -248,9 +248,12 @@ export default function WorkoutTemplateList() {
         deleteModal={deleteModal}
         header="Delete Workout Template"
         body={
-          <p className="break-words">
+          <p>
             Are you sure you want to permanently delete{" "}
-            {operatingWorkoutTemplate?.name}?
+            <span className="text-secondary truncate max-w-[23rem] inline-block align-top">
+              {operatingWorkoutTemplate?.name}
+            </span>
+            ?
           </p>
         }
         deleteButtonAction={deleteWorkoutTemplate}
