@@ -717,6 +717,21 @@ export default function Settings() {
               }
             />
           </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">
+              Never Show Delete Modal Confirmation When Deleting Item
+            </span>
+            <Switch
+              aria-label="Never Show Delete Modal Confirmation Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={userSettings.never_show_delete_modal ? true : false}
+              onValueChange={(value) =>
+                updateUserSetting("never_show_delete_modal", value ? 1 : 0)
+              }
+            />
+          </div>
           <h3 className="flex justify-center text-lg font-medium">Workouts</h3>
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">

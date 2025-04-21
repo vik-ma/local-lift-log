@@ -47,6 +47,7 @@ export type UserSettings = {
   show_pace_in_exercise_details: number;
   show_set_comments_in_exercise_details: number;
   show_workout_comments_in_exercise_details: number;
+  never_show_delete_modal: number;
 };
 
 export type Exercise = {
