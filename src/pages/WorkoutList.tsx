@@ -112,20 +112,19 @@ export default function WorkoutList() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const deleteWorkout = async () => {
-    if (operatingWorkout.id === 0 || operationType !== "delete") return;
+  const deleteWorkout = async (workoutToDelete?: Workout) => {
+    const workout = workoutToDelete ?? operatingWorkout;
+
+    if (workout.id === 0) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const success = await DeleteWorkoutWithId(operatingWorkout.id);
+      const success = await DeleteWorkoutWithId(workout.id);
 
       if (!success) return;
 
-      const workoutMultisetIds = await GetUniqueMultisetIds(
-        operatingWorkout.id,
-        false
-      );
+      const workoutMultisetIds = await GetUniqueMultisetIds(workout.id, false);
 
       // Delete all multisets in workout
       for (const multisetId of workoutMultisetIds) {
@@ -133,11 +132,9 @@ export default function WorkoutList() {
       }
 
       // Delete all sets referencing workout
-      db.execute("DELETE from sets WHERE workout_id = $1", [
-        operatingWorkout.id,
-      ]);
+      db.execute("DELETE from sets WHERE workout_id = $1", [workout.id]);
 
-      const updatedWorkouts = removeWorkoutFromList(operatingWorkout.id);
+      const updatedWorkouts = removeWorkoutFromList(workout.id);
 
       setWorkouts(updatedWorkouts);
 
@@ -148,20 +145,6 @@ export default function WorkoutList() {
 
     resetOperatingWorkout();
     deleteModal.onClose();
-  };
-
-  const deleteEmptyWorkout = async (workout: Workout) => {
-    if (workout.id === 0) return;
-
-    const success = await DeleteWorkoutWithId(workout.id);
-
-    if (!success) return;
-
-    const updatedWorkouts = removeWorkoutFromList(workout.id);
-
-    setWorkouts(updatedWorkouts);
-
-    toast.success("Workout Deleted");
   };
 
   const removeWorkoutFromList = (workoutId: number) => {
@@ -192,7 +175,7 @@ export default function WorkoutList() {
     if (key === "edit") {
       editWorkout(workout);
     } else if (key === "delete" && workout.numSets === 0) {
-      deleteEmptyWorkout(workout);
+      deleteWorkout(workout);
     } else if (key === "delete") {
       setOperationType("delete");
       setOperatingWorkout(workout);
