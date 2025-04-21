@@ -10,6 +10,7 @@ import {
   FormatSetsCompletedString,
   UpdateExerciseValues,
   GetUserSettings,
+  FormatNumItemsString,
 } from "../helpers";
 import {
   Button,
@@ -262,14 +263,17 @@ export default function ExerciseList() {
         deleteModal={deleteModal}
         header="Delete Exercise"
         body={
-          <p className="break-words">
+          <p>
             Are you sure you want to permanently delete{" "}
-            <span className="text-secondary">{operatingExercise.name}</span>
+            <span className="text-secondary truncate max-w-[23rem] inline-block align-top">
+              {operatingExercise.name}
+            </span>
             {operatingExercise.set_count! > 0 && (
               <>
                 , that has{" "}
                 <span className="text-secondary">
-                  {operatingExercise.set_count} Sets Completed
+                  {FormatNumItemsString(operatingExercise.set_count, "set")}{" "}
+                  completed
                 </span>
               </>
             )}
