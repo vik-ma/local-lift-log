@@ -28,13 +28,13 @@ import {
   ConvertUserMeasurementValuesToMeasurementInputs,
   UpdateUserMeasurements,
   GenerateActiveMeasurementString,
-  UpdateActiveTrackingMeasurements,
   GetUserMeasurements,
   InsertUserMeasurementIntoDatabase,
   ValidateISODateString,
   FormatDateTimeString,
   UpdateUserWeight,
   GetValidatedUserSettingsUnits,
+  UpdateUserSetting,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
@@ -438,19 +438,14 @@ export default function BodyMeasurements() {
     const newActiveTrackingMeasurementString: string =
       GenerateActiveMeasurementString(newActiveTrackingMeasurementIdList);
 
-    const success = await UpdateActiveTrackingMeasurements(
+    const success = await UpdateUserSetting(
+      "active_tracking_measurements",
       newActiveTrackingMeasurementString,
-      userSettings.id
+      userSettings,
+      setUserSettings
     );
 
     if (!success) return;
-
-    const updatedUserSettings: UserSettings = {
-      ...userSettings,
-      active_tracking_measurements: newActiveTrackingMeasurementString,
-    };
-
-    setUserSettings(updatedUserSettings);
 
     activeMeasurementsValue.current = updatedActiveMeasurements;
   };

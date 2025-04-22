@@ -24,9 +24,9 @@ import {
   CreateActiveMeasurementInputs,
   InsertUserMeasurementIntoDatabase,
   GenerateActiveMeasurementString,
-  UpdateActiveTrackingMeasurements,
   ValidateISODateString,
   FormatDateTimeString,
+  UpdateUserSetting,
 } from "../helpers";
 import {
   useDefaultUserMeasurements,
@@ -352,19 +352,12 @@ export default function UserMeasurementList() {
       newActiveTrackingMeasurementIdList
     );
 
-    const success = await UpdateActiveTrackingMeasurements(
+    await UpdateUserSetting(
+      "active_tracking_measurements",
       newActiveTrackingMeasurementString,
-      userSettings.id
+      userSettings,
+      setUserSettings
     );
-
-    if (!success) return;
-
-    const updatedUserSettings: UserSettings = {
-      ...userSettings,
-      active_tracking_measurements: newActiveTrackingMeasurementString,
-    };
-
-    setUserSettings(updatedUserSettings);
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;

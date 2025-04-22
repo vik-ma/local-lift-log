@@ -29,12 +29,12 @@ import {
   CreateDefaultMeasurements,
   GenerateActiveMeasurementList,
   GetUserSettings,
-  UpdateActiveTrackingMeasurements,
   GenerateActiveMeasurementString,
   UpdateItemInList,
   DeleteItemFromList,
   FormatNumUserMeasurementEntriesString,
   GetValidatedUserSettingsUnits,
+  UpdateUserSetting,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import {
@@ -284,9 +284,11 @@ export default function MeasurementList() {
     const activeMeasurementTrackingString =
       GenerateActiveMeasurementString(numberList);
 
-    await UpdateActiveTrackingMeasurements(
+    await UpdateUserSetting(
+      "active_tracking_measurements",
       activeMeasurementTrackingString,
-      userSettings.id
+      userSettings,
+      setUserSettings
     );
   };
 
