@@ -20,7 +20,6 @@ import {
 import {
   GetScheduleDayNames,
   GetScheduleDayValues,
-  UpdateActiveRoutineId,
   ConvertEmptyStringToNull,
   DefaultNewRoutine,
   IsNumberValidId,
@@ -32,6 +31,7 @@ import {
   CreateNoDayWorkoutTemplateList,
   DeleteItemFromList,
   DeleteWorkoutRoutineSchedule,
+  UpdateUserSetting,
 } from "../helpers";
 import toast from "react-hot-toast";
 import {
@@ -331,16 +331,12 @@ export default function RoutineDetails() {
 
     const newValue = value ? routine.id : 0;
 
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      active_routine_id: newValue,
-    };
-
-    const success = await UpdateActiveRoutineId(newValue, userSettings.id);
-
-    if (!success) return;
-
-    setUserSettings(updatedSettings);
+    await UpdateUserSetting(
+      "active_routine_id",
+      newValue,
+      userSettings,
+      setUserSettings
+    );
   };
 
   const deleteWorkoutTemplateSchedulesAboveDayNumber = async (

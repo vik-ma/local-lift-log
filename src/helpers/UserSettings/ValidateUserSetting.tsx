@@ -25,7 +25,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "show_timestamp_on_completed_set":
       return IsNumberValidBinary(value as number);
     case "active_routine_id":
-      return !IsNumberValidIdOr0(value as number);
+      return IsNumberValidIdOr0(value as number);
     case "default_unit_weight":
       return ValidWeightUnits().includes(value as string);
     case "default_unit_distance":

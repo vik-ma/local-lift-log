@@ -12,7 +12,6 @@ import { Routine, UserSettings } from "../typings";
 import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 import {
-  UpdateActiveRoutineId,
   ConvertEmptyStringToNull,
   UpdateRoutine,
   DeleteItemFromList,
@@ -22,6 +21,7 @@ import {
   FormatRoutineScheduleTypeString,
   DeleteWorkoutRoutineSchedule,
   CreateRoutineWorkoutTemplateList,
+  UpdateUserSetting,
 } from "../helpers";
 import {
   LoadingSpinner,
@@ -106,19 +106,12 @@ export default function RoutineList() {
     const newActiveRoutineId =
       routine.id === userSettings.active_routine_id ? 0 : routine.id;
 
-    const updatedSettings = {
-      ...userSettings,
-      active_routine_id: newActiveRoutineId,
-    };
-
-    const success = await UpdateActiveRoutineId(
+    await UpdateUserSetting(
+      "active_routine_id",
       newActiveRoutineId,
-      userSettings.id
+      userSettings,
+      setUserSettings
     );
-
-    if (!success) return;
-
-    setUserSettings(updatedSettings);
   };
 
   const handleRoutineOptionSelection = (
@@ -192,13 +185,12 @@ export default function RoutineList() {
       setRoutines(updatedRoutines);
 
       if (routine.id === userSettings.active_routine_id) {
-        const updatedSettings = {
-          ...userSettings,
-          active_routine_id: 0,
-        };
-
-        await UpdateActiveRoutineId(0, userSettings.id);
-        setUserSettings(updatedSettings);
+        await UpdateUserSetting(
+          "active_routine_id",
+          0,
+          userSettings,
+          setUserSettings
+        );
       }
 
       toast.success("Routine Deleted");
