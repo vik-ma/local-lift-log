@@ -294,6 +294,7 @@ export default function RoutineList() {
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
+        setUserSettings={setUserSettings}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}

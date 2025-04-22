@@ -263,6 +263,7 @@ export default function WorkoutTemplateList() {
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
+        setUserSettings={setUserSettings}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}

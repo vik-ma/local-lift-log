@@ -560,6 +560,7 @@ export default function Multisets() {
         useMultisetActions={multisetActions}
         exerciseList={exerciseList}
         userSettings={userSettings}
+        setUserSettings={setUserSettings}
         saveButtonAction={
           operationType === "edit" ? updateMultiset : createMultiset
         }
@@ -582,6 +583,7 @@ export default function Multisets() {
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
+        setUserSettings={setUserSettings}
       />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal

@@ -149,6 +149,7 @@ export default function WorkoutIndex() {
         useFilterExerciseList={filterExerciseList}
         useWorkoutTemplateList={workoutTemplateList}
         userSettings={userSettings}
+        setUserSettings={setUserSettings}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
@@ -159,6 +160,7 @@ export default function WorkoutIndex() {
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
+        setUserSettings={setUserSettings}
       />
       <FilterRoutineListModal
         useRoutineList={routineList}

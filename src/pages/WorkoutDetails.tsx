@@ -492,6 +492,7 @@ export default function WorkoutDetails() {
         handleSaveSetButton={handleSaveSetButton}
         resetSetInputValues={resetSetInputValues}
         userSettings={userSettings}
+        setUserSettings={setUserSettings}
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
         openCalculationModal={openCalculationModal}
@@ -507,6 +508,7 @@ export default function WorkoutDetails() {
         useMultisetActions={multisetActions}
         exerciseList={exerciseList}
         userSettings={userSettings}
+        setUserSettings={setUserSettings}
         saveButtonAction={handleSaveMultisetButton}
         handleClickMultiset={handleClickMultiset}
         showWorkoutItems={true}
@@ -549,6 +551,7 @@ export default function WorkoutDetails() {
         useFilterExerciseList={filterExerciseList}
         useWorkoutTemplateList={workoutTemplateList}
         userSettings={userSettings}
+        setUserSettings={setUserSettings}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
@@ -559,6 +562,7 @@ export default function WorkoutDetails() {
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
+        setUserSettings={setUserSettings}
       />
       <FilterRoutineListModal
         useRoutineList={routineList}
@@ -574,6 +578,7 @@ export default function WorkoutDetails() {
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
         userSettings={userSettings}
+        setUserSettings={setUserSettings}
       />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal

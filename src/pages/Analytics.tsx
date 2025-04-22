@@ -3000,7 +3000,8 @@ export default function Analytics() {
         secondaryDataUnitCategory={secondaryDataUnitCategory}
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
-        userSettingsId={userSettings.id}
+        userSettings={userSettings}
+        setUserSettings={setUserSettings}
         loadExerciseStats={loadExerciseStats}
       />
       <FilterMinAndMaxDatesModal
