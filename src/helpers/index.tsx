@@ -62,7 +62,6 @@ export { ValidateShownPropertiesString } from "./UserSettings/ValidateShownPrope
 export { CreateShownPropertiesSet } from "./UserSettings/CreateShownPropertiesSet";
 export { UpdateDefaultPlateCollectionId } from "./UserSettings/UpdateDefaultPlateCollectionId";
 export { UpdateShowSecondaryExerciseGroups } from "./UserSettings/UpdateShowSecondaryExerciseGroups";
-export { UpdateDefaultDietLogDayIsYesterday } from "./UserSettings/UpdateDefaultDietLogDayIsYesterday";
 export { ValidateLoadExerciseOptionsString } from "./UserSettings/ValidateLoadExerciseOptionsString";
 export { UpdateLoadExerciseOptions } from "./UserSettings/UpdateLoadExerciseOptions";
 export { CreateLoadExerciseOptionsList } from "./UserSettings/CreateLoadExerciseOptionsList";
