@@ -22,23 +22,25 @@ export const PaceUnitDropdown = ({
   };
 
   return (
-    <Select
-      aria-label="Pace Unit Dropdown List"
-      label="Pace Unit"
-      labelPlacement="outside"
-      classNames={{
-        label: "pl-[3px] mt-1",
-        mainWrapper: "w-[6.5rem]",
-      }}
-      size="sm"
-      variant="faded"
-      selectedKeys={[value]}
-      onChange={(e) => handleChange(e)}
-      disallowEmptySelection
-    >
-      {validPaceUnits.map((unit) => (
-        <SelectItem key={unit}>{unit}</SelectItem>
-      ))}
-    </Select>
+    <div>
+      <Select
+        aria-label="Pace Unit Dropdown List"
+        label="Pace Unit"
+        labelPlacement="outside"
+        classNames={{
+          label: "pl-[3px] mt-1",
+          mainWrapper: "w-[7rem]",
+        }}
+        size="sm"
+        variant="faded"
+        selectedKeys={[value]}
+        onChange={(e) => handleChange(e)}
+        disallowEmptySelection
+      >
+        {validPaceUnits.map((unit) => (
+          <SelectItem key={unit}>{unit}</SelectItem>
+        ))}
+      </Select>
+    </div>
   );
 };

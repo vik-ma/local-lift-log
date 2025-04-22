@@ -22,23 +22,25 @@ export const SpeedUnitDropdown = ({
   };
 
   return (
-    <Select
-      aria-label="Speed Unit Dropdown List"
-      label="Speed Unit"
-      labelPlacement="outside"
-      classNames={{
-        label: "pl-[3px] mt-1",
-        mainWrapper: "w-[5.5rem]",
-      }}
-      size="sm"
-      variant="faded"
-      selectedKeys={[value]}
-      onChange={(e) => handleChange(e)}
-      disallowEmptySelection
-    >
-      {validSpeedUnits.map((unit) => (
-        <SelectItem key={unit}>{unit}</SelectItem>
-      ))}
-    </Select>
+    <div>
+      <Select
+        aria-label="Speed Unit Dropdown List"
+        label="Speed Unit"
+        labelPlacement="outside"
+        classNames={{
+          label: "pl-[3px] mt-1",
+          mainWrapper: "w-[7rem]",
+        }}
+        size="sm"
+        variant="faded"
+        selectedKeys={[value]}
+        onChange={(e) => handleChange(e)}
+        disallowEmptySelection
+      >
+        {validSpeedUnits.map((unit) => (
+          <SelectItem key={unit}>{unit}</SelectItem>
+        ))}
+      </Select>
+    </div>
   );
 };

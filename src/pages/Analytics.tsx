@@ -3195,14 +3195,14 @@ export default function Analytics() {
                     </DropdownMenu>
                   </Dropdown>
                 </div>
-                <div className="flex flex-col gap-0.5 px-px">
+                <div className="flex flex-col gap-0.5 items-center">
                   {weightCharts.size > 0 && (
                     <WeightUnitDropdown
                       value={weightUnit}
                       targetType="chart"
                       changeUnitInChart={handleChangeUnit}
                       customLabel="Weight Unit"
-                      customWidthString="w-[5rem]"
+                      customWidthString="w-[7rem]"
                       isSmall
                     />
                   )}
@@ -3212,7 +3212,7 @@ export default function Analytics() {
                       targetType="chart"
                       changeUnitInChart={handleChangeUnit}
                       customLabel="Distance Unit"
-                      customWidthString="w-[5.5rem]"
+                      customWidthString="w-[7rem]"
                       isSmall
                     />
                   )}
