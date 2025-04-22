@@ -45,8 +45,6 @@ import {
 import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 import { usePresetsList, useTimeInputMap } from "../hooks";
-import { Reorder } from "framer-motion";
-import { ReorderIcon } from "../assets";
 
 type DefaultIncrementInputInvalidityMap = {
   weight: boolean;
@@ -55,9 +53,7 @@ type DefaultIncrementInputInvalidityMap = {
   calculationMultiplier: boolean;
 };
 
-type WorkoutRatingValues = { label: string; num: number };
-
-type SpecificSettingModalPage = "default-plate-calc" | "workout-rating-order";
+type SpecificSettingModalPage = "default-plate-calc";
 
 export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -82,10 +78,6 @@ export default function Settings() {
       calculationMultiplier: "",
     };
   }, []);
-
-  const [workoutRatingsList, setWorkoutRatingsList] = useState<
-    WorkoutRatingValues[]
-  >([]);
 
   const presetsList = usePresetsList(false, false);
 
@@ -393,27 +385,7 @@ export default function Settings() {
                       }
                     />
                   ) : (
-                    <div className="flex flex-col gap-1">
-                      <span className="text-xs text-stone-400 px-0.5">
-                        Drag To Reorder Ratings
-                      </span>
-                      <Reorder.Group
-                        className="flex flex-col gap-1"
-                        values={workoutRatingsList}
-                        onReorder={setWorkoutRatingsList}
-                      >
-                        {workoutRatingsList.map((item) => (
-                          <Reorder.Item
-                            className="flex justify-between items-center py-1 px-2 rounded-lg border-2 bg-default-50 cursor-grab hover:bg-default-100 active:bg-default-100 active:cursor-grabbing"
-                            key={item.num}
-                            value={item}
-                          >
-                            <span>{item.label}</span>
-                            <ReorderIcon size={16} />
-                          </Reorder.Item>
-                        ))}
-                      </Reorder.Group>
-                    </div>
+                    <div></div>
                   )}
                 </div>
               </ModalBody>
@@ -735,19 +707,6 @@ export default function Settings() {
               setUserSettings={setUserSettings}
               isInSettingsPage
             />
-          </div>
-          <div className="flex gap-3 items-center justify-between">
-            <span className="text-lg">Workout Ratings Order</span>
-            <Button
-              aria-label="Select Workout Ratings Order Button"
-              color="primary"
-              size="sm"
-              onPress={() =>
-                handleOpenSpecificSettingModal("workout-rating-order")
-              }
-            >
-              Select
-            </Button>
           </div>
           <h3 className="flex justify-center text-lg font-medium">
             Calculations
