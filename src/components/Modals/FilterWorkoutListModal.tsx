@@ -29,6 +29,9 @@ type FilterWorkoutListModalProps = {
   useFilterExerciseList: UseFilterExerciseListReturnType;
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
   userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
 };
 
 type ModalPage =
@@ -44,6 +47,7 @@ export const FilterWorkoutListModal = ({
   useFilterExerciseList,
   useWorkoutTemplateList,
   userSettings,
+  setUserSettings,
 }: FilterWorkoutListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
@@ -157,7 +161,8 @@ export const FilterWorkoutListModal = ({
                   handleClickExercise={handleClickExercise}
                   useExerciseList={useExerciseList}
                   useFilterExerciseList={useFilterExerciseList}
-                  userSettingsId={userSettings.id}
+                  userSettings={userSettings}
+                  setUserSettings={setUserSettings}
                   selectedExercises={filterExercises}
                 />
               ) : modalPage === "exercise-groups" ? (

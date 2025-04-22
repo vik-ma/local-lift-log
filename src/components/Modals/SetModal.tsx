@@ -35,6 +35,9 @@ type SetModalProps = {
   handleSaveSetButton: (numSets: string, targetSet?: string) => void;
   resetSetInputValues: (isOperatingSet: boolean) => void;
   userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
   exerciseList: UseExerciseListReturnType;
   numMultisetSets: number;
   openCalculationModal: (
@@ -60,6 +63,7 @@ export const SetModal = ({
   handleSaveSetButton,
   resetSetInputValues,
   userSettings,
+  setUserSettings,
   exerciseList,
   numMultisetSets,
   openCalculationModal,
@@ -90,7 +94,8 @@ export const SetModal = ({
                   handleClickExercise={handleClickExercise}
                   useExerciseList={exerciseList}
                   useFilterExerciseList={useFilterExerciseList}
-                  userSettingsId={userSettings.id}
+                  userSettings={userSettings}
+                  setUserSettings={setUserSettings}
                 />
               ) : (
                 <SetValueConfig

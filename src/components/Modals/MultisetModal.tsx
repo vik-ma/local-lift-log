@@ -38,6 +38,9 @@ type MultisetModalProps = {
   useMultisetActions: ReturnType<typeof useMultisetActions>;
   exerciseList: UseExerciseListReturnType;
   userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
   saveButtonAction: (numSets?: string) => void;
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
   showWorkoutItems: boolean;
@@ -62,6 +65,7 @@ export const MultisetModal = ({
   useMultisetActions,
   exerciseList,
   userSettings,
+  setUserSettings,
   saveButtonAction,
   handleClickMultiset,
   showWorkoutItems,
@@ -148,7 +152,8 @@ export const MultisetModal = ({
                   handleClickExercise={handleClickExercise}
                   useExerciseList={exerciseList}
                   useFilterExerciseList={useFilterExerciseList}
-                  userSettingsId={userSettings.id}
+                  userSettings={userSettings}
+                  setUserSettings={setUserSettings}
                 />
               ) : modalPage === "edit-set" ? (
                 <SetValueConfig

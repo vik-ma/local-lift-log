@@ -8,19 +8,24 @@ import {
 import {
   UseExerciseListReturnType,
   UseFilterExerciseListReturnType,
+  UserSettings,
 } from "../../typings";
-import { UpdateShowSecondaryExerciseGroups } from "../../helpers";
+import { UpdateUserSetting } from "../../helpers";
 
 type ExerciseListOptionsProps = {
   useExerciseList: UseExerciseListReturnType;
   useFilterExerciseList: UseFilterExerciseListReturnType;
-  userSettingsId: number;
+  userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
 };
 
 export const ExerciseListOptions = ({
   useExerciseList,
   useFilterExerciseList,
-  userSettingsId,
+  userSettings,
+  setUserSettings,
 }: ExerciseListOptionsProps) => {
   const {
     includeSecondaryGroups,
@@ -41,7 +46,12 @@ export const ExerciseListOptions = ({
 
     setIncludeSecondaryGroups(newValue);
 
-    await UpdateShowSecondaryExerciseGroups(newValueNum, userSettingsId);
+    await UpdateUserSetting(
+      "show_secondary_exercise_groups",
+      newValueNum,
+      userSettings,
+      setUserSettings
+    );
   };
 
   return (

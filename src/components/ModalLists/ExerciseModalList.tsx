@@ -3,6 +3,7 @@ import {
   Exercise,
   UseExerciseListReturnType,
   UseFilterExerciseListReturnType,
+  UserSettings,
 } from "../../typings";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -20,7 +21,10 @@ type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
   useExerciseList: UseExerciseListReturnType;
   useFilterExerciseList: UseFilterExerciseListReturnType;
-  userSettingsId: number;
+  userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
   customHeightString?: string;
   selectedExercises?: Set<number>;
   isInAnalyticsPage?: boolean;
@@ -30,7 +34,8 @@ export const ExerciseModalList = ({
   handleClickExercise,
   useExerciseList,
   useFilterExerciseList,
-  userSettingsId,
+  userSettings,
+  setUserSettings,
   customHeightString,
   selectedExercises,
   isInAnalyticsPage,
@@ -75,7 +80,8 @@ export const ExerciseModalList = ({
           <ExerciseListOptions
             useExerciseList={useExerciseList}
             useFilterExerciseList={useFilterExerciseList}
-            userSettingsId={userSettingsId}
+            userSettings={userSettings}
+            setUserSettings={setUserSettings}
           />
         </div>
         {filterMap.size > 0 && (

@@ -26,6 +26,7 @@ import {
   UseDisclosureReturnType,
   UseExerciseListReturnType,
   UseFilterExerciseListReturnType,
+  UserSettings,
 } from "../../typings";
 import { useMemo, useState } from "react";
 import {
@@ -47,7 +48,10 @@ type LoadExerciseOptionsModalProps = {
   secondaryDataUnitCategory: ChartDataUnitCategory;
   useExerciseList: UseExerciseListReturnType;
   useFilterExerciseList: UseFilterExerciseListReturnType;
-  userSettingsId: number;
+  userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
   loadExerciseStats: (
     exercise: Exercise,
     loadExerciseOptions: Set<ChartDataExerciseCategoryBase>,
@@ -69,7 +73,8 @@ export const LoadExerciseOptionsModal = ({
   secondaryDataUnitCategory,
   useExerciseList,
   useFilterExerciseList,
-  userSettingsId,
+  userSettings,
+  setUserSettings,
   loadExerciseStats,
 }: LoadExerciseOptionsModalProps) => {
   const [filterCategories, setFilterCategories] = useState<
@@ -431,7 +436,8 @@ export const LoadExerciseOptionsModal = ({
                     handleClickExercise={handleClickExercise}
                     useExerciseList={useExerciseList}
                     useFilterExerciseList={useFilterExerciseList}
-                    userSettingsId={userSettingsId}
+                    userSettings={userSettings}
+                    setUserSettings={setUserSettings}
                     customHeightString="h-[456px]"
                     isInAnalyticsPage
                   />

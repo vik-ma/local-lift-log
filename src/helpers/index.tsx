@@ -60,7 +60,6 @@ export { CreateDefaultUserSettings } from "./UserSettings/CreateDefaultUserSetti
 export { GetUserSettings } from "./UserSettings/GetUserSettings";
 export { ValidateShownPropertiesString } from "./UserSettings/ValidateShownPropertiesString";
 export { CreateShownPropertiesSet } from "./UserSettings/CreateShownPropertiesSet";
-export { UpdateShowSecondaryExerciseGroups } from "./UserSettings/UpdateShowSecondaryExerciseGroups";
 export { ValidateLoadExerciseOptionsString } from "./UserSettings/ValidateLoadExerciseOptionsString";
 export { UpdateLoadExerciseOptions } from "./UserSettings/UpdateLoadExerciseOptions";
 export { CreateLoadExerciseOptionsList } from "./UserSettings/CreateLoadExerciseOptionsList";

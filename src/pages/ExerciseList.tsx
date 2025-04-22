@@ -322,7 +322,8 @@ export default function ExerciseList() {
                 <ExerciseListOptions
                   useExerciseList={exerciseList}
                   useFilterExerciseList={filterExerciseList}
-                  userSettingsId={userSettings.id}
+                  userSettings={userSettings}
+                  setUserSettings={setUserSettings}
                 />
               </div>
               {filterMap.size > 0 && (

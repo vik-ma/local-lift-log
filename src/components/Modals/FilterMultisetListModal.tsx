@@ -25,6 +25,9 @@ type FilterMultisetListModalProps = {
   useExerciseList: UseExerciseListReturnType;
   useFilterExerciseList: UseFilterExerciseListReturnType;
   userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
 };
 
 type ModalPage = "base" | "exercise-list" | "exercise-groups";
@@ -34,6 +37,7 @@ export const FilterMultisetListModal = ({
   useExerciseList,
   useFilterExerciseList,
   userSettings,
+  setUserSettings,
 }: FilterMultisetListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
@@ -101,7 +105,8 @@ export const FilterMultisetListModal = ({
                   handleClickExercise={handleClickExercise}
                   useExerciseList={useExerciseList}
                   useFilterExerciseList={useFilterExerciseList}
-                  userSettingsId={userSettings.id}
+                  userSettings={userSettings}
+                  setUserSettings={setUserSettings}
                   selectedExercises={filterExercises}
                 />
               ) : modalPage === "exercise-groups" ? (
