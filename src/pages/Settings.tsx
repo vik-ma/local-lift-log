@@ -11,7 +11,7 @@ import {
   ConvertNumberToTwoDecimals,
   CreateShownPropertiesSet,
   GetValidatedUserSettingsUnits,
-  ValidateUserSetting,
+  UpdateUserSetting,
 } from "../helpers";
 import {
   Switch,
@@ -168,29 +168,19 @@ export default function Settings() {
     key: K,
     value: UserSettings[K]
   ) => {
-    if (userSettings === undefined || !ValidateUserSetting(key, value))
-      return false;
+    if (userSettings === undefined) return false;
 
-    const updatedUserSettings: UserSettings = {
-      ...userSettings,
-      [key]: value,
-    };
+    const success = UpdateUserSetting(
+      key,
+      value,
+      userSettings,
+      setUserSettings
+    );
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
+    if (!success) return false;
 
-      db.execute(`UPDATE user_settings SET ${key} = $1 WHERE id = $2`, [
-        value,
-        userSettings.id,
-      ]);
-
-      setUserSettings(updatedUserSettings);
-      toast.success("Setting Updated");
-      return true;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
+    toast.success("Setting Updated");
+    return true;
   };
 
   const handleDefaultIncrementValueChange = async (key: string) => {
