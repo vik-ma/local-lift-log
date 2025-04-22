@@ -4,7 +4,7 @@ import {
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
   IsStringInvalidNumberOr0,
-  UpdateDefaultPlateCollectionId,
+  UpdateUserSetting,
 } from "../helpers";
 import {
   EquipmentWeight,
@@ -272,14 +272,15 @@ export const PlateCalculator = ({
     }));
 
     if (isDefaultPlateCollectionInvalid) {
-      await UpdateDefaultPlateCollectionId(plateCollection.id, userSettings.id);
+      const success = await UpdateUserSetting(
+        "default_plate_collection_id",
+        plateCollection.id,
+        userSettings,
+        setUserSettings
+      );
 
-      const updatedSettings: UserSettings = {
-        ...userSettings,
-        default_plate_collection_id: plateCollection.id,
-      };
+      if (!success) return;
 
-      setUserSettings(updatedSettings);
       setIsDefaultPlateCollectionInvalid(false);
     }
 

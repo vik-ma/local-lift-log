@@ -44,8 +44,8 @@ import {
   GetUserSettings,
   GetValidatedUserSettingsUnits,
   IsStringInvalidNumberOr0,
-  UpdateDefaultPlateCollectionId,
   UpdateItemInList,
+  UpdateUserSetting,
 } from "../helpers";
 import toast from "react-hot-toast";
 import {
@@ -684,19 +684,12 @@ export default function Presets() {
     )
       return;
 
-    const success = await UpdateDefaultPlateCollectionId(
+    await UpdateUserSetting(
+      "default_plate_collection_id",
       plateCollectionId,
-      userSettings.id
+      userSettings,
+      setUserSettings
     );
-
-    if (!success) return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      default_plate_collection_id: plateCollectionId,
-    };
-
-    setUserSettings(updatedSettings);
   };
 
   const handleRestoreEquipmentButton = async () => {

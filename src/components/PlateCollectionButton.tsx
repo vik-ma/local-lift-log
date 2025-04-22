@@ -1,7 +1,7 @@
 import { Button } from "@heroui/react";
 import { PlateCollection, UserSettings } from "../typings";
-import { UpdateDefaultPlateCollectionId } from "../helpers";
 import { WeightPlatesIcon } from "../assets";
+import { UpdateUserSetting } from "../helpers";
 
 type PlateCollectionButtonProps = {
   userSettings: UserSettings;
@@ -25,19 +25,12 @@ export const PlateCollectionButton = ({
     )
       return;
 
-    const success = await UpdateDefaultPlateCollectionId(
+    await UpdateUserSetting(
+      "default_plate_collection_id",
       plateCollection.id,
-      userSettings.id
+      userSettings,
+      setUserSettings
     );
-
-    if (!success) return;
-
-    const updatedSettings: UserSettings = {
-      ...userSettings,
-      default_plate_collection_id: plateCollection.id,
-    };
-
-    setUserSettings(updatedSettings);
   };
 
   return (
