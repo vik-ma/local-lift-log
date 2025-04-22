@@ -109,32 +109,35 @@ export const DietLogAccordions = ({
                 >
                   <div className="flex flex-col divide-y divide-stone-200 text-sm pb-0.5">
                     {dietLog.fat !== null && (
-                      <span className="px-2">
-                        <span className="font-medium text-stone-600">
+                      <div className="flex px-2">
+                        <div className="font-medium text-stone-600 w-[3.75rem]">
                           Fat:{" "}
+                        </div>
+                        <span className="text-slate-500">
+                          <span className="font-medium">{dietLog.fat}</span> g
                         </span>
-                        <span className="text-slate-500">{dietLog.fat} g</span>
-                      </span>
+                      </div>
                     )}
                     {dietLog.carbs !== null && (
-                      <span className="px-2">
-                        <span className="font-medium text-stone-600">
+                      <div className="flex px-2">
+                        <div className="font-medium text-stone-600 w-[3.75rem]">
                           Carbs:{" "}
-                        </span>
+                        </div>
                         <span className="text-slate-500">
-                          {dietLog.carbs} g
+                          <span className="font-medium">{dietLog.carbs}</span> g
                         </span>
-                      </span>
+                      </div>
                     )}
                     {dietLog.protein !== null && (
-                      <span className="px-2">
-                        <span className="font-medium text-stone-600">
+                      <div className="flex px-2">
+                        <div className="font-medium text-stone-600 w-[3.75rem]">
                           Protein:{" "}
-                        </span>
+                        </div>
                         <span className="text-slate-500">
-                          {dietLog.protein} g
+                          <span className="font-medium">{dietLog.protein}</span>{" "}
+                          g
                         </span>
-                      </span>
+                      </div>
                     )}
                   </div>
                 </motion.div>
