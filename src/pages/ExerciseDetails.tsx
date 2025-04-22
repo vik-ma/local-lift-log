@@ -125,8 +125,6 @@ export default function ExerciseDetails() {
     new Map()
   );
 
-  const initialized = useRef<boolean>(false);
-
   const getDateSetListMap = async (
     weightUnit: string,
     distanceUnit: string,
@@ -359,10 +357,6 @@ export default function ExerciseDetails() {
   };
 
   useEffect(() => {
-    if (initialized.current) return;
-
-    initialized.current = true;
-
     const getExercise = async () => {
       const currentExercise = await GetExerciseWithId(
         Number(id),
