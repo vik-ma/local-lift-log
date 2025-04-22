@@ -537,79 +537,83 @@ export const LoadExerciseOptionsModal = ({
                       )}
                     </div>
                   </ScrollShadow>
-                  <div className="px-0.5 py-0.5 flex gap-12">
-                    <Checkbox
-                      className="hover:underline"
-                      color="default"
-                      isSelected={ignoreWarmups}
-                      onValueChange={setIgnoreWarmups}
-                    >
-                      Ignore Warmups
-                    </Checkbox>
-                    <Checkbox
-                      className="hover:underline"
-                      color="default"
-                      isSelected={ignoreMultisets}
-                      onValueChange={setIgnoreMultisets}
-                    >
-                      Ignore Multisets
-                    </Checkbox>
-                  </div>
-                  <div className="flex gap-3">
-                    <div className="w-[11.75rem]">
-                      <Select
-                        label="Chart Area Category"
-                        classNames={{
-                          trigger: "bg-amber-50 border-amber-200",
-                        }}
-                        size="sm"
-                        variant="faded"
-                        selectedKeys={
-                          loadExerciseOptionsUnitCategoryPrimary !== undefined
-                            ? [loadExerciseOptionsUnitCategoryPrimary]
-                            : []
-                        }
-                        onChange={(e) =>
-                          handleLoadExerciseOptionsUnitCategoryChange(e)
-                        }
-                        isDisabled={
-                          loadExerciseOptionsUnitCategoriesPrimary.size < 2
-                        }
-                        disallowEmptySelection
+                  <div className="flex flex-col gap-1.5 drop-shadow-xl">
+                    <div className="px-0.5 py-0.5 flex gap-12">
+                      <Checkbox
+                        className="hover:underline"
+                        color="default"
+                        isSelected={ignoreWarmups}
+                        onValueChange={setIgnoreWarmups}
                       >
-                        {Array.from(
-                          loadExerciseOptionsUnitCategoriesPrimary
-                        ).map((category) => (
-                          <SelectItem key={category}>{category}</SelectItem>
-                        ))}
-                      </Select>
+                        Ignore Warmups
+                      </Checkbox>
+                      <Checkbox
+                        className="hover:underline"
+                        color="default"
+                        isSelected={ignoreMultisets}
+                        onValueChange={setIgnoreMultisets}
+                      >
+                        Ignore Multisets
+                      </Checkbox>
                     </div>
-                    <div className="w-[11.75rem]">
-                      <Select
-                        label="Chart Line Category"
-                        size="sm"
-                        variant="faded"
-                        selectedKeys={
-                          loadExerciseOptionsUnitCategorySecondary !== undefined
-                            ? [loadExerciseOptionsUnitCategorySecondary]
-                            : []
-                        }
-                        onChange={(e) =>
-                          setLoadExerciseOptionsUnitCategorySecondary(
-                            e.target.value as ChartDataUnitCategory
-                          )
-                        }
-                        isDisabled={
-                          loadExerciseOptionsUnitCategoriesSecondary.length < 2
-                        }
-                        disallowEmptySelection
-                      >
-                        {loadExerciseOptionsUnitCategoriesSecondary.map(
-                          (category) => (
+                    <div className="flex gap-3">
+                      <div className="w-[11.75rem]">
+                        <Select
+                          label="Chart Area Category"
+                          classNames={{
+                            trigger: "bg-amber-50 border-amber-200",
+                          }}
+                          size="sm"
+                          variant="faded"
+                          selectedKeys={
+                            loadExerciseOptionsUnitCategoryPrimary !== undefined
+                              ? [loadExerciseOptionsUnitCategoryPrimary]
+                              : []
+                          }
+                          onChange={(e) =>
+                            handleLoadExerciseOptionsUnitCategoryChange(e)
+                          }
+                          isDisabled={
+                            loadExerciseOptionsUnitCategoriesPrimary.size < 2
+                          }
+                          disallowEmptySelection
+                        >
+                          {Array.from(
+                            loadExerciseOptionsUnitCategoriesPrimary
+                          ).map((category) => (
                             <SelectItem key={category}>{category}</SelectItem>
-                          )
-                        )}
-                      </Select>
+                          ))}
+                        </Select>
+                      </div>
+                      <div className="w-[11.75rem]">
+                        <Select
+                          label="Chart Line Category"
+                          size="sm"
+                          variant="faded"
+                          selectedKeys={
+                            loadExerciseOptionsUnitCategorySecondary !==
+                            undefined
+                              ? [loadExerciseOptionsUnitCategorySecondary]
+                              : []
+                          }
+                          onChange={(e) =>
+                            setLoadExerciseOptionsUnitCategorySecondary(
+                              e.target.value as ChartDataUnitCategory
+                            )
+                          }
+                          isDisabled={
+                            loadExerciseOptionsUnitCategoriesSecondary.length <
+                            2
+                          }
+                          disallowEmptySelection
+                        >
+                          {loadExerciseOptionsUnitCategoriesSecondary.map(
+                            (category) => (
+                              <SelectItem key={category}>{category}</SelectItem>
+                            )
+                          )}
+                        </Select>
+                      </div>
                     </div>
                   </div>
                 </div>
