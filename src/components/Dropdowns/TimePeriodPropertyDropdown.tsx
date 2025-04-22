@@ -6,8 +6,7 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import { UserSettings } from "../../typings";
-import Database from "tauri-plugin-sql-api";
-import { ValidTimePeriodPropertiesMap } from "../../helpers";
+import { UpdateUserSetting, ValidTimePeriodPropertiesMap } from "../../helpers";
 import { useMemo } from "react";
 import toast from "react-hot-toast";
 
@@ -40,26 +39,15 @@ export const TimePeriodPropertyDropdown = ({
     if (userSettings !== undefined && setUserSettings !== undefined) {
       const timePeriodPropertyString = Array.from(keys).join(",");
 
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
+      const success = await UpdateUserSetting(
+        "shown_time_period_properties",
+        timePeriodPropertyString,
+        userSettings,
+        setUserSettings
+      );
 
-        await db.execute(
-          "UPDATE user_settings SET shown_time_period_properties = $1 WHERE id = $2",
-          [timePeriodPropertyString, userSettings.id]
-        );
-
-        const updatedUserSettings = {
-          ...userSettings,
-          shown_time_period_properties: timePeriodPropertyString,
-        };
-
-        setUserSettings(updatedUserSettings);
-
-        if (isInSettingsPage) {
-          toast.success("Setting Updated");
-        }
-      } catch (error) {
-        console.log(error);
+      if (success && isInSettingsPage) {
+        toast.success("Setting Updated");
       }
     }
   };

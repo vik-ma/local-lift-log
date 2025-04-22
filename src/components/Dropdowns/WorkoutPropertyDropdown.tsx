@@ -5,11 +5,10 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@heroui/react";
-import Database from "tauri-plugin-sql-api";
 import { UserSettings } from "../../typings";
-import toast from "react-hot-toast";
 import { useMemo } from "react";
-import { ValidWorkoutPropertiesMap } from "../../helpers";
+import { UpdateUserSetting, ValidWorkoutPropertiesMap } from "../../helpers";
+import toast from "react-hot-toast";
 
 type WorkoutPropertyDropdownProps = {
   selectedWorkoutProperties: Set<string>;
@@ -36,26 +35,15 @@ export const WorkoutPropertyDropdown = ({
     if (userSettings !== undefined && setUserSettings !== undefined) {
       const workoutPropertyString = Array.from(keys).join(",");
 
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
+      const success = await UpdateUserSetting(
+        "shown_workout_properties",
+        workoutPropertyString,
+        userSettings,
+        setUserSettings
+      );
 
-        await db.execute(
-          "UPDATE user_settings SET shown_workout_properties = $1 WHERE id = $2",
-          [workoutPropertyString, userSettings.id]
-        );
-
-        const updatedUserSettings = {
-          ...userSettings,
-          shown_workout_properties: workoutPropertyString,
-        };
-
-        setUserSettings(updatedUserSettings);
-
-        if (isInSettingsPage) {
-          toast.success("Setting Updated");
-        }
-      } catch (error) {
-        console.log(error);
+      if (success && isInSettingsPage) {
+        toast.success("Setting Updated");
       }
     }
   };
