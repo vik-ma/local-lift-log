@@ -32,6 +32,7 @@ import {
   ConvertDistanceValue,
   CalculateSpeedValue,
   UpdateIsFavorite,
+  UpdateUserSetting,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -42,7 +43,6 @@ import {
   useMultiplierInputMap,
 } from "../hooks";
 import toast from "react-hot-toast";
-import Database from "tauri-plugin-sql-api";
 import { TrophyIcon } from "../assets";
 
 type ShowCheckboxType =
@@ -505,16 +505,12 @@ export default function ExerciseDetails() {
         return;
     }
 
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      await db.execute(
-        `UPDATE user_settings SET ${column} = $1 WHERE id = $2`,
-        [numValue, userSettings.id]
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    await UpdateUserSetting(
+      column as keyof UserSettings,
+      numValue,
+      userSettings,
+      setUserSettings
+    );
   };
 
   if (
