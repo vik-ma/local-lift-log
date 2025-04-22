@@ -3029,183 +3029,6 @@ export default function Analytics() {
         <div className="flex flex-col gap-3">
           {isChartDataLoaded.current && (
             <div className="flex gap-1.5 mx-1.5">
-              <div className="flex flex-col gap-1 w-[12.25rem]">
-                <Select
-                  label="Shown Areas"
-                  size="sm"
-                  variant="faded"
-                  selectionMode="multiple"
-                  selectedKeys={shownChartDataAreas as string[]}
-                  isDisabled={chartDataAreas.length < 2}
-                  onSelectionChange={(value) =>
-                    updateLeftYAxis(Array.from(value) as ChartDataCategory[])
-                  }
-                  disallowEmptySelection
-                >
-                  {chartDataAreas.map((area) => (
-                    <SelectItem key={area}>
-                      {chartConfig.current[area ?? "default"].label}
-                    </SelectItem>
-                  ))}
-                </Select>
-                <Select
-                  label="Shown Lines"
-                  size="sm"
-                  variant="faded"
-                  selectionMode="multiple"
-                  selectedKeys={shownChartDataLines as string[]}
-                  onSelectionChange={(value) =>
-                    updateShownChartLines(
-                      Array.from(value) as ChartDataCategory[]
-                    )
-                  }
-                  isDisabled={chartDataLines.length === 0}
-                >
-                  {chartDataLines.map((line) => (
-                    <SelectItem key={line}>
-                      {chartConfig.current[line ?? "default"].label}
-                    </SelectItem>
-                  ))}
-                </Select>
-                <Select
-                  label="Right Y-Axis Value"
-                  size="sm"
-                  variant="faded"
-                  selectedKeys={
-                    secondaryDataUnitCategory !== undefined
-                      ? [secondaryDataUnitCategory]
-                      : []
-                  }
-                  onChange={(e) =>
-                    updateRightYAxis(
-                      shownChartDataLines,
-                      e.target.value as ChartDataUnitCategory
-                    )
-                  }
-                  disallowEmptySelection
-                  isDisabled={chartLineUnitCategorySet.size < 2}
-                >
-                  {Array.from(chartLineUnitCategorySet).map((category) => (
-                    <SelectItem key={category}>{category}</SelectItem>
-                  ))}
-                </Select>
-                <Select
-                  label="Shown Time Periods"
-                  size="sm"
-                  variant="faded"
-                  selectionMode="multiple"
-                  selectedKeys={shownTimePeriodIdSet}
-                  onSelectionChange={(keys) =>
-                    updateShownReferenceAreas(new Set(keys) as Set<string>)
-                  }
-                  isDisabled={referenceAreas.length === 0}
-                >
-                  {referenceAreas.map((area) => (
-                    <SelectItem key={area.timePeriodId.toString()}>
-                      {area.label}
-                    </SelectItem>
-                  ))}
-                </Select>
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  onPress={() => handleOpenListModal("time-period-list")}
-                >
-                  Load Time Period
-                </Button>
-                <Button
-                  className="font-medium"
-                  variant="flat"
-                  color="danger"
-                  onPress={() => deleteModal.onOpen()}
-                >
-                  Reset Chart
-                </Button>
-              </div>
-              <ChartContainer
-                config={chartConfig.current}
-                className="grow bg-default-50 pt-4 pb-1.5 rounded-xl"
-              >
-                <ComposedChart
-                  data={filteredChartData}
-                  margin={{ top: 15, right: 5, left: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis
-                    dataKey="date"
-                    tickFormatter={(date) => formatXAxisDate(date)}
-                  />
-                  <YAxis
-                    yAxisId={primaryDataKey}
-                    unit={chartDataUnitMap.current.get(primaryDataKey)}
-                  />
-                  <YAxis
-                    dataKey={secondaryDataKey}
-                    unit={chartDataUnitMap.current.get(secondaryDataKey)}
-                    orientation="right"
-                  />
-                  <ChartTooltip
-                    isAnimationActive={false}
-                    content={
-                      <ChartTooltipContent
-                        chartDataUnitMap={chartDataUnitMap.current}
-                        chartCommentMap={chartCommentMap}
-                        chartIncludesMultisetMap={includesMultisetMap.current}
-                      />
-                    }
-                  />
-                  <ChartLegend content={<ChartLegendContent />} />
-                  {shownChartDataAreas.map((item, index) => (
-                    <Area
-                      key={item}
-                      isAnimationActive={false}
-                      yAxisId={primaryDataKey}
-                      dataKey={item ?? ""}
-                      stroke={
-                        chartAreaColorList[index % chartAreaColorList.length]
-                      }
-                      fill={
-                        chartAreaColorList[index % chartAreaColorList.length]
-                      }
-                      activeDot={{ r: 6 }}
-                      connectNulls
-                      dot
-                    />
-                  ))}
-                  {shownReferenceAreas.map((area, index) => (
-                    <ReferenceArea
-                      key={area.timePeriodId}
-                      x1={area.x1}
-                      x2={area.x2}
-                      label={{ position: "top", value: area.label }}
-                      opacity={0.2}
-                      fill={
-                        referenceAreaColorList[
-                          index % referenceAreaColorList.length
-                        ]
-                      }
-                      stroke={
-                        referenceAreaColorList[
-                          index % referenceAreaColorList.length
-                        ]
-                      }
-                    />
-                  ))}
-                  {shownChartDataLines.map((item, index) => (
-                    <Line
-                      key={item}
-                      isAnimationActive={false}
-                      dataKey={item}
-                      stroke={
-                        chartLineColorList[index % chartLineColorList.length]
-                      }
-                      strokeWidth={2}
-                      activeDot={{ r: 6 }}
-                      connectNulls
-                    />
-                  ))}
-                </ComposedChart>
-              </ChartContainer>
               <div className="flex flex-col gap-0.5 w-[12.25rem]">
                 <div className="flex flex-col gap-1">
                   <Dropdown shouldBlockScroll={false}>
@@ -3419,6 +3242,183 @@ export default function Analytics() {
                       />
                     )}
                 </div>
+              </div>
+              <ChartContainer
+                config={chartConfig.current}
+                className="grow bg-default-50 pt-4 pb-1.5 rounded-xl"
+              >
+                <ComposedChart
+                  data={filteredChartData}
+                  margin={{ top: 15, right: 5, left: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis
+                    dataKey="date"
+                    tickFormatter={(date) => formatXAxisDate(date)}
+                  />
+                  <YAxis
+                    yAxisId={primaryDataKey}
+                    unit={chartDataUnitMap.current.get(primaryDataKey)}
+                  />
+                  <YAxis
+                    dataKey={secondaryDataKey}
+                    unit={chartDataUnitMap.current.get(secondaryDataKey)}
+                    orientation="right"
+                  />
+                  <ChartTooltip
+                    isAnimationActive={false}
+                    content={
+                      <ChartTooltipContent
+                        chartDataUnitMap={chartDataUnitMap.current}
+                        chartCommentMap={chartCommentMap}
+                        chartIncludesMultisetMap={includesMultisetMap.current}
+                      />
+                    }
+                  />
+                  <ChartLegend content={<ChartLegendContent />} />
+                  {shownChartDataAreas.map((item, index) => (
+                    <Area
+                      key={item}
+                      isAnimationActive={false}
+                      yAxisId={primaryDataKey}
+                      dataKey={item ?? ""}
+                      stroke={
+                        chartAreaColorList[index % chartAreaColorList.length]
+                      }
+                      fill={
+                        chartAreaColorList[index % chartAreaColorList.length]
+                      }
+                      activeDot={{ r: 6 }}
+                      connectNulls
+                      dot
+                    />
+                  ))}
+                  {shownReferenceAreas.map((area, index) => (
+                    <ReferenceArea
+                      key={area.timePeriodId}
+                      x1={area.x1}
+                      x2={area.x2}
+                      label={{ position: "top", value: area.label }}
+                      opacity={0.2}
+                      fill={
+                        referenceAreaColorList[
+                          index % referenceAreaColorList.length
+                        ]
+                      }
+                      stroke={
+                        referenceAreaColorList[
+                          index % referenceAreaColorList.length
+                        ]
+                      }
+                    />
+                  ))}
+                  {shownChartDataLines.map((item, index) => (
+                    <Line
+                      key={item}
+                      isAnimationActive={false}
+                      dataKey={item}
+                      stroke={
+                        chartLineColorList[index % chartLineColorList.length]
+                      }
+                      strokeWidth={2}
+                      activeDot={{ r: 6 }}
+                      connectNulls
+                    />
+                  ))}
+                </ComposedChart>
+              </ChartContainer>
+              <div className="flex flex-col gap-1 w-[12.25rem]">
+                <Select
+                  label="Shown Areas"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownChartDataAreas as string[]}
+                  isDisabled={chartDataAreas.length < 2}
+                  onSelectionChange={(value) =>
+                    updateLeftYAxis(Array.from(value) as ChartDataCategory[])
+                  }
+                  disallowEmptySelection
+                >
+                  {chartDataAreas.map((area) => (
+                    <SelectItem key={area}>
+                      {chartConfig.current[area ?? "default"].label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  label="Shown Lines"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownChartDataLines as string[]}
+                  onSelectionChange={(value) =>
+                    updateShownChartLines(
+                      Array.from(value) as ChartDataCategory[]
+                    )
+                  }
+                  isDisabled={chartDataLines.length === 0}
+                >
+                  {chartDataLines.map((line) => (
+                    <SelectItem key={line}>
+                      {chartConfig.current[line ?? "default"].label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  label="Right Y-Axis Value"
+                  size="sm"
+                  variant="faded"
+                  selectedKeys={
+                    secondaryDataUnitCategory !== undefined
+                      ? [secondaryDataUnitCategory]
+                      : []
+                  }
+                  onChange={(e) =>
+                    updateRightYAxis(
+                      shownChartDataLines,
+                      e.target.value as ChartDataUnitCategory
+                    )
+                  }
+                  disallowEmptySelection
+                  isDisabled={chartLineUnitCategorySet.size < 2}
+                >
+                  {Array.from(chartLineUnitCategorySet).map((category) => (
+                    <SelectItem key={category}>{category}</SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  label="Shown Time Periods"
+                  size="sm"
+                  variant="faded"
+                  selectionMode="multiple"
+                  selectedKeys={shownTimePeriodIdSet}
+                  onSelectionChange={(keys) =>
+                    updateShownReferenceAreas(new Set(keys) as Set<string>)
+                  }
+                  isDisabled={referenceAreas.length === 0}
+                >
+                  {referenceAreas.map((area) => (
+                    <SelectItem key={area.timePeriodId.toString()}>
+                      {area.label}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  onPress={() => handleOpenListModal("time-period-list")}
+                >
+                  Load Time Period
+                </Button>
+                <Button
+                  className="font-medium"
+                  variant="flat"
+                  color="danger"
+                  onPress={() => deleteModal.onOpen()}
+                >
+                  Reset Chart
+                </Button>
               </div>
             </div>
           )}
