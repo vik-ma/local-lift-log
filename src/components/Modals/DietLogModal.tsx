@@ -455,6 +455,8 @@ export const DietLogModal = ({
                         value={selectedDate}
                         onChange={setSelectedDate}
                         isDateUnavailable={isDateUnavailable}
+                        isInvalid={selectedDate === null}
+                        isRequired
                       />
                     </I18nProvider>
                   </div>
