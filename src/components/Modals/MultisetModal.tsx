@@ -27,6 +27,7 @@ import {
 } from "../";
 import { useMultisetActions } from "../../hooks";
 import { useMemo, useState } from "react";
+import { GetValidatedNumNewSets, NumNewSetsOptionList } from "../../helpers";
 
 type MultisetModalProps = {
   multiset: Multiset;
@@ -73,8 +74,10 @@ export const MultisetModal = ({
   openCalculationModal,
   useFilterExerciseList,
 }: MultisetModalProps) => {
+  const numSetsOptions = NumNewSetsOptionList();
+
   const [numNewSets, setNumNewSets] = useState<string>(
-    userSettings.default_num_new_sets
+    GetValidatedNumNewSets(userSettings.default_num_new_sets, numSetsOptions)
   );
 
   const {
@@ -250,6 +253,7 @@ export const MultisetModal = ({
                     <NumSetsDropdown
                       numNewSets={numNewSets}
                       targetType="state"
+                      numSetsOptions={numSetsOptions}
                       setNumNewSets={setNumNewSets}
                     />
                   )}

@@ -12,6 +12,8 @@ import {
   CreateShownPropertiesSet,
   GetValidatedUserSettingsUnits,
   UpdateUserSetting,
+  NumNewSetsOptionList,
+  GetValidatedNumNewSets,
 } from "../helpers";
 import {
   Switch,
@@ -65,6 +67,8 @@ export default function Settings() {
     useState<SpecificSettingModalPage>("default-plate-calc");
   const [selectedTimePeriodProperties, setSelectedTimePeriodProperties] =
     useState<Set<string>>(new Set());
+
+  const numSetsOptions = NumNewSetsOptionList();
 
   const createDefaultSettingsModal = useDisclosure();
   const specificSettingModal = useDisclosure();
@@ -528,8 +532,12 @@ export default function Settings() {
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Default Number Of New Sets</span>
             <NumSetsDropdown
-              numNewSets={userSettings.default_num_new_sets}
+              numNewSets={GetValidatedNumNewSets(
+                userSettings.default_num_new_sets,
+                numSetsOptions
+              )}
               targetType="settings"
+              numSetsOptions={numSetsOptions}
               updateUserSetting={updateUserSetting}
             />
           </div>

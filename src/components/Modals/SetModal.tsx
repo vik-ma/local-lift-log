@@ -19,6 +19,7 @@ import {
   UseFilterExerciseListReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
+import { GetValidatedNumNewSets, NumNewSetsOptionList } from "../../helpers";
 
 type SetModalProps = {
   setModal: UseDisclosureReturnType;
@@ -69,8 +70,10 @@ export const SetModal = ({
   openCalculationModal,
   useFilterExerciseList,
 }: SetModalProps) => {
+  const numSetsOptions = NumNewSetsOptionList();
+
   const [numNewSets, setNumNewSets] = useState<string>(
-    userSettings.default_num_new_sets
+    GetValidatedNumNewSets(userSettings.default_num_new_sets, numSetsOptions)
   );
   const [multisetSetTarget, setMultisetSetTarget] = useState<string>("1");
 
@@ -123,6 +126,7 @@ export const SetModal = ({
                   <NumSetsDropdown
                     numNewSets={numNewSets}
                     targetType="state"
+                    numSetsOptions={numSetsOptions}
                     setNumNewSets={setNumNewSets}
                   />
                 )}

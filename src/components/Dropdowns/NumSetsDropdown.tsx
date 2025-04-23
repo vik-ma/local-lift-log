@@ -1,22 +1,21 @@
 import { Select, SelectItem } from "@heroui/react";
-import { useNumSetsOptions } from "../../hooks";
 import { UpdateUserSettingFunction } from "../../typings";
 
 type NumSetsDropdownProps = {
   numNewSets: string;
   targetType: "state" | "settings";
+  numSetsOptions: string[];
   setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;
   updateUserSetting?: UpdateUserSettingFunction;
 };
 
 export const NumSetsDropdown = ({
   numNewSets,
+  targetType,
+  numSetsOptions,
   setNumNewSets,
   updateUserSetting,
-  targetType,
 }: NumSetsDropdownProps) => {
-  const numSetsOptions = useNumSetsOptions();
-
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "state" && setNumNewSets !== undefined) {
       setNumNewSets(e.target.value);
