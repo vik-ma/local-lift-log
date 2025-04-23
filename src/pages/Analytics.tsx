@@ -3416,7 +3416,11 @@ export default function Analytics() {
                   className="font-medium"
                   variant="flat"
                   color="danger"
-                  onPress={() => deleteModal.onOpen()}
+                  onPress={
+                    userSettings.never_show_delete_modal === 1
+                      ? () => resetChart()
+                      : () => deleteModal.onOpen()
+                  }
                 >
                   Reset Chart
                 </Button>

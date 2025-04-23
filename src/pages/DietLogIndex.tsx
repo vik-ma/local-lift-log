@@ -183,7 +183,7 @@ export default function DietLogIndex() {
   };
 
   const deleteDietLogEntry = async () => {
-    if (operationType !== "delete" || latestDietLog.id === 0) return;
+    if (latestDietLog.id === 0) return;
 
     const { success, newLatestDietLog } = await deleteDietLog(
       latestDietLog,
@@ -263,8 +263,12 @@ export default function DietLogIndex() {
   };
 
   const handleDietLogOptionSelection = (key: string) => {
+    if (userSettings === undefined) return;
+
     if (key === "edit") {
       handleEditLatestDietLog();
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      deleteDietLogEntry();
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();

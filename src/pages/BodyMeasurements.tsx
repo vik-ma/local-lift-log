@@ -235,10 +235,14 @@ export default function BodyMeasurements() {
   };
 
   const handleLatestUserWeightOptionSelection = (key: string) => {
+    if (userSettings === undefined) return;
+
     if (key === "edit") {
       loadUserWeightInputs(latestUserWeight);
       setOperationType("edit-weight");
       userWeightModal.onOpen();
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      deleteLatestUserWeight();
     } else if (key === "delete") {
       setOperationType("delete-weight");
       deleteModal.onOpen();
@@ -412,8 +416,12 @@ export default function BodyMeasurements() {
   };
 
   const handleUserMeasurementsOptionSelection = (key: string) => {
+    if (userSettings === undefined) return;
+
     if (key === "edit") {
       handleEditUserMeasurements();
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      deleteLatestUserMeasurements();
     } else if (key === "delete") {
       setOperationType("delete-measurements");
       deleteModal.onOpen();
