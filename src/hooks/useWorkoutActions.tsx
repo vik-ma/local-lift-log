@@ -55,9 +55,9 @@ import {
   DeleteMultisetWithId,
   GetValidatedUserSettingsUnits,
   DefaultNewSet,
+  NumNewSetsOptionList,
 } from "../helpers";
 import {
-  useNumSetsOptions,
   useSetTrackingInputs,
   useDefaultSetInputValues,
   useMultisetActions,
@@ -125,8 +125,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const [userWeight, setUserWeight] = useState<UserWeight>(defaultUserWeight);
 
   const [numMultisetSets, setNumMultisetSets] = useState<number>(1);
-
-  const numSetsOptions = useNumSetsOptions();
 
   const defaultSet = useRef<WorkoutSet>(DefaultNewSet(isTemplate));
 
@@ -238,11 +236,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   }, []);
 
   const addSetsToExercise = async (numSets: string) => {
-    if (selectedExercise === undefined) return;
-
-    if (!numSetsOptions.includes(numSets)) return;
-
-    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
+    if (
+      selectedExercise === undefined ||
+      !NumNewSetsOptionList().includes(numSets) ||
+      operatingSetInputs.isSetTrackingValuesInvalid
+    )
+      return;
 
     const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
       operatingSetInputs.setTrackingValuesInput
@@ -1796,9 +1795,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const createNewMultiset = async (numSets: string) => {
-    if (operationType !== "add") return;
-
-    if (!numSetsOptions.includes(numSets)) return;
+    if (operationType !== "add" || !NumNewSetsOptionList().includes(numSets))
+      return;
 
     const noteToInsert = ConvertEmptyStringToNull(operatingMultiset.note);
 
@@ -1968,11 +1966,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       selectedExercise === undefined ||
       operatingGroupedSet === undefined ||
       operatingGroupedSet.multiset === undefined ||
-      operatingGroupedSet.multiset.setListIndexCutoffs === undefined
+      operatingGroupedSet.multiset.setListIndexCutoffs === undefined ||
+      !NumNewSetsOptionList().includes(numSets)
     )
       return;
-
-    if (!numSetsOptions.includes(numSets)) return;
 
     const targetSetNum = parseInt(targetSet);
 
@@ -2259,9 +2256,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       return;
     }
 
-    if (operationType !== "add") return;
-
-    if (!numSetsOptions.includes(numSets)) return;
+    if (operationType !== "add" || !NumNewSetsOptionList().includes(numSets))
+      return;
 
     const newMultiset = { ...multiset, is_template: 0 };
 
@@ -2351,7 +2347,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (
       operatingGroupedSet === undefined ||
       operatingGroupedSet.multiset === undefined ||
-      !numSetsOptions.includes(numSets)
+      !NumNewSetsOptionList().includes(numSets)
     )
       return;
 
