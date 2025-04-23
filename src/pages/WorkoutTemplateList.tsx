@@ -206,11 +206,16 @@ export default function WorkoutTemplateList() {
     key: string,
     workoutTemplate: WorkoutTemplate
   ) => {
+    if (userSettings === undefined) return;
+
     if (key === "edit") {
       setOperationType("edit");
       setOperatingWorkoutTemplate(workoutTemplate);
       workoutTemplateModal.onOpen();
-    } else if (key === "delete" && workoutTemplate.numSets === 0) {
+    } else if (
+      key === "delete" &&
+      (workoutTemplate.numSets === 0 || !!userSettings.never_show_delete_modal)
+    ) {
       deleteWorkoutTemplate(workoutTemplate);
     } else if (key === "delete") {
       setOperationType("delete");

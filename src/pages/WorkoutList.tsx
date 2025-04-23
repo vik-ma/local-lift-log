@@ -172,9 +172,14 @@ export default function WorkoutList() {
   };
 
   const handleWorkoutOptionSelection = (key: string, workout: Workout) => {
+    if (userSettings === undefined) return;
+
     if (key === "edit") {
       editWorkout(workout);
-    } else if (key === "delete" && workout.numSets === 0) {
+    } else if (
+      key === "delete" &&
+      (workout.numSets === 0 || !!userSettings.never_show_delete_modal)
+    ) {
       deleteWorkout(workout);
     } else if (key === "delete") {
       setOperationType("delete");

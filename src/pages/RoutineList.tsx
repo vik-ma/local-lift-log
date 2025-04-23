@@ -119,6 +119,8 @@ export default function RoutineList() {
     routine: Routine,
     index: number
   ) => {
+    if (userSettings === undefined) return;
+
     if (key === "edit") {
       setOperationType("edit");
       setOperatingRoutine(routine);
@@ -126,7 +128,8 @@ export default function RoutineList() {
       routineModal.onOpen();
     } else if (
       key === "delete" &&
-      routine.workoutTemplateIdList?.length === 0
+      (routine.workoutTemplateIdList?.length === 0 ||
+        !!userSettings.never_show_delete_modal)
     ) {
       deleteRoutine(routine);
     } else if (key === "delete") {
