@@ -1293,4 +1293,5 @@ export type ExerciseMaxListValue = {
   date: string;
   formattedDate: string;
   id?: number;
+  isWarmup?: boolean;
 };

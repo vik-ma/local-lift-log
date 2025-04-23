@@ -173,7 +173,6 @@ export default function ExerciseDetails() {
               value: reps,
               date: set.time_completed as string,
               formattedDate: date,
-              id: set.id,
             });
           }
 
@@ -194,6 +193,7 @@ export default function ExerciseDetails() {
                 value: weight,
                 date: set.time_completed as string,
                 formattedDate: date,
+                id: set.id,
               });
             }
           }
@@ -341,10 +341,23 @@ export default function ExerciseDetails() {
       .sort((a, b) => a.pace - b.pace)
       .slice(0, 30);
 
-    if (maxWeightMap.current.size > 0) {
-      maxWeights.current = new Set(
-        Array.from(maxWeightMap.current).map(([, value]) => value.id!)
-      );
+    if (maxRepsMap.current.size > 0) {
+      const highestKeyForValue = new Map<number, { key: number; id: number }>();
+
+      for (const [key, value] of maxRepsMap.current) {
+        const keyExists = highestKeyForValue.get(value.value);
+        if (!keyExists || key > keyExists.key) {
+          highestKeyForValue.set(value.value, { key: key, id: value.id! });
+        }
+      }
+
+      const uniqueIds = new Set<number>();
+
+      for (const { id } of highestKeyForValue.values()) {
+        uniqueIds.add(id);
+      }
+
+      maxWeights.current = uniqueIds;
     }
 
     const sortedDateMapArray = Array.from(dateMap).sort(
