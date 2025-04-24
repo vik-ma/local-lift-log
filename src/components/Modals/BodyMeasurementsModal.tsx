@@ -23,8 +23,8 @@ import {
 import { useMemo, useState } from "react";
 import { DeleteItemFromList } from "../../helpers";
 
-type UserMeasurementModalProps = {
-  userMeasurementModal: UseDisclosureReturnType;
+type BodyMeasurementsModalProps = {
+  bodyMeasurementsModal: UseDisclosureReturnType;
   activeMeasurements: Measurement[];
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
   measurementsCommentInput: string;
@@ -40,8 +40,8 @@ type UserMeasurementModalProps = {
 
 type ModalPage = "base" | "measurement-list";
 
-export const UserMeasurementModal = ({
-  userMeasurementModal,
+export const BodyMeasurementsModal = ({
+  bodyMeasurementsModal,
   activeMeasurements,
   setActiveMeasurements,
   measurementsCommentInput,
@@ -51,7 +51,7 @@ export const UserMeasurementModal = ({
   buttonAction,
   isEditing,
   updateActiveTrackingMeasurementOrder = () => {},
-}: UserMeasurementModalProps) => {
+}: BodyMeasurementsModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
   const {
@@ -97,8 +97,8 @@ export const UserMeasurementModal = ({
 
   return (
     <Modal
-      isOpen={userMeasurementModal.isOpen}
-      onOpenChange={userMeasurementModal.onOpenChange}
+      isOpen={bodyMeasurementsModal.isOpen}
+      onOpenChange={bodyMeasurementsModal.onOpenChange}
     >
       <ModalContent>
         {(onClose) => (

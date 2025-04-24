@@ -3,7 +3,7 @@ import {
   LoadingSpinner,
   UserMeasurementAccordions,
   DeleteModal,
-  UserMeasurementModal,
+  BodyMeasurementsModal,
   NameInputModal,
   ListPageSearchInput,
   FilterUserMeasurementListModal,
@@ -90,7 +90,7 @@ export default function UserMeasurementList() {
   } = useReassignMeasurement(measurementList);
 
   const deleteModal = useDisclosure();
-  const userMeasurementModal = useDisclosure();
+  const bodyMeasurementsModal = useDisclosure();
   const timeInputModal = useDisclosure();
   const filterUserMeasurementListModal = useDisclosure();
 
@@ -163,7 +163,7 @@ export default function UserMeasurementList() {
       await updateActiveTrackingMeasurementOrder();
     }
 
-    userMeasurementModal.onClose();
+    bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Added");
   };
 
@@ -207,7 +207,7 @@ export default function UserMeasurementList() {
     resetUserMeasurements();
 
     toast.success("Body Measurements Entry Updated");
-    userMeasurementModal.onClose();
+    bodyMeasurementsModal.onClose();
   };
 
   const updateUserMeasurementTimestamp = async (dateString: string) => {
@@ -290,7 +290,7 @@ export default function UserMeasurementList() {
 
     setActiveMeasurements(activeMeasurements);
 
-    userMeasurementModal.onOpen();
+    bodyMeasurementsModal.onOpen();
   };
 
   const handleEditUserMeasurements = (userMeasurements: UserMeasurement) => {
@@ -306,7 +306,7 @@ export default function UserMeasurementList() {
 
     setOperatingUserMeasurements(userMeasurements);
     setOperationType("edit");
-    userMeasurementModal.onOpen();
+    bodyMeasurementsModal.onOpen();
   };
 
   const handleUserMeasurementsOptionSelection = (
@@ -378,8 +378,8 @@ export default function UserMeasurementList() {
         }
         deleteButtonAction={deleteUserMeasurements}
       />
-      <UserMeasurementModal
-        userMeasurementModal={userMeasurementModal}
+      <BodyMeasurementsModal
+        bodyMeasurementsModal={bodyMeasurementsModal}
         activeMeasurements={activeMeasurements}
         setActiveMeasurements={setActiveMeasurements}
         measurementsCommentInput={measurementsCommentInput}

@@ -10,7 +10,7 @@ import {
   DeleteModal,
   LoadingSpinner,
   UserMeasurementAccordions,
-  UserMeasurementModal,
+  BodyMeasurementsModal,
   UserWeightModal,
   NameInputModal,
   UserWeightListItem,
@@ -78,7 +78,7 @@ export default function BodyMeasurements() {
 
   const deleteModal = useDisclosure();
   const userWeightModal = useDisclosure();
-  const userMeasurementModal = useDisclosure();
+  const bodyMeasurementsModal = useDisclosure();
   const timeInputModal = useDisclosure();
 
   const {
@@ -286,7 +286,7 @@ export default function BodyMeasurements() {
 
     resetMeasurementsInput();
 
-    userMeasurementModal.onClose();
+    bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Added");
   };
 
@@ -340,7 +340,7 @@ export default function BodyMeasurements() {
     resetMeasurementsInput();
 
     toast.success("Body Measurements Entry Updated");
-    userMeasurementModal.onClose();
+    bodyMeasurementsModal.onClose();
   };
 
   const updateUserMeasurementsTimeStamp = async (dateString: string) => {
@@ -375,7 +375,7 @@ export default function BodyMeasurements() {
 
   const handleAddMeasurements = () => {
     resetMeasurementsInput();
-    userMeasurementModal.onOpen();
+    bodyMeasurementsModal.onOpen();
   };
 
   const resetMeasurementsInput = () => {
@@ -412,7 +412,7 @@ export default function BodyMeasurements() {
     setMeasurementsCommentInput(latestUserMeasurements.comment ?? "");
 
     setOperationType("edit-measurements");
-    userMeasurementModal.onOpen();
+    bodyMeasurementsModal.onOpen();
   };
 
   const handleUserMeasurementsOptionSelection = (key: string) => {
@@ -508,8 +508,8 @@ export default function BodyMeasurements() {
         }
         isEditing={operationType === "edit-weight"}
       />
-      <UserMeasurementModal
-        userMeasurementModal={userMeasurementModal}
+      <BodyMeasurementsModal
+        bodyMeasurementsModal={bodyMeasurementsModal}
         activeMeasurements={activeMeasurements}
         setActiveMeasurements={setActiveMeasurements}
         measurementsCommentInput={measurementsCommentInput}
