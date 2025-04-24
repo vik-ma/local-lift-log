@@ -47,7 +47,7 @@ export const DietLogAccordions = ({
           >
             <div className="flex justify-between items-center pl-2 py-1">
               <div className="flex flex-col items-start">
-                <span className="w-[19rem] break-all text-left font-medium text-stone-600">
+                <span className="w-[19rem] truncate text-left text-stone-600">
                   {dietLog.calories} kcal
                 </span>
                 <span className="text-xs text-secondary text-left">
