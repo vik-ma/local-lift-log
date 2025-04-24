@@ -829,33 +829,36 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const handleDeleteExerciseSets = (groupedWorkoutSet: GroupedWorkoutSet) => {
-    setOperationType("delete-grouped_sets-sets");
-    setOperatingGroupedSet(groupedWorkoutSet);
+    if (userSettings === undefined) return;
 
-    deleteModal.onOpen();
+    if (userSettings.never_show_delete_modal) {
+      deleteAllSetsForGroupedSet(groupedWorkoutSet);
+    } else {
+      setOperationType("delete-grouped_sets-sets");
+      setOperatingGroupedSet(groupedWorkoutSet);
+
+      deleteModal.onOpen();
+    }
   };
 
-  const deleteAllSetsForGroupedSet = async () => {
-    if (
-      operatingGroupedSet === undefined ||
-      operationType !== "delete-grouped_sets-sets"
-    )
-      return;
+  const deleteAllSetsForGroupedSet = async (
+    groupedSetToDelete?: GroupedWorkoutSet
+  ) => {
+    const groupedSet = groupedSetToDelete ?? operatingGroupedSet;
+
+    if (groupedSet === undefined) return;
 
     try {
       let statement = "";
       let id = 0;
-      let exerciseId = operatingGroupedSet.exerciseList[0].id;
+      let exerciseId = groupedSet.exerciseList[0].id;
 
       if (isTemplate && workoutTemplate.id !== 0) {
-        if (
-          operatingGroupedSet.isMultiset &&
-          operatingGroupedSet.multiset !== undefined
-        ) {
+        if (groupedSet.isMultiset && groupedSet.multiset !== undefined) {
           statement = `DELETE from sets WHERE multiset_id = $1
           AND workout_template_id = $2 
           AND is_template = 1`;
-          exerciseId = operatingGroupedSet.multiset.id;
+          exerciseId = groupedSet.multiset.id;
         } else {
           statement = `DELETE from sets WHERE exercise_id = $1 
           AND workout_template_id = $2 
@@ -866,13 +869,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
 
       if (!isTemplate && workout.id !== 0) {
-        if (
-          operatingGroupedSet.isMultiset &&
-          operatingGroupedSet.multiset !== undefined
-        ) {
+        if (groupedSet.isMultiset && groupedSet.multiset !== undefined) {
           statement = `DELETE from sets
                       WHERE multiset_id = $1 AND workout_id = $2`;
-          exerciseId = operatingGroupedSet.multiset.id;
+          exerciseId = groupedSet.multiset.id;
         } else {
           statement = `DELETE from sets 
           WHERE exercise_id = $1 AND workout_id = $2`;
@@ -887,13 +887,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       const result = await db.execute(statement, [exerciseId, id]);
 
-      const updatedGroupedSets = DeleteItemFromList(
-        groupedSets,
-        operatingGroupedSet.id
-      );
+      const updatedGroupedSets = DeleteItemFromList(groupedSets, groupedSet.id);
 
-      if (completedSetsMap.has(operatingGroupedSet.id)) {
-        completedSetsMap.delete(operatingGroupedSet.id);
+      if (completedSetsMap.has(groupedSet.id)) {
+        completedSetsMap.delete(groupedSet.id);
       }
 
       setGroupedSets(updatedGroupedSets);
@@ -910,9 +907,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setWorkoutNumbers(updatedWorkoutNumbers);
 
       if (!isTemplate) {
-        const deletedSetIds = operatingGroupedSet.setList.map(
-          (item) => item.id
-        );
+        const deletedSetIds = groupedSet.setList.map((item) => item.id);
 
         const updatedIncompleteSetIds = incompleteSetIds.filter(
           (num) => !deletedSetIds.includes(num)
@@ -920,7 +915,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         setIncompleteSetIds(updatedIncompleteSetIds);
 
-        if (activeGroupedSet?.id === operatingGroupedSet.id) {
+        if (activeGroupedSet?.id === groupedSet.id) {
           setActiveSet(undefined);
           setActiveGroupedSet(undefined);
           activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
