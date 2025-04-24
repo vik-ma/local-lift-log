@@ -174,12 +174,12 @@ export default function DietLogList() {
     toast.success("Diet Log Entry Updated");
   };
 
-  const deleteDietLogEntry = async () => {
-    if (operationType !== "delete" || operatingDietLog.id === 0) return;
+  const deleteDietLogEntry = async (dietLogToDelete?: DietLog) => {
+    const dietLog = dietLogToDelete ?? operatingDietLog;
 
-    const { success } = await deleteDietLog(operatingDietLog);
+    if (dietLog.id === 0) return;
 
-    console.log(success);
+    const { success } = await deleteDietLog(dietLog);
 
     if (!success) return;
 
@@ -243,11 +243,15 @@ export default function DietLogList() {
   };
 
   const handleDietLogOptionSelection = (key: string, dietLog: DietLog) => {
+    if (userSettings === undefined) return;
+
     if (key === "edit") {
       setOperationType("edit");
       setOperatingDietLog(dietLog);
       loadDietLogInputs(dietLog);
       dietLogModal.onOpen();
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      deleteDietLogEntry(dietLog);
     } else if (key === "delete") {
       setOperationType("delete");
       setOperatingDietLog(dietLog);
@@ -255,18 +259,12 @@ export default function DietLogList() {
     }
   };
 
-  const handleAddDietLogEntry = () => {
+  const handleAddDietLogEntry = (isRange: boolean) => {
     if (operationType !== "add") {
       resetDietLogEntry();
     }
-    dietLogModal.onOpen();
-  };
 
-  const handleAddDietLogRangeEntry = () => {
-    if (operationType !== "add") {
-      resetDietLogEntry();
-    }
-    setDateEntryType("range");
+    setDateEntryType(isRange ? "range" : "custom");
     dietLogModal.onOpen();
   };
 
@@ -322,7 +320,7 @@ export default function DietLogList() {
                   <Button
                     color="secondary"
                     variant="flat"
-                    onPress={handleAddDietLogEntry}
+                    onPress={() => handleAddDietLogEntry(false)}
                     size="sm"
                   >
                     New Diet Log Entry
@@ -330,7 +328,7 @@ export default function DietLogList() {
                   <Button
                     color="secondary"
                     variant="flat"
-                    onPress={handleAddDietLogRangeEntry}
+                    onPress={() => handleAddDietLogEntry(true)}
                     size="sm"
                   >
                     Add Multiple
