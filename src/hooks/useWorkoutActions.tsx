@@ -336,22 +336,20 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success(`Set${numSetsToAdd > 1 ? "s" : ""} Added`);
   };
 
-  const deleteSet = async () => {
-    if (
-      operatingSet === undefined ||
-      operationType !== "delete-set" ||
-      operatingGroupedSet === undefined
-    )
-      return;
+  const deleteSet = async (
+    setToDelete?: WorkoutSet,
+    groupedSetOfSet?: GroupedWorkoutSet
+  ) => {
+    const set = setToDelete ?? operatingSet;
+    const groupedSet = groupedSetOfSet ?? operatingGroupedSet;
 
-    const success = await DeleteSetWithId(operatingSet.id);
+    if (set === undefined || groupedSet === undefined) return;
+
+    const success = await DeleteSetWithId(set.id);
 
     if (!success) return;
 
-    const groupedSetIndex = FindIndexInList(
-      groupedSets,
-      operatingGroupedSet.id
-    );
+    const groupedSetIndex = FindIndexInList(groupedSets, groupedSet.id);
 
     const updatedWorkoutNumbers: WorkoutNumbers = {
       ...workoutNumbers,
@@ -360,15 +358,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const updatedSetList = DeleteItemFromList(
       groupedSets[groupedSetIndex].setList,
-      operatingSet.id
+      set.id
     );
 
     if (updatedSetList.length === 0) {
       // Remove Exercise/Multiset from groupedSets if last Set in Exercise was deleted
-      const updatedGroupedSets = DeleteItemFromList(
-        groupedSets,
-        operatingGroupedSet.id
-      );
+      const updatedGroupedSets = DeleteItemFromList(groupedSets, groupedSet.id);
 
       setGroupedSets(updatedGroupedSets);
       updateExerciseOrder(updatedGroupedSets);
@@ -377,19 +372,19 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         GetNumberOfUniqueExercisesInGroupedSets(updatedGroupedSets);
     } else {
       const newGroupedSet = {
-        ...operatingGroupedSet,
+        ...groupedSet,
         setList: updatedSetList,
       };
 
-      if (operatingGroupedSet.isMultiset && operatingGroupedSet.multiset) {
-        operatingGroupedSet.multiset.setList = updatedSetList;
+      if (groupedSet.isMultiset && groupedSet.multiset) {
+        groupedSet.multiset.setList = updatedSetList;
 
         const setListIdList = GenerateMultisetSetListIdList(
-          operatingGroupedSet.multiset.set_order
+          groupedSet.multiset.set_order
         );
 
         let updatedSetListIdList = setListIdList.map((setList) =>
-          DeleteIdFromList(setList, operatingSet.id)
+          DeleteIdFromList(setList, set.id)
         );
 
         // Remove empty setLists
@@ -398,7 +393,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         );
 
         const { success, updatedMultiset } = await UpdateMultisetSetOrder(
-          operatingGroupedSet.multiset,
+          groupedSet.multiset,
           updatedSetListIdList
         );
 
@@ -407,11 +402,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         const updatedIndexCutoffs =
           CreateMultisetIndexCutoffs(updatedSetListIdList);
 
-        const setIndex: number = operatingGroupedSet.setList.findIndex(
-          (obj) => obj.id === operatingSet.id
+        const setIndex = groupedSet.setList.findIndex(
+          (obj) => obj.id === set.id
         );
 
-        const updatedExerciseList = [...operatingGroupedSet.exerciseList];
+        const updatedExerciseList = [...groupedSet.exerciseList];
 
         updatedExerciseList.splice(setIndex, 1);
 
@@ -427,10 +422,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
 
     // Close shownSetListComments for Set if deleted Set note was shown
-    updateSetIndexInShownSetListComments(
-      operatingGroupedSet.id,
-      operatingSet.set_index ?? -1
-    );
+    updateSetIndexInShownSetListComments(groupedSet.id, set.set_index ?? -1);
 
     setWorkoutNumbers(updatedWorkoutNumbers);
 
@@ -439,22 +431,19 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success(isTemplate ? "Set Removed" : "Set Deleted");
     deleteModal.onClose();
 
-    if (
-      completedSetsMap.has(operatingGroupedSet.id) &&
-      operatingSet.is_completed === 1
-    ) {
+    if (completedSetsMap.has(groupedSet.id) && set.is_completed === 1) {
       // Lower the value for completedSetsMap key if deleted Set was completed
-      const value = completedSetsMap.get(operatingGroupedSet.id);
-      completedSetsMap.set(operatingGroupedSet.id, value! - 1);
+      const value = completedSetsMap.get(groupedSet.id);
+      completedSetsMap.set(groupedSet.id, value! - 1);
     }
 
     if (!isTemplate) {
-      if (operatingSet.id === activeSet?.id) {
+      if (set.id === activeSet?.id) {
         goToNextIncompleteSet(activeSet);
-      } else if (operatingSet.is_completed === 0) {
+      } else if (set.is_completed === 0) {
         const updatedIncompleteSetIds = DeleteIdFromList(
           incompleteSetIds,
-          operatingSet.id
+          set.id
         );
 
         setIncompleteSetIds(updatedIncompleteSetIds);
@@ -709,11 +698,17 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   };
 
   const handleDeleteSet = (set: WorkoutSet, groupedSet: GroupedWorkoutSet) => {
-    setOperatingSet(set);
-    setOperatingGroupedSet(groupedSet);
-    setOperationType("delete-set");
+    if (userSettings === undefined) return;
 
-    deleteModal.onOpen();
+    if (userSettings.never_show_delete_modal) {
+      deleteSet(set, groupedSet);
+    } else {
+      setOperatingSet(set);
+      setOperatingGroupedSet(groupedSet);
+      setOperationType("delete-set");
+
+      deleteModal.onOpen();
+    }
   };
 
   const handleChangeWarmupForSet = async (
