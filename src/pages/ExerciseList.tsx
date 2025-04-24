@@ -181,18 +181,17 @@ export default function ExerciseList() {
     exerciseModal.onClose();
   };
 
-  const deleteExercise = async () => {
-    if (operatingExercise.id === 0 || operationType !== "delete") return;
+  const deleteExercise = async (exerciseToDelete?: Exercise) => {
+    const exercise = exerciseToDelete ?? operatingExercise;
+
+    if (exercise.id === 0) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from exercises WHERE id = $1", [operatingExercise.id]);
+      db.execute("DELETE from exercises WHERE id = $1", [exercise.id]);
 
-      const updatedExercises = DeleteItemFromList(
-        exercises,
-        operatingExercise.id
-      );
+      const updatedExercises = DeleteItemFromList(exercises, exercise.id);
 
       setExercises(updatedExercises);
 
@@ -225,10 +224,14 @@ export default function ExerciseList() {
   };
 
   const handleExerciseOptionSelection = (key: string, exercise: Exercise) => {
+    if (userSettings === undefined) return;
+
     if (key === "edit") {
       setOperationType("edit");
       setOperatingExercise(exercise);
       exerciseModal.onOpen();
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      deleteExercise(exercise);
     } else if (key === "delete") {
       setOperationType("delete");
       setOperatingExercise(exercise);

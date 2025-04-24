@@ -166,28 +166,28 @@ export default function MeasurementList() {
     toast.success("Measurement Updated");
   };
 
-  const deleteMeasurement = async () => {
-    if (operatingMeasurement.id === 0 || operationType !== "delete") return;
+  const deleteMeasurement = async (measurementToDelete?: Measurement) => {
+    const measurement = measurementToDelete ?? operatingMeasurement;
+
+    if (measurement.id === 0) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from measurements WHERE id = $1", [
-        operatingMeasurement.id,
-      ]);
+      db.execute("DELETE from measurements WHERE id = $1", [measurement.id]);
 
       const updatedMeasurements = DeleteItemFromList(
         measurements,
-        operatingMeasurement.id
+        measurement.id
       );
 
       setMeasurements(updatedMeasurements);
 
-      if (activeMeasurementSet.has(operatingMeasurement.id)) {
+      if (activeMeasurementSet.has(measurement.id)) {
         // Modify active_tracking_measurements string in user_settings
         // if measurementToDelete id is currently included
         const updatedMeasurementSet = new Set(activeMeasurementSet);
-        updatedMeasurementSet.delete(operatingMeasurement.id);
+        updatedMeasurementSet.delete(measurement.id);
 
         setActiveMeasurementSet(updatedMeasurementSet);
         updateActiveMeasurementString([...updatedMeasurementSet]);
@@ -293,8 +293,12 @@ export default function MeasurementList() {
   };
 
   const handleOptionSelection = (key: string, measurement: Measurement) => {
+    if (userSettings === undefined) return;
+
     if (key === "edit") {
       handleEditButton(measurement);
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      deleteMeasurement(measurement);
     } else if (key === "delete") {
       handleDeleteButton(measurement);
     } else if (key === "track") {

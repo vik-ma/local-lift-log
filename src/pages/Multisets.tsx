@@ -315,16 +315,18 @@ export default function Multisets() {
     toast.success("Multiset Updated");
   };
 
-  const deleteMultiset = async () => {
-    if (operatingMultiset.id === 0 || operationType !== "delete") return;
+  const deleteMultiset = async (multisetToDelete?: Multiset) => {
+    const multiset = multisetToDelete ?? operatingMultiset;
 
-    const success = await DeleteMultisetWithId(operatingMultiset.id);
+    if (multiset.id === 0) return;
+
+    const success = await DeleteMultisetWithId(multiset.id);
 
     if (!success) return;
 
     const updatedMultisets = DeleteItemFromList(
       multisetActions.multisets,
-      operatingMultiset.id
+      multiset.id
     );
 
     multisetActions.setMultisets(updatedMultisets);
@@ -409,11 +411,15 @@ export default function Multisets() {
   };
 
   const handleMultisetOptionSelection = (key: string, multiset: Multiset) => {
+    if (userSettings === undefined) return;
+
     if (key === "edit") {
       setOperationType("edit");
       multisetActions.clearMultiset("base", { ...multiset });
       multisetActions.setUneditedMultiset({ ...multiset });
       multisetActions.multisetModal.onOpen();
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      deleteMultiset(multiset);
     } else if (key === "delete") {
       setOperatingMultiset(multiset);
       setOperationType("delete");

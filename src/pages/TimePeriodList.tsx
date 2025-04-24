@@ -218,20 +218,17 @@ export default function TimePeriodList() {
     }
   };
 
-  const deleteTimePeriod = async () => {
-    if (operatingTimePeriod.id === 0 || operationType !== "delete") return;
+  const deleteTimePeriod = async (timePeriodToDelete?: TimePeriod) => {
+    const timePeriod = timePeriodToDelete ?? operatingTimePeriod;
+
+    if (timePeriod.id === 0) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from time_periods WHERE id = $1", [
-        operatingTimePeriod.id,
-      ]);
+      db.execute("DELETE from time_periods WHERE id = $1", [timePeriod.id]);
 
-      const updatedTimePeriods = DeleteItemFromList(
-        timePeriods,
-        operatingTimePeriod.id
-      );
+      const updatedTimePeriods = DeleteItemFromList(timePeriods, timePeriod.id);
 
       setTimePeriods(updatedTimePeriods);
 
@@ -261,12 +258,16 @@ export default function TimePeriodList() {
     key: string,
     timePeriod: TimePeriod
   ) => {
+    if (userSettings === undefined) return;
+
     if (key === "edit") {
       setOperatingTimePeriod(timePeriod);
       setStartDate(ConvertISODateStringToCalendarDate(timePeriod.start_date));
       setEndDate(ConvertISODateStringToCalendarDate(timePeriod.end_date));
       setOperationType("edit");
       timePeriodModal.onOpen();
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      deleteTimePeriod(timePeriod);
     } else if (key === "delete") {
       setOperationType("delete");
       setOperatingTimePeriod(timePeriod);

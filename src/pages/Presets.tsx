@@ -452,25 +452,23 @@ export default function Presets() {
     }
   };
 
-  const deleteEquipmentWeight = async () => {
-    if (
-      operatingEquipmentWeight.id === 0 ||
-      operationType !== "delete" ||
-      presetsType !== "equipment" ||
-      isOperatingPlateCollection
-    )
-      return;
+  const deleteEquipmentWeight = async (
+    equipmentWeightToDelete?: EquipmentWeight
+  ) => {
+    const equipmentWeight = equipmentWeightToDelete ?? operatingEquipmentWeight;
+
+    if (equipmentWeight.id === 0) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       db.execute("DELETE from equipment_weights WHERE id = $1", [
-        operatingEquipmentWeight.id,
+        equipmentWeight.id,
       ]);
 
       const updatedEquipmentWeights = DeleteItemFromList(
         equipmentWeights,
-        operatingEquipmentWeight.id
+        equipmentWeight.id
       );
 
       setEquipmentWeights(updatedEquipmentWeights);
@@ -484,24 +482,17 @@ export default function Presets() {
     deleteModal.onClose();
   };
 
-  const deleteDistance = async () => {
-    if (
-      operatingDistance.id === 0 ||
-      operationType !== "delete" ||
-      presetsType !== "distance" ||
-      isOperatingPlateCollection
-    )
-      return;
+  const deleteDistance = async (distanceToDelete?: Distance) => {
+    const distance = distanceToDelete ?? operatingDistance;
+
+    if (distance.id === 0) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      db.execute("DELETE from distances WHERE id = $1", [operatingDistance.id]);
+      db.execute("DELETE from distances WHERE id = $1", [distance.id]);
 
-      const updatedDistances = DeleteItemFromList(
-        distances,
-        operatingDistance.id
-      );
+      const updatedDistances = DeleteItemFromList(distances, distance.id);
 
       setDistances(updatedDistances);
 
@@ -514,24 +505,23 @@ export default function Presets() {
     deleteModal.onClose();
   };
 
-  const deletePlateCollection = async () => {
-    if (
-      operatingPlateCollection.id === 0 ||
-      operationType !== "delete" ||
-      !isOperatingPlateCollection
-    )
-      return;
+  const deletePlateCollection = async (
+    plateCollectionToDelete?: PlateCollection
+  ) => {
+    const plateCollection = plateCollectionToDelete ?? operatingPlateCollection;
+
+    if (plateCollection.id === 0) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       db.execute("DELETE from plate_collections WHERE id = $1", [
-        operatingPlateCollection.id,
+        plateCollection.id,
       ]);
 
       const updatedPlateCollections = DeleteItemFromList(
         plateCollections,
-        operatingPlateCollection.id
+        plateCollection.id
       );
 
       setPlateCollections(updatedPlateCollections);
@@ -617,6 +607,8 @@ export default function Presets() {
     key: string,
     equipment: EquipmentWeight
   ) => {
+    if (userSettings === undefined) return;
+
     setPresetsType("equipment");
     setOperatingEquipmentWeight(equipment);
     setValueInput(equipment.weight.toString());
@@ -626,6 +618,8 @@ export default function Presets() {
       setOperationType("edit");
       setNameInput(equipment.name);
       presetModal.onOpen();
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      deleteEquipmentWeight(equipment);
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();
@@ -636,6 +630,8 @@ export default function Presets() {
   };
 
   const handleDistanceOptionSelection = (key: string, distance: Distance) => {
+    if (userSettings === undefined) return;
+
     setPresetsType("distance");
     setOperatingDistance(distance);
     setValueInput(distance.distance.toString());
@@ -645,6 +641,8 @@ export default function Presets() {
       setOperationType("edit");
       setNameInput(distance.name);
       presetModal.onOpen();
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      deleteDistance(distance);
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();
@@ -658,6 +656,8 @@ export default function Presets() {
     key: string,
     plateCollection: PlateCollection
   ) => {
+    if (userSettings === undefined) return;
+
     setOperatingPlateCollection(plateCollection);
     setOtherUnitPlateCollection({
       ...defaultPlateCollection,
@@ -668,6 +668,8 @@ export default function Presets() {
     if (key === "edit") {
       setOperationType("edit");
       plateCollectionModal.resetAndOpenPlateCollectionModal();
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      deletePlateCollection(plateCollection);
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();
