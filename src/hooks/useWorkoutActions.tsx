@@ -175,7 +175,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     exerciseList,
     defaultMultiset,
     operatingSetInputs,
-    userSettings,
     defaultPage: "multiset-list",
   });
 

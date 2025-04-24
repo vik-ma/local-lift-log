@@ -35,11 +35,15 @@ type UseMultisetActionsProps = {
   exerciseList: UseExerciseListReturnType;
   defaultMultiset: Multiset;
   operatingSetInputs: UseSetTrackingInputsReturnType;
-  userSettings: UserSettings | undefined;
   defaultPage?: MultisetModalPage;
   setOperationType?: React.Dispatch<
     React.SetStateAction<"add" | "edit" | "delete">
   >;
+  userSettings?: UserSettings | undefined;
+  removeSetFromMultiset?: (
+    setToDelete?: WorkoutSet,
+    multisetTarget?: Multiset
+  ) => Promise<void>;
 };
 
 export const useMultisetActions = ({
@@ -51,9 +55,10 @@ export const useMultisetActions = ({
   exerciseList,
   defaultMultiset,
   operatingSetInputs,
-  userSettings,
   defaultPage,
   setOperationType,
+  userSettings,
+  removeSetFromMultiset,
 }: UseMultisetActionsProps): UseMultisetActionsReturnType => {
   const [modalPage, setModalPage] = useState<MultisetModalPage>(
     defaultPage ?? "base"
@@ -172,13 +177,7 @@ export const useMultisetActions = ({
     if (key === "edit-set") {
       handleEditSet(set, multiset);
     } else if (key === "delete-set") {
-      setOperatingMultiset(multiset);
-      if (modalIsOpen) {
-        removeSetFromOperatingMultiset(set);
-      } else {
-        setOperatingSet(set);
-        deleteModal.onOpen();
-      }
+      handleDeleteSet(set, multiset, modalIsOpen);
     } else if (key === "change-exercise") {
       handleChangeExercise(set, multiset, modalIsOpen, key);
     } else if (key === "reassign-exercise") {
@@ -187,6 +186,30 @@ export const useMultisetActions = ({
       handleRemoveSetCutoff(multiset, index);
     } else if (key === "add-set-cutoff") {
       handleInsertSetCutoff(multiset, index);
+    }
+  };
+
+  const handleDeleteSet = (
+    set: WorkoutSet,
+    multiset: Multiset,
+    modalIsOpen: boolean
+  ) => {
+    if (
+      userSettings !== undefined &&
+      userSettings.never_show_delete_modal &&
+      removeSetFromMultiset !== undefined
+    ) {
+      removeSetFromMultiset(set, multiset);
+      return;
+    }
+
+    setOperatingMultiset(multiset);
+
+    if (modalIsOpen) {
+      removeSetFromOperatingMultiset(set);
+    } else {
+      setOperatingSet(set);
+      deleteModal.onOpen();
     }
   };
 

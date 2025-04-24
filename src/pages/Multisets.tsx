@@ -76,6 +76,76 @@ export default function Multisets() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
+  const calculationModal = useCalculationModal();
+
+  const presetsList = usePresetsList(false, false);
+
+  const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
+    presetsList.listFilters;
+
+  const removeSetFromMultiset = async (
+    setToDelete?: WorkoutSet,
+    multisetTarget?: Multiset
+  ) => {
+    const set = setToDelete ?? operatingSet;
+    const multiset = multisetTarget ?? operatingMultiset;
+
+    if (set.id === 0) return;
+
+    const deleteSetSuccess = await DeleteSetWithId(set.id);
+
+    if (!deleteSetSuccess) return;
+
+    const updatedSetList = DeleteItemFromList(multiset.setList, set.id);
+
+    multiset.setList = updatedSetList;
+
+    const setListIdOrder = updatedSetList.map((obj) => obj.id);
+
+    const { success, updatedMultiset } = await UpdateMultisetSetOrder(
+      multiset,
+      [setListIdOrder]
+    );
+
+    if (!success) return;
+
+    let toastMsg = "Set Removed";
+
+    let updatedMultisets: Multiset[] = [];
+
+    if (updatedMultiset.setList.length === 0) {
+      // Delete Multiset if last set was deleted
+      const deleteMultisetSuccess = await DeleteMultisetWithId(multiset.id);
+
+      if (!deleteMultisetSuccess) return;
+
+      updatedMultisets = DeleteItemFromList(
+        multisetActions.multisets,
+        multiset.id
+      );
+
+      toastMsg = "Multiset Deleted";
+
+      if (multisetActions.multisetModal.isOpen) {
+        multisetActions.multisetModal.onClose();
+      }
+    } else {
+      updatedMultisets = UpdateItemInList(
+        multisetActions.multisets,
+        updatedMultiset
+      );
+    }
+
+    multisetActions.setMultisets(updatedMultisets);
+
+    if (!multisetActions.multisetModal.isOpen) {
+      resetOperatingMultiset();
+    }
+
+    deleteModal.onClose();
+    toast.success(toastMsg);
+  };
+
   const multisetActions = useMultisetActions({
     operatingMultiset,
     setOperatingMultiset,
@@ -85,16 +155,10 @@ export default function Multisets() {
     exerciseList,
     defaultMultiset,
     operatingSetInputs,
-    userSettings,
     setOperationType,
+    userSettings,
+    removeSetFromMultiset,
   });
-
-  const calculationModal = useCalculationModal();
-
-  const presetsList = usePresetsList(false, false);
-
-  const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
-    presetsList.listFilters;
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -347,68 +411,6 @@ export default function Multisets() {
     updatedMultisets[index] = updatedMultiset;
 
     multisetActions.setMultisets(updatedMultisets);
-  };
-
-  const removeSetFromMultiset = async () => {
-    if (operatingSet.id === 0) return;
-
-    const deleteSetSuccess = await DeleteSetWithId(operatingSet.id);
-
-    if (!deleteSetSuccess) return;
-
-    const updatedSetList = DeleteItemFromList(
-      operatingMultiset.setList,
-      operatingSet.id
-    );
-
-    operatingMultiset.setList = updatedSetList;
-
-    const setListIdOrder = updatedSetList.map((obj) => obj.id);
-
-    const { success, updatedMultiset } = await UpdateMultisetSetOrder(
-      operatingMultiset,
-      [setListIdOrder]
-    );
-
-    if (!success) return;
-
-    let toastMsg = "Set Removed";
-
-    let updatedMultisets: Multiset[] = [];
-
-    if (updatedMultiset.setList.length === 0) {
-      // Delete Multiset if last set was deleted
-      const deleteMultisetSuccess = await DeleteMultisetWithId(
-        operatingMultiset.id
-      );
-
-      if (!deleteMultisetSuccess) return;
-
-      updatedMultisets = DeleteItemFromList(
-        multisetActions.multisets,
-        operatingMultiset.id
-      );
-
-      toastMsg = "Multiset Deleted";
-
-      if (multisetActions.multisetModal.isOpen) {
-        multisetActions.multisetModal.onClose();
-      }
-    } else {
-      updatedMultisets = UpdateItemInList(
-        multisetActions.multisets,
-        updatedMultiset
-      );
-    }
-
-    multisetActions.setMultisets(updatedMultisets);
-
-    if (!multisetActions.multisetModal.isOpen) {
-      resetOperatingMultiset();
-    }
-
-    deleteModal.onClose();
-    toast.success(toastMsg);
   };
 
   const handleMultisetOptionSelection = (key: string, multiset: Multiset) => {
