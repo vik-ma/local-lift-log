@@ -224,3 +224,15 @@ diesel::table! {
         comment -> Option<Text>,
     }
 }
+
+diesel::table! {
+    body_measurements (id) {
+        id -> Integer,
+        date -> Text,
+        comment -> Nullable<Text>,
+        weight -> Float,
+        weight_unit -> Text,
+        body_fat_percentage -> Nullable<Float>,
+        measurement_values -> Text,
+    }
+}

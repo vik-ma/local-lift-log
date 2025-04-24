@@ -240,3 +240,16 @@ pub struct DietLog {
     pub protein: Option<i32>,
     pub comment: Option<String>,
 }
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = crate::schema::body_measurements)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct BodyMeasurement {
+    pub id: i32,
+    pub date: String,
+    pub comment: Option<String>,
+    pub weight: f32,
+    pub weight_unit: String,
+    pub body_fat_percentage: Option<f32>,
+    pub measurement_values: String,
+}
