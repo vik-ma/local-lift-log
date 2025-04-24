@@ -8,6 +8,7 @@ import {
   MultisetModalPage,
   MultisetOperationType,
   UseMultisetActionsReturnType,
+  UserSettings,
 } from "../typings";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useDefaultExercise, useListFilters, useMultisetTypeMap } from ".";
@@ -34,6 +35,7 @@ type UseMultisetActionsProps = {
   exerciseList: UseExerciseListReturnType;
   defaultMultiset: Multiset;
   operatingSetInputs: UseSetTrackingInputsReturnType;
+  userSettings: UserSettings | undefined;
   defaultPage?: MultisetModalPage;
   setOperationType?: React.Dispatch<
     React.SetStateAction<"add" | "edit" | "delete">
@@ -49,6 +51,7 @@ export const useMultisetActions = ({
   exerciseList,
   defaultMultiset,
   operatingSetInputs,
+  userSettings,
   defaultPage,
   setOperationType,
 }: UseMultisetActionsProps): UseMultisetActionsReturnType => {

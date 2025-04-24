@@ -85,6 +85,7 @@ export default function Multisets() {
     exerciseList,
     defaultMultiset,
     operatingSetInputs,
+    userSettings,
     setOperationType,
   });
 
