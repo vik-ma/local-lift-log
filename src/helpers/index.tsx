@@ -167,6 +167,7 @@ export { GetAllUserWeights } from "./Measurements/GetAllUserWeights";
 export { GetUserMeasurementsWithMeasurementId } from "./Measurements/GetUserMeasurementsWithMeasurementId";
 export { GetMeasurementListWithNumberOfUserMeasurementEntries } from "./Measurements/GetMeasurementListWithNumberOfUserMeasurementEntries";
 export { GetMeasurementList } from "./Measurements/GetMeasurementList";
+export { DefaultNewBodyMeasurements } from "./Measurements/DefaultNewBodyMeasurements";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";

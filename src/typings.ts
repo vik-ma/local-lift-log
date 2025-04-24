@@ -1295,3 +1295,18 @@ export type ExerciseMaxListValue = {
   id?: number;
   isWarmup?: boolean;
 };
+
+export type BodyMeasurements = {
+  id: number;
+  date: string;
+  comment: string | null;
+  weight: number;
+  weight_unit: string;
+  body_fat_percentage: number | null;
+  measurement_values: string;
+  measurementListText?: ReactNode;
+  formattedDate?: string;
+  isExpanded?: boolean;
+  userMeasurementValues?: UserMeasurementValues;
+  isInvalid?: boolean;
+};
