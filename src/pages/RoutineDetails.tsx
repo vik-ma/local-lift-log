@@ -289,41 +289,50 @@ export default function RoutineDetails() {
     }
   };
 
-  const removeWorkoutTemplateFromDay = async () => {
-    if (
-      operatingRoutineScheduleItem === undefined ||
-      routine.schedule_type === 2
-    )
-      return;
+  const removeWorkoutTemplateFromDay = async (
+    scheduleItemToDelete?: RoutineScheduleItem
+  ) => {
+    const scheduleItem = scheduleItemToDelete ?? operatingRoutineScheduleItem;
 
-    const success = await DeleteWorkoutRoutineSchedule(
-      operatingRoutineScheduleItem.id,
-      "id"
-    );
+    if (scheduleItem === undefined || routine.schedule_type === 2) return;
+
+    const day = scheduleItem.day;
+
+    const success = await DeleteWorkoutRoutineSchedule(scheduleItem.id, "id");
 
     if (!success) return;
 
     await updateRoutineWorkoutTemplateList();
 
     deleteModal.onClose();
-    toast.success(
-      `${operatingRoutineScheduleItem.name} removed from ${dayNameList[selectedDay]}`
-    );
+    toast.success(`${scheduleItem.name} removed from ${dayNameList[day]}`);
   };
 
   const handleRemoveRoutineScheduleItemButton = (
     schedule: RoutineScheduleItem
   ) => {
-    setSelectedDay(schedule.day);
-    setOperatingRoutineScheduleItem(schedule);
-    deleteModal.onOpen();
+    if (userSettings === undefined) return;
+
+    if (userSettings.never_show_delete_modal) {
+      removeWorkoutTemplateFromDay(schedule);
+    } else {
+      setSelectedDay(schedule.day);
+      setOperatingRoutineScheduleItem(schedule);
+      deleteModal.onOpen();
+    }
   };
 
   const handleRemoveNoDayRoutineScheduleItemButton = (
     schedule: NoDayRoutineScheduleItem
   ) => {
-    setOperatingNoDayRoutineScheduleItem(schedule);
-    deleteModal.onOpen();
+    if (userSettings === undefined) return;
+
+    if (userSettings.never_show_delete_modal) {
+      removeWorkoutTemplateFromNoDaySchedule(schedule);
+    } else {
+      setOperatingNoDayRoutineScheduleItem(schedule);
+      deleteModal.onOpen();
+    }
   };
 
   const handleChangeIsActiveRoutine = async (value: boolean) => {
@@ -425,16 +434,17 @@ export default function RoutineDetails() {
     toast.success("Workout added");
   };
 
-  const removeWorkoutTemplateFromNoDaySchedule = async () => {
-    if (
-      operatingNoDayRoutineScheduleItem === undefined ||
-      routine.schedule_type !== 2
-    )
-      return;
+  const removeWorkoutTemplateFromNoDaySchedule = async (
+    scheduleItemToDelete?: NoDayRoutineScheduleItem
+  ) => {
+    const scheduleItem =
+      scheduleItemToDelete ?? operatingNoDayRoutineScheduleItem;
+
+    if (scheduleItem === undefined || routine.schedule_type !== 2) return;
 
     const updatedWorkoutTemplateOrder = DeleteItemFromList(
       noDayWorkoutTemplateList,
-      operatingNoDayRoutineScheduleItem.id
+      scheduleItem.id
     );
 
     const success = await updateNoDayWorkoutTemplateList(
