@@ -31,7 +31,16 @@ import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <>
-      <Toaster position="bottom-center" toastOptions={{ duration: 1200 }} />
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          duration: 1200,
+          style: {
+            maxWidth: 350,
+            overflow: "hidden",
+          },
+        }}
+      />
       <HeroUIProvider>
         <SiteHeader />
         <main className="flex justify-center p-5">
