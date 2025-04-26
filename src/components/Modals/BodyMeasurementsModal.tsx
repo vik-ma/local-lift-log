@@ -12,6 +12,7 @@ import {
   EmptyListLabel,
   MeasurementModalList,
   UserMeasurementReorderItem,
+  WeightUnitDropdown,
 } from "..";
 import { Reorder } from "framer-motion";
 import {
@@ -51,10 +52,18 @@ export const BodyMeasurementsModal = ({
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
   const {
+    userWeightInput,
+    setUserWeightInput,
+    weightUnit,
+    setWeightUnit,
     commentInput,
     setCommentInput,
+    bodyFatPercentageInput,
+    setBodyFatPercentageInput,
+    isWeightInputValid,
+    isBodyFatPercentageInputValid,
+    areBodyMeasurementsValid,
     invalidMeasurementInputs,
-    areActiveMeasurementsValid,
     handleActiveMeasurementInputChange,
   } = useBodyMeasurementInputs;
 
@@ -112,6 +121,35 @@ export const BodyMeasurementsModal = ({
               ) : (
                 <div className="h-[400px]">
                   <ScrollShadow className="flex flex-col gap-1.5 pr-2.5 h-full">
+                    <div className="flex gap-1.5 items-center">
+                      <Input
+                        value={userWeightInput}
+                        label="Weight"
+                        size="sm"
+                        variant="faded"
+                        onValueChange={(value) => setUserWeightInput(value)}
+                        isInvalid={!isWeightInputValid}
+                        isClearable
+                      />
+                      <WeightUnitDropdown
+                        value={weightUnit}
+                        setState={setWeightUnit}
+                        targetType="state"
+                        showLabel
+                        isSmall
+                      />
+                    </div>
+                    <Input
+                      value={bodyFatPercentageInput}
+                      label="Body Fat %"
+                      size="sm"
+                      variant="faded"
+                      onValueChange={(value) =>
+                        setBodyFatPercentageInput(value)
+                      }
+                      isInvalid={!isBodyFatPercentageInputValid}
+                      isClearable
+                    />
                     <Reorder.Group
                       className="flex flex-col gap-1.5 w-full"
                       values={activeMeasurements}
@@ -190,9 +228,7 @@ export const BodyMeasurementsModal = ({
                       ? () => setModalPage("base")
                       : buttonAction
                   }
-                  isDisabled={
-                    !areActiveMeasurementsValid && modalPage === "base"
-                  }
+                  isDisabled={!areBodyMeasurementsValid && modalPage === "base"}
                 >
                   {modalPage === "measurement-list"
                     ? "Done"

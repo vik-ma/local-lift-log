@@ -16,7 +16,7 @@ export const useBodyMeasurementsInput = (
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>
 ): UseBodyMeasurementsInputReturnType => {
   const [userWeightInput, setUserWeightInput] = useState<string>("");
-  const [weightUnit, setWeightUnit] = useState<string>("");
+  const [weightUnit, setWeightUnit] = useState<string>("kg");
   const [commentInput, setCommentInput] = useState<string>("");
   const [bodyFatPercentageInput, setBodyFatPercentageInput] =
     useState<string>("");
