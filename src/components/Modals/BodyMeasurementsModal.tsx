@@ -11,7 +11,7 @@ import {
 import {
   EmptyListLabel,
   MeasurementModalList,
-  UserMeasurementReorderItem,
+  BodyMeasurementsReorderItem,
   WeightUnitDropdown,
 } from "..";
 import { Reorder } from "framer-motion";
@@ -156,7 +156,7 @@ export const BodyMeasurementsModal = ({
                       onReorder={setActiveMeasurements}
                     >
                       {activeMeasurements.map((measurement, index) => (
-                        <UserMeasurementReorderItem
+                        <BodyMeasurementsReorderItem
                           key={measurement.id}
                           measurement={measurement}
                           index={index}

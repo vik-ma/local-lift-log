@@ -4,7 +4,7 @@ import { Input } from "@heroui/react";
 import { MeasurementUnitDropdown } from ".";
 import { ReorderIcon } from "../assets";
 
-type UserMeasurementReorderItemProps = {
+type BodyMeasurementsReorderItemProps = {
   measurement: Measurement;
   index: number;
   activeMeasurements: Measurement[];
@@ -15,7 +15,7 @@ type UserMeasurementReorderItemProps = {
   updateActiveTrackingMeasurementOrder?: () => void;
 };
 
-export const UserMeasurementReorderItem = ({
+export const BodyMeasurementsReorderItem = ({
   measurement,
   index,
   activeMeasurements,
@@ -24,7 +24,7 @@ export const UserMeasurementReorderItem = ({
   handleActiveMeasurementInputChange,
   isEditing,
   updateActiveTrackingMeasurementOrder = () => {},
-}: UserMeasurementReorderItemProps) => {
+}: BodyMeasurementsReorderItemProps) => {
   const dragControls = useDragControls();
 
   return (

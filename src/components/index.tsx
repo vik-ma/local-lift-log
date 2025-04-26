@@ -5,7 +5,7 @@ export { SetList } from "./SetList";
 export { WorkoutGroupedSetList } from "./WorkoutGroupedSetList";
 export { ActiveSet } from "./ActiveSet";
 export { UserMeasurementAccordions } from "./UserMeasurementAccordions";
-export { UserMeasurementReorderItem } from "./UserMeasurementReorderItem";
+export { BodyMeasurementsReorderItem } from "./BodyMeasurementsReorderItem";
 export { DetailsHeader } from "./DetailsHeader";
 export { SetValueInputs } from "./SetValueInputs";
 export { MultisetSetList } from "./MultisetSetList";
