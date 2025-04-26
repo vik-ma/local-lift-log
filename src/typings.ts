@@ -1329,7 +1329,6 @@ export type UseBodyMeasurementsInputReturnType = {
     measurementMap: MeasurementMap
   ) => void;
   invalidMeasurementInputs: Set<number>;
-  areActiveMeasurementsValid: boolean;
   handleActiveMeasurementInputChange: (value: string, index: number) => void;
   activeMeasurements: Measurement[];
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;

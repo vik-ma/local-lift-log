@@ -44,14 +44,8 @@ export const useBodyMeasurementsInput =
       return true;
     }, [bodyFatPercentageInput]);
 
-    const areBodyMeasurementsValid = useMemo(() => {
-      if (!isWeightInputValid) return false;
-      if (!isBodyFatPercentageInputValid) return false;
-      return true;
-    }, [isWeightInputValid, isBodyFatPercentageInputValid]);
-
     const areActiveMeasurementsInputsEmpty = useMemo(() => {
-      let isEmpty: boolean = true;
+      let isEmpty = true;
 
       let i = 0;
       while (isEmpty && i < activeMeasurements.length) {
@@ -62,31 +56,37 @@ export const useBodyMeasurementsInput =
       return isEmpty;
     }, [activeMeasurements]);
 
-    const validateActiveMeasurementInput = (value: string, index: number) => {
-      const updatedSet = new Set(invalidMeasurementInputs);
-      if (IsStringInvalidNumberOr0(value)) {
-        updatedSet.add(index);
-      } else {
-        updatedSet.delete(index);
-      }
-
-      setInvalidMeasurementInputs(updatedSet);
-    };
-
-    // TODO: REMOVE?
-    const areActiveMeasurementsValid = useMemo(() => {
+    const areBodyMeasurementsValid = useMemo(() => {
+      if (!isWeightInputValid) return false;
+      if (!isBodyFatPercentageInputValid) return false;
+      if (invalidMeasurementInputs.size > 0) return false;
       if (
-        activeMeasurements.length < 1 ||
-        invalidMeasurementInputs.size > 0 ||
+        IsStringEmpty(weightInput) &&
+        IsStringEmpty(bodyFatPercentageInput) &&
         areActiveMeasurementsInputsEmpty
       )
         return false;
+
       return true;
     }, [
-      activeMeasurements,
+      isWeightInputValid,
+      isBodyFatPercentageInputValid,
       invalidMeasurementInputs,
+      weightInput,
+      bodyFatPercentageInput,
       areActiveMeasurementsInputsEmpty,
     ]);
+
+    const validateActiveMeasurementInput = (value: string, index: number) => {
+      const updatedInvalidInputs = new Set(invalidMeasurementInputs);
+      if (!IsStringEmpty(value) && IsStringInvalidNumberOr0(value)) {
+        updatedInvalidInputs.add(index);
+      } else {
+        updatedInvalidInputs.delete(index);
+      }
+
+      setInvalidMeasurementInputs(updatedInvalidInputs);
+    };
 
     const handleActiveMeasurementInputChange = (
       value: string,
@@ -152,7 +152,6 @@ export const useBodyMeasurementsInput =
       resetBodyMeasurementsInput,
       loadBodyMeasurementsInputs,
       invalidMeasurementInputs,
-      areActiveMeasurementsValid,
       handleActiveMeasurementInputChange,
       activeMeasurements,
       setActiveMeasurements,

@@ -20,16 +20,13 @@ import {
   GetLatestUserWeight,
   GetUserSettings,
   CreateActiveMeasurementInputs,
-  ConvertEmptyStringToNull,
   DeleteUserWeightWithId,
-  CreateUserMeasurementValues,
   CreateDetailedUserMeasurementList,
   DeleteUserMeasurementWithId,
   ConvertUserMeasurementValuesToMeasurementInputs,
   UpdateUserMeasurements,
   GenerateActiveMeasurementString,
   GetUserMeasurements,
-  InsertUserMeasurementIntoDatabase,
   ValidateISODateString,
   FormatDateTimeString,
   UpdateUserWeight,
@@ -54,9 +51,6 @@ export default function BodyMeasurements() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [operationType, setOperationType] =
     useState<BodyMeasurementsOperationType>("add");
-
-  const [measurementsCommentInput, setMeasurementsCommentInput] =
-    useState<string>("");
 
   const defaultUserWeight = useDefaultUserWeight();
 
@@ -105,12 +99,8 @@ export default function BodyMeasurements() {
 
   const bodyMeasurementsInput = useBodyMeasurementsInput();
 
-  const {
-    areActiveMeasurementsValid,
-    activeMeasurements,
-    setActiveMeasurements,
-    activeMeasurementsValue,
-  } = bodyMeasurementsInput;
+  const { activeMeasurements, setActiveMeasurements, activeMeasurementsValue } =
+    bodyMeasurementsInput;
 
   const getActiveMeasurements = async (activeMeasurementsString: string) => {
     try {
@@ -256,32 +246,24 @@ export default function BodyMeasurements() {
   };
 
   const addActiveMeasurements = async () => {
-    if (!areActiveMeasurementsValid || userSettings === undefined) return;
-
-    const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
-
-    const userMeasurementValues =
-      CreateUserMeasurementValues(activeMeasurements);
-
-    const newUserMeasurements = await InsertUserMeasurementIntoDatabase(
-      userMeasurementValues,
-      commentToInsert,
-      userSettings.clock_style,
-      measurementMap.current
-    );
-
-    if (newUserMeasurements === undefined) return;
-
-    setLatestUserMeasurements(newUserMeasurements);
-
-    if (userSettings.automatically_update_active_measurements === 1) {
-      await updateActiveTrackingMeasurementOrder();
-    }
-
-    resetMeasurementsInput();
-
-    bodyMeasurementsModal.onClose();
-    toast.success("Body Measurements Added");
+    // if (!areActiveMeasurementsValid || userSettings === undefined) return;
+    // const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
+    // const userMeasurementValues =
+    //   CreateUserMeasurementValues(activeMeasurements);
+    // const newUserMeasurements = await InsertUserMeasurementIntoDatabase(
+    //   userMeasurementValues,
+    //   commentToInsert,
+    //   userSettings.clock_style,
+    //   measurementMap.current
+    // );
+    // if (newUserMeasurements === undefined) return;
+    // setLatestUserMeasurements(newUserMeasurements);
+    // if (userSettings.automatically_update_active_measurements === 1) {
+    //   await updateActiveTrackingMeasurementOrder();
+    // }
+    // resetMeasurementsInput();
+    // bodyMeasurementsModal.onClose();
+    // toast.success("Body Measurements Added");
   };
 
   const deleteLatestUserMeasurements = async () => {
@@ -300,41 +282,32 @@ export default function BodyMeasurements() {
   };
 
   const updateUserMeasurements = async () => {
-    if (
-      latestUserMeasurements.id === 0 ||
-      !areActiveMeasurementsValid ||
-      userSettings === undefined
-    )
-      return;
-
-    const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
-
-    const userMeasurementValues =
-      CreateUserMeasurementValues(activeMeasurements);
-
-    const updatedUserMeasurements: UserMeasurement = {
-      ...latestUserMeasurements,
-      comment: commentToInsert,
-      measurement_values: userMeasurementValues,
-    };
-
-    const success = await UpdateUserMeasurements(updatedUserMeasurements);
-
-    if (!success) return;
-
-    const detailedUpdatedUserMeasurement = CreateDetailedUserMeasurementList(
-      [updatedUserMeasurements],
-      measurementMap.current,
-      userSettings.clock_style,
-      updatedUserMeasurements.id
-    );
-
-    setLatestUserMeasurements(detailedUpdatedUserMeasurement[0]);
-
-    resetMeasurementsInput();
-
-    toast.success("Body Measurements Entry Updated");
-    bodyMeasurementsModal.onClose();
+    // if (
+    //   latestUserMeasurements.id === 0 ||
+    //   !areActiveMeasurementsValid ||
+    //   userSettings === undefined
+    // )
+    //   return;
+    // const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
+    // const userMeasurementValues =
+    //   CreateUserMeasurementValues(activeMeasurements);
+    // const updatedUserMeasurements: UserMeasurement = {
+    //   ...latestUserMeasurements,
+    //   comment: commentToInsert,
+    //   measurement_values: userMeasurementValues,
+    // };
+    // const success = await UpdateUserMeasurements(updatedUserMeasurements);
+    // if (!success) return;
+    // const detailedUpdatedUserMeasurement = CreateDetailedUserMeasurementList(
+    //   [updatedUserMeasurements],
+    //   measurementMap.current,
+    //   userSettings.clock_style,
+    //   updatedUserMeasurements.id
+    // );
+    // setLatestUserMeasurements(detailedUpdatedUserMeasurement[0]);
+    // resetMeasurementsInput();
+    // toast.success("Body Measurements Entry Updated");
+    // bodyMeasurementsModal.onClose();
   };
 
   const updateUserMeasurementsTimeStamp = async (dateString: string) => {
@@ -381,7 +354,7 @@ export default function BodyMeasurements() {
     );
 
     setActiveMeasurements(updatedInputs);
-    setMeasurementsCommentInput("");
+    // setMeasurementsCommentInput("");
     setOperationType("add");
   };
 
@@ -403,7 +376,7 @@ export default function BodyMeasurements() {
     );
 
     setActiveMeasurements(activeMeasurements);
-    setMeasurementsCommentInput(latestUserMeasurements.comment ?? "");
+    // setMeasurementsCommentInput(latestUserMeasurements.comment ?? "");
 
     setOperationType("edit-measurements");
     bodyMeasurementsModal.onOpen();
