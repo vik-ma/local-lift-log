@@ -606,7 +606,7 @@ export default function Multisets() {
           setUserSettings={setUserSettings}
         />
       )}
-      <div className="flex flex-col items-center gap-1">
+      <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
           header="Multiset Templates"
           filterQuery={multisetActions.filterQuery}

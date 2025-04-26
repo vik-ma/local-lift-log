@@ -570,7 +570,7 @@ export default function UserWeightList() {
         value={operatingUserWeight.date}
         saveButtonAction={updateUserWeightTimestamp}
       />
-      <div className="flex flex-col items-center gap-1">
+      <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
           header="User Weight List"
           filterQuery={filterQuery}

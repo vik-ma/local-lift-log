@@ -415,7 +415,7 @@ export default function UserMeasurementList() {
         value={operatingUserMeasurements.date}
         saveButtonAction={updateUserMeasurementTimestamp}
       />
-      <div className="flex flex-col items-center gap-1">
+      <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
           header="User Measurement List"
           filterQuery={filterQuery}

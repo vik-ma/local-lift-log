@@ -305,7 +305,7 @@ export default function DietLogList() {
         useDietLogList={dietLogList}
         userSettings={userSettings}
       />
-      <div className="flex flex-col items-center gap-1">
+      <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
           header="Diet Log Entries"
           filterQuery={filterQuery}

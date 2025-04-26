@@ -303,7 +303,7 @@ export default function ExerciseList() {
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
       />
-      <div className="flex flex-col items-center gap-1">
+      <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
           header="Exercise List"
           filterQuery={filterQuery}

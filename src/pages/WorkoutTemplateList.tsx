@@ -274,7 +274,7 @@ export default function WorkoutTemplateList() {
         useExerciseList={exerciseList}
         useFilterExerciseList={filterExerciseList}
       />
-      <div className="flex flex-col items-center gap-1">
+      <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
           header="Workout Templates"
           filterQuery={filterQuery}
