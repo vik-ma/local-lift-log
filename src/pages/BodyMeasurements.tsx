@@ -44,9 +44,9 @@ import {
   useDefaultUserMeasurements,
   useDefaultUserWeight,
   useMeasurementList,
-  useUserMeasurementInputs,
   useReassignMeasurement,
   useLatestUserWeightInput,
+  useBodyMeasurementsInput,
 } from "../hooks";
 
 export default function BodyMeasurements() {
@@ -109,10 +109,12 @@ export default function BodyMeasurements() {
     reassignMeasurement,
   } = useReassignMeasurement(measurementList);
 
-  const measurementsInputs = useUserMeasurementInputs(
+  const bodyMeasurements = useBodyMeasurementsInput(
     activeMeasurements,
     setActiveMeasurements
   );
+
+  const { areActiveMeasurementsValid } = bodyMeasurements;
 
   const getActiveMeasurements = async (activeMeasurementsString: string) => {
     try {
@@ -258,11 +260,7 @@ export default function BodyMeasurements() {
   };
 
   const addActiveMeasurements = async () => {
-    if (
-      !measurementsInputs.areActiveMeasurementsValid ||
-      userSettings === undefined
-    )
-      return;
+    if (!areActiveMeasurementsValid || userSettings === undefined) return;
 
     const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
 
@@ -308,7 +306,7 @@ export default function BodyMeasurements() {
   const updateUserMeasurements = async () => {
     if (
       latestUserMeasurements.id === 0 ||
-      !measurementsInputs.areActiveMeasurementsValid ||
+      !areActiveMeasurementsValid ||
       userSettings === undefined
     )
       return;
@@ -512,10 +510,8 @@ export default function BodyMeasurements() {
         bodyMeasurementsModal={bodyMeasurementsModal}
         activeMeasurements={activeMeasurements}
         setActiveMeasurements={setActiveMeasurements}
-        measurementsCommentInput={measurementsCommentInput}
-        setMeasurementsCommentInput={setMeasurementsCommentInput}
+        useBodyMeasurementInputs={bodyMeasurements}
         useMeasurementList={measurementList}
-        useUserMeasurementInputs={measurementsInputs}
         buttonAction={
           operationType === "edit-measurements"
             ? updateUserMeasurements

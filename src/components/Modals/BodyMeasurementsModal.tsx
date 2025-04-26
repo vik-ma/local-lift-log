@@ -16,9 +16,9 @@ import {
 import { Reorder } from "framer-motion";
 import {
   Measurement,
+  UseBodyMeasurementsInputReturnType,
   UseDisclosureReturnType,
   UseMeasurementListReturnType,
-  useUserMeasurementInputsReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
 import { DeleteItemFromList } from "../../helpers";
@@ -27,9 +27,7 @@ type BodyMeasurementsModalProps = {
   bodyMeasurementsModal: UseDisclosureReturnType;
   activeMeasurements: Measurement[];
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
-  measurementsCommentInput: string;
-  setMeasurementsCommentInput: React.Dispatch<React.SetStateAction<string>>;
-  useUserMeasurementInputs: useUserMeasurementInputsReturnType;
+  useBodyMeasurementInputs: UseBodyMeasurementsInputReturnType;
   useMeasurementList: UseMeasurementListReturnType;
   buttonAction: () => void;
   isEditing: boolean;
@@ -44,9 +42,7 @@ export const BodyMeasurementsModal = ({
   bodyMeasurementsModal,
   activeMeasurements,
   setActiveMeasurements,
-  measurementsCommentInput,
-  setMeasurementsCommentInput,
-  useUserMeasurementInputs,
+  useBodyMeasurementInputs,
   useMeasurementList,
   buttonAction,
   isEditing,
@@ -55,10 +51,12 @@ export const BodyMeasurementsModal = ({
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
   const {
+    commentInput,
+    setCommentInput,
     invalidMeasurementInputs,
     areActiveMeasurementsValid,
     handleActiveMeasurementInputChange,
-  } = useUserMeasurementInputs;
+  } = useBodyMeasurementInputs;
 
   const handleMeasurementClick = (measurement: Measurement) => {
     if (activeMeasurementSet.has(measurement.id.toString())) {
@@ -144,13 +142,11 @@ export const BodyMeasurementsModal = ({
                       />
                     )}
                     <Input
-                      value={measurementsCommentInput}
+                      value={commentInput}
                       label="Comment"
                       size="sm"
                       variant="faded"
-                      onValueChange={(value) =>
-                        setMeasurementsCommentInput(value)
-                      }
+                      onValueChange={(value) => setCommentInput(value)}
                       isClearable
                     />
                   </ScrollShadow>
