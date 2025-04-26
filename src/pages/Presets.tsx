@@ -904,7 +904,7 @@ export default function Presets() {
       </Modal>
       <div className="flex flex-col items-center">
         <Tabs
-          className="sticky top-16 z-30"
+          className="sticky top-[4.5rem] z-30"
           aria-label="Preset Types"
           size="sm"
           fullWidth
@@ -912,7 +912,7 @@ export default function Presets() {
           onSelectionChange={(key) => changeTab(key as PresetTab)}
         >
           <Tab
-            className="flex flex-col gap-1 w-full px-0"
+            className="flex flex-col gap-1 w-full px-0 py-1.5"
             key="equipment"
             title="Equipment Weights"
           >
@@ -1038,7 +1038,7 @@ export default function Presets() {
             )}
           </Tab>
           <Tab
-            className="flex flex-col gap-1 w-full px-0"
+            className="flex flex-col gap-1 w-full px-0 py-1.5"
             key="distance"
             title="Distances"
           >
@@ -1161,7 +1161,7 @@ export default function Presets() {
             )}
           </Tab>
           <Tab
-            className="flex flex-col gap-1 w-full px-0"
+            className="flex flex-col gap-1 w-full px-0 py-1.5"
             key="plate"
             title="Plate Collections"
           >

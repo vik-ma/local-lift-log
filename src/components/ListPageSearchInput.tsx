@@ -9,7 +9,6 @@ type ListPageSearchInputProps = {
   totalListLength: number;
   isListFiltered: boolean;
   bottomContent?: ReactNode;
-  className?: string;
   extraTopSpace?: boolean;
 };
 
@@ -21,20 +20,15 @@ export const ListPageSearchInput = ({
   totalListLength,
   isListFiltered,
   bottomContent,
-  className,
   extraTopSpace,
 }: ListPageSearchInputProps) => {
   const topSpace = useMemo(() => {
-    return extraTopSpace ? "top-[6.5rem]" : "top-16";
+    return extraTopSpace ? "top-[7rem]" : "top-[4.5rem]";
   }, [extraTopSpace]);
 
   return (
     <div
-      className={
-        className !== undefined
-          ? `flex flex-col w-full gap-1.5 sticky ${topSpace} z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200 transition-opacity ${className}`
-          : `flex flex-col w-full gap-1.5 sticky ${topSpace} z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200 transition-opacity`
-      }
+      className={`flex flex-col w-full gap-1.5 sticky ${topSpace} z-30 bg-default-100 rounded-xl p-1.5 border-2 border-default-200 transition-opacity`}
     >
       <h1 className="px-0.5 font-bold from-[#FF705B] to-[#FFB457] text-3xl bg-clip-text text-transparent bg-gradient-to-tl truncate">
         {header}

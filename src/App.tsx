@@ -41,7 +41,7 @@ function App() {
         }}
       />
       <SiteHeader />
-      <main className="flex justify-center p-5">
+      <main className="flex justify-center p-1.5">
         <div className="w-[400px]">
           <Routes>
             <Route path="/" element={<HomePage />} />
