@@ -90,12 +90,12 @@ export const BodyMeasurementsModal = ({
   };
 
   const header = useMemo(() => {
-    if (modalPage === "base") {
-      if (isEditing) return "Edit User Measurements Entry";
-      else return "Add User Measurements Entry";
-    } else {
+    if (modalPage === "measurement-list")
       return "Select Body Measurements To Log";
-    }
+
+    if (isEditing) return "Edit Body Measurements Entry";
+
+    return "Add Body Measurements Entry";
   }, [modalPage, isEditing]);
 
   const activeMeasurementSet = useMemo(() => {
