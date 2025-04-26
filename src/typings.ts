@@ -1312,8 +1312,8 @@ export type BodyMeasurements = {
 };
 
 export type UseBodyMeasurementsInputReturnType = {
-  userWeightInput: string;
-  setUserWeightInput: React.Dispatch<React.SetStateAction<string>>;
+  weightInput: string;
+  setWeightInput: React.Dispatch<React.SetStateAction<string>>;
   weightUnit: string;
   setWeightUnit: React.Dispatch<React.SetStateAction<string>>;
   commentInput: string;

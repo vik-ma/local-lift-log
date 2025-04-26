@@ -15,7 +15,7 @@ export const useBodyMeasurementsInput = (
   activeMeasurements: Measurement[],
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>
 ): UseBodyMeasurementsInputReturnType => {
-  const [userWeightInput, setUserWeightInput] = useState<string>("");
+  const [weightInput, setWeightInput] = useState<string>("");
   const [weightUnit, setWeightUnit] = useState<string>("kg");
   const [commentInput, setCommentInput] = useState<string>("");
   const [bodyFatPercentageInput, setBodyFatPercentageInput] =
@@ -25,11 +25,11 @@ export const useBodyMeasurementsInput = (
   >(new Set<number>());
 
   const isWeightInputValid = useMemo(() => {
-    if (IsStringEmpty(userWeightInput)) return true;
-    if (IsStringInvalidNumber(userWeightInput)) return false;
+    if (IsStringEmpty(weightInput)) return true;
+    if (IsStringInvalidNumber(weightInput)) return false;
 
     return true;
-  }, [userWeightInput]);
+  }, [weightInput]);
 
   const isBodyFatPercentageInputValid = useMemo(() => {
     if (IsStringEmpty(bodyFatPercentageInput)) return true;
@@ -93,26 +93,26 @@ export const useBodyMeasurementsInput = (
 
   const resetBodyMeasurementsInput = () => {
     // TODO:FIX
-    setUserWeightInput("");
+    setWeightInput("");
     setCommentInput("");
     setBodyFatPercentageInput("");
   };
 
   const loadBodyMeasurementsInputs = (bodyMeasurements: BodyMeasurements) => {
     // TODO: FIX
-    // setUserWeightInput(userWeight.weight.toString());
-    // setCommentInput(userWeight.comment ?? "");
+    // setWeightInput(weight.weight.toString());
+    // setCommentInput(weight.comment ?? "");
     // setBodyFatPercentageInput(
-    //   userWeight.body_fat_percentage
-    //     ? userWeight.body_fat_percentage.toString()
+    //   weight.body_fat_percentage
+    //     ? weight.body_fat_percentage.toString()
     //     : ""
     // );
-    // setWeightUnit(userWeight.weight_unit);
+    // setWeightUnit(weight.weight_unit);
   };
 
   return {
-    userWeightInput,
-    setUserWeightInput,
+    weightInput,
+    setWeightInput,
     weightUnit,
     setWeightUnit,
     commentInput,

@@ -52,8 +52,8 @@ export const BodyMeasurementsModal = ({
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
   const {
-    userWeightInput,
-    setUserWeightInput,
+    weightInput,
+    setWeightInput,
     weightUnit,
     setWeightUnit,
     commentInput,
@@ -123,11 +123,11 @@ export const BodyMeasurementsModal = ({
                   <ScrollShadow className="flex flex-col gap-1.5 pr-2.5 h-full">
                     <div className="flex gap-1.5 items-center">
                       <Input
-                        value={userWeightInput}
+                        value={weightInput}
                         label="Weight"
                         size="sm"
                         variant="faded"
-                        onValueChange={(value) => setUserWeightInput(value)}
+                        onValueChange={(value) => setWeightInput(value)}
                         isInvalid={!isWeightInputValid}
                         isClearable
                       />
