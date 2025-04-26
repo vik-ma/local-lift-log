@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import {
+  ConvertUserMeasurementValuesToMeasurementInputs,
   IsNumberValidPercentage,
   IsStringEmpty,
   IsStringInvalidNumberOr0,
@@ -7,6 +8,7 @@ import {
 import {
   BodyMeasurements,
   Measurement,
+  MeasurementMap,
   UseBodyMeasurementsInputReturnType,
 } from "../typings";
 
@@ -97,22 +99,42 @@ export const useBodyMeasurementsInput =
     };
 
     const resetBodyMeasurementsInput = () => {
-      // TODO:FIX
       setWeightInput("");
       setCommentInput("");
       setBodyFatPercentageInput("");
+
+      const updatedInputs = activeMeasurementsValue.current.map(
+        (measurement) => ({
+          ...measurement,
+          input: "",
+        })
+      );
+
+      setActiveMeasurements(updatedInputs);
     };
 
-    const loadBodyMeasurementsInputs = (bodyMeasurements: BodyMeasurements) => {
-      // TODO: FIX
-      // setWeightInput(weight.weight.toString());
-      // setCommentInput(weight.comment ?? "");
-      // setBodyFatPercentageInput(
-      //   weight.body_fat_percentage
-      //     ? weight.body_fat_percentage.toString()
-      //     : ""
-      // );
-      // setWeightUnit(weight.weight_unit);
+    const loadBodyMeasurementsInputs = (
+      bodyMeasurements: BodyMeasurements,
+      measurementMap: MeasurementMap
+    ) => {
+      if (bodyMeasurements.userMeasurementValues === undefined) return;
+
+      setWeightInput(bodyMeasurements.weight.toString());
+      setCommentInput(bodyMeasurements.comment ?? "");
+      setBodyFatPercentageInput(
+        bodyMeasurements.body_fat_percentage
+          ? bodyMeasurements.body_fat_percentage.toString()
+          : ""
+      );
+      setWeightUnit(bodyMeasurements.weight_unit);
+
+      const activeMeasurements =
+        ConvertUserMeasurementValuesToMeasurementInputs(
+          bodyMeasurements.userMeasurementValues,
+          measurementMap
+        );
+
+      setActiveMeasurements(activeMeasurements);
     };
 
     return {

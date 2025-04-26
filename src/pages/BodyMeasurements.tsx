@@ -103,14 +103,14 @@ export default function BodyMeasurements() {
     reassignMeasurement,
   } = useReassignMeasurement(measurementList);
 
-  const bodyMeasurements = useBodyMeasurementsInput();
+  const bodyMeasurementsInput = useBodyMeasurementsInput();
 
   const {
     areActiveMeasurementsValid,
     activeMeasurements,
     setActiveMeasurements,
     activeMeasurementsValue,
-  } = bodyMeasurements;
+  } = bodyMeasurementsInput;
 
   const getActiveMeasurements = async (activeMeasurementsString: string) => {
     try {
@@ -504,7 +504,7 @@ export default function BodyMeasurements() {
       />
       <BodyMeasurementsModal
         bodyMeasurementsModal={bodyMeasurementsModal}
-        useBodyMeasurementInputs={bodyMeasurements}
+        useBodyMeasurementInputs={bodyMeasurementsInput}
         useMeasurementList={measurementList}
         buttonAction={
           operationType === "edit-measurements"

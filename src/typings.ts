@@ -1324,7 +1324,10 @@ export type UseBodyMeasurementsInputReturnType = {
   isBodyFatPercentageInputValid: boolean;
   areBodyMeasurementsValid: boolean;
   resetBodyMeasurementsInput: () => void;
-  loadBodyMeasurementsInputs: (bodyMeasurements: BodyMeasurements) => void;
+  loadBodyMeasurementsInputs: (
+    bodyMeasurements: BodyMeasurements,
+    measurementMap: MeasurementMap
+  ) => void;
   invalidMeasurementInputs: Set<number>;
   areActiveMeasurementsValid: boolean;
   handleActiveMeasurementInputChange: (value: string, index: number) => void;
