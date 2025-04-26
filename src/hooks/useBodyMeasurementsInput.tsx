@@ -5,12 +5,16 @@ import {
   IsStringInvalidNumber,
   IsStringInvalidNumberOr0,
 } from "../helpers";
-import { Measurement } from "../typings";
+import {
+  BodyMeasurements,
+  Measurement,
+  UseBodyMeasurementsInputReturnType,
+} from "../typings";
 
 export const useBodyMeasurementsInput = (
   activeMeasurements: Measurement[],
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>
-) => {
+): UseBodyMeasurementsInputReturnType => {
   const [userWeightInput, setUserWeightInput] = useState<string>("");
   const [weightUnit, setWeightUnit] = useState<string>("");
   const [commentInput, setCommentInput] = useState<string>("");
@@ -94,15 +98,34 @@ export const useBodyMeasurementsInput = (
     setBodyFatPercentageInput("");
   };
 
-  //   TODO: FIX
-  //   const loadUserWeightInputs = (userWeight: UserWeight) => {
-  //     setUserWeightInput(userWeight.weight.toString());
-  //     setCommentInput(userWeight.comment ?? "");
-  //     setBodyFatPercentageInput(
-  //       userWeight.body_fat_percentage
-  //         ? userWeight.body_fat_percentage.toString()
-  //         : ""
-  //     );
-  //     setWeightUnit(userWeight.weight_unit);
-  //   };
+  const loadBodyMeasurementsInputs = (bodyMeasurements: BodyMeasurements) => {
+    // TODO: FIX
+    // setUserWeightInput(userWeight.weight.toString());
+    // setCommentInput(userWeight.comment ?? "");
+    // setBodyFatPercentageInput(
+    //   userWeight.body_fat_percentage
+    //     ? userWeight.body_fat_percentage.toString()
+    //     : ""
+    // );
+    // setWeightUnit(userWeight.weight_unit);
+  };
+
+  return {
+    userWeightInput,
+    setUserWeightInput,
+    weightUnit,
+    setWeightUnit,
+    commentInput,
+    setCommentInput,
+    bodyFatPercentageInput,
+    setBodyFatPercentageInput,
+    isWeightInputValid,
+    isBodyFatPercentageInputValid,
+    areBodyMeasurementsValid,
+    resetBodyMeasurementsInput,
+    loadBodyMeasurementsInputs,
+    invalidMeasurementInputs,
+    areActiveMeasurementsValid,
+    handleActiveMeasurementInputChange,
+  };
 };

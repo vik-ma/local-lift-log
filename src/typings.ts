@@ -1310,3 +1310,22 @@ export type BodyMeasurements = {
   userMeasurementValues?: UserMeasurementValues;
   isInvalid?: boolean;
 };
+
+export type UseBodyMeasurementsInputReturnType = {
+  userWeightInput: string;
+  setUserWeightInput: React.Dispatch<React.SetStateAction<string>>;
+  weightUnit: string;
+  setWeightUnit: React.Dispatch<React.SetStateAction<string>>;
+  commentInput: string;
+  setCommentInput: React.Dispatch<React.SetStateAction<string>>;
+  bodyFatPercentageInput: string;
+  setBodyFatPercentageInput: React.Dispatch<React.SetStateAction<string>>;
+  isWeightInputValid: boolean;
+  isBodyFatPercentageInputValid: boolean;
+  areBodyMeasurementsValid: boolean;
+  resetBodyMeasurementsInput: () => void;
+  loadBodyMeasurementsInputs: (bodyMeasurements: BodyMeasurements) => void;
+  invalidMeasurementInputs: Set<number>;
+  areActiveMeasurementsValid: boolean;
+  handleActiveMeasurementInputChange: (value: string, index: number) => void;
+};
