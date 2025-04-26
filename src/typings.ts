@@ -1328,4 +1328,7 @@ export type UseBodyMeasurementsInputReturnType = {
   invalidMeasurementInputs: Set<number>;
   areActiveMeasurementsValid: boolean;
   handleActiveMeasurementInputChange: (value: string, index: number) => void;
+  activeMeasurements: Measurement[];
+  setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
+  activeMeasurementsValue: React.RefObject<Measurement[]>;
 };

@@ -26,8 +26,6 @@ import { DeleteItemFromList } from "../../helpers";
 
 type BodyMeasurementsModalProps = {
   bodyMeasurementsModal: UseDisclosureReturnType;
-  activeMeasurements: Measurement[];
-  setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
   useBodyMeasurementInputs: UseBodyMeasurementsInputReturnType;
   useMeasurementList: UseMeasurementListReturnType;
   buttonAction: () => void;
@@ -41,8 +39,6 @@ type ModalPage = "base" | "measurement-list";
 
 export const BodyMeasurementsModal = ({
   bodyMeasurementsModal,
-  activeMeasurements,
-  setActiveMeasurements,
   useBodyMeasurementInputs,
   useMeasurementList,
   buttonAction,
@@ -65,6 +61,8 @@ export const BodyMeasurementsModal = ({
     areBodyMeasurementsValid,
     invalidMeasurementInputs,
     handleActiveMeasurementInputChange,
+    activeMeasurements,
+    setActiveMeasurements,
   } = useBodyMeasurementInputs;
 
   const handleMeasurementClick = (measurement: Measurement) => {

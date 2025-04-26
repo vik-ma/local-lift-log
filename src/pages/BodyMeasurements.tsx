@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
   Measurement,
   UserSettings,
@@ -55,12 +55,6 @@ export default function BodyMeasurements() {
   const [operationType, setOperationType] =
     useState<BodyMeasurementsOperationType>("add");
 
-  const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
-    []
-  );
-
-  const activeMeasurementsValue = useRef<Measurement[]>([]);
-
   const [measurementsCommentInput, setMeasurementsCommentInput] =
     useState<string>("");
 
@@ -109,12 +103,14 @@ export default function BodyMeasurements() {
     reassignMeasurement,
   } = useReassignMeasurement(measurementList);
 
-  const bodyMeasurements = useBodyMeasurementsInput(
-    activeMeasurements,
-    setActiveMeasurements
-  );
+  const bodyMeasurements = useBodyMeasurementsInput();
 
-  const { areActiveMeasurementsValid } = bodyMeasurements;
+  const {
+    areActiveMeasurementsValid,
+    activeMeasurements,
+    setActiveMeasurements,
+    activeMeasurementsValue,
+  } = bodyMeasurements;
 
   const getActiveMeasurements = async (activeMeasurementsString: string) => {
     try {
@@ -508,8 +504,6 @@ export default function BodyMeasurements() {
       />
       <BodyMeasurementsModal
         bodyMeasurementsModal={bodyMeasurementsModal}
-        activeMeasurements={activeMeasurements}
-        setActiveMeasurements={setActiveMeasurements}
         useBodyMeasurementInputs={bodyMeasurements}
         useMeasurementList={measurementList}
         buttonAction={
