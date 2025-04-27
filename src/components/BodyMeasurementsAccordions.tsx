@@ -28,7 +28,7 @@ type UserMeasurementAccordionsProps = {
   handleReassignMeasurement?: (values: ReassignMeasurementsProps) => void;
 };
 
-export const UserMeasurementAccordions = ({
+export const BodyMeasurementsAccordions = ({
   userMeasurementEntries,
   handleMeasurementAccordionClick,
   measurementMap,

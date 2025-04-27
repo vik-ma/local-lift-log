@@ -4,7 +4,7 @@ export { TimeValueInput } from "./TimeValueInput";
 export { SetList } from "./SetList";
 export { WorkoutGroupedSetList } from "./WorkoutGroupedSetList";
 export { ActiveSet } from "./ActiveSet";
-export { UserMeasurementAccordions } from "./UserMeasurementAccordions";
+export { BodyMeasurementsAccordions } from "./BodyMeasurementsAccordions";
 export { BodyMeasurementsReorderItem } from "./BodyMeasurementsReorderItem";
 export { DetailsHeader } from "./DetailsHeader";
 export { SetValueInputs } from "./SetValueInputs";
