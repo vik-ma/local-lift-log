@@ -1,12 +1,18 @@
 import Database from "tauri-plugin-sql-api";
-import { GetCurrentDateTimeISOString } from "..";
+import {
+  CreateDetailedBodyMeasurementsList,
+  GetCurrentDateTimeISOString,
+} from "..";
+import { BodyMeasurements, MeasurementMap } from "../../typings";
 
 export const InsertBodyMeasurementsIntoDatabase = async (
   weight: number,
   weightUnit: string,
   bodyFatPercentage: number | null,
   measurementValues: string,
-  comment: string | null
+  comment: string | null,
+  clockStyle: string,
+  measurementMap: MeasurementMap
 ) => {
   try {
     const currentDateString = GetCurrentDateTimeISOString();
@@ -26,7 +32,27 @@ export const InsertBodyMeasurementsIntoDatabase = async (
         comment,
       ]
     );
+
+    const bodyMeasurements: BodyMeasurements = {
+      id: result.lastInsertId,
+      date: currentDateString,
+      weight: weight,
+      weight_unit: weightUnit,
+      body_fat_percentage: bodyFatPercentage,
+      measurement_values: measurementValues,
+      comment: comment,
+    };
+
+    const detailedBodyMeasurements = CreateDetailedBodyMeasurementsList(
+      [bodyMeasurements],
+      measurementMap,
+      clockStyle,
+      result.lastInsertId
+    );
+
+    return detailedBodyMeasurements[0];
   } catch (error) {
     console.log(error);
+    return undefined;
   }
 };
