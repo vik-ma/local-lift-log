@@ -119,7 +119,9 @@ export const useBodyMeasurementsInput =
     ) => {
       if (bodyMeasurements.userMeasurementValues === undefined) return;
 
-      setWeightInput(bodyMeasurements.weight.toString());
+      setWeightInput(
+        bodyMeasurements.weight === 0 ? "" : bodyMeasurements.weight.toString()
+      );
       setCommentInput(bodyMeasurements.comment ?? "");
       setBodyFatPercentageInput(
         bodyMeasurements.body_fat_percentage
