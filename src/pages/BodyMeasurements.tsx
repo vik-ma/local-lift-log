@@ -32,6 +32,12 @@ import {
   UpdateUserWeight,
   GetValidatedUserSettingsUnits,
   UpdateUserSetting,
+  IsStringEmpty,
+  ConvertNumberToTwoDecimals,
+  ConvertEmptyStringToNull,
+  ConvertInputStringToNumberWithTwoDecimalsOrNull,
+  CreateUserMeasurementValues,
+  InsertBodyMeasurementsIntoDatabase,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
@@ -99,8 +105,16 @@ export default function BodyMeasurements() {
 
   const bodyMeasurementsInput = useBodyMeasurementsInput();
 
-  const { activeMeasurements, setActiveMeasurements, activeMeasurementsValue } =
-    bodyMeasurementsInput;
+  const {
+    activeMeasurements,
+    setActiveMeasurements,
+    activeMeasurementsValue,
+    areBodyMeasurementsValid,
+    weightInput,
+    weightUnit,
+    bodyFatPercentageInput,
+    commentInput,
+  } = bodyMeasurementsInput;
 
   const getActiveMeasurements = async (activeMeasurementsString: string) => {
     try {
@@ -441,6 +455,33 @@ export default function BodyMeasurements() {
     toast.success("Measurement Reassigned");
   };
 
+  const addBodyMeasurements = async () => {
+    if (userSettings === undefined || !areBodyMeasurementsValid) return;
+
+    const weight = IsStringEmpty(weightInput)
+      ? 0
+      : ConvertNumberToTwoDecimals(Number(weightInput));
+
+    const bodyFatPercentage = ConvertInputStringToNumberWithTwoDecimalsOrNull(
+      bodyFatPercentageInput
+    );
+
+    const commentToInsert = ConvertEmptyStringToNull(commentInput);
+
+    const measurementValues = CreateUserMeasurementValues(activeMeasurements);
+
+    const success = await InsertBodyMeasurementsIntoDatabase(
+      weight,
+      weightUnit,
+      bodyFatPercentage,
+      measurementValues,
+      commentToInsert
+    );
+
+    bodyMeasurementsModal.onClose();
+    toast.success("Body Measurements Added");
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -482,7 +523,7 @@ export default function BodyMeasurements() {
         buttonAction={
           operationType === "edit-measurements"
             ? updateUserMeasurements
-            : addActiveMeasurements
+            : addBodyMeasurements
         }
         isEditing={operationType === "edit-measurements"}
         updateActiveTrackingMeasurementOrder={
