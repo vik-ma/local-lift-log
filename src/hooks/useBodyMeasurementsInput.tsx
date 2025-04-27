@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import {
-  ConvertUserMeasurementValuesToMeasurementInputs,
+  ConvertBodyMeasurementsValuesToMeasurementInputs,
   IsNumberValidPercentage,
   IsStringEmpty,
   IsStringInvalidNumberOr0,
@@ -131,7 +131,7 @@ export const useBodyMeasurementsInput =
       setWeightUnit(bodyMeasurements.weight_unit);
 
       const activeMeasurements =
-        ConvertUserMeasurementValuesToMeasurementInputs(
+        ConvertBodyMeasurementsValuesToMeasurementInputs(
           bodyMeasurements.bodyMeasurementsValues,
           measurementMap
         );

@@ -12,7 +12,7 @@ import {
 } from "../components";
 import { Measurement, UserMeasurement, UserSettings } from "../typings";
 import {
-  ConvertUserMeasurementValuesToMeasurementInputs,
+  ConvertBodyMeasurementsValuesToMeasurementInputs,
   CreateDetailedUserMeasurementList,
   DeleteUserMeasurementWithId,
   GetUserSettings,
@@ -296,7 +296,7 @@ export default function UserMeasurementList() {
   const handleEditUserMeasurements = (userMeasurements: UserMeasurement) => {
     if (userMeasurements.userMeasurementValues === undefined) return;
 
-    const activeMeasurements = ConvertUserMeasurementValuesToMeasurementInputs(
+    const activeMeasurements = ConvertBodyMeasurementsValuesToMeasurementInputs(
       userMeasurements.userMeasurementValues,
       measurementMap.current
     );

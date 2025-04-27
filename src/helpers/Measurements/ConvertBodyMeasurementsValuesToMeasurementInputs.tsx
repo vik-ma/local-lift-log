@@ -4,7 +4,7 @@ import {
   BodyMeasurementsValues,
 } from "../../typings";
 
-export const ConvertUserMeasurementValuesToMeasurementInputs = (
+export const ConvertBodyMeasurementsValuesToMeasurementInputs = (
   userMeasurementValues: BodyMeasurementsValues,
   measurementMap: MeasurementMap
 ): Measurement[] => {

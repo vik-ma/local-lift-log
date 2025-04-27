@@ -153,7 +153,7 @@ export { CreateDetailedUserMeasurementList } from "./Measurements/CreateDetailed
 export { DeleteUserMeasurementWithId } from "./Measurements/DeleteUserMeasurementWithId";
 export { DefaultNewUserMeasurements } from "./Measurements/DefaultNewUserMeasurements";
 export { UpdateUserMeasurements } from "./Measurements/UpdateUserMeasurements";
-export { ConvertUserMeasurementValuesToMeasurementInputs } from "./Measurements/ConvertUserMeasurementValuesToMeasurementInputs";
+export { ConvertBodyMeasurementsValuesToMeasurementInputs } from "./Measurements/ConvertBodyMeasurementsValuesToMeasurementInputs";
 export { DefaultNewMeasurement } from "./Measurements/DefaultNewMeasurement";
 export { InsertMeasurementIntoDatabase } from "./Measurements/InsertMeasurementIntoDatabase";
 export { ReassignMeasurementIdForUserMeasurements } from "./Measurements/ReassignMeasurementIdForUserMeasurements";

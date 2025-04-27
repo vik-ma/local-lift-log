@@ -21,7 +21,7 @@ import {
   DeleteUserWeightWithId,
   CreateDetailedUserMeasurementList,
   DeleteUserMeasurementWithId,
-  ConvertUserMeasurementValuesToMeasurementInputs,
+  ConvertBodyMeasurementsValuesToMeasurementInputs,
   UpdateUserMeasurements,
   GenerateActiveMeasurementString,
   GetUserMeasurements,
@@ -382,7 +382,7 @@ export default function BodyMeasurements() {
   const handleEditUserMeasurements = () => {
     if (latestUserMeasurements.userMeasurementValues === undefined) return;
 
-    const activeMeasurements = ConvertUserMeasurementValuesToMeasurementInputs(
+    const activeMeasurements = ConvertBodyMeasurementsValuesToMeasurementInputs(
       latestUserMeasurements.userMeasurementValues,
       measurementMap.current
     );
