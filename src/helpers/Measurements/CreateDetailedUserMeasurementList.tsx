@@ -1,7 +1,7 @@
 import {
   MeasurementMap,
   UserMeasurement,
-  UserMeasurementValues,
+  BodyMeasurementsValues,
 } from "../../typings";
 import { FormatDateTimeString, GenerateMeasurementListText } from "..";
 
@@ -24,7 +24,7 @@ export const CreateDetailedUserMeasurementList = (
     if (formattedDate === "Invalid Date") continue;
 
     try {
-      const userMeasurementValues: UserMeasurementValues = JSON.parse(
+      const userMeasurementValues: BodyMeasurementsValues = JSON.parse(
         userMeasurement.measurement_values
       );
 

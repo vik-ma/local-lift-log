@@ -1,11 +1,11 @@
 import {
   Measurement,
   MeasurementMap,
-  UserMeasurementValues,
+  BodyMeasurementsValues,
 } from "../../typings";
 
 export const ConvertUserMeasurementValuesToMeasurementInputs = (
-  userMeasurementValues: UserMeasurementValues,
+  userMeasurementValues: BodyMeasurementsValues,
   measurementMap: MeasurementMap
 ): Measurement[] => {
   const measurementInputs: Measurement[] = [];

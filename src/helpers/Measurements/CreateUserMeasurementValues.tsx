@@ -1,4 +1,4 @@
-import { Measurement, UserMeasurementValues } from "../../typings";
+import { Measurement, BodyMeasurementsValues } from "../../typings";
 import {
   ConvertNumberToTwoDecimals,
   IsStringInvalidNumber,
@@ -8,7 +8,7 @@ import {
 export const CreateUserMeasurementValues = (
   measurements: Measurement[]
 ): string => {
-  const userMeasurementValues: UserMeasurementValues = {};
+  const userMeasurementValues: BodyMeasurementsValues = {};
 
   for (let i = 0; i < measurements.length; i++) {
     const measurement = measurements[i];

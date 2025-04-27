@@ -300,11 +300,11 @@ export type UserMeasurement = {
   measurementListText?: ReactNode;
   formattedDate?: string;
   isExpanded?: boolean;
-  userMeasurementValues?: UserMeasurementValues;
+  userMeasurementValues?: BodyMeasurementsValues;
   isInvalid?: boolean;
 };
 
-export type UserMeasurementValues = {
+export type BodyMeasurementsValues = {
   [key: string]: {
     unit: string;
     value: number;
@@ -1304,7 +1304,7 @@ export type BodyMeasurements = {
   measurementListText?: ReactNode;
   formattedDate?: string;
   isExpanded?: boolean;
-  userMeasurementValues?: UserMeasurementValues;
+  bodyMeasurementsValues?: BodyMeasurementsValues;
   isInvalid?: boolean;
 };
 

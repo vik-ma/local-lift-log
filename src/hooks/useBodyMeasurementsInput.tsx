@@ -117,7 +117,7 @@ export const useBodyMeasurementsInput =
       bodyMeasurements: BodyMeasurements,
       measurementMap: MeasurementMap
     ) => {
-      if (bodyMeasurements.userMeasurementValues === undefined) return;
+      if (bodyMeasurements.bodyMeasurementsValues === undefined) return;
 
       setWeightInput(
         bodyMeasurements.weight === 0 ? "" : bodyMeasurements.weight.toString()
@@ -132,7 +132,7 @@ export const useBodyMeasurementsInput =
 
       const activeMeasurements =
         ConvertUserMeasurementValuesToMeasurementInputs(
-          bodyMeasurements.userMeasurementValues,
+          bodyMeasurements.bodyMeasurementsValues,
           measurementMap
         );
 

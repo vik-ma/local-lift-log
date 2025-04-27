@@ -1,7 +1,7 @@
-import { UserMeasurementValues } from "../../typings";
+import { BodyMeasurementsValues } from "../../typings";
 
 export const IsMeasurementInUserMeasurementValues = (
-  userMeasurementValues: UserMeasurementValues | undefined,
+  userMeasurementValues: BodyMeasurementsValues | undefined,
   filterMeasurements: Set<string>
 ) => {
   if (userMeasurementValues === undefined) return false;

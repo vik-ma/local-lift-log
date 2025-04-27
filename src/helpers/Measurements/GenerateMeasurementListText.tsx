@@ -1,5 +1,5 @@
 import { ReactNode, Fragment } from "react";
-import { MeasurementMap, UserMeasurementValues } from "../../typings";
+import { MeasurementMap, BodyMeasurementsValues } from "../../typings";
 
 type GenerateMeasurementListTextReturnType = {
   measurementListText: ReactNode;
@@ -7,7 +7,7 @@ type GenerateMeasurementListTextReturnType = {
 };
 
 export const GenerateMeasurementListText = (
-  userMeasurementValues: UserMeasurementValues,
+  userMeasurementValues: BodyMeasurementsValues,
   measurementMap: MeasurementMap
 ): GenerateMeasurementListTextReturnType => {
   const measurementIds: string[] = Object.keys(userMeasurementValues);

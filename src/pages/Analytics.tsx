@@ -69,7 +69,7 @@ import {
   ChartReferenceAreaItem,
   Exercise,
   Measurement,
-  UserMeasurementValues,
+  BodyMeasurementsValues,
   WorkoutSet,
   ChartComment,
   ChartDataUnitCategory,
@@ -966,7 +966,7 @@ export default function Analytics() {
 
       dateSet.add(date);
 
-      const userMeasurementValues: UserMeasurementValues = JSON.parse(
+      const userMeasurementValues: BodyMeasurementsValues = JSON.parse(
         userMeasurement.measurement_values
       );
 
