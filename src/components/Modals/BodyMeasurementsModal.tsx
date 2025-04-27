@@ -28,7 +28,7 @@ type BodyMeasurementsModalProps = {
   bodyMeasurementsModal: UseDisclosureReturnType;
   useBodyMeasurementInputs: UseBodyMeasurementsInputReturnType;
   useMeasurementList: UseMeasurementListReturnType;
-  buttonAction: () => void;
+  doneButtonAction: () => void;
   isEditing: boolean;
   updateActiveTrackingMeasurementOrder?: (
     newActiveMeasurements?: Measurement[]
@@ -41,7 +41,7 @@ export const BodyMeasurementsModal = ({
   bodyMeasurementsModal,
   useBodyMeasurementInputs,
   useMeasurementList,
-  buttonAction,
+  doneButtonAction,
   isEditing,
   updateActiveTrackingMeasurementOrder = () => {},
 }: BodyMeasurementsModalProps) => {
@@ -224,7 +224,7 @@ export const BodyMeasurementsModal = ({
                   onPress={
                     modalPage === "measurement-list"
                       ? () => setModalPage("base")
-                      : buttonAction
+                      : doneButtonAction
                   }
                   isDisabled={!areBodyMeasurementsValid && modalPage === "base"}
                 >

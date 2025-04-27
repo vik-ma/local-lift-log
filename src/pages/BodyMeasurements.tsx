@@ -510,7 +510,7 @@ export default function BodyMeasurements() {
         bodyMeasurementsModal={bodyMeasurementsModal}
         useBodyMeasurementInputs={bodyMeasurementsInput}
         useMeasurementList={measurementList}
-        buttonAction={
+        doneButtonAction={
           operationType === "edit"
             ? // TODO: FIX
               updateUserMeasurements
