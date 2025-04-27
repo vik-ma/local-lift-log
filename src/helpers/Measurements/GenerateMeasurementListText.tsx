@@ -7,10 +7,10 @@ type GenerateMeasurementListTextReturnType = {
 };
 
 export const GenerateMeasurementListText = (
-  userMeasurementValues: BodyMeasurementsValues,
+  bodyMeasurementsValues: BodyMeasurementsValues,
   measurementMap: MeasurementMap
 ): GenerateMeasurementListTextReturnType => {
-  const measurementIds: string[] = Object.keys(userMeasurementValues);
+  const measurementIds: string[] = Object.keys(bodyMeasurementsValues);
 
   let containsInvalidMeasurement = false;
 
