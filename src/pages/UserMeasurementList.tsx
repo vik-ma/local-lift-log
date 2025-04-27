@@ -479,7 +479,7 @@ export default function UserMeasurementList() {
           }
         />
         <BodyMeasurementsAccordions
-          userMeasurementEntries={filteredUserMeasurements}
+          bodyMeasurementsEntries={filteredUserMeasurements}
           handleMeasurementAccordionClick={handleMeasurementAccordionClick}
           measurementMap={measurementMap.current}
           handleUserMeasurementsOptionSelection={

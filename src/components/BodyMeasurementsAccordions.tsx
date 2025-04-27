@@ -9,35 +9,35 @@ import { VerticalMenuIcon, ChevronIcon } from "../assets";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   MeasurementMap,
-  UserMeasurement,
+  BodyMeasurements,
   ReassignMeasurementsProps,
 } from "../typings";
 import { EmptyListLabel } from ".";
 
-type UserMeasurementAccordionsProps = {
-  userMeasurementEntries: UserMeasurement[];
+type BodyMeasurementAccordionsProps = {
+  bodyMeasurementsEntries: BodyMeasurements[];
   handleMeasurementAccordionClick: (
-    measurement: UserMeasurement,
+    measurement: BodyMeasurements,
     index: number
   ) => void;
   measurementMap: MeasurementMap;
-  handleUserMeasurementsOptionSelection: (
+  handleBodyMeasurementsOptionSelection: (
     key: string,
-    userMeasurements: UserMeasurement
+    bodyMeasurements: BodyMeasurements
   ) => void;
   handleReassignMeasurement?: (values: ReassignMeasurementsProps) => void;
 };
 
 export const BodyMeasurementsAccordions = ({
-  userMeasurementEntries,
+  bodyMeasurementsEntries,
   handleMeasurementAccordionClick,
   measurementMap,
-  handleUserMeasurementsOptionSelection,
+  handleBodyMeasurementsOptionSelection,
   handleReassignMeasurement = () => {},
-}: UserMeasurementAccordionsProps) => {
+}: BodyMeasurementAccordionsProps) => {
   return (
     <div className="flex flex-col gap-1 w-full">
-      {userMeasurementEntries.map((measurement, index) => (
+      {bodyMeasurementsEntries.map((measurement, index) => (
         <div
           key={measurement.id}
           className="flex flex-col select-none cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
@@ -76,7 +76,7 @@ export const BodyMeasurementsAccordions = ({
                 <DropdownMenu
                   aria-label={`Option Menu For ${measurement.formattedDate} Measurement Entry`}
                   onAction={(key) =>
-                    handleUserMeasurementsOptionSelection(
+                    handleBodyMeasurementsOptionSelection(
                       key as string,
                       measurement
                     )
@@ -104,7 +104,7 @@ export const BodyMeasurementsAccordions = ({
                 }}
               >
                 <div className="flex flex-col divide-y divide-stone-200 text-sm pb-px">
-                  {Object.entries(measurement.userMeasurementValues!).map(
+                  {Object.entries(measurement.bodyMeasurementsValues!).map(
                     ([key, values]) => {
                       const item = measurementMap.get(key);
                       const name = item ? item.name : "Unknown";
@@ -171,8 +171,8 @@ export const BodyMeasurementsAccordions = ({
           </AnimatePresence>
         </div>
       ))}
-      {userMeasurementEntries.length === 0 && (
-        <EmptyListLabel itemName="User Measurements" />
+      {bodyMeasurementsEntries.length === 0 && (
+        <EmptyListLabel itemName="Body Measurements" />
       )}
     </div>
   );

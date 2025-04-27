@@ -493,6 +493,11 @@ export default function BodyMeasurements() {
     toast.success("Body Measurements Added");
   };
 
+  const handleBodyMeasurementsOptionSelection = (
+    key: string,
+    bodyMeasurements: BodyMeasurements
+  ) => {};
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -648,13 +653,13 @@ export default function BodyMeasurements() {
                 </h3>
                 {latestUserMeasurements.id !== 0 && (
                   <BodyMeasurementsAccordions
-                    userMeasurementEntries={[latestUserMeasurements]}
+                    bodyMeasurementsEntries={[latestBodyMeasurements]}
                     handleMeasurementAccordionClick={
                       handleMeasurementAccordionClick
                     }
                     measurementMap={measurementMap.current}
-                    handleUserMeasurementsOptionSelection={
-                      handleUserMeasurementsOptionSelection
+                    handleBodyMeasurementsOptionSelection={
+                      handleBodyMeasurementsOptionSelection
                     }
                     handleReassignMeasurement={handleReassignMeasurement}
                   />
