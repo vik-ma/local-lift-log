@@ -11,10 +11,8 @@ import {
   LoadingSpinner,
   UserMeasurementAccordions,
   BodyMeasurementsModal,
-  UserWeightModal,
   NameInputModal,
   UserWeightListItem,
-  TimeInputModal,
 } from "../components";
 import {
   GetLatestUserWeight,
@@ -196,7 +194,7 @@ export default function BodyMeasurements() {
   const updateUserWeightTimeStamp = async (dateString: string) => {
     if (
       latestUserWeight.id === 0 ||
-      operationType !== "edit-weight-timestamp" ||
+      operationType !== "edit-timestamp" ||
       userSettings === undefined ||
       !ValidateISODateString(dateString)
     )
@@ -241,15 +239,15 @@ export default function BodyMeasurements() {
 
     if (key === "edit") {
       loadUserWeightInputs(latestUserWeight);
-      setOperationType("edit-weight");
+      setOperationType("edit");
       userWeightModal.onOpen();
     } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
       deleteLatestUserWeight();
     } else if (key === "delete") {
-      setOperationType("delete-weight");
+      setOperationType("delete");
       deleteModal.onOpen();
     } else if (key === "edit-timestamp") {
-      setOperationType("edit-weight-timestamp");
+      setOperationType("edit-timestamp");
       timeInputModal.onOpen();
     }
   };
@@ -327,7 +325,7 @@ export default function BodyMeasurements() {
   const updateUserMeasurementsTimeStamp = async (dateString: string) => {
     if (
       latestUserMeasurements.id === 0 ||
-      operationType !== "edit-measurements-timestamp" ||
+      operationType !== "edit-timestamp" ||
       userSettings === undefined ||
       !ValidateISODateString(dateString)
     )
@@ -392,7 +390,7 @@ export default function BodyMeasurements() {
     setActiveMeasurements(activeMeasurements);
     // setMeasurementsCommentInput(latestUserMeasurements.comment ?? "");
 
-    setOperationType("edit-measurements");
+    setOperationType("edit");
     bodyMeasurementsModal.onOpen();
   };
 
@@ -404,10 +402,10 @@ export default function BodyMeasurements() {
     } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
       deleteLatestUserMeasurements();
     } else if (key === "delete") {
-      setOperationType("delete-measurements");
+      setOperationType("delete");
       deleteModal.onOpen();
     } else if (key === "edit-timestamp") {
-      setOperationType("edit-measurements-timestamp");
+      setOperationType("edit-timestamp");
       timeInputModal.onOpen();
     }
   };
@@ -488,44 +486,37 @@ export default function BodyMeasurements() {
     <>
       <DeleteModal
         deleteModal={deleteModal}
-        header={
-          operationType === "delete-weight"
-            ? "Delete Body Weight Entry"
-            : "Delete Body Measurement Entry"
-        }
+        header="Delete Body Measurements Entry"
         body={
           <p>
-            Are you sure you want to permanently delete the latest{" "}
-            {operationType === "delete-weight"
-              ? "Body Weight"
-              : "Body Measurement"}{" "}
-            entry?
+            Are you sure you want to permanently delete the latest Body
+            Measurements entry?
           </p>
         }
         deleteButtonAction={
-          operationType === "delete-weight"
-            ? () => deleteLatestUserWeight()
-            : () => deleteLatestUserMeasurements()
+          () => {}
+          // TODO: FIX
         }
       />
-      <UserWeightModal
+      {/* <UserWeightModal
         userWeightModal={userWeightModal}
         userWeightInputs={userWeightInputs}
         buttonAction={
           operationType === "edit-weight" ? updateUserWeight : addUserWeight
         }
         isEditing={operationType === "edit-weight"}
-      />
+      /> */}
       <BodyMeasurementsModal
         bodyMeasurementsModal={bodyMeasurementsModal}
         useBodyMeasurementInputs={bodyMeasurementsInput}
         useMeasurementList={measurementList}
         buttonAction={
-          operationType === "edit-measurements"
-            ? updateUserMeasurements
+          operationType === "edit"
+            ? // TODO: FIX
+              updateUserMeasurements
             : addBodyMeasurements
         }
-        isEditing={operationType === "edit-measurements"}
+        isEditing={operationType === "edit"}
         updateActiveTrackingMeasurementOrder={
           updateActiveTrackingMeasurementOrder
         }
@@ -538,7 +529,8 @@ export default function BodyMeasurements() {
         isNameValid={isNewMeasurementNameValid}
         buttonAction={reassignLatestMeasurement}
       />
-      <TimeInputModal
+      {/* TODO: FIX */}
+      {/* <TimeInputModal
         timeInputModal={timeInputModal}
         header="Edit Timestamp"
         clockStyle={userSettings.clock_style}
@@ -553,7 +545,7 @@ export default function BodyMeasurements() {
             ? updateUserWeightTimeStamp
             : updateUserMeasurementsTimeStamp
         }
-      />
+      /> */}
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">

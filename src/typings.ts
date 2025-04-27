@@ -410,12 +410,9 @@ export type Identifiable = {
 
 export type BodyMeasurementsOperationType =
   | "add"
-  | "edit-weight"
-  | "delete-weight"
-  | "edit-measurements"
-  | "delete-measurements"
-  | "edit-weight-timestamp"
-  | "edit-measurements-timestamp";
+  | "edit"
+  | "delete"
+  | "edit-timestamp";
 
 export type DefaultIncrementInputs = {
   weight: string;
