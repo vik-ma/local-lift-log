@@ -5,6 +5,7 @@ import {
   UserWeight,
   UserMeasurement,
   BodyMeasurementsOperationType,
+  BodyMeasurements,
 } from "../typings";
 import {
   DeleteModal,
@@ -36,6 +37,7 @@ import {
   ConvertInputStringToNumberWithTwoDecimalsOrNull,
   CreateUserMeasurementValues,
   InsertBodyMeasurementsIntoDatabase,
+  DefaultNewBodyMeasurements,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
@@ -65,6 +67,11 @@ export default function BodyMeasurements() {
 
   const [latestUserMeasurements, setLatestUserMeasurements] =
     useState<UserMeasurement>(defaultUserMeasurements);
+
+  const defaultBodyMeasurements = DefaultNewBodyMeasurements();
+
+  const [latestBodyMeasurements, setLatestBodyMeasurements] =
+    useState<BodyMeasurements>(defaultBodyMeasurements);
 
   const navigate = useNavigate();
 
@@ -468,13 +475,19 @@ export default function BodyMeasurements() {
 
     const measurementValues = CreateUserMeasurementValues(activeMeasurements);
 
-    const success = await InsertBodyMeasurementsIntoDatabase(
+    const newBodyMeasurements = await InsertBodyMeasurementsIntoDatabase(
       weight,
       weightUnit,
       bodyFatPercentage,
       measurementValues,
-      commentToInsert
+      commentToInsert,
+      userSettings.clock_style,
+      measurementMap.current
     );
+
+    if (newBodyMeasurements === undefined) return;
+
+    setLatestBodyMeasurements(newBodyMeasurements);
 
     bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Added");
