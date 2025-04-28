@@ -52,7 +52,7 @@ import {
   useBodyMeasurementsInput,
 } from "../hooks";
 
-export default function BodyMeasurements() {
+export default function LoggingIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [operationType, setOperationType] =

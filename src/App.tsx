@@ -12,7 +12,7 @@ import {
   WorkoutIndexPage,
   WorkoutListPage,
   WorkoutDetailsPage,
-  BodyMeasurementsPage,
+  LoggingIndexPage,
   UserWeightListPage,
   PresetsPage,
   MeasurementListPage,
@@ -69,8 +69,8 @@ function App() {
               <Route index element={<AnalyticsPage />} />
             </Route>
             <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/measurements">
-              <Route index element={<BodyMeasurementsPage />} />
+            <Route path="/logging">
+              <Route index element={<LoggingIndexPage />} />
               <Route
                 path="measurement-list"
                 element={<MeasurementListPage />}

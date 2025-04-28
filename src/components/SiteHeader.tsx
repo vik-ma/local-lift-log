@@ -111,14 +111,11 @@ export const SiteHeader = () => {
               </DropdownItem>
               <DropdownItem
                 className="nav-menu-dropdown-item"
-                textValue="Body Measurements"
-                key="measurements"
+                textValue="Logging"
+                key="logging"
               >
-                <NavLink
-                  className="nav-menu-dropdown-item-link"
-                  to="/measurements"
-                >
-                  Body Measurements
+                <NavLink className="nav-menu-dropdown-item-link" to="/logging">
+                  Logging
                 </NavLink>
               </DropdownItem>
               <DropdownItem
