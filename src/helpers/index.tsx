@@ -172,6 +172,7 @@ export { InsertBodyMeasurementsIntoDatabase } from "./Measurements/InsertBodyMea
 export { CreateDetailedBodyMeasurementsList } from "./Measurements/CreateDetailedBodyMeasurementsList";
 export { GetLatestBodyMeasurements } from "./Measurements/GetLatestBodyMeasurements";
 export { UpdateBodyMeasurements } from "./Measurements/UpdateBodyMeasurements";
+export { DeleteBodyMeasurementsWithId } from "./Measurements/DeleteBodyMeasurementsWithId";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
