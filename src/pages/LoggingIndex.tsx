@@ -40,6 +40,7 @@ import {
   DefaultNewBodyMeasurements,
   GetLatestBodyMeasurements,
   CreateDetailedBodyMeasurementsList,
+  UpdateBodyMeasurements,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
@@ -122,6 +123,7 @@ export default function LoggingIndex() {
     bodyFatPercentageInput,
     commentInput,
     resetBodyMeasurementsInput,
+    loadBodyMeasurementsInputs,
   } = bodyMeasurementsInput;
 
   const getActiveMeasurements = async (activeMeasurementsString: string) => {
@@ -478,8 +480,6 @@ export default function LoggingIndex() {
 
     if (newBodyMeasurements === undefined) return;
 
-    setLatestBodyMeasurements(newBodyMeasurements);
-
     if (userSettings.automatically_update_active_measurements === 1) {
       await updateActiveTrackingMeasurementOrder();
     }
@@ -487,6 +487,53 @@ export default function LoggingIndex() {
     resetBodyMeasurements();
     bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Added");
+  };
+
+  const updateBodyMeasurements = async () => {
+    if (
+      userSettings === undefined ||
+      !areBodyMeasurementsValid ||
+      latestBodyMeasurements.id === 0
+    )
+      return;
+
+    const weight = IsStringEmpty(weightInput)
+      ? 0
+      : ConvertNumberToTwoDecimals(Number(weightInput));
+
+    const bodyFatPercentage = ConvertInputStringToNumberWithTwoDecimalsOrNull(
+      bodyFatPercentageInput
+    );
+
+    const commentToInsert = ConvertEmptyStringToNull(commentInput);
+
+    const measurementValues = CreateUserMeasurementValues(activeMeasurements);
+
+    const updatedBodyMeasurements: BodyMeasurements = {
+      ...latestBodyMeasurements,
+      weight: weight,
+      weight_unit: weightUnit,
+      body_fat_percentage: bodyFatPercentage,
+      measurement_values: measurementValues,
+      comment: commentToInsert,
+    };
+
+    const success = await UpdateBodyMeasurements(updatedBodyMeasurements);
+
+    if (!success) return;
+
+    const detailedBodyMeasurements = CreateDetailedBodyMeasurementsList(
+      [updatedBodyMeasurements],
+      measurementMap.current,
+      userSettings.clock_style,
+      updatedBodyMeasurements.id
+    );
+
+    setLatestBodyMeasurements(detailedBodyMeasurements[0]);
+
+    resetBodyMeasurements();
+    bodyMeasurementsModal.onClose();
+    toast.success("Body Measurements Updated");
   };
 
   const getLatestBodyMeasurements = async (clockStyle: string) => {
@@ -515,7 +562,13 @@ export default function LoggingIndex() {
     key: string,
     bodyMeasurements: BodyMeasurements
   ) => {
+    if (userSettings === undefined) return;
 
+    if (key === "edit") {
+      loadBodyMeasurementsInputs(bodyMeasurements, measurementMap.current);
+      setOperationType("edit");
+      bodyMeasurementsModal.onOpen();
+    }
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -550,8 +603,7 @@ export default function LoggingIndex() {
         useMeasurementList={measurementList}
         doneButtonAction={
           operationType === "edit"
-            ? // TODO: FIX
-              updateUserMeasurements
+            ? updateBodyMeasurements
             : addBodyMeasurements
         }
         isEditing={operationType === "edit"}
