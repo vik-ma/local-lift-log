@@ -378,13 +378,15 @@ export default function LoggingIndex() {
     setOperationType("add");
   };
 
-  const handleMeasurementAccordionClick = (measurement: UserMeasurement) => {
-    const updatedMeasurement: UserMeasurement = {
-      ...measurement,
-      isExpanded: !measurement.isExpanded,
+  const handleBodyMeasurementsAccordionClick = (
+    bodyMeasurements: BodyMeasurements
+  ) => {
+    const updatedMeasurement: BodyMeasurements = {
+      ...bodyMeasurements,
+      isExpanded: !bodyMeasurements.isExpanded,
     };
 
-    setLatestUserMeasurements(updatedMeasurement);
+    setLatestBodyMeasurements(updatedMeasurement);
   };
 
   const handleEditUserMeasurements = () => {
@@ -646,7 +648,7 @@ export default function LoggingIndex() {
               </div>
               <div className="flex flex-col items-center gap-2 relative">
                 <h3 className="flex items-center gap-2">
-                  {latestUserMeasurements.id === 0 ? (
+                  {latestBodyMeasurements.id === 0 ? (
                     <span className="flex justify-center text-stone-400">
                       No Body Measurement Entries Added
                     </span>
@@ -655,7 +657,7 @@ export default function LoggingIndex() {
                       Latest Measurements
                     </span>
                   )}
-                  {latestUserMeasurements.id !== 0 && (
+                  {latestBodyMeasurements.id !== 0 && (
                     <Button
                       className="absolute right-0"
                       color="secondary"
@@ -669,11 +671,11 @@ export default function LoggingIndex() {
                     </Button>
                   )}
                 </h3>
-                {latestUserMeasurements.id !== 0 && (
+                {latestBodyMeasurements.id !== 0 && (
                   <BodyMeasurementsAccordions
                     bodyMeasurementsEntries={[latestBodyMeasurements]}
-                    handleMeasurementAccordionClick={
-                      handleMeasurementAccordionClick
+                    handleBodyMeasurementsAccordionClick={
+                      handleBodyMeasurementsAccordionClick
                     }
                     measurementMap={measurementMap.current}
                     handleBodyMeasurementsOptionSelection={

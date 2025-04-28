@@ -16,7 +16,7 @@ import { EmptyListLabel } from ".";
 
 type BodyMeasurementAccordionsProps = {
   bodyMeasurementsEntries: BodyMeasurements[];
-  handleMeasurementAccordionClick: (
+  handleBodyMeasurementsAccordionClick: (
     measurement: BodyMeasurements,
     index: number
   ) => void;
@@ -25,15 +25,15 @@ type BodyMeasurementAccordionsProps = {
     key: string,
     bodyMeasurements: BodyMeasurements
   ) => void;
-  handleReassignMeasurement?: (values: ReassignMeasurementsProps) => void;
+  handleReassignMeasurement: (values: ReassignMeasurementsProps) => void;
 };
 
 export const BodyMeasurementsAccordions = ({
   bodyMeasurementsEntries,
-  handleMeasurementAccordionClick,
+  handleBodyMeasurementsAccordionClick,
   measurementMap,
   handleBodyMeasurementsOptionSelection,
-  handleReassignMeasurement = () => {},
+  handleReassignMeasurement,
 }: BodyMeasurementAccordionsProps) => {
   return (
     <div className="flex flex-col gap-1 w-full">
@@ -41,7 +41,9 @@ export const BodyMeasurementsAccordions = ({
         <div
           key={measurement.id}
           className="flex flex-col select-none cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-          onClick={() => handleMeasurementAccordionClick(measurement, index)}
+          onClick={() =>
+            handleBodyMeasurementsAccordionClick(measurement, index)
+          }
         >
           <div className="flex justify-between items-center pl-2 py-1">
             <div className="flex flex-col items-start">
