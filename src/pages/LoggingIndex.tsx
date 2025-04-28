@@ -121,6 +121,7 @@ export default function LoggingIndex() {
     weightUnit,
     bodyFatPercentageInput,
     commentInput,
+    resetBodyMeasurementsInput,
   } = bodyMeasurementsInput;
 
   const getActiveMeasurements = async (activeMeasurementsString: string) => {
@@ -360,22 +361,9 @@ export default function LoggingIndex() {
     timeInputModal.onClose();
   };
 
-  const handleAddMeasurements = () => {
-    resetMeasurementsInput();
+  const handleAddMeasurementsButton = () => {
+    resetBodyMeasurements();
     bodyMeasurementsModal.onOpen();
-  };
-
-  const resetMeasurementsInput = () => {
-    const updatedInputs = activeMeasurementsValue.current.map(
-      (measurement) => ({
-        ...measurement,
-        input: "",
-      })
-    );
-
-    setActiveMeasurements(updatedInputs);
-    // setMeasurementsCommentInput("");
-    setOperationType("add");
   };
 
   const handleBodyMeasurementsAccordionClick = (
@@ -492,6 +480,11 @@ export default function LoggingIndex() {
 
     setLatestBodyMeasurements(newBodyMeasurements);
 
+    if (userSettings.automatically_update_active_measurements === 1) {
+      await updateActiveTrackingMeasurementOrder();
+    }
+
+    resetBodyMeasurements();
     bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Added");
   };
@@ -511,6 +504,11 @@ export default function LoggingIndex() {
     );
 
     setLatestBodyMeasurements(detailedBodyMeasurements[0]);
+  };
+
+  const resetBodyMeasurements = () => {
+    resetBodyMeasurementsInput();
+    setOperationType("add");
   };
 
   const handleBodyMeasurementsOptionSelection = (
@@ -688,7 +686,7 @@ export default function LoggingIndex() {
               <Button
                 className="font-medium"
                 variant="flat"
-                onPress={handleAddMeasurements}
+                onPress={handleAddMeasurementsButton}
               >
                 Add Measurements
               </Button>
