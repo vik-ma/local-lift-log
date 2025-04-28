@@ -514,7 +514,9 @@ export default function LoggingIndex() {
   const handleBodyMeasurementsOptionSelection = (
     key: string,
     bodyMeasurements: BodyMeasurements
-  ) => {};
+  ) => {
+
+  };
 
   if (userSettings === undefined) return <LoadingSpinner />;
 
