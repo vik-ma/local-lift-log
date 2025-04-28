@@ -41,6 +41,7 @@ import {
   GetLatestBodyMeasurements,
   CreateDetailedBodyMeasurementsList,
   UpdateBodyMeasurements,
+  DeleteBodyMeasurementsWithId,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
@@ -545,12 +546,30 @@ export default function LoggingIndex() {
     toast.success("Body Measurements Updated");
   };
 
+  const deleteBodyMeasurements = async () => {
+    if (latestBodyMeasurements.id === 0 || userSettings === undefined) return;
+
+    const success = await DeleteBodyMeasurementsWithId(
+      latestBodyMeasurements.id
+    );
+
+    if (!success) return;
+
+    await getLatestBodyMeasurements(userSettings.clock_style);
+
+    toast.success("Body Measurements Deleted");
+    deleteModal.onClose();
+  };
+
   const getLatestBodyMeasurements = async (clockStyle: string) => {
     if (!isMeasurementListLoaded.current) return;
 
     const bodyMeasurements = await GetLatestBodyMeasurements();
 
-    if (bodyMeasurements === undefined) return;
+    if (bodyMeasurements === undefined) {
+      setLatestBodyMeasurements(defaultBodyMeasurements);
+      return;
+    }
 
     const detailedBodyMeasurements = CreateDetailedBodyMeasurementsList(
       [bodyMeasurements],
@@ -577,6 +596,11 @@ export default function LoggingIndex() {
       loadBodyMeasurementsInputs(bodyMeasurements, measurementMap.current);
       setOperationType("edit");
       bodyMeasurementsModal.onOpen();
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      deleteBodyMeasurements();
+    } else if (key === "delete") {
+      setOperationType("delete");
+      deleteModal.onOpen();
     }
   };
 
@@ -593,10 +617,7 @@ export default function LoggingIndex() {
             Measurements entry?
           </p>
         }
-        deleteButtonAction={
-          () => {}
-          // TODO: FIX
-        }
+        deleteButtonAction={deleteBodyMeasurements}
       />
       {/* <UserWeightModal
         userWeightModal={userWeightModal}
