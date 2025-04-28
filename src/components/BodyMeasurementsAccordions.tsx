@@ -47,13 +47,33 @@ export const BodyMeasurementsAccordions = ({
         >
           <div className="flex justify-between items-center pl-2 py-1">
             <div className="flex flex-col items-start">
-              <span className="w-[19rem] text-stone-600 break-all text-left">
-                {measurement.measurementListText}
-              </span>
-              <span className="text-xs text-secondary text-left">
+              {measurement.weight > 0 ? (
+                <span className="w-[19rem] text-stone-600 font-medium truncate">
+                  {measurement.weight} {measurement.weight_unit}
+                  {measurement.body_fat_percentage !== null && (
+                    <span className="text-xs text-slate-500">
+                      {" "}
+                      ({measurement.body_fat_percentage}% Body Fat)
+                    </span>
+                  )}
+                </span>
+              ) : (
+                <span className="w-[19rem] text-stone-600 font-medium truncate">
+                  {Object.keys(measurement.bodyMeasurementsValues!).length}{" "}
+                  Measurements
+                </span>
+              )}
+              <span className="text-xs text-secondary">
                 {measurement.formattedDate}
               </span>
-              <span className="w-[19rem] break-all text-xs text-stone-400 text-left">
+              {measurement.weight !== 0 &&
+                Object.keys(measurement.bodyMeasurementsValues!).length > 0 && (
+                  <span className="w-[19rem] break-all text-xs text-slate-400">
+                    {Object.keys(measurement.bodyMeasurementsValues!).length}{" "}
+                    Measurements
+                  </span>
+                )}
+              <span className="w-[19rem] break-all text-xs text-stone-400">
                 {measurement.comment}
               </span>
             </div>
