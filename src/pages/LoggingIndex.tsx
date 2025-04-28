@@ -480,6 +480,15 @@ export default function LoggingIndex() {
 
     if (newBodyMeasurements === undefined) return;
 
+    const detailedBodyMeasurements = CreateDetailedBodyMeasurementsList(
+      [newBodyMeasurements],
+      measurementMap.current,
+      userSettings.clock_style,
+      newBodyMeasurements.id
+    );
+
+    setLatestBodyMeasurements(detailedBodyMeasurements[0]);
+
     if (userSettings.automatically_update_active_measurements === 1) {
       await updateActiveTrackingMeasurementOrder();
     }
