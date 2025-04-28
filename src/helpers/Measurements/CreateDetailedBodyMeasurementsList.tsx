@@ -42,7 +42,7 @@ export const CreateDetailedBodyMeasurementsList = (
 
       detailedUserMeasurementList.push(detailedUserMeasurement);
     } catch {
-      // Skip if userMeasurement.measurement_values contains invalid JSON string
+      // Skip if bodyMeasurements.measurement_values contains invalid JSON string
       continue;
     }
   }

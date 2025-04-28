@@ -38,6 +38,8 @@ import {
   CreateUserMeasurementValues,
   InsertBodyMeasurementsIntoDatabase,
   DefaultNewBodyMeasurements,
+  GetLatestBodyMeasurements,
+  CreateDetailedBodyMeasurementsList,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
@@ -187,8 +189,7 @@ export default function LoggingIndex() {
 
       await Promise.all([
         getActiveMeasurements(userSettings.active_tracking_measurements),
-        getLatestUserWeight(userSettings.clock_style),
-        getLatestUserMeasurement(userSettings.clock_style),
+        getLatestBodyMeasurements(userSettings.clock_style),
       ]);
 
       setIsLoading(false);
@@ -491,6 +492,23 @@ export default function LoggingIndex() {
 
     bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Added");
+  };
+
+  const getLatestBodyMeasurements = async (clockStyle: string) => {
+    if (!isMeasurementListLoaded.current) return;
+
+    const bodyMeasurements = await GetLatestBodyMeasurements();
+
+    if (bodyMeasurements === undefined) return;
+
+    const detailedBodyMeasurements = CreateDetailedBodyMeasurementsList(
+      [bodyMeasurements],
+      measurementMap.current,
+      clockStyle,
+      bodyMeasurements.id
+    );
+
+    setLatestBodyMeasurements(detailedBodyMeasurements[0]);
   };
 
   const handleBodyMeasurementsOptionSelection = (
