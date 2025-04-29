@@ -1301,7 +1301,7 @@ export type BodyMeasurements = {
   weight_unit: string;
   body_fat_percentage: number | null;
   measurement_values: string;
-  measurementListText?: ReactNode;
+  measurementsText?: ReactNode;
   formattedDate?: string;
   isExpanded?: boolean;
   bodyMeasurementsValues?: BodyMeasurementsValues;

@@ -1,4 +1,4 @@
-import { FormatDateTimeString, GenerateMeasurementListText } from "..";
+import { FormatDateTimeString, FormatNumItemsString } from "..";
 import {
   BodyMeasurements,
   BodyMeasurementsValues,
@@ -28,12 +28,23 @@ export const CreateDetailedBodyMeasurementsList = (
         bodyMeasurements.measurement_values
       );
 
-      const { measurementListText, containsInvalidMeasurement } =
-        GenerateMeasurementListText(bodyMeasurementsValues, measurementMap);
+      let containsInvalidMeasurement = false;
+
+      let numMeasurements = 0;
+
+      for (const measurementId of Object.keys(bodyMeasurementsValues)) {
+        numMeasurements++;
+
+        if (!measurementMap.has(measurementId))
+          containsInvalidMeasurement = true;
+      }
 
       const detailedUserMeasurement: BodyMeasurements = {
         ...bodyMeasurements,
-        measurementListText: measurementListText,
+        measurementsText:
+          numMeasurements > 0
+            ? FormatNumItemsString(numMeasurements, "Measurement")
+            : undefined,
         formattedDate: formattedDate,
         isExpanded: bodyMeasurements.id === idToExpand,
         bodyMeasurementsValues: bodyMeasurementsValues,
