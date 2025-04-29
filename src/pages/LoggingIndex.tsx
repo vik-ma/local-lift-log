@@ -17,7 +17,6 @@ import {
   GetUserSettings,
   CreateActiveMeasurementInputs,
   GenerateActiveMeasurementString,
-  GetUserMeasurements,
   ValidateISODateString,
   FormatDateTimeString,
   GetValidatedUserSettingsUnits,
@@ -33,6 +32,7 @@ import {
   CreateDetailedBodyMeasurementsList,
   UpdateBodyMeasurements,
   DeleteBodyMeasurementsWithId,
+  GetAllBodyMeasurements,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -167,17 +167,18 @@ export default function LoggingIndex() {
   };
 
   const reassignLatestMeasurement = async () => {
-    //  TODO: FIX
     if (userSettings === undefined) return;
 
-    const userMeasurements = await GetUserMeasurements(
+    const bodyMeasurements = await GetAllBodyMeasurements(
       userSettings.clock_style,
       measurementMap.current
     );
 
-    const success = await reassignMeasurement(userMeasurements);
+    const success = await reassignMeasurement(bodyMeasurements);
 
     if (!success) return;
+
+    await getLatestBodyMeasurements(userSettings.clock_style);
 
     nameInputModal.onClose();
     toast.success("Measurement Reassigned");
@@ -435,7 +436,6 @@ export default function LoggingIndex() {
                 <Link
                   // TODO: FIX LINK COLOR
                   className="text-stone-500"
-                  // TODO: FIX LINK
                   to="/logging/body-measurement-list"
                 >
                   Body Measurements History

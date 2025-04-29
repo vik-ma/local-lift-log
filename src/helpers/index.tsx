@@ -156,7 +156,7 @@ export { UpdateUserMeasurements } from "./Measurements/UpdateUserMeasurements";
 export { ConvertBodyMeasurementsValuesToMeasurementInputs } from "./Measurements/ConvertBodyMeasurementsValuesToMeasurementInputs";
 export { DefaultNewMeasurement } from "./Measurements/DefaultNewMeasurement";
 export { InsertMeasurementIntoDatabase } from "./Measurements/InsertMeasurementIntoDatabase";
-export { ReassignMeasurementIdForUserMeasurements } from "./Measurements/ReassignMeasurementIdForUserMeasurements";
+export { ReassignMeasurementIdForBodyMeasurements } from "./Measurements/ReassignMeasurementIdForBodyMeasurements";
 export { GenerateMeasurementListText } from "./Measurements/GenerateMeasurementListText";
 export { GetUserMeasurements } from "./Measurements/GetUserMeasurements";
 export { SortMeasurementMap } from "./Measurements/SortMeasurementMap";

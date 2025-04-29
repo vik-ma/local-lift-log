@@ -1,9 +1,9 @@
-import { ReassignMeasurementIdForUserMeasurements } from "../helpers";
+import { ReassignMeasurementIdForBodyMeasurements } from "../helpers";
 import {
   ReassignMeasurementsProps,
   Measurement,
-  UserMeasurement,
   UseMeasurementListReturnType,
+  BodyMeasurements,
 } from "../typings";
 import { useState } from "react";
 import useValidateName from "./useValidateName";
@@ -28,9 +28,7 @@ export const useReassignMeasurement = (
     nameInputModal.onOpen();
   };
 
-  const reassignMeasurement = async (
-    userMeasurements: UserMeasurement[]
-  ): Promise<boolean> => {
+  const reassignMeasurement = async (bodyMeasurements: BodyMeasurements[]) => {
     if (measurementToReassign === undefined || !isNewMeasurementNameValid)
       return false;
 
@@ -46,10 +44,10 @@ export const useReassignMeasurement = (
 
     if (newMeasurementId === 0) return false;
 
-    const success = await ReassignMeasurementIdForUserMeasurements(
+    const success = await ReassignMeasurementIdForBodyMeasurements(
       measurementToReassign.id,
       newMeasurementId.toString(),
-      userMeasurements
+      bodyMeasurements
     );
 
     if (!success) return false;
