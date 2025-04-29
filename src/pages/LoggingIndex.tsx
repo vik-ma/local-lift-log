@@ -36,7 +36,7 @@ import {
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   useMeasurementList,
   useReassignMeasurement,
@@ -53,8 +53,6 @@ export default function LoggingIndex() {
 
   const [latestBodyMeasurements, setLatestBodyMeasurements] =
     useState<BodyMeasurements>(defaultBodyMeasurements);
-
-  const navigate = useNavigate();
 
   const deleteModal = useDisclosure();
   const bodyMeasurementsModal = useDisclosure();
@@ -424,19 +422,24 @@ export default function LoggingIndex() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col gap-2.5 items-center">
+            <div className="flex flex-col gap-2.5 items-center w-full">
               <h2 className="flex text-3xl font-semibold">Body Measurements</h2>
-              <div className="flex flex-col gap-1 items-center text-xs font-normal">
-                <span className="text-stone-500">
-                  Add or remove Measurements to actively track in the
-                </span>
-                <Button
-                  variant="flat"
-                  size="sm"
-                  onPress={() => navigate("/measurements/measurement-list")}
+              <div className="flex w-full justify-between">
+                <Link
+                  // TODO: FIX LINK COLOR
+                  className="text-stone-500"
+                  to="/logging/measurement-list"
                 >
-                  List of Measurements
-                </Button>
+                  Measurement List
+                </Link>
+                <Link
+                  // TODO: FIX LINK COLOR
+                  className="text-stone-500"
+                  // TODO: FIX LINK
+                  to="/logging/measurement-list"
+                >
+                  Body Measurements History
+                </Link>
               </div>
               <div className="flex flex-col items-center gap-2 relative">
                 <h3 className="flex items-center gap-2">
@@ -448,19 +451,6 @@ export default function LoggingIndex() {
                     <span className="font-semibold text-lg">
                       Last Body Measurements
                     </span>
-                  )}
-                  {latestBodyMeasurements.id !== 0 && (
-                    <Button
-                      className="absolute right-0"
-                      color="secondary"
-                      variant="flat"
-                      size="sm"
-                      onPress={() =>
-                        navigate("/measurements/user-measurement-list")
-                      }
-                    >
-                      View History
-                    </Button>
                   )}
                 </h3>
                 {latestBodyMeasurements.id !== 0 && (
