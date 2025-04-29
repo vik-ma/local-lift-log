@@ -14,6 +14,7 @@ import {
   BodyMeasurementsModal,
   NameInputModal,
   UserWeightListItem,
+  TimeInputModal,
 } from "../components";
 import {
   GetLatestUserWeight,
@@ -601,7 +602,41 @@ export default function LoggingIndex() {
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();
+    } else if (key === "edit-timestamp") {
+      setOperationType("edit-timestamp");
+      timeInputModal.onOpen();
     }
+  };
+
+  const updateBodyMeasurementsTimeStamp = async (dateString: string) => {
+    if (
+      latestBodyMeasurements.id === 0 ||
+      operationType !== "edit-timestamp" ||
+      userSettings === undefined ||
+      !ValidateISODateString(dateString)
+    )
+      return;
+
+    const formattedDate = FormatDateTimeString(
+      dateString,
+      userSettings.clock_style === "24h"
+    );
+
+    const updatedBodyMeasurements: BodyMeasurements = {
+      ...latestBodyMeasurements,
+      date: dateString,
+      formattedDate: formattedDate,
+    };
+
+    const success = await UpdateBodyMeasurements(updatedBodyMeasurements);
+
+    if (!success) return;
+
+    await getLatestBodyMeasurements(userSettings.clock_style);
+
+    resetBodyMeasurements();
+    toast.success("Timestamp Updated");
+    timeInputModal.onClose();
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -649,23 +684,14 @@ export default function LoggingIndex() {
         isNameValid={isNewMeasurementNameValid}
         buttonAction={reassignLatestMeasurement}
       />
-      {/* TODO: FIX */}
-      {/* <TimeInputModal
+      <TimeInputModal
         timeInputModal={timeInputModal}
         header="Edit Timestamp"
         clockStyle={userSettings.clock_style}
         locale={userSettings.locale}
-        value={
-          operationType === "edit-weight-timestamp"
-            ? latestUserWeight.date
-            : latestUserMeasurements.date
-        }
-        saveButtonAction={
-          operationType === "edit-weight-timestamp"
-            ? updateUserWeightTimeStamp
-            : updateUserMeasurementsTimeStamp
-        }
-      /> */}
+        value={latestBodyMeasurements.date}
+        saveButtonAction={updateBodyMeasurementsTimeStamp}
+      />
       <div className="flex flex-col items-center gap-4">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
