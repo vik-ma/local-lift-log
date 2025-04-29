@@ -732,11 +732,11 @@ export default function LoggingIndex() {
                 <h3 className="flex items-center gap-2">
                   {latestBodyMeasurements.id === 0 ? (
                     <span className="flex justify-center text-stone-400">
-                      No Body Measurement Entries Added
+                      No Body Measurements Added
                     </span>
                   ) : (
                     <span className="font-semibold text-lg">
-                      Latest Measurements
+                      Last Body Measurements
                     </span>
                   )}
                   {latestBodyMeasurements.id !== 0 && (
