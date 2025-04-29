@@ -17,7 +17,7 @@ import {
   DeleteUserMeasurementWithId,
   GetUserSettings,
   ConvertEmptyStringToNull,
-  CreateUserMeasurementValues,
+  CreateBodyMeasurementsValues,
   UpdateUserMeasurements,
   DeleteItemFromList,
   UpdateItemInList,
@@ -139,7 +139,7 @@ export default function UserMeasurementList() {
     const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
 
     const userMeasurementValues =
-      CreateUserMeasurementValues(activeMeasurements);
+      CreateBodyMeasurementsValues(activeMeasurements);
 
     const newUserMeasurements = await InsertUserMeasurementIntoDatabase(
       userMeasurementValues,
@@ -178,7 +178,7 @@ export default function UserMeasurementList() {
     const commentToInsert = ConvertEmptyStringToNull(measurementsCommentInput);
 
     const userMeasurementValues =
-      CreateUserMeasurementValues(activeMeasurements);
+      CreateBodyMeasurementsValues(activeMeasurements);
 
     const updatedUserMeasurements: UserMeasurement = {
       ...operatingUserMeasurements,

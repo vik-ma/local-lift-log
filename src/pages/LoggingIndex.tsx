@@ -26,7 +26,7 @@ import {
   ConvertNumberToTwoDecimals,
   ConvertEmptyStringToNull,
   ConvertInputStringToNumberWithTwoDecimalsOrNull,
-  CreateUserMeasurementValues,
+  CreateBodyMeasurementsValues,
   InsertBodyMeasurementsIntoDatabase,
   DefaultNewBodyMeasurements,
   GetLatestBodyMeasurements,
@@ -196,7 +196,7 @@ export default function LoggingIndex() {
 
     const commentToInsert = ConvertEmptyStringToNull(commentInput);
 
-    const measurementValues = CreateUserMeasurementValues(activeMeasurements);
+    const measurementValues = CreateBodyMeasurementsValues(activeMeasurements);
 
     const newBodyMeasurements = await InsertBodyMeasurementsIntoDatabase(
       weight,
@@ -246,7 +246,7 @@ export default function LoggingIndex() {
 
     const commentToInsert = ConvertEmptyStringToNull(commentInput);
 
-    const measurementValues = CreateUserMeasurementValues(activeMeasurements);
+    const measurementValues = CreateBodyMeasurementsValues(activeMeasurements);
 
     const updatedBodyMeasurements: BodyMeasurements = {
       ...latestBodyMeasurements,

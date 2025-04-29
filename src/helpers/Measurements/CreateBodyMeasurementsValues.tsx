@@ -5,7 +5,7 @@ import {
   IsStringEmpty,
 } from "..";
 
-export const CreateUserMeasurementValues = (
+export const CreateBodyMeasurementsValues = (
   measurements: Measurement[]
 ): string => {
   const userMeasurementValues: BodyMeasurementsValues = {};

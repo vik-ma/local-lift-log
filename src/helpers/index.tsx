@@ -148,7 +148,7 @@ export { ValidateActiveMeasurementsString } from "./Measurements/ValidateActiveM
 export { DefaultNewUserWeight } from "./Measurements/DefaultNewUserWeight";
 export { UpdateUserWeight } from "./Measurements/UpdateUserWeight";
 export { DeleteUserWeightWithId } from "./Measurements/DeleteUserWeightWithId";
-export { CreateUserMeasurementValues } from "./Measurements/CreateUserMeasurementValues";
+export { CreateBodyMeasurementsValues } from "./Measurements/CreateBodyMeasurementsValues";
 export { CreateDetailedUserMeasurementList } from "./Measurements/CreateDetailedUserMeasurementList";
 export { DeleteUserMeasurementWithId } from "./Measurements/DeleteUserMeasurementWithId";
 export { DefaultNewUserMeasurements } from "./Measurements/DefaultNewUserMeasurements";
