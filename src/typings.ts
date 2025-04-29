@@ -1306,6 +1306,7 @@ export type BodyMeasurements = {
   isExpanded?: boolean;
   bodyMeasurementsValues?: BodyMeasurementsValues;
   isInvalid?: boolean;
+  disableExpansion?: boolean;
 };
 
 export type UseBodyMeasurementsInputReturnType = {

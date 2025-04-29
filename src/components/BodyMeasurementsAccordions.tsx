@@ -46,9 +46,15 @@ export const BodyMeasurementsAccordions = ({
         return (
           <div
             key={measurement.id}
-            className="flex flex-col select-none cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+            className={
+              measurement.disableExpansion
+                ? "flex flex-col select-none bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                : "flex flex-col select-none cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+            }
             onClick={() =>
-              handleBodyMeasurementsAccordionClick(measurement, index)
+              measurement.disableExpansion
+                ? () => {}
+                : handleBodyMeasurementsAccordionClick(measurement, index)
             }
           >
             <div className="flex justify-between items-center pl-2 py-1">
@@ -81,11 +87,13 @@ export const BodyMeasurementsAccordions = ({
                 </span>
               </div>
               <div className="flex gap-0.5 pr-1 items-center">
-                <ChevronIcon
-                  size={29}
-                  color="#a8a29e"
-                  direction={measurement.isExpanded ? "down" : "left"}
-                />
+                {!measurement.disableExpansion && (
+                  <ChevronIcon
+                    size={29}
+                    color="#a8a29e"
+                    direction={measurement.isExpanded ? "down" : "left"}
+                  />
+                )}
                 <Dropdown shouldBlockScroll={false}>
                   <DropdownTrigger>
                     <Button

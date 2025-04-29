@@ -24,20 +24,21 @@ export const CreateDetailedBodyMeasurementsList = (
     if (formattedDate === "Invalid Date") continue;
 
     try {
-      const userMeasurementValues: BodyMeasurementsValues = JSON.parse(
+      const bodyMeasurementsValues: BodyMeasurementsValues = JSON.parse(
         bodyMeasurements.measurement_values
       );
 
       const { measurementListText, containsInvalidMeasurement } =
-        GenerateMeasurementListText(userMeasurementValues, measurementMap);
+        GenerateMeasurementListText(bodyMeasurementsValues, measurementMap);
 
       const detailedUserMeasurement: BodyMeasurements = {
         ...bodyMeasurements,
         measurementListText: measurementListText,
         formattedDate: formattedDate,
         isExpanded: bodyMeasurements.id === idToExpand,
-        bodyMeasurementsValues: userMeasurementValues,
+        bodyMeasurementsValues: bodyMeasurementsValues,
         isInvalid: containsInvalidMeasurement,
+        disableExpansion: Object.keys(bodyMeasurementsValues).length === 0,
       };
 
       detailedUserMeasurementList.push(detailedUserMeasurement);
