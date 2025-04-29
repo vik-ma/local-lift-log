@@ -23,6 +23,7 @@ import {
   DietLogIndexPage,
   DietLogListPage,
   AnalyticsPage,
+  BodyMeasurementsListPage,
 } from "./pages";
 import { SiteHeader } from "./components";
 import { Toaster } from "react-hot-toast";
@@ -71,6 +72,10 @@ function App() {
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/logging">
               <Route index element={<LoggingIndexPage />} />
+              <Route
+                path="body-measurement-list"
+                element={<BodyMeasurementsListPage />}
+              />
               <Route
                 path="measurement-list"
                 element={<MeasurementListPage />}

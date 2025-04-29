@@ -436,7 +436,7 @@ export default function LoggingIndex() {
                   // TODO: FIX LINK COLOR
                   className="text-stone-500"
                   // TODO: FIX LINK
-                  to="/logging/measurement-list"
+                  to="/logging/body-measurement-list"
                 >
                   Body Measurements History
                 </Link>

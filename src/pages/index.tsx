@@ -21,3 +21,4 @@ export { default as TimePeriodListPage } from "./TimePeriodList";
 export { default as DietLogIndexPage } from "./DietLogIndex";
 export { default as DietLogListPage } from "./DietLogList";
 export { default as AnalyticsPage } from "./Analytics";
+export { default as BodyMeasurementsListPage } from "./BodyMeasurementsList";
