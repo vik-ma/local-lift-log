@@ -173,6 +173,7 @@ export { CreateDetailedBodyMeasurementsList } from "./Measurements/CreateDetaile
 export { GetLatestBodyMeasurements } from "./Measurements/GetLatestBodyMeasurements";
 export { UpdateBodyMeasurements } from "./Measurements/UpdateBodyMeasurements";
 export { DeleteBodyMeasurementsWithId } from "./Measurements/DeleteBodyMeasurementsWithId";
+export { GetAllBodyMeasurements } from "./Measurements/GetAllBodyMeasurements";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
