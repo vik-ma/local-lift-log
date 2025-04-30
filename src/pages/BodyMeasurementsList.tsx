@@ -96,10 +96,9 @@ export default function BodyMeasurementsList() {
               .toString()
               .toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) ||
-            (item.formattedDate !== undefined &&
-              item.formattedDate
-                .toLocaleLowerCase()
-                .includes(filterQuery.toLocaleLowerCase())) ||
+            item.formattedDate
+              ?.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()) ||
             (item.bodyMeasurementsValues !== undefined &&
               Object.keys(item.bodyMeasurementsValues).some((key) =>
                 measurementMap.current
@@ -108,6 +107,9 @@ export default function BodyMeasurementsList() {
                   .includes(filterQuery.toLocaleLowerCase())
               )) ||
             item.comment
+              ?.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()) ||
+            item.measurementsText
               ?.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
           (!filterMap.has("min-date") ||
