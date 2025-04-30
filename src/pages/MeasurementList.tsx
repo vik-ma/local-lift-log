@@ -440,10 +440,10 @@ export default function MeasurementList() {
                     <span className="text-xs text-stone-400 text-left">
                       {measurement.measurement_type}
                     </span>
-                    {measurement.numUserMeasurementEntries! > 0 && (
+                    {measurement.numBodyMeasurementsEntries! > 0 && (
                       <span className="w-[13.5rem] truncate text-xs text-secondary text-left">
                         {FormatNumUserMeasurementEntriesString(
-                          measurement.numUserMeasurementEntries
+                          measurement.numBodyMeasurementsEntries
                         )}
                       </span>
                     )}

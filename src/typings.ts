@@ -287,7 +287,7 @@ export type Measurement = {
   measurement_type: string;
   is_favorite: number;
   input?: string;
-  numUserMeasurementEntries?: number;
+  numBodyMeasurementsEntries?: number;
 };
 
 export type MeasurementMap = Map<string, Measurement>;

@@ -113,7 +113,7 @@ export const MeasurementModalList = ({
                   <span className="text-xs text-stone-400 text-left">
                     {measurement.measurement_type}
                   </span>
-                  {measurement.numUserMeasurementEntries! > 0 && (
+                  {measurement.numBodyMeasurementsEntries! > 0 && (
                     <span
                       className={
                         highlightedMeasurements !== undefined
@@ -122,7 +122,7 @@ export const MeasurementModalList = ({
                       }
                     >
                       {FormatNumUserMeasurementEntriesString(
-                        measurement.numUserMeasurementEntries
+                        measurement.numBodyMeasurementsEntries
                       )}
                     </span>
                   )}

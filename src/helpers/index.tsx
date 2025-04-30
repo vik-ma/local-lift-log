@@ -165,7 +165,7 @@ export { IsMeasurementInUserMeasurementValues } from "./Measurements/IsMeasureme
 export { InsertUserMeasurementIntoDatabase } from "./Measurements/InsertUserMeasurementIntoDatabase";
 export { GetAllUserWeights } from "./Measurements/GetAllUserWeights";
 export { GetUserMeasurementsWithMeasurementId } from "./Measurements/GetUserMeasurementsWithMeasurementId";
-export { GetMeasurementListWithNumberOfUserMeasurementEntries } from "./Measurements/GetMeasurementListWithNumberOfUserMeasurementEntries";
+export { GetMeasurementListWithNumberOfBodyMeasurementsEntries } from "./Measurements/GetMeasurementListWithNumberOfBodyMeasurementsEntries";
 export { GetMeasurementList } from "./Measurements/GetMeasurementList";
 export { DefaultNewBodyMeasurements } from "./Measurements/DefaultNewBodyMeasurements";
 export { InsertBodyMeasurementsIntoDatabase } from "./Measurements/InsertBodyMeasurementsIntoDatabase";

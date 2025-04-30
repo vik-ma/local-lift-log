@@ -2,7 +2,7 @@ import Database from "tauri-plugin-sql-api";
 import { IsNumberValidId } from "../Numbers/IsNumberValidId";
 import { Measurement } from "../../typings";
 
-export const GetMeasurementListWithNumberOfUserMeasurementEntries = async (
+export const GetMeasurementListWithNumberOfBodyMeasurementsEntries = async (
   ignoreMeasurementsWithNoEntries?: boolean
 ): Promise<{
   measurements: Measurement[];
@@ -14,7 +14,7 @@ export const GetMeasurementListWithNumberOfUserMeasurementEntries = async (
     const measurementValues: {
       measurement_values: string;
     }[] = await db.select(
-      `SELECT measurement_values FROM user_measurements 
+      `SELECT measurement_values FROM body_measurements 
          WHERE 
           date IS NOT NULL 
           AND date LIKE '____-__-__T__:__:__.___Z'
@@ -50,16 +50,16 @@ export const GetMeasurementListWithNumberOfUserMeasurementEntries = async (
 
     for (const measurement of measurementList) {
       if (measurementCountMap.has(measurement.id)) {
-        measurement.numUserMeasurementEntries = measurementCountMap.get(
+        measurement.numBodyMeasurementsEntries = measurementCountMap.get(
           measurement.id
         )!;
       } else {
-        measurement.numUserMeasurementEntries = 0;
+        measurement.numBodyMeasurementsEntries = 0;
       }
 
       if (
         ignoreMeasurementsWithNoEntries &&
-        measurement.numUserMeasurementEntries === 0
+        measurement.numBodyMeasurementsEntries === 0
       )
         continue;
 
