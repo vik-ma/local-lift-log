@@ -161,7 +161,7 @@ export { GenerateMeasurementListText } from "./Measurements/GenerateMeasurementL
 export { GetUserMeasurements } from "./Measurements/GetUserMeasurements";
 export { SortMeasurementMap } from "./Measurements/SortMeasurementMap";
 export { InsertUserWeightIntoDatabase } from "./Measurements/InsertUserWeightIntoDatabase";
-export { IsMeasurementInUserMeasurementValues } from "./Measurements/IsMeasurementInUserMeasurementValues";
+export { IsMeasurementInBodyMeasurementsValues } from "./Measurements/IsMeasurementInBodyMeasurementsValues";
 export { InsertUserMeasurementIntoDatabase } from "./Measurements/InsertUserMeasurementIntoDatabase";
 export { GetAllUserWeights } from "./Measurements/GetAllUserWeights";
 export { GetUserMeasurementsWithMeasurementId } from "./Measurements/GetUserMeasurementsWithMeasurementId";

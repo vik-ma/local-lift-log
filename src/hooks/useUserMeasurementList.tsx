@@ -3,7 +3,7 @@ import {
   GetUserMeasurements,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
-  IsMeasurementInUserMeasurementValues,
+  IsMeasurementInBodyMeasurementsValues,
 } from "../helpers";
 import { UseMeasurementListReturnType, UserMeasurement } from "../typings";
 import { useListFilters } from "./useListFilters";
@@ -55,7 +55,7 @@ export const useUserMeasurementList = (
           (!filterMap.has("weekdays") ||
             IsDateInWeekdaySet(item.date, filterWeekdays)) &&
           (!filterMap.has("measurements") ||
-            IsMeasurementInUserMeasurementValues(
+            IsMeasurementInBodyMeasurementsValues(
               item.userMeasurementValues,
               filterMeasurements
             ))
