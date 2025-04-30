@@ -1331,4 +1331,5 @@ export type UseBodyMeasurementsInputReturnType = {
   activeMeasurements: Measurement[];
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
   activeMeasurementsValue: React.RefObject<Measurement[]>;
+  getActiveMeasurements: (activeMeasurementsString: string) => void;
 };

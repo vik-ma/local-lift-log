@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import {
   ConvertBodyMeasurementsValuesToMeasurementInputs,
+  CreateActiveMeasurementInputs,
   IsNumberValidPercentage,
   IsStringEmpty,
   IsStringInvalidNumberOr0,
@@ -139,6 +140,19 @@ export const useBodyMeasurementsInput =
       setActiveMeasurements(activeMeasurements);
     };
 
+    const getActiveMeasurements = async (activeMeasurementsString: string) => {
+      try {
+        const activeMeasurements = await CreateActiveMeasurementInputs(
+          activeMeasurementsString
+        );
+        
+        setActiveMeasurements(activeMeasurements);
+        activeMeasurementsValue.current = activeMeasurements;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     return {
       weightInput,
       setWeightInput,
@@ -158,5 +172,6 @@ export const useBodyMeasurementsInput =
       activeMeasurements,
       setActiveMeasurements,
       activeMeasurementsValue,
+      getActiveMeasurements
     };
   };

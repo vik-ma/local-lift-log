@@ -15,7 +15,6 @@ import {
 } from "../components";
 import {
   GetUserSettings,
-  CreateActiveMeasurementInputs,
   GenerateActiveMeasurementString,
   ValidateISODateString,
   FormatDateTimeString,
@@ -75,7 +74,6 @@ export default function LoggingIndex() {
 
   const {
     activeMeasurements,
-    setActiveMeasurements,
     activeMeasurementsValue,
     areBodyMeasurementsValid,
     weightInput,
@@ -85,19 +83,8 @@ export default function LoggingIndex() {
     commentInput,
     resetBodyMeasurementsInput,
     loadBodyMeasurementsInputs,
+    getActiveMeasurements,
   } = bodyMeasurementsInput;
-
-  const getActiveMeasurements = async (activeMeasurementsString: string) => {
-    try {
-      const activeMeasurements = await CreateActiveMeasurementInputs(
-        activeMeasurementsString
-      );
-      setActiveMeasurements(activeMeasurements);
-      activeMeasurementsValue.current = activeMeasurements;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     const loadUserSettings = async () => {

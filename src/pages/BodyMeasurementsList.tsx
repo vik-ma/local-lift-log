@@ -47,7 +47,6 @@ export default function BodyMeasurementsList() {
 
   const {
     activeMeasurements,
-    setActiveMeasurements,
     activeMeasurementsValue,
     areBodyMeasurementsValid,
     weightInput,
@@ -57,6 +56,7 @@ export default function BodyMeasurementsList() {
     commentInput,
     resetBodyMeasurementsInput,
     loadBodyMeasurementsInputs,
+    getActiveMeasurements,
   } = bodyMeasurementsInput;
 
   const filterMinAndMaxValueInputsSecondary = useFilterMinAndMaxValueInputs({
@@ -187,14 +187,17 @@ export default function BodyMeasurementsList() {
 
       if (userSettings === undefined) return;
 
-      getBodyMeasurements(userSettings.clock_style);
-
       const validUnits = GetValidatedUserSettingsUnits(userSettings);
 
       setWeightUnit(validUnits.weightUnit);
       setFilterWeightRangeUnit(validUnits.weightUnit);
 
       defaultWeightUnit.current = validUnits.weightUnit;
+
+      await Promise.all([
+        getActiveMeasurements(userSettings.active_tracking_measurements),
+        getBodyMeasurements(userSettings.clock_style),
+      ]);
 
       setUserSettings(userSettings);
     };
