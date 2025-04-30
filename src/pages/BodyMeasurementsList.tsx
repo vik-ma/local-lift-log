@@ -10,13 +10,19 @@ import {
   ListPageSearchInput,
   LoadingSpinner,
 } from "../components";
-import { useListFilters, useMeasurementList } from "../hooks";
+import {
+  useFilterMinAndMaxValueInputs,
+  useListFilters,
+  useMeasurementList,
+} from "../hooks";
 import {
   GetAllBodyMeasurements,
   GetUserSettings,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
   IsMeasurementInBodyMeasurementsValues,
+  IsNumberWithinLimit,
+  IsWeightWithinLimit,
 } from "../helpers";
 import { Button } from "@heroui/react";
 
@@ -33,11 +39,18 @@ export default function BodyMeasurementsList() {
 
   const { measurementMap, isMeasurementListLoaded } = measurementList;
 
-  const listFilters = useListFilters({
-    measurementMap: measurementMap.current,
+  const filterMinAndMaxValueInputsSecondary = useFilterMinAndMaxValueInputs({
+    maxValue: 100,
   });
 
-  // TODO: ADD WEIGHT FILTER
+  const [includeNullInMaxValuesSecondary, setIncludeNullInMaxValuesSecondary] =
+    useState<boolean>(false);
+
+  const listFilters = useListFilters({
+    measurementMap: measurementMap.current,
+    filterMinAndMaxValueInputsSecondary: filterMinAndMaxValueInputsSecondary,
+  });
+
   const {
     filterMap,
     filterMinDate,
@@ -46,19 +59,34 @@ export default function BodyMeasurementsList() {
     filterMeasurements,
     removeFilter,
     prefixMap,
+    filterWeightRangeUnit,
+    setFilterWeightRangeUnit,
+    filterMinWeight,
+    filterMaxWeight,
+    filterMinBodyFatPercentage,
+    filterMaxBodyFatPercentage,
   } = listFilters;
 
   const filteredBodyMeasurements = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
       return bodyMeasurements.filter(
         (item) =>
-          ((item.bodyMeasurementsValues !== undefined &&
-            Object.keys(item.bodyMeasurementsValues).some((key) =>
-              measurementMap.current
-                .get(key)
-                ?.name.toLocaleLowerCase()
-                .includes(filterQuery.toLocaleLowerCase())
-            )) ||
+          ((item.weight > 0 &&
+            item.weight
+              .toString()
+              .toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase())) ||
+            (item.formattedDate !== undefined &&
+              item.formattedDate
+                .toLocaleLowerCase()
+                .includes(filterQuery.toLocaleLowerCase())) ||
+            (item.bodyMeasurementsValues !== undefined &&
+              Object.keys(item.bodyMeasurementsValues).some((key) =>
+                measurementMap.current
+                  .get(key)
+                  ?.name.toLocaleLowerCase()
+                  .includes(filterQuery.toLocaleLowerCase())
+              )) ||
             item.comment
               ?.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
@@ -72,6 +100,35 @@ export default function BodyMeasurementsList() {
             IsMeasurementInBodyMeasurementsValues(
               item.bodyMeasurementsValues,
               filterMeasurements
+            )) &&
+          (!filterMap.has("min-weight") ||
+            IsWeightWithinLimit(
+              item.weight,
+              filterMinWeight,
+              item.weight_unit,
+              filterWeightRangeUnit,
+              false
+            )) &&
+          (!filterMap.has("max-weight") ||
+            IsWeightWithinLimit(
+              item.weight,
+              filterMaxWeight,
+              item.weight_unit,
+              filterWeightRangeUnit,
+              true
+            )) &&
+          (!filterMap.has("min-bf") ||
+            IsNumberWithinLimit(
+              item.body_fat_percentage,
+              filterMinBodyFatPercentage,
+              false
+            )) &&
+          (!filterMap.has("max-bf") ||
+            IsNumberWithinLimit(
+              item.body_fat_percentage,
+              filterMaxBodyFatPercentage,
+              true,
+              includeNullInMaxValuesSecondary
             ))
       );
     }
@@ -85,6 +142,12 @@ export default function BodyMeasurementsList() {
     filterMaxDate,
     filterWeekdays,
     filterMeasurements,
+    filterWeightRangeUnit,
+    filterMinWeight,
+    filterMaxWeight,
+    filterMinBodyFatPercentage,
+    filterMaxBodyFatPercentage,
+    includeNullInMaxValuesSecondary,
   ]);
 
   const getBodyMeasurements = async (clockStyle: string) => {
