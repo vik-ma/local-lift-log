@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BodyMeasurements,
   BodyMeasurementsOperationType,
@@ -45,6 +45,21 @@ export default function BodyMeasurementsList() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleBodyMeasurementAccordionClick = (
+    bodyMeasurement: BodyMeasurements,
+    index: number
+  ) => {
+    const updatedBodyMeasurement: BodyMeasurements = {
+      ...bodyMeasurement,
+      isExpanded: !bodyMeasurement.isExpanded,
+    };
+
+    const updatedBodyMeasurements = [...bodyMeasurements];
+    updatedBodyMeasurements[index] = updatedBodyMeasurement;
+
+    setBodyMeasurements(updatedBodyMeasurements);
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -53,8 +68,7 @@ export default function BodyMeasurementsList() {
         <BodyMeasurementsAccordions
           bodyMeasurements={bodyMeasurements}
           handleBodyMeasurementsAccordionClick={
-            // TODO: ADD
-            () => {}
+            handleBodyMeasurementAccordionClick
           }
           measurementMap={measurementMap.current}
           handleBodyMeasurementsOptionSelection={
