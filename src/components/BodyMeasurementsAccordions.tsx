@@ -15,7 +15,7 @@ import {
 import { EmptyListLabel } from ".";
 
 type BodyMeasurementAccordionsProps = {
-  bodyMeasurementsEntries: BodyMeasurements[];
+  bodyMeasurements: BodyMeasurements[];
   handleBodyMeasurementsAccordionClick: (
     measurement: BodyMeasurements,
     index: number
@@ -29,7 +29,7 @@ type BodyMeasurementAccordionsProps = {
 };
 
 export const BodyMeasurementsAccordions = ({
-  bodyMeasurementsEntries,
+  bodyMeasurements,
   handleBodyMeasurementsAccordionClick,
   measurementMap,
   handleBodyMeasurementsOptionSelection,
@@ -37,7 +37,7 @@ export const BodyMeasurementsAccordions = ({
 }: BodyMeasurementAccordionsProps) => {
   return (
     <div className="flex flex-col gap-1 w-full">
-      {bodyMeasurementsEntries.map((measurement, index) => (
+      {bodyMeasurements.map((measurement, index) => (
         <div
           key={measurement.id}
           className={
@@ -199,7 +199,7 @@ export const BodyMeasurementsAccordions = ({
           </AnimatePresence>
         </div>
       ))}
-      {bodyMeasurementsEntries.length === 0 && (
+      {bodyMeasurements.length === 0 && (
         <EmptyListLabel itemName="Body Measurements" />
       )}
     </div>

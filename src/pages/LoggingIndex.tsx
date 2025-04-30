@@ -455,7 +455,7 @@ export default function LoggingIndex() {
                 </h3>
                 {latestBodyMeasurements.id !== 0 && (
                   <BodyMeasurementsAccordions
-                    bodyMeasurementsEntries={[latestBodyMeasurements]}
+                    bodyMeasurements={[latestBodyMeasurements]}
                     handleBodyMeasurementsAccordionClick={
                       handleBodyMeasurementsAccordionClick
                     }
