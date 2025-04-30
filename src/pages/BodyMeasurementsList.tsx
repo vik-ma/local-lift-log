@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   BodyMeasurements,
   BodyMeasurementsOperationType,
@@ -11,6 +11,7 @@ import {
   LoadingSpinner,
 } from "../components";
 import {
+  useBodyMeasurementsInput,
   useFilterMinAndMaxValueInputs,
   useListFilters,
   useMeasurementList,
@@ -18,6 +19,7 @@ import {
 import {
   GetAllBodyMeasurements,
   GetUserSettings,
+  GetValidatedUserSettingsUnits,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
   IsMeasurementInBodyMeasurementsValues,
@@ -35,9 +37,27 @@ export default function BodyMeasurementsList() {
     useState<BodyMeasurementsOperationType>("add");
   const [filterQuery, setFilterQuery] = useState<string>("");
 
+  const defaultWeightUnit = useRef<string>("kg");
+
   const measurementList = useMeasurementList(true);
 
   const { measurementMap, isMeasurementListLoaded } = measurementList;
+
+  const bodyMeasurementsInput = useBodyMeasurementsInput();
+
+  const {
+    activeMeasurements,
+    setActiveMeasurements,
+    activeMeasurementsValue,
+    areBodyMeasurementsValid,
+    weightInput,
+    weightUnit,
+    setWeightUnit,
+    bodyFatPercentageInput,
+    commentInput,
+    resetBodyMeasurementsInput,
+    loadBodyMeasurementsInputs,
+  } = bodyMeasurementsInput;
 
   const filterMinAndMaxValueInputsSecondary = useFilterMinAndMaxValueInputs({
     maxValue: 100,
@@ -165,10 +185,18 @@ export default function BodyMeasurementsList() {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
 
-      if (userSettings) {
-        setUserSettings(userSettings);
-        getBodyMeasurements(userSettings.clock_style);
-      }
+      if (userSettings === undefined) return;
+
+      getBodyMeasurements(userSettings.clock_style);
+
+      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+
+      setWeightUnit(validUnits.weightUnit);
+      setFilterWeightRangeUnit(validUnits.weightUnit);
+
+      defaultWeightUnit.current = validUnits.weightUnit;
+
+      setUserSettings(userSettings);
     };
 
     loadUserSettings();
