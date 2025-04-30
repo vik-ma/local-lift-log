@@ -44,7 +44,6 @@ import {
 
 export default function LoggingIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [operationType, setOperationType] =
     useState<BodyMeasurementsOperationType>("add");
 
@@ -92,8 +91,6 @@ export default function LoggingIndex() {
 
       if (userSettings === undefined) return;
 
-      setUserSettings(userSettings);
-
       const validUnits = GetValidatedUserSettingsUnits(userSettings);
 
       setWeightUnit(validUnits.weightUnit);
@@ -103,7 +100,7 @@ export default function LoggingIndex() {
         getLatestBodyMeasurements(userSettings.clock_style),
       ]);
 
-      setIsLoading(false);
+      setUserSettings(userSettings);
     };
 
     loadUserSettings();
@@ -406,7 +403,7 @@ export default function LoggingIndex() {
             Measurements
           </h1>
         </div>
-        {isLoading ? (
+        {userSettings === undefined ? (
           <LoadingSpinner />
         ) : (
           <>
