@@ -6,6 +6,7 @@ import {
 } from "../typings";
 import {
   BodyMeasurementsAccordions,
+  BodyMeasurementsModal,
   ListFilters,
   ListPageSearchInput,
   LoadingSpinner,
@@ -17,6 +18,8 @@ import {
   useMeasurementList,
 } from "../hooks";
 import {
+  CreateActiveMeasurementInputs,
+  DefaultNewBodyMeasurements,
   GetAllBodyMeasurements,
   GetUserSettings,
   GetValidatedUserSettingsUnits,
@@ -26,7 +29,7 @@ import {
   IsNumberWithinLimit,
   IsWeightWithinLimit,
 } from "../helpers";
-import { Button } from "@heroui/react";
+import { Button, useDisclosure } from "@heroui/react";
 
 export default function BodyMeasurementsList() {
   const [bodyMeasurements, setBodyMeasurements] = useState<BodyMeasurements[]>(
@@ -37,6 +40,11 @@ export default function BodyMeasurementsList() {
     useState<BodyMeasurementsOperationType>("add");
   const [filterQuery, setFilterQuery] = useState<string>("");
 
+  const defaultBodyMeasurements = DefaultNewBodyMeasurements();
+
+  const [operatingBodyMeasurements, setOperatingBodyMeasurements] =
+    useState<BodyMeasurements>(defaultBodyMeasurements);
+
   const defaultWeightUnit = useRef<string>("kg");
 
   const measurementList = useMeasurementList(true);
@@ -45,8 +53,11 @@ export default function BodyMeasurementsList() {
 
   const bodyMeasurementsInput = useBodyMeasurementsInput();
 
+  const bodyMeasurementsModal = useDisclosure();
+
   const {
     activeMeasurements,
+    setActiveMeasurements,
     activeMeasurementsValue,
     areBodyMeasurementsValid,
     weightInput,
@@ -223,10 +234,44 @@ export default function BodyMeasurementsList() {
     setBodyMeasurements(updatedBodyMeasurements);
   };
 
+  const resetBodyMeasurements = () => {
+    resetBodyMeasurementsInput();
+    setOperationType("add");
+  };
+
+  const handleNewBodyMeasurementsButton = async () => {
+    if (userSettings === undefined) return;
+
+    if (operationType !== "add") {
+      resetBodyMeasurements();
+    }
+
+    const activeMeasurements = await CreateActiveMeasurementInputs(
+      userSettings.active_tracking_measurements
+    );
+
+    setActiveMeasurements(activeMeasurements);
+
+    bodyMeasurementsModal.onOpen();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
     <>
+      <BodyMeasurementsModal
+        bodyMeasurementsModal={bodyMeasurementsModal}
+        useBodyMeasurementInputs={bodyMeasurementsInput}
+        useMeasurementList={measurementList}
+        doneButtonAction={
+          () => {}
+          // TODO: FIX
+          // operationType === "edit"
+          //   ? updateBodyMeasurements
+          //   : addBodyMeasurements
+        }
+        isEditing={operationType === "edit"}
+      />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
           header="Body Measurement List"
@@ -241,10 +286,7 @@ export default function BodyMeasurementsList() {
                 <Button
                   color="secondary"
                   variant="flat"
-                  onPress={
-                    // TODO: ADD
-                    () => {}
-                  }
+                  onPress={handleNewBodyMeasurementsButton}
                   size="sm"
                 >
                   New Body Measurements
