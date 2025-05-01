@@ -20,11 +20,6 @@ import {
   FormatDateTimeString,
   GetValidatedUserSettingsUnits,
   UpdateUserSetting,
-  IsStringEmpty,
-  ConvertNumberToTwoDecimals,
-  ConvertEmptyStringToNull,
-  ConvertInputStringToNumberWithTwoDecimalsOrNull,
-  CreateBodyMeasurementsValues,
   InsertBodyMeasurementsIntoDatabase,
   DefaultNewBodyMeasurements,
   GetLatestBodyMeasurements,
@@ -191,46 +186,18 @@ export default function LoggingIndex() {
   };
 
   const updateBodyMeasurements = async () => {
-    if (
-      userSettings === undefined ||
-      !areBodyMeasurementsValid ||
-      latestBodyMeasurements.id === 0
-    )
-      return;
+    if (userSettings === undefined || latestBodyMeasurements.id === 0) return;
 
-    const weight = IsStringEmpty(weightInput)
-      ? 0
-      : ConvertNumberToTwoDecimals(Number(weightInput));
-
-    const bodyFatPercentage = ConvertInputStringToNumberWithTwoDecimalsOrNull(
-      bodyFatPercentageInput
-    );
-
-    const commentToInsert = ConvertEmptyStringToNull(commentInput);
-
-    const measurementValues = CreateBodyMeasurementsValues(activeMeasurements);
-
-    const updatedBodyMeasurements: BodyMeasurements = {
-      ...latestBodyMeasurements,
-      weight: weight,
-      weight_unit: weightUnit,
-      body_fat_percentage: bodyFatPercentage,
-      measurement_values: measurementValues,
-      comment: commentToInsert,
-    };
-
-    const success = await UpdateBodyMeasurements(updatedBodyMeasurements);
-
-    if (!success) return;
-
-    const detailedBodyMeasurements = CreateDetailedBodyMeasurementsList(
-      [updatedBodyMeasurements],
-      measurementMap.current,
+    const updatedBodyMeasurements = await UpdateBodyMeasurements(
+      latestBodyMeasurements,
+      bodyMeasurementsInput,
       userSettings.clock_style,
-      updatedBodyMeasurements.id
+      measurementMap.current
     );
 
-    setLatestBodyMeasurements(detailedBodyMeasurements[0]);
+    if (updatedBodyMeasurements === undefined) return;
+
+    setLatestBodyMeasurements(updatedBodyMeasurements);
 
     resetBodyMeasurements();
     bodyMeasurementsModal.onClose();

@@ -1,19 +1,56 @@
 import Database from "tauri-plugin-sql-api";
-import { BodyMeasurements } from "../../typings";
+import {
+  BodyMeasurements,
+  MeasurementMap,
+  UseBodyMeasurementsInputReturnType,
+} from "../../typings";
+import {
+  ConvertEmptyStringToNull,
+  ConvertInputStringToNumberWithTwoDecimalsOrNull,
+  ConvertNumberToTwoDecimals,
+  CreateBodyMeasurementsValues,
+  CreateDetailedBodyMeasurementsList,
+  IsStringEmpty,
+} from "..";
 
 export const UpdateBodyMeasurements = async (
-  bodyMeasurements: BodyMeasurements
+  bodyMeasurements: BodyMeasurements,
+  useBodyMeasurementsInput: UseBodyMeasurementsInputReturnType,
+  clockStyle: string,
+  measurementMap: MeasurementMap
 ) => {
+  const {
+    areBodyMeasurementsValid,
+    weightInput,
+    weightUnit,
+    bodyFatPercentageInput,
+    commentInput,
+    activeMeasurements,
+  } = useBodyMeasurementsInput;
+
+  if (!areBodyMeasurementsValid) return undefined;
+
+  const weight = IsStringEmpty(weightInput)
+    ? 0
+    : ConvertNumberToTwoDecimals(Number(weightInput));
+
+  const bodyFatPercentage = ConvertInputStringToNumberWithTwoDecimalsOrNull(
+    bodyFatPercentageInput
+  );
+
+  const comment = ConvertEmptyStringToNull(commentInput);
+
+  const measurementValues = CreateBodyMeasurementsValues(activeMeasurements);
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
     await db.execute(
       `UPDATE body_measurements SET 
-        date = $1, weight = $2, weight_unit = $3, body_fat_percentage = $4, 
-        measurement_values = $5, comment = $6
-       WHERE id = $7`,
+        weight = $1, weight_unit = $2, body_fat_percentage = $3, 
+        measurement_values = $4, comment = $5
+       WHERE id = $6`,
       [
-        bodyMeasurements.date,
         bodyMeasurements.weight,
         bodyMeasurements.weight_unit,
         bodyMeasurements.body_fat_percentage,
@@ -23,9 +60,25 @@ export const UpdateBodyMeasurements = async (
       ]
     );
 
-    return true;
+    const updatedBodyMeasurements: BodyMeasurements = {
+      ...bodyMeasurements,
+      weight: weight,
+      weight_unit: weightUnit,
+      body_fat_percentage: bodyFatPercentage,
+      measurement_values: measurementValues,
+      comment: comment,
+    };
+
+    const detailedBodyMeasurements = CreateDetailedBodyMeasurementsList(
+      [updatedBodyMeasurements],
+      measurementMap,
+      clockStyle,
+      updatedBodyMeasurements.id
+    );
+
+    return detailedBodyMeasurements[0];
   } catch (error) {
     console.log(error);
-    return false;
+    return undefined;
   }
 };
