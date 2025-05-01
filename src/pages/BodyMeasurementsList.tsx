@@ -7,6 +7,7 @@ import {
 import {
   BodyMeasurementsAccordions,
   BodyMeasurementsModal,
+  DeleteModal,
   ListFilters,
   ListPageSearchInput,
   LoadingSpinner,
@@ -21,6 +22,8 @@ import {
   ConvertWeightToKg,
   CreateActiveMeasurementInputs,
   DefaultNewBodyMeasurements,
+  DeleteBodyMeasurementsWithId,
+  DeleteItemFromList,
   GetAllBodyMeasurements,
   GetUserSettings,
   GetValidatedUserSettingsUnits,
@@ -74,6 +77,7 @@ export default function BodyMeasurementsList() {
 
   const bodyMeasurementsInput = useBodyMeasurementsInput();
 
+  const deleteModal = useDisclosure();
   const bodyMeasurementsModal = useDisclosure();
 
   const {
@@ -405,6 +409,12 @@ export default function BodyMeasurementsList() {
       setOperatingBodyMeasurements(bodyMeasurements);
       setOperationType("edit");
       bodyMeasurementsModal.onOpen();
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      deleteBodyMeasurements(bodyMeasurements);
+    } else if (key === "delete") {
+      setOperatingBodyMeasurements(bodyMeasurements);
+      setOperationType("delete");
+      deleteModal.onOpen();
     }
   };
 
@@ -453,10 +463,49 @@ export default function BodyMeasurementsList() {
     toast.success("Body Measurements Updated");
   };
 
+  const deleteBodyMeasurements = async (
+    bodyMeasurementToDelete?: BodyMeasurements
+  ) => {
+    const bodyMeasurement =
+      bodyMeasurementToDelete ?? operatingBodyMeasurements;
+
+    if (bodyMeasurement.id === 0) return;
+
+    const success = await DeleteBodyMeasurementsWithId(bodyMeasurement.id);
+
+    if (!success) return;
+
+    const updatedBodyMeasurements = DeleteItemFromList(
+      bodyMeasurements,
+      bodyMeasurement.id
+    );
+
+    sortBodyMeasurementsByActiveCategory(updatedBodyMeasurements);
+
+    resetBodyMeasurements();
+    toast.success("Body Measurements Deleted");
+    deleteModal.onClose();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
     <>
+      <DeleteModal
+        deleteModal={deleteModal}
+        header="Delete Body Measurements Entry"
+        body={
+          <p>
+            Are you sure you want to permanently delete Body Measurements entry
+            on{" "}
+            <span className="text-secondary">
+              {operatingBodyMeasurements.formattedDate}
+            </span>
+            ?
+          </p>
+        }
+        deleteButtonAction={deleteBodyMeasurements}
+      />
       <BodyMeasurementsModal
         bodyMeasurementsModal={bodyMeasurementsModal}
         useBodyMeasurementInputs={bodyMeasurementsInput}
