@@ -250,25 +250,26 @@ export default function BodyMeasurementsList() {
       const weightAInKg = ConvertWeightToKg(a.weight, a.weight_unit);
       const weightBInKg = ConvertWeightToKg(b.weight, b.weight_unit);
 
-      // Always place null weight last in list
-      if (weightAInKg === null && weightBInKg === null) {
-        // Sort by date if both weight are null
+      const isAZero = weightAInKg === 0;
+      const isBZero = weightBInKg === 0;
+
+      // Always place 0 weight values last
+      if (isAZero && !isBZero) return 1;
+      if (!isAZero && isBZero) return -1;
+      if (isAZero && isBZero) {
+        // Show latest date first if both 0
         return b.date.localeCompare(a.date);
-      } else if (weightAInKg === null) {
-        return 1;
-      } else if (weightBInKg === null) {
-        return -1;
       }
 
-      // Sort by weight
+      // Normal sorting for nonzero weights
       if (weightAInKg !== weightBInKg) {
         return isAscending
           ? weightAInKg - weightBInKg
           : weightBInKg - weightAInKg;
+      } else {
+        // Show latest date first if same weight
+        return b.date.localeCompare(a.date);
       }
-
-      // Sort by latest date if same weight
-      return b.date.localeCompare(a.date);
     });
 
     setBodyMeasurements(bodyMeasurementsList);
