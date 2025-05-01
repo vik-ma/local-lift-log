@@ -30,6 +30,8 @@ import {
   IsMeasurementInBodyMeasurementsValues,
   IsNumberWithinLimit,
   IsWeightWithinLimit,
+  UpdateBodyMeasurements,
+  UpdateItemInList,
 } from "../helpers";
 import {
   Button,
@@ -392,6 +394,20 @@ export default function BodyMeasurementsList() {
     bodyMeasurementsModal.onOpen();
   };
 
+  const handleBodyMeasurementsOptionSelection = (
+    key: string,
+    bodyMeasurements: BodyMeasurements
+  ) => {
+    if (userSettings === undefined) return;
+
+    if (key === "edit") {
+      loadBodyMeasurementsInputs(bodyMeasurements, measurementMap.current);
+      setOperatingBodyMeasurements(bodyMeasurements);
+      setOperationType("edit");
+      bodyMeasurementsModal.onOpen();
+    }
+  };
+
   const addBodyMeasurements = async () => {
     if (userSettings === undefined) return;
 
@@ -412,6 +428,31 @@ export default function BodyMeasurementsList() {
     toast.success("Body Measurements Added");
   };
 
+  const updateBodyMeasurements = async () => {
+    if (userSettings === undefined || operatingBodyMeasurements.id === 0)
+      return;
+
+    const updatedBodyMeasurements = await UpdateBodyMeasurements(
+      operatingBodyMeasurements,
+      bodyMeasurementsInput,
+      userSettings.clock_style,
+      measurementMap.current
+    );
+
+    if (updatedBodyMeasurements === undefined) return;
+
+    const updatedBodyMeasurementsList = UpdateItemInList(
+      bodyMeasurements,
+      updatedBodyMeasurements
+    );
+
+    sortBodyMeasurementsByActiveCategory(updatedBodyMeasurementsList);
+
+    resetBodyMeasurements();
+    bodyMeasurementsModal.onClose();
+    toast.success("Body Measurements Updated");
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -421,11 +462,9 @@ export default function BodyMeasurementsList() {
         useBodyMeasurementInputs={bodyMeasurementsInput}
         useMeasurementList={measurementList}
         doneButtonAction={
-          addBodyMeasurements
-          // TODO: FIX
-          // operationType === "edit"
-          //   ? updateBodyMeasurements
-          //   : addBodyMeasurements
+          operationType === "edit"
+            ? updateBodyMeasurements
+            : addBodyMeasurements
         }
         isEditing={operationType === "edit"}
       />
@@ -514,8 +553,7 @@ export default function BodyMeasurementsList() {
           }
           measurementMap={measurementMap.current}
           handleBodyMeasurementsOptionSelection={
-            // TODO: ADD
-            () => {}
+            handleBodyMeasurementsOptionSelection
           }
           handleReassignMeasurement={
             // TODO: ADD
