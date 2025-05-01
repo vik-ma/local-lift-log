@@ -169,40 +169,17 @@ export default function LoggingIndex() {
   };
 
   const addBodyMeasurements = async () => {
-    if (userSettings === undefined || !areBodyMeasurementsValid) return;
-
-    const weight = IsStringEmpty(weightInput)
-      ? 0
-      : ConvertNumberToTwoDecimals(Number(weightInput));
-
-    const bodyFatPercentage = ConvertInputStringToNumberWithTwoDecimalsOrNull(
-      bodyFatPercentageInput
-    );
-
-    const commentToInsert = ConvertEmptyStringToNull(commentInput);
-
-    const measurementValues = CreateBodyMeasurementsValues(activeMeasurements);
+    if (userSettings === undefined) return;
 
     const newBodyMeasurements = await InsertBodyMeasurementsIntoDatabase(
-      weight,
-      weightUnit,
-      bodyFatPercentage,
-      measurementValues,
-      commentToInsert,
+      bodyMeasurementsInput,
       userSettings.clock_style,
       measurementMap.current
     );
 
     if (newBodyMeasurements === undefined) return;
 
-    const detailedBodyMeasurements = CreateDetailedBodyMeasurementsList(
-      [newBodyMeasurements],
-      measurementMap.current,
-      userSettings.clock_style,
-      newBodyMeasurements.id
-    );
-
-    setLatestBodyMeasurements(detailedBodyMeasurements[0]);
+    setLatestBodyMeasurements(newBodyMeasurements);
 
     if (userSettings.automatically_update_active_measurements === 1) {
       await updateActiveTrackingMeasurementOrder();

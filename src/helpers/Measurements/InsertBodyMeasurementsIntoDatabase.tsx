@@ -1,19 +1,47 @@
 import Database from "tauri-plugin-sql-api";
 import {
+  ConvertEmptyStringToNull,
+  ConvertInputStringToNumberWithTwoDecimalsOrNull,
+  ConvertNumberToTwoDecimals,
+  CreateBodyMeasurementsValues,
   CreateDetailedBodyMeasurementsList,
   GetCurrentDateTimeISOString,
+  IsStringEmpty,
 } from "..";
-import { BodyMeasurements, MeasurementMap } from "../../typings";
+import {
+  BodyMeasurements,
+  MeasurementMap,
+  UseBodyMeasurementsInputReturnType,
+} from "../../typings";
 
 export const InsertBodyMeasurementsIntoDatabase = async (
-  weight: number,
-  weightUnit: string,
-  bodyFatPercentage: number | null,
-  measurementValues: string,
-  comment: string | null,
+  useBodyMeasurementsInput: UseBodyMeasurementsInputReturnType,
   clockStyle: string,
   measurementMap: MeasurementMap
 ) => {
+  const {
+    areBodyMeasurementsValid,
+    weightInput,
+    weightUnit,
+    bodyFatPercentageInput,
+    commentInput,
+    activeMeasurements,
+  } = useBodyMeasurementsInput;
+
+  if (!areBodyMeasurementsValid) return undefined;
+
+  const weight = IsStringEmpty(weightInput)
+    ? 0
+    : ConvertNumberToTwoDecimals(Number(weightInput));
+
+  const bodyFatPercentage = ConvertInputStringToNumberWithTwoDecimalsOrNull(
+    bodyFatPercentageInput
+  );
+
+  const comment = ConvertEmptyStringToNull(commentInput);
+
+  const measurementValues = CreateBodyMeasurementsValues(activeMeasurements);
+
   try {
     const currentDateString = GetCurrentDateTimeISOString();
 
