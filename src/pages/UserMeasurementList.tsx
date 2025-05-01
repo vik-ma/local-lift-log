@@ -165,7 +165,7 @@ export default function UserMeasurementList() {
 
     bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Added");
-  };
+    };
 
   const updateUserMeasurements = async () => {
     if (

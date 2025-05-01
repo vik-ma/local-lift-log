@@ -29,7 +29,16 @@ import {
   IsNumberWithinLimit,
   IsWeightWithinLimit,
 } from "../helpers";
-import { Button, useDisclosure } from "@heroui/react";
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  useDisclosure,
+} from "@heroui/react";
+
+type SortCategory = "date-asc" | "date-desc";
 
 export default function BodyMeasurementsList() {
   const [bodyMeasurements, setBodyMeasurements] = useState<BodyMeasurements[]>(
@@ -39,6 +48,7 @@ export default function BodyMeasurementsList() {
   const [operationType, setOperationType] =
     useState<BodyMeasurementsOperationType>("add");
   const [filterQuery, setFilterQuery] = useState<string>("");
+  const [sortCategory, setSortCategory] = useState<SortCategory>("date-desc");
 
   const defaultBodyMeasurements = DefaultNewBodyMeasurements();
 
@@ -56,15 +66,8 @@ export default function BodyMeasurementsList() {
   const bodyMeasurementsModal = useDisclosure();
 
   const {
-    activeMeasurements,
     setActiveMeasurements,
-    activeMeasurementsValue,
-    areBodyMeasurementsValid,
-    weightInput,
-    weightUnit,
     setWeightUnit,
-    bodyFatPercentageInput,
-    commentInput,
     resetBodyMeasurementsInput,
     loadBodyMeasurementsInputs,
     getActiveMeasurements,
@@ -191,7 +194,7 @@ export default function BodyMeasurementsList() {
       measurementMap.current
     );
 
-    setBodyMeasurements(detailedBodyMeasurements);
+    sortBodyMeasurementsByDate(detailedBodyMeasurements, false);
   };
 
   useEffect(() => {
@@ -219,6 +222,44 @@ export default function BodyMeasurementsList() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const sortBodyMeasurementsByDate = (
+    bodyMeasurementsList: BodyMeasurements[],
+    isAscending: boolean
+  ) => {
+    if (isAscending) {
+      bodyMeasurementsList.sort((a, b) => a.date.localeCompare(b.date));
+    } else {
+      bodyMeasurementsList.sort((a, b) => b.date.localeCompare(a.date));
+    }
+
+    setBodyMeasurements(bodyMeasurementsList);
+  };
+
+  const sortBodyMeasurementsByActiveCategory = (
+    bodyMeasurementsList: BodyMeasurements[]
+  ) => {
+    switch (sortCategory) {
+      case "date-desc":
+        sortBodyMeasurementsByDate([...bodyMeasurementsList], false);
+        break;
+      case "date-asc":
+        sortBodyMeasurementsByDate([...bodyMeasurementsList], true);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleSortOptionSelection = (key: string) => {
+    if (key === "date-desc") {
+      setSortCategory(key);
+      sortBodyMeasurementsByDate([...bodyMeasurements], false);
+    } else if (key === "date-asc") {
+      setSortCategory(key);
+      sortBodyMeasurementsByDate([...bodyMeasurements], true);
+    }
+  };
+
   const handleBodyMeasurementAccordionClick = (
     bodyMeasurement: BodyMeasurements,
     index: number
@@ -236,6 +277,7 @@ export default function BodyMeasurementsList() {
 
   const resetBodyMeasurements = () => {
     resetBodyMeasurementsInput();
+    setOperatingBodyMeasurements(defaultBodyMeasurements);
     setOperationType("add");
   };
 
@@ -304,8 +346,7 @@ export default function BodyMeasurementsList() {
                   >
                     Filter
                   </Button>
-                  {/* TODO: ADD  */}
-                  {/* <Dropdown shouldBlockScroll={false}>
+                  <Dropdown shouldBlockScroll={false}>
                     <DropdownTrigger>
                       <Button className="z-1" variant="flat" size="sm">
                         Sort By
@@ -319,7 +360,6 @@ export default function BodyMeasurementsList() {
                         handleSortOptionSelection(key as string)
                       }
                     >
-                      TODO: ADD WEIGHT SORTING
                       <DropdownItem key="date-desc">
                         Date (Latest First)
                       </DropdownItem>
@@ -327,7 +367,7 @@ export default function BodyMeasurementsList() {
                         Date (Oldest First)
                       </DropdownItem>
                     </DropdownMenu>
-                  </Dropdown> */}
+                  </Dropdown>
                 </div>
               </div>
               {filterMap.size > 0 && (
