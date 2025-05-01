@@ -18,6 +18,7 @@ import {
   useMeasurementList,
 } from "../hooks";
 import {
+  ConvertWeightToKg,
   CreateActiveMeasurementInputs,
   DefaultNewBodyMeasurements,
   GetAllBodyMeasurements,
@@ -38,7 +39,13 @@ import {
   useDisclosure,
 } from "@heroui/react";
 
-type SortCategory = "date-asc" | "date-desc";
+type SortCategory =
+  | "date-asc"
+  | "date-desc"
+  | "weight-asc"
+  | "weight-desc"
+  | "bf-asc"
+  | "bf-desc";
 
 export default function BodyMeasurementsList() {
   const [bodyMeasurements, setBodyMeasurements] = useState<BodyMeasurements[]>(
@@ -235,6 +242,67 @@ export default function BodyMeasurementsList() {
     setBodyMeasurements(bodyMeasurementsList);
   };
 
+  const sortBodyMeasurementsByWeight = (
+    bodyMeasurementsList: BodyMeasurements[],
+    isAscending: boolean
+  ) => {
+    bodyMeasurementsList.sort((a, b) => {
+      const weightAInKg = ConvertWeightToKg(a.weight, a.weight_unit);
+      const weightBInKg = ConvertWeightToKg(b.weight, b.weight_unit);
+
+      // Always place null weight last in list
+      if (weightAInKg === null && weightBInKg === null) {
+        // Sort by date if both weight are null
+        return b.date.localeCompare(a.date);
+      } else if (weightAInKg === null) {
+        return 1;
+      } else if (weightBInKg === null) {
+        return -1;
+      }
+
+      // Sort by weight
+      if (weightAInKg !== weightBInKg) {
+        return isAscending
+          ? weightAInKg - weightBInKg
+          : weightBInKg - weightAInKg;
+      }
+
+      // Sort by latest date if same weight
+      return b.date.localeCompare(a.date);
+    });
+
+    setBodyMeasurements(bodyMeasurementsList);
+  };
+
+  const sortBodyMeasurementsByBodyFatPercentage = (
+    bodyMeasurementsList: BodyMeasurements[],
+    isAscending: boolean
+  ) => {
+    bodyMeasurementsList.sort((a, b) => {
+      // Always place null body_fat_percentages last in list
+      if (a.body_fat_percentage === null && b.body_fat_percentage === null) {
+        // Sort by date if both body_fat_percentages are null
+        return b.date.localeCompare(a.date);
+      } else if (a.body_fat_percentage === null) {
+        return 1;
+      } else if (b.body_fat_percentage === null) {
+        return -1;
+      }
+
+      // Sort by body_fat_percentage
+      if (a.body_fat_percentage !== b.body_fat_percentage) {
+        return isAscending
+          ? a.body_fat_percentage - b.body_fat_percentage
+          : b.body_fat_percentage - a.body_fat_percentage;
+      }
+
+      // Sort by latest date if same body_fat_percentage
+      return b.date.localeCompare(a.date);
+    });
+
+    setBodyMeasurements(bodyMeasurementsList);
+  };
+
   const sortBodyMeasurementsByActiveCategory = (
     bodyMeasurementsList: BodyMeasurements[]
   ) => {
@@ -244,6 +312,18 @@ export default function BodyMeasurementsList() {
         break;
       case "date-asc":
         sortBodyMeasurementsByDate([...bodyMeasurementsList], true);
+        break;
+      case "weight-desc":
+        sortBodyMeasurementsByWeight([...bodyMeasurements], false);
+        break;
+      case "weight-asc":
+        sortBodyMeasurementsByWeight([...bodyMeasurements], true);
+        break;
+      case "bf-desc":
+        sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurements], false);
+        break;
+      case "bf-asc":
+        sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurements], true);
         break;
       default:
         break;
@@ -257,6 +337,18 @@ export default function BodyMeasurementsList() {
     } else if (key === "date-asc") {
       setSortCategory(key);
       sortBodyMeasurementsByDate([...bodyMeasurements], true);
+    } else if (key === "weight-desc") {
+      setSortCategory(key);
+      sortBodyMeasurementsByWeight([...bodyMeasurements], false);
+    } else if (key === "weight-asc") {
+      setSortCategory(key);
+      sortBodyMeasurementsByWeight([...bodyMeasurements], true);
+    } else if (key === "bf-desc") {
+      setSortCategory(key);
+      sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurements], false);
+    } else if (key === "bf-asc") {
+      setSortCategory(key);
+      sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurements], true);
     }
   };
 
@@ -365,6 +457,18 @@ export default function BodyMeasurementsList() {
                       </DropdownItem>
                       <DropdownItem key="date-asc">
                         Date (Oldest First)
+                      </DropdownItem>
+                      <DropdownItem key="weight-desc">
+                        Weight (Highest First)
+                      </DropdownItem>
+                      <DropdownItem key="weight-asc">
+                        Weight (Lowest First)
+                      </DropdownItem>
+                      <DropdownItem key="bf-desc">
+                        Body Fat % (Highest First)
+                      </DropdownItem>
+                      <DropdownItem key="bf-asc">
+                        Body Fat % (Lowest First)
                       </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
