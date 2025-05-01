@@ -11,6 +11,7 @@ import {
   ListFilters,
   ListPageSearchInput,
   LoadingSpinner,
+  TimeInputModal,
 } from "../components";
 import {
   useBodyMeasurementsInput,
@@ -34,6 +35,7 @@ import {
   IsNumberWithinLimit,
   IsWeightWithinLimit,
   UpdateBodyMeasurements,
+  UpdateBodyMeasurementsTimestamp,
   UpdateItemInList,
 } from "../helpers";
 import {
@@ -79,6 +81,7 @@ export default function BodyMeasurementsList() {
 
   const deleteModal = useDisclosure();
   const bodyMeasurementsModal = useDisclosure();
+  const timeInputModal = useDisclosure();
 
   const {
     setActiveMeasurements,
@@ -415,6 +418,10 @@ export default function BodyMeasurementsList() {
       setOperatingBodyMeasurements(bodyMeasurements);
       setOperationType("delete");
       deleteModal.onOpen();
+    } else if (key === "edit-timestamp") {
+      setOperatingBodyMeasurements(bodyMeasurements);
+      setOperationType("edit-timestamp");
+      timeInputModal.onOpen();
     }
   };
 
@@ -487,6 +494,34 @@ export default function BodyMeasurementsList() {
     deleteModal.onClose();
   };
 
+  const updateBodyMeasurementsTimeStamp = async (dateString: string) => {
+    if (
+      operatingBodyMeasurements.id === 0 ||
+      operationType !== "edit-timestamp" ||
+      userSettings === undefined
+    )
+      return;
+
+    const updatedBodyMeasurements = await UpdateBodyMeasurementsTimestamp(
+      operatingBodyMeasurements,
+      dateString,
+      userSettings.clock_style
+    );
+
+    if (updatedBodyMeasurements === undefined) return;
+
+    const updatedBodyMeasurementsList = UpdateItemInList(
+      bodyMeasurements,
+      updatedBodyMeasurements
+    );
+
+    sortBodyMeasurementsByActiveCategory(updatedBodyMeasurementsList);
+
+    resetBodyMeasurements();
+    toast.success("Timestamp Updated");
+    timeInputModal.onClose();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -516,6 +551,14 @@ export default function BodyMeasurementsList() {
             : addBodyMeasurements
         }
         isEditing={operationType === "edit"}
+      />
+      <TimeInputModal
+        timeInputModal={timeInputModal}
+        header="Edit Timestamp"
+        clockStyle={userSettings.clock_style}
+        locale={userSettings.locale}
+        value={operatingBodyMeasurements.date}
+        saveButtonAction={updateBodyMeasurementsTimeStamp}
       />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
