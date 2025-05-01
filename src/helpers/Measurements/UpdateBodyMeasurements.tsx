@@ -51,11 +51,11 @@ export const UpdateBodyMeasurements = async (
         measurement_values = $4, comment = $5
        WHERE id = $6`,
       [
-        bodyMeasurements.weight,
-        bodyMeasurements.weight_unit,
-        bodyMeasurements.body_fat_percentage,
-        bodyMeasurements.measurement_values,
-        bodyMeasurements.comment,
+        weight,
+        weightUnit,
+        bodyFatPercentage,
+        measurementValues,
+        comment,
         bodyMeasurements.id,
       ]
     );
