@@ -16,8 +16,6 @@ import {
 import {
   GetUserSettings,
   GenerateActiveMeasurementString,
-  ValidateISODateString,
-  FormatDateTimeString,
   GetValidatedUserSettingsUnits,
   UpdateUserSetting,
   InsertBodyMeasurementsIntoDatabase,
@@ -27,6 +25,7 @@ import {
   UpdateBodyMeasurements,
   DeleteBodyMeasurementsWithId,
   GetAllBodyMeasurements,
+  UpdateBodyMeasurementsTimestamp,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -69,12 +68,7 @@ export default function LoggingIndex() {
   const {
     activeMeasurements,
     activeMeasurementsValue,
-    areBodyMeasurementsValid,
-    weightInput,
-    weightUnit,
     setWeightUnit,
-    bodyFatPercentageInput,
-    commentInput,
     resetBodyMeasurementsInput,
     loadBodyMeasurementsInputs,
     getActiveMeasurements,
@@ -269,25 +263,15 @@ export default function LoggingIndex() {
     if (
       latestBodyMeasurements.id === 0 ||
       operationType !== "edit-timestamp" ||
-      userSettings === undefined ||
-      !ValidateISODateString(dateString)
+      userSettings === undefined
     )
       return;
 
-    const formattedDate = FormatDateTimeString(
+    await UpdateBodyMeasurementsTimestamp(
+      latestBodyMeasurements,
       dateString,
-      userSettings.clock_style === "24h"
+      userSettings.clock_style
     );
-
-    const updatedBodyMeasurements: BodyMeasurements = {
-      ...latestBodyMeasurements,
-      date: dateString,
-      formattedDate: formattedDate,
-    };
-
-    const success = await UpdateBodyMeasurements(updatedBodyMeasurements);
-
-    if (!success) return;
 
     await getLatestBodyMeasurements(userSettings.clock_style);
 
