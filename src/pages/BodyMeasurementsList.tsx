@@ -24,6 +24,7 @@ import {
   GetAllBodyMeasurements,
   GetUserSettings,
   GetValidatedUserSettingsUnits,
+  InsertBodyMeasurementsIntoDatabase,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
   IsMeasurementInBodyMeasurementsValues,
@@ -38,6 +39,7 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from "@heroui/react";
+import toast from "react-hot-toast";
 
 type SortCategory =
   | "date-asc"
@@ -194,7 +196,7 @@ export default function BodyMeasurementsList() {
   ]);
 
   const getBodyMeasurements = async (clockStyle: string) => {
-    if (!isMeasurementListLoaded) return;
+    if (!isMeasurementListLoaded.current) return;
 
     const detailedBodyMeasurements = await GetAllBodyMeasurements(
       clockStyle,
@@ -390,6 +392,26 @@ export default function BodyMeasurementsList() {
     bodyMeasurementsModal.onOpen();
   };
 
+  const addBodyMeasurements = async () => {
+    if (userSettings === undefined) return;
+
+    const newBodyMeasurements = await InsertBodyMeasurementsIntoDatabase(
+      bodyMeasurementsInput,
+      userSettings.clock_style,
+      measurementMap.current
+    );
+
+    if (newBodyMeasurements === undefined) return;
+
+    const updatedBodyMeasurements = [...bodyMeasurements, newBodyMeasurements];
+
+    sortBodyMeasurementsByActiveCategory(updatedBodyMeasurements);
+
+    resetBodyMeasurements();
+    bodyMeasurementsModal.onClose();
+    toast.success("Body Measurements Added");
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -399,7 +421,7 @@ export default function BodyMeasurementsList() {
         useBodyMeasurementInputs={bodyMeasurementsInput}
         useMeasurementList={measurementList}
         doneButtonAction={
-          () => {}
+          addBodyMeasurements
           // TODO: FIX
           // operationType === "edit"
           //   ? updateBodyMeasurements
