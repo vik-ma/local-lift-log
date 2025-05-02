@@ -97,6 +97,8 @@ export default function BodyMeasurementsList() {
     maxValue: 100,
   });
 
+  const [include0InMaxValuesWeight, setInclude0InMaxValuesWeight] =
+    useState<boolean>(false);
   const [includeNullInMaxValuesBodyFat, setIncludeNullInMaxValuesBodyFat] =
     useState<boolean>(false);
 
@@ -567,6 +569,8 @@ export default function BodyMeasurementsList() {
         useListFilters={listFilters}
         locale={userSettings.locale}
         useMeasurementList={measurementList}
+        include0InMaxValuesWeight={include0InMaxValuesWeight}
+        setInclude0InMaxValuesWeight={setInclude0InMaxValuesWeight}
         filterMinAndMaxValueInputsBodyFat={filterMinAndMaxValueInputsBodyFat}
         includeNullInMaxValuesBodyFat={includeNullInMaxValuesBodyFat}
         setIncludeNullInMaxValuesBodyFat={setIncludeNullInMaxValuesBodyFat}

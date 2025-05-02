@@ -26,6 +26,8 @@ type FilterBodyMeasurementsListModalProps = {
   useListFilters: UseListFiltersReturnType;
   locale: string;
   useMeasurementList: UseMeasurementListReturnType;
+  include0InMaxValuesWeight: boolean;
+  setInclude0InMaxValuesWeight: React.Dispatch<React.SetStateAction<boolean>>;
   filterMinAndMaxValueInputsBodyFat: UseFilterMinAndMaxValueInputsReturnType;
   includeNullInMaxValuesBodyFat: boolean;
   setIncludeNullInMaxValuesBodyFat: React.Dispatch<
@@ -40,6 +42,8 @@ export const FilterBodyMeasurementsListModal = ({
   useListFilters,
   locale,
   useMeasurementList,
+  include0InMaxValuesWeight,
+  setInclude0InMaxValuesWeight,
   filterMinAndMaxValueInputsBodyFat,
   includeNullInMaxValuesBodyFat,
   setIncludeNullInMaxValuesBodyFat,
@@ -102,7 +106,7 @@ export const FilterBodyMeasurementsListModal = ({
                     <div className="flex flex-col gap-0.5">
                       <div className="flex flex-col gap-px">
                         <h3 className="text-lg font-semibold px-0.5">Weight</h3>
-                        <div className="flex gap-5">
+                        <div className="flex gap-5 items-end">
                           <FilterMinAndMaxValues
                             setFilterMinValue={setFilterMinWeight}
                             setFilterMaxValue={setFilterMaxWeight}
@@ -110,13 +114,19 @@ export const FilterBodyMeasurementsListModal = ({
                             useFilterMinAndMaxValueInputs={
                               filterMinAndMaxValueInputs
                             }
+                            includeNullInMaxValues={include0InMaxValuesWeight}
+                            setIncludeNullInMaxValues={
+                              setInclude0InMaxValuesWeight
+                            }
                           />
-                          <WeightUnitDropdown
-                            value={filterWeightRangeUnit}
-                            setState={setFilterWeightRangeUnit}
-                            targetType="state"
-                            showBigLabel
-                          />
+                          <div className="pb-4">
+                            <WeightUnitDropdown
+                              value={filterWeightRangeUnit}
+                              setState={setFilterWeightRangeUnit}
+                              targetType="state"
+                              showBigLabel
+                            />
+                          </div>
                         </div>
                         <div className="flex flex-col">
                           <h3 className="text-lg font-semibold px-0.5">
