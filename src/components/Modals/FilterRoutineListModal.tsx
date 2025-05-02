@@ -149,7 +149,7 @@ export const FilterRoutineListModal = ({
                         includeNullInMaxValues={includeNullInMaxValues}
                         setIncludeNullInMaxValues={setIncludeNullInMaxValues}
                         customIncludeNullCheckboxLabel={
-                          "Include entries with no days"
+                          "Include routines with no set days (Max only)"
                         }
                       />
                     </div>
