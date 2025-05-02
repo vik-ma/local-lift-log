@@ -62,7 +62,7 @@ export const FilterBodyMeasurementsListModal = ({
             <ModalHeader>
               {modalPage === "measurement-list"
                 ? "Select Measurements To Filter"
-                : "Filter User Weights"}
+                : "Filter Body Measurements"}
             </ModalHeader>
             <ModalBody>
               {modalPage === "measurement-list" ? (
