@@ -173,7 +173,8 @@ export default function BodyMeasurementsList() {
               filterMaxWeight,
               item.weight_unit,
               filterWeightRangeUnit,
-              true
+              true,
+              include0InMaxValuesWeight
             )) &&
           (!filterMap.has("min-bf") ||
             IsNumberWithinLimit(
@@ -205,6 +206,7 @@ export default function BodyMeasurementsList() {
     filterMaxWeight,
     filterMinBodyFatPercentage,
     filterMaxBodyFatPercentage,
+    include0InMaxValuesWeight,
     includeNullInMaxValuesBodyFat,
   ]);
 
