@@ -8,6 +8,7 @@ import {
   BodyMeasurementsAccordions,
   BodyMeasurementsModal,
   DeleteModal,
+  FilterBodyMeasurementsListModal,
   ListFilters,
   ListPageSearchInput,
   LoadingSpinner,
@@ -82,6 +83,7 @@ export default function BodyMeasurementsList() {
   const deleteModal = useDisclosure();
   const bodyMeasurementsModal = useDisclosure();
   const timeInputModal = useDisclosure();
+  const filterBodyMeasurementsListModal = useDisclosure();
 
   const {
     setActiveMeasurements,
@@ -560,6 +562,12 @@ export default function BodyMeasurementsList() {
         value={operatingBodyMeasurements.date}
         saveButtonAction={updateBodyMeasurementsTimeStamp}
       />
+      <FilterBodyMeasurementsListModal
+        filterBodyMeasurementsListModal={filterBodyMeasurementsListModal}
+        useListFilters={listFilters}
+        locale={userSettings.locale}
+        useMeasurementList={measurementList}
+      />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
           header="Body Measurement List"
@@ -585,10 +593,7 @@ export default function BodyMeasurementsList() {
                     variant="flat"
                     color={filterMap.size > 0 ? "secondary" : "default"}
                     size="sm"
-                    onPress={
-                      // TODO: ADD
-                      () => {}
-                    }
+                    onPress={() => filterBodyMeasurementsListModal.onOpen()}
                   >
                     Filter
                   </Button>
