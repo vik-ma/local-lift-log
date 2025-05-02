@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  Measurement,
   UserSettings,
   BodyMeasurementsOperationType,
   BodyMeasurements,
@@ -15,9 +14,7 @@ import {
 } from "../components";
 import {
   GetUserSettings,
-  GenerateActiveMeasurementString,
   GetValidatedUserSettingsUnits,
-  UpdateUserSetting,
   InsertBodyMeasurementsIntoDatabase,
   DefaultNewBodyMeasurements,
   GetLatestBodyMeasurements,
@@ -63,15 +60,17 @@ export default function LoggingIndex() {
     reassignMeasurement,
   } = useReassignMeasurement(measurementList);
 
-  const bodyMeasurementsInput = useBodyMeasurementsInput();
+  const bodyMeasurementsInput = useBodyMeasurementsInput(
+    userSettings,
+    setUserSettings
+  );
 
   const {
-    activeMeasurements,
-    activeMeasurementsValue,
     setWeightUnit,
     resetBodyMeasurementsInput,
     loadBodyMeasurementsInputs,
     getActiveMeasurements,
+    updateActiveTrackingMeasurementOrder,
   } = bodyMeasurementsInput;
 
   useEffect(() => {
@@ -110,33 +109,6 @@ export default function LoggingIndex() {
     };
 
     setLatestBodyMeasurements(updatedMeasurement);
-  };
-
-  const updateActiveTrackingMeasurementOrder = async (
-    newActiveMeasurements?: Measurement[]
-  ) => {
-    if (userSettings === undefined) return;
-
-    // Use parameter value if passed, otherwise activeMeasurements
-    const updatedActiveMeasurements =
-      newActiveMeasurements ?? activeMeasurements;
-
-    const newActiveTrackingMeasurementIdList: number[] =
-      updatedActiveMeasurements.map((obj) => obj.id);
-
-    const newActiveTrackingMeasurementString: string =
-      GenerateActiveMeasurementString(newActiveTrackingMeasurementIdList);
-
-    const success = await UpdateUserSetting(
-      "active_tracking_measurements",
-      newActiveTrackingMeasurementString,
-      userSettings,
-      setUserSettings
-    );
-
-    if (!success) return;
-
-    activeMeasurementsValue.current = updatedActiveMeasurements;
   };
 
   const reassignLatestMeasurement = async () => {
@@ -305,9 +277,6 @@ export default function LoggingIndex() {
             : addBodyMeasurements
         }
         isEditing={operationType === "edit"}
-        updateActiveTrackingMeasurementOrder={
-          updateActiveTrackingMeasurementOrder
-        }
       />
       <NameInputModal
         nameInputModal={nameInputModal}

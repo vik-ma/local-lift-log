@@ -80,7 +80,10 @@ export default function BodyMeasurementsList() {
 
   const { measurementMap, isMeasurementListLoaded } = measurementList;
 
-  const bodyMeasurementsInput = useBodyMeasurementsInput();
+  const bodyMeasurementsInput = useBodyMeasurementsInput(
+    userSettings,
+    setUserSettings
+  );
 
   const deleteModal = useDisclosure();
   const bodyMeasurementsModal = useDisclosure();
@@ -93,6 +96,7 @@ export default function BodyMeasurementsList() {
     resetBodyMeasurementsInput,
     loadBodyMeasurementsInputs,
     getActiveMeasurements,
+    updateActiveTrackingMeasurementOrder,
   } = bodyMeasurementsInput;
 
   const filterMinAndMaxValueInputsBodyFat = useFilterMinAndMaxValueInputs({
@@ -456,6 +460,10 @@ export default function BodyMeasurementsList() {
     const updatedBodyMeasurements = [...bodyMeasurements, newBodyMeasurements];
 
     sortBodyMeasurementsByActiveCategory(updatedBodyMeasurements);
+
+    if (userSettings.automatically_update_active_measurements === 1) {
+      updateActiveTrackingMeasurementOrder();
+    }
 
     resetBodyMeasurements();
     bodyMeasurementsModal.onClose();

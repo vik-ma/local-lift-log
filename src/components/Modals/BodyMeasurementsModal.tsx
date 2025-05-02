@@ -30,9 +30,6 @@ type BodyMeasurementsModalProps = {
   useMeasurementList: UseMeasurementListReturnType;
   doneButtonAction: () => void;
   isEditing: boolean;
-  updateActiveTrackingMeasurementOrder?: (
-    newActiveMeasurements?: Measurement[]
-  ) => void;
 };
 
 type ModalPage = "base" | "measurement-list";
@@ -43,7 +40,6 @@ export const BodyMeasurementsModal = ({
   useMeasurementList,
   doneButtonAction,
   isEditing,
-  updateActiveTrackingMeasurementOrder = () => {},
 }: BodyMeasurementsModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
@@ -63,6 +59,7 @@ export const BodyMeasurementsModal = ({
     handleActiveMeasurementInputChange,
     activeMeasurements,
     setActiveMeasurements,
+    updateActiveTrackingMeasurementOrder,
   } = useBodyMeasurementInputs;
 
   const handleMeasurementClick = (measurement: Measurement) => {
