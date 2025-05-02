@@ -12,6 +12,7 @@ import {
   ListFilters,
   ListPageSearchInput,
   LoadingSpinner,
+  NameInputModal,
   TimeInputModal,
 } from "../components";
 import {
@@ -19,6 +20,7 @@ import {
   useFilterMinAndMaxValueInputs,
   useListFilters,
   useMeasurementList,
+  useReassignMeasurement,
 } from "../hooks";
 import {
   ConvertWeightToKg,
@@ -106,6 +108,15 @@ export default function BodyMeasurementsList() {
     measurementMap: measurementMap.current,
     filterMinAndMaxValueInputsSecondary: filterMinAndMaxValueInputsBodyFat,
   });
+
+  const {
+    newMeasurementName,
+    setNewMeasurementName,
+    isNewMeasurementNameValid,
+    nameInputModal,
+    handleReassignMeasurement,
+    reassignMeasurement,
+  } = useReassignMeasurement(measurementList);
 
   const {
     filterMap,
@@ -528,6 +539,21 @@ export default function BodyMeasurementsList() {
     timeInputModal.onClose();
   };
 
+  const reassignUserMeasurements = async () => {
+    if (userSettings === undefined) return;
+
+    const success = await reassignMeasurement(bodyMeasurements);
+
+    if (!success) return;
+
+    await getBodyMeasurements(userSettings.clock_style);
+
+    resetBodyMeasurements();
+
+    nameInputModal.onClose();
+    toast.success("Measurement Reassigned");
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -565,6 +591,14 @@ export default function BodyMeasurementsList() {
         locale={userSettings.locale}
         value={operatingBodyMeasurements.date}
         saveButtonAction={updateBodyMeasurementsTimeStamp}
+      />
+      <NameInputModal
+        nameInputModal={nameInputModal}
+        name={newMeasurementName}
+        setName={setNewMeasurementName}
+        header="Enter Measurement Name"
+        isNameValid={isNewMeasurementNameValid}
+        buttonAction={reassignUserMeasurements}
       />
       <FilterBodyMeasurementsListModal
         filterBodyMeasurementsListModal={filterBodyMeasurementsListModal}
@@ -661,10 +695,7 @@ export default function BodyMeasurementsList() {
           handleBodyMeasurementsOptionSelection={
             handleBodyMeasurementsOptionSelection
           }
-          handleReassignMeasurement={
-            // TODO: ADD
-            () => {}
-          }
+          handleReassignMeasurement={handleReassignMeasurement}
         />
       </div>
     </>
