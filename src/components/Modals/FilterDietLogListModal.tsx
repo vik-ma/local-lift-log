@@ -91,7 +91,7 @@ export const FilterDietLogListModal = ({
                         }
                       />
                     </div>
-                    <div className="flex flex-col gap-px">
+                    <div className="flex flex-col">
                       <h3 className="text-lg font-semibold px-0.5">Fat</h3>
                       <FilterMinAndMaxValues
                         setFilterMinValue={setFilterMinFat}
@@ -104,7 +104,7 @@ export const FilterDietLogListModal = ({
                         setIncludeNullInMaxValues={setIncludeNullInMaxValuesFat}
                       />
                     </div>
-                    <div className="flex flex-col gap-px">
+                    <div className="flex flex-col">
                       <h3 className="text-lg font-semibold px-0.5">Carbs</h3>
                       <FilterMinAndMaxValues
                         setFilterMinValue={setFilterMinCarbs}
@@ -119,7 +119,7 @@ export const FilterDietLogListModal = ({
                         }
                       />
                     </div>
-                    <div className="flex flex-col gap-px">
+                    <div className="flex flex-col">
                       <h3 className="text-lg font-semibold px-0.5">Protein</h3>
                       <FilterMinAndMaxValues
                         setFilterMinValue={setFilterMinProtein}

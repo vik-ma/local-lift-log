@@ -57,71 +57,14 @@ export const FilterMinAndMaxValues = ({
   }, [maxInput, isMaxInputInvalid]);
 
   return (
-    <div className="flex items-center gap-5">
-      <div
-        className={
-          isSmall
-            ? "w-[6rem] flex flex-col gap-0.5 whitespace-nowrap"
-            : "w-[6.5rem] flex flex-col gap-0.5 whitespace-nowrap"
-        }
-      >
-        <h4
-          className={
-            isMinInputInvalid
-              ? "text-base font-semibold px-0.5 text-danger"
-              : "text-base font-semibold px-0.5 text-default-500"
-          }
-        >
-          Min {label}
-        </h4>
-        <Input
-          aria-label={`Min ${label} Input`}
-          className="h-[3.5rem]"
-          value={minInput}
-          variant="faded"
-          onValueChange={setMinInput}
-          isInvalid={isMinInputInvalid}
-          isClearable
-        />
-      </div>
-      <div
-        className={
-          isSmall
-            ? "w-[6rem] flex flex-col gap-0.5 whitespace-nowrap"
-            : "w-[6.5rem] flex flex-col gap-0.5 whitespace-nowrap"
-        }
-      >
-        <h4
-          className={
-            isMaxInputInvalid || isMaxValueBelowMinValue
-              ? "text-base font-semibold px-0.5 text-danger"
-              : "text-base font-semibold px-0.5 text-default-500"
-          }
-        >
-          Max {label}
-        </h4>
-        <Input
-          aria-label={`Max ${label} Input`}
-          className="h-[3.5rem]"
-          value={maxInput}
-          variant="faded"
-          onValueChange={setMaxInput}
-          isInvalid={isMaxInputInvalid || isMaxValueBelowMinValue}
-          isClearable
-          errorMessage={
-            isMaxValueBelowMinValue && (
-              <span className="text-nowrap">Max Value is below Min Value</span>
-            )
-          }
-        />
-      </div>
+    <div className="flex flex-col">
       {includeNullInMaxValues !== undefined &&
-        setIncludeNullInMaxValues !== undefined &&
-        !IsStringEmpty(maxInput) && (
-          <div className="w-[8rem]">
+        setIncludeNullInMaxValues !== undefined && (
+          <div className="pb-[5px] px-px">
             <Checkbox
               className="hover:underline"
               classNames={{ label: "text-sm" }}
+              size="sm"
               color="primary"
               isSelected={includeNullInMaxValues}
               onValueChange={setIncludeNullInMaxValues}
@@ -132,6 +75,67 @@ export const FilterMinAndMaxValues = ({
             </Checkbox>
           </div>
         )}
+      <div className="flex items-center gap-5">
+        <div
+          className={
+            isSmall
+              ? "w-[6rem] flex flex-col gap-0.5 whitespace-nowrap"
+              : "w-[6.5rem] flex flex-col gap-0.5 whitespace-nowrap"
+          }
+        >
+          <h4
+            className={
+              isMinInputInvalid
+                ? "text-base font-semibold px-0.5 text-danger"
+                : "text-base font-semibold px-0.5 text-default-500"
+            }
+          >
+            Min {label}
+          </h4>
+          <Input
+            aria-label={`Min ${label} Input`}
+            className="h-[3.5rem]"
+            value={minInput}
+            variant="faded"
+            onValueChange={setMinInput}
+            isInvalid={isMinInputInvalid}
+            isClearable
+          />
+        </div>
+        <div
+          className={
+            isSmall
+              ? "w-[6rem] flex flex-col gap-0.5 whitespace-nowrap"
+              : "w-[6.5rem] flex flex-col gap-0.5 whitespace-nowrap"
+          }
+        >
+          <h4
+            className={
+              isMaxInputInvalid || isMaxValueBelowMinValue
+                ? "text-base font-semibold px-0.5 text-danger"
+                : "text-base font-semibold px-0.5 text-default-500"
+            }
+          >
+            Max {label}
+          </h4>
+          <Input
+            aria-label={`Max ${label} Input`}
+            className="h-[3.5rem]"
+            value={maxInput}
+            variant="faded"
+            onValueChange={setMaxInput}
+            isInvalid={isMaxInputInvalid || isMaxValueBelowMinValue}
+            isClearable
+            errorMessage={
+              isMaxValueBelowMinValue && (
+                <span className="text-nowrap">
+                  Max Value is below Min Value
+                </span>
+              )
+            }
+          />
+        </div>
+      </div>
     </div>
   );
 };

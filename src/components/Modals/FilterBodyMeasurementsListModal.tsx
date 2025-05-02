@@ -118,8 +118,7 @@ export const FilterBodyMeasurementsListModal = ({
                             showBigLabel
                           />
                         </div>
-
-                        <div className="flex flex-col gap-px">
+                        <div className="flex flex-col">
                           <h3 className="text-lg font-semibold px-0.5">
                             Body Fat Percentage
                           </h3>
