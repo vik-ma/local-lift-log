@@ -6,7 +6,7 @@ import {
   BodyMeasurementsModal,
   NameInputModal,
   ListPageSearchInput,
-  FilterUserMeasurementListModal,
+  FilterBodyMeasurementsListModal,
   ListFilters,
   TimeInputModal,
 } from "../components";
@@ -165,7 +165,7 @@ export default function UserMeasurementList() {
 
     bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Added");
-    };
+  };
 
   const updateUserMeasurements = async () => {
     if (
@@ -401,7 +401,7 @@ export default function UserMeasurementList() {
         isNameValid={isNewMeasurementNameValid}
         buttonAction={reassignUserMeasurements}
       />
-      <FilterUserMeasurementListModal
+      <FilterBodyMeasurementsListModal
         filterUserMeasurementListModal={filterUserMeasurementListModal}
         useListFilters={listFilters}
         locale={userSettings.locale}

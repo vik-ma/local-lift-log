@@ -79,7 +79,7 @@ export { RoutineListModal } from "./Modals/RoutineListModal";
 export { FilterUserWeightListModal } from "./Modals/FilterUserWeightListModal";
 export { FilterWorkoutListModal } from "./Modals/FilterWorkoutListModal";
 export { FilterExerciseGroupsModal } from "./Modals/FilterExerciseGroupsModal";
-export { FilterUserMeasurementListModal } from "./Modals/FilterUserMeasurementListModal";
+export { FilterBodyMeasurementsListModal } from "./Modals/FilterBodyMeasurementsListModal";
 export { FilterWorkoutTemplateListModal } from "./Modals/FilterWorkoutTemplateListModal";
 export { FilterRoutineListModal } from "./Modals/FilterRoutineListModal";
 export { FilterPresetsListModal } from "./Modals/FilterPresetsListModal";

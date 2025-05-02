@@ -15,8 +15,8 @@ import {
 import { FilterDateRangeAndWeekdays, MeasurementModalList } from "..";
 import { useMemo, useState } from "react";
 
-type FilterUserMeasurementListModalProps = {
-  filterUserMeasurementListModal: UseDisclosureReturnType;
+type FilterBodyMeasurementsListModalProps = {
+  filterBodyMeasurementsListModal: UseDisclosureReturnType;
   useListFilters: UseListFiltersReturnType;
   locale: string;
   useMeasurementList: UseMeasurementListReturnType;
@@ -24,12 +24,12 @@ type FilterUserMeasurementListModalProps = {
 
 type ModalPage = "base" | "measurement-list";
 
-export const FilterUserMeasurementListModal = ({
-  filterUserMeasurementListModal,
+export const FilterBodyMeasurementsListModal = ({
+  filterBodyMeasurementsListModal,
   useListFilters,
   locale,
   useMeasurementList,
-}: FilterUserMeasurementListModalProps) => {
+}: FilterBodyMeasurementsListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
   const {
@@ -53,8 +53,8 @@ export const FilterUserMeasurementListModal = ({
 
   return (
     <Modal
-      isOpen={filterUserMeasurementListModal.isOpen}
-      onOpenChange={filterUserMeasurementListModal.onOpenChange}
+      isOpen={filterBodyMeasurementsListModal.isOpen}
+      onOpenChange={filterBodyMeasurementsListModal.onOpenChange}
     >
       <ModalContent>
         {(onClose) => (
@@ -149,7 +149,7 @@ export const FilterUserMeasurementListModal = ({
                       ? () =>
                           handleFilterSaveButton(
                             locale,
-                            filterUserMeasurementListModal
+                            filterBodyMeasurementsListModal
                           )
                       : () => setModalPage("base")
                   }
