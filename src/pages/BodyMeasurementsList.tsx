@@ -93,16 +93,16 @@ export default function BodyMeasurementsList() {
     getActiveMeasurements,
   } = bodyMeasurementsInput;
 
-  const filterMinAndMaxValueInputsSecondary = useFilterMinAndMaxValueInputs({
+  const filterMinAndMaxValueInputsBodyFat = useFilterMinAndMaxValueInputs({
     maxValue: 100,
   });
 
-  const [includeNullInMaxValuesSecondary, setIncludeNullInMaxValuesSecondary] =
+  const [includeNullInMaxValuesBodyFat, setIncludeNullInMaxValuesBodyFat] =
     useState<boolean>(false);
 
   const listFilters = useListFilters({
     measurementMap: measurementMap.current,
-    filterMinAndMaxValueInputsSecondary: filterMinAndMaxValueInputsSecondary,
+    filterMinAndMaxValueInputsSecondary: filterMinAndMaxValueInputsBodyFat,
   });
 
   const {
@@ -184,7 +184,7 @@ export default function BodyMeasurementsList() {
               item.body_fat_percentage,
               filterMaxBodyFatPercentage,
               true,
-              includeNullInMaxValuesSecondary
+              includeNullInMaxValuesBodyFat
             ))
       );
     }
@@ -203,7 +203,7 @@ export default function BodyMeasurementsList() {
     filterMaxWeight,
     filterMinBodyFatPercentage,
     filterMaxBodyFatPercentage,
-    includeNullInMaxValuesSecondary,
+    includeNullInMaxValuesBodyFat,
   ]);
 
   const getBodyMeasurements = async (clockStyle: string) => {
@@ -567,11 +567,9 @@ export default function BodyMeasurementsList() {
         useListFilters={listFilters}
         locale={userSettings.locale}
         useMeasurementList={measurementList}
-        filterMinAndMaxValueInputsSecondary={
-          filterMinAndMaxValueInputsSecondary
-        }
-        includeNullInMaxValuesSecondary={includeNullInMaxValuesSecondary}
-        setIncludeNullInMaxValuesSecondary={setIncludeNullInMaxValuesSecondary}
+        filterMinAndMaxValueInputsBodyFat={filterMinAndMaxValueInputsBodyFat}
+        includeNullInMaxValuesBodyFat={includeNullInMaxValuesBodyFat}
+        setIncludeNullInMaxValuesBodyFat={setIncludeNullInMaxValuesBodyFat}
       />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput

@@ -26,9 +26,9 @@ type FilterBodyMeasurementsListModalProps = {
   useListFilters: UseListFiltersReturnType;
   locale: string;
   useMeasurementList: UseMeasurementListReturnType;
-  filterMinAndMaxValueInputsSecondary: UseFilterMinAndMaxValueInputsReturnType;
-  includeNullInMaxValuesSecondary: boolean;
-  setIncludeNullInMaxValuesSecondary: React.Dispatch<
+  filterMinAndMaxValueInputsBodyFat: UseFilterMinAndMaxValueInputsReturnType;
+  includeNullInMaxValuesBodyFat: boolean;
+  setIncludeNullInMaxValuesBodyFat: React.Dispatch<
     React.SetStateAction<boolean>
   >;
 };
@@ -40,9 +40,9 @@ export const FilterBodyMeasurementsListModal = ({
   useListFilters,
   locale,
   useMeasurementList,
-  filterMinAndMaxValueInputsSecondary,
-  includeNullInMaxValuesSecondary,
-  setIncludeNullInMaxValuesSecondary,
+  filterMinAndMaxValueInputsBodyFat,
+  includeNullInMaxValuesBodyFat,
+  setIncludeNullInMaxValuesBodyFat,
 }: FilterBodyMeasurementsListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
@@ -127,13 +127,13 @@ export const FilterBodyMeasurementsListModal = ({
                             setFilterMaxValue={setFilterMaxBodyFatPercentage}
                             label="%"
                             useFilterMinAndMaxValueInputs={
-                              filterMinAndMaxValueInputsSecondary
+                              filterMinAndMaxValueInputsBodyFat
                             }
                             includeNullInMaxValues={
-                              includeNullInMaxValuesSecondary
+                              includeNullInMaxValuesBodyFat
                             }
                             setIncludeNullInMaxValues={
-                              setIncludeNullInMaxValuesSecondary
+                              setIncludeNullInMaxValuesBodyFat
                             }
                           />
                         </div>
@@ -218,7 +218,7 @@ export const FilterBodyMeasurementsListModal = ({
                     modalPage === "base" &&
                     (isMaxDateBeforeMinDate ||
                       filterMinAndMaxValueInputs.isFilterInvalid ||
-                      filterMinAndMaxValueInputsSecondary.isFilterInvalid)
+                      filterMinAndMaxValueInputsBodyFat.isFilterInvalid)
                   }
                 >
                   {modalPage === "base" ? "Filter" : "Done"}
