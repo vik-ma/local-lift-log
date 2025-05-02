@@ -9,10 +9,16 @@ import {
 } from "@heroui/react";
 import {
   UseDisclosureReturnType,
+  UseFilterMinAndMaxValueInputsReturnType,
   UseListFiltersReturnType,
   UseMeasurementListReturnType,
 } from "../../typings";
-import { FilterDateRangeAndWeekdays, MeasurementModalList } from "..";
+import {
+  FilterDateRangeAndWeekdays,
+  FilterMinAndMaxValues,
+  MeasurementModalList,
+  WeightUnitDropdown,
+} from "..";
 import { useMemo, useState } from "react";
 
 type FilterBodyMeasurementsListModalProps = {
@@ -20,6 +26,11 @@ type FilterBodyMeasurementsListModalProps = {
   useListFilters: UseListFiltersReturnType;
   locale: string;
   useMeasurementList: UseMeasurementListReturnType;
+  filterMinAndMaxValueInputsSecondary: UseFilterMinAndMaxValueInputsReturnType;
+  includeNullInMaxValuesSecondary: boolean;
+  setIncludeNullInMaxValuesSecondary: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
 };
 
 type ModalPage = "base" | "measurement-list";
@@ -29,6 +40,9 @@ export const FilterBodyMeasurementsListModal = ({
   useListFilters,
   locale,
   useMeasurementList,
+  filterMinAndMaxValueInputsSecondary,
+  includeNullInMaxValuesSecondary,
+  setIncludeNullInMaxValuesSecondary,
 }: FilterBodyMeasurementsListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
@@ -41,6 +55,13 @@ export const FilterBodyMeasurementsListModal = ({
     filterMeasurementsString,
     handleClickMeasurement,
     isMaxDateBeforeMinDate,
+    filterMinAndMaxValueInputs,
+    setFilterMinWeight,
+    setFilterMaxWeight,
+    filterWeightRangeUnit,
+    setFilterWeightRangeUnit,
+    setFilterMinBodyFatPercentage,
+    setFilterMaxBodyFatPercentage,
   } = useListFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -73,35 +94,76 @@ export const FilterBodyMeasurementsListModal = ({
                 />
               ) : (
                 <ScrollShadow className="h-[400px]">
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-4 w-[24rem]">
                     <FilterDateRangeAndWeekdays
                       useListFilters={useListFilters}
                       locale={locale}
                     />
-                    <div className="flex flex-col">
-                      <h3 className="font-semibold text-lg px-0.5">
-                        Measurements{" "}
-                        {filterMeasurements.size > 0 &&
-                          `(${filterMeasurements.size})`}
-                      </h3>
-                      <div className="flex justify-between items-center pl-[3px]">
-                        <div
-                          className={
-                            filterMeasurements.size === 0
-                              ? "w-[15rem] text-sm break-words text-stone-400"
-                              : "w-[15rem] text-sm break-words text-secondary"
-                          }
-                        >
-                          {filterMeasurementsString}
+                    <div className="flex flex-col gap-0.5">
+                      <div className="flex flex-col gap-px">
+                        <h3 className="text-lg font-semibold px-0.5">Weight</h3>
+                        <div className="flex gap-5">
+                          <FilterMinAndMaxValues
+                            setFilterMinValue={setFilterMinWeight}
+                            setFilterMaxValue={setFilterMaxWeight}
+                            label="Weight"
+                            useFilterMinAndMaxValueInputs={
+                              filterMinAndMaxValueInputs
+                            }
+                          />
+                          <WeightUnitDropdown
+                            value={filterWeightRangeUnit}
+                            setState={setFilterWeightRangeUnit}
+                            targetType="state"
+                            showBigLabel
+                          />
                         </div>
-                        <Button
-                          className="w-[9rem]"
-                          variant="flat"
-                          size="sm"
-                          onPress={() => setModalPage("measurement-list")}
-                        >
-                          Filter Measurements
-                        </Button>
+
+                        <div className="flex flex-col gap-px">
+                          <h3 className="text-lg font-semibold px-0.5">
+                            Body Fat Percentage
+                          </h3>
+                          <FilterMinAndMaxValues
+                            setFilterMinValue={setFilterMinBodyFatPercentage}
+                            setFilterMaxValue={setFilterMaxBodyFatPercentage}
+                            label="%"
+                            useFilterMinAndMaxValueInputs={
+                              filterMinAndMaxValueInputsSecondary
+                            }
+                            includeNullInMaxValues={
+                              includeNullInMaxValuesSecondary
+                            }
+                            setIncludeNullInMaxValues={
+                              setIncludeNullInMaxValuesSecondary
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col">
+                        <h3 className="font-semibold text-lg px-0.5">
+                          Measurements{" "}
+                          {filterMeasurements.size > 0 &&
+                            `(${filterMeasurements.size})`}
+                        </h3>
+                        <div className="flex justify-between items-center pl-[3px]">
+                          <div
+                            className={
+                              filterMeasurements.size === 0
+                                ? "w-[15rem] text-sm break-words text-stone-400"
+                                : "w-[15rem] text-sm break-words text-secondary"
+                            }
+                          >
+                            {filterMeasurementsString}
+                          </div>
+                          <Button
+                            className="w-[9rem]"
+                            variant="flat"
+                            size="sm"
+                            onPress={() => setModalPage("measurement-list")}
+                          >
+                            Filter Measurements
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -153,7 +215,12 @@ export const FilterBodyMeasurementsListModal = ({
                           )
                       : () => setModalPage("base")
                   }
-                  isDisabled={modalPage === "base" && isMaxDateBeforeMinDate}
+                  isDisabled={
+                    modalPage === "base" &&
+                    (isMaxDateBeforeMinDate ||
+                      filterMinAndMaxValueInputs.isFilterInvalid ||
+                      filterMinAndMaxValueInputsSecondary.isFilterInvalid)
+                  }
                 >
                   {modalPage === "base" ? "Filter" : "Done"}
                 </Button>

@@ -567,6 +567,11 @@ export default function BodyMeasurementsList() {
         useListFilters={listFilters}
         locale={userSettings.locale}
         useMeasurementList={measurementList}
+        filterMinAndMaxValueInputsSecondary={
+          filterMinAndMaxValueInputsSecondary
+        }
+        includeNullInMaxValuesSecondary={includeNullInMaxValuesSecondary}
+        setIncludeNullInMaxValuesSecondary={setIncludeNullInMaxValuesSecondary}
       />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
