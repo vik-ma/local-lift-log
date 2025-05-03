@@ -131,17 +131,6 @@ diesel::table! {
 }
 
 diesel::table! {
-    user_weights (id) {
-        id -> Integer,
-        weight -> Float,
-        weight_unit -> Text,
-        date -> Text,
-        comment -> Nullable<Text>,
-        body_fat_percentage -> Nullable<Float>,
-    }
-}
-
-diesel::table! {
     equipment_weights (id) {
         id -> Integer,
         name -> Text,
@@ -168,15 +157,6 @@ diesel::table! {
         default_unit -> Text,
         measurement_type -> Text,
         is_favorite -> Integer,
-    }
-}
-
-diesel::table! {
-    user_measurements (id) {
-        id -> Integer,
-        date -> Text,
-        comment -> Nullable<Text>,
-        measurement_values -> Text,
     }
 }
 

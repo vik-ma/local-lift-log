@@ -138,18 +138,6 @@ pub struct Workout {
 }
 
 #[derive(Queryable, Selectable)]
-#[diesel(table_name = crate::schema::user_weights)]
-#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
-pub struct UserWeight {
-    pub id: i32,
-    pub weight: f32,
-    pub weight_unit: String,
-    pub date: String,
-    pub comment: Option<String>,
-    pub body_fat_percentage: Option<f32>,
-}
-
-#[derive(Queryable, Selectable)]
 #[diesel(table_name = crate::schema::equipment_weights)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct EquipmentWeight {
@@ -180,16 +168,6 @@ pub struct Measurement {
     pub default_unit: String,
     pub measurement_type: String,
     pub is_favorite: SmallInt,
-}
-
-#[derive(Queryable, Selectable)]
-#[diesel(table_name = crate::schema::user_measurements)]
-#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
-pub struct UserMeasurement {
-    pub id: i32,
-    pub date: String,
-    pub comment: Option<String>,
-    pub measurement_values: String,
 }
 
 #[derive(Queryable, Selectable)]
