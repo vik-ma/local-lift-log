@@ -1,4 +1,4 @@
-export const FormatNumUserMeasurementEntriesString = (
+export const FormatNumBodyMeasurementsEntriesString = (
   num: number | undefined
 ) => {
   if (num === 1) return "1 Measurement Recorded";

@@ -32,7 +32,7 @@ import {
   GenerateActiveMeasurementString,
   UpdateItemInList,
   DeleteItemFromList,
-  FormatNumUserMeasurementEntriesString,
+  FormatNumBodyMeasurementsEntriesString,
   GetValidatedUserSettingsUnits,
   UpdateUserSetting,
 } from "../helpers";
@@ -442,7 +442,7 @@ export default function MeasurementList() {
                     </span>
                     {measurement.numBodyMeasurementsEntries! > 0 && (
                       <span className="w-[13.5rem] truncate text-xs text-secondary text-left">
-                        {FormatNumUserMeasurementEntriesString(
+                        {FormatNumBodyMeasurementsEntriesString(
                           measurement.numBodyMeasurementsEntries
                         )}
                       </span>

@@ -10,7 +10,7 @@ import { Measurement, UseMeasurementListReturnType } from "../../typings";
 import { CheckmarkIcon, GoToArrowIcon } from "../../assets";
 import { Link, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
-import { FormatNumUserMeasurementEntriesString } from "../../helpers";
+import { FormatNumBodyMeasurementsEntriesString } from "../../helpers";
 
 type MeasurementModalListProps = {
   useMeasurementList: UseMeasurementListReturnType;
@@ -121,7 +121,7 @@ export const MeasurementModalList = ({
                           : "w-[21rem] truncate text-xs text-secondary text-left"
                       }
                     >
-                      {FormatNumUserMeasurementEntriesString(
+                      {FormatNumBodyMeasurementsEntriesString(
                         measurement.numBodyMeasurementsEntries
                       )}
                     </span>

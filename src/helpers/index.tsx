@@ -225,7 +225,7 @@ export { FormatSetsCompletedString } from "./Strings/FormatSetsCompletedString";
 export { FormatNumItemsString } from "./Strings/FormatNumItemsString";
 export { ReplaceIdsInOrderString } from "./Strings/ReplaceIdsInOrderString";
 export { IsCalculationStringValid } from "./Strings/IsCalculationStringValid";
-export { FormatNumUserMeasurementEntriesString } from "./Strings/FormatNumUserMeasurementEntriesString";
+export { FormatNumBodyMeasurementsEntriesString } from "./Strings/FormatNumBodyMeasurementsEntriesString";
 export { GetSpeedUnitFromDistanceUnit } from "./Strings/GetSpeedUnitFromDistanceUnit";
 export { GetPaceUnitFromDistanceUnit } from "./Strings/GetPaceUnitFromDistanceUnit";
 
