@@ -13,11 +13,9 @@ import {
   WorkoutListPage,
   WorkoutDetailsPage,
   LoggingIndexPage,
-  UserWeightListPage,
   PresetsPage,
   MeasurementListPage,
   TestPage,
-  UserMeasurementListPage,
   MultisetsPage,
   TimePeriodListPage,
   DietLogIndexPage,
@@ -79,11 +77,6 @@ function App() {
               <Route
                 path="measurement-list"
                 element={<MeasurementListPage />}
-              />
-              <Route path="body-weight-list" element={<UserWeightListPage />} />
-              <Route
-                path="user-measurement-list"
-                element={<UserMeasurementListPage />}
               />
             </Route>
             <Route path="/presets" element={<PresetsPage />} />

@@ -254,16 +254,6 @@ export type Workout = {
   exerciseGroupSetSecondary?: Set<string>;
 };
 
-export type UserWeight = {
-  id: number;
-  weight: number;
-  weight_unit: string;
-  date: string;
-  formattedDate: string;
-  comment: string | null;
-  body_fat_percentage: number | null;
-};
-
 export type EquipmentWeight = {
   id: number;
   name: string;
@@ -291,18 +281,6 @@ export type Measurement = {
 };
 
 export type MeasurementMap = Map<string, Measurement>;
-
-export type UserMeasurement = {
-  id: number;
-  date: string;
-  comment: string | null;
-  measurement_values: string;
-  measurementListText?: ReactNode;
-  formattedDate?: string;
-  isExpanded?: boolean;
-  userMeasurementValues?: BodyMeasurementsValues;
-  isInvalid?: boolean;
-};
 
 export type BodyMeasurementsValues = {
   [key: string]: {
@@ -842,12 +820,6 @@ export type UseMeasurementListReturnType = {
   getMeasurements: () => Promise<void>;
 };
 
-export type useUserMeasurementInputsReturnType = {
-  invalidMeasurementInputs: Set<number>;
-  areActiveMeasurementsValid: boolean;
-  handleActiveMeasurementInputChange: (value: string, index: number) => void;
-};
-
 export type WorkoutTemplateMap = Map<number, WorkoutTemplate>;
 
 export type MultisetModalPage =
@@ -1175,22 +1147,6 @@ export type FilterMinAndMaxValuesSetStateMap = Map<
 >;
 
 export type RoutineScheduleTypeMap = Map<number, string>;
-
-export type UseUserWeightInputsReturnType = {
-  userWeightInput: string;
-  setUserWeightInput: React.Dispatch<React.SetStateAction<string>>;
-  weightUnit: string;
-  setWeightUnit: React.Dispatch<React.SetStateAction<string>>;
-  commentInput: string;
-  setCommentInput: React.Dispatch<React.SetStateAction<string>>;
-  bodyFatPercentageInput: string;
-  setBodyFatPercentageInput: React.Dispatch<React.SetStateAction<string>>;
-  isWeightInputValid: boolean;
-  isBodyFatPercentageInputValid: boolean;
-  isUserWeightValid: boolean;
-  resetUserWeightInput: () => void;
-  loadUserWeightInputs: (userWeight: UserWeight) => void;
-};
 
 export type UseDateRangeReturnType = {
   startDate: CalendarDate | null;
