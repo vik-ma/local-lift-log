@@ -16,6 +16,8 @@ export const CreateDetailedBodyMeasurementsList = (
   for (let i = 0; i < bodyMeasurementsList.length; i++) {
     const bodyMeasurements = bodyMeasurementsList[i];
 
+    if (bodyMeasurements.weight < 0) continue;
+
     const formattedDate = FormatDateTimeString(
       bodyMeasurements.date,
       clockStyle === "24h"
