@@ -709,7 +709,7 @@ export default function Analytics() {
     }
   };
 
-  const loadUserWeightListWeights = async (
+  const loadBodyMeasurementsWeight = async (
     weightUnit: string,
     loadPrimary: boolean
   ) => {
@@ -813,7 +813,7 @@ export default function Analytics() {
     isChartDataLoaded.current = true;
   };
 
-  const loadUserWeightListBodyFat = async (loadPrimary: boolean) => {
+  const loadBodyMeasurementsBodyFat = async (loadPrimary: boolean) => {
     if (
       loadedCharts.current.has("body_fat_percentage") ||
       userSettings === undefined
@@ -3448,13 +3448,13 @@ export default function Analytics() {
                   </DropdownItem>
                   <DropdownItem
                     key="user-weights-weight"
-                    onPress={() => loadUserWeightListWeights(weightUnit, true)}
+                    onPress={() => loadBodyMeasurementsWeight(weightUnit, true)}
                   >
                     Body Weights
                   </DropdownItem>
                   <DropdownItem
                     key="user-weights-body-fat"
-                    onPress={() => loadUserWeightListBodyFat(true)}
+                    onPress={() => loadBodyMeasurementsBodyFat(true)}
                   >
                     Body Fat Percentages
                   </DropdownItem>
@@ -3513,13 +3513,15 @@ export default function Analytics() {
                   </DropdownItem>
                   <DropdownItem
                     key="user-weights-weight"
-                    onPress={() => loadUserWeightListWeights(weightUnit, false)}
+                    onPress={() =>
+                      loadBodyMeasurementsWeight(weightUnit, false)
+                    }
                   >
                     Body Weights
                   </DropdownItem>
                   <DropdownItem
                     key="user-weights-body-fat"
-                    onPress={() => loadUserWeightListBodyFat(false)}
+                    onPress={() => loadBodyMeasurementsBodyFat(false)}
                   >
                     Body Fat Percentages
                   </DropdownItem>
