@@ -101,6 +101,7 @@ import {
   GetSpeedUnitFromDistanceUnit,
   GetValidatedUserSettingsUnits,
   GetAllBodyMeasurementsWeights,
+  GetAllBodyMeasurementsBodyFat,
 } from "../helpers";
 import toast from "react-hot-toast";
 
@@ -819,9 +820,9 @@ export default function Analytics() {
     )
       return;
 
-    const userWeights = await GetAllUserWeights(true);
+    const userBodyFatPercentages = await GetAllBodyMeasurementsBodyFat();
 
-    if (userWeights.length === 0) {
+    if (userBodyFatPercentages.length === 0) {
       loadedCharts.current.add("body_weight");
       loadedCharts.current.add("body_fat_percentage");
       toast.error("No Body Weight Entries Recorded");
@@ -843,9 +844,9 @@ export default function Analytics() {
 
     const areCommentsAlreadyLoaded = allChartDataCategories.has("body_weight");
 
-    for (const userWeight of userWeights) {
+    for (const userBodyFat of userBodyFatPercentages) {
       const date = FormatDateToShortString(
-        new Date(userWeight.date),
+        new Date(userBodyFat.date),
         userSettings.locale
       );
 
@@ -858,31 +859,23 @@ export default function Analytics() {
         date,
       };
 
-      if (!areCommentsAlreadyLoaded && userWeight.comment !== null) {
+      if (!areCommentsAlreadyLoaded && userBodyFat.comment !== null) {
         addChartComment(
           updatedChartCommentMap,
           date,
           commentDataKeys,
           commentLabel,
-          userWeight.comment
+          userBodyFat.comment
         );
       }
 
-      if (userWeight.body_fat_percentage !== null) {
-        chartDataItem.body_fat_percentage = userWeight.body_fat_percentage;
+      chartDataItem.body_fat_percentage = userBodyFat.body_fat_percentage;
 
-        if (userWeight.body_fat_percentage > highestValue) {
-          highestValue = userWeight.body_fat_percentage;
-        }
+      if (userBodyFat.body_fat_percentage > highestValue) {
+        highestValue = userBodyFat.body_fat_percentage;
       }
 
       loadedChartData.push(chartDataItem);
-    }
-
-    if (highestValue === 0) {
-      loadedCharts.current.add("body_fat_percentage");
-      toast.error("No Body Fat Percentages Recorded");
-      return;
     }
 
     setChartCommentMap(updatedChartCommentMap);

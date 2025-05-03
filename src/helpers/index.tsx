@@ -163,6 +163,7 @@ export { DeleteBodyMeasurementsWithId } from "./Measurements/DeleteBodyMeasureme
 export { GetAllBodyMeasurements } from "./Measurements/GetAllBodyMeasurements";
 export { UpdateBodyMeasurementsTimestamp } from "./Measurements/UpdateBodyMeasurementsTimestamp";
 export { GetAllBodyMeasurementsWeights } from "./Measurements/GetAllBodyMeasurementsWeights";
+export { GetAllBodyMeasurementsBodyFat } from "./Measurements/GetAllBodyMeasurementsBodyFat";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
