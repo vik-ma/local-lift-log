@@ -720,8 +720,7 @@ export default function Analytics() {
 
     if (userWeights.length === 0) {
       loadedCharts.current.add("body_weight");
-      loadedCharts.current.add("body_fat_percentage");
-      toast.error("No Body Weight Entries Recorded");
+      toast.error("No Body Measurements With Weights Recorded");
       return;
     }
 
@@ -732,12 +731,10 @@ export default function Analytics() {
     const dateSet = new Set<string>();
 
     const updatedChartCommentMap = new Map(chartCommentMap);
-    const commentDataKeys: Set<ChartDataCategory> = new Set([
-      "body_weight",
-      "body_fat_percentage",
-    ]);
-    const commentLabel = "Body Weight Comment";
+    const commentDataKeys: Set<ChartDataCategory> = new Set(["body_weight"]);
+    const commentLabel = "Body Measurements Comment";
 
+    // TODO: FIX
     const areCommentsAlreadyLoaded = allChartDataCategories.has(
       "body_fat_percentage"
     );
@@ -823,9 +820,8 @@ export default function Analytics() {
     const userBodyFatPercentages = await GetAllBodyMeasurementsBodyFat();
 
     if (userBodyFatPercentages.length === 0) {
-      loadedCharts.current.add("body_weight");
       loadedCharts.current.add("body_fat_percentage");
-      toast.error("No Body Weight Entries Recorded");
+      toast.error("No Body Measurements With Body Fat Percentage Recorded");
       return;
     }
 
@@ -837,11 +833,11 @@ export default function Analytics() {
 
     const updatedChartCommentMap = new Map(chartCommentMap);
     const commentDataKeys: Set<ChartDataCategory> = new Set([
-      "body_weight",
       "body_fat_percentage",
     ]);
-    const commentLabel = "Body Weight Comment";
+    const commentLabel = "Body Measurements Comment";
 
+    // TODO: FIX
     const areCommentsAlreadyLoaded = allChartDataCategories.has("body_weight");
 
     for (const userBodyFat of userBodyFatPercentages) {
@@ -945,7 +941,7 @@ export default function Analytics() {
     const commentDataKeys: Set<ChartDataCategory> = new Set([
       measurementIdString,
     ]);
-    const commentLabel = "Body Measurement Comment";
+    const commentLabel = "Body Measurements Comment";
 
     for (const userMeasurement of userMeasurements) {
       const date = FormatDateToShortString(
