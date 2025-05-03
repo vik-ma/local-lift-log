@@ -197,7 +197,6 @@ export const useBodyMeasurementsInput = (
     handleActiveMeasurementInputChange,
     activeMeasurements,
     setActiveMeasurements,
-    activeMeasurementsValue,
     getActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
   };

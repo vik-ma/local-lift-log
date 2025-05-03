@@ -1330,7 +1330,6 @@ export type UseBodyMeasurementsInputReturnType = {
   handleActiveMeasurementInputChange: (value: string, index: number) => void;
   activeMeasurements: Measurement[];
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
-  activeMeasurementsValue: React.RefObject<Measurement[]>;
   getActiveMeasurements: (activeMeasurementsString: string) => void;
   updateActiveTrackingMeasurementOrder: () => void;
 };
