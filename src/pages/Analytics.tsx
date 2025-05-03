@@ -83,10 +83,8 @@ import {
   ConvertWeightValue,
   FormatDateToShortString,
   GetAllDietLogs,
-  GetAllUserWeights,
   GetCompletedSetsWithExerciseId,
   GetTimeCompletedForSetsWithExerciseId,
-  GetUserMeasurementsWithMeasurementId,
   GetUserSettings,
   UpdateLoadExerciseOptions,
   ValidMeasurementUnits,
@@ -102,6 +100,7 @@ import {
   GetPaceUnitFromDistanceUnit,
   GetSpeedUnitFromDistanceUnit,
   GetValidatedUserSettingsUnits,
+  GetAllBodyMeasurementsWeights,
 } from "../helpers";
 import toast from "react-hot-toast";
 
@@ -716,7 +715,7 @@ export default function Analytics() {
     if (loadedCharts.current.has("body_weight") || userSettings === undefined)
       return;
 
-    const userWeights = await GetAllUserWeights(true);
+    const userWeights = await GetAllBodyMeasurementsWeights();
 
     if (userWeights.length === 0) {
       loadedCharts.current.add("body_weight");
