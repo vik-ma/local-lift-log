@@ -20,11 +20,8 @@ import {
   ActiveSetNote,
   Exercise,
   SetListNotes,
-  UserWeight,
-  UseDisclosureReturnType,
   UseSetTrackingInputsReturnType,
 } from "../typings";
-import { useMemo } from "react";
 
 type ActiveSetProps = {
   activeSet: WorkoutSet | undefined;
@@ -71,8 +68,6 @@ type ActiveSetProps = {
     index: number,
     groupedSet: GroupedWorkoutSet
   ) => void;
-  userWeight: UserWeight;
-  userWeightModal: UseDisclosureReturnType;
   populateUserWeightValues: () => void;
   isUserWeightOlderThanOneWeek: boolean;
   clearActiveSetInputValues: () => void;
@@ -105,8 +100,6 @@ export const ActiveSet = ({
   resetSetInputValues,
   saveActiveSet,
   handleToggleSetCommentButton,
-  userWeight,
-  userWeightModal,
   populateUserWeightValues,
   isUserWeightOlderThanOneWeek,
   clearActiveSetInputValues,
@@ -125,15 +118,6 @@ export const ActiveSet = ({
   const exerciseIndex = activeGroupedSet?.isMultiset
     ? activeSet?.set_index ?? 0
     : 0;
-
-  const isUserWeightInvalid: boolean = useMemo(() => {
-    if (activeSet === undefined) return true;
-
-    if (activeSet.is_tracking_user_weight === 1 && userWeight.id === 0)
-      return true;
-
-    return false;
-  }, [activeSet, userWeight]);
 
   return (
     <div>
@@ -341,8 +325,6 @@ export const ActiveSet = ({
                         }
                         useSetTrackingInputs={activeSetInputs}
                         userSettings={userSettings}
-                        userWeight={userWeight}
-                        userWeightModal={userWeightModal}
                         populateUserWeightValues={populateUserWeightValues}
                         isUserWeightOlderThanOneWeek={
                           isUserWeightOlderThanOneWeek
@@ -387,7 +369,6 @@ export const ActiveSet = ({
                           <Button
                             color="primary"
                             isDisabled={
-                              isUserWeightInvalid ||
                               activeSetInputs.isSetTrackingValuesInvalid
                             }
                             onPress={saveActiveSet}

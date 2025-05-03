@@ -12,7 +12,6 @@ import {
   DetailsHeader,
   MultisetModal,
   TextInputModal,
-  UserWeightModal,
   WorkoutTemplateListModal,
   WorkoutListModal,
   CalculationModal,
@@ -44,7 +43,6 @@ import { useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
 import {
   useDetailsHeaderOptionsMenu,
-  useLatestUserWeightInput,
   useWorkoutActions,
   useWorkoutList,
 } from "../hooks";
@@ -57,7 +55,6 @@ export default function WorkoutDetails() {
   const { id } = useParams();
 
   const workoutModal = useDisclosure();
-  const userWeightModal = useDisclosure();
 
   const [workoutComment, setWorkoutComment] = useState<string>("");
   const [workoutTemplateNote, setWorkoutTemplateComment] = useState<
@@ -127,11 +124,7 @@ export default function WorkoutDetails() {
     handleTextInputModalButton,
     handleToggleSetCommentButton,
     numMultisetSets,
-    userWeight,
-    setUserWeight,
-    populateUserWeightValues,
     isUserWeightOlderThanOneWeek,
-    setIsUserWeightOlderThanOneWeek,
     presetsList,
     calculationModal,
     clearActiveSetInputValues,
@@ -184,23 +177,6 @@ export default function WorkoutDetails() {
     "Workout",
     additionalMenuItems
   );
-
-  const latestUserWeightInputs = useLatestUserWeightInput(
-    userWeight,
-    setUserWeight,
-    userWeightModal,
-    userSettings
-  );
-
-  const handleUserWeightModalAddButton = async () => {
-    const { success, weight, weight_unit } =
-      await latestUserWeightInputs.addUserWeight();
-
-    if (!success) return;
-
-    populateUserWeightValues(weight, weight_unit);
-    setIsUserWeightOlderThanOneWeek(false);
-  };
 
   const getWorkoutTemplateComment = async (workoutTemplateId: number) => {
     try {
@@ -532,12 +508,6 @@ export default function WorkoutDetails() {
         header="Set Comment"
         buttonAction={handleTextInputModalButton}
       />
-      <UserWeightModal
-        userWeightModal={userWeightModal}
-        userWeightInputs={latestUserWeightInputs.userWeightInputs}
-        buttonAction={handleUserWeightModalAddButton}
-        isEditing={false}
-      />
       <GroupedWorkoutSetListModal
         groupedWorkoutSetListModal={groupedWorkoutSetListModal}
         operatingGroupedSet={operatingGroupedSet}
@@ -655,9 +625,8 @@ export default function WorkoutDetails() {
           resetSetInputValues={resetSetInputValues}
           saveActiveSet={saveActiveSet}
           handleToggleSetCommentButton={handleToggleSetCommentButton}
-          userWeight={userWeight}
-          userWeightModal={userWeightModal}
-          populateUserWeightValues={populateUserWeightValues}
+          // TODO: FIX
+          populateUserWeightValues={() => {}}
           isUserWeightOlderThanOneWeek={isUserWeightOlderThanOneWeek}
           clearActiveSetInputValues={clearActiveSetInputValues}
           openCalculationModal={openCalculationModal}

@@ -2,8 +2,6 @@ import {
   WorkoutSet,
   UseSetTrackingInputsReturnType,
   UserSettings,
-  UserWeight,
-  UseDisclosureReturnType,
   Exercise,
 } from "../typings";
 import {
@@ -25,8 +23,6 @@ type SetValueInputsProps = {
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   userSettings: UserSettings;
-  userWeight?: UserWeight;
-  userWeightModal?: UseDisclosureReturnType;
   populateUserWeightValues?: () => void;
   isUserWeightOlderThanOneWeek?: boolean;
   exercise: Exercise | undefined;
@@ -62,8 +58,6 @@ export const SetValueInputs = ({
   setOperatingSet,
   useSetTrackingInputs,
   userSettings,
-  userWeight,
-  userWeightModal,
   populateUserWeightValues,
   isUserWeightOlderThanOneWeek,
   exercise,
@@ -79,21 +73,6 @@ export const SetValueInputs = ({
     isSetEdited,
     setIsSetEdited,
   } = useSetTrackingInputs;
-
-  const handleUserWeightButton = () => {
-    if (
-      userWeight === undefined ||
-      userWeightModal === undefined ||
-      populateUserWeightValues === undefined
-    )
-      return;
-
-    if (userWeight.id === 0) {
-      userWeightModal.onOpen();
-    } else {
-      populateUserWeightValues();
-    }
-  };
 
   const disableUpdateValueButtonsMap = useMemo(() => {
     const values: DisableUpdateValueButtonsMapType = {
@@ -660,7 +639,8 @@ export const SetValueInputs = ({
               setIsSetEdited={setIsSetEdited}
             />
           </div>
-          {userWeight && userWeightModal && (
+          {/* TODO: UPDATE FOR NEW */}
+          {/* {userWeight && userWeightModal && (
             <div className="flex flex-col items-center gap-0.5">
               <Button
                 color="secondary"
@@ -687,7 +667,7 @@ export const SetValueInputs = ({
                 </>
               )}
             </div>
-          )}
+          )} */}
         </div>
       )}
     </div>

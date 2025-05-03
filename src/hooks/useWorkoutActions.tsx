@@ -9,7 +9,6 @@ import {
   Workout,
   SetTrackingValuesInput,
   Multiset,
-  UserWeight,
   CalculationListItem,
   PresetsType,
   UseSetTrackingInputsReturnType,
@@ -47,8 +46,6 @@ import {
   DeleteIdFromList,
   AddNewSetsToMultiset,
   FindIndexInList,
-  GetLatestUserWeight,
-  IsDateStringOlderThanOneWeek,
   GetSetsOfLastCompletedExercise,
   CopySetTrackingValues,
   UpdateCalculationString,
@@ -63,7 +60,6 @@ import {
   useMultisetActions,
   useDefaultMultiset,
   useExerciseList,
-  useDefaultUserWeight,
   useCalculationModal,
   usePresetsList,
   useFilterExerciseList,
@@ -119,10 +115,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     useState<boolean>(false);
   const [activeGroupedSet, setActiveGroupedSet] = useState<GroupedWorkoutSet>();
   const [setCommentInput, setSetCommentInput] = useState<string>("");
-
-  const defaultUserWeight = useDefaultUserWeight();
-
-  const [userWeight, setUserWeight] = useState<UserWeight>(defaultUserWeight);
 
   const [numMultisetSets, setNumMultisetSets] = useState<number>(1);
 
@@ -210,16 +202,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         setIncludeSecondaryGroups(
           userSettings.show_secondary_exercise_groups === 1
         );
-
-        if (!isTemplate) {
-          const userWeight = await GetLatestUserWeight(
-            userSettings.clock_style
-          );
-
-          if (userWeight !== undefined) {
-            setUserWeight(userWeight);
-          }
-        }
 
         setFilterWeightRangeUnit(validUnits.weightUnit);
         setFilterDistanceRangeUnit(validUnits.distanceUnit);
@@ -2512,26 +2494,24 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Exercise Reassigned");
   };
 
-  const populateUserWeightValues = (weight?: number, weight_unit?: string) => {
-    if (
-      activeSet === undefined ||
-      (userWeight.id < 1 && weight === undefined && weight_unit === undefined)
-    )
-      return;
-
-    const updatedSet = {
-      ...activeSet,
-      user_weight: weight ?? userWeight.weight,
-      user_weight_unit: weight_unit ?? userWeight.weight_unit,
-    };
-
-    setActiveSet(updatedSet);
-    activeSetInputs.setTrackingValuesInputStrings(updatedSet);
-
-    setIsUserWeightOlderThanOneWeek(
-      IsDateStringOlderThanOneWeek(userWeight.date)
-    );
-  };
+  // TODO: FIX
+  // const populateUserWeightValues = (weight?: number, weight_unit?: string) => {
+  //   if (
+  //     activeSet === undefined ||
+  //     (userWeight.id < 1 && weight === undefined && weight_unit === undefined)
+  //   )
+  //     return;
+  //   const updatedSet = {
+  //     ...activeSet,
+  //     user_weight: weight ?? userWeight.weight,
+  //     user_weight_unit: weight_unit ?? userWeight.weight_unit,
+  //   };
+  //   setActiveSet(updatedSet);
+  //   activeSetInputs.setTrackingValuesInputStrings(updatedSet);
+  //   setIsUserWeightOlderThanOneWeek(
+  //     IsDateStringOlderThanOneWeek(userWeight.date)
+  //   );
+  // };
 
   const handleFillInLastWorkoutSetValues = async (
     groupedSet: GroupedWorkoutSet
@@ -3157,9 +3137,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     handleTextInputModalButton,
     handleToggleSetCommentButton,
     numMultisetSets,
-    userWeight,
-    setUserWeight,
-    populateUserWeightValues,
+    // populateUserWeightValues,
     isUserWeightOlderThanOneWeek,
     setIsUserWeightOlderThanOneWeek,
     presetsList,
