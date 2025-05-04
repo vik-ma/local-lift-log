@@ -173,6 +173,8 @@ export default function Analytics() {
 
   const validCircumferenceUnits = new Set(ValidMeasurementUnits());
 
+  const loadedBodyMeasurementsIds = useRef<Set<number>>(new Set());
+
   const areAllTestLinesAndAreasRendered = useRef<boolean>(false);
 
   const exerciseList = useExerciseList(false, true, true);
@@ -734,11 +736,6 @@ export default function Analytics() {
     const commentDataKeys: Set<ChartDataCategory> = new Set(["body_weight"]);
     const commentLabel = "Body Measurements Comment";
 
-    // TODO: FIX
-    const areCommentsAlreadyLoaded = allChartDataCategories.has(
-      "body_fat_percentage"
-    );
-
     for (const userWeight of userWeights) {
       const date = FormatDateToShortString(
         new Date(userWeight.date),
@@ -754,7 +751,10 @@ export default function Analytics() {
         date,
       };
 
-      if (!areCommentsAlreadyLoaded && userWeight.comment !== null) {
+      if (
+        userWeight.comment !== null &&
+        !loadedBodyMeasurementsIds.current.has(userWeight.id)
+      ) {
         addChartComment(
           updatedChartCommentMap,
           date,
@@ -762,6 +762,8 @@ export default function Analytics() {
           commentLabel,
           userWeight.comment
         );
+
+        loadedBodyMeasurementsIds.current.add(userWeight.id);
       }
 
       chartDataItem.body_weight = ConvertNumberToTwoDecimals(
@@ -837,9 +839,6 @@ export default function Analytics() {
     ]);
     const commentLabel = "Body Measurements Comment";
 
-    // TODO: FIX
-    const areCommentsAlreadyLoaded = allChartDataCategories.has("body_weight");
-
     for (const userBodyFat of userBodyFatPercentages) {
       const date = FormatDateToShortString(
         new Date(userBodyFat.date),
@@ -855,7 +854,10 @@ export default function Analytics() {
         date,
       };
 
-      if (!areCommentsAlreadyLoaded && userBodyFat.comment !== null) {
+      if (
+        userBodyFat.comment !== null &&
+        !loadedBodyMeasurementsIds.current.has(userBodyFat.id)
+      ) {
         addChartComment(
           updatedChartCommentMap,
           date,
@@ -863,6 +865,8 @@ export default function Analytics() {
           commentLabel,
           userBodyFat.comment
         );
+
+        loadedBodyMeasurementsIds.current.add(userBodyFat.id);
       }
 
       chartDataItem.body_fat_percentage = userBodyFat.body_fat_percentage;
@@ -1911,6 +1915,7 @@ export default function Analytics() {
     filteredHighestCategoryValues.current = new Map();
     includesMultisetMap.current = new Map();
     disabledExerciseGroups.current = [];
+    loadedBodyMeasurementsIds.current = new Set();
 
     assignDefaultUnits(userSettings);
 
