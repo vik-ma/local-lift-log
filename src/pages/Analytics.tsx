@@ -3448,19 +3448,19 @@ export default function Analytics() {
                     Measurement
                   </DropdownItem>
                   <DropdownItem
-                    key="user-weights-weight"
+                    key="body_weight"
                     onPress={() => loadBodyMeasurementsWeight(weightUnit, true)}
                   >
                     Body Weights
                   </DropdownItem>
                   <DropdownItem
-                    key="user-weights-body-fat"
+                    key="body_fat_percentage"
                     onPress={() => loadBodyMeasurementsBodyFat(true)}
                   >
                     Body Fat Percentages
                   </DropdownItem>
                   <DropdownItem
-                    key="diet-logs-calories"
+                    key="calories"
                     onPress={() => loadDietLogListCalories(true)}
                   >
                     Calories
@@ -3513,7 +3513,7 @@ export default function Analytics() {
                     Measurement
                   </DropdownItem>
                   <DropdownItem
-                    key="user-weights-weight"
+                    key="body_weight"
                     onPress={() =>
                       loadBodyMeasurementsWeight(weightUnit, false)
                     }
@@ -3521,13 +3521,13 @@ export default function Analytics() {
                     Body Weights
                   </DropdownItem>
                   <DropdownItem
-                    key="user-weights-body-fat"
+                    key="body_fat_percentage"
                     onPress={() => loadBodyMeasurementsBodyFat(false)}
                   >
                     Body Fat Percentages
                   </DropdownItem>
                   <DropdownItem
-                    key="diet-logs-calories"
+                    key="calories"
                     onPress={() => loadDietLogListCalories(false)}
                   >
                     Calories
