@@ -1,6 +1,7 @@
 import Database from "tauri-plugin-sql-api";
 
 type BodyMeasurementsBodyFat = {
+  id: number;
   body_fat_percentage: number;
   date: string;
   comment: string | null;
@@ -12,7 +13,7 @@ export const GetAllBodyMeasurementsBodyFat = async () => {
 
     // Select all rows with valid ISO 8601 date strings and body_fat_percentage is not null
     const result = await db.select<BodyMeasurementsBodyFat[]>(
-      `SELECT body_fat_percentage, date, comment FROM body_measurements
+      `SELECT id, body_fat_percentage, date, comment FROM body_measurements
        WHERE body_fat_percentage IS NOT NULL
         AND date IS NOT NULL 
         AND date LIKE '____-__-__T__:__:__.___Z'
