@@ -78,12 +78,12 @@ function App() {
                 path="measurement-list"
                 element={<MeasurementListPage />}
               />
+              <Route path="diet-log-list" element={<DietLogListPage />} />
             </Route>
             <Route path="/presets" element={<PresetsPage />} />
             <Route path="/time-periods" element={<TimePeriodListPage />} />
             <Route path="/diet-log">
               <Route index element={<DietLogIndexPage />} />
-              <Route path="list" element={<DietLogListPage />} />
             </Route>
             <Route path="/test" element={<TestPage />} />
             <Route path="*" element={<NotFound />} />
