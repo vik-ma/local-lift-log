@@ -3203,7 +3203,7 @@ export default function Analytics() {
                       targetType="chart"
                       changeUnitInChart={handleChangeUnit}
                       customLabel="Weight Unit"
-                      customWidthString="w-[7rem]"
+                      customWidthString="w-[7.75rem]"
                       isSmall
                     />
                   )}
@@ -3213,7 +3213,7 @@ export default function Analytics() {
                       targetType="chart"
                       changeUnitInChart={handleChangeUnit}
                       customLabel="Distance Unit"
-                      customWidthString="w-[7rem]"
+                      customWidthString="w-[7.75rem]"
                       isSmall
                     />
                   )}
@@ -3238,7 +3238,7 @@ export default function Analytics() {
                         value={circumferenceUnit}
                         targetType="chart"
                         changeUnitInChart={handleChangeUnit}
-                        customWidthString="w-[7.5rem]"
+                        customWidthString="w-[7.75rem]"
                         customLabel="Circumference Unit"
                       />
                     )}

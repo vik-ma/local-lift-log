@@ -29,7 +29,7 @@ export const PaceUnitDropdown = ({
         labelPlacement="outside"
         classNames={{
           label: "pl-[3px] mt-1",
-          mainWrapper: "w-[7rem]",
+          mainWrapper: "w-[7.75rem]",
         }}
         size="sm"
         variant="faded"
