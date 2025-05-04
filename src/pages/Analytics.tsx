@@ -102,6 +102,7 @@ import {
   GetValidatedUserSettingsUnits,
   GetAllBodyMeasurementsWeights,
   GetAllBodyMeasurementsBodyFat,
+  GetBodyMeasurementsWithMeasurementId,
 } from "../helpers";
 import toast from "react-hot-toast";
 
@@ -929,7 +930,7 @@ export default function Analytics() {
     if (measurementType !== "Caliper" && measurementType !== "Circumference")
       return;
 
-    const userMeasurements = await GetUserMeasurementsWithMeasurementId(
+    const userMeasurements = await GetBodyMeasurementsWithMeasurementId(
       measurement.id
     );
 

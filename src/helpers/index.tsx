@@ -164,6 +164,7 @@ export { GetAllBodyMeasurements } from "./Measurements/GetAllBodyMeasurements";
 export { UpdateBodyMeasurementsTimestamp } from "./Measurements/UpdateBodyMeasurementsTimestamp";
 export { GetAllBodyMeasurementsWeights } from "./Measurements/GetAllBodyMeasurementsWeights";
 export { GetAllBodyMeasurementsBodyFat } from "./Measurements/GetAllBodyMeasurementsBodyFat";
+export { GetBodyMeasurementsWithMeasurementId } from "./Measurements/GetBodyMeasurementsWithMeasurementId";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
