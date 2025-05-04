@@ -988,7 +988,11 @@ export default function Analytics() {
           )
       );
 
-      if (!areCommentsAlreadyLoaded && userMeasurement.comment !== null) {
+      if (
+        !areCommentsAlreadyLoaded &&
+        userMeasurement.comment !== null &&
+        !loadedBodyMeasurementsIds.current.has(userMeasurement.id)
+      ) {
         addChartComment(
           updatedChartCommentMap,
           date,
@@ -996,6 +1000,8 @@ export default function Analytics() {
           commentLabel,
           userMeasurement.comment
         );
+
+        loadedBodyMeasurementsIds.current.add(userMeasurement.id);
       }
 
       const value =
