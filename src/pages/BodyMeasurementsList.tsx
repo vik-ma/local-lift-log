@@ -547,7 +547,7 @@ export default function BodyMeasurementsList() {
     timeInputModal.onClose();
   };
 
-  const reassignUserMeasurements = async () => {
+  const reassignBodyMeasurements = async () => {
     if (userSettings === undefined) return;
 
     const success = await reassignMeasurement(bodyMeasurements);
@@ -606,7 +606,7 @@ export default function BodyMeasurementsList() {
         setName={setNewMeasurementName}
         header="Enter Measurement Name"
         isNameValid={isNewMeasurementNameValid}
-        buttonAction={reassignUserMeasurements}
+        buttonAction={reassignBodyMeasurements}
       />
       <FilterBodyMeasurementsListModal
         filterBodyMeasurementsListModal={filterBodyMeasurementsListModal}

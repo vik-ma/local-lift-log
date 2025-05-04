@@ -8,7 +8,7 @@ import {
 export const CreateBodyMeasurementsValues = (
   measurements: Measurement[]
 ): string => {
-  const userMeasurementValues: BodyMeasurementsValues = {};
+  const bodyMeasurementValues: BodyMeasurementsValues = {};
 
   for (let i = 0; i < measurements.length; i++) {
     const measurement = measurements[i];
@@ -25,12 +25,12 @@ export const CreateBodyMeasurementsValues = (
       Number(measurement.input)
     );
 
-    userMeasurementValues[measurement.id] = {
+    bodyMeasurementValues[measurement.id] = {
       value: inputNumber,
       unit: measurement.default_unit,
       measurement_type: measurement.measurement_type,
     };
   }
 
-  return JSON.stringify(userMeasurementValues);
+  return JSON.stringify(bodyMeasurementValues);
 };

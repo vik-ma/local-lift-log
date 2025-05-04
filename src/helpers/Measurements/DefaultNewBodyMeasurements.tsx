@@ -9,10 +9,10 @@ export const DefaultNewBodyMeasurements = () => {
     weight_unit: "kg",
     body_fat_percentage: null,
     measurement_values: "{}",
-    measurementListText: "",
+    measurementsText: "",
     formattedDate: "",
     isExpanded: false,
-    userMeasurementValues: undefined,
+    bodyMeasurementsValues: undefined,
     isInvalid: false,
   };
 

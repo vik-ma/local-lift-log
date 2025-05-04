@@ -10,9 +10,9 @@ export const ReassignMeasurementIdForBodyMeasurements = async (
     const db = await Database.load(import.meta.env.VITE_DB);
 
     for (let i = 0; i < bodyMeasurementsList.length; i++) {
-      const userMeasurement = bodyMeasurementsList[i];
+      const bodyMeasurements = bodyMeasurementsList[i];
 
-      const values = userMeasurement.bodyMeasurementsValues;
+      const values = bodyMeasurements.bodyMeasurementsValues;
 
       if (values === undefined) continue;
 
@@ -29,7 +29,7 @@ export const ReassignMeasurementIdForBodyMeasurements = async (
 
       db.execute(
         "UPDATE body_measurements SET measurement_values = $1 WHERE id = $2",
-        [newValues, userMeasurement.id]
+        [newValues, bodyMeasurements.id]
       );
     }
 

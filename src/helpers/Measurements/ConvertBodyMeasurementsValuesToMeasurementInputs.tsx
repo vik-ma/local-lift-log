@@ -5,12 +5,12 @@ import {
 } from "../../typings";
 
 export const ConvertBodyMeasurementsValuesToMeasurementInputs = (
-  userMeasurementValues: BodyMeasurementsValues,
+  bodyMeasurementsValues: BodyMeasurementsValues,
   measurementMap: MeasurementMap
 ): Measurement[] => {
   const measurementInputs: Measurement[] = [];
 
-  for (const [id, values] of Object.entries(userMeasurementValues)) {
+  for (const [id, values] of Object.entries(bodyMeasurementsValues)) {
     const measurement = measurementMap.get(id);
 
     const measurementInput: Measurement = {

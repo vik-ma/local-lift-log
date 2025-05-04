@@ -11,7 +11,7 @@ export const CreateDetailedBodyMeasurementsList = (
   clockStyle: string,
   idToExpand: number
 ) => {
-  const detailedUserMeasurementList: BodyMeasurements[] = [];
+  const detailedBodyMeasurementsList: BodyMeasurements[] = [];
 
   for (let i = 0; i < bodyMeasurementsList.length; i++) {
     const bodyMeasurements = bodyMeasurementsList[i];
@@ -41,7 +41,7 @@ export const CreateDetailedBodyMeasurementsList = (
           containsInvalidMeasurement = true;
       }
 
-      const detailedUserMeasurement: BodyMeasurements = {
+      const detailedBodyMeasurements: BodyMeasurements = {
         ...bodyMeasurements,
         measurementsText:
           numMeasurements > 0
@@ -54,12 +54,12 @@ export const CreateDetailedBodyMeasurementsList = (
         disableExpansion: Object.keys(bodyMeasurementsValues).length === 0,
       };
 
-      detailedUserMeasurementList.push(detailedUserMeasurement);
+      detailedBodyMeasurementsList.push(detailedBodyMeasurements);
     } catch {
       // Skip if bodyMeasurements.measurement_values contains invalid JSON string
       continue;
     }
   }
 
-  return detailedUserMeasurementList;
+  return detailedBodyMeasurementsList;
 };
