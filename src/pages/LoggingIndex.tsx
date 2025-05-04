@@ -37,6 +37,8 @@ export default function LoggingIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] =
     useState<BodyMeasurementsOperationType>("add");
+  const [isOperatingBodyMeasurements, setIsOperatingBodyMeasurements] =
+    useState<boolean>(true);
 
   const defaultBodyMeasurements = DefaultNewBodyMeasurements();
 
@@ -96,6 +98,7 @@ export default function LoggingIndex() {
   }, []);
 
   const handleAddMeasurementsButton = () => {
+    setIsOperatingBodyMeasurements(true);
     resetBodyMeasurements();
     bodyMeasurementsModal.onOpen();
   };
@@ -130,7 +133,7 @@ export default function LoggingIndex() {
   };
 
   const addBodyMeasurements = async () => {
-    if (userSettings === undefined) return;
+    if (userSettings === undefined || !isOperatingBodyMeasurements) return;
 
     const newBodyMeasurements = await InsertBodyMeasurementsIntoDatabase(
       bodyMeasurementsInput,
@@ -152,7 +155,12 @@ export default function LoggingIndex() {
   };
 
   const updateBodyMeasurements = async () => {
-    if (userSettings === undefined || latestBodyMeasurements.id === 0) return;
+    if (
+      userSettings === undefined ||
+      latestBodyMeasurements.id === 0 ||
+      !isOperatingBodyMeasurements
+    )
+      return;
 
     const updatedBodyMeasurements = await UpdateBodyMeasurements(
       latestBodyMeasurements,
@@ -171,7 +179,12 @@ export default function LoggingIndex() {
   };
 
   const deleteBodyMeasurements = async () => {
-    if (latestBodyMeasurements.id === 0 || userSettings === undefined) return;
+    if (
+      latestBodyMeasurements.id === 0 ||
+      userSettings === undefined ||
+      !isOperatingBodyMeasurements
+    )
+      return;
 
     const success = await DeleteBodyMeasurementsWithId(
       latestBodyMeasurements.id
@@ -216,6 +229,8 @@ export default function LoggingIndex() {
   ) => {
     if (userSettings === undefined) return;
 
+    setIsOperatingBodyMeasurements(true);
+
     if (key === "edit") {
       loadBodyMeasurementsInputs(bodyMeasurements, measurementMap.current);
       setOperationType("edit");
@@ -235,7 +250,8 @@ export default function LoggingIndex() {
     if (
       latestBodyMeasurements.id === 0 ||
       operationType !== "edit-timestamp" ||
-      userSettings === undefined
+      userSettings === undefined ||
+      !isOperatingBodyMeasurements
     )
       return;
 
