@@ -294,7 +294,7 @@ export default function LoggingIndex() {
         value={latestBodyMeasurements.date}
         saveButtonAction={updateBodyMeasurementsTimeStamp}
       />
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-2">
         <div className="bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
             Measurements
@@ -304,26 +304,26 @@ export default function LoggingIndex() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col gap-2.5 items-center w-full">
+            <div className="flex flex-col gap-1 items-center w-full">
               <h2 className="flex text-3xl font-semibold">Body Measurements</h2>
-              <div className="flex w-full justify-between">
+              <div className="flex w-full justify-center gap-10 pt-0.5 px-1.5 text-sm">
                 <Link
                   // TODO: FIX LINK COLOR
-                  className="text-stone-500"
+                  className="text-slate-500"
                   to="/logging/measurement-list"
                 >
                   Measurement List
                 </Link>
                 <Link
                   // TODO: FIX LINK COLOR
-                  className="text-stone-500"
+                  className="text-slate-500"
                   to="/logging/body-measurement-list"
                 >
                   Body Measurements History
                 </Link>
               </div>
-              <div className="flex flex-col items-center gap-2 relative">
-                <h3 className="flex items-center gap-2">
+              <div className="flex flex-col gap-0.5 items-center relative w-full">
+                <h3>
                   {latestBodyMeasurements.id === 0 ? (
                     <span className="flex justify-center text-stone-400">
                       No Body Measurements Added
@@ -347,14 +347,16 @@ export default function LoggingIndex() {
                     handleReassignMeasurement={handleReassignMeasurement}
                   />
                 )}
+                <div className="pt-1">
+                  <Button
+                    className="font-medium"
+                    variant="flat"
+                    onPress={handleAddMeasurementsButton}
+                  >
+                    Add Measurements
+                  </Button>
+                </div>
               </div>
-              <Button
-                className="font-medium"
-                variant="flat"
-                onPress={handleAddMeasurementsButton}
-              >
-                Add Measurements
-              </Button>
             </div>
           </>
         )}
