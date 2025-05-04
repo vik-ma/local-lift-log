@@ -3467,19 +3467,19 @@ export default function Analytics() {
                   </DropdownItem>
                   <DropdownItem
                     key="fat"
-                    onPress={() => loadDietLogListMacros(false, "fat")}
+                    onPress={() => loadDietLogListMacros(true, "fat")}
                   >
                     Fat
                   </DropdownItem>
                   <DropdownItem
                     key="carbs"
-                    onPress={() => loadDietLogListMacros(false, "carbs")}
+                    onPress={() => loadDietLogListMacros(true, "carbs")}
                   >
                     Carbs
                   </DropdownItem>
                   <DropdownItem
                     key="protein"
-                    onPress={() => loadDietLogListMacros(false, "protein")}
+                    onPress={() => loadDietLogListMacros(true, "protein")}
                   >
                     Protein
                   </DropdownItem>
