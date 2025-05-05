@@ -336,7 +336,7 @@ export default function LoggingIndex() {
     if (key === "edit") {
       handleEditLatestDietLog();
     } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
-      // deleteDietLogEntry();
+      deleteDietLogEntry();
     } else if (key === "delete") {
       setOperationType("delete");
       deleteModal.onOpen();
@@ -388,6 +388,27 @@ export default function LoggingIndex() {
     toast.success("Diet Log Entry Updated");
   };
 
+  const deleteDietLogEntry = async () => {
+    if (latestDietLog.id === 0) return;
+
+    const { success, newLatestDietLog } = await deleteDietLog(
+      latestDietLog,
+      true
+    );
+
+    if (!success) return;
+
+    if (newLatestDietLog !== undefined) {
+      newLatestDietLog.isExpanded = true;
+      setLatestDietLog(newLatestDietLog);
+    } else {
+      setLatestDietLog(defaultDietLog);
+    }
+
+    toast.success("Diet Log Entry Deleted");
+    deleteModal.onClose();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -397,11 +418,16 @@ export default function LoggingIndex() {
         header="Delete Body Measurements Entry"
         body={
           <p>
-            Are you sure you want to permanently delete the latest Body
-            Measurements entry?
+            Are you sure you want to permanently delete the latest{" "}
+            {isOperatingBodyMeasurements ? "Body Measurements" : "Diet Log"}{" "}
+            entry?
           </p>
         }
-        deleteButtonAction={deleteBodyMeasurements}
+        deleteButtonAction={
+          isOperatingBodyMeasurements
+            ? deleteBodyMeasurements
+            : deleteDietLogEntry
+        }
       />
       <BodyMeasurementsModal
         bodyMeasurementsModal={bodyMeasurementsModal}
