@@ -93,37 +93,9 @@ export default function DietLogIndex() {
   }, [isDietLogListLoaded.current]);
 
   const addDietLogEntry = async (date: string) => {
-    if (
-      operationType !== "add" ||
-      !isDietLogEntryInputValid ||
-      dietLogMap.has(date)
-    )
-      return;
+    if (operationType !== "add") return;
 
-    const calories = ConvertInputStringToNumber(caloriesInput);
-    const comment = ConvertEmptyStringToNull(commentInput);
-    const fat = ConvertInputStringToNumberOrNull(fatInput);
-    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
-    const protein = ConvertInputStringToNumberOrNull(proteinInput);
-
-    const formattedDate = FormatYmdDateString(date);
-
-    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
-
-    const dietLog: DietLog = {
-      id: 0,
-      date,
-      calories,
-      fat,
-      carbs,
-      protein,
-      comment,
-      formattedDate,
-      isExpanded: !disableExpansion,
-      disableExpansion,
-    };
-
-    const newDietLog = await addDietLog(dietLog);
+    const newDietLog = await addDietLog(date, dietLogEntryInputs);
 
     if (newDietLog === undefined) return;
 
