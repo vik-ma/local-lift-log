@@ -10,7 +10,6 @@ import {
   ConvertEmptyStringToNull,
   ConvertInputStringToNumber,
   ConvertInputStringToNumberOrNull,
-  FormatYmdDateString,
   GetUserSettings,
   ShouldDietLogDisableExpansion,
 } from "../helpers";
@@ -59,7 +58,6 @@ export default function DietLogIndex() {
     carbsInput,
     proteinInput,
     setTargetDay,
-    isDietLogEntryInputValid,
     resetDietLogInputs,
     setDateEntryType,
     loadDietLogInputs,
@@ -109,45 +107,18 @@ export default function DietLogIndex() {
   };
 
   const updateDietLogEntry = async (date: string) => {
-    if (
-      operationType !== "edit" ||
-      latestDietLog.id === 0 ||
-      !isDietLogEntryInputValid
-    )
-      return;
+    if (operationType !== "edit") return;
 
-    const calories = ConvertInputStringToNumber(caloriesInput);
-    const comment = ConvertEmptyStringToNull(commentInput);
-    const fat = ConvertInputStringToNumberOrNull(fatInput);
-    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
-    const protein = ConvertInputStringToNumberOrNull(proteinInput);
-
-    const formattedDate = FormatYmdDateString(date);
-
-    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
-
-    const updatedDietLog: DietLog = {
-      id: latestDietLog.id,
+    const updatedLatestDietLog = await updateDietLog(
       date,
-      calories,
-      fat,
-      carbs,
-      protein,
-      comment,
-      formattedDate,
-      isExpanded: !disableExpansion,
-      disableExpansion,
-    };
-
-    const { success, newLatestDietLog } = await updateDietLog(
-      updatedDietLog,
-      true
+      latestDietLog.id,
+      dietLogEntryInputs
     );
 
-    if (!success || newLatestDietLog === undefined) return;
+    if (updatedLatestDietLog === undefined) return;
 
-    newLatestDietLog.isExpanded = !newLatestDietLog.disableExpansion;
-    setLatestDietLog(newLatestDietLog);
+    updatedLatestDietLog.isExpanded = !updatedLatestDietLog.disableExpansion;
+    setLatestDietLog(updatedLatestDietLog);
 
     resetDietLogEntry();
     dietLogModal.onClose();

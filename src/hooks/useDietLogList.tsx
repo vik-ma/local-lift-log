@@ -225,9 +225,44 @@ export const useDietLogList = (
   };
 
   const updateDietLog = async (
-    dietLog: DietLog,
-    returnNewLatestDietLog?: boolean
-  ): Promise<{ success: boolean; newLatestDietLog: DietLog | undefined }> => {
+    date: string,
+    dietLogId: number,
+    dietLogInputs: UseDietLogEntryInputsReturnType
+  ) => {
+    const {
+      caloriesInput,
+      commentInput,
+      fatInput,
+      carbsInput,
+      proteinInput,
+      isDietLogEntryInputValid,
+    } = dietLogInputs;
+
+    if (!isDietLogEntryInputValid) return undefined;
+
+    const calories = ConvertInputStringToNumber(caloriesInput);
+    const comment = ConvertEmptyStringToNull(commentInput);
+    const fat = ConvertInputStringToNumberOrNull(fatInput);
+    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+
+    const formattedDate = FormatYmdDateString(date);
+
+    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
+
+    const dietLog: DietLog = {
+      id: dietLogId,
+      date,
+      calories,
+      fat,
+      carbs,
+      protein,
+      comment,
+      formattedDate,
+      isExpanded: !disableExpansion,
+      disableExpansion,
+    };
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -257,17 +292,10 @@ export const useDietLogList = (
 
       setDietLogMap(updatedDietLogMap);
 
-      const newLatestDietLog = returnNewLatestDietLog
-        ? updatedDietLogs[0]
-        : undefined;
-
-      return {
-        success: true,
-        newLatestDietLog,
-      };
+      return updatedDietLogs[0];
     } catch (error) {
       console.log(error);
-      return { success: false, newLatestDietLog: undefined };
+      return undefined;
     }
   };
 

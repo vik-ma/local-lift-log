@@ -27,7 +27,6 @@ import {
   ConvertEmptyStringToNull,
   ConvertInputStringToNumber,
   ConvertInputStringToNumberOrNull,
-  FormatYmdDateString,
   GetUserSettings,
   ShouldDietLogDisableExpansion,
 } from "../helpers";
@@ -76,7 +75,6 @@ export default function DietLogList() {
     fatInput,
     carbsInput,
     proteinInput,
-    isDietLogEntryInputValid,
     resetDietLogInputs,
     setDateEntryType,
     loadDietLogInputs,
@@ -106,39 +104,15 @@ export default function DietLogList() {
   };
 
   const updateDietLogEntry = async (date: string) => {
-    if (
-      operationType !== "edit" ||
-      operatingDietLog.id === 0 ||
-      !isDietLogEntryInputValid
-    )
-      return;
+    if (operationType !== "edit") return;
 
-    const calories = ConvertInputStringToNumber(caloriesInput);
-    const comment = ConvertEmptyStringToNull(commentInput);
-    const fat = ConvertInputStringToNumberOrNull(fatInput);
-    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
-    const protein = ConvertInputStringToNumberOrNull(proteinInput);
-
-    const formattedDate = FormatYmdDateString(date);
-
-    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
-
-    const updatedDietLog: DietLog = {
-      id: operatingDietLog.id,
+    const updatedDietLog = await updateDietLog(
       date,
-      calories,
-      fat,
-      carbs,
-      protein,
-      comment,
-      formattedDate,
-      isExpanded: false,
-      disableExpansion,
-    };
+      operatingDietLog.id,
+      dietLogEntryInputs
+    );
 
-    const { success } = await updateDietLog(updatedDietLog);
-
-    if (!success) return;
+    if (updatedDietLog === undefined) return;
 
     resetDietLogEntry();
     dietLogModal.onClose();

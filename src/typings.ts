@@ -1077,9 +1077,10 @@ export type UseDietLogListReturnType = {
     dietLogInputs: UseDietLogEntryInputsReturnType
   ) => Promise<DietLog | undefined>;
   updateDietLog: (
-    dietLog: DietLog,
-    returnNewLatestDietLog?: boolean
-  ) => Promise<{ success: boolean; newLatestDietLog: DietLog | undefined }>;
+    date: string,
+    dietLogId: number,
+    dietLogInputs: UseDietLogEntryInputsReturnType
+  ) => Promise<DietLog | undefined>;
   deleteDietLog: (
     dietLog: DietLog,
     returnNewLatestDietLog?: boolean
