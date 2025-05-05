@@ -348,8 +348,8 @@ export default function LoggingIndex() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col gap-3 items-center w-full">
-              <div className="flex flex-col gap-1 items-center">
+            <div className="flex flex-col gap-4 items-center w-full">
+              <div className="flex flex-col gap-1 items-center w-full">
                 <h2 className="text-3xl font-semibold">Body Measurements</h2>
                 <div className="flex w-full justify-center gap-10 pt-0.5 px-1.5 text-sm">
                   <Link
@@ -367,50 +367,50 @@ export default function LoggingIndex() {
                     Body Measurements History
                   </Link>
                 </div>
-              </div>
-              <div className="flex flex-col gap-0.5 items-center relative w-full">
-                <h3>
-                  {latestBodyMeasurements.id === 0 ? (
-                    <span className="text-stone-400">
-                      No Body Measurements Added
-                    </span>
-                  ) : (
-                    <span className="font-semibold text-lg">
-                      Last Body Measurements
-                    </span>
+                <div className="flex flex-col gap-0.5 items-center w-full">
+                  <h3>
+                    {latestBodyMeasurements.id === 0 ? (
+                      <span className="text-stone-400">
+                        No Body Measurements Added
+                      </span>
+                    ) : (
+                      <span className="font-semibold text-lg">
+                        Last Body Measurements
+                      </span>
+                    )}
+                  </h3>
+                  {latestBodyMeasurements.id !== 0 && (
+                    <BodyMeasurementsAccordions
+                      bodyMeasurements={[latestBodyMeasurements]}
+                      handleBodyMeasurementsAccordionClick={
+                        handleBodyMeasurementsAccordionClick
+                      }
+                      measurementMap={measurementMap.current}
+                      handleBodyMeasurementsOptionSelection={
+                        handleBodyMeasurementsOptionSelection
+                      }
+                      handleReassignMeasurement={handleReassignMeasurement}
+                    />
                   )}
-                </h3>
-                {latestBodyMeasurements.id !== 0 && (
-                  <BodyMeasurementsAccordions
-                    bodyMeasurements={[latestBodyMeasurements]}
-                    handleBodyMeasurementsAccordionClick={
-                      handleBodyMeasurementsAccordionClick
-                    }
-                    measurementMap={measurementMap.current}
-                    handleBodyMeasurementsOptionSelection={
-                      handleBodyMeasurementsOptionSelection
-                    }
-                    handleReassignMeasurement={handleReassignMeasurement}
-                  />
-                )}
-                <div className="pt-1">
-                  <Button
-                    className="font-medium"
-                    variant="flat"
-                    onPress={handleAddMeasurementsButton}
-                  >
-                    Add Measurements
-                  </Button>
+                  <div className="pt-1">
+                    <Button
+                      className="font-medium"
+                      variant="flat"
+                      color="secondary"
+                      size="sm"
+                      onPress={handleAddMeasurementsButton}
+                    >
+                      Add Measurements
+                    </Button>
+                  </div>
                 </div>
               </div>
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col gap-1 items-center w-full">
                 <h2 className="text-3xl font-semibold">Diet Logs</h2>
-                <div className="flex flex-col items-center gap-2 relative">
+                <div className="flex flex-col gap-0.5 items-center w-full">
                   <h3>
                     {latestDietLog.id === 0 ? (
-                      <span className="text-stone-400">
-                        No Diet Logs Added
-                      </span>
+                      <span className="text-stone-400">No Diet Logs Added</span>
                     ) : (
                       <span className="font-semibold text-lg">
                         Latest Diet Log
@@ -432,20 +432,23 @@ export default function LoggingIndex() {
                     />
                   )}
                 </div>
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex justify-center gap-2 pt-1">
                   <Button
                     className="font-medium"
                     variant="flat"
+                    color="secondary"
+                    size="sm"
                     // onPress={handleAddDietLogEntryButton}
                   >
-                    Add Diet Log Entry
+                    Add Diet Log
                   </Button>
                   <Button
                     className="font-medium"
                     variant="flat"
+                    size="sm"
                     // onPress={handleAddDietLogRangeEntryButton}
                   >
-                    Add Diet Log Entries For Multiple Dates
+                    Add Diet Logs For Multiple Dates
                   </Button>
                 </div>
               </div>
