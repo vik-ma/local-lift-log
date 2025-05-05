@@ -351,7 +351,7 @@ export default function LoggingIndex() {
             <div className="flex flex-col gap-4 items-center w-full">
               <div className="flex flex-col gap-1 items-center w-full">
                 <h2 className="text-3xl font-semibold">Body Measurements</h2>
-                <div className="flex w-full justify-center gap-10 pt-0.5 px-1.5 text-sm">
+                <div className="flex w-full justify-center gap-10 px-1.5 text-sm">
                   <Link
                     // TODO: FIX LINK COLOR
                     className="text-slate-500"
@@ -407,6 +407,15 @@ export default function LoggingIndex() {
               </div>
               <div className="flex flex-col gap-1 items-center w-full">
                 <h2 className="text-3xl font-semibold">Diet Logs</h2>
+                <div className="flex justify-center text-sm">
+                  <Link
+                    // TODO: FIX LINK COLOR
+                    className="text-slate-500"
+                    to="/logging/diet-log-list"
+                  >
+                    Diet Log History
+                  </Link>
+                </div>
                 <div className="flex flex-col gap-0.5 items-center w-full">
                   <h3>
                     {latestDietLog.id === 0 ? (
