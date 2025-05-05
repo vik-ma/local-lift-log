@@ -111,7 +111,7 @@ export default function LoggingIndex() {
     proteinInput,
     setTargetDay,
     isDietLogEntryInputValid,
-    resetInputs,
+    resetDietLogInputs,
     setDateEntryType,
     loadDietLogInputs,
   } = dietLogEntryInputs;
@@ -321,7 +321,7 @@ export default function LoggingIndex() {
 
   const resetDietLogEntry = () => {
     setOperationType("add");
-    resetInputs();
+    resetDietLogInputs();
   };
 
   const handleAddDietLogEntryButton = () => {

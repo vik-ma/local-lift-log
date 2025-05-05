@@ -1041,7 +1041,7 @@ export type UseDietLogEntryInputsReturnType = {
   isDietLogEntryInputValid: boolean;
   targetDay: string;
   setTargetDay: React.Dispatch<React.SetStateAction<string>>;
-  resetInputs: () => void;
+  resetDietLogInputs: () => void;
   calculateCaloriesFromMacros: () => void;
   selectedDate: CalendarDate | null;
   setSelectedDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;

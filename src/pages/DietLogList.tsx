@@ -77,7 +77,7 @@ export default function DietLogList() {
     carbsInput,
     proteinInput,
     isDietLogEntryInputValid,
-    resetInputs,
+    resetDietLogInputs,
     setDateEntryType,
     loadDietLogInputs,
   } = dietLogEntryInputs;
@@ -227,7 +227,7 @@ export default function DietLogList() {
   const resetDietLogEntry = () => {
     setOperationType("add");
     setOperatingDietLog(defaultDietLog);
-    resetInputs();
+    resetDietLogInputs();
   };
 
   const handleDietLogAccordionClick = (dietLog: DietLog, index: number) => {

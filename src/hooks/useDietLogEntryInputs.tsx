@@ -75,7 +75,7 @@ export const useDietLogEntryInputs = (
     isProteinInputValid,
   ]);
 
-  const resetInputs = () => {
+  const resetDietLogInputs = () => {
     setCaloriesInput("");
     setSelectedDate(null);
     setFatInput("");
@@ -128,7 +128,7 @@ export const useDietLogEntryInputs = (
     isDietLogEntryInputValid,
     targetDay,
     setTargetDay,
-    resetInputs,
+    resetDietLogInputs,
     calculateCaloriesFromMacros,
     selectedDate,
     setSelectedDate,
