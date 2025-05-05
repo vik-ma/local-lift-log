@@ -13,6 +13,7 @@ import {
   NameInputModal,
   TimeInputModal,
   DietLogAccordions,
+  DietLogModal,
 } from "../components";
 import {
   GetUserSettings,
@@ -26,6 +27,11 @@ import {
   GetAllBodyMeasurements,
   UpdateBodyMeasurementsTimestamp,
   DefaultNewDietLog,
+  ConvertInputStringToNumber,
+  ConvertInputStringToNumberOrNull,
+  ConvertEmptyStringToNull,
+  FormatYmdDateString,
+  ShouldDietLogDisableExpansion,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -35,6 +41,7 @@ import {
   useReassignMeasurement,
   useBodyMeasurementsInput,
   useDietLogList,
+  useDietLogEntryInputs,
 } from "../hooks";
 
 export default function LoggingIndex() {
@@ -54,6 +61,7 @@ export default function LoggingIndex() {
   const deleteModal = useDisclosure();
   const bodyMeasurementsModal = useDisclosure();
   const timeInputModal = useDisclosure();
+  const dietLogModal = useDisclosure();
 
   const measurementList = useMeasurementList(true);
 
@@ -92,6 +100,21 @@ export default function LoggingIndex() {
     dietLogMap,
     addDietLogEntryRange,
   } = dietLogList;
+
+  const dietLogEntryInputs = useDietLogEntryInputs("custom");
+
+  const {
+    caloriesInput,
+    commentInput,
+    fatInput,
+    carbsInput,
+    proteinInput,
+    setTargetDay,
+    isDietLogEntryInputValid,
+    resetInputs,
+    setDateEntryType,
+    loadDietLogInputs,
+  } = dietLogEntryInputs;
 
   useEffect(() => {
     if (!isDietLogListLoaded.current) return;
@@ -296,6 +319,66 @@ export default function LoggingIndex() {
     timeInputModal.onClose();
   };
 
+  const resetDietLogEntry = () => {
+    setOperationType("add");
+    resetInputs();
+  };
+
+  const handleAddDietLogEntryButton = () => {
+    if (operationType !== "add") {
+      resetDietLogEntry();
+    }
+
+    setIsOperatingBodyMeasurements(false);
+    setDateEntryType("recent");
+    dietLogModal.onOpen();
+  };
+
+  const addDietLogEntry = async (date: string) => {
+    if (
+      operationType !== "add" ||
+      !isDietLogEntryInputValid ||
+      dietLogMap.has(date) ||
+      isOperatingBodyMeasurements
+    )
+      return;
+
+    const calories = ConvertInputStringToNumber(caloriesInput);
+    const comment = ConvertEmptyStringToNull(commentInput);
+    const fat = ConvertInputStringToNumberOrNull(fatInput);
+    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+
+    const formattedDate = FormatYmdDateString(date);
+
+    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
+
+    const dietLog: DietLog = {
+      id: 0,
+      date,
+      calories,
+      fat,
+      carbs,
+      protein,
+      comment,
+      formattedDate,
+      isExpanded: !disableExpansion,
+      disableExpansion,
+    };
+
+    const newDietLog = await addDietLog(dietLog);
+
+    if (newDietLog === undefined) return;
+
+    if (latestDietLog === undefined || newDietLog.date > latestDietLog.date) {
+      setLatestDietLog(newDietLog);
+    }
+
+    resetDietLogEntry();
+    dietLogModal.onClose();
+    toast.success("Diet Log Entry Added");
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -337,6 +420,23 @@ export default function LoggingIndex() {
         locale={userSettings.locale}
         value={latestBodyMeasurements.date}
         saveButtonAction={updateBodyMeasurementsTimeStamp}
+      />
+      <DietLogModal
+        dietLogModal={dietLogModal}
+        dietLog={latestDietLog}
+        useDietLogEntryInputs={dietLogEntryInputs}
+        dietLogMap={dietLogMap}
+        userSettings={userSettings}
+        setUserSettings={setUserSettings}
+        isEditing={operationType === "edit"}
+        doneButtonAction={
+          addDietLogEntry
+          // operationType === "edit" ? updateDietLogEntry : addDietLogEntry
+        }
+        saveRangeButtonAction={
+          () => {}
+          // addDietLogEntries
+        }
       />
       <div className="flex flex-col gap-3 items-center w-full">
         <div className="flex flex-col gap-1 items-center w-full">
@@ -443,7 +543,7 @@ export default function LoggingIndex() {
               variant="flat"
               color="secondary"
               size="sm"
-              // onPress={handleAddDietLogEntryButton}
+              onPress={handleAddDietLogEntryButton}
             >
               Add Diet Log
             </Button>
