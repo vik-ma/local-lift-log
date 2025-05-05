@@ -3,6 +3,7 @@ import {
   UserSettings,
   BodyMeasurementsOperationType,
   BodyMeasurements,
+  DietLog,
 } from "../typings";
 import {
   DeleteModal,
@@ -11,6 +12,7 @@ import {
   BodyMeasurementsModal,
   NameInputModal,
   TimeInputModal,
+  DietLogAccordions,
 } from "../components";
 import {
   GetUserSettings,
@@ -23,6 +25,7 @@ import {
   DeleteBodyMeasurementsWithId,
   GetAllBodyMeasurements,
   UpdateBodyMeasurementsTimestamp,
+  DefaultNewDietLog,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -31,6 +34,7 @@ import {
   useMeasurementList,
   useReassignMeasurement,
   useBodyMeasurementsInput,
+  useDietLogList,
 } from "../hooks";
 
 export default function LoggingIndex() {
@@ -41,9 +45,11 @@ export default function LoggingIndex() {
     useState<boolean>(true);
 
   const defaultBodyMeasurements = DefaultNewBodyMeasurements();
+  const defaultDietLog = DefaultNewDietLog();
 
   const [latestBodyMeasurements, setLatestBodyMeasurements] =
     useState<BodyMeasurements>(defaultBodyMeasurements);
+  const [latestDietLog, setLatestDietLog] = useState<DietLog>(defaultDietLog);
 
   const deleteModal = useDisclosure();
   const bodyMeasurementsModal = useDisclosure();
@@ -75,7 +81,29 @@ export default function LoggingIndex() {
     updateActiveTrackingMeasurementOrder,
   } = bodyMeasurementsInput;
 
+  const dietLogList = useDietLogList(true);
+
+  const {
+    isDietLogListLoaded,
+    dietLogs,
+    addDietLog,
+    updateDietLog,
+    deleteDietLog,
+    dietLogMap,
+    addDietLogEntryRange,
+  } = dietLogList;
+
   useEffect(() => {
+    if (!isDietLogListLoaded.current) return;
+
+    if (dietLogs[0] !== undefined) {
+      if (!dietLogs[0].disableExpansion) {
+        dietLogs[0].isExpanded = true;
+      }
+
+      setLatestDietLog(dietLogs[0]);
+    }
+
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
 
@@ -95,7 +123,7 @@ export default function LoggingIndex() {
 
     loadUserSettings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isDietLogListLoaded.current]);
 
   const handleAddMeasurementsButton = () => {
     setIsOperatingBodyMeasurements(true);
@@ -320,28 +348,30 @@ export default function LoggingIndex() {
           <LoadingSpinner />
         ) : (
           <>
-            <div className="flex flex-col gap-1 items-center w-full">
-              <h2 className="flex text-3xl font-semibold">Body Measurements</h2>
-              <div className="flex w-full justify-center gap-10 pt-0.5 px-1.5 text-sm">
-                <Link
-                  // TODO: FIX LINK COLOR
-                  className="text-slate-500"
-                  to="/logging/measurement-list"
-                >
-                  Measurement List
-                </Link>
-                <Link
-                  // TODO: FIX LINK COLOR
-                  className="text-slate-500"
-                  to="/logging/body-measurement-list"
-                >
-                  Body Measurements History
-                </Link>
+            <div className="flex flex-col gap-3 items-center w-full">
+              <div className="flex flex-col gap-1 items-center">
+                <h2 className="text-3xl font-semibold">Body Measurements</h2>
+                <div className="flex w-full justify-center gap-10 pt-0.5 px-1.5 text-sm">
+                  <Link
+                    // TODO: FIX LINK COLOR
+                    className="text-slate-500"
+                    to="/logging/measurement-list"
+                  >
+                    Measurement List
+                  </Link>
+                  <Link
+                    // TODO: FIX LINK COLOR
+                    className="text-slate-500"
+                    to="/logging/body-measurement-list"
+                  >
+                    Body Measurements History
+                  </Link>
+                </div>
               </div>
               <div className="flex flex-col gap-0.5 items-center relative w-full">
                 <h3>
                   {latestBodyMeasurements.id === 0 ? (
-                    <span className="flex justify-center text-stone-400">
+                    <span className="text-stone-400">
                       No Body Measurements Added
                     </span>
                   ) : (
@@ -370,6 +400,52 @@ export default function LoggingIndex() {
                     onPress={handleAddMeasurementsButton}
                   >
                     Add Measurements
+                  </Button>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <h2 className="text-3xl font-semibold">Diet Logs</h2>
+                <div className="flex flex-col items-center gap-2 relative">
+                  <h3>
+                    {latestDietLog.id === 0 ? (
+                      <span className="text-stone-400">
+                        No Diet Logs Added
+                      </span>
+                    ) : (
+                      <span className="font-semibold text-lg">
+                        Latest Diet Log
+                      </span>
+                    )}
+                  </h3>
+                  {latestDietLog.id !== 0 && (
+                    <DietLogAccordions
+                      dietLogEntries={[latestDietLog]}
+                      handleDietLogAccordionClick={
+                        () => {}
+                        // handleDietLogAccordionClick
+                      }
+                      handleDietLogOptionSelection={
+                        () => {}
+                        // handleDietLogOptionSelection
+                      }
+                      showDayLabel
+                    />
+                  )}
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <Button
+                    className="font-medium"
+                    variant="flat"
+                    // onPress={handleAddDietLogEntryButton}
+                  >
+                    Add Diet Log Entry
+                  </Button>
+                  <Button
+                    className="font-medium"
+                    variant="flat"
+                    // onPress={handleAddDietLogRangeEntryButton}
+                  >
+                    Add Diet Log Entries For Multiple Dates
                   </Button>
                 </div>
               </div>
