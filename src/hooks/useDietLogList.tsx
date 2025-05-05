@@ -4,6 +4,7 @@ import {
   DietLogMap,
   UseDietLogListReturnType,
   DietLogSortCategory,
+  UseDietLogEntryInputsReturnType,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -18,6 +19,9 @@ import {
   IsNumberWithinLimit,
   ShouldDietLogDisableExpansion,
   UpdateItemInList,
+  ConvertInputStringToNumber,
+  ConvertInputStringToNumberOrNull,
+  ConvertEmptyStringToNull,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
 import { useDietLogListFilters } from "./useDietLogListFilters";
@@ -163,7 +167,44 @@ export const useDietLogList = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const addDietLog = async (dietLog: DietLog) => {
+  const addDietLog = async (
+    date: string,
+    dietLogInputs: UseDietLogEntryInputsReturnType
+  ) => {
+    const {
+      caloriesInput,
+      commentInput,
+      fatInput,
+      carbsInput,
+      proteinInput,
+      isDietLogEntryInputValid,
+    } = dietLogInputs;
+
+    if (!isDietLogEntryInputValid || dietLogMap.has(date)) return undefined;
+
+    const calories = ConvertInputStringToNumber(caloriesInput);
+    const comment = ConvertEmptyStringToNull(commentInput);
+    const fat = ConvertInputStringToNumberOrNull(fatInput);
+    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+
+    const formattedDate = FormatYmdDateString(date);
+
+    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
+
+    const dietLog: DietLog = {
+      id: 0,
+      date,
+      calories,
+      fat,
+      carbs,
+      protein,
+      comment,
+      formattedDate,
+      isExpanded: !disableExpansion,
+      disableExpansion,
+    };
+
     const newDietLogId = await InsertDietLogIntoDatabase(dietLog);
 
     if (newDietLogId === 0) return undefined;

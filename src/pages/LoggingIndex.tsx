@@ -27,11 +27,6 @@ import {
   GetAllBodyMeasurements,
   UpdateBodyMeasurementsTimestamp,
   DefaultNewDietLog,
-  ConvertInputStringToNumber,
-  ConvertInputStringToNumberOrNull,
-  ConvertEmptyStringToNull,
-  FormatYmdDateString,
-  ShouldDietLogDisableExpansion,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -103,18 +98,8 @@ export default function LoggingIndex() {
 
   const dietLogEntryInputs = useDietLogEntryInputs("custom");
 
-  const {
-    caloriesInput,
-    commentInput,
-    fatInput,
-    carbsInput,
-    proteinInput,
-    setTargetDay,
-    isDietLogEntryInputValid,
-    resetDietLogInputs,
-    setDateEntryType,
-    loadDietLogInputs,
-  } = dietLogEntryInputs;
+  const { resetDietLogInputs, setDateEntryType, loadDietLogInputs } =
+    dietLogEntryInputs;
 
   useEffect(() => {
     if (!isDietLogListLoaded.current) return;
@@ -335,38 +320,9 @@ export default function LoggingIndex() {
   };
 
   const addDietLogEntry = async (date: string) => {
-    if (
-      operationType !== "add" ||
-      !isDietLogEntryInputValid ||
-      dietLogMap.has(date) ||
-      isOperatingBodyMeasurements
-    )
-      return;
+    if (operationType !== "add" || isOperatingBodyMeasurements) return;
 
-    const calories = ConvertInputStringToNumber(caloriesInput);
-    const comment = ConvertEmptyStringToNull(commentInput);
-    const fat = ConvertInputStringToNumberOrNull(fatInput);
-    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
-    const protein = ConvertInputStringToNumberOrNull(proteinInput);
-
-    const formattedDate = FormatYmdDateString(date);
-
-    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
-
-    const dietLog: DietLog = {
-      id: 0,
-      date,
-      calories,
-      fat,
-      carbs,
-      protein,
-      comment,
-      formattedDate,
-      isExpanded: !disableExpansion,
-      disableExpansion,
-    };
-
-    const newDietLog = await addDietLog(dietLog);
+    const newDietLog = await addDietLog(date, dietLogEntryInputs);
 
     if (newDietLog === undefined) return;
 
