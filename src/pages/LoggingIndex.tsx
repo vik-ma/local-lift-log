@@ -319,6 +319,40 @@ export default function LoggingIndex() {
     dietLogModal.onOpen();
   };
 
+  const handleDietLogAccordionClick = (dietLog: DietLog) => {
+    const updatedDietLog: DietLog = {
+      ...dietLog,
+      isExpanded: !dietLog.isExpanded,
+    };
+
+    setLatestDietLog(updatedDietLog);
+  };
+
+  const handleDietLogOptionSelection = (key: string) => {
+    if (userSettings === undefined) return;
+
+    setIsOperatingBodyMeasurements(false);
+
+    if (key === "edit") {
+      handleEditLatestDietLog();
+    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
+      // deleteDietLogEntry();
+    } else if (key === "delete") {
+      setOperationType("delete");
+      deleteModal.onOpen();
+    }
+  };
+
+  const handleEditLatestDietLog = () => {
+    if (latestDietLog.id === 0) return;
+
+    setOperationType("edit");
+    loadDietLogInputs(latestDietLog);
+    setDateEntryType("custom");
+
+    dietLogModal.onOpen();
+  };
+
   const addDietLogEntry = async (date: string) => {
     if (operationType !== "add" || isOperatingBodyMeasurements) return;
 
@@ -333,6 +367,25 @@ export default function LoggingIndex() {
     resetDietLogEntry();
     dietLogModal.onClose();
     toast.success("Diet Log Entry Added");
+  };
+
+  const updateDietLogEntry = async (date: string) => {
+    if (operationType !== "edit") return;
+
+    const updatedLatestDietLog = await updateDietLog(
+      date,
+      latestDietLog.id,
+      dietLogEntryInputs
+    );
+
+    if (updatedLatestDietLog === undefined) return;
+
+    updatedLatestDietLog.isExpanded = !updatedLatestDietLog.disableExpansion;
+    setLatestDietLog(updatedLatestDietLog);
+
+    resetDietLogEntry();
+    dietLogModal.onClose();
+    toast.success("Diet Log Entry Updated");
   };
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -386,8 +439,7 @@ export default function LoggingIndex() {
         setUserSettings={setUserSettings}
         isEditing={operationType === "edit"}
         doneButtonAction={
-          addDietLogEntry
-          // operationType === "edit" ? updateDietLogEntry : addDietLogEntry
+          operationType === "edit" ? updateDietLogEntry : addDietLogEntry
         }
         saveRangeButtonAction={
           () => {}
@@ -481,14 +533,8 @@ export default function LoggingIndex() {
             {latestDietLog.id !== 0 && (
               <DietLogAccordions
                 dietLogEntries={[latestDietLog]}
-                handleDietLogAccordionClick={
-                  () => {}
-                  // handleDietLogAccordionClick
-                }
-                handleDietLogOptionSelection={
-                  () => {}
-                  // handleDietLogOptionSelection
-                }
+                handleDietLogAccordionClick={handleDietLogAccordionClick}
+                handleDietLogOptionSelection={handleDietLogOptionSelection}
                 showDayLabel
               />
             )}
