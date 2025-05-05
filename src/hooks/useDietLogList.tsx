@@ -299,13 +299,10 @@ export const useDietLogList = (
     }
   };
 
-  const deleteDietLog = async (
-    dietLog: DietLog,
-    returnNewLatestDietLog?: boolean
-  ): Promise<{ success: boolean; newLatestDietLog: DietLog | undefined }> => {
+  const deleteDietLog = async (dietLog: DietLog) => {
     const success = await DeleteDietLogWithId(dietLog.id);
 
-    if (!success) return { success: false, newLatestDietLog: undefined };
+    if (!success) return undefined;
 
     const updatedDietLogs = DeleteItemFromList(dietLogs, dietLog.id);
 
@@ -317,15 +314,11 @@ export const useDietLogList = (
 
     setDietLogMap(updatedDietLogMap);
 
-    const newLatestDietLog =
-      returnNewLatestDietLog && updatedDietLogs.length > 0
-        ? updatedDietLogs[0]
-        : undefined;
+    if (updatedDietLogs.length === 0) return undefined;
 
-    return {
-      success: true,
-      newLatestDietLog,
-    };
+    const newLatestDietLog = updatedDietLogs[0];
+
+    return newLatestDietLog;
   };
 
   const addDietLogEntryRange = async (

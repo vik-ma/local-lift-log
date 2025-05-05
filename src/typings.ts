@@ -1081,10 +1081,7 @@ export type UseDietLogListReturnType = {
     dietLogId: number,
     dietLogInputs: UseDietLogEntryInputsReturnType
   ) => Promise<DietLog | undefined>;
-  deleteDietLog: (
-    dietLog: DietLog,
-    returnNewLatestDietLog?: boolean
-  ) => Promise<{ success: boolean; newLatestDietLog: DietLog | undefined }>;
+  deleteDietLog: (dietLog: DietLog) => Promise<DietLog | undefined>;
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredDietLogs: DietLog[];

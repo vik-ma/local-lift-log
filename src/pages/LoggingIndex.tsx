@@ -391,12 +391,9 @@ export default function LoggingIndex() {
   const deleteDietLogEntry = async () => {
     if (latestDietLog.id === 0) return;
 
-    const { success, newLatestDietLog } = await deleteDietLog(
-      latestDietLog,
-      true
-    );
+    const newLatestDietLog = await deleteDietLog(latestDietLog);
 
-    if (!success) return;
+    if (newLatestDietLog === undefined) return;
 
     if (newLatestDietLog !== undefined) {
       newLatestDietLog.isExpanded = true;

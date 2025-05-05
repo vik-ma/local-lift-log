@@ -124,9 +124,9 @@ export default function DietLogList() {
 
     if (dietLog.id === 0) return;
 
-    const { success } = await deleteDietLog(dietLog);
+    const newLatestDietLog = await deleteDietLog(dietLog);
 
-    if (!success) return;
+    if (newLatestDietLog === undefined) return;
 
     toast.success("Diet Log Entry Deleted");
     deleteModal.onClose();
