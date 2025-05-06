@@ -5,6 +5,10 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  RadioGroup,
+  Radio,
+  Select,
+  SelectItem,
 } from "@heroui/react";
 import { UseDisclosureReturnType } from "../../typings";
 import { useState } from "react";
@@ -19,6 +23,8 @@ export const BodyFatCalculationModal = ({
   bodyFatCalculationModal,
 }: BodyFatCalculationModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
+  const [isMale, setIsMale] = useState<boolean>(true);
+  const [ageGroup, setAgeGroup] = useState<string>("20-29");
 
   return (
     <Modal
@@ -29,7 +35,35 @@ export const BodyFatCalculationModal = ({
         {(onClose) => (
           <>
             <ModalHeader>TODO: ADD</ModalHeader>
-            <ModalBody></ModalBody>
+            <ModalBody>
+              <div className="flex flex-col h-[200px]">
+                <div className="flex justify-between">
+                  <Select
+                    label="Age"
+                    className="w-[6rem]"
+                    variant="faded"
+                    size="sm"
+                    selectedKeys={[ageGroup]}
+                    onChange={(e) => setAgeGroup(e.target.value)}
+                    disallowEmptySelection
+                  >
+                    <SelectItem key="17-19">17-19</SelectItem>
+                    <SelectItem key="20-29">20-29</SelectItem>
+                    <SelectItem key="30-39">30-39</SelectItem>
+                    <SelectItem key="40-49">40-49</SelectItem>
+                    <SelectItem key="50+">50+</SelectItem>
+                  </Select>
+                  <RadioGroup
+                    value={isMale ? "male" : "female"}
+                    onValueChange={(value) => setIsMale(value === "male")}
+                    label="Gender"
+                  >
+                    <Radio value="male">Male</Radio>
+                    <Radio value="female">Female</Radio>
+                  </RadioGroup>
+                </div>
+              </div>
+            </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2"></div>
               <div className="flex gap-2">
