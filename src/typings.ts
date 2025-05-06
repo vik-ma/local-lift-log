@@ -1290,3 +1290,8 @@ export type UseBodyMeasurementsInputReturnType = {
   getActiveMeasurements: (activeMeasurementsString: string) => void;
   updateActiveTrackingMeasurementOrder: () => void;
 };
+
+export type BodyFatCalculationConstants = {
+  c: number;
+  m: number;
+};
