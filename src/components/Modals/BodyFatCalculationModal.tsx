@@ -34,15 +34,21 @@ export const BodyFatCalculationModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>TODO: ADD</ModalHeader>
+            <ModalHeader>Body Fat Percentage Calculation Settings</ModalHeader>
             <ModalBody>
               <div className="flex flex-col h-[200px]">
-                <div className="flex justify-between">
+                <div className="flex gap-8 items-start">
                   <Select
                     label="Age"
-                    className="w-[6rem]"
+                    labelPlacement="outside"
+                    className="w-[6.25rem]"
+                    classNames={{
+                      label: "!text-default-500 ml-1 mt-1",
+                      trigger: "mt-0.5",
+                      base: "justify-start",
+                    }}
                     variant="faded"
-                    size="sm"
+                    size="lg"
                     selectedKeys={[ageGroup]}
                     onChange={(e) => setAgeGroup(e.target.value)}
                     disallowEmptySelection
@@ -54,6 +60,8 @@ export const BodyFatCalculationModal = ({
                     <SelectItem key="50+">50+</SelectItem>
                   </Select>
                   <RadioGroup
+                    className="gap-0.5"
+                    classNames={{ wrapper: "gap-0.5" }}
                     value={isMale ? "male" : "female"}
                     onValueChange={(value) => setIsMale(value === "male")}
                     label="Gender"
