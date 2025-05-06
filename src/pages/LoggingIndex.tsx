@@ -454,7 +454,9 @@ export default function LoggingIndex() {
     <>
       <DeleteModal
         deleteModal={deleteModal}
-        header="Delete Body Measurements Entry"
+        header={`Delete ${
+          isOperatingBodyMeasurements ? "Body Measurements" : "Diet Log"
+        } Entry`}
         body={
           <p>
             Are you sure you want to permanently delete the latest{" "}
