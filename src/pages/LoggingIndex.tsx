@@ -319,6 +319,16 @@ export default function LoggingIndex() {
     dietLogModal.onOpen();
   };
 
+  const handleAddDietLogRangeEntryButton = () => {
+    if (operationType !== "add") {
+      resetDietLogEntry();
+    }
+
+    setIsOperatingBodyMeasurements(false);
+    setDateEntryType("range");
+    dietLogModal.onOpen();
+  };
+
   const handleDietLogAccordionClick = (dietLog: DietLog) => {
     const updatedDietLog: DietLog = {
       ...dietLog,
@@ -404,6 +414,32 @@ export default function LoggingIndex() {
     deleteModal.onClose();
   };
 
+  const addDietLogEntries = async (
+    startDate: Date,
+    endDate: Date,
+    overwriteExistingDietLogs: boolean
+  ) => {
+    const latestDate = !isNaN(Date.parse(latestDietLog.date))
+      ? Date.parse(latestDietLog.date)
+      : 0;
+
+    const newLatestDietLog = await addDietLogEntryRange(
+      startDate,
+      endDate,
+      overwriteExistingDietLogs,
+      dietLogEntryInputs,
+      latestDate
+    );
+
+    if (newLatestDietLog !== undefined) {
+      setLatestDietLog(newLatestDietLog);
+    }
+
+    resetDietLogEntry();
+    dietLogModal.onClose();
+    toast.success("Diet Log Entries Added");
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -462,10 +498,7 @@ export default function LoggingIndex() {
         doneButtonAction={
           operationType === "edit" ? updateDietLogEntry : addDietLogEntry
         }
-        saveRangeButtonAction={
-          () => {}
-          // addDietLogEntries
-        }
+        saveRangeButtonAction={addDietLogEntries}
       />
       <div className="flex flex-col gap-3 items-center w-full">
         <div className="flex flex-col gap-1 items-center w-full">
@@ -574,7 +607,7 @@ export default function LoggingIndex() {
               className="font-medium"
               variant="flat"
               size="sm"
-              // onPress={handleAddDietLogRangeEntryButton}
+              onPress={handleAddDietLogRangeEntryButton}
             >
               Add Diet Logs For Multiple Dates
             </Button>
