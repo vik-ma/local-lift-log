@@ -38,6 +38,7 @@ import {
   useBodyMeasurementsInput,
   useDietLogList,
   useDietLogEntryInputs,
+  useBodyFatCalculationSettings,
 } from "../hooks";
 
 export default function LoggingIndex() {
@@ -106,6 +107,8 @@ export default function LoggingIndex() {
     loadDietLogInputs,
     setTargetDay,
   } = dietLogEntryInputs;
+
+  const bodyFatCalculationSettings = useBodyFatCalculationSettings();
 
   useEffect(() => {
     if (!isDietLogListLoaded.current) return;
@@ -514,6 +517,7 @@ export default function LoggingIndex() {
       />
       <BodyFatCalculationModal
         bodyFatCalculationModal={bodyFatCalculationModal}
+        useBodyFatCalculationSettings={bodyFatCalculationSettings}
       />
       <div className="flex flex-col gap-3 items-center w-full">
         <div className="flex flex-col gap-1 items-center w-full">

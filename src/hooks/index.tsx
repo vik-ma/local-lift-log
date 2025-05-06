@@ -59,3 +59,4 @@ export { useChartColorLists } from "./useChartColorLists";
 export { useChartDateMap } from "./useChartDateMap";
 export { useChartTimePeriodIdSets } from "./useChartTimePeriodIdSets";
 export { useBodyMeasurementsInput } from "./useBodyMeasurementsInput";
+export { useBodyFatCalculationSettings } from "./useBodyFatCalculationSettings";
