@@ -1091,7 +1091,7 @@ export type UseDietLogListReturnType = {
     startDate: Date,
     endDate: Date,
     overwriteExistingDietLogs: boolean,
-    dietLogTemplate: DietLog,
+    dietLogInputs: UseDietLogEntryInputsReturnType,
     latestDate?: number
   ) => Promise<DietLog | undefined>;
   getDietLogs: () => Promise<void>;

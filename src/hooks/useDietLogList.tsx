@@ -325,10 +325,41 @@ export const useDietLogList = (
     startDate: Date,
     endDate: Date,
     overwriteExistingDietLogs: boolean,
-    dietLogTemplate: DietLog,
+    dietLogInputs: UseDietLogEntryInputsReturnType,
     latestDate?: number
   ) => {
+    const {
+      caloriesInput,
+      commentInput,
+      fatInput,
+      carbsInput,
+      proteinInput,
+      isDietLogEntryInputValid,
+    } = dietLogInputs;
+
+    if (!isDietLogEntryInputValid) return undefined;
+
+    const calories = ConvertInputStringToNumber(caloriesInput);
+    const comment = ConvertEmptyStringToNull(commentInput);
+    const fat = ConvertInputStringToNumberOrNull(fatInput);
+    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+
     const date = startDate;
+
+    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
+
+    const dietLogTemplate: DietLog = {
+      id: 0,
+      date: "",
+      calories,
+      fat,
+      carbs,
+      protein,
+      comment,
+      isExpanded: !disableExpansion,
+      disableExpansion,
+    };
 
     const updatedDietLogMap = new Map(dietLogMap);
 

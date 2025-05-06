@@ -6,13 +6,7 @@ import {
   DietLogModal,
   LoadingSpinner,
 } from "../components";
-import {
-  ConvertEmptyStringToNull,
-  ConvertInputStringToNumber,
-  ConvertInputStringToNumberOrNull,
-  GetUserSettings,
-  ShouldDietLogDisableExpansion,
-} from "../helpers";
+import { GetUserSettings } from "../helpers";
 import {
   useDefaultDietLog,
   useDietLogEntryInputs,
@@ -52,11 +46,6 @@ export default function DietLogIndex() {
   const dietLogEntryInputs = useDietLogEntryInputs("custom");
 
   const {
-    caloriesInput,
-    commentInput,
-    fatInput,
-    carbsInput,
-    proteinInput,
     setTargetDay,
     resetDietLogInputs,
     setDateEntryType,
@@ -148,26 +137,6 @@ export default function DietLogIndex() {
     endDate: Date,
     overwriteExistingDietLogs: boolean
   ) => {
-    const calories = ConvertInputStringToNumber(caloriesInput);
-    const comment = ConvertEmptyStringToNull(commentInput);
-    const fat = ConvertInputStringToNumberOrNull(fatInput);
-    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
-    const protein = ConvertInputStringToNumberOrNull(proteinInput);
-
-    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
-
-    const dietLogTemplate: DietLog = {
-      id: 0,
-      date: "",
-      calories,
-      fat,
-      carbs,
-      protein,
-      comment,
-      isExpanded: !disableExpansion,
-      disableExpansion,
-    };
-
     const latestDate = !isNaN(Date.parse(latestDietLog.date))
       ? Date.parse(latestDietLog.date)
       : 0;
@@ -176,7 +145,7 @@ export default function DietLogIndex() {
       startDate,
       endDate,
       overwriteExistingDietLogs,
-      dietLogTemplate,
+      dietLogEntryInputs,
       latestDate
     );
 

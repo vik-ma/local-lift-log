@@ -23,13 +23,7 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import toast from "react-hot-toast";
-import {
-  ConvertEmptyStringToNull,
-  ConvertInputStringToNumber,
-  ConvertInputStringToNumberOrNull,
-  GetUserSettings,
-  ShouldDietLogDisableExpansion,
-} from "../helpers";
+import { GetUserSettings } from "../helpers";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -69,16 +63,8 @@ export default function DietLogList() {
 
   const dietLogEntryInputs = useDietLogEntryInputs("custom");
 
-  const {
-    caloriesInput,
-    commentInput,
-    fatInput,
-    carbsInput,
-    proteinInput,
-    resetDietLogInputs,
-    setDateEntryType,
-    loadDietLogInputs,
-  } = dietLogEntryInputs;
+  const { resetDietLogInputs, setDateEntryType, loadDietLogInputs } =
+    dietLogEntryInputs;
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -137,31 +123,11 @@ export default function DietLogList() {
     endDate: Date,
     overwriteExistingDietLogs: boolean
   ) => {
-    const calories = ConvertInputStringToNumber(caloriesInput);
-    const comment = ConvertEmptyStringToNull(commentInput);
-    const fat = ConvertInputStringToNumberOrNull(fatInput);
-    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
-    const protein = ConvertInputStringToNumberOrNull(proteinInput);
-
-    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
-
-    const dietLogTemplate: DietLog = {
-      id: 0,
-      date: "",
-      calories,
-      fat,
-      carbs,
-      protein,
-      comment,
-      isExpanded: false,
-      disableExpansion,
-    };
-
     await addDietLogEntryRange(
       startDate,
       endDate,
       overwriteExistingDietLogs,
-      dietLogTemplate
+      dietLogEntryInputs
     );
 
     resetDietLogEntry();
