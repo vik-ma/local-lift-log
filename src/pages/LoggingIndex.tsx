@@ -14,6 +14,7 @@ import {
   TimeInputModal,
   DietLogAccordions,
   DietLogModal,
+  BodyFatCalculationModal,
 } from "../components";
 import {
   GetUserSettings,
@@ -57,6 +58,7 @@ export default function LoggingIndex() {
   const bodyMeasurementsModal = useDisclosure();
   const timeInputModal = useDisclosure();
   const dietLogModal = useDisclosure();
+  const bodyFatCalculationModal = useDisclosure();
 
   const measurementList = useMeasurementList(true);
 
@@ -510,6 +512,9 @@ export default function LoggingIndex() {
         }
         saveRangeButtonAction={addDietLogEntries}
       />
+      <BodyFatCalculationModal
+        bodyFatCalculationModal={bodyFatCalculationModal}
+      />
       <div className="flex flex-col gap-3 items-center w-full">
         <div className="flex flex-col gap-1 items-center w-full">
           <div className="bg-neutral-900 px-5 py-1.5 rounded-xl text-center">
@@ -558,7 +563,7 @@ export default function LoggingIndex() {
                 handleReassignMeasurement={handleReassignMeasurement}
               />
             )}
-            <div className="pt-1">
+            <div className="flex justify-center gap-2 pt-1">
               <Button
                 className="font-medium"
                 variant="flat"
@@ -567,6 +572,14 @@ export default function LoggingIndex() {
                 onPress={handleAddMeasurementsButton}
               >
                 Add Measurements
+              </Button>
+              <Button
+                className="font-medium"
+                variant="flat"
+                size="sm"
+                onPress={() => bodyFatCalculationModal.onOpen()}
+              >
+                Body Fat Calculation Settings
               </Button>
             </div>
           </div>
