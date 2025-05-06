@@ -98,8 +98,12 @@ export default function LoggingIndex() {
 
   const dietLogEntryInputs = useDietLogEntryInputs("custom");
 
-  const { resetDietLogInputs, setDateEntryType, loadDietLogInputs } =
-    dietLogEntryInputs;
+  const {
+    resetDietLogInputs,
+    setDateEntryType,
+    loadDietLogInputs,
+    setTargetDay,
+  } = dietLogEntryInputs;
 
   useEffect(() => {
     if (!isDietLogListLoaded.current) return;
@@ -120,6 +124,10 @@ export default function LoggingIndex() {
       const validUnits = GetValidatedUserSettingsUnits(userSettings);
 
       setWeightUnit(validUnits.weightUnit);
+
+      if (userSettings.default_diet_log_day_is_yesterday === 1) {
+        setTargetDay("Yesterday");
+      }
 
       await Promise.all([
         getActiveMeasurements(userSettings.active_tracking_measurements),
