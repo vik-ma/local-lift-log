@@ -393,10 +393,8 @@ export default function LoggingIndex() {
 
     const newLatestDietLog = await deleteDietLog(latestDietLog);
 
-    if (newLatestDietLog === undefined) return;
-
     if (newLatestDietLog !== undefined) {
-      newLatestDietLog.isExpanded = true;
+      newLatestDietLog.isExpanded = !newLatestDietLog.disableExpansion;
       setLatestDietLog(newLatestDietLog);
     } else {
       setLatestDietLog(defaultDietLog);
