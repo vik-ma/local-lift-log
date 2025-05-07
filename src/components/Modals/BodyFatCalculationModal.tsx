@@ -24,8 +24,14 @@ export const BodyFatCalculationModal = ({
 }: BodyFatCalculationModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
-  const { isMale, setIsMale, ageGroup, setAgeGroup, bodyFatCalculationModal } =
-    useBodyFatCalculationSettings;
+  const {
+    isMale,
+    setIsMale,
+    ageGroup,
+    setAgeGroup,
+    measurementList,
+    bodyFatCalculationModal,
+  } = useBodyFatCalculationSettings;
 
   return (
     <Modal
@@ -37,8 +43,8 @@ export const BodyFatCalculationModal = ({
           <>
             <ModalHeader>Body Fat Percentage Calculation Settings</ModalHeader>
             <ModalBody>
-              <div className="flex flex-col h-[200px]">
-                <div className="flex gap-8 items-start">
+              <div className="flex flex-col gap-5 h-[400px]">
+                <div className="flex justify-center gap-16 items-start">
                   <Select
                     label="Age"
                     labelPlacement="outside"
@@ -70,6 +76,61 @@ export const BodyFatCalculationModal = ({
                     <Radio value="male">Male</Radio>
                     <Radio value="female">Female</Radio>
                   </RadioGroup>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-lg font-medium">Caliper Measurements</h3>
+                  <div className="flex flex-col">
+                    <span className="font-medium text-stone-500">Biceps</span>
+                    <div className="text-sm">
+                      {measurementList[0] !== undefined ? (
+                        <span>{measurementList[0].name}</span>
+                      ) : (
+                        <span className="text-red-500">
+                          No Measurement Selected
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-medium text-stone-600">Triceps</span>{" "}
+                    <div className="text-sm">
+                      {measurementList[1] !== undefined ? (
+                        <span>{measurementList[1].name}</span>
+                      ) : (
+                        <span className="text-red-500">
+                          No Measurement Selected
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-medium text-stone-600">
+                      Subscapular
+                    </span>
+                    <div className="text-sm">
+                      {measurementList[2] !== undefined ? (
+                        <span>{measurementList[2].name}</span>
+                      ) : (
+                        <span className="text-red-500">
+                          No Measurement Selected
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-medium text-stone-600">
+                      Suprailiac
+                    </span>
+                    <div className="text-sm">
+                      {measurementList[3] !== undefined ? (
+                        <span>{measurementList[3].name}</span>
+                      ) : (
+                        <span className="text-red-500">
+                          No Measurement Selected
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </ModalBody>
