@@ -33,6 +33,13 @@ export const BodyFatCalculationModal = ({
     bodyFatCalculationModal,
   } = useBodyFatCalculationSettings;
 
+  const caliperMeasurements = [
+    "Biceps",
+    "Triceps",
+    "Subscapular",
+    "Suprailiac",
+  ];
+
   return (
     <Modal
       isOpen={bodyFatCalculationModal.isOpen}
@@ -79,58 +86,22 @@ export const BodyFatCalculationModal = ({
                 </div>
                 <div className="flex flex-col gap-1">
                   <h3 className="text-lg font-medium">Caliper Measurements</h3>
-                  <div className="flex flex-col">
-                    <span className="font-medium text-stone-500">Biceps</span>
-                    <div className="text-sm">
-                      {measurementList[0] !== undefined ? (
-                        <span>{measurementList[0].name}</span>
-                      ) : (
-                        <span className="text-red-500">
-                          No Measurement Selected
-                        </span>
-                      )}
+                  {caliperMeasurements.map((measurement, index) => (
+                    <div className="flex flex-col">
+                      <span className="font-medium text-stone-500">
+                        {measurement}
+                      </span>
+                      <div className="text-sm">
+                        {measurementList[index] !== undefined ? (
+                          <span>{measurementList[index].name}</span>
+                        ) : (
+                          <span className="text-red-500">
+                            No Measurement Selected
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="font-medium text-stone-600">Triceps</span>{" "}
-                    <div className="text-sm">
-                      {measurementList[1] !== undefined ? (
-                        <span>{measurementList[1].name}</span>
-                      ) : (
-                        <span className="text-red-500">
-                          No Measurement Selected
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="font-medium text-stone-600">
-                      Subscapular
-                    </span>
-                    <div className="text-sm">
-                      {measurementList[2] !== undefined ? (
-                        <span>{measurementList[2].name}</span>
-                      ) : (
-                        <span className="text-red-500">
-                          No Measurement Selected
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="font-medium text-stone-600">
-                      Suprailiac
-                    </span>
-                    <div className="text-sm">
-                      {measurementList[3] !== undefined ? (
-                        <span>{measurementList[3].name}</span>
-                      ) : (
-                        <span className="text-red-500">
-                          No Measurement Selected
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </ModalBody>
