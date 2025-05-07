@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  Measurement,
   MeasurementMap,
   UseBodyFatCalculationSettingsReturnType,
 } from "../typings";
@@ -10,9 +11,9 @@ export const useBodyFatCalculationSettings =
   (): UseBodyFatCalculationSettingsReturnType => {
     const [isMale, setIsMale] = useState<boolean>(true);
     const [ageGroup, setAgeGroup] = useState<string>("20-29");
-    const [measurementIdList, setMeasurementIdList] = useState<number[]>([
-      0, 0, 0, 0,
-    ]);
+    const [measurementList, setMeasurementList] = useState<
+      (Measurement | undefined)[]
+    >([undefined, undefined, undefined, undefined]);
 
     const bodyFatCalculationModal = useDisclosure();
 
@@ -36,7 +37,7 @@ export const useBodyFatCalculationSettings =
 
       if (measurementIds.length === 0) return;
 
-      const updatedMeasurementIds = [...measurementIdList];
+      const updatedMeasurementIds = [...measurementList];
 
       const seenMeasurementIds = new Set<string>();
 
@@ -49,12 +50,12 @@ export const useBodyFatCalculationSettings =
           measurementMap.has(measurementId) &&
           !seenMeasurementIds.has(measurementId)
         ) {
-          updatedMeasurementIds[i] = Number(measurementId);
+          updatedMeasurementIds[i] = measurementMap.get(measurementId);
           seenMeasurementIds.add(measurementId);
         }
       }
 
-      setMeasurementIdList(updatedMeasurementIds);
+      setMeasurementList(updatedMeasurementIds);
     };
 
     return {
@@ -62,7 +63,7 @@ export const useBodyFatCalculationSettings =
       setIsMale,
       ageGroup,
       setAgeGroup,
-      measurementIdList,
+      measurementList,
       bodyFatCalculationModal,
       loadBodyFatCalculationSettingsString,
     };
