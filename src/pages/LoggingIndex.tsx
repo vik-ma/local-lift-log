@@ -530,6 +530,7 @@ export default function LoggingIndex() {
       />
       <BodyFatCalculationModal
         useBodyFatCalculationSettings={bodyFatCalculationSettings}
+        useMeasurementList={measurementList}
       />
       <div className="flex flex-col gap-3 items-center w-full">
         <div className="flex flex-col gap-1 items-center w-full">
