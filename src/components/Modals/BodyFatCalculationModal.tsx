@@ -10,26 +10,21 @@ import {
   Select,
   SelectItem,
 } from "@heroui/react";
-import {
-  UseBodyFatCalculationSettingsReturnType,
-  UseDisclosureReturnType,
-} from "../../typings";
+import { UseBodyFatCalculationSettingsReturnType } from "../../typings";
 import { useState } from "react";
 
 type BodyFatCalculationModalProps = {
-  bodyFatCalculationModal: UseDisclosureReturnType;
   useBodyFatCalculationSettings: UseBodyFatCalculationSettingsReturnType;
 };
 
 type ModalPage = "base" | "measurements-list";
 
 export const BodyFatCalculationModal = ({
-  bodyFatCalculationModal,
   useBodyFatCalculationSettings,
 }: BodyFatCalculationModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
 
-  const { isMale, setIsMale, ageGroup, setAgeGroup } =
+  const { isMale, setIsMale, ageGroup, setAgeGroup, bodyFatCalculationModal } =
     useBodyFatCalculationSettings;
 
   return (

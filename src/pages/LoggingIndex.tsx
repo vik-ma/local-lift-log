@@ -59,7 +59,6 @@ export default function LoggingIndex() {
   const bodyMeasurementsModal = useDisclosure();
   const timeInputModal = useDisclosure();
   const dietLogModal = useDisclosure();
-  const bodyFatCalculationModal = useDisclosure();
 
   const measurementList = useMeasurementList(true);
 
@@ -109,6 +108,9 @@ export default function LoggingIndex() {
   } = dietLogEntryInputs;
 
   const bodyFatCalculationSettings = useBodyFatCalculationSettings();
+
+  const { bodyFatCalculationModal, loadBodyFatCalculationSettingsString } =
+    bodyFatCalculationSettings;
 
   useEffect(() => {
     if (!isDietLogListLoaded.current) return;
@@ -453,6 +455,17 @@ export default function LoggingIndex() {
     toast.success("Diet Log Entries Added");
   };
 
+  const handleBodyFatCalculationSettingsButton = () => {
+    if (userSettings === undefined || !isMeasurementListLoaded.current) return;
+
+    loadBodyFatCalculationSettingsString(
+      userSettings.body_fat_calculation_settings,
+      measurementMap.current
+    );
+
+    bodyFatCalculationModal.onOpen();
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -516,7 +529,6 @@ export default function LoggingIndex() {
         saveRangeButtonAction={addDietLogEntries}
       />
       <BodyFatCalculationModal
-        bodyFatCalculationModal={bodyFatCalculationModal}
         useBodyFatCalculationSettings={bodyFatCalculationSettings}
       />
       <div className="flex flex-col gap-3 items-center w-full">
@@ -581,7 +593,7 @@ export default function LoggingIndex() {
                 className="font-medium"
                 variant="flat"
                 size="sm"
-                onPress={() => bodyFatCalculationModal.onOpen()}
+                onPress={handleBodyFatCalculationSettingsButton}
               >
                 Body Fat Calculation Settings
               </Button>

@@ -4,6 +4,7 @@ import {
   UseBodyFatCalculationSettingsReturnType,
 } from "../typings";
 import { BodyFatCalculationAgeGroups } from "../helpers";
+import { useDisclosure } from "@heroui/react";
 
 export const useBodyFatCalculationSettings =
   (): UseBodyFatCalculationSettingsReturnType => {
@@ -12,6 +13,8 @@ export const useBodyFatCalculationSettings =
     const [measurementIdList, setMeasurementIdList] = useState<number[]>([
       0, 0, 0, 0,
     ]);
+
+    const bodyFatCalculationModal = useDisclosure();
 
     const loadBodyFatCalculationSettingsString = (
       bodyFatCalculationSettingsString: string,
@@ -53,6 +56,7 @@ export const useBodyFatCalculationSettings =
       ageGroup,
       setAgeGroup,
       measurementIdList,
+      bodyFatCalculationModal,
       loadBodyFatCalculationSettingsString,
     };
   };
