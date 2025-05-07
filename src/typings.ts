@@ -1301,4 +1301,9 @@ export type UseBodyFatCalculationSettingsReturnType = {
   setIsMale: React.Dispatch<React.SetStateAction<boolean>>;
   ageGroup: string;
   setAgeGroup: React.Dispatch<React.SetStateAction<string>>;
+  measurementIdList: number[];
+  loadBodyFatCalculationSettingsString: (
+    bodyFatCalculationSettingsString: string,
+    measurementMap: MeasurementMap
+  ) => void;
 };
