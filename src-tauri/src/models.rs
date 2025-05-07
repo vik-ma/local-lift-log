@@ -50,6 +50,7 @@ pub struct UserSetting {
     pub show_set_comments_in_exercise_details: i32,
     pub show_workout_comments_in_exercise_details: i32,
     pub never_show_delete_modal: i32,
+    pub body_fat_calculation_settings: String,
 }
 
 #[derive(Queryable, Selectable)]

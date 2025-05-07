@@ -47,6 +47,7 @@ diesel::table! {
         show_set_comments_in_exercise_details -> Integer,
         show_workout_comments_in_exercise_details -> Integer,
         never_show_delete_modal -> Integer,
+        body_fat_calculation_settings -> Text,
     }
 }
 
