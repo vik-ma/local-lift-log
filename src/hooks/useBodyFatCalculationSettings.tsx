@@ -29,7 +29,7 @@ export const useBodyFatCalculationSettings =
       const validAgeGroups = BodyFatCalculationAgeGroups();
 
       if (validAgeGroups.has(stats[1])) {
-        setAgeGroup(stats[0]);
+        setAgeGroup(stats[1]);
       }
 
       const measurementIds = stats[2].split(",");
@@ -38,12 +38,19 @@ export const useBodyFatCalculationSettings =
 
       const updatedMeasurementIds = [...measurementIdList];
 
+      const seenMeasurementIds = new Set<string>();
+
       // 1. Biceps, 2. Triceps, 3. Subscapular, 4. Suprailiac
       for (let i = 0; i < 4; i++) {
         const measurementId = measurementIds[i];
 
-        if (measurementId !== undefined && measurementMap.has(measurementId)) {
+        if (
+          measurementId !== undefined &&
+          measurementMap.has(measurementId) &&
+          !seenMeasurementIds.has(measurementId)
+        ) {
           updatedMeasurementIds[i] = Number(measurementId);
+          seenMeasurementIds.add(measurementId);
         }
       }
 
