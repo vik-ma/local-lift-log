@@ -48,6 +48,7 @@ export type UserSettings = {
   show_set_comments_in_exercise_details: number;
   show_workout_comments_in_exercise_details: number;
   never_show_delete_modal: number;
+  body_fat_calculation_settings: string;
 };
 
 export type Exercise = {

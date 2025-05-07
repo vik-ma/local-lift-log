@@ -66,6 +66,8 @@ export const CreateDefaultUserSettings = async (
 
   const never_show_delete_modal = 0;
 
+  const body_fat_calculation_settings = "male/20-29/14,15,17,18";
+
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -90,9 +92,10 @@ export const CreateDefaultUserSettings = async (
         default_num_new_sets, shown_time_period_properties, default_diet_log_day_is_yesterday, 
         show_warmups_in_exercise_details, show_multisets_in_exercise_details,
         show_pace_in_exercise_details, show_set_comments_in_exercise_details,
-        show_workout_comments_in_exercise_details, never_show_delete_modal) 
+        show_workout_comments_in_exercise_details, never_show_delete_modal, 
+        body_fat_calculation_settings) 
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, 
-        $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32)`,
+        $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -126,6 +129,7 @@ export const CreateDefaultUserSettings = async (
         show_set_comments_in_exercise_details,
         show_workout_comments_in_exercise_details,
         never_show_delete_modal,
+        body_fat_calculation_settings,
       ]
     );
 
@@ -165,6 +169,7 @@ export const CreateDefaultUserSettings = async (
       show_set_comments_in_exercise_details,
       show_workout_comments_in_exercise_details,
       never_show_delete_modal,
+      body_fat_calculation_settings,
     };
 
     return defaultUserSettings;
