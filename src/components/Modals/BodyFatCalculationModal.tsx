@@ -50,7 +50,7 @@ export const BodyFatCalculationModal = ({
           <>
             <ModalHeader>Body Fat Percentage Calculation Settings</ModalHeader>
             <ModalBody>
-              <div className="flex flex-col gap-5 h-[400px]">
+              <div className="flex flex-col h-[400px]">
                 <div className="flex justify-center gap-16 items-start">
                   <Select
                     label="Age"
@@ -84,22 +84,33 @@ export const BodyFatCalculationModal = ({
                     <Radio value="female">Female</Radio>
                   </RadioGroup>
                 </div>
-                <div className="flex flex-col gap-1">
-                  <h3 className="text-lg font-medium">Caliper Measurements</h3>
+                <h3 className="text-lg font-medium pt-4 pb-0.5">
+                  Caliper Measurements
+                </h3>
+                <div className="flex flex-col gap-1.5">
                   {caliperMeasurements.map((measurement, index) => (
-                    <div className="flex flex-col">
-                      <span className="font-medium text-stone-500">
-                        {measurement}
-                      </span>
-                      <div className="text-sm">
-                        {measurementList[index] !== undefined ? (
-                          <span>{measurementList[index].name}</span>
-                        ) : (
-                          <span className="text-red-500">
-                            No Measurement Selected
-                          </span>
-                        )}
+                    <div className="flex items-end gap-1.5">
+                      <div className="flex flex-col gap-px">
+                        <span className="font-medium text-stone-500 px-px">
+                          {measurement}
+                        </span>
+                        <div className="w-[12.5rem] font-medium bg-default-100 border-2 border-default-200 px-2 py-1 text-sm rounded-lg truncate">
+                          {measurementList[index] !== undefined ? (
+                            <span>{measurementList[index].name}</span>
+                          ) : (
+                            <span className="text-red-500">
+                              No Measurement Selected
+                            </span>
+                          )}
+                        </div>
                       </div>
+                      <Button
+                        aria-label={`Change ${measurement} caliper measurement`}
+                        variant="flat"
+                        size="sm"
+                      >
+                        Change
+                      </Button>
                     </div>
                   ))}
                 </div>
