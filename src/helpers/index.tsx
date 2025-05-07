@@ -68,6 +68,7 @@ export { ValidateLoadExerciseOptionsCategoriesString } from "./UserSettings/Vali
 export { ValidateUserSetting } from "./UserSettings/ValidateUserSetting";
 export { UpdateUserSetting } from "./UserSettings/UpdateUserSetting";
 export { GetValidatedNumNewSets } from "./UserSettings/GetValidatedNumNewSets";
+export { ValidateBodyFatCalculationSettingsString } from "./UserSettings/ValidateBodyFatCalculationSettingsString";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
@@ -221,6 +222,7 @@ export { ValidLoadExerciseOptionsMap } from "./Constants/ValidLoadExerciseOption
 export { ValidSpeedUnits } from "./Constants/ValidSpeedUnits";
 export { ValidLoadExerciseOptionsCategories } from "./Constants/ValidLoadExerciseOptionsCategories";
 export { ValidPaceUnits } from "./Constants/ValidPaceUnits";
+export { BodyFatCalculationAgeGroups } from "./Constants/BodyFatCalculationAgeGroups";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";

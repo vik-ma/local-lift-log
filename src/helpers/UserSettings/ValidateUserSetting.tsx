@@ -14,6 +14,7 @@ import {
   ValidTimeInputBehaviors,
   ValidTimeInputs,
   ValidWeightUnits,
+  ValidateBodyFatCalculationSettingsString,
 } from "..";
 import { UserSettings } from "../../typings";
 
@@ -86,6 +87,8 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
       return IsNumberValidBinary(value as number);
     case "never_show_delete_modal":
       return IsNumberValidBinary(value as number);
+    case "body_fat_calculation_settings":
+      return ValidateBodyFatCalculationSettingsString(value as string);
     default:
       return false;
   }

@@ -3,6 +3,7 @@ import {
   MeasurementMap,
   UseBodyFatCalculationSettingsReturnType,
 } from "../typings";
+import { BodyFatCalculationAgeGroups } from "../helpers";
 
 export const useBodyFatCalculationSettings =
   (): UseBodyFatCalculationSettingsReturnType => {
@@ -22,13 +23,7 @@ export const useBodyFatCalculationSettings =
 
       setIsMale(stats[0] === "male");
 
-      const validAgeGroups = new Set([
-        "17-19",
-        "20-29",
-        "30-39",
-        "40-49",
-        "50+",
-      ]);
+      const validAgeGroups = BodyFatCalculationAgeGroups();
 
       if (validAgeGroups.has(stats[1])) {
         setAgeGroup(stats[0]);
