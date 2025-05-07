@@ -105,7 +105,7 @@ export const MeasurementModalList = ({
                     className={
                       highlightedMeasurements !== undefined
                         ? "w-[17.5rem] truncate text-left"
-                        : "w-[21rem] truncate text-left"
+                        : "w-[20rem] truncate text-left"
                     }
                   >
                     {measurement.name}
@@ -144,13 +144,13 @@ export const MeasurementModalList = ({
             itemName="Measurements"
             customLabel={
               isInAnalyticsPage && measurements.length === 0
-                ? "No User Measurements Has Been Recorded"
+                ? "No Body Measurements Has Been Recorded"
                 : undefined
             }
             extraContent={
               measurements.length > 0 ? undefined : (
                 <Link to={"/measurements/measurement-list"}>
-                  Create Or Restore Default Body Measurements Here
+                  Create Or Restore Default Measurements Here
                 </Link>
               )
             }
