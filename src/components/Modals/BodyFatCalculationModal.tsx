@@ -67,16 +67,19 @@ export const BodyFatCalculationModal = ({
     setModalPage("base");
   };
 
-  const hiddenMeasurements = useMemo(() => {
+  const { hiddenMeasurements, areMeasurementsInvalid } = useMemo(() => {
     const hiddenMeasurements = new Map<number, Measurement>();
+    let areMeasurementsInvalid = false;
 
     for (const measurement of measurementList) {
       if (measurement !== undefined) {
         hiddenMeasurements.set(measurement.id, measurement);
+      } else {
+        areMeasurementsInvalid = true;
       }
     }
 
-    return hiddenMeasurements;
+    return { hiddenMeasurements, areMeasurementsInvalid };
   }, [measurementList]);
 
   return (
@@ -141,7 +144,7 @@ export const BodyFatCalculationModal = ({
                   </h3>
                   <div className="flex flex-col gap-1.5">
                     {caliperMeasurements.map((measurement, index) => (
-                      <div key={measurement} className="flex items-end gap-1.5">
+                      <div key={measurement} className="flex items-end gap-1">
                         <div className="flex flex-col gap-px">
                           <span className="font-medium text-stone-500 px-px">
                             {measurement}
@@ -191,13 +194,10 @@ export const BodyFatCalculationModal = ({
                 <Button
                   color="primary"
                   onPress={
-                    modalPage === "base"
-                      ? //   TODO: FIX
-                        () => {}
-                      : () => setModalPage("base")
+                    // TODO: FIX
+                    () => {}
                   }
-                  //   TODO: FIX
-                  isDisabled={modalPage !== "base"}
+                  isDisabled={modalPage !== "base" || areMeasurementsInvalid}
                 >
                   {modalPage === "base" ? "Done" : "Save"}
                 </Button>
