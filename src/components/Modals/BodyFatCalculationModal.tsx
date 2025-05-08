@@ -13,7 +13,7 @@ import {
   UseBodyFatCalculationSettingsReturnType,
   UseMeasurementListReturnType,
 } from "../../typings";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { MeasurementModalList } from "../ModalLists/MeasurementModalList";
 
 type BodyFatCalculationModalProps = {
@@ -41,6 +41,8 @@ export const BodyFatCalculationModal = ({
     measurementList,
     setMeasurementList,
     bodyFatCalculationModal,
+    hiddenMeasurements,
+    isMeasurementListInvalid,
   } = useBodyFatCalculationSettings;
 
   const caliperMeasurements = [
@@ -66,21 +68,6 @@ export const BodyFatCalculationModal = ({
     setMeasurementList(updatedMeasurementList);
     setModalPage("base");
   };
-
-  const { hiddenMeasurements, areMeasurementsInvalid } = useMemo(() => {
-    const hiddenMeasurements = new Map<number, Measurement>();
-    let areMeasurementsInvalid = false;
-
-    for (const measurement of measurementList) {
-      if (measurement !== undefined) {
-        hiddenMeasurements.set(measurement.id, measurement);
-      } else {
-        areMeasurementsInvalid = true;
-      }
-    }
-
-    return { hiddenMeasurements, areMeasurementsInvalid };
-  }, [measurementList]);
 
   return (
     <Modal
@@ -197,7 +184,7 @@ export const BodyFatCalculationModal = ({
                     // TODO: FIX
                     () => {}
                   }
-                  isDisabled={modalPage !== "base" || areMeasurementsInvalid}
+                  isDisabled={modalPage !== "base" || isMeasurementListInvalid}
                 >
                   {modalPage === "base" ? "Done" : "Save"}
                 </Button>

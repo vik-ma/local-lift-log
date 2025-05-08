@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Measurement,
   MeasurementMap,
@@ -58,6 +58,21 @@ export const useBodyFatCalculationSettings =
       setMeasurementList(updatedMeasurementIds);
     };
 
+    const { hiddenMeasurements, isMeasurementListInvalid } = useMemo(() => {
+      const hiddenMeasurements = new Map<number, Measurement>();
+      let isMeasurementListInvalid = false;
+
+      for (const measurement of measurementList) {
+        if (measurement !== undefined) {
+          hiddenMeasurements.set(measurement.id, measurement);
+        } else {
+          isMeasurementListInvalid = true;
+        }
+      }
+
+      return { hiddenMeasurements, isMeasurementListInvalid };
+    }, [measurementList]);
+
     return {
       isMale,
       setIsMale,
@@ -67,5 +82,7 @@ export const useBodyFatCalculationSettings =
       setMeasurementList,
       bodyFatCalculationModal,
       loadBodyFatCalculationSettingsString,
+      hiddenMeasurements,
+      isMeasurementListInvalid,
     };
   };
