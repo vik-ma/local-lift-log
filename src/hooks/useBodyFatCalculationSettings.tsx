@@ -68,19 +68,19 @@ export const useBodyFatCalculationSettings = (
     setMeasurementList(updatedMeasurementIds);
   };
 
-  const { hiddenMeasurements, isMeasurementListInvalid } = useMemo(() => {
-    const hiddenMeasurements = new Map<number, Measurement>();
+  const { bodyFatCalculationMeasurements, isMeasurementListInvalid } = useMemo(() => {
+    const bodyFatCalculationMeasurements = new Map<number, Measurement>();
     let isMeasurementListInvalid = false;
 
     for (const measurement of measurementList) {
       if (measurement !== undefined) {
-        hiddenMeasurements.set(measurement.id, measurement);
+        bodyFatCalculationMeasurements.set(measurement.id, measurement);
       } else {
         isMeasurementListInvalid = true;
       }
     }
 
-    return { hiddenMeasurements, isMeasurementListInvalid };
+    return { bodyFatCalculationMeasurements, isMeasurementListInvalid };
   }, [measurementList]);
 
   const saveBodyFatCalculationSettingsString = async () => {
@@ -115,7 +115,7 @@ export const useBodyFatCalculationSettings = (
     setMeasurementList,
     bodyFatCalculationModal,
     loadBodyFatCalculationSettingsString,
-    hiddenMeasurements,
+    bodyFatCalculationMeasurements,
     isMeasurementListInvalid,
     saveBodyFatCalculationSettingsString,
   };
