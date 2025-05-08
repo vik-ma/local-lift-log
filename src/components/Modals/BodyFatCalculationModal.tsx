@@ -73,7 +73,8 @@ export const BodyFatCalculationModal = ({
                       labelPlacement="outside"
                       className="w-[6.25rem]"
                       classNames={{
-                        label: "!text-default-500 ml-1 mt-1.5",
+                        label:
+                          "!text-stone-500 text-base font-medium ml-1 mt-1.5",
                         trigger: "mt-0.5",
                         base: "justify-start",
                       }}
@@ -93,7 +94,8 @@ export const BodyFatCalculationModal = ({
                       labelPlacement="outside"
                       className="w-[6.25rem]"
                       classNames={{
-                        label: "!text-default-500 ml-1 mt-1.5",
+                        label:
+                          "!text-stone-500 text-base font-medium ml-1 mt-1.5",
                         trigger: "mt-0.5",
                         base: "justify-start",
                       }}
