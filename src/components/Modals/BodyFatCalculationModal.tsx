@@ -84,51 +84,57 @@ export const BodyFatCalculationModal = ({
             </ModalHeader>
             <ModalBody>
               {modalPage === "base" ? (
-                <div className="flex flex-col gap-1.5 h-[400px]">
-                  <div className="flex flex-col gap-1.5">
-                    <Select
-                      label="Age"
-                      labelPlacement="outside"
-                      className="w-[6.25rem]"
-                      classNames={{
-                        label:
-                          "!text-stone-500 text-base font-medium ml-px mt-1.5",
-                        trigger: "mt-0.5",
-                        base: "justify-start",
-                      }}
-                      variant="faded"
-                      size="sm"
-                      selectedKeys={[ageGroup]}
-                      onChange={(e) => setAgeGroup(e.target.value)}
-                      disallowEmptySelection
-                    >
-                      <SelectItem key="17-19">17-19</SelectItem>
-                      <SelectItem key="20-29">20-29</SelectItem>
-                      <SelectItem key="30-39">30-39</SelectItem>
-                      <SelectItem key="40-49">40-49</SelectItem>
-                      <SelectItem key="50+">50+</SelectItem>
-                    </Select>
-                    <Select
-                      label="Gender"
-                      labelPlacement="outside"
-                      className="w-[6.25rem]"
-                      classNames={{
-                        label:
-                          "!text-stone-500 text-base font-medium ml-px mt-1.5",
-                        trigger: "mt-0.5",
-                        base: "justify-start",
-                      }}
-                      variant="faded"
-                      size="sm"
-                      selectedKeys={isMale ? ["male"] : ["female"]}
-                      onChange={(e) => setIsMale(e.target.value === "male")}
-                      disallowEmptySelection
-                    >
-                      <SelectItem key="male">Male</SelectItem>
-                      <SelectItem key="female">Female</SelectItem>
-                    </Select>
+                <div className="flex flex-col gap-2 h-[400px]">
+                  <div className="flex gap-[2.75rem]">
+                    <div className="flex flex-col gap-1.5">
+                      <Select
+                        label="Age"
+                        labelPlacement="outside"
+                        className="w-[6.25rem]"
+                        classNames={{
+                          label:
+                            "!text-stone-500 text-base font-medium mx-px mt-1.5",
+                          trigger: "mt-0.5",
+                          base: "justify-start",
+                        }}
+                        variant="faded"
+                        size="sm"
+                        selectedKeys={[ageGroup]}
+                        onChange={(e) => setAgeGroup(e.target.value)}
+                        disallowEmptySelection
+                      >
+                        <SelectItem key="17-19">17-19</SelectItem>
+                        <SelectItem key="20-29">20-29</SelectItem>
+                        <SelectItem key="30-39">30-39</SelectItem>
+                        <SelectItem key="40-49">40-49</SelectItem>
+                        <SelectItem key="50+">50+</SelectItem>
+                      </Select>
+                      <Select
+                        label="Gender"
+                        labelPlacement="outside"
+                        className="w-[6.25rem]"
+                        classNames={{
+                          label:
+                            "!text-stone-500 text-base font-medium mx-px mt-1.5",
+                          trigger: "mt-0.5",
+                          base: "justify-start",
+                        }}
+                        variant="faded"
+                        size="sm"
+                        selectedKeys={isMale ? ["male"] : ["female"]}
+                        onChange={(e) => setIsMale(e.target.value === "male")}
+                        disallowEmptySelection
+                      >
+                        <SelectItem key="male">Male</SelectItem>
+                        <SelectItem key="female">Female</SelectItem>
+                      </Select>
+                    </div>
+                    <div className="text-xs text-stone-500 pt-0.5 w-[15rem]">
+                      Body fat percentage is calculated using the Durnin &
+                      Womersley method.
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-px">
+                  <div className="flex flex-col gap-0.5">
                     <h3 className="text-lg font-medium">
                       Caliper Measurements
                     </h3>
