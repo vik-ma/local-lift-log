@@ -84,19 +84,20 @@ export const BodyFatCalculationModal = ({
             </ModalHeader>
             <ModalBody>
               {modalPage === "base" ? (
-                <div className="flex flex-col h-[400px]">
-                  <div className="flex justify-center gap-16 items-start">
+                <div className="flex flex-col gap-1.5 h-[400px]">
+                  <div className="flex flex-col gap-1.5">
                     <Select
                       label="Age"
                       labelPlacement="outside"
                       className="w-[6.25rem]"
                       classNames={{
                         label:
-                          "!text-stone-500 text-base font-medium ml-1 mt-1.5",
+                          "!text-stone-500 text-base font-medium ml-px mt-1.5",
                         trigger: "mt-0.5",
                         base: "justify-start",
                       }}
                       variant="faded"
+                      size="sm"
                       selectedKeys={[ageGroup]}
                       onChange={(e) => setAgeGroup(e.target.value)}
                       disallowEmptySelection
@@ -113,11 +114,12 @@ export const BodyFatCalculationModal = ({
                       className="w-[6.25rem]"
                       classNames={{
                         label:
-                          "!text-stone-500 text-base font-medium ml-1 mt-1.5",
+                          "!text-stone-500 text-base font-medium ml-px mt-1.5",
                         trigger: "mt-0.5",
                         base: "justify-start",
                       }}
                       variant="faded"
+                      size="sm"
                       selectedKeys={isMale ? ["male"] : ["female"]}
                       onChange={(e) => setIsMale(e.target.value === "male")}
                       disallowEmptySelection
@@ -126,36 +128,40 @@ export const BodyFatCalculationModal = ({
                       <SelectItem key="female">Female</SelectItem>
                     </Select>
                   </div>
-                  <h3 className="text-lg font-medium pt-4 pb-px">
-                    Caliper Measurements
-                  </h3>
-                  <div className="flex flex-col gap-1.5">
-                    {caliperMeasurements.map((measurement, index) => (
-                      <div key={measurement} className="flex items-end gap-1">
-                        <div className="flex flex-col gap-px">
-                          <span className="font-medium text-stone-500 px-px">
-                            {measurement}
-                          </span>
-                          <div className="w-[12.375rem] bg-default-100 border-2 border-default-200 px-2 py-1 text-sm rounded-lg truncate">
-                            {measurementList[index] !== undefined ? (
-                              <span>{measurementList[index].name}</span>
-                            ) : (
-                              <span className="text-red-500">
-                                No Measurement Selected
-                              </span>
-                            )}
+                  <div className="flex flex-col gap-px">
+                    <h3 className="text-lg font-medium">
+                      Caliper Measurements
+                    </h3>
+                    <div className="flex flex-col gap-1.5">
+                      {caliperMeasurements.map((measurement, index) => (
+                        <div key={measurement} className="flex items-end gap-1">
+                          <div className="flex flex-col gap-px">
+                            <span className="font-medium text-stone-500 px-px">
+                              {measurement}
+                            </span>
+                            <div className="w-[12.375rem] bg-default-100 border-2 border-default-200 px-2 py-1 text-sm rounded-lg truncate">
+                              {measurementList[index] !== undefined ? (
+                                <span>{measurementList[index].name}</span>
+                              ) : (
+                                <span className="text-red-500">
+                                  No Measurement Selected
+                                </span>
+                              )}
+                            </div>
                           </div>
+                          <Button
+                            aria-label={`Change ${measurement} caliper measurement`}
+                            variant="flat"
+                            size="sm"
+                            onPress={() =>
+                              handleChangeButton(measurement, index)
+                            }
+                          >
+                            Change
+                          </Button>
                         </div>
-                        <Button
-                          aria-label={`Change ${measurement} caliper measurement`}
-                          variant="flat"
-                          size="sm"
-                          onPress={() => handleChangeButton(measurement, index)}
-                        >
-                          Change
-                        </Button>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
               ) : (
