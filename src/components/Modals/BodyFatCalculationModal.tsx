@@ -9,6 +9,7 @@ import {
   SelectItem,
 } from "@heroui/react";
 import {
+  Measurement,
   UseBodyFatCalculationSettingsReturnType,
   UseMeasurementListReturnType,
 } from "../../typings";
@@ -29,6 +30,8 @@ export const BodyFatCalculationModal = ({
   const [modalPage, setModalPage] = useState<ModalPage>("base");
   const [operatingCaliperMeasurement, setOperatingCaliperMeasurement] =
     useState<string>("Biceps");
+  const [operatingMeasurementIndex, setOperatingMeasurementIndex] =
+    useState<number>(0);
 
   const {
     isMale,
@@ -36,6 +39,7 @@ export const BodyFatCalculationModal = ({
     ageGroup,
     setAgeGroup,
     measurementList,
+    setMeasurementList,
     bodyFatCalculationModal,
   } = useBodyFatCalculationSettings;
 
@@ -46,9 +50,19 @@ export const BodyFatCalculationModal = ({
     "Suprailiac",
   ];
 
-  const handleChangeButton = (measurement: string) => {
+  const handleChangeButton = (measurement: string, index: number) => {
     setOperatingCaliperMeasurement(measurement);
+    setOperatingMeasurementIndex(index);
     setModalPage("measurements-list");
+  };
+
+  const handleMeasurementClick = (measurement: Measurement) => {
+    const updatedMeasurementList = [...measurementList];
+
+    updatedMeasurementList[operatingMeasurementIndex] = measurement;
+
+    setMeasurementList(updatedMeasurementList);
+    setModalPage("base");
   };
 
   return (
@@ -132,7 +146,7 @@ export const BodyFatCalculationModal = ({
                           aria-label={`Change ${measurement} caliper measurement`}
                           variant="flat"
                           size="sm"
-                          onPress={() => handleChangeButton(measurement)}
+                          onPress={() => handleChangeButton(measurement, index)}
                         >
                           Change
                         </Button>
@@ -143,8 +157,7 @@ export const BodyFatCalculationModal = ({
               ) : (
                 <MeasurementModalList
                   useMeasurementList={useMeasurementList}
-                  // TODO: ADD
-                  handleMeasurementClick={() => {}}
+                  handleMeasurementClick={handleMeasurementClick}
                 />
               )}
             </ModalBody>

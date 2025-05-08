@@ -64,6 +64,7 @@ export const useBodyFatCalculationSettings =
       ageGroup,
       setAgeGroup,
       measurementList,
+      setMeasurementList,
       bodyFatCalculationModal,
       loadBodyFatCalculationSettingsString,
     };
