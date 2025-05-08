@@ -107,7 +107,10 @@ export default function LoggingIndex() {
     setTargetDay,
   } = dietLogEntryInputs;
 
-  const bodyFatCalculationSettings = useBodyFatCalculationSettings();
+  const bodyFatCalculationSettings = useBodyFatCalculationSettings(
+    userSettings,
+    setUserSettings
+  );
 
   const { bodyFatCalculationModal, loadBodyFatCalculationSettingsString } =
     bodyFatCalculationSettings;
@@ -596,7 +599,7 @@ export default function LoggingIndex() {
                 size="sm"
                 onPress={handleBodyFatCalculationSettingsButton}
               >
-                Body Fat Calculation Settings
+                Body Fat % Calculation Settings
               </Button>
             </div>
           </div>

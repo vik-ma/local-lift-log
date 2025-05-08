@@ -43,6 +43,7 @@ export const BodyFatCalculationModal = ({
     bodyFatCalculationModal,
     hiddenMeasurements,
     isMeasurementListInvalid,
+    saveBodyFatCalculationSettingsString,
   } = useBodyFatCalculationSettings;
 
   const caliperMeasurements = [
@@ -192,10 +193,7 @@ export const BodyFatCalculationModal = ({
                 </Button>
                 <Button
                   color="primary"
-                  onPress={
-                    // TODO: FIX
-                    () => {}
-                  }
+                  onPress={saveBodyFatCalculationSettingsString}
                   isDisabled={modalPage !== "base" || isMeasurementListInvalid}
                 >
                   {modalPage === "base" ? "Done" : "Save"}

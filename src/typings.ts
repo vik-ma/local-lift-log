@@ -1313,4 +1313,5 @@ export type UseBodyFatCalculationSettingsReturnType = {
   ) => void;
   hiddenMeasurements: Map<number, Measurement>;
   isMeasurementListInvalid: boolean;
+  saveBodyFatCalculationSettingsString: () => void;
 };
