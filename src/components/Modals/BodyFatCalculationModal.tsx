@@ -13,7 +13,7 @@ import {
   UseBodyFatCalculationSettingsReturnType,
   UseMeasurementListReturnType,
 } from "../../typings";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { MeasurementModalList } from "../ModalLists/MeasurementModalList";
 
 type BodyFatCalculationModalProps = {
@@ -57,6 +57,8 @@ export const BodyFatCalculationModal = ({
   };
 
   const handleMeasurementClick = (measurement: Measurement) => {
+    if (hiddenMeasurements.has(measurement.id)) return;
+
     const updatedMeasurementList = [...measurementList];
 
     updatedMeasurementList[operatingMeasurementIndex] = measurement;
@@ -64,6 +66,18 @@ export const BodyFatCalculationModal = ({
     setMeasurementList(updatedMeasurementList);
     setModalPage("base");
   };
+
+  const hiddenMeasurements = useMemo(() => {
+    const hiddenMeasurements = new Map<number, Measurement>();
+
+    for (const measurement of measurementList) {
+      if (measurement !== undefined) {
+        hiddenMeasurements.set(measurement.id, measurement);
+      }
+    }
+
+    return hiddenMeasurements;
+  }, [measurementList]);
 
   return (
     <Modal
@@ -158,6 +172,7 @@ export const BodyFatCalculationModal = ({
                 <MeasurementModalList
                   useMeasurementList={useMeasurementList}
                   handleMeasurementClick={handleMeasurementClick}
+                  hiddenMeasurements={hiddenMeasurements}
                 />
               )}
             </ModalBody>
