@@ -5,8 +5,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  RadioGroup,
-  Radio,
   Select,
   SelectItem,
 } from "@heroui/react";
@@ -75,12 +73,11 @@ export const BodyFatCalculationModal = ({
                       labelPlacement="outside"
                       className="w-[6.25rem]"
                       classNames={{
-                        label: "!text-default-500 ml-1 mt-1",
+                        label: "!text-default-500 ml-1 mt-1.5",
                         trigger: "mt-0.5",
                         base: "justify-start",
                       }}
                       variant="faded"
-                      size="lg"
                       selectedKeys={[ageGroup]}
                       onChange={(e) => setAgeGroup(e.target.value)}
                       disallowEmptySelection
@@ -91,16 +88,23 @@ export const BodyFatCalculationModal = ({
                       <SelectItem key="40-49">40-49</SelectItem>
                       <SelectItem key="50+">50+</SelectItem>
                     </Select>
-                    <RadioGroup
-                      className="gap-0.5"
-                      classNames={{ wrapper: "gap-0.5" }}
-                      value={isMale ? "male" : "female"}
-                      onValueChange={(value) => setIsMale(value === "male")}
+                    <Select
                       label="Gender"
+                      labelPlacement="outside"
+                      className="w-[6.25rem]"
+                      classNames={{
+                        label: "!text-default-500 ml-1 mt-1.5",
+                        trigger: "mt-0.5",
+                        base: "justify-start",
+                      }}
+                      variant="faded"
+                      selectedKeys={isMale ? ["male"] : ["female"]}
+                      onChange={(e) => setIsMale(e.target.value === "male")}
+                      disallowEmptySelection
                     >
-                      <Radio value="male">Male</Radio>
-                      <Radio value="female">Female</Radio>
-                    </RadioGroup>
+                      <SelectItem key="male">Male</SelectItem>
+                      <SelectItem key="female">Female</SelectItem>
+                    </Select>
                   </div>
                   <h3 className="text-lg font-medium pt-4 pb-px">
                     Caliper Measurements
