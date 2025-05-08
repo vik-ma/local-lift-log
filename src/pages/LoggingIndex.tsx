@@ -139,6 +139,11 @@ export default function LoggingIndex() {
         setTargetDay("Yesterday");
       }
 
+      loadBodyFatCalculationSettingsString(
+        userSettings.body_fat_calculation_settings,
+        measurementMap.current
+      );
+
       await Promise.all([
         getActiveMeasurements(userSettings.active_tracking_measurements),
         getLatestBodyMeasurements(userSettings.clock_style),
@@ -458,17 +463,6 @@ export default function LoggingIndex() {
     toast.success("Diet Log Entries Added");
   };
 
-  const handleBodyFatCalculationSettingsButton = () => {
-    if (userSettings === undefined || !isMeasurementListLoaded.current) return;
-
-    loadBodyFatCalculationSettingsString(
-      userSettings.body_fat_calculation_settings,
-      measurementMap.current
-    );
-
-    bodyFatCalculationModal.onOpen();
-  };
-
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -495,6 +489,7 @@ export default function LoggingIndex() {
         bodyMeasurementsModal={bodyMeasurementsModal}
         useBodyMeasurementInputs={bodyMeasurementsInput}
         useMeasurementList={measurementList}
+        useBodyFatCalculationSettings={bodyFatCalculationSettings}
         doneButtonAction={
           operationType === "edit"
             ? updateBodyMeasurements
@@ -597,7 +592,7 @@ export default function LoggingIndex() {
                 className="font-medium"
                 variant="flat"
                 size="sm"
-                onPress={handleBodyFatCalculationSettingsButton}
+                onPress={() => bodyFatCalculationModal.onOpen()}
               >
                 Body Fat % Calculation Settings
               </Button>

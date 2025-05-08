@@ -13,6 +13,7 @@ type BodyMeasurementsReorderItemProps = {
   handleActiveMeasurementInputChange: (value: string, index: number) => void;
   isEditing: boolean;
   updateActiveTrackingMeasurementOrder?: () => void;
+  isBodyFatCalculationMeasurement?: boolean;
 };
 
 export const BodyMeasurementsReorderItem = ({
@@ -24,6 +25,7 @@ export const BodyMeasurementsReorderItem = ({
   handleActiveMeasurementInputChange,
   isEditing,
   updateActiveTrackingMeasurementOrder = () => {},
+  isBodyFatCalculationMeasurement,
 }: BodyMeasurementsReorderItemProps) => {
   const dragControls = useDragControls();
 
@@ -36,6 +38,11 @@ export const BodyMeasurementsReorderItem = ({
     >
       <div className="flex gap-1.5 items-center">
         <Input
+          classNames={{
+            inputWrapper: isBodyFatCalculationMeasurement
+              ? "border-primary"
+              : "",
+          }}
           value={measurement.input}
           label={measurement.name}
           size="sm"
