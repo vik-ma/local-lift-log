@@ -38,14 +38,14 @@ export const BodyMeasurementsReorderItem = ({
     >
       <div className="flex gap-1.5 items-center relative">
         {isBodyFatCalculationMeasurement && (
-          <div className="absolute left-[14rem] top-2.5 px-2 py-1 rounded-md text-sm text-yellow-600 bg-primary/35 z-50">
+          <div className="absolute left-[14rem] top-2.5 px-2 py-1 rounded-md text-sm text-yellow-600 bg-primary/30 z-50">
             BF%
           </div>
         )}
         <Input
           classNames={{
             inputWrapper: isBodyFatCalculationMeasurement
-              ? "border-primary"
+              ? "border-primary/65"
               : "",
           }}
           value={measurement.input}
