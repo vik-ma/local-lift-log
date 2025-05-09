@@ -117,6 +117,9 @@ export const BodyMeasurementsModal = ({
                   useMeasurementList={useMeasurementList}
                   handleMeasurementClick={handleMeasurementClick}
                   highlightedMeasurements={activeMeasurementSet}
+                  bodyFatCalculationMeasurements={
+                    bodyFatCalculationMeasurements
+                  }
                 />
               ) : (
                 <div className="h-[400px]">

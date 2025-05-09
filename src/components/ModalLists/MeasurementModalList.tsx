@@ -19,6 +19,7 @@ type MeasurementModalListProps = {
   customHeightString?: string;
   hiddenMeasurements?: Map<number, Measurement>;
   isInAnalyticsPage?: boolean;
+  bodyFatCalculationMeasurements?: Map<number, Measurement>;
 };
 
 export const MeasurementModalList = ({
@@ -28,6 +29,7 @@ export const MeasurementModalList = ({
   customHeightString,
   hiddenMeasurements,
   isInAnalyticsPage,
+  bodyFatCalculationMeasurements,
 }: MeasurementModalListProps) => {
   const {
     measurements,
@@ -104,7 +106,7 @@ export const MeasurementModalList = ({
                   <span
                     className={
                       highlightedMeasurements !== undefined
-                        ? "w-[17.5rem] truncate text-left"
+                        ? "w-[14rem] truncate text-left"
                         : "w-[20rem] truncate text-left"
                     }
                   >
@@ -127,6 +129,11 @@ export const MeasurementModalList = ({
                     </span>
                   )}
                 </div>
+                {bodyFatCalculationMeasurements?.has(measurement.id) && (
+                  <div className="px-2 py-1 rounded-md text-sm text-yellow-600 bg-primary/30 z-50">
+                    BF%
+                  </div>
+                )}
               </div>
               <div className="flex items-center pr-2">
                 <FavoriteButton
