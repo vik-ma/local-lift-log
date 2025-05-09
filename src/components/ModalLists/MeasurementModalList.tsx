@@ -105,8 +105,11 @@ export const MeasurementModalList = ({
                 <div className="flex flex-col justify-start items-start">
                   <span
                     className={
+                      bodyFatCalculationMeasurements?.has(measurement.id) &&
                       highlightedMeasurements !== undefined
                         ? "w-[14rem] truncate text-left"
+                        : highlightedMeasurements !== undefined
+                        ? "w-[17.5rem] truncate text-left"
                         : "w-[20rem] truncate text-left"
                     }
                   >
