@@ -17,7 +17,6 @@ import {
 import { Reorder } from "framer-motion";
 import {
   Measurement,
-  UseBodyFatCalculationSettingsReturnType,
   UseBodyMeasurementsInputReturnType,
   UseDisclosureReturnType,
   UseMeasurementListReturnType,
@@ -29,7 +28,6 @@ type BodyMeasurementsModalProps = {
   bodyMeasurementsModal: UseDisclosureReturnType;
   useBodyMeasurementInputs: UseBodyMeasurementsInputReturnType;
   useMeasurementList: UseMeasurementListReturnType;
-  useBodyFatCalculationSettings: UseBodyFatCalculationSettingsReturnType;
   doneButtonAction: () => void;
   isEditing: boolean;
 };
@@ -40,7 +38,6 @@ export const BodyMeasurementsModal = ({
   bodyMeasurementsModal,
   useBodyMeasurementInputs,
   useMeasurementList,
-  useBodyFatCalculationSettings,
   doneButtonAction,
   isEditing,
 }: BodyMeasurementsModalProps) => {
@@ -63,9 +60,8 @@ export const BodyMeasurementsModal = ({
     activeMeasurements,
     setActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
+    bodyFatCalculationMeasurements,
   } = useBodyMeasurementInputs;
-
-  const { bodyFatCalculationMeasurements } = useBodyFatCalculationSettings;
 
   const handleMeasurementClick = (measurement: Measurement) => {
     if (activeMeasurementSet.has(measurement.id.toString())) {

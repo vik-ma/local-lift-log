@@ -38,7 +38,6 @@ import {
   useBodyMeasurementsInput,
   useDietLogList,
   useDietLogEntryInputs,
-  useBodyFatCalculationSettings,
 } from "../hooks";
 
 export default function LoggingIndex() {
@@ -84,6 +83,8 @@ export default function LoggingIndex() {
     loadBodyMeasurementsInputs,
     getActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
+    bodyFatCalculationModal,
+    loadBodyFatCalculationSettingsString,
   } = bodyMeasurementsInput;
 
   const dietLogList = useDietLogList(true);
@@ -106,14 +107,6 @@ export default function LoggingIndex() {
     loadDietLogInputs,
     setTargetDay,
   } = dietLogEntryInputs;
-
-  const bodyFatCalculationSettings = useBodyFatCalculationSettings(
-    userSettings,
-    setUserSettings
-  );
-
-  const { bodyFatCalculationModal, loadBodyFatCalculationSettingsString } =
-    bodyFatCalculationSettings;
 
   useEffect(() => {
     if (!isDietLogListLoaded.current) return;
@@ -489,7 +482,6 @@ export default function LoggingIndex() {
         bodyMeasurementsModal={bodyMeasurementsModal}
         useBodyMeasurementInputs={bodyMeasurementsInput}
         useMeasurementList={measurementList}
-        useBodyFatCalculationSettings={bodyFatCalculationSettings}
         doneButtonAction={
           operationType === "edit"
             ? updateBodyMeasurements
@@ -527,7 +519,7 @@ export default function LoggingIndex() {
         saveRangeButtonAction={addDietLogEntries}
       />
       <BodyFatCalculationModal
-        useBodyFatCalculationSettings={bodyFatCalculationSettings}
+        useBodyMeasurementsInputs={bodyMeasurementsInput}
         useMeasurementList={measurementList}
       />
       <div className="flex flex-col gap-3 items-center w-full">

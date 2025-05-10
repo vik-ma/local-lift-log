@@ -1,8 +1,10 @@
 import { useMemo, useRef, useState } from "react";
 import {
+  BodyFatCalculationAgeGroups,
   ConvertBodyMeasurementsValuesToMeasurementInputs,
   CreateActiveMeasurementInputs,
   GenerateActiveMeasurementString,
+  GenerateBodyFatCalculationSettingsString,
   IsNumberValidPercentage,
   IsStringEmpty,
   IsStringInvalidNumberOr0,
@@ -15,6 +17,8 @@ import {
   UseBodyMeasurementsInputReturnType,
   UserSettings,
 } from "../typings";
+import toast from "react-hot-toast";
+import { useDisclosure } from "@heroui/react";
 
 export const useBodyMeasurementsInput = (
   userSettings: UserSettings | undefined,
@@ -33,8 +37,15 @@ export const useBodyMeasurementsInput = (
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
   );
+  const [isMale, setIsMale] = useState<boolean>(true);
+  const [ageGroup, setAgeGroup] = useState<string>("20-29");
+  const [bodyFatMeasurementList, setBodyFatMeasurementList] = useState<
+    (Measurement | undefined)[]
+  >([undefined, undefined, undefined, undefined]);
 
   const activeMeasurementsValue = useRef<Measurement[]>([]);
+
+  const bodyFatCalculationModal = useDisclosure();
 
   const isWeightInputValid = useMemo(() => {
     if (IsStringEmpty(weightInput)) return true;
@@ -179,6 +190,89 @@ export const useBodyMeasurementsInput = (
     activeMeasurementsValue.current = activeMeasurements;
   };
 
+  const loadBodyFatCalculationSettingsString = (
+    bodyFatCalculationSettingsString: string,
+    measurementMap: MeasurementMap
+  ) => {
+    const stats = bodyFatCalculationSettingsString.split("/");
+
+    if (stats.length !== 3) return;
+
+    setIsMale(stats[0] === "male");
+
+    const validAgeGroups = BodyFatCalculationAgeGroups();
+
+    if (validAgeGroups.has(stats[1])) {
+      setAgeGroup(stats[1]);
+    }
+
+    const measurementIds = stats[2].split(",");
+
+    if (measurementIds.length === 0) return;
+
+    const updatedMeasurementIds = [...bodyFatMeasurementList];
+
+    const seenMeasurementIds = new Set<string>();
+
+    // 1. Biceps, 2. Triceps, 3. Subscapular, 4. Suprailiac
+    for (let i = 0; i < 4; i++) {
+      const measurementId = measurementIds[i];
+
+      if (
+        measurementId !== undefined &&
+        measurementMap.has(measurementId) &&
+        !seenMeasurementIds.has(measurementId)
+      ) {
+        updatedMeasurementIds[i] = measurementMap.get(measurementId);
+        seenMeasurementIds.add(measurementId);
+      }
+    }
+
+    setBodyFatMeasurementList(updatedMeasurementIds);
+  };
+
+  const { bodyFatCalculationMeasurements, isBodyFatMeasurementListInvalid } =
+    useMemo(() => {
+      const bodyFatCalculationMeasurements = new Map<number, Measurement>();
+      let isBodyFatMeasurementListInvalid = false;
+
+      for (const measurement of bodyFatMeasurementList) {
+        if (measurement !== undefined) {
+          bodyFatCalculationMeasurements.set(measurement.id, measurement);
+        } else {
+          isBodyFatMeasurementListInvalid = true;
+        }
+      }
+
+      return {
+        bodyFatCalculationMeasurements,
+        isBodyFatMeasurementListInvalid,
+      };
+    }, [bodyFatMeasurementList]);
+
+  const saveBodyFatCalculationSettingsString = async () => {
+    if (userSettings === undefined) return;
+
+    const bodyFatCalculationSettingsString =
+      GenerateBodyFatCalculationSettingsString(
+        isMale,
+        ageGroup,
+        bodyFatMeasurementList
+      );
+
+    const success = UpdateUserSetting(
+      "body_fat_calculation_settings",
+      bodyFatCalculationSettingsString,
+      userSettings,
+      setUserSettings
+    );
+
+    if (!success) return;
+
+    bodyFatCalculationModal.onClose();
+    toast.success("Settings Updated");
+  };
+
   return {
     weightInput,
     setWeightInput,
@@ -199,5 +293,16 @@ export const useBodyMeasurementsInput = (
     setActiveMeasurements,
     getActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
+    isMale,
+    setIsMale,
+    ageGroup,
+    setAgeGroup,
+    bodyFatMeasurementList,
+    setBodyFatMeasurementList,
+    bodyFatCalculationModal,
+    loadBodyFatCalculationSettingsString,
+    bodyFatCalculationMeasurements,
+    isBodyFatMeasurementListInvalid,
+    saveBodyFatCalculationSettingsString,
   };
 };

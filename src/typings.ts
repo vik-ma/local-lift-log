@@ -1290,15 +1290,7 @@ export type UseBodyMeasurementsInputReturnType = {
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
   getActiveMeasurements: (activeMeasurementsString: string) => void;
   updateActiveTrackingMeasurementOrder: () => void;
-};
-
-export type BodyFatCalculationConstants = {
-  c: number;
-  m: number;
-};
-
-export type UseBodyFatCalculationSettingsReturnType = {
-  isMale: boolean;
+    isMale: boolean;
   setIsMale: React.Dispatch<React.SetStateAction<boolean>>;
   ageGroup: string;
   setAgeGroup: React.Dispatch<React.SetStateAction<string>>;
@@ -1314,4 +1306,9 @@ export type UseBodyFatCalculationSettingsReturnType = {
   bodyFatCalculationMeasurements: Map<number, Measurement>;
   isBodyFatMeasurementListInvalid: boolean;
   saveBodyFatCalculationSettingsString: () => void;
+};
+
+export type BodyFatCalculationConstants = {
+  c: number;
+  m: number;
 };
