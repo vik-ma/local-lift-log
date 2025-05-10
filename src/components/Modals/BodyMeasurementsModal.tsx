@@ -26,7 +26,7 @@ import { DeleteItemFromList } from "../../helpers";
 
 type BodyMeasurementsModalProps = {
   bodyMeasurementsModal: UseDisclosureReturnType;
-  useBodyMeasurementInputs: UseBodyMeasurementsInputReturnType;
+  useBodyMeasurementsInputs: UseBodyMeasurementsInputReturnType;
   useMeasurementList: UseMeasurementListReturnType;
   doneButtonAction: () => void;
   isEditing: boolean;
@@ -36,7 +36,7 @@ type ModalPage = "base" | "measurement-list";
 
 export const BodyMeasurementsModal = ({
   bodyMeasurementsModal,
-  useBodyMeasurementInputs,
+  useBodyMeasurementsInputs,
   useMeasurementList,
   doneButtonAction,
   isEditing,
@@ -61,7 +61,7 @@ export const BodyMeasurementsModal = ({
     setActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
     bodyFatCalculationMeasurements,
-  } = useBodyMeasurementInputs;
+  } = useBodyMeasurementsInputs;
 
   const handleMeasurementClick = (measurement: Measurement) => {
     if (activeMeasurementSet.has(measurement.id.toString())) {

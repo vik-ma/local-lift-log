@@ -480,7 +480,7 @@ export default function LoggingIndex() {
       />
       <BodyMeasurementsModal
         bodyMeasurementsModal={bodyMeasurementsModal}
-        useBodyMeasurementInputs={bodyMeasurementsInput}
+        useBodyMeasurementsInputs={bodyMeasurementsInput}
         useMeasurementList={measurementList}
         doneButtonAction={
           operationType === "edit"
@@ -570,7 +570,7 @@ export default function LoggingIndex() {
                 handleReassignMeasurement={handleReassignMeasurement}
               />
             )}
-            <div className="flex justify-center gap-2 pt-1">
+            <div className="flex justify-center gap-1.5 pt-1">
               <Button
                 className="font-medium"
                 variant="flat"
@@ -623,7 +623,7 @@ export default function LoggingIndex() {
               />
             )}
           </div>
-          <div className="flex justify-center gap-2 pt-1">
+          <div className="flex justify-center gap-1.5 pt-1">
             <Button
               className="font-medium"
               variant="flat"
