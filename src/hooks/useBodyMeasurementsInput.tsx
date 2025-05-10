@@ -45,6 +45,8 @@ export const useBodyMeasurementsInput = (
 
   const activeMeasurementsValue = useRef<Measurement[]>([]);
 
+  const validBodyFatInputs = useRef<Set<number>>(new Set());
+
   const bodyFatCalculationModal = useDisclosure();
 
   const isWeightInputValid = useMemo(() => {
@@ -107,11 +109,22 @@ export const useBodyMeasurementsInput = (
     setInvalidMeasurementInputs(updatedInvalidInputs);
   };
 
+  const validateBodyFatMeasurementInput = (value: string, id: number) => {
+    if (!bodyFatCalculationMeasurements.has(id)) return;
+
+    if (IsStringInvalidNumberOr0(value)) {
+      validBodyFatInputs.current.delete(id);
+    } else {
+      validBodyFatInputs.current.add(id);
+    }
+  };
+
   const handleActiveMeasurementInputChange = (value: string, index: number) => {
     const updatedInputs = [...activeMeasurements];
     updatedInputs[index] = { ...updatedInputs[index], input: value };
     setActiveMeasurements(updatedInputs);
     validateActiveMeasurementInput(value, index);
+    validateBodyFatMeasurementInput(value, updatedInputs[index].id);
   };
 
   const resetBodyMeasurementsInput = () => {
@@ -304,5 +317,6 @@ export const useBodyMeasurementsInput = (
     bodyFatCalculationMeasurements,
     isBodyFatMeasurementListInvalid,
     saveBodyFatCalculationSettingsString,
+    validBodyFatInputs,
   };
 };

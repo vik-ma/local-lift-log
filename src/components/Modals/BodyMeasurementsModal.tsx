@@ -61,6 +61,7 @@ export const BodyMeasurementsModal = ({
     setActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
     bodyFatCalculationMeasurements,
+    validBodyFatInputs,
   } = useBodyMeasurementsInputs;
 
   const handleMeasurementClick = (measurement: Measurement) => {
@@ -138,17 +139,27 @@ export const BodyMeasurementsModal = ({
                         isSmall
                       />
                     </div>
-                    <Input
-                      value={bodyFatPercentageInput}
-                      label="Body Fat %"
-                      size="sm"
-                      variant="faded"
-                      onValueChange={(value) =>
-                        setBodyFatPercentageInput(value)
-                      }
-                      isInvalid={!isBodyFatPercentageInputValid}
-                      isClearable
-                    />
+                    <div className="flex items-center gap-1.5">
+                      <Input
+                        value={bodyFatPercentageInput}
+                        label="Body Fat %"
+                        size="sm"
+                        variant="faded"
+                        onValueChange={(value) =>
+                          setBodyFatPercentageInput(value)
+                        }
+                        isInvalid={!isBodyFatPercentageInputValid}
+                        isClearable
+                      />
+                      <Button
+                        className="w-[7rem]"
+                        color="secondary"
+                        variant="flat"
+                        isDisabled={validBodyFatInputs.current.size !== 4}
+                      >
+                        Calculate
+                      </Button>
+                    </div>
                     <Reorder.Group
                       className="flex flex-col gap-1.5 w-full"
                       values={activeMeasurements}
