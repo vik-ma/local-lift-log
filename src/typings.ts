@@ -1302,8 +1302,8 @@ export type UseBodyFatCalculationSettingsReturnType = {
   setIsMale: React.Dispatch<React.SetStateAction<boolean>>;
   ageGroup: string;
   setAgeGroup: React.Dispatch<React.SetStateAction<string>>;
-  measurementList: (Measurement | undefined)[];
-  setMeasurementList: React.Dispatch<
+  bodyFatMeasurementList: (Measurement | undefined)[];
+  setBodyFatMeasurementList: React.Dispatch<
     React.SetStateAction<(Measurement | undefined)[]>
   >;
   bodyFatCalculationModal: UseDisclosureReturnType;
@@ -1312,6 +1312,6 @@ export type UseBodyFatCalculationSettingsReturnType = {
     measurementMap: MeasurementMap
   ) => void;
   bodyFatCalculationMeasurements: Map<number, Measurement>;
-  isMeasurementListInvalid: boolean;
+  isBodyFatMeasurementListInvalid: boolean;
   saveBodyFatCalculationSettingsString: () => void;
 };

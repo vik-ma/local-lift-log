@@ -38,11 +38,11 @@ export const BodyFatCalculationModal = ({
     setIsMale,
     ageGroup,
     setAgeGroup,
-    measurementList,
-    setMeasurementList,
+    bodyFatMeasurementList,
+    setBodyFatMeasurementList,
     bodyFatCalculationModal,
     bodyFatCalculationMeasurements,
-    isMeasurementListInvalid,
+    isBodyFatMeasurementListInvalid,
     saveBodyFatCalculationSettingsString,
   } = useBodyFatCalculationSettings;
 
@@ -62,11 +62,11 @@ export const BodyFatCalculationModal = ({
   const handleMeasurementClick = (measurement: Measurement) => {
     if (bodyFatCalculationMeasurements.has(measurement.id)) return;
 
-    const updatedMeasurementList = [...measurementList];
+    const updatedMeasurementList = [...bodyFatMeasurementList];
 
     updatedMeasurementList[operatingMeasurementIndex] = measurement;
 
-    setMeasurementList(updatedMeasurementList);
+    setBodyFatMeasurementList(updatedMeasurementList);
     setModalPage("base");
   };
 
@@ -147,8 +147,10 @@ export const BodyFatCalculationModal = ({
                               {measurement}
                             </span>
                             <div className="w-[12.375rem] bg-default-100 border-2 border-default-200 px-2 py-1 text-sm rounded-lg truncate">
-                              {measurementList[index] !== undefined ? (
-                                <span>{measurementList[index].name}</span>
+                              {bodyFatMeasurementList[index] !== undefined ? (
+                                <span>
+                                  {bodyFatMeasurementList[index].name}
+                                </span>
                               ) : (
                                 <span className="text-red-500">
                                   No Measurement Selected
@@ -194,7 +196,9 @@ export const BodyFatCalculationModal = ({
                 <Button
                   color="primary"
                   onPress={saveBodyFatCalculationSettingsString}
-                  isDisabled={modalPage !== "base" || isMeasurementListInvalid}
+                  isDisabled={
+                    modalPage !== "base" || isBodyFatMeasurementListInvalid
+                  }
                 >
                   {modalPage === "base" ? "Done" : "Save"}
                 </Button>

@@ -21,7 +21,7 @@ export const useBodyFatCalculationSettings = (
 ): UseBodyFatCalculationSettingsReturnType => {
   const [isMale, setIsMale] = useState<boolean>(true);
   const [ageGroup, setAgeGroup] = useState<string>("20-29");
-  const [measurementList, setMeasurementList] = useState<
+  const [bodyFatMeasurementList, setBodyFatMeasurementList] = useState<
     (Measurement | undefined)[]
   >([undefined, undefined, undefined, undefined]);
 
@@ -47,7 +47,7 @@ export const useBodyFatCalculationSettings = (
 
     if (measurementIds.length === 0) return;
 
-    const updatedMeasurementIds = [...measurementList];
+    const updatedMeasurementIds = [...bodyFatMeasurementList];
 
     const seenMeasurementIds = new Set<string>();
 
@@ -65,23 +65,23 @@ export const useBodyFatCalculationSettings = (
       }
     }
 
-    setMeasurementList(updatedMeasurementIds);
+    setBodyFatMeasurementList(updatedMeasurementIds);
   };
 
-  const { bodyFatCalculationMeasurements, isMeasurementListInvalid } = useMemo(() => {
+  const { bodyFatCalculationMeasurements, isBodyFatMeasurementListInvalid } = useMemo(() => {
     const bodyFatCalculationMeasurements = new Map<number, Measurement>();
-    let isMeasurementListInvalid = false;
+    let isBodyFatMeasurementListInvalid = false;
 
-    for (const measurement of measurementList) {
+    for (const measurement of bodyFatMeasurementList) {
       if (measurement !== undefined) {
         bodyFatCalculationMeasurements.set(measurement.id, measurement);
       } else {
-        isMeasurementListInvalid = true;
+        isBodyFatMeasurementListInvalid = true;
       }
     }
 
-    return { bodyFatCalculationMeasurements, isMeasurementListInvalid };
-  }, [measurementList]);
+    return { bodyFatCalculationMeasurements, isBodyFatMeasurementListInvalid };
+  }, [bodyFatMeasurementList]);
 
   const saveBodyFatCalculationSettingsString = async () => {
     if (userSettings === undefined) return;
@@ -90,7 +90,7 @@ export const useBodyFatCalculationSettings = (
       GenerateBodyFatCalculationSettingsString(
         isMale,
         ageGroup,
-        measurementList
+        bodyFatMeasurementList
       );
 
     const success = UpdateUserSetting(
@@ -111,12 +111,12 @@ export const useBodyFatCalculationSettings = (
     setIsMale,
     ageGroup,
     setAgeGroup,
-    measurementList,
-    setMeasurementList,
+    bodyFatMeasurementList,
+    setBodyFatMeasurementList,
     bodyFatCalculationModal,
     loadBodyFatCalculationSettingsString,
     bodyFatCalculationMeasurements,
-    isMeasurementListInvalid,
+    isBodyFatMeasurementListInvalid,
     saveBodyFatCalculationSettingsString,
   };
 };
