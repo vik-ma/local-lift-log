@@ -110,7 +110,7 @@ export const useBodyMeasurementsInput = (
   };
 
   const validateBodyFatMeasurementInput = (value: string, id: number) => {
-    if (!bodyFatCalculationMeasurements.has(id)) return;
+    if (!bodyFatMeasurementsMap.has(id)) return;
 
     if (IsStringInvalidNumberOr0(value)) {
       validBodyFatInputs.current.delete(id);
@@ -244,21 +244,21 @@ export const useBodyMeasurementsInput = (
     setBodyFatMeasurementList(updatedMeasurementIds);
   };
 
-  const { bodyFatCalculationMeasurements, isBodyFatMeasurementListInvalid } =
+  const { bodyFatMeasurementsMap, isBodyFatMeasurementListInvalid } =
     useMemo(() => {
-      const bodyFatCalculationMeasurements = new Map<number, Measurement>();
+      const bodyFatMeasurementsMap = new Map<number, Measurement>();
       let isBodyFatMeasurementListInvalid = false;
 
       for (const measurement of bodyFatMeasurementList) {
         if (measurement !== undefined) {
-          bodyFatCalculationMeasurements.set(measurement.id, measurement);
+          bodyFatMeasurementsMap.set(measurement.id, measurement);
         } else {
           isBodyFatMeasurementListInvalid = true;
         }
       }
 
       return {
-        bodyFatCalculationMeasurements,
+        bodyFatMeasurementsMap,
         isBodyFatMeasurementListInvalid,
       };
     }, [bodyFatMeasurementList]);
@@ -314,7 +314,7 @@ export const useBodyMeasurementsInput = (
     setBodyFatMeasurementList,
     bodyFatCalculationModal,
     loadBodyFatCalculationSettingsString,
-    bodyFatCalculationMeasurements,
+    bodyFatMeasurementsMap,
     isBodyFatMeasurementListInvalid,
     saveBodyFatCalculationSettingsString,
     validBodyFatInputs,

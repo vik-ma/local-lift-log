@@ -1303,7 +1303,7 @@ export type UseBodyMeasurementsInputReturnType = {
     bodyFatCalculationSettingsString: string,
     measurementMap: MeasurementMap
   ) => void;
-  bodyFatCalculationMeasurements: Map<number, Measurement>;
+  bodyFatMeasurementsMap: Map<number, Measurement>;
   isBodyFatMeasurementListInvalid: boolean;
   saveBodyFatCalculationSettingsString: () => void;
   validBodyFatInputs: React.RefObject<Set<number>>;

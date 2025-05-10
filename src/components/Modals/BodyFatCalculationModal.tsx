@@ -41,7 +41,7 @@ export const BodyFatCalculationModal = ({
     bodyFatMeasurementList,
     setBodyFatMeasurementList,
     bodyFatCalculationModal,
-    bodyFatCalculationMeasurements,
+    bodyFatMeasurementsMap,
     isBodyFatMeasurementListInvalid,
     saveBodyFatCalculationSettingsString,
   } = useBodyMeasurementsInputs;
@@ -60,7 +60,7 @@ export const BodyFatCalculationModal = ({
   };
 
   const handleMeasurementClick = (measurement: Measurement) => {
-    if (bodyFatCalculationMeasurements.has(measurement.id)) return;
+    if (bodyFatMeasurementsMap.has(measurement.id)) return;
 
     const updatedMeasurementList = [...bodyFatMeasurementList];
 
@@ -177,7 +177,7 @@ export const BodyFatCalculationModal = ({
                 <MeasurementModalList
                   useMeasurementList={useMeasurementList}
                   handleMeasurementClick={handleMeasurementClick}
-                  hiddenMeasurements={bodyFatCalculationMeasurements}
+                  hiddenMeasurements={bodyFatMeasurementsMap}
                 />
               )}
             </ModalBody>

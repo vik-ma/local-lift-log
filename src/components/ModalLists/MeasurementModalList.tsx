@@ -19,7 +19,7 @@ type MeasurementModalListProps = {
   customHeightString?: string;
   hiddenMeasurements?: Map<number, Measurement>;
   isInAnalyticsPage?: boolean;
-  bodyFatCalculationMeasurements?: Map<number, Measurement>;
+  bodyFatMeasurementsMap?: Map<number, Measurement>;
 };
 
 export const MeasurementModalList = ({
@@ -29,7 +29,7 @@ export const MeasurementModalList = ({
   customHeightString,
   hiddenMeasurements,
   isInAnalyticsPage,
-  bodyFatCalculationMeasurements,
+  bodyFatMeasurementsMap,
 }: MeasurementModalListProps) => {
   const {
     measurements,
@@ -105,7 +105,7 @@ export const MeasurementModalList = ({
                 <div className="flex flex-col justify-start items-start">
                   <span
                     className={
-                      bodyFatCalculationMeasurements?.has(measurement.id) &&
+                      bodyFatMeasurementsMap?.has(measurement.id) &&
                       highlightedMeasurements !== undefined
                         ? "w-[14rem] truncate text-left"
                         : highlightedMeasurements !== undefined
@@ -132,7 +132,7 @@ export const MeasurementModalList = ({
                     </span>
                   )}
                 </div>
-                {bodyFatCalculationMeasurements?.has(measurement.id) && (
+                {bodyFatMeasurementsMap?.has(measurement.id) && (
                   <div className="px-2.5 py-1 rounded-md text-sm text-yellow-600 bg-primary/30 z-50">
                     BF%
                   </div>

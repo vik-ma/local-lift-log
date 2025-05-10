@@ -60,7 +60,7 @@ export const BodyMeasurementsModal = ({
     activeMeasurements,
     setActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
-    bodyFatCalculationMeasurements,
+    bodyFatMeasurementsMap,
     validBodyFatInputs,
   } = useBodyMeasurementsInputs;
 
@@ -114,9 +114,7 @@ export const BodyMeasurementsModal = ({
                   useMeasurementList={useMeasurementList}
                   handleMeasurementClick={handleMeasurementClick}
                   highlightedMeasurements={activeMeasurementSet}
-                  bodyFatCalculationMeasurements={
-                    bodyFatCalculationMeasurements
-                  }
+                  bodyFatMeasurementsMap={bodyFatMeasurementsMap}
                 />
               ) : (
                 <div className="h-[400px]">
@@ -180,7 +178,7 @@ export const BodyMeasurementsModal = ({
                           updateActiveTrackingMeasurementOrder={
                             updateActiveTrackingMeasurementOrder
                           }
-                          isBodyFatCalculationMeasurement={bodyFatCalculationMeasurements.has(
+                          isBodyFatCalculationMeasurement={bodyFatMeasurementsMap.has(
                             measurement.id
                           )}
                         />
