@@ -72,7 +72,7 @@ export const BodyMeasurementsReorderItem = ({
             className="flex items-center h-[2.75rem] cursor-grab active:cursor-grabbing select-none"
             onPointerDown={(event) => dragControls.start(event)}
           >
-            <ReorderIcon size={18} color="#b6b6b6" addPadding />
+            <ReorderIcon size={18} color="#b6b6b6" showOnlyTwoColumns />
           </div>
         )}
       </div>
