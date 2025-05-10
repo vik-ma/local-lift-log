@@ -1,10 +1,11 @@
 import { ChartDataExerciseCategoryBase, WorkoutSet } from "../../typings";
-import { CalculatePaceValue } from "../Numbers/CalculatePaceValue";
-import { CalculateSpeedValue } from "../Numbers/CalculateSpeedValue";
-import { ConvertDistanceValue } from "../Numbers/ConvertDistanceValue";
-import { ConvertNumberToTwoDecimals } from "../Numbers/ConvertNumberToTwoDecimals";
-import { ConvertSecondsToMinutes } from "../Numbers/ConvertSecondsToMinutes";
-import { ConvertWeightValue } from "../Numbers/ConvertWeightValue";
+import {
+  CalculatePaceValue,
+  CalculateSpeedValue,
+  ConvertDistanceValue,
+  ConvertNumberToTwoDecimals,
+  ConvertSecondsToMinutes,ConvertWeightValue
+} from "..";
 
 export const GetAnalyticsValuesForSetList = (
   setList: WorkoutSet[],

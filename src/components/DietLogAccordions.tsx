@@ -8,8 +8,8 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@heroui/react";
-import { EmptyListLabel } from "./EmptyListLabel";
 import { IsYmdDateStringTodayOrYesterday } from "../helpers";
+import { EmptyListLabel } from ".";
 
 type DietLogAccordionsProps = {
   dietLogEntries: DietLog[];

@@ -1,6 +1,8 @@
 import { ExerciseGroupMap, ExerciseMap } from "../../typings";
-import { CreateExerciseGroupSetPrimary } from "../Exercises/CreateExerciseGroupSetPrimary";
-import { CreateExerciseGroupSetSecondary } from "../Exercises/CreateExerciseGroupSetSecondary";
+import {
+  CreateExerciseGroupSetPrimary,
+  CreateExerciseGroupSetSecondary,
+} from "..";
 
 type CreateExerciseSetIdsReturnType = {
   exerciseIdSet: Set<number>;

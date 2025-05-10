@@ -14,7 +14,7 @@ import {
   UseDietLogEntryInputsReturnType,
 } from "../typings";
 import { CalendarDate } from "@heroui/react";
-import { useDateRange } from "./useDateRange";
+import { useDateRange } from ".";
 
 export const useDietLogEntryInputs = (
   defaultDateEntryType: DietLogDateEntryType

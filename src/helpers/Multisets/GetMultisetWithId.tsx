@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { Multiset } from "../../typings";
-import { IsNumberValidId } from "../Numbers/IsNumberValidId";
+import { IsNumberValidId } from "..";
 
 export const GetMultisetWithId = async (
   multisetId: number

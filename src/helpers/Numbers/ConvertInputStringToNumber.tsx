@@ -1,4 +1,4 @@
-import { IsStringEmpty } from "../Strings/IsStringEmpty";
+import { IsStringEmpty } from "..";
 
 export const ConvertInputStringToNumber = (
   str: string,

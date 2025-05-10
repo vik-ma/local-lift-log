@@ -24,7 +24,7 @@ import {
   ConvertEmptyStringToNull,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
-import { useDietLogListFilters } from "./useDietLogListFilters";
+import { useDietLogListFilters } from ".";
 
 export const useDietLogList = (
   getDietLogsOnLoad: boolean

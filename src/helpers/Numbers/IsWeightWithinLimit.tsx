@@ -1,4 +1,4 @@
-import { ConvertWeightToKg } from "./ConvertWeightToKg";
+import { ConvertWeightToKg } from "..";
 
 export const IsWeightWithinLimit = (
   weight: number,

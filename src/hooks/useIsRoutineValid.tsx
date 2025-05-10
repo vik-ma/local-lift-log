@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import useValidateName from "./useValidateName";
 import { Routine } from "../typings";
+import { useValidateName } from ".";
 
 export const useIsRoutineValid = (routine: Routine) => {
   const isRoutineNameValid = useValidateName(routine.name);

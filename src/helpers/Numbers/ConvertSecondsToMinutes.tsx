@@ -1,4 +1,4 @@
-import { ConvertNumberToTwoDecimals } from "./ConvertNumberToTwoDecimals";
+import { ConvertNumberToTwoDecimals } from "..";
 
 export const ConvertSecondsToMinutes = (seconds: number) => {
   if (seconds < 0) return 0;

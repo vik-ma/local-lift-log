@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { IsNumberValidId } from "../Numbers/IsNumberValidId";
+import { IsNumberValidId } from "..";
 import { Measurement } from "../../typings";
 
 export const GetMeasurementListWithNumberOfBodyMeasurementsEntries = async (

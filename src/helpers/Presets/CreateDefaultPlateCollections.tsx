@@ -1,7 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { AvailablePlates } from "../../typings";
-import { IsNumberValidId } from "../Numbers/IsNumberValidId";
-import { GenerateAvailablePlatesString } from "./GenerateAvailablePlatesString";
+import { IsNumberValidId, GenerateAvailablePlatesString } from "..";
 
 type DefaultPlateCollection = {
   name: string;

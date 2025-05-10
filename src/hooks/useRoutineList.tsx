@@ -15,8 +15,8 @@ import {
   IsNumberWithinLimit,
   IsRoutineScheduleTypeFiltered,
 } from "../helpers";
-import { useListFilters } from "./useListFilters";
 import Database from "tauri-plugin-sql-api";
+import { useListFilters } from ".";
 
 export const useRoutineList = (
   getRoutinesOnLoad: boolean,

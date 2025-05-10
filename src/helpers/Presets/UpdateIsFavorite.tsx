@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { IsNumberValidBinary } from "../Numbers/IsNumberValidBinary";
+import { IsNumberValidBinary } from "..";
 
 type TargetType = "exercise" | "equipment" | "distance" | "measurement";
 

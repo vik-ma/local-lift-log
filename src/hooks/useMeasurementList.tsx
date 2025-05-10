@@ -12,7 +12,7 @@ import {
   UpdateIsFavorite,
   UpdateItemInList,
 } from "../helpers";
-import { useListFilters } from "./useListFilters";
+import { useListFilters } from ".";
 
 export const useMeasurementList = (
   getMeasurementsOnLoad: boolean,

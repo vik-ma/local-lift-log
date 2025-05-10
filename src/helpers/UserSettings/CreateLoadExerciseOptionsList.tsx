@@ -1,6 +1,5 @@
 import { ChartDataExerciseCategoryBase } from "../../typings";
-import { IsStringEmpty } from "../Strings/IsStringEmpty";
-import { ValidateLoadExerciseOptionsString } from "./ValidateLoadExerciseOptionsString";
+import { IsStringEmpty, ValidateLoadExerciseOptionsString } from "..";
 
 export const CreateLoadExerciseOptionsList = (
   loadExerciseOptionsString: string,

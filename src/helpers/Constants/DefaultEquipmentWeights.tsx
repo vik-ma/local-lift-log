@@ -1,4 +1,4 @@
-import { DefaultPlateWeights } from "./DefaultPlateWeights";
+import { DefaultPlateWeights } from "..";
 
 type DefaultEquipmentWeight = {
   name: string;

@@ -1,4 +1,4 @@
-import { ConvertDistanceToMeter } from "./ConvertDistanceToMeter";
+import { ConvertDistanceToMeter } from "..";
 
 export const IsDistanceWithinLimit = (
   distance: number,

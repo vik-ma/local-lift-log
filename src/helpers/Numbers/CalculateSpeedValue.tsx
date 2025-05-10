@@ -1,5 +1,4 @@
-import { ConvertNumberToTwoDecimals } from "./ConvertNumberToTwoDecimals";
-import { IsNumberValidAndAbove0 } from "./IsNumberValidAndAbove0";
+import { ConvertNumberToTwoDecimals, IsNumberValidAndAbove0 } from "..";
 
 export const CalculateSpeedValue = (
   distance: number,

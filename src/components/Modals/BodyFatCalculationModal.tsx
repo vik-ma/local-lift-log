@@ -14,7 +14,7 @@ import {
   UseMeasurementListReturnType,
 } from "../../typings";
 import { useState } from "react";
-import { MeasurementModalList } from "../ModalLists/MeasurementModalList";
+import { MeasurementModalList } from "..";
 
 type BodyFatCalculationModalProps = {
   useBodyMeasurementsInputs: UseBodyMeasurementsInputReturnType;

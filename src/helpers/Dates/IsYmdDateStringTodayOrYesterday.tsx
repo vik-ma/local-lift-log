@@ -1,5 +1,4 @@
-import { GetCurrentYmdDateString } from "./GetCurrentYmdDateString";
-import { GetYesterdayYmdDateString } from "./GetYesterdayYmdDateString";
+import { GetCurrentYmdDateString, GetYesterdayYmdDateString } from "..";
 
 export const IsYmdDateStringTodayOrYesterday = (dateString: string) => {
   // returns 1 if dateString is today

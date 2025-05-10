@@ -19,9 +19,8 @@ import {
   UpdateIsFavorite,
   UpdateItemInList,
 } from "../helpers";
-import { useListFilters } from "./useListFilters";
+import { useListFilters, usePresetsTypeString } from ".";
 import { useDisclosure } from "@heroui/react";
-import { usePresetsTypeString } from "./usePresetsTypeString";
 
 export const usePresetsList = (
   getEquipmentWeightsOnLoad: boolean,

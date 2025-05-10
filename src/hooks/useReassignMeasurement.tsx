@@ -6,8 +6,8 @@ import {
   BodyMeasurements,
 } from "../typings";
 import { useState } from "react";
-import useValidateName from "./useValidateName";
 import { useDisclosure } from "@heroui/react";
+import { useValidateName } from ".";
 
 export const useReassignMeasurement = (
   useMeasurementList: UseMeasurementListReturnType
