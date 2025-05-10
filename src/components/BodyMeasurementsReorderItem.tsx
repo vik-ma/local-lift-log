@@ -38,7 +38,7 @@ export const BodyMeasurementsReorderItem = ({
     >
       <div className="flex gap-1.5 items-center relative">
         {isBodyFatCalculationMeasurement && (
-          <div className="absolute left-[13.75rem] top-2.5 px-2.5 py-1 rounded-md text-sm text-yellow-600 bg-primary/30 z-50">
+          <div className="absolute left-[12rem] top-2.5 px-2.5 py-1 rounded-md text-sm text-yellow-600 bg-primary/30 z-50">
             BF%
           </div>
         )}
