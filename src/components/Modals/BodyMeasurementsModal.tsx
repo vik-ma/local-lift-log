@@ -7,6 +7,7 @@ import {
   ModalFooter,
   Input,
   ScrollShadow,
+  Tooltip,
 } from "@heroui/react";
 import {
   EmptyListLabel,
@@ -149,14 +150,22 @@ export const BodyMeasurementsModal = ({
                         isInvalid={!isBodyFatPercentageInputValid}
                         isClearable
                       />
-                      <Button
-                        className="w-[7rem]"
-                        color="secondary"
-                        variant="flat"
-                        isDisabled={validBodyFatInputs.current.size !== 4}
+                      <Tooltip
+                        content="All four BF% inputs needs to be valid"
+                        isDisabled={validBodyFatInputs.current.size === 4}
                       >
-                        Calculate
-                      </Button>
+                        {/* Span is needed for Tooltip to show when Button is disabled */}
+                        <span>
+                          <Button
+                            className="w-[7rem]"
+                            color="secondary"
+                            variant="flat"
+                            isDisabled={validBodyFatInputs.current.size !== 4}
+                          >
+                            Calculate
+                          </Button>
+                        </span>
+                      </Tooltip>
                     </div>
                     <Reorder.Group
                       className="flex flex-col gap-1.5 w-full"
