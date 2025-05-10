@@ -133,7 +133,7 @@ export const MeasurementModalList = ({
                   )}
                 </div>
                 {bodyFatCalculationMeasurements?.has(measurement.id) && (
-                  <div className="px-2 py-1 rounded-md text-sm text-yellow-600 bg-primary/30 z-50">
+                  <div className="px-2.5 py-1 rounded-md text-sm text-yellow-600 bg-primary/30 z-50">
                     BF%
                   </div>
                 )}
