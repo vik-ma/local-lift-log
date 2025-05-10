@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import {
   BodyFatCalculationAgeGroups,
+  CalculateBodyFatPercentage,
   ConvertBodyMeasurementsValuesToMeasurementInputs,
   CreateActiveMeasurementInputs,
   GenerateActiveMeasurementString,
@@ -286,6 +287,26 @@ export const useBodyMeasurementsInput = (
     toast.success("Settings Updated");
   };
 
+  const calculateBodyFatPercentage = () => {
+    if (validBodyFatInputs.current.size !== 4) return;
+
+    const measurementInputs: string[] = [];
+
+    for (const measurement of activeMeasurements) {
+      if (validBodyFatInputs.current.has(measurement.id)) {
+        measurementInputs.push(measurement.input!);
+      }
+    }
+
+    const bodyFatPercentage = CalculateBodyFatPercentage(
+      isMale,
+      ageGroup,
+      measurementInputs
+    );
+
+    setBodyFatPercentageInput(bodyFatPercentage.toString());
+  };
+
   return {
     weightInput,
     setWeightInput,
@@ -318,5 +339,6 @@ export const useBodyMeasurementsInput = (
     isBodyFatMeasurementListInvalid,
     saveBodyFatCalculationSettingsString,
     validBodyFatInputs,
+    calculateBodyFatPercentage,
   };
 };

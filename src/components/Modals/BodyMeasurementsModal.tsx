@@ -63,6 +63,7 @@ export const BodyMeasurementsModal = ({
     updateActiveTrackingMeasurementOrder,
     bodyFatMeasurementsMap,
     validBodyFatInputs,
+    calculateBodyFatPercentage,
   } = useBodyMeasurementsInputs;
 
   const handleMeasurementClick = (measurement: Measurement) => {
@@ -157,10 +158,11 @@ export const BodyMeasurementsModal = ({
                         {/* Span is needed for Tooltip to show when Button is disabled */}
                         <span>
                           <Button
-                            className="w-[7rem]"
+                            className="w-[6rem]"
                             color="secondary"
                             variant="flat"
                             isDisabled={validBodyFatInputs.current.size !== 4}
+                            onPress={calculateBodyFatPercentage}
                           >
                             Calculate
                           </Button>

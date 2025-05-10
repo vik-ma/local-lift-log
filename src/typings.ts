@@ -1307,6 +1307,7 @@ export type UseBodyMeasurementsInputReturnType = {
   isBodyFatMeasurementListInvalid: boolean;
   saveBodyFatCalculationSettingsString: () => void;
   validBodyFatInputs: React.RefObject<Set<number>>;
+  calculateBodyFatPercentage: () => void;
 };
 
 export type BodyFatCalculationConstants = {
