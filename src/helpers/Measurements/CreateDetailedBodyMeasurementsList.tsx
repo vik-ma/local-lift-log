@@ -1,4 +1,8 @@
-import { FormatDateTimeString, FormatNumItemsString } from "..";
+import {
+  CreateValidBodyMeasurementsValues,
+  FormatDateTimeString,
+  FormatNumItemsString,
+} from "..";
 import {
   BodyMeasurements,
   BodyMeasurementsValues,
@@ -30,16 +34,21 @@ export const CreateDetailedBodyMeasurementsList = (
         bodyMeasurements.measurement_values
       );
 
-      let containsInvalidMeasurement = false;
+      const {
+        containsInvalidMeasurement,
+        numMeasurements,
+        validBodyMeasurementsValues,
+      } = CreateValidBodyMeasurementsValues(
+        bodyMeasurementsValues,
+        measurementMap
+      );
 
-      let numMeasurements = 0;
-
-      for (const measurementId of Object.keys(bodyMeasurementsValues)) {
-        numMeasurements++;
-
-        if (!measurementMap.has(measurementId))
-          containsInvalidMeasurement = true;
-      }
+      if (
+        bodyMeasurements.weight === 0 &&
+        bodyMeasurements.body_fat_percentage === null &&
+        numMeasurements === 0
+      )
+        continue;
 
       const detailedBodyMeasurements: BodyMeasurements = {
         ...bodyMeasurements,
@@ -49,7 +58,7 @@ export const CreateDetailedBodyMeasurementsList = (
             : undefined,
         formattedDate: formattedDate,
         isExpanded: bodyMeasurements.id === idToExpand,
-        bodyMeasurementsValues: bodyMeasurementsValues,
+        bodyMeasurementsValues: validBodyMeasurementsValues,
         isInvalid: containsInvalidMeasurement,
         disableExpansion: Object.keys(bodyMeasurementsValues).length === 0,
       };
