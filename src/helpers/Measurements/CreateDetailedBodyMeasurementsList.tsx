@@ -57,10 +57,11 @@ export const CreateDetailedBodyMeasurementsList = (
             ? FormatNumItemsString(numMeasurements, "Measurement")
             : undefined,
         formattedDate: formattedDate,
-        isExpanded: bodyMeasurements.id === idToExpand,
+        isExpanded:
+          numMeasurements === 0 ? false : bodyMeasurements.id === idToExpand,
         bodyMeasurementsValues: validBodyMeasurementsValues,
         isInvalid: containsInvalidMeasurement,
-        disableExpansion: Object.keys(bodyMeasurementsValues).length === 0,
+        disableExpansion: numMeasurements === 0,
       };
 
       detailedBodyMeasurementsList.push(detailedBodyMeasurements);
