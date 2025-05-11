@@ -5,6 +5,7 @@ import {
   UserSettings,
 } from "../typings";
 import {
+  BodyFatCalculationModal,
   BodyMeasurementsAccordions,
   BodyMeasurementsModal,
   DeleteModal,
@@ -50,6 +51,7 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import toast from "react-hot-toast";
+import { VerticalMenuIcon } from "../assets";
 
 type SortCategory =
   | "date-asc"
@@ -98,6 +100,7 @@ export default function BodyMeasurementsList() {
     getActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
     loadBodyFatCalculationSettingsString,
+    bodyFatCalculationModal,
   } = bodyMeasurementsInput;
 
   const filterMinAndMaxValueInputsBodyFat = useFilterMinAndMaxValueInputs({
@@ -568,6 +571,12 @@ export default function BodyMeasurementsList() {
     toast.success("Measurement Reassigned");
   };
 
+  const handleOptionMenuSelection = (key: string) => {
+    if (key === "body-fat-calculation-settings") {
+      bodyFatCalculationModal.onOpen();
+    }
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -625,6 +634,10 @@ export default function BodyMeasurementsList() {
         includeNullInMaxValuesBodyFat={includeNullInMaxValuesBodyFat}
         setIncludeNullInMaxValuesBodyFat={setIncludeNullInMaxValuesBodyFat}
       />
+      <BodyFatCalculationModal
+        useBodyMeasurementsInputs={bodyMeasurementsInput}
+        useMeasurementList={measurementList}
+      />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
           header="Body Measurement List"
@@ -644,7 +657,7 @@ export default function BodyMeasurementsList() {
                 >
                   New Body Measurements
                 </Button>
-                <div className="flex gap-1">
+                <div className="flex gap-1 pr-0.5">
                   <Button
                     className="z-1"
                     variant="flat"
@@ -685,6 +698,29 @@ export default function BodyMeasurementsList() {
                       </DropdownItem>
                       <DropdownItem key="bf-asc">
                         Body Fat % (Lowest First)
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                  <Dropdown shouldBlockScroll={false}>
+                    <DropdownTrigger>
+                      <Button
+                        aria-label="Toggle Body Measurements List Options Menu"
+                        isIconOnly
+                        className="z-1"
+                        size="sm"
+                        variant="light"
+                      >
+                        <VerticalMenuIcon size={19} />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Body Measurements List Option Menu"
+                      onAction={(key) =>
+                        handleOptionMenuSelection(key as string)
+                      }
+                    >
+                      <DropdownItem key="body-fat-calculation-settings">
+                        Body Fat % Calculation Settings
                       </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
