@@ -97,6 +97,7 @@ export default function BodyMeasurementsList() {
     loadBodyMeasurementsInputs,
     getActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
+    loadBodyFatCalculationSettingsString,
   } = bodyMeasurementsInput;
 
   const filterMinAndMaxValueInputsBodyFat = useFilterMinAndMaxValueInputs({
@@ -248,6 +249,11 @@ export default function BodyMeasurementsList() {
       setFilterWeightRangeUnit(validUnits.weightUnit);
 
       defaultWeightUnit.current = validUnits.weightUnit;
+
+      loadBodyFatCalculationSettingsString(
+        userSettings.body_fat_calculation_settings,
+        measurementMap.current
+      );
 
       await Promise.all([
         getActiveMeasurements(userSettings.active_tracking_measurements),
@@ -583,7 +589,7 @@ export default function BodyMeasurementsList() {
       />
       <BodyMeasurementsModal
         bodyMeasurementsModal={bodyMeasurementsModal}
-        useBodyMeasurementInputs={bodyMeasurementsInput}
+        useBodyMeasurementsInputs={bodyMeasurementsInput}
         useMeasurementList={measurementList}
         doneButtonAction={
           operationType === "edit"
