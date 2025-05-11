@@ -60,7 +60,11 @@ export const BodyFatCalculationModal = ({
   };
 
   const handleMeasurementClick = (measurement: Measurement) => {
-    if (bodyFatMeasurementsMap.has(measurement.id)) return;
+    if (
+      bodyFatMeasurementsMap.has(measurement.id) ||
+      measurement.measurement_type !== "Caliper"
+    )
+      return;
 
     const updatedMeasurementList = [...bodyFatMeasurementList];
 
@@ -178,6 +182,7 @@ export const BodyFatCalculationModal = ({
                   useMeasurementList={useMeasurementList}
                   handleMeasurementClick={handleMeasurementClick}
                   hiddenMeasurements={bodyFatMeasurementsMap}
+                  hideCircumferenceMeasurements
                 />
               )}
             </ModalBody>

@@ -20,6 +20,7 @@ type MeasurementModalListProps = {
   hiddenMeasurements?: Map<number, Measurement>;
   isInAnalyticsPage?: boolean;
   bodyFatMeasurementsMap?: Map<number, Measurement>;
+  hideCircumferenceMeasurements?: boolean;
 };
 
 export const MeasurementModalList = ({
@@ -30,6 +31,7 @@ export const MeasurementModalList = ({
   hiddenMeasurements,
   isInAnalyticsPage,
   bodyFatMeasurementsMap,
+  hideCircumferenceMeasurements,
 }: MeasurementModalListProps) => {
   const {
     measurements,
@@ -84,7 +86,10 @@ export const MeasurementModalList = ({
           <div
             key={measurement.id}
             className={
-              hiddenMeasurements?.has(measurement.id)
+              hideCircumferenceMeasurements &&
+              measurement.measurement_type !== "Caliper"
+                ? "hidden"
+                : hiddenMeasurements?.has(measurement.id)
                 ? "hidden"
                 : highlightedMeasurements?.has(measurement.id.toString())
                 ? "flex cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
