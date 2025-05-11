@@ -132,6 +132,7 @@ export const useBodyMeasurementsInput = (
     setWeightInput("");
     setCommentInput("");
     setBodyFatPercentageInput("");
+    validBodyFatInputs.current = new Set();
 
     const updatedInputs = activeMeasurementsValue.current.map(
       (measurement) => ({
