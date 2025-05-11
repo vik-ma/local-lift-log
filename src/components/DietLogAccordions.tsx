@@ -48,16 +48,16 @@ export const DietLogAccordions = ({
             <div className="flex justify-between items-center pl-2 py-1">
               <div className="flex flex-col items-start">
                 <span className="w-[19rem] font-medium truncate text-left text-stone-600">
-                  {dietLog.calories} kcal
-                </span>
-                <span className="text-xs text-secondary text-left">
-                  {dietLog.formattedDate}{" "}
+                  {dietLog.calories} kcal{" "}
                   {todayOrYesterdayNum === 1 && (
-                    <span className="text-slate-400">(Today)</span>
+                    <span className="text-xs text-slate-500">(Today)</span>
                   )}
                   {todayOrYesterdayNum === 2 && (
-                    <span className="text-slate-400">(Yesterday)</span>
+                    <span className="text-xs text-slate-500">(Yesterday)</span>
                   )}
+                </span>
+                <span className="text-xs text-secondary text-left">
+                  {dietLog.formattedDate}
                 </span>
                 <span className="w-[19rem] break-all text-xs text-stone-400 text-left">
                   {dietLog.comment}
@@ -110,31 +110,34 @@ export const DietLogAccordions = ({
                   <div className="flex flex-col divide-y divide-stone-200 text-sm pb-0.5">
                     {dietLog.fat !== null && (
                       <div className="flex px-2">
-                        <div className="font-medium text-stone-600 w-[3.75rem]">
-                          Fat:{" "}
+                        <div className="font-medium text-stone-600 w-[9.75rem]">
+                          Fat
                         </div>
-                        <span className="text-slate-500">
-                          <span className="font-medium">{dietLog.fat}</span> g
+                        <span className="font-medium">
+                          <span className="font-semibold">{dietLog.fat}</span> g
                         </span>
                       </div>
                     )}
                     {dietLog.carbs !== null && (
                       <div className="flex px-2">
-                        <div className="font-medium text-stone-600 w-[3.75rem]">
-                          Carbs:{" "}
+                        <div className="font-medium text-stone-600 w-[9.75rem]">
+                          Carbs
                         </div>
-                        <span className="text-slate-500">
-                          <span className="font-medium">{dietLog.carbs}</span> g
+                        <span className="font-medium">
+                          <span className="font-semibold">{dietLog.carbs}</span>{" "}
+                          g
                         </span>
                       </div>
                     )}
                     {dietLog.protein !== null && (
                       <div className="flex px-2">
-                        <div className="font-medium text-stone-600 w-[3.75rem]">
-                          Protein:{" "}
+                        <div className="font-medium text-stone-600 w-[9.75rem]">
+                          Protein
                         </div>
-                        <span className="text-slate-500">
-                          <span className="font-medium">{dietLog.protein}</span>{" "}
+                        <span className="font-medium">
+                          <span className="font-semibold">
+                            {dietLog.protein}
+                          </span>{" "}
                           g
                         </span>
                       </div>
