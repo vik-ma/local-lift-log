@@ -255,10 +255,7 @@ export default function LoggingIndex() {
 
     const bodyMeasurements = await GetLatestBodyMeasurements();
 
-    if (bodyMeasurements === undefined) {
-      setLatestBodyMeasurements(defaultBodyMeasurements);
-      return;
-    }
+    if (bodyMeasurements === undefined) return;
 
     const detailedBodyMeasurements = CreateDetailedBodyMeasurementsList(
       [bodyMeasurements],
@@ -266,6 +263,8 @@ export default function LoggingIndex() {
       clockStyle,
       bodyMeasurements.id
     );
+
+    if (detailedBodyMeasurements.length === 0) return;
 
     setLatestBodyMeasurements(detailedBodyMeasurements[0]);
   };
