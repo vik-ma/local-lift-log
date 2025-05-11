@@ -54,15 +54,21 @@ export const BodyMeasurementsAccordions = ({
           <div className="flex justify-between items-center pl-2 py-1">
             <div className="flex flex-col items-start">
               <span className="w-[19rem] text-stone-600 font-medium truncate">
-                {measurement.weight > 0
+                {measurement.weight === 0 &&
+                measurement.body_fat_percentage !== null &&
+                measurement.measurementsText === undefined
+                  ? `${measurement.body_fat_percentage}% Body Fat`
+                  : measurement.weight > 0
                   ? `${measurement.weight} ${measurement.weight_unit}`
                   : measurement.measurementsText}
-                {measurement.body_fat_percentage !== null && (
-                  <span className="text-xs text-slate-500">
-                    {" "}
-                    ({measurement.body_fat_percentage}% Body Fat)
-                  </span>
-                )}
+                {measurement.body_fat_percentage !== null &&
+                  (measurement.weight !== 0 ||
+                    measurement.measurementsText !== undefined) && (
+                    <span className="text-xs text-slate-500">
+                      {" "}
+                      ({measurement.body_fat_percentage}% Body Fat)
+                    </span>
+                  )}
               </span>
               <span className="text-xs text-secondary">
                 {measurement.formattedDate}
