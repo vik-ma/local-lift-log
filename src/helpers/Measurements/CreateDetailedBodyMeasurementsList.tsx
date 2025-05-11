@@ -2,6 +2,7 @@ import {
   CreateValidBodyMeasurementsValues,
   FormatDateTimeString,
   FormatNumItemsString,
+  IsNumberValidPercentage,
 } from "..";
 import {
   BodyMeasurements,
@@ -28,6 +29,13 @@ export const CreateDetailedBodyMeasurementsList = (
     );
 
     if (formattedDate === "Invalid Date") continue;
+
+    if (
+      bodyMeasurements.body_fat_percentage !== null &&
+      !IsNumberValidPercentage(bodyMeasurements.body_fat_percentage, false)
+    ) {
+      bodyMeasurements.body_fat_percentage = null;
+    }
 
     try {
       const bodyMeasurementsValues: BodyMeasurementsValues = JSON.parse(
