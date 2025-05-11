@@ -6,15 +6,19 @@ import {
 
 export const ConvertBodyMeasurementsValuesToMeasurementInputs = (
   bodyMeasurementsValues: BodyMeasurementsValues,
-  measurementMap: MeasurementMap
-): Measurement[] => {
-  const measurementInputs: Measurement[] = [];
+  measurementMap: MeasurementMap,
+  bodyFatMeasurementsMap: Map<number, Measurement>
+) => {
+  const updatedActiveMeasurements: Measurement[] = [];
+  const updatedValidBodyFatInputs = new Set<number>();
 
   for (const [id, values] of Object.entries(bodyMeasurementsValues)) {
     const measurement = measurementMap.get(id);
 
+    const measurementId = Number(id);
+
     const measurementInput: Measurement = {
-      id: Number(id),
+      id: measurementId,
       name: measurement ? measurement.name : "Unknown",
       default_unit: values.unit,
       measurement_type: values.measurement_type,
@@ -22,8 +26,12 @@ export const ConvertBodyMeasurementsValuesToMeasurementInputs = (
       input: values.value.toString(),
     };
 
-    measurementInputs.push(measurementInput);
+    updatedActiveMeasurements.push(measurementInput);
+
+    if (bodyFatMeasurementsMap.has(measurementId)) {
+      updatedValidBodyFatInputs.add(measurementId);
+    }
   }
 
-  return measurementInputs;
+  return { updatedActiveMeasurements, updatedValidBodyFatInputs };
 };

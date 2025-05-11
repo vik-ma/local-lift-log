@@ -160,12 +160,15 @@ export const useBodyMeasurementsInput = (
     );
     setWeightUnit(bodyMeasurements.weight_unit);
 
-    const activeMeasurements = ConvertBodyMeasurementsValuesToMeasurementInputs(
-      bodyMeasurements.bodyMeasurementsValues,
-      measurementMap
-    );
+    const { updatedActiveMeasurements, updatedValidBodyFatInputs } =
+      ConvertBodyMeasurementsValuesToMeasurementInputs(
+        bodyMeasurements.bodyMeasurementsValues,
+        measurementMap,
+        bodyFatMeasurementsMap
+      );
 
-    setActiveMeasurements(activeMeasurements);
+    setActiveMeasurements(updatedActiveMeasurements);
+    validBodyFatInputs.current = updatedValidBodyFatInputs;
   };
 
   const getActiveMeasurements = async (activeMeasurementsString: string) => {
