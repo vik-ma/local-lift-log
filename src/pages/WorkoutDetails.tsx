@@ -135,6 +135,7 @@ export default function WorkoutDetails() {
     mergeGroupedSets,
     defaultWeightUnit,
     defaultDistanceUnit,
+    populateUserWeightValues,
   } = useWorkoutActions(false);
 
   const workoutList = useWorkoutList(false, exerciseList, true, Number(id));
@@ -625,8 +626,7 @@ export default function WorkoutDetails() {
           resetSetInputValues={resetSetInputValues}
           saveActiveSet={saveActiveSet}
           handleToggleSetCommentButton={handleToggleSetCommentButton}
-          // TODO: FIX
-          populateUserWeightValues={() => {}}
+          populateUserWeightValues={populateUserWeightValues}
           isUserWeightOlderThanOneWeek={isUserWeightOlderThanOneWeek}
           clearActiveSetInputValues={clearActiveSetInputValues}
           openCalculationModal={openCalculationModal}
