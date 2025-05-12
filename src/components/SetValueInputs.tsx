@@ -399,7 +399,11 @@ export const SetValueInputs = ({
           />
           <WeightUnitDropdown
             value={operatingSet.weight_unit}
-            setSet={setOperatingSet as React.Dispatch<React.SetStateAction<WorkoutSet>>}
+            setSet={
+              setOperatingSet as React.Dispatch<
+                React.SetStateAction<WorkoutSet>
+              >
+            }
             targetType="set"
             isSmall={true}
             isSetEdited={isSetEdited}
@@ -459,7 +463,11 @@ export const SetValueInputs = ({
           />
           <DistanceUnitDropdown
             value={operatingSet.distance_unit}
-            setSet={setOperatingSet as React.Dispatch<React.SetStateAction<WorkoutSet>>}
+            setSet={
+              setOperatingSet as React.Dispatch<
+                React.SetStateAction<WorkoutSet>
+              >
+            }
             targetType="set"
             isSmall={true}
             isSetEdited={isSetEdited}
@@ -632,27 +640,28 @@ export const SetValueInputs = ({
             />
             <WeightUnitDropdown
               value={operatingSet.user_weight_unit}
-              setSet={setOperatingSet as React.Dispatch<React.SetStateAction<WorkoutSet>>}
+              setSet={
+                setOperatingSet as React.Dispatch<
+                  React.SetStateAction<WorkoutSet>
+                >
+              }
               targetType="set-user-weight-unit"
               isSmall={true}
               isSetEdited={isSetEdited}
               setIsSetEdited={setIsSetEdited}
             />
           </div>
-          {/* TODO: UPDATE FOR NEW */}
-          {/* {userWeight && userWeightModal && (
-            <div className="flex flex-col items-center gap-0.5">
-              <Button
-                color="secondary"
-                variant="flat"
-                size="sm"
-                onPress={handleUserWeightButton}
-              >
-                {userWeight.id === 0
-                  ? "Enter New Body Weight"
-                  : "Fill In Latest Body Weight Entry"}
-              </Button>
-              {isUserWeightOlderThanOneWeek && (
+          <div className="flex flex-col items-center gap-0.5">
+            <Button
+              color="secondary"
+              variant="flat"
+              size="sm"
+              onPress={populateUserWeightValues}
+            >
+              Get Latest Body Weight
+            </Button>
+            {/* TODO: FIX */}
+            {/* {isUserWeightOlderThanOneWeek && (
                 <>
                   <span className="font-medium text-sm text-danger">
                     Body Weight Entry Is Older Than One Week
@@ -665,9 +674,8 @@ export const SetValueInputs = ({
                     Update Body Weight
                   </Button>
                 </>
-              )}
-            </div>
-          )} */}
+              )} */}
+          </div>
         </div>
       )}
     </div>
