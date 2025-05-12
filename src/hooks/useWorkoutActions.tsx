@@ -2503,7 +2503,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     let latestUserWeight = userWeight;
 
     if (latestUserWeight === undefined) {
-      latestUserWeight = await GetLatestUserWeight(userSettings.clock_style);
+      latestUserWeight = await GetLatestUserWeight();
 
       if (latestUserWeight === undefined) {
         setShowGetUserWeightButton(false);
