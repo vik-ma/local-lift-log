@@ -173,6 +173,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   });
 
   const [userWeight, setUserWeight] = useState<UserWeight>();
+  const [showGetUserWeightButton, setShowGetUserWeightButton] =
+    useState<boolean>(true);
 
   const defaultWeightUnit = useRef<string>("kg");
   const defaultDistanceUnit = useRef<string>("km");
@@ -2504,6 +2506,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       latestUserWeight = await GetLatestUserWeight(userSettings.clock_style);
 
       if (latestUserWeight === undefined) {
+        setShowGetUserWeightButton(false);
         toast.error("No Body Weight Entries Added");
         return;
       }
@@ -3157,5 +3160,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     defaultWeightUnit,
     defaultDistanceUnit,
     userWeight,
+    showGetUserWeightButton,
   };
 };

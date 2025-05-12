@@ -23,7 +23,6 @@ type SetValueInputsProps = {
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   userSettings: UserSettings;
-  populateUserWeightValues?: () => void;
   exercise: Exercise | undefined;
   isActiveSet: boolean;
   openCalculationModal: (
@@ -33,6 +32,8 @@ type SetValueInputsProps = {
     setInputs: UseSetTrackingInputsReturnType,
     set: WorkoutSet
   ) => Promise<void>;
+  populateUserWeightValues?: () => void;
+  showGetUserWeightButton?: boolean;
 };
 
 type Increment = {
@@ -57,10 +58,11 @@ export const SetValueInputs = ({
   setOperatingSet,
   useSetTrackingInputs,
   userSettings,
-  populateUserWeightValues,
   exercise,
   isActiveSet,
   openCalculationModal,
+  populateUserWeightValues,
+  showGetUserWeightButton,
 }: SetValueInputsProps) => {
   const {
     setTrackingValuesInput,
@@ -650,14 +652,17 @@ export const SetValueInputs = ({
             />
           </div>
           <div className="flex flex-col items-center gap-0.5">
-            <Button
-              color="secondary"
-              variant="flat"
-              size="sm"
-              onPress={populateUserWeightValues}
-            >
-              Get Latest Body Weight
-            </Button>
+            {showGetUserWeightButton && (
+              <Button
+                color="secondary"
+                variant="flat"
+                size="sm"
+                onPress={populateUserWeightValues}
+              >
+                Get Latest Body Weight
+              </Button>
+            )}
+
             {/* TODO: FIX */}
             {/* {isUserWeightOlderThanOneWeek && (
                 <>

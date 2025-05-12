@@ -135,6 +135,7 @@ export default function WorkoutDetails() {
     defaultWeightUnit,
     defaultDistanceUnit,
     populateUserWeightValues,
+    showGetUserWeightButton,
   } = useWorkoutActions(false);
 
   const workoutList = useWorkoutList(false, exerciseList, true, Number(id));
@@ -628,6 +629,7 @@ export default function WorkoutDetails() {
           populateUserWeightValues={populateUserWeightValues}
           clearActiveSetInputValues={clearActiveSetInputValues}
           openCalculationModal={openCalculationModal}
+          showGetUserWeightButton={showGetUserWeightButton}
         />
       </div>
     </>
