@@ -1,12 +1,18 @@
-import {
-  parseAbsoluteToLocal,
-} from "@internationalized/date";
+import { parseAbsoluteToLocal } from "@internationalized/date";
 
-export const FormatDateString = (dateISOString: string): string => {
+export const FormatDateString = (
+  dateISOString: string,
+  doNotIncludeDay?: boolean
+): string => {
   try {
     const formattedDate = parseAbsoluteToLocal(dateISOString)
       .toDate()
       .toDateString();
+
+    if (doNotIncludeDay) {
+      return formattedDate.substring(4);
+    }
+
     return formattedDate;
   } catch {
     return "Invalid Date";
