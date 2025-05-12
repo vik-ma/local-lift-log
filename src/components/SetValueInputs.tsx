@@ -24,7 +24,6 @@ type SetValueInputsProps = {
   useSetTrackingInputs: UseSetTrackingInputsReturnType;
   userSettings: UserSettings;
   populateUserWeightValues?: () => void;
-  isUserWeightOlderThanOneWeek?: boolean;
   exercise: Exercise | undefined;
   isActiveSet: boolean;
   openCalculationModal: (
@@ -59,7 +58,6 @@ export const SetValueInputs = ({
   useSetTrackingInputs,
   userSettings,
   populateUserWeightValues,
-  isUserWeightOlderThanOneWeek,
   exercise,
   isActiveSet,
   openCalculationModal,

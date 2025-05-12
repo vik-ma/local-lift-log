@@ -124,7 +124,6 @@ export default function WorkoutDetails() {
     handleTextInputModalButton,
     handleToggleSetCommentButton,
     numMultisetSets,
-    isUserWeightOlderThanOneWeek,
     presetsList,
     calculationModal,
     clearActiveSetInputValues,
@@ -627,7 +626,6 @@ export default function WorkoutDetails() {
           saveActiveSet={saveActiveSet}
           handleToggleSetCommentButton={handleToggleSetCommentButton}
           populateUserWeightValues={populateUserWeightValues}
-          isUserWeightOlderThanOneWeek={isUserWeightOlderThanOneWeek}
           clearActiveSetInputValues={clearActiveSetInputValues}
           openCalculationModal={openCalculationModal}
         />

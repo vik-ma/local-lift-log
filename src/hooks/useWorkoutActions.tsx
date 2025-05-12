@@ -173,8 +173,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   });
 
   const [userWeight, setUserWeight] = useState<UserWeight>();
-  const [isUserWeightOlderThanOneWeek, setIsUserWeightOlderThanOneWeek] =
-    useState<boolean>(false);
 
   const defaultWeightUnit = useRef<string>("kg");
   const defaultDistanceUnit = useRef<string>("km");
@@ -3148,8 +3146,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     handleToggleSetCommentButton,
     numMultisetSets,
     populateUserWeightValues,
-    isUserWeightOlderThanOneWeek,
-    setIsUserWeightOlderThanOneWeek,
     presetsList,
     calculationModal,
     clearActiveSetInputValues,

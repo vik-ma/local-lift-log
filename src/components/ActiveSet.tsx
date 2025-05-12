@@ -69,7 +69,6 @@ type ActiveSetProps = {
     groupedSet: GroupedWorkoutSet
   ) => void;
   populateUserWeightValues: () => void;
-  isUserWeightOlderThanOneWeek: boolean;
   clearActiveSetInputValues: () => void;
   openCalculationModal: (
     isWeight: boolean,
@@ -101,7 +100,6 @@ export const ActiveSet = ({
   saveActiveSet,
   handleToggleSetCommentButton,
   populateUserWeightValues,
-  isUserWeightOlderThanOneWeek,
   clearActiveSetInputValues,
   openCalculationModal,
 }: ActiveSetProps) => {
@@ -326,9 +324,6 @@ export const ActiveSet = ({
                         useSetTrackingInputs={activeSetInputs}
                         userSettings={userSettings}
                         populateUserWeightValues={populateUserWeightValues}
-                        isUserWeightOlderThanOneWeek={
-                          isUserWeightOlderThanOneWeek
-                        }
                         exercise={activeGroupedSet?.exerciseList[exerciseIndex]}
                         isActiveSet={true}
                         openCalculationModal={openCalculationModal}
