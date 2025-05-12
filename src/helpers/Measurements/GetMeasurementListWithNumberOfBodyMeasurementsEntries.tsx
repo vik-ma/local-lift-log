@@ -42,7 +42,11 @@ export const GetMeasurementListWithNumberOfBodyMeasurementsEntries = async (
     }
 
     const measurementList = await db.select<Measurement[]>(
-      "SELECT * FROM measurements"
+      `SELECT * FROM measurements 
+       WHERE 
+        (measurement_type = 'Caliper' AND default_unit = 'mm')
+        OR
+        (measurement_type = 'Circumference' AND default_unit IN ('mm', 'cm', 'in'))`
     );
 
     const measurements: Measurement[] = [];
