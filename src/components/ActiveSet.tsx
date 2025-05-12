@@ -78,6 +78,7 @@ type ActiveSetProps = {
     set: WorkoutSet
   ) => Promise<void>;
   showGetUserWeightButton: boolean;
+  showOldUserWeightLabel: boolean;
 };
 
 export const ActiveSet = ({
@@ -104,6 +105,7 @@ export const ActiveSet = ({
   clearActiveSetInputValues,
   openCalculationModal,
   showGetUserWeightButton,
+  showOldUserWeightLabel,
 }: ActiveSetProps) => {
   let setCounter = 1;
   // Assign Multiset Set number
@@ -330,6 +332,7 @@ export const ActiveSet = ({
                         isActiveSet={true}
                         openCalculationModal={openCalculationModal}
                         showGetUserWeightButton={showGetUserWeightButton}
+                        showOldUserWeightLabel={showOldUserWeightLabel}
                       />
                       <div className="flex justify-between">
                         <div className="flex gap-1">

@@ -34,6 +34,7 @@ type SetValueInputsProps = {
   ) => Promise<void>;
   populateUserWeightValues?: () => void;
   showGetUserWeightButton?: boolean;
+  showOldUserWeightLabel?: boolean;
 };
 
 type Increment = {
@@ -63,6 +64,7 @@ export const SetValueInputs = ({
   openCalculationModal,
   populateUserWeightValues,
   showGetUserWeightButton,
+  showOldUserWeightLabel,
 }: SetValueInputsProps) => {
   const {
     setTrackingValuesInput,
@@ -662,22 +664,7 @@ export const SetValueInputs = ({
                 Get Latest Body Weight
               </Button>
             )}
-
-            {/* TODO: FIX */}
-            {/* {isUserWeightOlderThanOneWeek && (
-                <>
-                  <span className="font-medium text-sm text-danger">
-                    Body Weight Entry Is Older Than One Week
-                  </span>
-                  <Button
-                    size="sm"
-                    variant="flat"
-                    onPress={() => userWeightModal.onOpen()}
-                  >
-                    Update Body Weight
-                  </Button>
-                </>
-              )} */}
+            {showOldUserWeightLabel && <div>Old</div>}
           </div>
         </div>
       )}

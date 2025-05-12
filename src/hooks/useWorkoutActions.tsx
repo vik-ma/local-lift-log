@@ -55,6 +55,7 @@ import {
   DefaultNewSet,
   NumNewSetsOptionList,
   GetLatestUserWeight,
+  IsDateStringOlderThanOneWeek,
 } from "../helpers";
 import {
   useSetTrackingInputs,
@@ -175,6 +176,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const [userWeight, setUserWeight] = useState<UserWeight>();
   const [showGetUserWeightButton, setShowGetUserWeightButton] =
     useState<boolean>(true);
+  const [showOldUserWeightLabel, setShowOldUserWeightLabel] =
+    useState<boolean>(false);
 
   const defaultWeightUnit = useRef<string>("kg");
   const defaultDistanceUnit = useRef<string>("km");
@@ -2512,6 +2515,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
 
       setUserWeight(latestUserWeight);
+
+      if (IsDateStringOlderThanOneWeek(latestUserWeight.date)) {
+        setShowOldUserWeightLabel(true);
+      }
     }
 
     const updatedSet = {
@@ -3161,5 +3168,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     defaultDistanceUnit,
     userWeight,
     showGetUserWeightButton,
+    showOldUserWeightLabel,
   };
 };
