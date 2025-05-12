@@ -8,7 +8,13 @@ export const GetMeasurementList = async (): Promise<{
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
-    const result = await db.select<Measurement[]>("SELECT * FROM measurements");
+    const result = await db.select<Measurement[]>(
+      `SELECT * FROM measurements 
+       WHERE 
+        (measurement_type = 'Caliper' AND default_unit = 'mm')
+        OR
+        (measurement_type = 'Circumference' AND default_unit IN ('mm', 'cm', 'in'))`
+    );
 
     const measurementMap = new Map<string, Measurement>(
       result.map((obj) => [obj.id.toString(), obj])
