@@ -234,7 +234,7 @@ export const ActiveSet = ({
                             </Button>
                           </DropdownTrigger>
                           <DropdownMenu
-                            aria-label="Active Set Option Menu"
+                            aria-label="Active Set Options Menu"
                             onAction={(key) =>
                               handleActiveSetOptionSelection(key as string)
                             }

@@ -93,7 +93,7 @@ export const DetailsHeader = ({
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu
-                  aria-label={`${detailsType} Option Menu`}
+                  aria-label={`${detailsType} Options Menu`}
                   onAction={(key) => handleOptionMenuSelection(key as string)}
                 >
                   {Object.entries(menuItems).map(([key, value]) => {

@@ -258,7 +258,7 @@ export const SetList = ({
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
-                    aria-label={`Option Menu For ${exercise.name} Set ${index}`}
+                    aria-label={`Options Menu For ${exercise.name} Set ${index}`}
                     onAction={(key) =>
                       optionsSelectionAction(
                         key as string,

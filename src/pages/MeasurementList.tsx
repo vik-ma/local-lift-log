@@ -477,7 +477,7 @@ export default function MeasurementList() {
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu
-                      aria-label={`Option Menu For ${measurement.name} Measurement`}
+                      aria-label={`Options Menu For ${measurement.name} Measurement`}
                       onAction={(key) =>
                         handleOptionSelection(key as string, measurement)
                       }

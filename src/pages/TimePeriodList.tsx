@@ -367,7 +367,7 @@ export default function TimePeriodList() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
-                aria-label={`Option Menu For ${timePeriod.name} Time Period`}
+                aria-label={`Options Menu For ${timePeriod.name} Time Period`}
                 onAction={(key) =>
                   handleTimePeriodOptionSelection(key as string, timePeriod)
                 }

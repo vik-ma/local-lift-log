@@ -114,7 +114,7 @@ export const BodyMeasurementsAccordions = ({
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
-                    aria-label={`Option Menu For ${measurement.formattedDate} Measurement Entry`}
+                    aria-label={`Options Menu For ${measurement.formattedDate} Measurement Entry`}
                     onAction={(key) =>
                       handleBodyMeasurementsOptionSelection(
                         key as string,

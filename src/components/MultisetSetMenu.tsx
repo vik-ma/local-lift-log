@@ -50,7 +50,7 @@ export const MultisetSetMenu = ({
         </Button>
       </DropdownTrigger>
       <DropdownMenu
-        aria-label={`Option Menu For Number ${index + 1} Multiset ${
+        aria-label={`Options Menu For Number ${index + 1} Multiset ${
           set.exercise_name
         } Set`}
         onAction={(key) =>

@@ -714,7 +714,7 @@ export default function BodyMeasurementsList() {
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu
-                      aria-label="Body Measurements List Option Menu"
+                      aria-label="Body Measurements List Options Menu"
                       onAction={(key) =>
                         handleOptionMenuSelection(key as string)
                       }

@@ -73,7 +73,7 @@ export const MultisetAccordions = ({
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
-                    aria-label={`Option Menu For Number ${index + 1} Multiset`}
+                    aria-label={`Options Menu For Number ${index + 1} Multiset`}
                     onAction={(key) =>
                       handleMultisetOptionSelection(key as string, multiset)
                     }

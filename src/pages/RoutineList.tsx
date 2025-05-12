@@ -389,7 +389,7 @@ export default function RoutineList() {
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu
-                      aria-label={`Option Menu For ${routine.name} Routine`}
+                      aria-label={`Options Menu For ${routine.name} Routine`}
                       onAction={(key) =>
                         handleRoutineOptionSelection(
                           key as string,

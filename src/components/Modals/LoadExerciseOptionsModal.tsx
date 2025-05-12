@@ -479,7 +479,7 @@ export const LoadExerciseOptionsModal = ({
                             </Button>
                           </DropdownTrigger>
                           <DropdownMenu
-                            aria-label="Filter Option Categories Dropdown Menu"
+                            aria-label="Filter Categories Dropdown Menu"
                             selectedKeys={filterCategories as Set<string>}
                             selectionMode="multiple"
                             onSelectionChange={

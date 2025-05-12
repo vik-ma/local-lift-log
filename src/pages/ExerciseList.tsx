@@ -400,7 +400,7 @@ export default function ExerciseList() {
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
-                    aria-label={`Option Menu For ${exercise.name} Exercise`}
+                    aria-label={`Options Menu For ${exercise.name} Exercise`}
                     onAction={(key) =>
                       handleExerciseOptionSelection(key as string, exercise)
                     }

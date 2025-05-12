@@ -100,7 +100,7 @@ export const WorkoutListOptions = ({
             </Button>
           </DropdownTrigger>
           <DropdownMenu
-            aria-label="Workout List Option Menu"
+            aria-label="Workout List Options Menu"
             onAction={(key) => handleOptionMenuSelection(key as string)}
           >
             <DropdownItem className="text-danger" key="delete-empty-workouts">

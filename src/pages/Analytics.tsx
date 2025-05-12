@@ -3115,7 +3115,7 @@ export default function Analytics() {
                       </Button>
                     </DropdownTrigger>
                     <DropdownMenu
-                      aria-label="Filter dates option menu"
+                      aria-label="Filter dates Options Menu"
                       variant="flat"
                     >
                       <>

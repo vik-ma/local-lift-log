@@ -84,7 +84,7 @@ export const DietLogAccordions = ({
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
-                    aria-label={`Option Menu For ${dietLog.formattedDate} Diet Log Entry`}
+                    aria-label={`Options Menu For ${dietLog.formattedDate} Diet Log Entry`}
                     onAction={(key) =>
                       handleDietLogOptionSelection(key as string, dietLog)
                     }

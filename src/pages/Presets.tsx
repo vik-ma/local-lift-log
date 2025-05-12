@@ -992,7 +992,7 @@ export default function Presets() {
                               </Button>
                             </DropdownTrigger>
                             <DropdownMenu
-                              aria-label={`Option Menu For ${equipment.name} Equipment Weight`}
+                              aria-label={`Options Menu For ${equipment.name} Equipment Weight`}
                               onAction={(key) =>
                                 handleEquipmentWeightOptionSelection(
                                   key as string,
@@ -1115,7 +1115,7 @@ export default function Presets() {
                               </Button>
                             </DropdownTrigger>
                             <DropdownMenu
-                              aria-label={`Option Menu For ${distance.name} Distance`}
+                              aria-label={`Options Menu For ${distance.name} Distance`}
                               onAction={(key) =>
                                 handleDistanceOptionSelection(
                                   key as string,
@@ -1256,7 +1256,7 @@ export default function Presets() {
                                 </Button>
                               </DropdownTrigger>
                               <DropdownMenu
-                                aria-label={`Option Menu For ${plate.name} Plate Collection`}
+                                aria-label={`Options Menu For ${plate.name} Plate Collection`}
                                 onAction={(key) =>
                                   handlePlateCollectionOptionSelection(
                                     key as string,

@@ -88,7 +88,7 @@ export const WorkoutListItem = ({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
-                aria-label="Option Menu For Workout On ${workout.formattedDate}"
+                aria-label="Options Menu For Workout On ${workout.formattedDate}"
                 onAction={(key) =>
                   handleWorkoutOptionSelection(key as string, workout)
                 }

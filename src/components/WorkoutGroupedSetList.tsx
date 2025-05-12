@@ -192,7 +192,7 @@ export const WorkoutGroupedSetList = ({
                           </Button>
                         </DropdownTrigger>
                         <DropdownMenu
-                          aria-label={`Option Menu For ${title} Exercise`}
+                          aria-label={`Options Menu For ${title} Exercise`}
                           onAction={(key) =>
                             handleGroupedSetOptionSelection(
                               key as string,
