@@ -1,19 +1,14 @@
 import Database from "tauri-plugin-sql-api";
 import { FormatDateTimeString } from "..";
+import { UserWeight } from "../../typings";
 
-type LatestUserWeight = {
-  weight: number;
-  weight_unit: string;
-  date: string;
-  formattedDate: string;
-};
 
 export const GetLatestUserWeight = async (clockStyle: string) => {
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
 
     // Get the body_measurements row with the latest valid ISO 8601 date string value and weight
-    const result = await db.select<LatestUserWeight[]>(
+    const result = await db.select<UserWeight[]>(
       `SELECT weight, weight_unit, date 
        FROM body_measurements
        WHERE weight > 0 
@@ -24,7 +19,7 @@ export const GetLatestUserWeight = async (clockStyle: string) => {
        LIMIT 1`
     );
 
-    const userWeight: LatestUserWeight = result[0];
+    const userWeight = result[0];
 
     if (userWeight === undefined) return undefined;
 

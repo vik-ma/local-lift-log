@@ -1314,3 +1314,10 @@ export type BodyFatCalculationConstants = {
   c: number;
   m: number;
 };
+
+export type UserWeight = {
+  weight: number;
+  weight_unit: string;
+  date: string;
+  formattedDate: string;
+};
