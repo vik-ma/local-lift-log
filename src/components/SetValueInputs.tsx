@@ -17,7 +17,7 @@ import {
   ShouldSetTrackingValueButtonBeDisabled,
 } from "../helpers";
 import { useMemo } from "react";
-import { CalculateIcon } from "../assets";
+import { CalculateIcon, CrossIcon } from "../assets";
 import { Link } from "react-router-dom";
 
 type SetValueInputsProps = {
@@ -37,6 +37,7 @@ type SetValueInputsProps = {
   populateUserWeightValues?: () => void;
   showGetUserWeightButton?: boolean;
   showOldUserWeightLabel?: boolean;
+  setShowOldUserWeightLabel?: React.Dispatch<React.SetStateAction<boolean>>;
   userWeight?: UserWeight | undefined;
 };
 
@@ -68,6 +69,7 @@ export const SetValueInputs = ({
   populateUserWeightValues,
   showGetUserWeightButton,
   showOldUserWeightLabel,
+  setShowOldUserWeightLabel,
   userWeight,
 }: SetValueInputsProps) => {
   const {
@@ -668,23 +670,34 @@ export const SetValueInputs = ({
                 Get Latest Body Weight
               </Button>
             )}
-            {showOldUserWeightLabel && userWeight !== undefined && (
-              <div className="flex flex-col gap-0.5 py-1 px-1.5 text-xs bg-default-100 border-2 border-default-200 rounded-lg">
-                <span className="font-medium">
-                  Body Weight Entry Is From{" "}
-                  <span className="text-secondary">
-                    {userWeight.formattedDate}
-                  </span>
-                </span>
-                {/* TODO: FIX LINK COLOR */}
-                <Link
-                  className="text-center text-slate-500"
-                  to="/logging"
-                >
-                  Add New Body Weight Entry
-                </Link>
-              </div>
-            )}
+            {showOldUserWeightLabel &&
+              setShowOldUserWeightLabel !== undefined &&
+              userWeight !== undefined && (
+                <div className="relative flex flex-col gap-0.5 py-1 pl-1.5 pr-6 text-xs bg-default-100 border-2 border-default-200 rounded-lg">
+                  <Button
+                    aria-label="Close old body weight entry message"
+                    className="absolute right-0 -top-px h-6 min-w-6 w-6"
+                    isIconOnly
+                    size="sm"
+                    variant="light"
+                    onPress={() => setShowOldUserWeightLabel(false)}
+                  >
+                    <CrossIcon color="#909090" size={14} />
+                  </Button>
+                  <div className="flex justify-between">
+                    <span className="font-medium">
+                      Body Weight Entry Is From{" "}
+                      <span className="text-secondary">
+                        {userWeight.formattedDate}
+                      </span>
+                    </span>
+                  </div>
+                  {/* TODO: FIX LINK COLOR */}
+                  <Link className="text-center text-slate-500" to="/logging">
+                    Add New Body Weight Entry
+                  </Link>
+                </div>
+              )}
           </div>
         </div>
       )}

@@ -80,6 +80,7 @@ type ActiveSetProps = {
   ) => Promise<void>;
   showGetUserWeightButton: boolean;
   showOldUserWeightLabel: boolean;
+  setShowOldUserWeightLabel: React.Dispatch<React.SetStateAction<boolean>>;
   userWeight: UserWeight | undefined;
 };
 
@@ -108,6 +109,7 @@ export const ActiveSet = ({
   openCalculationModal,
   showGetUserWeightButton,
   showOldUserWeightLabel,
+  setShowOldUserWeightLabel,
   userWeight,
 }: ActiveSetProps) => {
   let setCounter = 1;
@@ -336,6 +338,7 @@ export const ActiveSet = ({
                         openCalculationModal={openCalculationModal}
                         showGetUserWeightButton={showGetUserWeightButton}
                         showOldUserWeightLabel={showOldUserWeightLabel}
+                        setShowOldUserWeightLabel={setShowOldUserWeightLabel}
                         userWeight={userWeight}
                       />
                       <div className="flex justify-between">

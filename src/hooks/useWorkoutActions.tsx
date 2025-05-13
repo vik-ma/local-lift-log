@@ -3169,5 +3169,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     userWeight,
     showGetUserWeightButton,
     showOldUserWeightLabel,
+    setShowOldUserWeightLabel,
   };
 };
