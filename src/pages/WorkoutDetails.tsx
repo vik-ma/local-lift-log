@@ -137,6 +137,7 @@ export default function WorkoutDetails() {
     populateUserWeightValues,
     showGetUserWeightButton,
     showOldUserWeightLabel,
+    userWeight,
   } = useWorkoutActions(false);
 
   const workoutList = useWorkoutList(false, exerciseList, true, Number(id));
@@ -632,6 +633,7 @@ export default function WorkoutDetails() {
           openCalculationModal={openCalculationModal}
           showGetUserWeightButton={showGetUserWeightButton}
           showOldUserWeightLabel={showOldUserWeightLabel}
+          userWeight={userWeight}
         />
       </div>
     </>

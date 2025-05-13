@@ -3,6 +3,7 @@ import {
   UseSetTrackingInputsReturnType,
   UserSettings,
   Exercise,
+  UserWeight,
 } from "../typings";
 import {
   WeightUnitDropdown,
@@ -17,6 +18,7 @@ import {
 } from "../helpers";
 import { useMemo } from "react";
 import { CalculateIcon } from "../assets";
+import { Link } from "react-router-dom";
 
 type SetValueInputsProps = {
   operatingSet: WorkoutSet;
@@ -35,6 +37,7 @@ type SetValueInputsProps = {
   populateUserWeightValues?: () => void;
   showGetUserWeightButton?: boolean;
   showOldUserWeightLabel?: boolean;
+  userWeight?: UserWeight | undefined;
 };
 
 type Increment = {
@@ -65,6 +68,7 @@ export const SetValueInputs = ({
   populateUserWeightValues,
   showGetUserWeightButton,
   showOldUserWeightLabel,
+  userWeight,
 }: SetValueInputsProps) => {
   const {
     setTrackingValuesInput,
@@ -653,7 +657,7 @@ export const SetValueInputs = ({
               setIsSetEdited={setIsSetEdited}
             />
           </div>
-          <div className="flex flex-col items-center gap-0.5">
+          <div className="flex flex-col items-center gap-1">
             {showGetUserWeightButton && (
               <Button
                 color="secondary"
@@ -664,7 +668,23 @@ export const SetValueInputs = ({
                 Get Latest Body Weight
               </Button>
             )}
-            {showOldUserWeightLabel && <div>Old</div>}
+            {showOldUserWeightLabel && userWeight !== undefined && (
+              <div className="flex flex-col gap-0.5 py-1 px-1.5 text-xs bg-default-100 border-2 border-default-200 rounded-lg">
+                <span className="font-medium">
+                  Body Weight Entry Is From{" "}
+                  <span className="text-secondary">
+                    {userWeight.formattedDate}
+                  </span>
+                </span>
+                {/* TODO: FIX LINK COLOR */}
+                <Link
+                  className="text-center text-slate-500"
+                  to="/logging"
+                >
+                  Add New Body Weight Entry
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}
