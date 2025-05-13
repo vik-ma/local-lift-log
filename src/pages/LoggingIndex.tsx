@@ -569,7 +569,7 @@ export default function LoggingIndex() {
                 handleReassignMeasurement={handleReassignMeasurement}
               />
             )}
-            <div className="flex justify-center gap-1.5 pt-1">
+            <div className="flex justify-between w-full px-px gap-1.5 pt-1">
               <Button
                 className="font-medium"
                 variant="flat"
@@ -621,25 +621,25 @@ export default function LoggingIndex() {
                 showDayLabel
               />
             )}
-          </div>
-          <div className="flex justify-center gap-1.5 pt-1">
-            <Button
-              className="font-medium"
-              variant="flat"
-              color="secondary"
-              size="sm"
-              onPress={handleAddDietLogEntryButton}
-            >
-              Add Diet Log
-            </Button>
-            <Button
-              className="font-medium"
-              variant="flat"
-              size="sm"
-              onPress={handleAddDietLogRangeEntryButton}
-            >
-              Add Diet Logs For Multiple Dates
-            </Button>
+            <div className="flex justify-between w-full px-px gap-1.5 pt-1">
+              <Button
+                className="font-medium"
+                variant="flat"
+                color="secondary"
+                size="sm"
+                onPress={handleAddDietLogEntryButton}
+              >
+                Add Diet Log
+              </Button>
+              <Button
+                className="font-medium"
+                variant="flat"
+                size="sm"
+                onPress={handleAddDietLogRangeEntryButton}
+              >
+                Add Diet Logs For Multiple Dates
+              </Button>
+            </div>
           </div>
         </div>
       </div>
