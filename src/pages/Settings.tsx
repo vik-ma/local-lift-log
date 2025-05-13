@@ -716,6 +716,24 @@ export default function Settings() {
               isInSettingsPage
             />
           </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Show Get Latest Body Weight Button</span>
+            <Switch
+              aria-label="Show Get Latest Body Weight Button Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={
+                userSettings.show_get_latest_body_weight_button ? true : false
+              }
+              onValueChange={(value) =>
+                updateUserSetting(
+                  "show_get_latest_body_weight_button",
+                  value ? 1 : 0
+                )
+              }
+            />
+          </div>
           <h3 className="flex justify-center text-lg font-medium">
             Calculations
           </h3>

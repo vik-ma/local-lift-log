@@ -49,6 +49,7 @@ export type UserSettings = {
   show_workout_comments_in_exercise_details: number;
   never_show_delete_modal: number;
   body_fat_calculation_settings: string;
+  show_get_latest_body_weight_button: number;
 };
 
 export type Exercise = {

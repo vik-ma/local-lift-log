@@ -89,6 +89,8 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
       return IsNumberValidBinary(value as number);
     case "body_fat_calculation_settings":
       return ValidateBodyFatCalculationSettingsString(value as string);
+    case "show_get_latest_body_weight_button":
+      return IsNumberValidBinary(value as number);
     default:
       return false;
   }
