@@ -528,17 +528,17 @@ export default function LoggingIndex() {
               Measurements
             </h1>
           </div>
-          <div className="flex w-full justify-center gap-10 px-1.5 text-sm pt-1">
+          <div className="grid grid-cols-2 w-full px-1.5 text-sm pt-1">
             <Link
               // TODO: FIX LINK COLOR
-              className="text-slate-500"
+              className="text-slate-500 text-center"
               to="/logging/measurement-list"
             >
               Measurement List
             </Link>
             <Link
               // TODO: FIX LINK COLOR
-              className="text-slate-500"
+              className="text-slate-500 text-center"
               to="/logging/body-measurement-list"
             >
               Body Measurements History
