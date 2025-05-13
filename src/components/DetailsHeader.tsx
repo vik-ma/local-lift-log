@@ -123,6 +123,9 @@ export const DetailsHeader = ({
             {detailsType} {isNoteComment ? "Comment" : "Note"}
           </h3>
           <Button
+            aria-label={`Close ${detailsType} ${
+              isNoteComment ? "Comment" : "Note"
+            }`}
             className="absolute right-0 top-0 h-7 w-7 min-w-7"
             isIconOnly
             size="sm"
