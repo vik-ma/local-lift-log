@@ -118,21 +118,21 @@ export const DetailsHeader = ({
         </div>
       </div>
       {showNote && note !== null && (
-        <div className="relative flex flex-col bg-default-100 w-full px-2 py-1.5 rounded-xl border-2 border-default-300">
-          <h3 className="break-all font-medium leading-snug text-lg">
+        <div className="relative flex flex-col bg-default-100 w-full px-1.5 py-1 rounded-lg border-2 border-default-300">
+          <h3 className="break-all font-medium text-sm leading-snug">
             {detailsType} {isNoteComment ? "Comment" : "Note"}
           </h3>
           <Button
-            className="absolute right-0.5 top-0.5"
+            className="absolute right-0 top-0 h-7 w-7 min-w-7"
             isIconOnly
             size="sm"
             variant="light"
-            radius="lg"
+            radius="sm"
             onPress={() => setShowNote(false)}
           >
-            <CrossIcon color="#808080" size={20} />
+            <CrossIcon color="#909090" size={16} />
           </Button>
-          <span className="break-words text-foreground-600 text-sm">
+          <span className="break-words text-foreground-600 text-xs">
             {note}
           </span>
         </div>
