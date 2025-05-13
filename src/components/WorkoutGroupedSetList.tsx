@@ -291,7 +291,7 @@ export const WorkoutGroupedSetList = ({
                     <div>
                       {groupedSet.showGroupedSetNote && (
                         <div className="flex justify-between items-center px-2 pb-0.5">
-                          <span className="text-stone-400 break-words text-sm max-w-full">
+                          <span className="text-stone-400 break-words text-sm max-w-[23.5rem]">
                             {isMultiset
                               ? groupedSet.multiset?.note
                               : groupedSet.exerciseList[0].note}
