@@ -218,7 +218,7 @@ export default function DietLogList() {
       />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
-          header="Diet Log Entries"
+          header="Diet Logs"
           filterQuery={filterQuery}
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredDietLogs.length}

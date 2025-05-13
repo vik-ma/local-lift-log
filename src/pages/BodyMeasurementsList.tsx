@@ -640,7 +640,7 @@ export default function BodyMeasurementsList() {
       />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
-          header="Body Measurement List"
+          header="Body Measurements"
           filterQuery={filterQuery}
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredBodyMeasurements.length}
