@@ -179,7 +179,8 @@ export default function WorkoutDetails() {
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu(
     "Workout",
-    additionalMenuItems
+    additionalMenuItems,
+    true
   );
 
   const getWorkoutTemplateComment = async (workoutTemplateId: number) => {
@@ -586,6 +587,7 @@ export default function WorkoutDetails() {
               </div>
             )
           }
+          isNoteComment
         />
         <div className="pt-2 pb-[4.5rem]">
           <WorkoutGroupedSetList

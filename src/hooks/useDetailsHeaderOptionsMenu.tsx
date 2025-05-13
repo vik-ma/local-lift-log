@@ -6,21 +6,24 @@ import {
 
 export const useDetailsHeaderOptionsMenu = (
   detailsType: string,
-  additionalMenuItems?: DetailHeaderOptionItem
+  additionalMenuItems?: DetailHeaderOptionItem,
+  isNoteComment?: boolean
 ): UseDetailsHeaderOptionsMenuReturnType => {
   const [showNote, setShowNote] = useState<boolean>(false);
 
   const menuItems = useMemo(() => {
     const menuItems: DetailHeaderOptionItem = {
       "toggle-note": {
-        text: `${showNote ? "Hide" : "Show"} ${detailsType} Note`,
+        text: `${showNote ? "Hide" : "Show"} ${detailsType} ${
+          isNoteComment ? "Comment" : "Note"
+        }`,
         function: () => setShowNote(!showNote),
       },
       ...additionalMenuItems,
     };
 
     return menuItems;
-  }, [showNote, additionalMenuItems, detailsType]);
+  }, [showNote, additionalMenuItems, detailsType, isNoteComment]);
 
   const handleOptionMenuSelection = (key: string) => {
     if (menuItems[key] === undefined) return;

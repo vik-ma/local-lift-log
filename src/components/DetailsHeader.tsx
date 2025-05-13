@@ -19,6 +19,7 @@ type DetailsHeaderProps = {
   extraContent?: ReactNode;
   extraLeftButton1?: ReactNode;
   extraLeftButton2?: ReactNode;
+  isNoteComment?: boolean;
 };
 
 export const DetailsHeader = ({
@@ -31,6 +32,7 @@ export const DetailsHeader = ({
   extraContent,
   extraLeftButton1,
   extraLeftButton2,
+  isNoteComment,
 }: DetailsHeaderProps) => {
   const { showNote, setShowNote, menuItems, handleOptionMenuSelection } =
     useDetailsHeaderOptions;
@@ -118,7 +120,7 @@ export const DetailsHeader = ({
       {showNote && note !== null && (
         <div className="relative flex flex-col bg-default-100 w-full px-2 py-1.5 rounded-xl border-2 border-default-300">
           <h3 className="break-all font-medium leading-snug text-lg">
-            {detailsType} Note
+            {detailsType} {isNoteComment ? "Comment" : "Note"}
           </h3>
           <Button
             className="absolute right-0.5 top-0.5"
