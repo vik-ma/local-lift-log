@@ -51,6 +51,7 @@ pub struct UserSetting {
     pub show_workout_comments_in_exercise_details: i32,
     pub never_show_delete_modal: i32,
     pub body_fat_calculation_settings: String,
+    pub show_get_latest_body_weight_button: i32,
 }
 
 #[derive(Queryable, Selectable)]
