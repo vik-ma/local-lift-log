@@ -232,24 +232,28 @@ export const Calculator = ({
       </div>
       <div className="grid grid-rows-5 grid-cols-4 gap-0.5 select-none">
         <button
+          aria-label="Open Brackets"
           className="h-12 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
           onClick={() => handleLeftBracketButton()}
         >
           (
         </button>
         <button
+          aria-label="Close Brackets"
           className="h-12 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
           onClick={() => handleRightBracketButton()}
         >
           )
         </button>
         <button
+          aria-label="Clear"
           className="h-12 pt-0.5 text-red-400 text-2xl font-medium border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
           onClick={() => handleClearButton()}
         >
           C
         </button>
         <button
+          aria-label="Backspace"
           className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
           onClick={() => handleBackspaceButton()}
         >
@@ -265,6 +269,7 @@ export const Calculator = ({
           </button>
         ))}
         <button
+          aria-label="Divide"
           className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
           onClick={() => handleOperationButton("/")}
         >
@@ -280,6 +285,7 @@ export const Calculator = ({
           </button>
         ))}
         <button
+          aria-label="Multiply"
           className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
           onClick={() => handleOperationButton("*")}
         >
@@ -295,6 +301,7 @@ export const Calculator = ({
           </button>
         ))}
         <button
+          aria-label="Subtract"
           className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
           onClick={() => handleOperationButton("-")}
         >
@@ -307,12 +314,14 @@ export const Calculator = ({
           0
         </button>
         <button
+          aria-label="Decimal Point"
           className="h-12 pt-0.5 text-default-500 text-2xl font-medium border-2 border-default-300 rounded-lg hover:bg-default-100"
           onClick={() => handlePointButton()}
         >
           .
         </button>
         <button
+          aria-label="Add"
           className="flex justify-center items-center h-12 border-2 border-default-300 rounded-lg bg-default-100 hover:bg-default-200"
           onClick={() => handleOperationButton("+")}
         >
