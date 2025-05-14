@@ -413,24 +413,26 @@ export default function WorkoutTemplateDetails() {
           editButtonAction={() => workoutTemplateModal.onOpen()}
           useDetailsHeaderOptions={useDetailsHeaderOptions}
         />
-        <WorkoutGroupedSetList
-          groupedSets={groupedSets}
-          setGroupedSets={setGroupedSets}
-          updateExerciseOrder={updateExerciseOrder}
-          handleGroupedSetAccordionClick={handleGroupedSetAccordionClick}
-          handleGroupedSetOptionSelection={handleGroupedSetOptionSelection}
-          handleClickSet={handleClickSet}
-          handleSetOptionSelection={handleSetOptionSelection}
-          updateShownSetListComments={updateShownSetListComments}
-          shownSetListComments={shownSetListComments}
-          handleAddSetButton={handleAddSetButton}
-          handleAddSetMultisetButton={handleAddMultisetButton}
-          setIsExerciseBeingDragged={setIsExerciseBeingDragged}
-          handleReassignExercise={handleReassignExercise}
-          isTemplate={true}
-          multisetTypeMap={multisetActions.multisetTypeMap}
-          handleToggleSetCommentButton={handleToggleSetCommentButton}
-        />
+        <div className="pt-2">
+          <WorkoutGroupedSetList
+            groupedSets={groupedSets}
+            setGroupedSets={setGroupedSets}
+            updateExerciseOrder={updateExerciseOrder}
+            handleGroupedSetAccordionClick={handleGroupedSetAccordionClick}
+            handleGroupedSetOptionSelection={handleGroupedSetOptionSelection}
+            handleClickSet={handleClickSet}
+            handleSetOptionSelection={handleSetOptionSelection}
+            updateShownSetListComments={updateShownSetListComments}
+            shownSetListComments={shownSetListComments}
+            handleAddSetButton={handleAddSetButton}
+            handleAddSetMultisetButton={handleAddMultisetButton}
+            setIsExerciseBeingDragged={setIsExerciseBeingDragged}
+            handleReassignExercise={handleReassignExercise}
+            isTemplate={true}
+            multisetTypeMap={multisetActions.multisetTypeMap}
+            handleToggleSetCommentButton={handleToggleSetCommentButton}
+          />
+        </div>
       </div>
     </>
   );
