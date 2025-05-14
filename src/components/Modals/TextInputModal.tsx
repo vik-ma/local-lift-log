@@ -8,26 +8,31 @@ import {
   Input,
 } from "@heroui/react";
 import { UseDisclosureReturnType } from "../../typings";
+import { useEffect, useState } from "react";
 
 type TextInputModalProps = {
   textInputModal: UseDisclosureReturnType;
-  value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
   label: string;
   header: string;
-  buttonAction: () => void;
+  sourceValue: string | null;
+  buttonAction: (value: string) => void;
   buttonText?: string;
 };
 
 export const TextInputModal = ({
   textInputModal,
-  value,
-  setValue,
   label,
   header,
+  sourceValue,
   buttonAction,
   buttonText = "Save",
 }: TextInputModalProps) => {
+  const [value, setValue] = useState<string>("");
+
+  useEffect(() => {
+    setValue(sourceValue ?? "");
+  }, [sourceValue]);
+
   return (
     <Modal
       isOpen={textInputModal.isOpen}
@@ -44,7 +49,7 @@ export const TextInputModal = ({
                   label={label}
                   size="sm"
                   variant="faded"
-                  onValueChange={(value) => setValue(value)}
+                  onValueChange={setValue}
                   isClearable
                 />
               </div>
@@ -53,7 +58,7 @@ export const TextInputModal = ({
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="primary" onPress={() => buttonAction()}>
+              <Button color="primary" onPress={() => buttonAction(value)}>
                 {buttonText}
               </Button>
             </ModalFooter>

@@ -104,11 +104,10 @@ export default function Test() {
     <>
       <TextInputModal
         textInputModal={textInputModal}
-        value={text}
-        setValue={setText}
         label="Test"
         header="Test Text Input Modal"
-        buttonAction={() => {}}
+        sourceValue={text}
+        buttonAction={(value) => setText(value)}
       />
       <TimeInputModal
         timeInputModal={timeInputModal}
