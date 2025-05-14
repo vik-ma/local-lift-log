@@ -24,13 +24,15 @@ import { ExerciseGroupCheckboxes } from "..";
 import { useEffect, useRef, useState } from "react";
 import { ChevronIcon } from "../../assets";
 import { AnimatePresence, motion } from "framer-motion";
-import { useValidateName } from "../../hooks";
+import {
+  useValidateExerciseGroupStringPrimary,
+  useValidateName,
+} from "../../hooks";
 
 type ExerciseModalProps = {
   exerciseModal: UseDisclosureReturnType;
   exercise: Exercise;
   setExercise: React.Dispatch<React.SetStateAction<Exercise>>;
-  isExerciseGroupSetPrimaryStringValid: boolean;
   exerciseGroupDictionary: ExerciseGroupMap;
   multiplierInputMap: Map<string, string>;
   setMultiplierInputMap: React.Dispatch<
@@ -44,7 +46,6 @@ export const ExerciseModal = ({
   exerciseModal,
   exercise,
   setExercise,
-  isExerciseGroupSetPrimaryStringValid,
   exerciseGroupDictionary,
   multiplierInputMap,
   setMultiplierInputMap,
@@ -66,6 +67,12 @@ export const ExerciseModal = ({
   const multiplierAccordionRef = useRef<HTMLDivElement>(null);
 
   const hasPrimaryAccordionBeenClosed = useRef<boolean>(false);
+
+  const isExerciseGroupSetPrimaryStringValid =
+    useValidateExerciseGroupStringPrimary(
+      exercise.exercise_group_set_string_primary,
+      exerciseGroupDictionary
+    );
 
   const handleClickPrimaryAccordion = () => {
     setIsPrimaryAccordionExpanded(!isPrimaryAccordionExpanded);
@@ -209,7 +216,12 @@ export const ExerciseModal = ({
       : [];
 
   const handleSaveButton = () => {
-    if (!isExerciseNameValid) return;
+    if (
+      !isExerciseNameValid ||
+      !isExerciseGroupSetPrimaryStringValid ||
+      multiplierInputInvaliditySet.size > 0
+    )
+      return;
 
     const note = ConvertEmptyStringToNull(noteInput);
 

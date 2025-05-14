@@ -34,7 +34,6 @@ import {
 } from "../helpers";
 import {
   useDefaultExercise,
-  useValidateExerciseGroupStringPrimary,
   useDetailsHeaderOptionsMenu,
   useExerciseGroupDictionary,
   useMultiplierInputMap,
@@ -419,15 +418,7 @@ export default function ExerciseDetails() {
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Exercise");
 
-  const isExerciseGroupSetPrimaryStringValid =
-    useValidateExerciseGroupStringPrimary(
-      editedExercise.exercise_group_set_string_primary,
-      exerciseGroupDictionary
-    );
-
   const updateExercise = async (exercise: Exercise) => {
-    if (!isExerciseGroupSetPrimaryStringValid) return;
-
     const updatedExercise = await UpdateExerciseValues(
       exercise,
       multiplierInputMap,
@@ -519,9 +510,6 @@ export default function ExerciseDetails() {
         exerciseModal={exerciseModal}
         exercise={editedExercise}
         setExercise={setEditedExercise}
-        isExerciseGroupSetPrimaryStringValid={
-          isExerciseGroupSetPrimaryStringValid
-        }
         exerciseGroupDictionary={exerciseGroupDictionary}
         multiplierInputMap={multiplierInputMap}
         setMultiplierInputMap={setMultiplierInputMap}

@@ -33,7 +33,6 @@ import {
 } from "../components";
 import { VerticalMenuIcon } from "../assets";
 import {
-  useValidateExerciseGroupStringPrimary,
   useExerciseList,
   useDefaultExercise,
   useMultiplierInputMap,
@@ -81,12 +80,6 @@ export default function ExerciseList() {
   const [operatingExercise, setOperatingExercise] =
     useState<Exercise>(defaultExercise);
 
-  const isOperatingExerciseGroupSetStringPrimaryValid =
-    useValidateExerciseGroupStringPrimary(
-      operatingExercise.exercise_group_set_string_primary,
-      exerciseGroupDictionary
-    );
-
   const {
     multiplierInputMap,
     setMultiplierInputMap,
@@ -94,11 +87,7 @@ export default function ExerciseList() {
   } = useMultiplierInputMap();
 
   const addExercise = async (exercise: Exercise) => {
-    if (
-      !isOperatingExerciseGroupSetStringPrimaryValid ||
-      operationType !== "add"
-    )
-      return;
+    if (operationType !== "add") return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -143,7 +132,6 @@ export default function ExerciseList() {
   const updateExercise = async (exercise: Exercise) => {
     if (
       exercise.id === 0 ||
-      !isOperatingExerciseGroupSetStringPrimaryValid ||
       multiplierInputInvaliditySet.size > 0 ||
       operationType !== "edit"
     )
@@ -274,9 +262,6 @@ export default function ExerciseList() {
         exerciseModal={exerciseModal}
         exercise={operatingExercise}
         setExercise={setOperatingExercise}
-        isExerciseGroupSetPrimaryStringValid={
-          isOperatingExerciseGroupSetStringPrimaryValid
-        }
         exerciseGroupDictionary={exerciseGroupDictionary}
         multiplierInputMap={multiplierInputMap}
         setMultiplierInputMap={setMultiplierInputMap}
