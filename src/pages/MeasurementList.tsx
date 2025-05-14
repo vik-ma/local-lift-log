@@ -341,7 +341,6 @@ export default function MeasurementList() {
         measurementModal={measurementModal}
         measurement={operatingMeasurement}
         setMeasurement={setOperatingMeasurement}
-        isMeasurementNameValid={isNewMeasurementNameValid}
         handleMeasurementTypeChange={handleMeasurementTypeChange}
         buttonAction={handleSaveButton}
       />

@@ -11,13 +11,13 @@ import {
   RadioGroup,
 } from "@heroui/react";
 import { Measurement, UseDisclosureReturnType } from "../../typings";
-import { useMeasurementTypes } from "../../hooks/";
+import { useMeasurementTypes, useValidateName } from "../../hooks/";
+import { useEffect, useState } from "react";
 
 type MeasurementModalProps = {
   measurementModal: UseDisclosureReturnType;
   measurement: Measurement;
   setMeasurement: React.Dispatch<React.SetStateAction<Measurement>>;
-  isMeasurementNameValid: boolean;
   handleMeasurementTypeChange: (measurementType: string) => void;
   buttonAction: () => void;
 };
@@ -26,11 +26,29 @@ export const MeasurementModal = ({
   measurementModal,
   measurement,
   setMeasurement,
-  isMeasurementNameValid,
   handleMeasurementTypeChange,
   buttonAction,
 }: MeasurementModalProps) => {
+  const [nameInput, setNameInput] = useState<string>("");
+
+  const isMeasurementNameValid = useValidateName(nameInput);
+
   const measurementTypes = useMeasurementTypes();
+
+  const handleSaveButton = () => {
+    if (!isMeasurementNameValid) return;
+
+    setMeasurement((prev) => ({
+      ...prev,
+      name: nameInput,
+    }));
+
+    buttonAction();
+  };
+
+  useEffect(() => {
+    setNameInput(measurement.name);
+  }, [measurement.name]);
 
   return (
     <Modal
@@ -45,19 +63,14 @@ export const MeasurementModal = ({
               <div className="flex flex-col gap-0.5">
                 <Input
                   className="h-[5rem]"
-                  value={measurement.name}
+                  value={nameInput}
                   isInvalid={!isMeasurementNameValid}
                   label="Name"
                   errorMessage={
                     !isMeasurementNameValid && "Name can't be empty"
                   }
                   variant="faded"
-                  onValueChange={(value) =>
-                    setMeasurement((prev) => ({
-                      ...prev,
-                      name: value,
-                    }))
-                  }
+                  onValueChange={setNameInput}
                   isRequired
                   isClearable
                 />
@@ -94,7 +107,7 @@ export const MeasurementModal = ({
               <Button
                 color="primary"
                 isDisabled={!isMeasurementNameValid}
-                onPress={buttonAction}
+                onPress={handleSaveButton}
               >
                 {measurement.id !== 0 ? "Update" : "Create"}
               </Button>
