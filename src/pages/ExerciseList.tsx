@@ -2,10 +2,8 @@ import Database from "tauri-plugin-sql-api";
 import { useEffect, useState } from "react";
 import { Exercise, UserSettings } from "../typings";
 import {
-  ConvertEmptyStringToNull,
   CreateDefaultExercises,
   DeleteItemFromList,
-  IsExerciseValid,
   UpdateItemInList,
   FormatSetsCompletedString,
   UpdateExerciseValues,
@@ -36,7 +34,6 @@ import {
 import { VerticalMenuIcon } from "../assets";
 import {
   useValidateExerciseGroupStringPrimary,
-  useValidateName,
   useExerciseList,
   useDefaultExercise,
   useMultiplierInputMap,
@@ -84,8 +81,6 @@ export default function ExerciseList() {
   const [operatingExercise, setOperatingExercise] =
     useState<Exercise>(defaultExercise);
 
-  const isOperatingExerciseNameValid = useValidateName(operatingExercise.name);
-
   const isOperatingExerciseGroupSetStringPrimaryValid =
     useValidateExerciseGroupStringPrimary(
       operatingExercise.exercise_group_set_string_primary,
@@ -98,12 +93,9 @@ export default function ExerciseList() {
     multiplierInputInvaliditySet,
   } = useMultiplierInputMap();
 
-  const addExercise = async () => {
+  const addExercise = async (exercise: Exercise) => {
     if (
-      !IsExerciseValid(
-        isOperatingExerciseNameValid,
-        isOperatingExerciseGroupSetStringPrimaryValid
-      ) ||
+      !isOperatingExerciseGroupSetStringPrimaryValid ||
       operationType !== "add"
     )
       return;
@@ -111,29 +103,27 @@ export default function ExerciseList() {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      operatingExercise.note = ConvertEmptyStringToNull(operatingExercise.note);
-
       const result = await db.execute(
         `INSERT into exercises 
-        (name, exercise_group_set_string_primary, 
-        exercise_group_map_string_secondary, note, is_favorite,
-        chart_load_exercise_options, chart_load_exercise_options_categories) 
-        VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+         (name, exercise_group_set_string_primary, 
+         exercise_group_map_string_secondary, note, is_favorite,
+         chart_load_exercise_options, chart_load_exercise_options_categories) 
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
         [
-          operatingExercise.name,
-          operatingExercise.exercise_group_set_string_primary,
-          operatingExercise.exercise_group_map_string_secondary,
-          operatingExercise.note,
-          operatingExercise.is_favorite,
-          operatingExercise.chart_load_exercise_options,
-          operatingExercise.chart_load_exercise_options_categories,
+          exercise.name,
+          exercise.exercise_group_set_string_primary,
+          exercise.exercise_group_map_string_secondary,
+          exercise.note,
+          exercise.is_favorite,
+          exercise.chart_load_exercise_options,
+          exercise.chart_load_exercise_options_categories,
         ]
       );
 
-      operatingExercise.id = result.lastInsertId;
+      exercise.id = result.lastInsertId;
 
       const newExercise = await UpdateExerciseValues(
-        operatingExercise,
+        exercise,
         multiplierInputMap,
         exerciseGroupDictionary
       );
@@ -150,22 +140,17 @@ export default function ExerciseList() {
     }
   };
 
-  const updateExercise = async () => {
+  const updateExercise = async (exercise: Exercise) => {
     if (
-      operatingExercise === undefined ||
-      !IsExerciseValid(
-        isOperatingExerciseNameValid,
-        isOperatingExerciseGroupSetStringPrimaryValid
-      ) ||
+      exercise.id === 0 ||
+      !isOperatingExerciseGroupSetStringPrimaryValid ||
       multiplierInputInvaliditySet.size > 0 ||
       operationType !== "edit"
     )
       return;
 
-    operatingExercise.note = ConvertEmptyStringToNull(operatingExercise.note);
-
     const updatedExercise = await UpdateExerciseValues(
-      operatingExercise,
+      exercise,
       multiplierInputMap,
       exerciseGroupDictionary
     );
@@ -289,7 +274,6 @@ export default function ExerciseList() {
         exerciseModal={exerciseModal}
         exercise={operatingExercise}
         setExercise={setOperatingExercise}
-        isExerciseNameValid={isOperatingExerciseNameValid}
         isExerciseGroupSetPrimaryStringValid={
           isOperatingExerciseGroupSetStringPrimaryValid
         }

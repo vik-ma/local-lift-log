@@ -18,17 +18,18 @@ import {
   ConvertExerciseGroupSetStringPrimary,
   ConvertExerciseGroupSetStringSecondary,
   GenerateNewExerciseGroupSetStringSecondary,
+  ConvertEmptyStringToNull,
 } from "../../helpers";
 import { ExerciseGroupCheckboxes } from "..";
 import { useEffect, useRef, useState } from "react";
 import { ChevronIcon } from "../../assets";
 import { AnimatePresence, motion } from "framer-motion";
+import { useValidateName } from "../../hooks";
 
 type ExerciseModalProps = {
   exerciseModal: UseDisclosureReturnType;
   exercise: Exercise;
   setExercise: React.Dispatch<React.SetStateAction<Exercise>>;
-  isExerciseNameValid: boolean;
   isExerciseGroupSetPrimaryStringValid: boolean;
   exerciseGroupDictionary: ExerciseGroupMap;
   multiplierInputMap: Map<string, string>;
@@ -36,14 +37,13 @@ type ExerciseModalProps = {
     React.SetStateAction<Map<string, string>>
   >;
   multiplierInputInvaliditySet: Set<string>;
-  buttonAction: () => void;
+  buttonAction: (exercise: Exercise) => void;
 };
 
 export const ExerciseModal = ({
   exerciseModal,
   exercise,
   setExercise,
-  isExerciseNameValid,
   isExerciseGroupSetPrimaryStringValid,
   exerciseGroupDictionary,
   multiplierInputMap,
@@ -51,12 +51,16 @@ export const ExerciseModal = ({
   multiplierInputInvaliditySet,
   buttonAction,
 }: ExerciseModalProps) => {
+  const [nameInput, setNameInput] = useState<string>("");
+  const [noteInput, setNoteInput] = useState<string>("");
   const [isPrimaryAccordionExpanded, setIsPrimaryAccordionExpanded] =
     useState<boolean>(true);
   const [isSecondaryAccordionExpanded, setIsSecondaryAccordionExpanded] =
     useState<boolean>(false);
   const [isMultiplierAccordionExpanded, setIsMultiplierAccordionExpanded] =
     useState<boolean>(false);
+
+  const isExerciseNameValid = useValidateName(nameInput);
 
   const secondaryAccordionRef = useRef<HTMLDivElement>(null);
   const multiplierAccordionRef = useRef<HTMLDivElement>(null);
@@ -194,10 +198,25 @@ export const ExerciseModal = ({
     }
   }, [isMultiplierAccordionExpanded]);
 
+  useEffect(() => {
+    setNameInput(exercise.name);
+    setNoteInput(exercise.note ?? "");
+  }, [exercise.name, exercise.note]);
+
   const exerciseGroupStringListPrimary: string[] =
     exercise.exerciseGroupStringSetPrimary !== undefined
       ? Array.from(exercise.exerciseGroupStringSetPrimary)
       : [];
+
+  const handleSaveButton = () => {
+    if (!isExerciseNameValid) return;
+
+    const note = ConvertEmptyStringToNull(noteInput);
+
+    const updatedExercise = { ...exercise, name: nameInput, note: note };
+
+    buttonAction(updatedExercise);
+  };
 
   return (
     <Modal
@@ -216,26 +235,22 @@ export const ExerciseModal = ({
                   <div className="flex flex-col gap-0.5">
                     <Input
                       className="h-[5rem]"
-                      value={exercise.name}
+                      value={nameInput}
                       isInvalid={!isExerciseNameValid}
                       label="Name"
                       errorMessage={
                         !isExerciseNameValid && "Name can't be empty"
                       }
                       variant="faded"
-                      onValueChange={(value) =>
-                        setExercise((prev) => ({ ...prev, name: value }))
-                      }
+                      onValueChange={setNameInput}
                       isRequired
                       isClearable
                     />
                     <Input
-                      value={exercise.note ?? ""}
+                      value={noteInput}
                       label="Note"
                       variant="faded"
-                      onValueChange={(value) =>
-                        setExercise((prev) => ({ ...prev, note: value }))
-                      }
+                      onValueChange={setNoteInput}
                       isClearable
                     />
                   </div>
@@ -461,7 +476,7 @@ export const ExerciseModal = ({
               </Button>
               <Button
                 color="primary"
-                onPress={buttonAction}
+                onPress={handleSaveButton}
                 isDisabled={
                   !isExerciseNameValid ||
                   !isExerciseGroupSetPrimaryStringValid ||

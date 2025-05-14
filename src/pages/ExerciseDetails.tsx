@@ -16,8 +16,6 @@ import {
 } from "../components";
 import {
   GetExerciseWithId,
-  IsExerciseValid,
-  ConvertEmptyStringToNull,
   UpdateExerciseValues,
   GetCompletedSetsWithExerciseId,
   GetUserSettings,
@@ -37,7 +35,6 @@ import {
 import {
   useDefaultExercise,
   useValidateExerciseGroupStringPrimary,
-  useValidateName,
   useDetailsHeaderOptionsMenu,
   useExerciseGroupDictionary,
   useMultiplierInputMap,
@@ -422,28 +419,17 @@ export default function ExerciseDetails() {
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Exercise");
 
-  const isEditedExerciseNameValid = useValidateName(editedExercise.name);
-
   const isExerciseGroupSetPrimaryStringValid =
     useValidateExerciseGroupStringPrimary(
       editedExercise.exercise_group_set_string_primary,
       exerciseGroupDictionary
     );
 
-  const updateExercise = async () => {
-    if (
-      editedExercise === undefined ||
-      !IsExerciseValid(
-        isEditedExerciseNameValid,
-        isExerciseGroupSetPrimaryStringValid
-      )
-    )
-      return;
-
-    editedExercise.note = ConvertEmptyStringToNull(editedExercise.note);
+  const updateExercise = async (exercise: Exercise) => {
+    if (!isExerciseGroupSetPrimaryStringValid) return;
 
     const updatedExercise = await UpdateExerciseValues(
-      editedExercise,
+      exercise,
       multiplierInputMap,
       exerciseGroupDictionary
     );
@@ -533,7 +519,6 @@ export default function ExerciseDetails() {
         exerciseModal={exerciseModal}
         exercise={editedExercise}
         setExercise={setEditedExercise}
-        isExerciseNameValid={isEditedExerciseNameValid}
         isExerciseGroupSetPrimaryStringValid={
           isExerciseGroupSetPrimaryStringValid
         }
