@@ -660,16 +660,17 @@ export const SetValueInputs = ({
             />
           </div>
           <div className="flex flex-col items-center gap-1">
-            {showGetUserWeightButton && (
-              <Button
-                color="secondary"
-                variant="flat"
-                size="sm"
-                onPress={populateUserWeightValues}
-              >
-                Get Latest Body Weight
-              </Button>
-            )}
+            {showGetUserWeightButton &&
+              !!userSettings.show_get_latest_body_weight_button && (
+                <Button
+                  color="secondary"
+                  variant="flat"
+                  size="sm"
+                  onPress={populateUserWeightValues}
+                >
+                  Get Latest Body Weight
+                </Button>
+              )}
             {showOldUserWeightLabel &&
               setShowOldUserWeightLabel !== undefined &&
               userWeight !== undefined && (
