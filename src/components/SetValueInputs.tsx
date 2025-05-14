@@ -673,7 +673,8 @@ export const SetValueInputs = ({
               )}
             {showOldUserWeightLabel &&
               setShowOldUserWeightLabel !== undefined &&
-              userWeight !== undefined && (
+              userWeight !== undefined &&
+              !!userSettings.show_outdated_body_weight_message && (
                 <div className="relative flex flex-col gap-0.5 py-1 pl-1.5 pr-6 text-xs bg-default-100 border-2 border-default-200 rounded-lg">
                   <Button
                     aria-label="Close old body weight entry message"
