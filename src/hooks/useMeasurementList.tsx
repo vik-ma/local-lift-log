@@ -59,15 +59,20 @@ export const useMeasurementList = (
     setMeasurements(measurements);
   };
 
-  const sortMeasurementsByFavoritesFirst = (measurements: Measurement[]) => {
+  const sortMeasurementsByFavoritesFirst = (
+    measurements: Measurement[],
+    activeMeasurements?: Set<number>
+  ) => {
+    const activeSet = activeMeasurements ?? activeMeasurementSet;
+
     // Sort measurements by Favorite > Active > Name
     measurements.sort((a, b) => {
       if (b.is_favorite !== a.is_favorite) {
         return b.is_favorite - a.is_favorite;
       }
 
-      const aIsActive = +activeMeasurementSet.has(a.id);
-      const bIsActive = +activeMeasurementSet.has(b.id);
+      const aIsActive = +activeSet.has(a.id);
+      const bIsActive = +activeSet.has(b.id);
 
       if (aIsActive !== bIsActive) {
         return bIsActive - aIsActive;
@@ -79,11 +84,16 @@ export const useMeasurementList = (
     setMeasurements(measurements);
   };
 
-  const sortMeasurementsByActiveFirst = (measurements: Measurement[]) => {
+  const sortMeasurementsByActiveFirst = (
+    measurements: Measurement[],
+    activeMeasurements?: Set<number>
+  ) => {
+    const activeSet = activeMeasurements ?? activeMeasurementSet;
+
     // Sort measurements by Active > Favorite > Name
     measurements.sort((a, b) => {
-      const aIsActive = +activeMeasurementSet.has(a.id);
-      const bIsActive = +activeMeasurementSet.has(b.id);
+      const aIsActive = +activeSet.has(a.id);
+      const bIsActive = +activeSet.has(b.id);
 
       if (aIsActive !== bIsActive) {
         return bIsActive - aIsActive;
@@ -99,9 +109,7 @@ export const useMeasurementList = (
     setMeasurements(measurements);
   };
 
-  const getMeasurements = async () => {
-    if (isMeasurementListLoaded.current) return;
-
+  const getMeasurements = async (activeMeasurements?: Set<number>) => {
     const { measurements, newMeasurementMap } =
       showNumberOfBodyMeasurementsEntries
         ? await GetMeasurementListWithNumberOfBodyMeasurementsEntries(
@@ -110,7 +118,7 @@ export const useMeasurementList = (
         : await GetMeasurementList();
 
     measurementMap.current = newMeasurementMap;
-    sortMeasurementsByActiveFirst(measurements);
+    sortMeasurementsByActiveFirst(measurements, activeMeasurements);
 
     isMeasurementListLoaded.current = true;
   };
@@ -188,16 +196,19 @@ export const useMeasurementList = (
     }
   };
 
-  const sortMeasurementsByActiveCategory = (measurements: Measurement[]) => {
+  const sortMeasurementsByActiveCategory = (
+    measurements: Measurement[],
+    activeMeasurements?: Set<number>
+  ) => {
     switch (sortCategory) {
       case "favorite":
-        sortMeasurementsByFavoritesFirst(measurements);
+        sortMeasurementsByFavoritesFirst(measurements, activeMeasurements);
         break;
       case "name":
         sortMeasurementsByName(measurements);
         break;
       case "active":
-        sortMeasurementsByActiveFirst(measurements);
+        sortMeasurementsByActiveFirst(measurements, activeMeasurements);
         break;
       default:
         break;

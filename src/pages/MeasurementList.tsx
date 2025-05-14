@@ -58,7 +58,7 @@ export default function MeasurementList() {
   const measurementModal = useDisclosure();
   const setUnitsModal = useDisclosure();
 
-  const measurementList = useMeasurementList(true, true);
+  const measurementList = useMeasurementList(false, true);
 
   const {
     measurements,
@@ -73,6 +73,7 @@ export default function MeasurementList() {
     setActiveMeasurementSet,
     createMeasurement,
     listFilters,
+    getMeasurements,
   } = measurementList;
 
   const { filterMap, removeFilter, prefixMap } = listFilters;
@@ -97,9 +98,11 @@ export default function MeasurementList() {
           userSettings.active_tracking_measurements
         );
 
-        if (activeMeasurementList.length > 0) {
-          setActiveMeasurementSet(new Set(activeMeasurementList));
-        }
+        const activeMeasurementSet = new Set(activeMeasurementList);
+
+        setActiveMeasurementSet(activeMeasurementSet);
+
+        await getMeasurements(activeMeasurementSet);
       } catch (error) {
         console.log(error);
       }
