@@ -52,6 +52,7 @@ pub struct UserSetting {
     pub never_show_delete_modal: i32,
     pub body_fat_calculation_settings: String,
     pub show_get_latest_body_weight_button: i32,
+    pub show_outdated_body_weight_message: i32,
 }
 
 #[derive(Queryable, Selectable)]

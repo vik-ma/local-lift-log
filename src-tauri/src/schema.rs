@@ -49,6 +49,7 @@ diesel::table! {
         never_show_delete_modal -> Integer,
         body_fat_calculation_settings -> Text,
         show_get_latest_body_weight_button -> Integer,
+        show_outdated_body_weight_message -> Integer,
     }
 }
 
