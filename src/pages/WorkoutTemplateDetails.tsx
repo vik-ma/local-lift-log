@@ -100,8 +100,6 @@ export default function WorkoutTemplateDetails() {
     handleClickMultiset,
     handleToggleSetCommentButton,
     textInputModal,
-    setCommentInput,
-    setSetCommentInput,
     handleTextInputModalButton,
     numMultisetSets,
     presetsList,
@@ -352,8 +350,7 @@ export default function WorkoutTemplateDetails() {
       />
       <TextInputModal
         textInputModal={textInputModal}
-        value={setCommentInput}
-        setValue={setSetCommentInput}
+        sourceValue={operatingSet.note}
         label="Note"
         header="Set Note"
         buttonAction={handleTextInputModalButton}

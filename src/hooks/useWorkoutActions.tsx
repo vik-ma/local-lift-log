@@ -117,7 +117,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const [isActiveSetExpanded, setIsActiveSetExpanded] =
     useState<boolean>(false);
   const [activeGroupedSet, setActiveGroupedSet] = useState<GroupedWorkoutSet>();
-  const [setCommentInput, setSetCommentInput] = useState<string>("");
 
   const [numMultisetSets, setNumMultisetSets] = useState<number>(1);
 
@@ -1316,18 +1315,18 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Set Saved");
   };
 
-  const handleTextInputModalButton = () => {
+  const handleTextInputModalButton = (value: string) => {
     if (isTemplate) {
-      saveSetNote();
+      saveSetNote(value);
     } else {
-      saveSetComment();
+      saveSetComment(value);
     }
   };
 
-  const saveSetNote = async () => {
+  const saveSetNote = async (value: string) => {
     if (operatingSet.id === 0 || operatingGroupedSet === undefined) return;
 
-    const noteToInsert = ConvertEmptyStringToNull(setCommentInput);
+    const noteToInsert = ConvertEmptyStringToNull(value);
 
     const success = await UpdateSetNote(noteToInsert, operatingSet.id);
 
@@ -1359,16 +1358,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       );
     }
 
-    setSetCommentInput("");
     resetOperatingSet();
     toast.success("Note Saved");
     textInputModal.onClose();
   };
 
-  const saveSetComment = async () => {
+  const saveSetComment = async (value: string) => {
     if (operatingSet.id === 0 || operatingGroupedSet === undefined) return;
 
-    const commentToInsert = ConvertEmptyStringToNull(setCommentInput);
+    const commentToInsert = ConvertEmptyStringToNull(value);
 
     const success = await UpdateSetComment(commentToInsert, operatingSet.id);
 
@@ -1412,7 +1410,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       );
     }
 
-    setSetCommentInput("");
     resetOperatingSet();
     toast.success("Comment Saved");
     textInputModal.onClose();
@@ -1425,12 +1422,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   ) => {
     setOperatingSet({ ...set, set_index: index });
     setOperatingGroupedSet(groupedSet);
-
-    if (isTemplate) {
-      setSetCommentInput(set.note ?? "");
-    } else {
-      setSetCommentInput(set.comment ?? "");
-    }
 
     textInputModal.onOpen();
   };
@@ -3150,8 +3141,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     handleClickExerciseMultiset,
     handleClickMultiset,
     textInputModal,
-    setCommentInput,
-    setSetCommentInput,
     handleTextInputModalButton,
     handleToggleSetCommentButton,
     numMultisetSets,

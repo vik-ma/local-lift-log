@@ -119,8 +119,6 @@ export default function WorkoutDetails() {
     handleClickExerciseMultiset,
     handleClickMultiset,
     textInputModal,
-    setCommentInput,
-    setSetCommentInput,
     handleTextInputModalButton,
     handleToggleSetCommentButton,
     numMultisetSets,
@@ -507,8 +505,7 @@ export default function WorkoutDetails() {
       />
       <TextInputModal
         textInputModal={textInputModal}
-        value={setCommentInput}
-        setValue={setSetCommentInput}
+        sourceValue={operatingSet.comment}
         label="Comment"
         header="Set Comment"
         buttonAction={handleTextInputModalButton}
