@@ -50,6 +50,7 @@ export type UserSettings = {
   never_show_delete_modal: number;
   body_fat_calculation_settings: string;
   show_get_latest_body_weight_button: number;
+  show_outdated_body_weight_message: number;
 };
 
 export type Exercise = {

@@ -734,6 +734,24 @@ export default function Settings() {
               }
             />
           </div>
+          <div className="flex gap-3 items-center justify-between">
+            <span className="text-lg">Show Outdated Body Weight Message</span>
+            <Switch
+              aria-label="Show Outdated Body Weight Message Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={
+                userSettings.show_outdated_body_weight_message ? true : false
+              }
+              onValueChange={(value) =>
+                updateUserSetting(
+                  "show_outdated_body_weight_message",
+                  value ? 1 : 0
+                )
+              }
+            />
+          </div>
           <h3 className="flex justify-center text-lg font-medium">
             Calculations
           </h3>
