@@ -39,7 +39,6 @@ import {
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import {
   useDefaultMeasurement,
-  useValidateName,
   useHandleMeasurementTypeChange,
   useMeasurementList,
 } from "../hooks";
@@ -110,10 +109,10 @@ export default function MeasurementList() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const addMeasurement = async () => {
-    if (operationType !== "add" || !isNewMeasurementNameValid) return;
+  const addMeasurement = async (measurement: Measurement) => {
+    if (operationType !== "add") return;
 
-    const newMeasurementId = await createMeasurement(operatingMeasurement);
+    const newMeasurementId = await createMeasurement(measurement);
 
     if (newMeasurementId === 0) return;
 
@@ -123,40 +122,24 @@ export default function MeasurementList() {
     toast.success("Measurement Added");
   };
 
-  const updateMeasurement = async () => {
-    if (
-      !isNewMeasurementNameValid ||
-      operatingMeasurement.id === 0 ||
-      operationType !== "edit"
-    )
-      return;
+  const updateMeasurement = async (measurement: Measurement) => {
+    if (measurement.id === 0 || operationType !== "edit") return;
 
     const db = await Database.load(import.meta.env.VITE_DB);
 
     await db.execute(
       `UPDATE measurements 
-      SET name = $1, default_unit = $2, measurement_type = $3, is_favorite = $4 
-      WHERE id = $5`,
+       SET name = $1, default_unit = $2, measurement_type = $3 
+       WHERE id = $4`,
       [
-        operatingMeasurement.name,
-        operatingMeasurement.default_unit,
-        operatingMeasurement.measurement_type,
-        operatingMeasurement.is_favorite,
-        operatingMeasurement.id,
+        measurement.name,
+        measurement.default_unit,
+        measurement.measurement_type,
+        measurement.id,
       ]
     );
 
-    const updatedMeasurement: Measurement = {
-      ...operatingMeasurement,
-      name: operatingMeasurement.name,
-      default_unit: operatingMeasurement.default_unit,
-      measurement_type: operatingMeasurement.measurement_type,
-    };
-
-    const updatedMeasurements = UpdateItemInList(
-      measurements,
-      updatedMeasurement
-    );
+    const updatedMeasurements = UpdateItemInList(measurements, measurement);
 
     sortMeasurementsByActiveCategory(updatedMeasurements);
 
@@ -208,11 +191,11 @@ export default function MeasurementList() {
     deleteModal.onOpen();
   };
 
-  const handleSaveButton = async () => {
+  const handleSaveButton = async (measurement: Measurement) => {
     if (operationType === "edit") {
-      await updateMeasurement();
+      await updateMeasurement(measurement);
     } else if (operationType === "add") {
-      await addMeasurement();
+      await addMeasurement(measurement);
     }
   };
 
@@ -242,8 +225,6 @@ export default function MeasurementList() {
     userSettings?.default_unit_measurement ?? "cm",
     setOperatingMeasurement
   );
-
-  const isNewMeasurementNameValid = useValidateName(operatingMeasurement.name);
 
   const restoreDefaultMeasurements = async (useMetricUnits: boolean) => {
     const newMeasurements = await CreateDefaultMeasurements(useMetricUnits);

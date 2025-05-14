@@ -19,7 +19,7 @@ type MeasurementModalProps = {
   measurement: Measurement;
   setMeasurement: React.Dispatch<React.SetStateAction<Measurement>>;
   handleMeasurementTypeChange: (measurementType: string) => void;
-  buttonAction: () => void;
+  buttonAction: (updatedMeasurement: Measurement) => void;
 };
 
 export const MeasurementModal = ({
@@ -38,12 +38,9 @@ export const MeasurementModal = ({
   const handleSaveButton = () => {
     if (!isMeasurementNameValid) return;
 
-    setMeasurement((prev) => ({
-      ...prev,
-      name: nameInput,
-    }));
+    const updatedMeasurement = { ...measurement, name: nameInput };
 
-    buttonAction();
+    buttonAction(updatedMeasurement);
   };
 
   useEffect(() => {
