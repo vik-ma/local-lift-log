@@ -32,7 +32,6 @@ export { ValidateExerciseGroupSetStringPrimary } from "./Exercises/ValidateExerc
 export { GetExerciseListWithGroupStrings } from "./Exercises/GetExerciseListWithGroupStrings";
 export { GetExerciseWithId } from "./Exercises/GetExerciseWithId";
 export { UpdateExercise } from "./Exercises/UpdateExercise";
-export { IsExerciseValid } from "./Exercises/IsExerciseValid";
 export { DefaultNewExercise } from "./Exercises/DefaultNewExercise";
 export { GetExerciseListWithGroupStringsAndTotalSets } from "./Exercises/GetExerciseListWithGroupStringsAndTotalSets";
 export { GetNumberOfUniqueExercisesInGroupedSets } from "./Exercises/GetNumberOfUniqueExercisesInGroupedSets";
