@@ -8,7 +8,7 @@ export const ConvertExerciseGroupStringMapSecondaryToString = (
   exerciseGroupStringMap: Map<string, string>,
   multiplierInputMap: Map<string, string>,
   exerciseGroupDictionary: ExerciseGroupMap
-): string | null => {
+) => {
   if (exerciseGroupStringMap.size === 0) return null;
 
   const exerciseGroupStrings: string[] = [];

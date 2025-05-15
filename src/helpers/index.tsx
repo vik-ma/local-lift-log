@@ -39,7 +39,7 @@ export { ValidateExerciseGroupSetStringSecondary } from "./Exercises/ValidateExe
 export { ConvertExerciseGroupSetStringSecondary } from "./Exercises/ConvertExerciseGroupSetStringSecondary";
 export { GenerateNewExerciseGroupSetStringSecondary } from "./Exercises/GenerateNewExerciseGroupSetStringSecondary";
 export { ConvertExerciseGroupStringMapSecondaryToString } from "./Exercises/ConvertExerciseGroupStringMapSecondaryToString";
-export { UpdateExerciseValues } from "./Exercises/UpdateExerciseValues";
+export { UpdateExerciseGroupStrings } from "./Exercises/UpdateExerciseGroupStrings";
 export { CreateExerciseGroupSetPrimary } from "./Exercises/CreateExerciseGroupSetPrimary";
 export { CreateExerciseGroupSetSecondary } from "./Exercises/CreateExerciseGroupSetSecondary";
 export { CreateExerciseSetIds } from "./Exercises/CreateExerciseSetIds";

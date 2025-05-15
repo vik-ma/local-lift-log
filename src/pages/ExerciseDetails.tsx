@@ -16,7 +16,7 @@ import {
 } from "../components";
 import {
   GetExerciseWithId,
-  UpdateExerciseValues,
+  UpdateExerciseGroupStrings,
   GetCompletedSetsWithExerciseId,
   GetUserSettings,
   GetValidatedUserSettingsUnits,
@@ -419,7 +419,7 @@ export default function ExerciseDetails() {
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Exercise");
 
   const updateExercise = async (exercise: Exercise) => {
-    const updatedExercise = await UpdateExerciseValues(
+    const updatedExercise = await UpdateExerciseGroupStrings(
       exercise,
       multiplierInputMap,
       exerciseGroupDictionary

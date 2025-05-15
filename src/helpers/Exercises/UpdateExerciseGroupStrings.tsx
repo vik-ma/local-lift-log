@@ -2,15 +2,14 @@ import {
   ConvertExerciseGroupSetStringPrimary,
   ConvertExerciseGroupSetStringSecondary,
   ConvertExerciseGroupStringMapSecondaryToString,
-  UpdateExercise,
 } from "..";
 import { Exercise, ExerciseGroupMap } from "../../typings";
 
-export const UpdateExerciseValues = async (
+export const UpdateExerciseGroupStrings = async (
   exercise: Exercise,
   multiplierInputMap: Map<string, string>,
   exerciseGroupDictionary: ExerciseGroupMap
-): Promise<Exercise | undefined> => {
+) => {
   const convertedValuesPrimary = ConvertExerciseGroupSetStringPrimary(
     exercise.exercise_group_set_string_primary,
     exerciseGroupDictionary
@@ -46,10 +45,6 @@ export const UpdateExerciseValues = async (
         convertedValuesSecondary.formattedString;
     }
   }
-
-  const success = await UpdateExercise(updatedExercise);
-
-  if (!success) return undefined;
 
   return updatedExercise;
 };

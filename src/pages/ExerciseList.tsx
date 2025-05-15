@@ -6,7 +6,7 @@ import {
   DeleteItemFromList,
   UpdateItemInList,
   FormatSetsCompletedString,
-  UpdateExerciseValues,
+  UpdateExerciseGroupStrings,
   GetUserSettings,
   FormatNumItemsString,
 } from "../helpers";
@@ -111,7 +111,7 @@ export default function ExerciseList() {
 
       exercise.id = result.lastInsertId;
 
-      const newExercise = await UpdateExerciseValues(
+      const newExercise = await UpdateExerciseGroupStrings(
         exercise,
         multiplierInputMap,
         exerciseGroupDictionary
@@ -137,7 +137,7 @@ export default function ExerciseList() {
     )
       return;
 
-    const updatedExercise = await UpdateExerciseValues(
+    const updatedExercise = await UpdateExerciseGroupStrings(
       exercise,
       multiplierInputMap,
       exerciseGroupDictionary
