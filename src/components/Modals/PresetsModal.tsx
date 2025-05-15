@@ -17,7 +17,10 @@ import {
 } from "../../typings";
 import { useEffect, useMemo, useState } from "react";
 import { useValidateName } from "../../hooks";
-import { IsStringInvalidNumberOr0 } from "../../helpers";
+import {
+  ConvertNumberToTwoDecimals,
+  IsStringInvalidNumberOr0,
+} from "../../helpers";
 
 type PresetsModalProps = {
   presetsModal: UseDisclosureReturnType;
@@ -29,7 +32,10 @@ type PresetsModalProps = {
   >;
   operatingDistance: Distance;
   setOperatingDistance: React.Dispatch<React.SetStateAction<Distance>>;
-  doneButtonAction: () => void;
+  doneButtonAction: (
+    equipmentWeight?: EquipmentWeight,
+    distance?: Distance
+  ) => void;
 };
 
 export const PresetsModal = ({
@@ -68,6 +74,24 @@ export const PresetsModal = ({
     setValueInput(operatingDistance.distance.toString());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingDistance.id]);
+
+  const handleSaveButton = async () => {
+    if (isNewPresetInvalid) return;
+
+    if (presetsType === "equipment") {
+      const weight = ConvertNumberToTwoDecimals(Number(valueInput));
+
+      const equipmentWeight = { ...operatingEquipmentWeight, weight: weight };
+
+      doneButtonAction(equipmentWeight);
+    } else {
+      const distanceValue = ConvertNumberToTwoDecimals(Number(valueInput));
+
+      const distance = { ...operatingDistance, distance: distanceValue };
+
+      doneButtonAction(undefined, distance);
+    }
+  };
 
   return (
     <Modal
@@ -128,7 +152,7 @@ export const PresetsModal = ({
               </Button>
               <Button
                 color="primary"
-                onPress={doneButtonAction}
+                onPress={handleSaveButton}
                 isDisabled={isNewPresetInvalid}
               >
                 {operationType === "edit" ? "Update" : "Create"}

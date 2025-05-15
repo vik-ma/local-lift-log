@@ -36,7 +36,6 @@ import {
   Tab,
 } from "@heroui/react";
 import {
-  ConvertNumberToTwoDecimals,
   CreateDefaultDistances,
   CreateDefaultEquipmentWeights,
   DeleteItemFromList,
@@ -46,10 +45,7 @@ import {
   UpdateUserSetting,
 } from "../helpers";
 import toast from "react-hot-toast";
-import {
-  usePlateCollectionModal,
-  usePresetsList,
-} from "../hooks";
+import { usePlateCollectionModal, usePresetsList } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 import { useSearchParams } from "react-router-dom";
 
@@ -180,17 +176,8 @@ export default function Presets() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
-
-  const addEquipmentWeight = async () => {
-    if (
-      isNewPresetInvalid ||
-      operationType !== "add" ||
-      presetsType !== "equipment"
-    )
-      return;
-
-    const weight = ConvertNumberToTwoDecimals(Number(valueInput));
+  const addEquipmentWeight = async (equipmentWeight: EquipmentWeight) => {
+    if (operationType !== "add" || presetsType !== "equipment") return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -200,18 +187,16 @@ export default function Presets() {
          (name, weight, weight_unit, is_favorite) 
          VALUES ($1, $2, $3, $4)`,
         [
-          nameInput,
-          weight,
-          operatingEquipmentWeight.weight_unit,
-          operatingEquipmentWeight.is_favorite,
+          equipmentWeight.name,
+          equipmentWeight.weight,
+          equipmentWeight.weight_unit,
+          equipmentWeight.is_favorite,
         ]
       );
 
       const newEquipment: EquipmentWeight = {
-        ...operatingEquipmentWeight,
+        ...equipmentWeight,
         id: result.lastInsertId,
-        name: nameInput,
-        weight: weight,
       };
 
       sortEquipmentWeightByActiveCategory([...equipmentWeights, newEquipment]);
@@ -225,15 +210,8 @@ export default function Presets() {
     }
   };
 
-  const addDistance = async () => {
-    if (
-      isNewPresetInvalid ||
-      operationType !== "add" ||
-      presetsType !== "distance"
-    )
-      return;
-
-    const distance = ConvertNumberToTwoDecimals(Number(valueInput));
+  const addDistance = async (distance: Distance) => {
+    if (operationType !== "add" || presetsType !== "distance") return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -242,18 +220,16 @@ export default function Presets() {
         `INSERT into distances (name, distance, distance_unit, is_favorite) 
          VALUES ($1, $2, $3, $4)`,
         [
-          nameInput,
-          distance,
-          operatingDistance.distance_unit,
-          operatingDistance.is_favorite,
+          distance.name,
+          distance.distance,
+          distance.distance_unit,
+          distance.is_favorite,
         ]
       );
 
       const newDistance: Distance = {
-        ...operatingDistance,
+        ...distance,
         id: result.lastInsertId,
-        name: nameInput,
-        distance: distance,
       };
 
       sortDistancesByActiveCategory([...distances, newDistance]);
@@ -304,42 +280,32 @@ export default function Presets() {
     }
   };
 
-  const updateEquipmentWeight = async () => {
+  const updateEquipmentWeight = async (equipmentWeight: EquipmentWeight) => {
     if (
       operatingEquipmentWeight.id === 0 ||
-      isNewPresetInvalid ||
       operationType !== "edit" ||
       presetsType !== "equipment"
     )
       return;
-
-    const weight = ConvertNumberToTwoDecimals(Number(valueInput));
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       await db.execute(
         `UPDATE equipment_weights 
-         SET name = $1, weight = $2, weight_unit = $3, is_favorite = $4 
-         WHERE id = $5`,
+         SET name = $1, weight = $2, weight_unit = $3 
+         WHERE id = $4`,
         [
-          nameInput,
-          weight,
-          operatingEquipmentWeight.weight_unit,
-          operatingEquipmentWeight.is_favorite,
-          operatingEquipmentWeight.id,
+          equipmentWeight.name,
+          equipmentWeight.weight,
+          equipmentWeight.weight_unit,
+          equipmentWeight.id,
         ]
       );
 
-      const updatedEquipment: EquipmentWeight = {
-        ...operatingEquipmentWeight,
-        name: nameInput,
-        weight: weight,
-      };
-
       const updatedEquipmentWeights = UpdateItemInList(
         equipmentWeights,
-        updatedEquipment
+        equipmentWeight
       );
 
       sortEquipmentWeightByActiveCategory(updatedEquipmentWeights);
@@ -353,16 +319,13 @@ export default function Presets() {
     }
   };
 
-  const updateDistance = async () => {
+  const updateDistance = async (distance: Distance) => {
     if (
       operatingDistance.id === 0 ||
-      isNewPresetInvalid ||
       operationType !== "edit" ||
       presetsType !== "distance"
     )
       return;
-
-    const distance = ConvertNumberToTwoDecimals(Number(valueInput));
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -371,22 +334,10 @@ export default function Presets() {
         `UPDATE distances 
          SET name = $1, distance = $2, distance_unit = $3, is_favorite = $4 
          WHERE id = $5`,
-        [
-          nameInput,
-          distance,
-          operatingDistance.distance_unit,
-          operatingDistance.is_favorite,
-          operatingDistance.id,
-        ]
+        [distance.name, distance.distance, distance.distance_unit, distance.id]
       );
 
-      const updatedDistance: Distance = {
-        ...operatingDistance,
-        name: nameInput,
-        distance: distance,
-      };
-
-      const updatedDistances = UpdateItemInList(distances, updatedDistance);
+      const updatedDistances = UpdateItemInList(distances, distance);
 
       sortDistancesByActiveCategory(updatedDistances);
 
@@ -519,14 +470,26 @@ export default function Presets() {
     deleteModal.onClose();
   };
 
-  const handleCreateButton = async () => {
-    if (presetsType === "equipment") await addEquipmentWeight();
-    if (presetsType === "distance") await addDistance();
+  const handleCreateButton = async (
+    equipmentWeight?: EquipmentWeight,
+    distance?: Distance
+  ) => {
+    if (presetsType === "equipment" && equipmentWeight !== undefined)
+      await addEquipmentWeight(equipmentWeight);
+
+    if (presetsType === "distance" && distance !== undefined)
+      await addDistance(distance);
   };
 
-  const handleUpdateButton = async () => {
-    if (presetsType === "equipment") await updateEquipmentWeight();
-    if (presetsType === "distance") await updateDistance();
+  const handleUpdateButton = async (
+    equipmentWeight?: EquipmentWeight,
+    distance?: Distance
+  ) => {
+    if (presetsType === "equipment" && equipmentWeight !== undefined)
+      await updateEquipmentWeight(equipmentWeight);
+
+    if (presetsType === "distance" && distance !== undefined)
+      await updateDistance(distance);
   };
 
   const resetOperatingEquipment = () => {
@@ -534,8 +497,6 @@ export default function Presets() {
 
     setPresetsType("equipment");
     setOperationType("add");
-    setNameInput("");
-    setValueInput("");
     setOperatingEquipmentWeight({
       ...defaultEquipmentWeight,
       weight_unit: defaultWeightUnit.current,
@@ -548,8 +509,6 @@ export default function Presets() {
 
     setPresetsType("distance");
     setOperationType("add");
-    setNameInput("");
-    setValueInput("");
     setOperatingDistance({
       ...defaultDistance,
       distance_unit: defaultDistanceUnit.current,
@@ -595,12 +554,10 @@ export default function Presets() {
 
     setPresetsType("equipment");
     setOperatingEquipmentWeight(equipment);
-    setValueInput(equipment.weight.toString());
     setIsOperatingPlateCollection(false);
 
     if (key === "edit") {
       setOperationType("edit");
-      setNameInput(equipment.name);
       presetsModal.onOpen();
     } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
       deleteEquipmentWeight(equipment);
@@ -618,12 +575,10 @@ export default function Presets() {
 
     setPresetsType("distance");
     setOperatingDistance(distance);
-    setValueInput(distance.distance.toString());
     setIsOperatingPlateCollection(false);
 
     if (key === "edit") {
       setOperationType("edit");
-      setNameInput(distance.name);
       presetsModal.onOpen();
     } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
       deleteDistance(distance);
@@ -775,17 +730,10 @@ export default function Presets() {
         presetsModal={presetsModal}
         operationType={operationType}
         presetsType={presetsType}
-        nameInput={nameInput}
-        setNameInput={setNameInput}
-        isNameInputValid={isNameInputValid}
-        valueInput={valueInput}
-        setValueInput={setValueInput}
-        isValueInputInvalid={isValueInputInvalid}
         operatingEquipmentWeight={operatingEquipmentWeight}
         setOperatingEquipmentWeight={setOperatingEquipmentWeight}
         operatingDistance={operatingDistance}
         setOperatingDistance={setOperatingDistance}
-        isNewPresetInvalid={isNewPresetInvalid}
         doneButtonAction={
           operationType === "edit" ? handleUpdateButton : handleCreateButton
         }
