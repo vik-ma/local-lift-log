@@ -35,7 +35,6 @@ import { VerticalMenuIcon } from "../assets";
 import {
   useExerciseList,
   useDefaultExercise,
-  useMultiplierInputMap,
   useFilterExerciseList,
 } from "../hooks";
 
@@ -80,12 +79,6 @@ export default function ExerciseList() {
   const [operatingExercise, setOperatingExercise] =
     useState<Exercise>(defaultExercise);
 
-  const {
-    multiplierInputMap,
-    setMultiplierInputMap,
-    multiplierInputInvaliditySet,
-  } = useMultiplierInputMap();
-
   const addExercise = async (exercise: Exercise) => {
     if (operationType !== "add") return;
 
@@ -122,12 +115,7 @@ export default function ExerciseList() {
   };
 
   const updateExercise = async (exercise: Exercise) => {
-    if (
-      exercise.id === 0 ||
-      multiplierInputInvaliditySet.size > 0 ||
-      operationType !== "edit"
-    )
-      return;
+    if (exercise.id === 0 || operationType !== "edit") return;
 
     const success = await UpdateExercise(exercise);
 
@@ -181,7 +169,6 @@ export default function ExerciseList() {
   const resetOperatingExercise = () => {
     setOperationType("add");
     setOperatingExercise(defaultExercise);
-    setMultiplierInputMap(new Map());
   };
 
   const handleExerciseOptionSelection = (key: string, exercise: Exercise) => {
@@ -251,9 +238,6 @@ export default function ExerciseList() {
         exercise={operatingExercise}
         setExercise={setOperatingExercise}
         exerciseGroupDictionary={exerciseGroupDictionary}
-        multiplierInputMap={multiplierInputMap}
-        setMultiplierInputMap={setMultiplierInputMap}
-        multiplierInputInvaliditySet={multiplierInputInvaliditySet}
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
       />
       <FilterExerciseGroupsModal

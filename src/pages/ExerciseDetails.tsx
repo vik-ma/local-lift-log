@@ -36,7 +36,6 @@ import {
   useDefaultExercise,
   useDetailsHeaderOptionsMenu,
   useExerciseGroupDictionary,
-  useMultiplierInputMap,
 } from "../hooks";
 import toast from "react-hot-toast";
 import { TrophyIcon } from "../assets";
@@ -89,12 +88,6 @@ export default function ExerciseDetails() {
 
   const datesThatAreNotOnlyWarmups = useRef<Set<string>>(new Set());
   const datesThatAreNotOnlyMultisets = useRef<Set<string>>(new Set());
-
-  const {
-    multiplierInputMap,
-    setMultiplierInputMap,
-    multiplierInputInvaliditySet,
-  } = useMultiplierInputMap();
 
   const isSetListLoaded = useRef<boolean>(false);
 
@@ -507,9 +500,6 @@ export default function ExerciseDetails() {
         exercise={editedExercise}
         setExercise={setEditedExercise}
         exerciseGroupDictionary={exerciseGroupDictionary}
-        multiplierInputMap={multiplierInputMap}
-        setMultiplierInputMap={setMultiplierInputMap}
-        multiplierInputInvaliditySet={multiplierInputInvaliditySet}
         buttonAction={updateExercise}
       />
 

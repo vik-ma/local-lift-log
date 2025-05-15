@@ -26,6 +26,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronIcon } from "../../assets";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  useMultiplierInputMap,
   useValidateExerciseGroupStringPrimary,
   useValidateName,
 } from "../../hooks";
@@ -35,11 +36,6 @@ type ExerciseModalProps = {
   exercise: Exercise;
   setExercise: React.Dispatch<React.SetStateAction<Exercise>>;
   exerciseGroupDictionary: ExerciseGroupMap;
-  multiplierInputMap: Map<string, string>;
-  setMultiplierInputMap: React.Dispatch<
-    React.SetStateAction<Map<string, string>>
-  >;
-  multiplierInputInvaliditySet: Set<string>;
   buttonAction: (exercise: Exercise) => void;
 };
 
@@ -48,9 +44,6 @@ export const ExerciseModal = ({
   exercise,
   setExercise,
   exerciseGroupDictionary,
-  multiplierInputMap,
-  setMultiplierInputMap,
-  multiplierInputInvaliditySet,
   buttonAction,
 }: ExerciseModalProps) => {
   const [nameInput, setNameInput] = useState<string>("");
@@ -63,6 +56,12 @@ export const ExerciseModal = ({
     useState<boolean>(false);
 
   const isExerciseNameValid = useValidateName(nameInput);
+
+  const {
+    multiplierInputMap,
+    setMultiplierInputMap,
+    multiplierInputInvaliditySet,
+  } = useMultiplierInputMap();
 
   const secondaryAccordionRef = useRef<HTMLDivElement>(null);
   const multiplierAccordionRef = useRef<HTMLDivElement>(null);
