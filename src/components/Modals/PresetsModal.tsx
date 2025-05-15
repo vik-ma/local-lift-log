@@ -65,13 +65,21 @@ export const PresetsModal = ({
 
   useEffect(() => {
     setNameInput(operatingEquipmentWeight.name);
-    setValueInput(operatingEquipmentWeight.weight.toString());
+    setValueInput(
+      operatingEquipmentWeight.weight === 0
+        ? ""
+        : operatingEquipmentWeight.weight.toString()
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingEquipmentWeight.id]);
 
   useEffect(() => {
     setNameInput(operatingDistance.name);
-    setValueInput(operatingDistance.distance.toString());
+    setValueInput(
+      operatingDistance.distance === 0
+        ? ""
+        : operatingDistance.distance.toString()
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingDistance.id]);
 
@@ -81,13 +89,21 @@ export const PresetsModal = ({
     if (presetsType === "equipment") {
       const weight = ConvertNumberToTwoDecimals(Number(valueInput));
 
-      const equipmentWeight = { ...operatingEquipmentWeight, weight: weight };
+      const equipmentWeight = {
+        ...operatingEquipmentWeight,
+        name: nameInput,
+        weight: weight,
+      };
 
       doneButtonAction(equipmentWeight);
     } else {
       const distanceValue = ConvertNumberToTwoDecimals(Number(valueInput));
 
-      const distance = { ...operatingDistance, distance: distanceValue };
+      const distance = {
+        ...operatingDistance,
+        name: nameInput,
+        distance: distanceValue,
+      };
 
       doneButtonAction(undefined, distance);
     }
