@@ -15,24 +15,20 @@ import {
   PresetsType,
   UseDisclosureReturnType,
 } from "../../typings";
+import { useEffect, useMemo, useState } from "react";
+import { useValidateName } from "../../hooks";
+import { IsStringInvalidNumberOr0 } from "../../helpers";
 
 type PresetsModalProps = {
   presetsModal: UseDisclosureReturnType;
   operationType: PresetsOperationType;
   presetsType: PresetsType;
-  nameInput: string;
-  setNameInput: React.Dispatch<React.SetStateAction<string>>;
-  isNameInputValid: boolean;
-  valueInput: string;
-  setValueInput: React.Dispatch<React.SetStateAction<string>>;
-  isValueInputInvalid: boolean;
   operatingEquipmentWeight: EquipmentWeight;
   setOperatingEquipmentWeight: React.Dispatch<
     React.SetStateAction<EquipmentWeight>
   >;
   operatingDistance: Distance;
   setOperatingDistance: React.Dispatch<React.SetStateAction<Distance>>;
-  isNewPresetInvalid: boolean;
   doneButtonAction: () => void;
 };
 
@@ -40,19 +36,39 @@ export const PresetsModal = ({
   presetsModal,
   operationType,
   presetsType,
-  nameInput,
-  setNameInput,
-  isNameInputValid,
-  valueInput,
-  setValueInput,
-  isValueInputInvalid,
   operatingEquipmentWeight,
   setOperatingEquipmentWeight,
   operatingDistance,
   setOperatingDistance,
-  isNewPresetInvalid,
   doneButtonAction,
 }: PresetsModalProps) => {
+  const [nameInput, setNameInput] = useState<string>("");
+  const [valueInput, setValueInput] = useState<string>("");
+
+  const isNameInputValid = useValidateName(nameInput);
+
+  const isValueInputInvalid = useMemo(() => {
+    return IsStringInvalidNumberOr0(valueInput);
+  }, [valueInput]);
+
+  const isNewPresetInvalid = useMemo(() => {
+    if (!isNameInputValid) return true;
+    if (isValueInputInvalid) return true;
+    return false;
+  }, [isNameInputValid, isValueInputInvalid]);
+
+  useEffect(() => {
+    setNameInput(operatingEquipmentWeight.name);
+    setValueInput(operatingEquipmentWeight.weight.toString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [operatingEquipmentWeight.id]);
+
+  useEffect(() => {
+    setNameInput(operatingDistance.name);
+    setValueInput(operatingDistance.distance.toString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [operatingDistance.id]);
+
   return (
     <Modal
       isOpen={presetsModal.isOpen}

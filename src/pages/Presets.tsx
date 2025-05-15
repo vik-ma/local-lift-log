@@ -42,7 +42,6 @@ import {
   DeleteItemFromList,
   GetUserSettings,
   GetValidatedUserSettingsUnits,
-  IsStringInvalidNumberOr0,
   UpdateItemInList,
   UpdateUserSetting,
 } from "../helpers";
@@ -50,7 +49,6 @@ import toast from "react-hot-toast";
 import {
   usePlateCollectionModal,
   usePresetsList,
-  useValidateName,
 } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 import { useSearchParams } from "react-router-dom";
@@ -61,8 +59,6 @@ export default function Presets() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] =
     useState<PresetsOperationType>("add");
-  const [nameInput, setNameInput] = useState<string>("");
-  const [valueInput, setValueInput] = useState<string>("");
   const [selectedTab, setSelectedTab] = useState<PresetTab>("equipment");
   const [isOperatingPlateCollection, setIsOperatingPlateCollection] =
     useState<boolean>(false);
@@ -184,17 +180,7 @@ export default function Presets() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isNameInputValid = useValidateName(nameInput);
 
-  const isValueInputInvalid = useMemo(() => {
-    return IsStringInvalidNumberOr0(valueInput);
-  }, [valueInput]);
-
-  const isNewPresetInvalid = useMemo(() => {
-    if (!isNameInputValid) return true;
-    if (isValueInputInvalid) return true;
-    return false;
-  }, [isNameInputValid, isValueInputInvalid]);
 
   const addEquipmentWeight = async () => {
     if (
