@@ -22,7 +22,7 @@ import {
   UpdateExerciseGroupStrings,
 } from "../../helpers";
 import { ExerciseGroupCheckboxes } from "..";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronIcon } from "../../assets";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -210,10 +210,13 @@ export const ExerciseModal = ({
     setNoteInput(exercise.note ?? "");
   }, [exercise.name, exercise.note]);
 
-  const exerciseGroupStringListPrimary: string[] =
-    exercise.exerciseGroupStringSetPrimary !== undefined
-      ? Array.from(exercise.exerciseGroupStringSetPrimary)
-      : [];
+  const exerciseGroupStringListPrimary: string[] = useMemo(
+    () =>
+      exercise.exerciseGroupStringSetPrimary !== undefined
+        ? Array.from(exercise.exerciseGroupStringSetPrimary)
+        : [],
+    [exercise.exerciseGroupStringSetPrimary]
+  );
 
   const handleSaveButton = async () => {
     if (
