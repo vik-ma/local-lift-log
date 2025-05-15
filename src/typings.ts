@@ -1323,3 +1323,5 @@ export type UserWeight = {
   date: string;
   formattedDate: string;
 };
+
+export type PresetsOperationType = "add" | "edit" | "delete";

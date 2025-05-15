@@ -1,8 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import {
-  DistanceUnitDropdown,
   LoadingSpinner,
-  WeightUnitDropdown,
   DeleteModal,
   ListPageSearchInput,
   FavoriteButton,
@@ -12,6 +10,7 @@ import {
   PlateCollectionButton,
   FilterPresetsListModal,
   ListFilters,
+  PresetsModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -19,6 +18,7 @@ import {
   Distance,
   UserSettings,
   PlateCollection,
+  PresetsOperationType,
 } from "../typings";
 import {
   Button,
@@ -28,7 +28,6 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Input,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -56,13 +55,12 @@ import {
 import { VerticalMenuIcon } from "../assets";
 import { useSearchParams } from "react-router-dom";
 
-type OperationType = "add" | "edit" | "delete";
-
 type PresetTab = "equipment" | "distance" | "plate";
 
 export default function Presets() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [operationType, setOperationType] = useState<OperationType>("add");
+  const [operationType, setOperationType] =
+    useState<PresetsOperationType>("add");
   const [nameInput, setNameInput] = useState<string>("");
   const [valueInput, setValueInput] = useState<string>("");
   const [selectedTab, setSelectedTab] = useState<PresetTab>("equipment");
@@ -97,7 +95,7 @@ export default function Presets() {
     useState<Distance>(defaultDistance);
 
   const deleteModal = useDisclosure();
-  const presetModal = useDisclosure();
+  const presetsModal = useDisclosure();
   const setUnitsModal = useDisclosure();
   const plateCollectionModal = usePlateCollectionModal();
 
@@ -233,7 +231,7 @@ export default function Presets() {
       sortEquipmentWeightByActiveCategory([...equipmentWeights, newEquipment]);
 
       resetOperatingEquipment();
-      presetModal.onClose();
+      presetsModal.onClose();
 
       toast.success("Equipment Weight Added");
     } catch (error) {
@@ -275,7 +273,7 @@ export default function Presets() {
       sortDistancesByActiveCategory([...distances, newDistance]);
 
       resetOperatingDistance();
-      presetModal.onClose();
+      presetsModal.onClose();
 
       toast.success("Distance Added");
     } catch (error) {
@@ -361,7 +359,7 @@ export default function Presets() {
       sortEquipmentWeightByActiveCategory(updatedEquipmentWeights);
 
       resetOperatingEquipment();
-      presetModal.onClose();
+      presetsModal.onClose();
 
       toast.success("Equipment Weight Updated");
     } catch (error) {
@@ -407,7 +405,7 @@ export default function Presets() {
       sortDistancesByActiveCategory(updatedDistances);
 
       resetOperatingDistance();
-      presetModal.onClose();
+      presetsModal.onClose();
 
       toast.success("Distance Updated");
     } catch (error) {
@@ -590,12 +588,12 @@ export default function Presets() {
 
   const handleAddEquipmentWeightButton = () => {
     resetOperatingEquipment();
-    presetModal.onOpen();
+    presetsModal.onOpen();
   };
 
   const handleAddDistanceButton = () => {
     resetOperatingDistance();
-    presetModal.onOpen();
+    presetsModal.onOpen();
   };
 
   const handleAddPlateCollectionButton = () => {
@@ -617,7 +615,7 @@ export default function Presets() {
     if (key === "edit") {
       setOperationType("edit");
       setNameInput(equipment.name);
-      presetModal.onOpen();
+      presetsModal.onOpen();
     } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
       deleteEquipmentWeight(equipment);
     } else if (key === "delete") {
@@ -640,7 +638,7 @@ export default function Presets() {
     if (key === "edit") {
       setOperationType("edit");
       setNameInput(distance.name);
-      presetModal.onOpen();
+      presetsModal.onOpen();
     } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
       deleteDistance(distance);
     } else if (key === "delete") {
@@ -787,80 +785,25 @@ export default function Presets() {
         usePresetsList={presetsList}
         userSettings={userSettings}
       />
-      <Modal
-        isOpen={presetModal.isOpen}
-        onOpenChange={presetModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>
-                {operationType === "edit" ? "Edit" : "New"}{" "}
-                {presetsType === "equipment" ? "Equipment Weight" : "Distance"}
-              </ModalHeader>
-              <ModalBody>
-                <div className="flex flex-col gap-0.5">
-                  <Input
-                    className="h-[5rem]"
-                    value={nameInput}
-                    isInvalid={!isNameInputValid}
-                    label="Name"
-                    errorMessage={!isNameInputValid && "Name can't be empty"}
-                    variant="faded"
-                    onValueChange={(value) => setNameInput(value)}
-                    isRequired
-                    isClearable
-                  />
-                  <div className="flex justify-between gap-2 items-center">
-                    <Input
-                      value={valueInput}
-                      label={
-                        presetsType === "equipment" ? "Weight" : "Distance"
-                      }
-                      variant="faded"
-                      onValueChange={(value) => setValueInput(value)}
-                      isInvalid={isValueInputInvalid}
-                      isRequired
-                      isClearable
-                    />
-                    {presetsType === "equipment" ? (
-                      <WeightUnitDropdown
-                        value={operatingEquipmentWeight.weight_unit}
-                        setEquipmentWeight={setOperatingEquipmentWeight}
-                        targetType="equipment"
-                        showLabel
-                      />
-                    ) : (
-                      <DistanceUnitDropdown
-                        value={operatingDistance.distance_unit}
-                        setDistance={setOperatingDistance}
-                        targetType="distance"
-                        showLabel
-                      />
-                    )}
-                  </div>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="primary"
-                  onPress={
-                    operationType === "edit"
-                      ? handleUpdateButton
-                      : handleCreateButton
-                  }
-                  isDisabled={isNewPresetInvalid}
-                >
-                  {operationType === "edit" ? "Update" : "Create"}
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <PresetsModal
+        presetsModal={presetsModal}
+        operationType={operationType}
+        presetsType={presetsType}
+        nameInput={nameInput}
+        setNameInput={setNameInput}
+        isNameInputValid={isNameInputValid}
+        valueInput={valueInput}
+        setValueInput={setValueInput}
+        isValueInputInvalid={isValueInputInvalid}
+        operatingEquipmentWeight={operatingEquipmentWeight}
+        setOperatingEquipmentWeight={setOperatingEquipmentWeight}
+        operatingDistance={operatingDistance}
+        setOperatingDistance={setOperatingDistance}
+        isNewPresetInvalid={isNewPresetInvalid}
+        doneButtonAction={
+          operationType === "edit" ? handleUpdateButton : handleCreateButton
+        }
+      />
       <Modal
         isOpen={setUnitsModal.isOpen}
         onOpenChange={setUnitsModal.onOpenChange}
