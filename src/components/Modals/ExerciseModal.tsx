@@ -19,6 +19,7 @@ import {
   ConvertExerciseGroupSetStringSecondary,
   GenerateNewExerciseGroupSetStringSecondary,
   ConvertEmptyStringToNull,
+  UpdateExerciseGroupStrings,
 } from "../../helpers";
 import { ExerciseGroupCheckboxes } from "..";
 import { useEffect, useRef, useState } from "react";
@@ -215,7 +216,7 @@ export const ExerciseModal = ({
       ? Array.from(exercise.exerciseGroupStringSetPrimary)
       : [];
 
-  const handleSaveButton = () => {
+  const handleSaveButton = async () => {
     if (
       !isExerciseNameValid ||
       !isExerciseGroupSetPrimaryStringValid ||
@@ -223,9 +224,16 @@ export const ExerciseModal = ({
     )
       return;
 
+    const updatedExercise = await UpdateExerciseGroupStrings(
+      exercise,
+      multiplierInputMap,
+      exerciseGroupDictionary
+    );
+
     const note = ConvertEmptyStringToNull(noteInput);
 
-    const updatedExercise = { ...exercise, name: nameInput, note: note };
+    updatedExercise.name = nameInput;
+    updatedExercise.note = note;
 
     buttonAction(updatedExercise);
   };

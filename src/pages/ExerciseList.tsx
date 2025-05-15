@@ -6,9 +6,9 @@ import {
   DeleteItemFromList,
   UpdateItemInList,
   FormatSetsCompletedString,
-  UpdateExerciseGroupStrings,
   GetUserSettings,
   FormatNumItemsString,
+  UpdateExercise,
 } from "../helpers";
 import {
   Button,
@@ -94,9 +94,9 @@ export default function ExerciseList() {
 
       const result = await db.execute(
         `INSERT into exercises 
-         (name, exercise_group_set_string_primary, 
-         exercise_group_map_string_secondary, note, is_favorite,
-         chart_load_exercise_options, chart_load_exercise_options_categories) 
+          (name, exercise_group_set_string_primary, 
+          exercise_group_map_string_secondary, note, is_favorite,
+          chart_load_exercise_options, chart_load_exercise_options_categories) 
          VALUES ($1, $2, $3, $4, $5, $6, $7)`,
         [
           exercise.name,
@@ -111,15 +111,7 @@ export default function ExerciseList() {
 
       exercise.id = result.lastInsertId;
 
-      const newExercise = await UpdateExerciseGroupStrings(
-        exercise,
-        multiplierInputMap,
-        exerciseGroupDictionary
-      );
-
-      if (newExercise === undefined) return;
-
-      sortExercisesByActiveCategory([...exercises, newExercise]);
+      sortExercisesByActiveCategory([...exercises, exercise]);
 
       resetOperatingExercise();
       toast.success("Exercise Created");
@@ -137,15 +129,11 @@ export default function ExerciseList() {
     )
       return;
 
-    const updatedExercise = await UpdateExerciseGroupStrings(
-      exercise,
-      multiplierInputMap,
-      exerciseGroupDictionary
-    );
+    const success = await UpdateExercise(exercise);
 
-    if (updatedExercise === undefined) return;
+    if (!success) return;
 
-    const updatedExercises = UpdateItemInList(exercises, updatedExercise);
+    const updatedExercises = UpdateItemInList(exercises, exercise);
 
     sortExercisesByActiveCategory(updatedExercises);
 

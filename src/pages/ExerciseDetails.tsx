@@ -16,7 +16,6 @@ import {
 } from "../components";
 import {
   GetExerciseWithId,
-  UpdateExerciseGroupStrings,
   GetCompletedSetsWithExerciseId,
   GetUserSettings,
   GetValidatedUserSettingsUnits,
@@ -31,6 +30,7 @@ import {
   CalculateSpeedValue,
   UpdateIsFavorite,
   UpdateUserSetting,
+  UpdateExercise,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -419,15 +419,11 @@ export default function ExerciseDetails() {
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Exercise");
 
   const updateExercise = async (exercise: Exercise) => {
-    const updatedExercise = await UpdateExerciseGroupStrings(
-      exercise,
-      multiplierInputMap,
-      exerciseGroupDictionary
-    );
+    const success = await UpdateExercise(exercise);
 
-    if (updatedExercise === undefined) return;
+    if (!success) return;
 
-    setExercise(updatedExercise);
+    setExercise(exercise);
 
     exerciseModal.onClose();
     toast.success("Exercise Updated");
