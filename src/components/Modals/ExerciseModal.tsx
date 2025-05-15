@@ -49,7 +49,7 @@ export const ExerciseModal = ({
   const [nameInput, setNameInput] = useState<string>("");
   const [noteInput, setNoteInput] = useState<string>("");
   const [isPrimaryAccordionExpanded, setIsPrimaryAccordionExpanded] =
-    useState<boolean>(true);
+    useState<boolean>(false);
   const [isSecondaryAccordionExpanded, setIsSecondaryAccordionExpanded] =
     useState<boolean>(false);
   const [isMultiplierAccordionExpanded, setIsMultiplierAccordionExpanded] =
@@ -209,6 +209,13 @@ export const ExerciseModal = ({
     setNameInput(exercise.name);
     setNoteInput(exercise.note ?? "");
   }, [exercise.name, exercise.note]);
+
+  useEffect(() => {
+    // Expand the Primary Exercise Group accordion when creating new Exercise
+    // Keep accordion closed if editing existing Exercise
+    setIsPrimaryAccordionExpanded(!isExerciseGroupSetPrimaryStringValid);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [exercise.id]);
 
   const exerciseGroupStringListPrimary: string[] = useMemo(
     () =>
