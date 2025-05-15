@@ -18,6 +18,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { useValidateName } from "../../hooks";
 import {
+  ConvertNumberToInputString,
   ConvertNumberToTwoDecimals,
   IsStringInvalidNumberOr0,
 } from "../../helpers";
@@ -65,21 +66,13 @@ export const PresetsModal = ({
 
   useEffect(() => {
     setNameInput(operatingEquipmentWeight.name);
-    setValueInput(
-      operatingEquipmentWeight.weight === 0
-        ? ""
-        : operatingEquipmentWeight.weight.toString()
-    );
+    setValueInput(ConvertNumberToInputString(operatingEquipmentWeight.weight));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingEquipmentWeight.id]);
 
   useEffect(() => {
     setNameInput(operatingDistance.name);
-    setValueInput(
-      operatingDistance.distance === 0
-        ? ""
-        : operatingDistance.distance.toString()
-    );
+    setValueInput(ConvertNumberToInputString(operatingDistance.distance));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingDistance.id]);
 

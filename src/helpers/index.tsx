@@ -236,6 +236,7 @@ export { IsCalculationStringValid } from "./Strings/IsCalculationStringValid";
 export { FormatNumBodyMeasurementsEntriesString } from "./Strings/FormatNumBodyMeasurementsEntriesString";
 export { GetSpeedUnitFromDistanceUnit } from "./Strings/GetSpeedUnitFromDistanceUnit";
 export { GetPaceUnitFromDistanceUnit } from "./Strings/GetPaceUnitFromDistanceUnit";
+export { ConvertNumberToInputString } from "./Strings/ConvertNumberToInputString";
 
 export { UpdateItemInList } from "./Lists/UpdateItemInList";
 export { DeleteItemFromList } from "./Lists/DeleteItemFromList";
