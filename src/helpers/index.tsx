@@ -106,7 +106,6 @@ export { AddNewSetsToMultiset } from "./Multisets/AddNewSetsToMultiset";
 export { GetMultisetWithId } from "./Multisets/GetMultisetWithId";
 export { GenerateMultisetExerciseListText } from "./Multisets/GenerateMultisetExerciseListText";
 
-export { IsNumberNegativeOrInfinity } from "./Numbers/IsNumberNegativeOrInfinity";
 export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
 export { IsStringInvalidNumber } from "./Numbers/IsStringInvalidNumber";
 export { IsStringInvalidInteger } from "./Numbers/IsStringInvalidInteger";
