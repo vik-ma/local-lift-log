@@ -75,9 +75,7 @@ export const TimeValueInput = ({
 
   const timeInputMap = useTimeInputMap();
 
-  const [timeInSeconds, setTimeInSeconds] = useState<number>(
-    set !== undefined ? set.time_in_seconds : 0
-  );
+  const [timeInSeconds, setTimeInSeconds] = useState<number>(0);
 
   const convertSecondsToMinutes = (seconds: number): string => {
     if (seconds === 0) return "";
@@ -309,7 +307,7 @@ export const TimeValueInput = ({
 
   useEffect(() => {
     if (set !== undefined) {
-      setTimeInSeconds(set.time_in_seconds);
+      setTimeInSeconds(set.time_in_seconds >= 0 ? set.time_in_seconds : 0);
     }
 
     if (defaultIncrementInputValues !== undefined) {
