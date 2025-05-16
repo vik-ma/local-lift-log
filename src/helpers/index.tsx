@@ -106,11 +106,11 @@ export { AddNewSetsToMultiset } from "./Multisets/AddNewSetsToMultiset";
 export { GetMultisetWithId } from "./Multisets/GetMultisetWithId";
 export { GenerateMultisetExerciseListText } from "./Multisets/GenerateMultisetExerciseListText";
 
-export { IsStringInvalidNumberOrAbove59 } from "./Numbers/IsStringInvalidNumberOrAbove59";
+export { IsStringInvalidIntegerOrAbove59 } from "./Numbers/IsStringInvalidIntegerOrAbove59";
 export { IsStringInvalidNumber } from "./Numbers/IsStringInvalidNumber";
 export { IsStringInvalidInteger } from "./Numbers/IsStringInvalidInteger";
 export { ConvertNumberToTwoDecimals } from "./Numbers/ConvertNumberToTwoDecimals";
-export { IsStringInvalidNumberOrAbove10 } from "./Numbers/IsStringInvalidNumberOrAbove10";
+export { IsStringInvalidIntegerOrAbove10 } from "./Numbers/IsStringInvalidIntegerOrAbove10";
 export { IsStringInvalidIntegerOr0 } from "./Numbers/IsStringInvalidIntegerOr0";
 export { FormatTimeInSecondsToHhmmssString } from "./Numbers/FormatTimeInSecondsToHhmmssString";
 export { IsNumberValidBinary } from "./Numbers/IsNumberValidBinary";

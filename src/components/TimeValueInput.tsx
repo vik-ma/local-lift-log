@@ -14,7 +14,7 @@ import {
   IsStringEmpty,
   IsStringInvalidInteger,
   IsStringInvalidNumber,
-  IsStringInvalidNumberOrAbove59,
+  IsStringInvalidIntegerOrAbove59,
 } from "../helpers";
 import { ChevronIcon } from "../assets";
 import { useTimeInputMap } from "../hooks";
@@ -136,11 +136,11 @@ export const TimeValueInput = ({
   }, [minutesInput]);
 
   const isHhmmssSecondsInputInvalid = useMemo(() => {
-    return IsStringInvalidNumberOrAbove59(hhmmssInput.seconds);
+    return IsStringInvalidIntegerOrAbove59(hhmmssInput.seconds);
   }, [hhmmssInput.seconds]);
 
   const isHhmmssMinutesInputInvalid = useMemo(() => {
-    return IsStringInvalidNumberOrAbove59(hhmmssInput.minutes);
+    return IsStringInvalidIntegerOrAbove59(hhmmssInput.minutes);
   }, [hhmmssInput.minutes]);
 
   const isHhmmssHoursInputInvalid = useMemo(() => {
@@ -152,7 +152,7 @@ export const TimeValueInput = ({
   }, [mmssInput.minutes]);
 
   const isMmssSecondsInputInvalid = useMemo(() => {
-    return IsStringInvalidNumberOrAbove59(mmssInput.seconds);
+    return IsStringInvalidIntegerOrAbove59(mmssInput.seconds);
   }, [mmssInput.seconds]);
 
   useEffect(() => {

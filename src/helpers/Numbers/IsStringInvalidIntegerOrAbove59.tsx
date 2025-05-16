@@ -1,6 +1,6 @@
 import { IsNumberValid } from "..";
 
-export const IsStringInvalidNumberOrAbove10 = (
+export const IsStringInvalidIntegerOrAbove59 = (
   inputString: string
 ): boolean => {
   const inputNumber = Number(inputString);
@@ -8,7 +8,7 @@ export const IsStringInvalidNumberOrAbove10 = (
   if (
     !IsNumberValid(inputNumber) ||
     !Number.isInteger(inputNumber) ||
-    inputNumber > 10
+    inputNumber > 59
   )
     return true;
 
