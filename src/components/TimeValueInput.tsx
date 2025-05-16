@@ -10,7 +10,7 @@ import { WorkoutSet, DefaultIncrementInputs } from "../typings";
 import { useState, useMemo, useEffect, useRef } from "react";
 import {
   ConvertNumberToTwoDecimals,
-  IsNumberNegativeOrInfinity,
+  IsNumberValid,
   IsStringEmpty,
   IsStringInvalidInteger,
   IsStringInvalidNumber,
@@ -182,8 +182,7 @@ export const TimeValueInput = ({
     setSecondsInput(value);
     const seconds = IsStringEmpty(value) ? 0 : Number(value);
 
-    if (IsNumberNegativeOrInfinity(seconds) || !Number.isInteger(seconds))
-      return;
+    if (!IsNumberValid(seconds) || !Number.isInteger(seconds)) return;
 
     updateValue(seconds);
   };
@@ -192,7 +191,7 @@ export const TimeValueInput = ({
     setMinutesInput(value);
     const minutes = IsStringEmpty(value) ? 0 : Number(value);
 
-    if (IsNumberNegativeOrInfinity(minutes)) return;
+    if (!IsNumberValid(minutes)) return;
 
     const seconds: number = convertMinutesToSeconds(minutes);
 
@@ -227,9 +226,9 @@ export const TimeValueInput = ({
     const seconds = IsStringEmpty(value.seconds) ? 0 : Number(value.seconds);
 
     if (
-      IsNumberNegativeOrInfinity(hours) ||
-      IsNumberNegativeOrInfinity(minutes) ||
-      IsNumberNegativeOrInfinity(seconds)
+      !IsNumberValid(hours) ||
+      !IsNumberValid(minutes) ||
+      !IsNumberValid(seconds)
     )
       return;
 
@@ -268,11 +267,7 @@ export const TimeValueInput = ({
     const minutes = IsStringEmpty(value.minutes) ? 0 : Number(value.minutes);
     const seconds = IsStringEmpty(value.seconds) ? 0 : Number(value.seconds);
 
-    if (
-      IsNumberNegativeOrInfinity(minutes) ||
-      IsNumberNegativeOrInfinity(seconds)
-    )
-      return;
+    if (!IsNumberValid(minutes) || !IsNumberValid(seconds)) return;
 
     const timeInSeconds = convertMmssToSeconds(minutes, seconds);
 

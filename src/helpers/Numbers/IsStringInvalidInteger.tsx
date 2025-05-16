@@ -1,8 +1,10 @@
-import { IsNumberNegativeOrInfinity } from "..";
+import { IsNumberValid } from "..";
 
 export const IsStringInvalidInteger = (inputString: string): boolean => {
   const inputNumber = Number(inputString);
-  if (!Number.isInteger(inputNumber) || IsNumberNegativeOrInfinity(inputNumber))
+
+  if (!IsNumberValid(inputNumber) || !Number.isInteger(inputNumber))
     return true;
+
   return false;
 };

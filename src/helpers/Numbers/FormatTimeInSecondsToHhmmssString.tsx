@@ -1,9 +1,9 @@
-import { IsNumberNegativeOrInfinity } from "..";
+import { IsNumberValid } from "..";
 
 export const FormatTimeInSecondsToHhmmssString = (
   time_in_seconds: number
 ): string => {
-  if (IsNumberNegativeOrInfinity(time_in_seconds)) return "Invalid Time";
+  if (!IsNumberValid(time_in_seconds)) return "Invalid Time";
 
   const hours = Math.floor(time_in_seconds / 3600);
   const minutes = Math.floor((time_in_seconds % 3600) / 60);
