@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import {
+  ConvertNumberToInputString,
   DefaultSetInputValues,
   IsStringEmpty,
   IsStringInvalidInteger,
@@ -65,27 +66,14 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
 
   const setTrackingValuesInputStrings = (set: WorkoutSet) => {
     const newSetTrackingValuesInput = {
-      weight:
-        set.is_tracking_weight && set.weight !== 0 ? set.weight.toString() : "",
-      reps: set.is_tracking_reps && set.reps !== 0 ? set.reps.toString() : "",
-      rir: set.is_tracking_rir && set.rir !== -1 ? set.rir.toString() : "",
-      rpe: set.is_tracking_rpe && set.rpe !== 0 ? set.rpe.toString() : "",
-      distance:
-        set.is_tracking_distance && set.distance !== 0
-          ? set.distance.toString()
-          : "",
-      resistance_level:
-        set.is_tracking_resistance_level && set.resistance_level !== 0
-          ? set.resistance_level.toString()
-          : "",
-      partial_reps:
-        set.is_tracking_partial_reps && set.partial_reps !== 0
-          ? set.partial_reps.toString()
-          : "",
-      user_weight:
-        set.is_tracking_user_weight && set.user_weight !== 0
-          ? set.user_weight.toString()
-          : "",
+      weight: ConvertNumberToInputString(set.weight),
+      reps: ConvertNumberToInputString(set.reps),
+      rir: ConvertNumberToInputString(set.rir, true),
+      rpe: ConvertNumberToInputString(set.rpe),
+      distance: ConvertNumberToInputString(set.distance),
+      resistance_level: ConvertNumberToInputString(set.resistance_level),
+      partial_reps: ConvertNumberToInputString(set.partial_reps),
+      user_weight: ConvertNumberToInputString(set.user_weight),
     };
     setSetTrackingValuesInput(newSetTrackingValuesInput);
   };
