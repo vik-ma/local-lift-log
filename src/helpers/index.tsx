@@ -90,6 +90,7 @@ export { CopySetTrackingValues } from "./Sets/CopySetTrackingValues";
 export { GetCompletedSetsWithExerciseId } from "./Sets/GetCompletedSetsWithExerciseId";
 export { GetAnalyticsValuesForSetList } from "./Sets/GetAnalyticsValuesForSetList";
 export { GetTimeCompletedForSetsWithExerciseId } from "./Sets/GetTimeCompletedForSetsWithExerciseId";
+export { GetValidatedSetValue } from "./Sets/GetValidatedSetValue";
 
 export { GenerateMultisetSetOrderString } from "./Multisets/GenerateMultisetSetOrderString";
 export { DefaultNewMultiset } from "./Multisets/DefaultNewMultiset";
