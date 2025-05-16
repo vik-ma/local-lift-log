@@ -139,6 +139,7 @@ export { CalculateSpeedValue } from "./Numbers/CalculateSpeedValue";
 export { ConvertSpeedValue } from "./Numbers/ConvertSpeedValue";
 export { CalculatePaceValue } from "./Numbers/CalculatePaceValue";
 export { ConvertPaceValue } from "./Numbers/ConvertPaceValue";
+export { IsNumberValid } from "./Numbers/IsNumberValid";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";
