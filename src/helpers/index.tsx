@@ -131,7 +131,6 @@ export { IsDistanceWithinLimit } from "./Numbers/IsDistanceWithinLimit";
 export { IsNumberWithinLimit } from "./Numbers/IsNumberWithinLimit";
 export { ConvertInputStringToNumberOrNull } from "./Numbers/ConvertInputStringToNumberOrNull";
 export { ConvertInputStringToNumberWithTwoDecimalsOrNull } from "./Numbers/ConvertInputStringToNumberWithTwoDecimalsOrNull";
-export { IsNumberValidPercentage } from "./Numbers/IsNumberValidPercentage";
 export { ConvertMeasurementValue } from "./Numbers/ConvertMeasurementValue";
 export { ConvertSecondsToMinutes } from "./Numbers/ConvertSecondsToMinutes";
 export { CalculateSpeedValue } from "./Numbers/CalculateSpeedValue";
