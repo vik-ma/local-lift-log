@@ -1,4 +1,4 @@
-import { BodyFatCalculationAgeGroups, IsNumberValidId } from "..";
+import { BodyFatCalculationAgeGroups, IsNumberValidInteger } from "..";
 
 export const ValidateBodyFatCalculationSettingsString = (
   bodyFatCalculationSettingsString: string
@@ -20,7 +20,7 @@ export const ValidateBodyFatCalculationSettingsString = (
   const seenMeasurementIds = new Set<string>();
 
   for (const id of measurementIds) {
-    if (!IsNumberValidId(Number(id)) || seenMeasurementIds.has(id))
+    if (!IsNumberValidInteger(Number(id), 1) || seenMeasurementIds.has(id))
       return false;
     seenMeasurementIds.add(id);
   }

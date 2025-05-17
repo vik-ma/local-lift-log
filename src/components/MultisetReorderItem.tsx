@@ -7,7 +7,7 @@ import {
 import { ReorderIcon } from "../assets";
 import { MultisetSetMenu } from ".";
 import { useMemo, useRef, useState } from "react";
-import { IsNumberValidId } from "../helpers";
+import { IsNumberValidInteger } from "../helpers";
 
 type MultisetReorderItemProps = {
   multiset: Multiset;
@@ -109,8 +109,7 @@ export const MultisetReorderItem = ({
     const newIndex = Number(id.split("-")[1]);
 
     if (
-      isNaN(newIndex) ||
-      !IsNumberValidId(newIndex) ||
+      !IsNumberValidInteger(newIndex) ||
       newIndex === 0 ||
       newIndex >= multiset.setList.length ||
       multiset.setListIndexCutoffs.has(newIndex) ||

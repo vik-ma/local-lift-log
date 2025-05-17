@@ -1,5 +1,5 @@
 import Database from "tauri-plugin-sql-api";
-import { IsNumberValidId } from "..";
+import { IsNumberValidInteger } from "..";
 import { Measurement } from "../../typings";
 
 export const GetMeasurementListWithNumberOfBodyMeasurementsEntries = async (
@@ -30,7 +30,7 @@ export const GetMeasurementListWithNumberOfBodyMeasurementsEntries = async (
       for (const measurementId of measurementIds) {
         const id = Number(measurementId);
 
-        if (!IsNumberValidId(id)) continue;
+        if (!IsNumberValidInteger(id, 1)) continue;
 
         if (measurementCountMap.has(id)) {
           const newValue = measurementCountMap.get(id)! + 1;

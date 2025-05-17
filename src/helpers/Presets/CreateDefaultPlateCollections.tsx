@@ -1,6 +1,6 @@
 import Database from "tauri-plugin-sql-api";
 import { AvailablePlates } from "../../typings";
-import { IsNumberValidId, GenerateAvailablePlatesString } from "..";
+import { IsNumberValidInteger, GenerateAvailablePlatesString } from "..";
 
 type DefaultPlateCollection = {
   name: string;
@@ -15,7 +15,7 @@ export const CreateDefaultPlateCollections = async (
   handleId: number,
   isMetric: boolean
 ) => {
-  if (!IsNumberValidId(handleId) || weightIdList.length < 1) return;
+  if (!IsNumberValidInteger(handleId, 1) || weightIdList.length < 1) return;
 
   const defaultNumAvailable = 12;
   const defaultNumHandles = 1;

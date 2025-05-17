@@ -18,7 +18,7 @@ import {
   ReassignExerciseIdForSets,
   GetAllMultisetTemplates,
   UpdateItemInList,
-  IsNumberValidId,
+  IsNumberValidInteger,
   DeleteItemFromList,
   ConvertSetInputValuesToNumbers,
   ConvertEmptyStringToNull,
@@ -257,7 +257,7 @@ export const useMultisetActions = ({
 
   const handleInsertSetCutoff = (multiset: Multiset, index: number) => {
     if (
-      !IsNumberValidId(index) ||
+      !IsNumberValidInteger(index, 1) ||
       index >= multiset.setList.length ||
       multiset.setListIndexCutoffs === undefined ||
       multiset.setListIndexCutoffs.has(index)

@@ -1,4 +1,4 @@
-import { IsNumberValidId } from "..";
+import { IsNumberValidInteger } from "..";
 
 type ValidateExerciseOrderEntryReturnType = {
   isValid: boolean;
@@ -9,7 +9,7 @@ type ValidateExerciseOrderEntryReturnType = {
 export const ValidateExerciseOrderEntry = (
   entry: string
 ): ValidateExerciseOrderEntryReturnType => {
-  if (IsNumberValidId(Number(entry))) {
+  if (IsNumberValidInteger(Number(entry), 1)) {
     return { isValid: true, isMultiset: false, id: Number(entry) };
   }
 
@@ -17,7 +17,8 @@ export const ValidateExerciseOrderEntry = (
 
   if (regex.test(entry)) {
     const id = Number(entry.slice(1));
-    if (IsNumberValidId(id)) return { isValid: true, isMultiset: true, id: id };
+    if (IsNumberValidInteger(id, 1))
+      return { isValid: true, isMultiset: true, id: id };
   }
 
   return { isValid: false, isMultiset: false, id: 0 };

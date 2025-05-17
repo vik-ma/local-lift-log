@@ -1,7 +1,7 @@
 import {
   IsNumberValid,
   IsNumberValidBinary,
-  IsNumberValidId,
+  IsNumberValidInteger,
   LocaleList,
   NumNewSetsOptionList,
   ValidateActiveMeasurementsString,
@@ -14,7 +14,6 @@ import {
   ValidTimeInputs,
   ValidWeightUnits,
   ValidateBodyFatCalculationSettingsString,
-  IsNumberValidInteger,
 } from "..";
 import { UserSettings } from "../../typings";
 
@@ -50,7 +49,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "default_increment_distance":
       return IsNumberValid(value as number, 0, true);
     case "default_increment_time":
-      return IsNumberValidId(value as number);
+      return IsNumberValidInteger(value as number, 0, true);
     case "default_increment_resistance_level":
       return IsNumberValid(value as number, 0, true);
     case "save_calculation_string":
