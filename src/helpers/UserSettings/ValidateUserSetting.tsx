@@ -2,7 +2,6 @@ import {
   IsNumberValid,
   IsNumberValidBinary,
   IsNumberValidId,
-  IsNumberValidIdOr0,
   LocaleList,
   NumNewSetsOptionList,
   ValidateActiveMeasurementsString,
@@ -15,6 +14,7 @@ import {
   ValidTimeInputs,
   ValidWeightUnits,
   ValidateBodyFatCalculationSettingsString,
+  IsNumberValidInteger,
 } from "..";
 import { UserSettings } from "../../typings";
 
@@ -26,7 +26,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "show_timestamp_on_completed_set":
       return IsNumberValidBinary(value as number);
     case "active_routine_id":
-      return IsNumberValidIdOr0(value as number);
+      return IsNumberValidInteger(value as number);
     case "default_unit_weight":
       return ValidWeightUnits().includes(value as string);
     case "default_unit_distance":
@@ -64,7 +64,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "shown_workout_properties":
       return ValidateShownPropertiesString(value as string, "workout");
     case "default_plate_collection_id":
-      return IsNumberValidIdOr0(value as number);
+      return IsNumberValidInteger(value as number);
     case "show_secondary_exercise_groups":
       return IsNumberValidBinary(value as number);
     case "automatically_update_active_measurements":

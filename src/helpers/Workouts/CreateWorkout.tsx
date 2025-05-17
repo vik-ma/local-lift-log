@@ -3,13 +3,13 @@ import { Workout } from "../../typings";
 import {
   DefaultNewWorkout,
   GetCurrentDateTimeISOString,
-  IsNumberValidIdOr0,
+  IsNumberValidInteger,
 } from "..";
 
 export const CreateWorkout = async (
   workoutTemplateId: number
 ): Promise<Workout | undefined> => {
-  if (!IsNumberValidIdOr0(workoutTemplateId)) return undefined;
+  if (!IsNumberValidInteger(workoutTemplateId)) return undefined;
 
   const currentDate = GetCurrentDateTimeISOString();
 
