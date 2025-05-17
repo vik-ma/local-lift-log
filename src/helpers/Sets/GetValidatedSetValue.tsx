@@ -15,7 +15,6 @@ export const GetValidatedSetValue = (
   if (isRpe) {
     if (isNaN(value)) return -1;
     if (value < 1 || value > 10) return -1;
-    if (!isFinite(value)) return -1;
     return value;
   }
 
