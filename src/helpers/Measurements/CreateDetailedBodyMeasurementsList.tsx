@@ -2,7 +2,7 @@ import {
   CreateValidBodyMeasurementsValues,
   FormatDateTimeString,
   FormatNumItemsString,
-  IsNumberValidPercentage,
+  IsNumberValid,
 } from "..";
 import {
   BodyMeasurements,
@@ -32,7 +32,7 @@ export const CreateDetailedBodyMeasurementsList = (
 
     if (
       bodyMeasurements.body_fat_percentage !== null &&
-      !IsNumberValidPercentage(bodyMeasurements.body_fat_percentage, false)
+      !IsNumberValid(bodyMeasurements.body_fat_percentage, 0, true, 100)
     ) {
       bodyMeasurements.body_fat_percentage = null;
     }

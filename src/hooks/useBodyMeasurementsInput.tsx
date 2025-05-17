@@ -6,7 +6,7 @@ import {
   CreateActiveMeasurementInputs,
   GenerateActiveMeasurementString,
   GenerateBodyFatCalculationSettingsString,
-  IsNumberValidPercentage,
+  IsNumberValid,
   IsStringEmpty,
   IsStringInvalidNumberOr0,
   UpdateUserSetting,
@@ -60,7 +60,7 @@ export const useBodyMeasurementsInput = (
   const isBodyFatPercentageInputValid = useMemo(() => {
     if (IsStringEmpty(bodyFatPercentageInput)) return true;
     if (IsStringInvalidNumberOr0(bodyFatPercentageInput)) return false;
-    if (!IsNumberValidPercentage(Number(bodyFatPercentageInput), false))
+    if (!IsNumberValid(Number(bodyFatPercentageInput), 0, true, 100))
       return false;
 
     return true;
