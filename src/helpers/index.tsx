@@ -117,7 +117,6 @@ export { FormatTimeInSecondsToHhmmssString } from "./Numbers/FormatTimeInSeconds
 export { IsNumberValidBinary } from "./Numbers/IsNumberValidBinary";
 export { IsNumberValidId } from "./Numbers/IsNumberValidId";
 export { IsStringInvalidNumberOr0 } from "./Numbers/IsStringInvalidNumberOr0";
-export { IsNumberValidIdOr0 } from "./Numbers/IsNumberValidIdOr0";
 export { IsStringInvalidIntegerOrBelowMinus1 } from "./Numbers/IsStringInvalidIntegerOrBelowMinus1";
 export { ConvertInputStringToNumber } from "./Numbers/ConvertInputStringToNumber";
 export { ConvertWeightValue } from "./Numbers/ConvertWeightValue";
