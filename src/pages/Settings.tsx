@@ -14,7 +14,7 @@ import {
   UpdateUserSetting,
   NumNewSetsOptionList,
   GetValidatedNumNewSets,
-  IsNumberValidAndAbove0,
+  IsNumberValid,
 } from "../helpers";
 import {
   Switch,
@@ -129,22 +129,28 @@ export default function Settings() {
       userSettings.default_unit_measurement = validUnits.measurementUnit;
 
       const defaultIncrementValues: DefaultIncrementInputs = {
-        weight: IsNumberValidAndAbove0(userSettings.default_increment_weight)
+        weight: IsNumberValid(userSettings.default_increment_weight, 0, true)
           ? userSettings.default_increment_weight.toString()
           : "1",
-        distance: IsNumberValidAndAbove0(
-          userSettings.default_increment_distance
+        distance: IsNumberValid(
+          userSettings.default_increment_distance,
+          0,
+          true
         )
           ? userSettings.default_increment_distance.toString()
           : "1",
         time: userSettings.default_increment_time,
-        resistanceLevel: IsNumberValidAndAbove0(
-          userSettings.default_increment_resistance_level
+        resistanceLevel: IsNumberValid(
+          userSettings.default_increment_resistance_level,
+          0,
+          true
         )
           ? userSettings.default_increment_resistance_level.toString()
           : "1",
-        calculationMultiplier: IsNumberValidAndAbove0(
-          userSettings.default_increment_calculation_multiplier
+        calculationMultiplier: IsNumberValid(
+          userSettings.default_increment_calculation_multiplier,
+          0,
+          true
         )
           ? userSettings.default_increment_calculation_multiplier.toString()
           : "1",

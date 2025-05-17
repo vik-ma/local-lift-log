@@ -1,4 +1,4 @@
-import { ConvertNumberToTwoDecimals, IsNumberValidAndAbove0 } from "..";
+import { ConvertNumberToTwoDecimals, IsNumberValid } from "..";
 
 export const CalculateSpeedValue = (
   distance: number,
@@ -7,8 +7,8 @@ export const CalculateSpeedValue = (
   speedUnit: string
 ) => {
   if (
-    !IsNumberValidAndAbove0(distance) ||
-    !IsNumberValidAndAbove0(timeInSeconds)
+    !IsNumberValid(distance, 0, true) ||
+    !IsNumberValid(timeInSeconds, 0, true)
   )
     return 0;
 

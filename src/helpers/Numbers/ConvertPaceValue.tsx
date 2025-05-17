@@ -1,11 +1,11 @@
-import { IsNumberValidAndAbove0 } from "..";
+import { IsNumberValid } from "..";
 
 export const ConvertPaceValue = (
   value: number,
   currentUnit: string,
   newUnit: string
 ) => {
-  if (!IsNumberValidAndAbove0(value)) return 0;
+  if (!IsNumberValid(value, 0, true)) return 0;
 
   if (currentUnit === newUnit) return value;
 
@@ -40,6 +40,6 @@ export const ConvertPaceValue = (
   };
 
   const secondsPerMeter = toSecondsPerMeter(value, currentUnit);
-  
+
   return fromSecondsPerMeter(secondsPerMeter, newUnit);
 };

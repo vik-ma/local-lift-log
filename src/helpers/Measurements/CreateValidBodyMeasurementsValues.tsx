@@ -1,8 +1,4 @@
-import {
-  IsNumberValidAndAbove0,
-  IsNumberValidId,
-  ValidMeasurementUnits,
-} from "..";
+import { IsNumberValid, IsNumberValidId, ValidMeasurementUnits } from "..";
 import { BodyMeasurementsValues, MeasurementMap } from "../../typings";
 
 export const CreateValidBodyMeasurementsValues = (
@@ -18,7 +14,7 @@ export const CreateValidBodyMeasurementsValues = (
   let numMeasurements = 0;
 
   for (const [id, values] of Object.entries(bodyMeasurementsValues)) {
-    if (!IsNumberValidId(Number(id)) || !IsNumberValidAndAbove0(values.value))
+    if (!IsNumberValidId(Number(id)) || !IsNumberValid(values.value, 0, true))
       continue;
 
     numMeasurements++;

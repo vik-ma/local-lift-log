@@ -1,5 +1,5 @@
 import {
-  IsNumberValidAndAbove0,
+  IsNumberValid,
   IsNumberValidBinary,
   IsNumberValidId,
   IsNumberValidIdOr0,
@@ -46,19 +46,19 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "time_input_behavior_mmss":
       return ValidTimeInputBehaviors(false).some((item) => item.key === value);
     case "default_increment_weight":
-      return IsNumberValidAndAbove0(value as number);
+      return IsNumberValid(value as number, 0, true);
     case "default_increment_distance":
-      return IsNumberValidAndAbove0(value as number);
+      return IsNumberValid(value as number, 0, true);
     case "default_increment_time":
       return IsNumberValidId(value as number);
     case "default_increment_resistance_level":
-      return IsNumberValidAndAbove0(value as number);
+      return IsNumberValid(value as number, 0, true);
     case "save_calculation_string":
       return IsNumberValidBinary(value as number);
     case "show_calculation_buttons":
       return IsNumberValidBinary(value as number);
     case "default_increment_calculation_multiplier":
-      return IsNumberValidAndAbove0(value as number);
+      return IsNumberValid(value as number, 0, true);
     case "default_calculation_tab":
       return ValidCalculationModalTabs().includes(value as string);
     case "shown_workout_properties":
