@@ -7,7 +7,7 @@ import {
 import {
   GetUserSettings,
   CreateDefaultUserSettings,
-  IsStringInvalidNumberOr0,
+  IsStringInvalidNumber,
   ConvertNumberToTwoDecimals,
   CreateShownPropertiesSet,
   GetValidatedUserSettingsUnits,
@@ -99,15 +99,25 @@ export default function Settings() {
   const defaultIncrementInputsInvalidityMap =
     useMemo((): DefaultIncrementInputInvalidityMap => {
       const values: DefaultIncrementInputInvalidityMap = {
-        weight: IsStringInvalidNumberOr0(defaultIncrementInputValues.weight),
-        distance: IsStringInvalidNumberOr0(
-          defaultIncrementInputValues.distance
+        weight: IsStringInvalidNumber(
+          defaultIncrementInputValues.weight,
+          0,
+          true
         ),
-        resistanceLevel: IsStringInvalidNumberOr0(
-          defaultIncrementInputValues.resistanceLevel
+        distance: IsStringInvalidNumber(
+          defaultIncrementInputValues.distance,
+          0,
+          true
         ),
-        calculationMultiplier: IsStringInvalidNumberOr0(
-          defaultIncrementInputValues.calculationMultiplier
+        resistanceLevel: IsStringInvalidNumber(
+          defaultIncrementInputValues.resistanceLevel,
+          0,
+          true
+        ),
+        calculationMultiplier: IsStringInvalidNumber(
+          defaultIncrementInputValues.calculationMultiplier,
+          0,
+          true
         ),
       };
       return values;

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
-  IsStringInvalidNumberOr0,
+  IsStringInvalidNumber,
   UpdateUserSetting,
 } from "../helpers";
 import {
@@ -94,7 +94,7 @@ export const PlateCalculator = ({
   const isTargetWeightInputInvalid = useMemo(() => {
     return (
       IsStringEmpty(targetWeightInput) ||
-      IsStringInvalidNumberOr0(targetWeightInput)
+      IsStringInvalidNumber(targetWeightInput, 0, true)
     );
   }, [targetWeightInput]);
 

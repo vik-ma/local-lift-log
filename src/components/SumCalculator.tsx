@@ -15,7 +15,7 @@ import {
   CreateNewCalculationItem,
   IsCalculationStringValid,
   IsStringEmpty,
-  IsStringInvalidNumberOr0,
+  IsStringInvalidNumber,
   LoadCalculationString,
 } from "../helpers";
 import {
@@ -104,7 +104,9 @@ export const SumCalculator = ({
   const [numberInput, setNumberInput] = useState<string>("");
 
   const isNumberInputInvalid = useMemo(() => {
-    return IsStringEmpty(numberInput) || IsStringInvalidNumberOr0(numberInput);
+    return (
+      IsStringEmpty(numberInput) || IsStringInvalidNumber(numberInput, 0, true)
+    );
   }, [numberInput]);
 
   const numberInputRef = useRef<HTMLInputElement>(null);
@@ -363,7 +365,7 @@ export const SumCalculator = ({
     weight: CalculationListItem,
     index: number
   ) => {
-    const isInputInvalid = IsStringInvalidNumberOr0(value);
+    const isInputInvalid = IsStringInvalidNumber(value, 0, true);
 
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
@@ -393,7 +395,7 @@ export const SumCalculator = ({
     distance: CalculationListItem,
     index: number
   ) => {
-    const isInputInvalid = IsStringInvalidNumberOr0(value);
+    const isInputInvalid = IsStringInvalidNumber(value, 0, true);
 
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);

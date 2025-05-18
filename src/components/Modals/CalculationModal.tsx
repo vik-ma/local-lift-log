@@ -28,7 +28,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
-  IsStringInvalidNumberOr0,
+  IsStringInvalidNumber,
 } from "../../helpers";
 import { PlateCalculator, SumCalculator } from "..";
 
@@ -118,7 +118,7 @@ export const CalculationModal = ({
     disableTotalMultiplierDecreaseButton,
     disableTotalMultiplierIncreaseButton,
   } = useMemo(() => {
-    const isInputInvalid = IsStringInvalidNumberOr0(totalMultiplierInput);
+    const isInputInvalid = IsStringInvalidNumber(totalMultiplierInput, 0, true);
 
     setIsTotalMultiplierInvalid(isInputInvalid);
 

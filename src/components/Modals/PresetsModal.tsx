@@ -20,7 +20,7 @@ import { useValidateName } from "../../hooks";
 import {
   ConvertNumberToInputString,
   ConvertNumberToTwoDecimals,
-  IsStringInvalidNumberOr0,
+  IsStringInvalidNumber,
 } from "../../helpers";
 
 type PresetsModalProps = {
@@ -55,7 +55,7 @@ export const PresetsModal = ({
   const isNameInputValid = useValidateName(nameInput);
 
   const isValueInputInvalid = useMemo(() => {
-    return IsStringInvalidNumberOr0(valueInput);
+    return IsStringInvalidNumber(valueInput, 0, true);
   }, [valueInput]);
 
   const isNewPresetInvalid = useMemo(() => {

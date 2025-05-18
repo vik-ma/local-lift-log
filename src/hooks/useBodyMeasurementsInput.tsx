@@ -6,9 +6,8 @@ import {
   CreateActiveMeasurementInputs,
   GenerateActiveMeasurementString,
   GenerateBodyFatCalculationSettingsString,
-  IsNumberValid,
   IsStringEmpty,
-  IsStringInvalidNumberOr0,
+  IsStringInvalidNumber,
   UpdateUserSetting,
 } from "../helpers";
 import {
@@ -52,16 +51,16 @@ export const useBodyMeasurementsInput = (
 
   const isWeightInputValid = useMemo(() => {
     if (IsStringEmpty(weightInput)) return true;
-    if (IsStringInvalidNumberOr0(weightInput)) return false;
+    if (IsStringInvalidNumber(weightInput, 0, true)) return false;
 
     return true;
   }, [weightInput]);
 
   const isBodyFatPercentageInputValid = useMemo(() => {
     if (IsStringEmpty(bodyFatPercentageInput)) return true;
-    if (IsStringInvalidNumberOr0(bodyFatPercentageInput)) return false;
-    if (!IsNumberValid(Number(bodyFatPercentageInput), 0, true, 100))
+    if (IsStringInvalidNumber(bodyFatPercentageInput, 0, true, 100))
       return false;
+    return false;
 
     return true;
   }, [bodyFatPercentageInput]);
@@ -101,7 +100,7 @@ export const useBodyMeasurementsInput = (
 
   const validateActiveMeasurementInput = (value: string, index: number) => {
     const updatedInvalidInputs = new Set(invalidMeasurementInputs);
-    if (!IsStringEmpty(value) && IsStringInvalidNumberOr0(value)) {
+    if (!IsStringEmpty(value) && IsStringInvalidNumber(value, 0, true)) {
       updatedInvalidInputs.add(index);
     } else {
       updatedInvalidInputs.delete(index);
@@ -113,7 +112,7 @@ export const useBodyMeasurementsInput = (
   const validateBodyFatMeasurementInput = (value: string, id: number) => {
     if (!bodyFatMeasurementsMap.has(id)) return;
 
-    if (IsStringInvalidNumberOr0(value)) {
+    if (IsStringInvalidNumber(value, 0, true)) {
       validBodyFatInputs.current.delete(id);
     } else {
       validBodyFatInputs.current.add(id);
