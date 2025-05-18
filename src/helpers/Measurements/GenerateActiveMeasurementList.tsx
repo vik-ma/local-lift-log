@@ -1,4 +1,4 @@
-import { IsStringEmpty, IsStringInvalidNumber } from "..";
+import { IsStringEmpty, IsStringInvalidInteger } from "..";
 
 export const GenerateActiveMeasurementList = (
   activeTrackingMeasurementString: string
@@ -12,8 +12,7 @@ export const GenerateActiveMeasurementList = (
     activeTrackingMeasurementString.split(",");
 
   activeMeasurementStringList.map((measurement) => {
-    // TODO: FIX
-    if (!IsStringInvalidNumber(measurement)) {
+    if (!IsStringInvalidInteger(measurement, 0, true)) {
       activeMeasurementList.push(Number(measurement));
     }
   });
