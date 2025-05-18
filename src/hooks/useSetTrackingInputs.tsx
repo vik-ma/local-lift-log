@@ -36,7 +36,11 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
         setTrackingValuesInput.resistance_level
       ),
       partial_reps: IsStringInvalidInteger(setTrackingValuesInput.partial_reps),
-      user_weight: IsStringInvalidNumber(setTrackingValuesInput.user_weight),
+      user_weight: IsStringInvalidNumber(
+        setTrackingValuesInput.user_weight,
+        0,
+        true
+      ),
     };
     return values;
   }, [setTrackingValuesInput]);
@@ -50,17 +54,18 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   }, [setInputsInvalidityMap, isTimeInputInvalid]);
 
   const setTrackingValuesInputStrings = (set: WorkoutSet) => {
+    // TODO: FIX
     const newSetTrackingValuesInput = {
       weight: ConvertNumberToInputString(set.weight),
       reps: ConvertNumberToInputString(set.reps),
-      rir: ConvertNumberToInputString(set.rir, true),
+      rir: ConvertNumberToInputString(set.rir), // ALLOW 0
       rpe: ConvertNumberToInputString(set.rpe),
       distance: ConvertNumberToInputString(set.distance),
       resistance_level: ConvertNumberToInputString(set.resistance_level),
       partial_reps: ConvertNumberToInputString(set.partial_reps),
       user_weight: ConvertNumberToInputString(set.user_weight),
     };
-    
+
     setSetTrackingValuesInput(newSetTrackingValuesInput);
   };
 

@@ -12,6 +12,7 @@ export const GenerateActiveMeasurementList = (
     activeTrackingMeasurementString.split(",");
 
   activeMeasurementStringList.map((measurement) => {
+    // TODO: FIX
     if (!IsStringInvalidNumber(measurement)) {
       activeMeasurementList.push(Number(measurement));
     }

@@ -16,7 +16,7 @@ export const CreateBodyMeasurementsValues = (
     if (
       measurement.input === undefined ||
       IsStringEmpty(measurement.input) ||
-      IsStringInvalidNumber(measurement.input)
+      IsStringInvalidNumber(measurement.input, 0, true)
     ) {
       continue;
     }

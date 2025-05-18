@@ -130,7 +130,7 @@ export const TimeValueInput = ({
   }, [secondsInput]);
 
   const isMinutesInputInvalid = useMemo(() => {
-    return IsStringInvalidNumber(minutesInput);
+    return IsStringInvalidNumber(minutesInput, 0, true);
   }, [minutesInput]);
 
   const isHhmmssSecondsInputInvalid = useMemo(() => {
