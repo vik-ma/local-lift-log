@@ -107,7 +107,6 @@ export { AddNewSetsToMultiset } from "./Multisets/AddNewSetsToMultiset";
 export { GetMultisetWithId } from "./Multisets/GetMultisetWithId";
 export { GenerateMultisetExerciseListText } from "./Multisets/GenerateMultisetExerciseListText";
 
-export { IsStringInvalidIntegerOrAbove59 } from "./Numbers/IsStringInvalidIntegerOrAbove59";
 export { IsStringInvalidNumber } from "./Numbers/IsStringInvalidNumber";
 export { IsStringInvalidInteger } from "./Numbers/IsStringInvalidInteger";
 export { ConvertNumberToTwoDecimals } from "./Numbers/ConvertNumberToTwoDecimals";
