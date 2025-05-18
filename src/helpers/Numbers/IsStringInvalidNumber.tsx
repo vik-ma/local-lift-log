@@ -1,9 +1,15 @@
 import { IsNumberValid } from "..";
 
-export const IsStringInvalidNumber = (inputString: string): boolean => {
+export const IsStringInvalidNumber = (
+  inputString: string,
+  minValue: number = 0,
+  doNotAllowMinValue?: boolean,
+  maxValue?: number
+): boolean => {
   const inputNumber = Number(inputString);
 
-  if (!IsNumberValid(inputNumber)) return true;
+  if (!IsNumberValid(inputNumber, minValue, doNotAllowMinValue, maxValue))
+    return true;
 
   return false;
 };
