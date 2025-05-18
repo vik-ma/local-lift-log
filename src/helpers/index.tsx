@@ -115,7 +115,6 @@ export { IsStringInvalidIntegerOrAbove10 } from "./Numbers/IsStringInvalidIntege
 export { IsStringInvalidIntegerOr0 } from "./Numbers/IsStringInvalidIntegerOr0";
 export { FormatTimeInSecondsToHhmmssString } from "./Numbers/FormatTimeInSecondsToHhmmssString";
 export { IsNumberValidBinary } from "./Numbers/IsNumberValidBinary";
-export { IsStringInvalidNumberOr0 } from "./Numbers/IsStringInvalidNumberOr0";
 export { IsStringInvalidIntegerOrBelowMinus1 } from "./Numbers/IsStringInvalidIntegerOrBelowMinus1";
 export { ConvertInputStringToNumber } from "./Numbers/ConvertInputStringToNumber";
 export { ConvertWeightValue } from "./Numbers/ConvertWeightValue";
