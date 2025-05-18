@@ -19,7 +19,7 @@ export const useFilterMinAndMaxValueInputs = ({
 
   const isMinInputInvalid = useMemo(() => {
     if (IsStringEmpty(minInput)) return false;
-    if (isIntegerOnly && IsStringInvalidInteger(minInput)) return true;
+    if (isIntegerOnly && IsStringInvalidInteger(minInput, 0, true)) return true;
     if (IsStringInvalidNumber(minInput, 0, true)) return true;
     if (minValue !== undefined && Number(minInput) < minValue) return true;
     if (maxValue !== undefined && Number(minInput) > maxValue) return true;
@@ -28,7 +28,7 @@ export const useFilterMinAndMaxValueInputs = ({
 
   const isMaxInputInvalid = useMemo(() => {
     if (IsStringEmpty(maxInput)) return false;
-    if (isIntegerOnly && IsStringInvalidInteger(maxInput)) return true;
+    if (isIntegerOnly && IsStringInvalidInteger(maxInput, 0, true)) return true;
     if (IsStringInvalidNumber(maxInput, 0, true)) return true;
     if (minValue !== undefined && Number(maxInput) < minValue) return true;
     if (maxValue !== undefined && Number(maxInput) > maxValue) return true;

@@ -126,7 +126,7 @@ export const TimeValueInput = ({
   });
 
   const isSecondsInputInvalid = useMemo(() => {
-    return IsStringInvalidInteger(secondsInput);
+    return IsStringInvalidInteger(secondsInput, 0, true);
   }, [secondsInput]);
 
   const isMinutesInputInvalid = useMemo(() => {
