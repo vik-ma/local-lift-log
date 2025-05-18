@@ -14,7 +14,8 @@ import {
   UpdateUserSetting,
   NumNewSetsOptionList,
   GetValidatedNumNewSets,
-  IsNumberValid,
+  ConvertNumberToInputString,
+  IsNumberValidInteger,
 } from "../helpers";
 import {
   Switch,
@@ -129,31 +130,41 @@ export default function Settings() {
       userSettings.default_unit_measurement = validUnits.measurementUnit;
 
       const defaultIncrementValues: DefaultIncrementInputs = {
-        weight: IsNumberValid(userSettings.default_increment_weight, 0, true)
-          ? userSettings.default_increment_weight.toString()
-          : "1",
-        distance: IsNumberValid(
+        weight: ConvertNumberToInputString(
+          userSettings.default_increment_weight,
+          0,
+          true,
+          undefined,
+          false,
+          "1"
+        ),
+        distance: ConvertNumberToInputString(
           userSettings.default_increment_distance,
           0,
-          true
-        )
-          ? userSettings.default_increment_distance.toString()
-          : "1",
-        time: userSettings.default_increment_time,
-        resistanceLevel: IsNumberValid(
+          true,
+          undefined,
+          false,
+          "1"
+        ),
+        time: IsNumberValidInteger(userSettings.default_increment_time, 0, true)
+          ? userSettings.default_increment_time
+          : 60,
+        resistanceLevel: ConvertNumberToInputString(
           userSettings.default_increment_resistance_level,
           0,
-          true
-        )
-          ? userSettings.default_increment_resistance_level.toString()
-          : "1",
-        calculationMultiplier: IsNumberValid(
+          true,
+          undefined,
+          false,
+          "1"
+        ),
+        calculationMultiplier: ConvertNumberToInputString(
           userSettings.default_increment_calculation_multiplier,
           0,
-          true
-        )
-          ? userSettings.default_increment_calculation_multiplier.toString()
-          : "1",
+          true,
+          undefined,
+          false,
+          "1"
+        ),
       };
 
       setDefaultIncrementInputValues(defaultIncrementValues);
