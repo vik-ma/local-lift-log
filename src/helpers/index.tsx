@@ -121,7 +121,6 @@ export { ConvertDistanceValue } from "./Numbers/ConvertDistanceValue";
 export { ConvertWeightToKg } from "./Numbers/ConvertWeightToKg";
 export { ConvertDistanceToMeter } from "./Numbers/ConvertDistanceToMeter";
 export { IsNumberDivisibleBy2 } from "./Numbers/IsNumberDivisibleBy2";
-export { IsStringValidNumberBetween0And1 } from "./Numbers/IsStringValidNumberBetween0And1";
 export { IsWeightWithinLimit } from "./Numbers/IsWeightWithinLimit";
 export { IsDistanceWithinLimit } from "./Numbers/IsDistanceWithinLimit";
 export { IsNumberWithinLimit } from "./Numbers/IsNumberWithinLimit";
