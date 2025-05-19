@@ -1,7 +1,4 @@
-import {
-  ConvertNumberToTwoDecimals,
-  IsStringValidNumberBetween0And1,
-} from "..";
+import { ConvertNumberToTwoDecimals, IsStringInvalidNumber } from "..";
 import { ExerciseGroupMap } from "../../typings";
 
 export const ConvertExerciseGroupStringMapSecondaryToString = (
@@ -19,7 +16,7 @@ export const ConvertExerciseGroupStringMapSecondaryToString = (
     if (
       value === undefined ||
       !exerciseGroupDictionary.has(key) ||
-      !IsStringValidNumberBetween0And1(value)
+      IsStringInvalidNumber(value, 0, false, 1)
     )
       continue;
 

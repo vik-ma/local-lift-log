@@ -1,4 +1,4 @@
-import { IsStringValidNumberBetween0And1 } from "..";
+import { IsStringInvalidNumber } from "..";
 import { ExerciseGroupMap } from "../../typings";
 
 export const ConvertExerciseGroupSetStringSecondary = (
@@ -23,7 +23,7 @@ export const ConvertExerciseGroupSetStringSecondary = (
       !exerciseGroupSetPrimary.has(exerciseGroup) &&
       !exerciseGroupMultiplierMap.has(exerciseGroup) &&
       multiplier !== undefined &&
-      IsStringValidNumberBetween0And1(multiplier)
+      !IsStringInvalidNumber(multiplier, 0, false, 1)
     ) {
       exerciseGroupNameList.push(exerciseGroupDictionary.get(exerciseGroup)!);
       exerciseGroupMultiplierMap.set(exerciseGroup, multiplier);

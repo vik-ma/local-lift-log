@@ -1,4 +1,4 @@
-import { IsStringValidNumberBetween0And1 } from "..";
+import { IsStringInvalidNumber } from "..";
 import { ExerciseGroupMap } from "../../typings";
 
 export const ValidateExerciseGroupSetStringSecondary = (
@@ -19,7 +19,7 @@ export const ValidateExerciseGroupSetStringSecondary = (
       exerciseGroup === undefined ||
       !exerciseGroupDictionary.has(exerciseGroup) ||
       multiplier === undefined ||
-      !IsStringValidNumberBetween0And1(multiplier)
+      IsStringInvalidNumber(multiplier, 0, false, 1)
     ) {
       return false;
     }

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { IsStringValidNumberBetween0And1 } from "../helpers";
+import { IsStringInvalidNumber } from "../helpers";
 
 export const useMultiplierInputMap = () => {
   const [multiplierInputMap, setMultiplierInputMap] = useState<
@@ -10,7 +10,7 @@ export const useMultiplierInputMap = () => {
     const multiplierInputValiditySet = new Set<string>();
 
     for (const [key, value] of multiplierInputMap) {
-      if (!IsStringValidNumberBetween0And1(value)) {
+      if (IsStringInvalidNumber(value, 0, false, 1)) {
         multiplierInputValiditySet.add(key);
       }
     }
