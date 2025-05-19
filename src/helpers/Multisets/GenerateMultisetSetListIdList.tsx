@@ -1,4 +1,4 @@
-import { IsStringInvalidIntegerOr0 } from "..";
+import { IsStringInvalidInteger } from "..";
 
 export const GenerateMultisetSetListIdList = (
   setOrderString: string
@@ -13,7 +13,7 @@ export const GenerateMultisetSetListIdList = (
     const setIdList = [];
 
     for (let i = 0; i < setIds.length; i++) {
-      if (!IsStringInvalidIntegerOr0(setIds[i])) {
+      if (!IsStringInvalidInteger(setIds[i], 0, true)) {
         setIdList.push(Number(setIds[i]));
       }
     }

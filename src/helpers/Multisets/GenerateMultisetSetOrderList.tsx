@@ -1,11 +1,13 @@
-import { IsStringInvalidIntegerOr0 } from "..";
+import { IsStringInvalidInteger } from "..";
 
-export const GenerateMultisetSetOrderList = (setOrderString: string): number[] => {
+export const GenerateMultisetSetOrderList = (
+  setOrderString: string
+): number[] => {
   const setIds = setOrderString.split(",");
   const setOrderList: number[] = [];
 
   for (const id of setIds) {
-    if (!IsStringInvalidIntegerOr0(id)) {
+    if (!IsStringInvalidInteger(id, 0, true)) {
       setOrderList.push(Number(id));
     }
   }

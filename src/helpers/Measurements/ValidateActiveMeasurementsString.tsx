@@ -1,4 +1,4 @@
-import { IsStringInvalidIntegerOr0 } from "..";
+import { IsStringInvalidInteger } from "..";
 
 export const ValidateActiveMeasurementsString = (
   activeMeasurementsString: string
@@ -8,7 +8,7 @@ export const ValidateActiveMeasurementsString = (
   const measurementIdStrings = activeMeasurementsString.split(",");
 
   for (const measurementId of measurementIdStrings) {
-    if (IsStringInvalidIntegerOr0(measurementId)) return false;
+    if (IsStringInvalidInteger(measurementId, 0, true)) return false;
   }
 
   return true;

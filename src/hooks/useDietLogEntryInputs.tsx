@@ -6,7 +6,6 @@ import {
   GetYesterdayYmdDateString,
   IsStringEmpty,
   IsStringInvalidInteger,
-  IsStringInvalidIntegerOr0,
 } from "../helpers";
 import {
   DietLog,
@@ -40,7 +39,7 @@ export const useDietLogEntryInputs = (
 
   const isCaloriesInputValid = useMemo(() => {
     if (IsStringEmpty(caloriesInput)) return false;
-    if (IsStringInvalidIntegerOr0(caloriesInput)) return false;
+    if (IsStringInvalidInteger(caloriesInput, 0, true)) return false;
     return true;
   }, [caloriesInput]);
 
