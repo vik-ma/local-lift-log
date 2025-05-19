@@ -110,7 +110,6 @@ export { GenerateMultisetExerciseListText } from "./Multisets/GenerateMultisetEx
 export { IsStringInvalidNumber } from "./Numbers/IsStringInvalidNumber";
 export { IsStringInvalidInteger } from "./Numbers/IsStringInvalidInteger";
 export { ConvertNumberToTwoDecimals } from "./Numbers/ConvertNumberToTwoDecimals";
-export { IsStringInvalidIntegerOrAbove10 } from "./Numbers/IsStringInvalidIntegerOrAbove10";
 export { FormatTimeInSecondsToHhmmssString } from "./Numbers/FormatTimeInSecondsToHhmmssString";
 export { IsNumberValidBinary } from "./Numbers/IsNumberValidBinary";
 export { IsStringInvalidIntegerOrBelowMinus1 } from "./Numbers/IsStringInvalidIntegerOrBelowMinus1";
