@@ -112,7 +112,6 @@ export { IsStringInvalidInteger } from "./Numbers/IsStringInvalidInteger";
 export { ConvertNumberToTwoDecimals } from "./Numbers/ConvertNumberToTwoDecimals";
 export { FormatTimeInSecondsToHhmmssString } from "./Numbers/FormatTimeInSecondsToHhmmssString";
 export { IsNumberValidBinary } from "./Numbers/IsNumberValidBinary";
-export { IsStringInvalidIntegerOrBelowMinus1 } from "./Numbers/IsStringInvalidIntegerOrBelowMinus1";
 export { ConvertInputStringToNumber } from "./Numbers/ConvertInputStringToNumber";
 export { ConvertWeightValue } from "./Numbers/ConvertWeightValue";
 export { ConvertDistanceValue } from "./Numbers/ConvertDistanceValue";
