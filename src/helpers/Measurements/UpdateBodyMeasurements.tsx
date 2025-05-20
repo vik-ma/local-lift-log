@@ -6,7 +6,7 @@ import {
 } from "../../typings";
 import {
   ConvertEmptyStringToNull,
-  ConvertInputStringToNumberWithTwoDecimalsOrNull,
+  ConvertInputStringToNumberOrNull,
   ConvertNumberToTwoDecimals,
   CreateBodyMeasurementsValues,
   CreateDetailedBodyMeasurementsList,
@@ -34,8 +34,9 @@ export const UpdateBodyMeasurements = async (
     ? 0
     : ConvertNumberToTwoDecimals(Number(weightInput));
 
-  const bodyFatPercentage = ConvertInputStringToNumberWithTwoDecimalsOrNull(
-    bodyFatPercentageInput
+  const bodyFatPercentage = ConvertInputStringToNumberOrNull(
+    bodyFatPercentageInput,
+    true
   );
 
   const comment = ConvertEmptyStringToNull(commentInput);

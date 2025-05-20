@@ -1,7 +1,7 @@
 import Database from "tauri-plugin-sql-api";
 import {
   ConvertEmptyStringToNull,
-  ConvertInputStringToNumberWithTwoDecimalsOrNull,
+  ConvertInputStringToNumberOrNull,
   ConvertNumberToTwoDecimals,
   CreateBodyMeasurementsValues,
   CreateDetailedBodyMeasurementsList,
@@ -34,8 +34,9 @@ export const InsertBodyMeasurementsIntoDatabase = async (
     ? 0
     : ConvertNumberToTwoDecimals(Number(weightInput));
 
-  const bodyFatPercentage = ConvertInputStringToNumberWithTwoDecimalsOrNull(
-    bodyFatPercentageInput
+  const bodyFatPercentage = ConvertInputStringToNumberOrNull(
+    bodyFatPercentageInput,
+    true
   );
 
   const comment = ConvertEmptyStringToNull(commentInput);
