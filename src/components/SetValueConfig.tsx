@@ -8,7 +8,6 @@ import {
   UseSetTrackingInputsReturnType,
   UserSettings,
   UserWeight,
-  UseDisclosureReturnType,
 } from "../typings";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -29,7 +28,6 @@ type SetValueConfigProps = {
   ) => Promise<void>;
   isMultiset?: boolean;
   userWeight?: UserWeight;
-  userWeightModal?: UseDisclosureReturnType;
 };
 
 export const SetValueConfig = ({
@@ -43,7 +41,6 @@ export const SetValueConfig = ({
   openCalculationModal,
   isMultiset,
   userWeight,
-  userWeightModal,
 }: SetValueConfigProps) => {
   const [showNoteInput, setShowNoteInput] = useState<boolean>(false);
   const [isValuesAccordionExpanded, setIsValuesAccordionExpanded] =
@@ -328,7 +325,6 @@ export const SetValueConfig = ({
                     useSetTrackingInputs={useSetTrackingInputs}
                     userSettings={userSettings}
                     userWeight={userWeight}
-                    userWeightModal={userWeightModal}
                     exercise={selectedExercise}
                     isActiveSet={false}
                     openCalculationModal={openCalculationModal}
