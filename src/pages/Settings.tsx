@@ -936,6 +936,7 @@ export default function Settings() {
                 isClearable={false}
                 isSmall={true}
                 showTimeLabel={false}
+                allow0={false}
               />
               <Button
                 aria-label="Change Default Time Increment Button"

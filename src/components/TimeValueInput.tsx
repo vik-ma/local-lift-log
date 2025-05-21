@@ -30,12 +30,12 @@ type TimeValueInputProps = {
   setDefaultIncrementInputValues?: React.Dispatch<
     React.SetStateAction<DefaultIncrementInputs>
   >;
-  isClearable: boolean;
-  isSmall: boolean;
-  showTimeLabel: boolean;
-  allow0: boolean;
+  isClearable?: boolean;
+  isSmall?: boolean;
+  showTimeLabel?: boolean;
   isSetEdited?: boolean;
   setIsSetEdited?: React.Dispatch<React.SetStateAction<boolean>>;
+  allow0?: boolean;
 };
 
 type HhmmssInput = {
@@ -65,9 +65,9 @@ export const TimeValueInput = ({
   isClearable = true,
   isSmall = false,
   showTimeLabel = true,
-  allow0,
   isSetEdited,
   setIsSetEdited,
+  allow0 = true,
 }: TimeValueInputProps) => {
   const [inputType, setInputType] = useState<string>(defaultTimeInput);
 
