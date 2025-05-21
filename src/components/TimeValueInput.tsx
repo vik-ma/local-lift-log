@@ -11,6 +11,7 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import {
   ConvertNumberToTwoDecimals,
   IsNumberValid,
+  IsNumberValidInteger,
   IsStringEmpty,
   IsStringInvalidInteger,
   IsStringInvalidNumber,
@@ -179,7 +180,7 @@ export const TimeValueInput = ({
     setSecondsInput(value);
     const seconds = IsStringEmpty(value) ? 0 : Number(value);
 
-    if (!IsNumberValid(seconds) || !Number.isInteger(seconds)) return;
+    if (!IsNumberValidInteger(seconds)) return;
 
     updateValue(seconds);
   };
