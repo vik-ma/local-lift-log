@@ -388,7 +388,7 @@ export const TimeValueInput = ({
                   hours: value,
                 })
               }
-              isInvalid={isHhmmssHoursInputInvalid}
+              isInvalid={isHhmmssHoursInputInvalid || isValue0AndInvalid}
               ref={hhmmssHoursInput}
             />
             <Input
@@ -410,7 +410,7 @@ export const TimeValueInput = ({
                   minutes: value,
                 })
               }
-              isInvalid={isHhmmssMinutesInputInvalid}
+              isInvalid={isHhmmssMinutesInputInvalid || isValue0AndInvalid}
               ref={hhmmssMinutesInput}
             />
             <Input
@@ -432,7 +432,7 @@ export const TimeValueInput = ({
                   seconds: value,
                 })
               }
-              isInvalid={isHhmmssSecondsInputInvalid}
+              isInvalid={isHhmmssSecondsInputInvalid || isValue0AndInvalid}
               ref={hhmmssSecondsInput}
             />
           </div>
@@ -458,7 +458,7 @@ export const TimeValueInput = ({
                   minutes: value,
                 })
               }
-              isInvalid={isMmssMinutesInputInvalid}
+              isInvalid={isMmssMinutesInputInvalid || isValue0AndInvalid}
               ref={mmssMinutesInput}
             />
             <Input
@@ -480,7 +480,7 @@ export const TimeValueInput = ({
                   seconds: value,
                 })
               }
-              isInvalid={isMmssSecondsInputInvalid}
+              isInvalid={isMmssSecondsInputInvalid || isValue0AndInvalid}
               ref={mmssSecondsInput}
             />
           </div>
@@ -496,7 +496,7 @@ export const TimeValueInput = ({
             isClearable={isClearable}
             value={minutesInput}
             onValueChange={(value) => handleMinutesInputChange(value)}
-            isInvalid={isMinutesInputInvalid}
+            isInvalid={isMinutesInputInvalid || isValue0AndInvalid}
           />
         )}
         {inputType === "seconds" && (
@@ -510,7 +510,7 @@ export const TimeValueInput = ({
             isClearable={isClearable}
             value={secondsInput}
             onValueChange={(value) => handleSecondsInputChange(value)}
-            isInvalid={isSecondsInputInvalid}
+            isInvalid={isSecondsInputInvalid || isValue0AndInvalid}
           />
         )}
       </div>
