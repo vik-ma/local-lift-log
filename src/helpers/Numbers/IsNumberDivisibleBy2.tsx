@@ -1,3 +1,5 @@
+import { IsNumberValidInteger } from "..";
+
 export const IsNumberDivisibleBy2 = (num: number) => {
-  return Number.isInteger(num) && num > 0 && num % 2 === 0;
+  return IsNumberValidInteger(num, 0, true) && num % 2 === 0;
 };
