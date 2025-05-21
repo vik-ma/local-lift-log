@@ -30,9 +30,10 @@ type TimeValueInputProps = {
   setDefaultIncrementInputValues?: React.Dispatch<
     React.SetStateAction<DefaultIncrementInputs>
   >;
-  isClearable?: boolean;
-  isSmall?: boolean;
-  showTimeLabel?: boolean;
+  isClearable: boolean;
+  isSmall: boolean;
+  showTimeLabel: boolean;
+  allow0: boolean;
   isSetEdited?: boolean;
   setIsSetEdited?: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -64,6 +65,7 @@ export const TimeValueInput = ({
   isClearable = true,
   isSmall = false,
   showTimeLabel = true,
+  allow0,
   isSetEdited,
   setIsSetEdited,
 }: TimeValueInputProps) => {
@@ -153,6 +155,10 @@ export const TimeValueInput = ({
     return IsStringInvalidInteger(mmssInput.seconds, 0, false, 59);
   }, [mmssInput.seconds]);
 
+  const isValue0AndInvalid = useMemo(() => {
+    return !allow0 && timeInSeconds === 0;
+  }, [allow0, timeInSeconds]);
+
   useEffect(() => {
     if (setIsTimeInputInvalid === undefined) return;
 
@@ -161,7 +167,8 @@ export const TimeValueInput = ({
       isMinutesInputInvalid ||
       isHhmmssHoursInputInvalid ||
       isHhmmssMinutesInputInvalid ||
-      isHhmmssSecondsInputInvalid
+      isHhmmssSecondsInputInvalid ||
+      isValue0AndInvalid
     ) {
       setIsTimeInputInvalid(true);
     } else {
@@ -174,6 +181,7 @@ export const TimeValueInput = ({
     isHhmmssMinutesInputInvalid,
     isHhmmssSecondsInputInvalid,
     setIsTimeInputInvalid,
+    isValue0AndInvalid,
   ]);
 
   const handleSecondsInputChange = (value: string) => {
