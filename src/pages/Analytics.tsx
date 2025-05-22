@@ -103,6 +103,7 @@ import {
   GetAllBodyMeasurementsWeights,
   GetAllBodyMeasurementsBodyFat,
   GetBodyMeasurementsWithMeasurementId,
+  IsNumberValid,
 } from "../helpers";
 import toast from "react-hot-toast";
 
@@ -738,6 +739,8 @@ export default function Analytics() {
     const commentLabel = "Body Measurements Comment";
 
     for (const userWeight of userWeights) {
+      if (!IsNumberValid(userWeight.weight, 0, true)) continue;
+
       const date = FormatDateToShortString(
         new Date(userWeight.date),
         userSettings.locale
@@ -841,6 +844,8 @@ export default function Analytics() {
     const commentLabel = "Body Measurements Comment";
 
     for (const userBodyFat of userBodyFatPercentages) {
+      if (!IsNumberValid(userBodyFat.body_fat_percentage, 0, true)) continue;
+
       const date = FormatDateToShortString(
         new Date(userBodyFat.date),
         userSettings.locale
@@ -964,6 +969,8 @@ export default function Analytics() {
       );
 
       const measurementValues = userMeasurementValues[`${measurement.id}`];
+
+      if (!IsNumberValid(measurementValues.value, 0, true)) continue;
 
       // Check if measurement_type and unit combo is valid
       if (
