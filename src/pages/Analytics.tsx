@@ -1594,13 +1594,15 @@ export default function Analytics() {
     setShownReferenceAreas(updatedShownReferenceAreas);
   };
 
-  const handleLoadNumExerciseGroupSetsClick = async (loadPrimary: boolean) => {
+  const handleLoadNumSetsForExerciseGroupClick = async (
+    loadPrimary: boolean
+  ) => {
     await handleOpenListModal("exercise-groups");
 
     setLoadChartAsArea(loadPrimary);
   };
 
-  const loadNumExerciseGroupSets = async () => {
+  const loadNumSetsForExerciseGroup = async () => {
     if (selectedExerciseGroups.length === 0 || userSettings === undefined)
       return;
 
@@ -3001,7 +3003,7 @@ export default function Analytics() {
                   <Button
                     color="primary"
                     isDisabled={selectedExerciseGroups.length === 0}
-                    onPress={loadNumExerciseGroupSets}
+                    onPress={loadNumSetsForExerciseGroup}
                   >
                     Load
                   </Button>
@@ -3514,7 +3516,7 @@ export default function Analytics() {
                   </DropdownItem>
                   <DropdownItem
                     key="exercise-group"
-                    onPress={() => handleLoadNumExerciseGroupSetsClick(true)}
+                    onPress={() => handleLoadNumSetsForExerciseGroupClick(true)}
                   >
                     Sets Per Exercise Group
                   </DropdownItem>
@@ -3581,7 +3583,9 @@ export default function Analytics() {
                   </DropdownItem>
                   <DropdownItem
                     key="exercise-group"
-                    onPress={() => handleLoadNumExerciseGroupSetsClick(false)}
+                    onPress={() =>
+                      handleLoadNumSetsForExerciseGroupClick(false)
+                    }
                   >
                     Sets Per Exercise Group
                   </DropdownItem>
