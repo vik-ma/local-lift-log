@@ -1,4 +1,4 @@
-import { ConvertInputStringToNumber } from "..";
+import { ConvertInputStringToNumber, IsNumberValid } from "..";
 
 export const ShouldSetTrackingValueButtonBeDisabled = (
   setTrackingString: string,
@@ -14,9 +14,11 @@ export const ShouldSetTrackingValueButtonBeDisabled = (
 
   const startAtMinusOne = minValue === -1;
 
+  const validatedIncrement = IsNumberValid(increment, 0, true) ? increment : 1;
+
   const value =
     ConvertInputStringToNumber(setTrackingString, startAtMinusOne) +
-    modifier * increment;
+    modifier * validatedIncrement;
 
   const min = minValue ?? 0;
 
