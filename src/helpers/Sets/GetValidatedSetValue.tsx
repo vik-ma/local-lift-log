@@ -1,6 +1,16 @@
 import { IsNumberValid, IsNumberValidInteger } from "..";
 
-export const GetValidatedSetValue = (value: number, key: string) => {
+type SetTrackingKeys =
+  | "weight"
+  | "reps"
+  | "distance"
+  | "time"
+  | "rir"
+  | "rpe"
+  | "resistance_level"
+  | "partial_reps";
+
+export const GetValidatedSetValue = (value: number, key: SetTrackingKeys) => {
   switch (key) {
     case "weight":
       return IsNumberValid(value) ? value : 0;

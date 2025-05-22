@@ -4,7 +4,9 @@ import {
   CalculateSpeedValue,
   ConvertDistanceValue,
   ConvertNumberToTwoDecimals,
-  ConvertSecondsToMinutes,ConvertWeightValue
+  ConvertSecondsToMinutes,
+  ConvertWeightValue,
+  GetValidatedSetValue,
 } from "..";
 
 export const GetAnalyticsValuesForSetList = (
@@ -87,7 +89,7 @@ export const GetAnalyticsValuesForSetList = (
     if (ignoreWarmups && set.is_warmup) continue;
     if (ignoreMultisets && set.multiset_id > 0) continue;
 
-    if (set.is_tracking_weight) {
+    if (set.is_tracking_weight && GetValidatedSetValue(set.weight, "weight")) {
       numWeightSets++;
 
       if (maxWeight === -1) {
@@ -106,14 +108,14 @@ export const GetAnalyticsValuesForSetList = (
 
       totalWeight += weight;
 
-      if (set.is_tracking_reps) {
+      if (set.is_tracking_reps && GetValidatedSetValue(set.reps, "reps")) {
         if (weightVolume === -1) weightVolume = 0;
 
         weightVolume += weight * set.reps;
       }
     }
 
-    if (set.is_tracking_distance) {
+    if (set.is_tracking_distance && GetValidatedSetValue(set.distance, "distance")) {
       numDistanceSets++;
 
       if (maxDistance === -1) {
@@ -132,7 +134,7 @@ export const GetAnalyticsValuesForSetList = (
 
       totalDistance += distance;
 
-      if (set.is_tracking_time) {
+      if (set.is_tracking_time && GetValidatedSetValue(set.time_in_seconds, "time_in_seconds")) {
         numSpeedSets++;
         numPaceSets++;
 
