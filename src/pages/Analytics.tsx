@@ -355,7 +355,7 @@ export default function Analytics() {
     listModal.onOpen();
   };
 
-  const loadDietLogListCalories = async (loadPrimary: boolean) => {
+  const loadDietLogsCalories = async (loadPrimary: boolean) => {
     if (loadedCharts.current.has("calories") || userSettings === undefined)
       return;
 
@@ -445,7 +445,7 @@ export default function Analytics() {
     isChartDataLoaded.current = true;
   };
 
-  const loadDietLogListMacros = async (
+  const loadDietLogsMacros = async (
     loadPrimary: boolean,
     macroType: "fat" | "carbs" | "protein"
   ) => {
@@ -3475,25 +3475,25 @@ export default function Analytics() {
                   </DropdownItem>
                   <DropdownItem
                     key="calories"
-                    onPress={() => loadDietLogListCalories(true)}
+                    onPress={() => loadDietLogsCalories(true)}
                   >
                     Calories
                   </DropdownItem>
                   <DropdownItem
                     key="fat"
-                    onPress={() => loadDietLogListMacros(true, "fat")}
+                    onPress={() => loadDietLogsMacros(true, "fat")}
                   >
                     Fat
                   </DropdownItem>
                   <DropdownItem
                     key="carbs"
-                    onPress={() => loadDietLogListMacros(true, "carbs")}
+                    onPress={() => loadDietLogsMacros(true, "carbs")}
                   >
                     Carbs
                   </DropdownItem>
                   <DropdownItem
                     key="protein"
-                    onPress={() => loadDietLogListMacros(true, "protein")}
+                    onPress={() => loadDietLogsMacros(true, "protein")}
                   >
                     Protein
                   </DropdownItem>
@@ -3542,25 +3542,25 @@ export default function Analytics() {
                   </DropdownItem>
                   <DropdownItem
                     key="calories"
-                    onPress={() => loadDietLogListCalories(false)}
+                    onPress={() => loadDietLogsCalories(false)}
                   >
                     Calories
                   </DropdownItem>
                   <DropdownItem
                     key="fat"
-                    onPress={() => loadDietLogListMacros(false, "fat")}
+                    onPress={() => loadDietLogsMacros(false, "fat")}
                   >
                     Fat
                   </DropdownItem>
                   <DropdownItem
                     key="carbs"
-                    onPress={() => loadDietLogListMacros(false, "carbs")}
+                    onPress={() => loadDietLogsMacros(false, "carbs")}
                   >
                     Carbs
                   </DropdownItem>
                   <DropdownItem
                     key="protein"
-                    onPress={() => loadDietLogListMacros(false, "protein")}
+                    onPress={() => loadDietLogsMacros(false, "protein")}
                   >
                     Protein
                   </DropdownItem>
