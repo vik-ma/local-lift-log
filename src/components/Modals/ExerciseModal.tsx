@@ -208,9 +208,6 @@ export const ExerciseModal = ({
   useEffect(() => {
     setNameInput(exercise.name);
     setNoteInput(exercise.note ?? "");
-  }, [exercise.name, exercise.note]);
-
-  useEffect(() => {
     // Expand the Primary Exercise Group accordion when creating new Exercise
     // Keep accordion closed if editing existing Exercise
     setIsPrimaryAccordionExpanded(!isExerciseGroupSetPrimaryStringValid);
