@@ -115,7 +115,10 @@ export const GetAnalyticsValuesForSetList = (
       }
     }
 
-    if (set.is_tracking_distance && GetValidatedSetValue(set.distance, "distance")) {
+    if (
+      set.is_tracking_distance &&
+      GetValidatedSetValue(set.distance, "distance")
+    ) {
       numDistanceSets++;
 
       if (maxDistance === -1) {
@@ -134,7 +137,10 @@ export const GetAnalyticsValuesForSetList = (
 
       totalDistance += distance;
 
-      if (set.is_tracking_time && GetValidatedSetValue(set.time_in_seconds, "time_in_seconds")) {
+      if (
+        set.is_tracking_time &&
+        GetValidatedSetValue(set.time_in_seconds, "time")
+      ) {
         numSpeedSets++;
         numPaceSets++;
 
@@ -171,7 +177,10 @@ export const GetAnalyticsValuesForSetList = (
       }
     }
 
-    if (set.is_tracking_time) {
+    if (
+      set.is_tracking_time &&
+      GetValidatedSetValue(set.time_in_seconds, "time")
+    ) {
       numTimeSets++;
 
       if (maxTime === -1) {
@@ -187,7 +196,7 @@ export const GetAnalyticsValuesForSetList = (
       totalTime += timeInMinutes;
     }
 
-    if (set.is_tracking_reps) {
+    if (set.is_tracking_reps && GetValidatedSetValue(set.reps, "reps")) {
       numRepsSets++;
 
       if (maxReps === -1) {
@@ -202,7 +211,10 @@ export const GetAnalyticsValuesForSetList = (
 
       totalReps += reps;
 
-      if (set.is_tracking_partial_reps) {
+      if (
+        set.is_tracking_partial_reps &&
+        GetValidatedSetValue(set.partial_reps, "partial_reps")
+      ) {
         numRepsAndPartialRepsSets++;
 
         if (maxRepsAndPartialReps === -1) {
@@ -221,7 +233,10 @@ export const GetAnalyticsValuesForSetList = (
       }
     }
 
-    if (set.is_tracking_partial_reps) {
+    if (
+      set.is_tracking_partial_reps &&
+      GetValidatedSetValue(set.partial_reps, "partial_reps")
+    ) {
       numPartialRepSets++;
 
       if (maxPartialReps === -1) {
@@ -237,7 +252,7 @@ export const GetAnalyticsValuesForSetList = (
       totalPartialReps += partialReps;
     }
 
-    if (set.is_tracking_rir) {
+    if (set.is_tracking_rir && GetValidatedSetValue(set.rir, "rir")) {
       numRirSets++;
 
       if (maxRir === -1) {
@@ -253,7 +268,7 @@ export const GetAnalyticsValuesForSetList = (
       totalRir += rir;
     }
 
-    if (set.is_tracking_rpe) {
+    if (set.is_tracking_rpe && GetValidatedSetValue(set.rpe, "rpe")) {
       numRpeSets++;
 
       if (maxRpe === -1) {
@@ -269,7 +284,10 @@ export const GetAnalyticsValuesForSetList = (
       totalRpe += rpe;
     }
 
-    if (set.is_tracking_resistance_level) {
+    if (
+      set.is_tracking_resistance_level &&
+      GetValidatedSetValue(set.resistance_level, "resistance_level")
+    ) {
       numResistanceLevelSets++;
 
       if (maxResistanceLevel === -1) {
@@ -287,7 +305,11 @@ export const GetAnalyticsValuesForSetList = (
       totalResistanceLevel += resistanceLevel;
     }
 
-    if (set.is_tracking_user_weight && bodyWeight === -1) {
+    if (
+      set.is_tracking_user_weight &&
+      GetValidatedSetValue(set.user_weight, "weight") &&
+      bodyWeight === -1
+    ) {
       // Only add first value in Set List
 
       const userWeight = ConvertWeightValue(
