@@ -104,6 +104,7 @@ import {
   GetAllBodyMeasurementsBodyFat,
   GetBodyMeasurementsWithMeasurementId,
   IsNumberValid,
+  IsNumberValidInteger,
 } from "../helpers";
 import toast from "react-hot-toast";
 
@@ -386,6 +387,8 @@ export default function Analytics() {
     const areCommentsAlreadyLoaded = areAnyDietLogsLoaded();
 
     for (const dietLog of dietLogs) {
+      if (!IsNumberValidInteger(dietLog.calories, 0, true)) continue;
+
       const date = FormatDateToShortString(
         new Date(dietLog.date),
         userSettings.locale
@@ -498,7 +501,11 @@ export default function Analytics() {
         );
       }
 
-      if (macroType === "fat" && dietLog.fat !== null) {
+      if (
+        macroType === "fat" &&
+        dietLog.fat !== null &&
+        IsNumberValidInteger(dietLog.fat)
+      ) {
         chartDataItem.fat = dietLog.fat;
 
         if (dietLog.fat > highestValue) {
@@ -506,7 +513,11 @@ export default function Analytics() {
         }
       }
 
-      if (macroType === "carbs" && dietLog.carbs !== null) {
+      if (
+        macroType === "carbs" &&
+        dietLog.carbs !== null &&
+        IsNumberValidInteger(dietLog.carbs)
+      ) {
         chartDataItem.carbs = dietLog.carbs;
 
         if (dietLog.carbs > highestValue) {
@@ -514,7 +525,11 @@ export default function Analytics() {
         }
       }
 
-      if (macroType === "protein" && dietLog.protein !== null) {
+      if (
+        macroType === "protein" &&
+        dietLog.protein !== null &&
+        IsNumberValidInteger(dietLog.protein)
+      ) {
         chartDataItem.protein = dietLog.protein;
 
         if (dietLog.protein > highestValue) {
