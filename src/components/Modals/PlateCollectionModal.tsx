@@ -15,7 +15,7 @@ import {
   UsePresetsListReturnType,
 } from "../../typings";
 import { useValidateName } from "../../hooks";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   AvailablePlatesDropdown,
   PlateCollectionHandleConfig,
@@ -44,8 +44,9 @@ export const PlateCollectionModal = ({
 }: PlateCollectionModalProps) => {
   const [operationType, setOperationType] =
     useState<OperationType>("set-handle");
+  const [nameInput, setNameInput] = useState<string>("");
 
-  const isNameInputValid = useValidateName(plateCollection.name);
+  const isNameInputValid = useValidateName(nameInput);
 
   const {
     sortCategoryEquipment,
@@ -123,6 +124,11 @@ export const PlateCollectionModal = ({
     return false;
   }, [isNameInputValid, plateCollection, plateCalculatorPage]);
 
+  useEffect(() => {
+    setNameInput(plateCollection.name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [plateCollection.id]);
+
   return (
     <Modal
       isOpen={plateCollectionModal.isOpen}
@@ -145,19 +151,14 @@ export const PlateCollectionModal = ({
                     <div className="flex gap-2.5 items-start">
                       <Input
                         className="h-[5rem]"
-                        value={plateCollection.name}
+                        value={nameInput}
                         isInvalid={!isNameInputValid}
                         label="Name"
                         errorMessage={
                           !isNameInputValid && "Name can't be empty"
                         }
                         variant="faded"
-                        onValueChange={(value) =>
-                          setPlateCollection((prev) => ({
-                            ...prev,
-                            name: value,
-                          }))
-                        }
+                        onValueChange={setNameInput}
                         isRequired
                         isClearable
                       />
