@@ -221,6 +221,11 @@ export const PlateCollectionModal = ({
                             </Button>
                           </div>
                         ))}
+                        {plateCollection.availablePlatesMap?.size === 0 && (
+                          <span className="px-0.5 text-danger">
+                            No Plates Selected
+                          </span>
+                        )}
                       </ScrollShadow>
                     </div>
                   </div>
