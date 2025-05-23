@@ -45,7 +45,8 @@ export const MeasurementModal = ({
 
   useEffect(() => {
     setNameInput(measurement.name);
-  }, [measurement.name]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [measurement.id]);
 
   return (
     <Modal
