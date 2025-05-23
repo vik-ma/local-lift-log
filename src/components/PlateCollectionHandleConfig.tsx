@@ -66,7 +66,7 @@ export const PlateCollectionHandleConfig = ({
         </div>
       ) : (
         <div className="flex items-center justify-between pr-1">
-          <span className="px-0.5 text-stone-400">No Handle Set</span>
+          <span className="px-0.5 text-danger">No Handle Set</span>
           <Button
             aria-label="Set Plate Collection Handle"
             size="sm"
