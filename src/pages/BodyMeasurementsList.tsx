@@ -117,14 +117,8 @@ export default function BodyMeasurementsList() {
     filterMinAndMaxValueInputsSecondary: filterMinAndMaxValueInputsBodyFat,
   });
 
-  const {
-    newMeasurementName,
-    setNewMeasurementName,
-    isNewMeasurementNameValid,
-    nameInputModal,
-    handleReassignMeasurement,
-    reassignMeasurement,
-  } = useReassignMeasurement(measurementList);
+  const { nameInputModal, handleReassignMeasurement, reassignMeasurement } =
+    useReassignMeasurement(measurementList);
 
   const {
     filterMap,
@@ -556,10 +550,10 @@ export default function BodyMeasurementsList() {
     timeInputModal.onClose();
   };
 
-  const reassignBodyMeasurements = async () => {
+  const reassignBodyMeasurements = async (name: string) => {
     if (userSettings === undefined) return;
 
-    const success = await reassignMeasurement(bodyMeasurements);
+    const success = await reassignMeasurement(bodyMeasurements, name);
 
     if (!success) return;
 
@@ -617,10 +611,7 @@ export default function BodyMeasurementsList() {
       />
       <NameInputModal
         nameInputModal={nameInputModal}
-        name={newMeasurementName}
-        setName={setNewMeasurementName}
         header="Enter Measurement Name"
-        isNameValid={isNewMeasurementNameValid}
         buttonAction={reassignBodyMeasurements}
       />
       <FilterBodyMeasurementsListModal
