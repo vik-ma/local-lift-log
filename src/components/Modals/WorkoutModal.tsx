@@ -13,12 +13,11 @@ import {
 import { UseDisclosureReturnType, Workout } from "../../typings";
 import { ConvertEmptyStringToNull } from "../../helpers";
 import { InfoIcon } from "../../assets";
+import { useEffect, useState } from "react";
 
 type WorkoutModalProps = {
   workoutModal: UseDisclosureReturnType;
   workout: Workout;
-  workoutComment: string;
-  setWorkoutComment: React.Dispatch<React.SetStateAction<string>>;
   workoutTemplateNote: string | null;
   buttonAction: (updatedWorkout: Workout) => void;
   header?: string;
@@ -33,8 +32,6 @@ type WorkoutModalProps = {
 export const WorkoutModal = ({
   workoutModal,
   workout,
-  workoutComment,
-  setWorkoutComment,
   workoutTemplateNote,
   buttonAction,
   header = "Workout Details",
@@ -45,13 +42,20 @@ export const WorkoutModal = ({
   handleRemoveRoutineButton,
   handleReassignRoutineButton,
 }: WorkoutModalProps) => {
+  const [commentInput, setCommentInput] = useState<string>("");
+
   const handleSaveButton = () => {
-    const commentToInsert = ConvertEmptyStringToNull(workoutComment);
+    const commentToInsert = ConvertEmptyStringToNull(commentInput);
 
     const updatedWorkout: Workout = { ...workout, comment: commentToInsert };
 
     buttonAction(updatedWorkout);
   };
+
+  useEffect(() => {
+    setCommentInput(workout.comment ?? "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workout.id]);
 
   return (
     <Modal
@@ -78,9 +82,9 @@ export const WorkoutModal = ({
                   <h3 className="font-medium px-0.5">Workout Comment</h3>
                   <Input
                     aria-label="Workout Comment Input"
-                    value={workoutComment}
+                    value={commentInput}
                     variant="faded"
-                    onValueChange={(value) => setWorkoutComment(value)}
+                    onValueChange={setCommentInput}
                     isClearable
                   />
                 </div>
