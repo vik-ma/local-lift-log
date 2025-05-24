@@ -8,22 +8,31 @@ import {
   Input,
 } from "@heroui/react";
 import { WorkoutTemplate, UseDisclosureReturnType } from "../../typings";
+import { useEffect, useState } from "react";
+import { useValidateName } from "../../hooks";
 
 type WorkoutTemplateModalProps = {
   workoutTemplateModal: UseDisclosureReturnType;
   workoutTemplate: WorkoutTemplate;
-  setWorkoutTemplate: React.Dispatch<React.SetStateAction<WorkoutTemplate>>;
-  isWorkoutTemplateNameValid: boolean;
   buttonAction: () => void;
 };
 
 export const WorkoutTemplateModal = ({
   workoutTemplateModal,
   workoutTemplate,
-  setWorkoutTemplate,
-  isWorkoutTemplateNameValid,
   buttonAction,
 }: WorkoutTemplateModalProps) => {
+  const [nameInput, setNameInput] = useState<string>("");
+  const [noteInput, setNoteInput] = useState<string>("");
+
+  const isNameValid = useValidateName(nameInput);
+
+  useEffect(() => {
+    setNameInput(workoutTemplate.name);
+    setNoteInput(workoutTemplate.note ?? "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workoutTemplate.id]);
+
   return (
     <Modal
       isOpen={workoutTemplateModal.isOpen}
@@ -39,32 +48,20 @@ export const WorkoutTemplateModal = ({
               <div className="flex flex-col gap-0.5">
                 <Input
                   className="h-[5rem]"
-                  value={workoutTemplate.name}
-                  isInvalid={!isWorkoutTemplateNameValid}
+                  value={nameInput}
+                  isInvalid={!isNameValid}
                   label="Name"
-                  errorMessage={
-                    !isWorkoutTemplateNameValid && "Name can't be empty"
-                  }
+                  errorMessage={!isNameValid && "Name can't be empty"}
                   variant="faded"
-                  onValueChange={(value) =>
-                    setWorkoutTemplate((prev) => ({
-                      ...prev,
-                      name: value,
-                    }))
-                  }
+                  onValueChange={setNameInput}
                   isRequired
                   isClearable
                 />
                 <Input
-                  value={workoutTemplate.note ?? ""}
+                  value={noteInput}
                   label="Note"
                   variant="faded"
-                  onValueChange={(value) =>
-                    setWorkoutTemplate((prev) => ({
-                      ...prev,
-                      note: value,
-                    }))
-                  }
+                  onValueChange={setNoteInput}
                   isClearable
                 />
               </div>
@@ -76,7 +73,7 @@ export const WorkoutTemplateModal = ({
               <Button
                 color="primary"
                 onPress={buttonAction}
-                isDisabled={!isWorkoutTemplateNameValid}
+                isDisabled={!isNameValid}
               >
                 {workoutTemplate.id !== 0 ? "Save" : "Create"}
               </Button>
