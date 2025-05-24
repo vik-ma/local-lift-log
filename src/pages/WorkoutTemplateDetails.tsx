@@ -4,7 +4,7 @@ import {
   WorkoutSet,
   WorkoutTemplate,
 } from "../typings";
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useDisclosure } from "@heroui/react";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -27,7 +27,6 @@ import {
 import toast from "react-hot-toast";
 import {
   CreateGroupedWorkoutSetList,
-  ConvertEmptyStringToNull,
   UpdateWorkoutTemplate,
   GetNumberOfUniqueExercisesInGroupedSets,
   FormatNumItemsString,
@@ -38,8 +37,6 @@ import {
   GetTotalNumberOfSetsInGroupedSetList,
 } from "../helpers";
 import {
-  useValidateName,
-  useDefaultWorkoutTemplate,
   useWorkoutActions,
   useDetailsHeaderOptionsMenu,
   useWorkoutTemplateList,
@@ -49,15 +46,6 @@ export default function WorkoutTemplateDetails() {
   const { id } = useParams();
 
   const workoutTemplateModal = useDisclosure();
-
-  const defaultNewWorkoutTemplate = useDefaultWorkoutTemplate();
-
-  const [editedWorkoutTemplate, setEditedWorkoutTemplate] =
-    useState<WorkoutTemplate>(defaultNewWorkoutTemplate);
-
-  const isNewWorkoutTemplateNameValid = useValidateName(
-    editedWorkoutTemplate.name
-  );
 
   const {
     updateExerciseOrder,
@@ -182,7 +170,6 @@ export default function WorkoutTemplateDetails() {
       workoutNumbers.numSets = setList.length;
 
       setWorkoutTemplate(workoutTemplate);
-      setEditedWorkoutTemplate(workoutTemplate);
       setGroupedSets(groupedSetList);
     } catch (error) {
       console.log(error);
@@ -194,22 +181,14 @@ export default function WorkoutTemplateDetails() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const updateWorkoutTemplate = async () => {
-    if (!isNewWorkoutTemplateNameValid) return;
+  const updateWorkoutTemplate = async (workoutTemplate: WorkoutTemplate) => {
+    if (workoutTemplate.id === 0) return;
 
-    const noteToInsert = ConvertEmptyStringToNull(editedWorkoutTemplate.note);
-
-    const updatedWorkoutTemplate: WorkoutTemplate = {
-      ...editedWorkoutTemplate,
-      note: noteToInsert,
-    };
-
-    const success = await UpdateWorkoutTemplate(updatedWorkoutTemplate);
+    const success = await UpdateWorkoutTemplate(workoutTemplate);
 
     if (!success) return;
 
-    setWorkoutTemplate(updatedWorkoutTemplate);
-    setEditedWorkoutTemplate(updatedWorkoutTemplate);
+    setWorkoutTemplate(workoutTemplate);
     workoutTemplateModal.onClose();
   };
 
@@ -263,9 +242,7 @@ export default function WorkoutTemplateDetails() {
     <>
       <WorkoutTemplateModal
         workoutTemplateModal={workoutTemplateModal}
-        workoutTemplate={editedWorkoutTemplate}
-        setWorkoutTemplate={setEditedWorkoutTemplate}
-        isWorkoutTemplateNameValid={isNewWorkoutTemplateNameValid}
+        workoutTemplate={workoutTemplate}
         buttonAction={updateWorkoutTemplate}
       />
       <DeleteModal
