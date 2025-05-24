@@ -7,15 +7,10 @@ import {
 } from "../typings";
 import { useState } from "react";
 import { useDisclosure } from "@heroui/react";
-import { useValidateName } from ".";
 
 export const useReassignMeasurement = (
   useMeasurementList: UseMeasurementListReturnType
 ) => {
-  const [newMeasurementName, setNewMeasurementName] = useState<string>("");
-
-  const isNewMeasurementNameValid = useValidateName(newMeasurementName);
-
   const [measurementToReassign, setMeasurementToReassign] =
     useState<ReassignMeasurementsProps>();
 
@@ -28,9 +23,11 @@ export const useReassignMeasurement = (
     nameInputModal.onOpen();
   };
 
-  const reassignMeasurement = async (bodyMeasurements: BodyMeasurements[]) => {
-    if (measurementToReassign === undefined || !isNewMeasurementNameValid)
-      return false;
+  const reassignMeasurement = async (
+    bodyMeasurements: BodyMeasurements[],
+    newMeasurementName: string
+  ) => {
+    if (measurementToReassign === undefined) return false;
 
     const newMeasurement: Measurement = {
       id: 0,
@@ -53,15 +50,11 @@ export const useReassignMeasurement = (
     if (!success) return false;
 
     setMeasurementToReassign(undefined);
-    setNewMeasurementName("");
 
     return true;
   };
 
   return {
-    newMeasurementName,
-    setNewMeasurementName,
-    isNewMeasurementNameValid,
     nameInputModal,
     handleReassignMeasurement,
     reassignMeasurement,

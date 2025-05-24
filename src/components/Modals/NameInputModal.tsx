@@ -8,19 +8,17 @@ import {
   Input,
 } from "@heroui/react";
 import { UseDisclosureReturnType } from "../../typings";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useValidateName } from "../../hooks";
 
 type NameInputModalProps = {
   nameInputModal: UseDisclosureReturnType;
-  name: string;
   header: string;
   buttonAction: (name: string) => void;
 };
 
 export const NameInputModal = ({
   nameInputModal,
-  name,
   header,
   buttonAction,
 }: NameInputModalProps) => {
@@ -28,14 +26,12 @@ export const NameInputModal = ({
 
   const isNameValid = useValidateName(nameInput);
 
-  useEffect(() => {
-    setNameInput(name ?? "");
-  }, [name]);
-
   const handleSaveButton = () => {
     if (!isNameValid) return;
 
     buttonAction(nameInput);
+
+    setNameInput("");
   };
 
   return (
@@ -50,7 +46,7 @@ export const NameInputModal = ({
             <ModalBody>
               <div className="h-16">
                 <Input
-                  value={name}
+                  value={nameInput}
                   isInvalid={!isNameValid}
                   label="Name"
                   errorMessage={!isNameValid && "Name can't be empty"}

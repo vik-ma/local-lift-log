@@ -63,14 +63,8 @@ export default function LoggingIndex() {
 
   const { measurementMap, isMeasurementListLoaded } = measurementList;
 
-  const {
-    newMeasurementName,
-    setNewMeasurementName,
-    isNewMeasurementNameValid,
-    nameInputModal,
-    handleReassignMeasurement,
-    reassignMeasurement,
-  } = useReassignMeasurement(measurementList);
+  const { nameInputModal, handleReassignMeasurement, reassignMeasurement } =
+    useReassignMeasurement(measurementList);
 
   const bodyMeasurementsInput = useBodyMeasurementsInput(
     userSettings,
@@ -166,7 +160,7 @@ export default function LoggingIndex() {
     setLatestBodyMeasurements(updatedMeasurement);
   };
 
-  const reassignLatestMeasurement = async () => {
+  const reassignLatestMeasurement = async (name: string) => {
     if (userSettings === undefined) return;
 
     const bodyMeasurements = await GetAllBodyMeasurements(
@@ -174,7 +168,7 @@ export default function LoggingIndex() {
       measurementMap.current
     );
 
-    const success = await reassignMeasurement(bodyMeasurements);
+    const success = await reassignMeasurement(bodyMeasurements, name);
 
     if (!success) return;
 
@@ -490,10 +484,7 @@ export default function LoggingIndex() {
       />
       <NameInputModal
         nameInputModal={nameInputModal}
-        name={newMeasurementName}
-        setName={setNewMeasurementName}
         header="Enter Measurement Name"
-        isNameValid={isNewMeasurementNameValid}
         buttonAction={reassignLatestMeasurement}
       />
       <TimeInputModal
