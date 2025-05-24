@@ -10,11 +10,12 @@ import {
 import { WorkoutTemplate, UseDisclosureReturnType } from "../../typings";
 import { useEffect, useState } from "react";
 import { useValidateName } from "../../hooks";
+import { ConvertEmptyStringToNull } from "../../helpers";
 
 type WorkoutTemplateModalProps = {
   workoutTemplateModal: UseDisclosureReturnType;
   workoutTemplate: WorkoutTemplate;
-  buttonAction: () => void;
+  buttonAction: (workoutTemplate: WorkoutTemplate) => void;
 };
 
 export const WorkoutTemplateModal = ({
@@ -32,6 +33,20 @@ export const WorkoutTemplateModal = ({
     setNoteInput(workoutTemplate.note ?? "");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workoutTemplate.id]);
+
+  const handleSaveButton = () => {
+    if (!isNameValid) return;
+
+    const noteToInsert = ConvertEmptyStringToNull(noteInput);
+
+    const updatedWorkoutTemplate: WorkoutTemplate = {
+      ...workoutTemplate,
+      name: nameInput,
+      note: noteToInsert,
+    };
+
+    buttonAction(updatedWorkoutTemplate);
+  };
 
   return (
     <Modal
@@ -72,7 +87,7 @@ export const WorkoutTemplateModal = ({
               </Button>
               <Button
                 color="primary"
-                onPress={buttonAction}
+                onPress={handleSaveButton}
                 isDisabled={!isNameValid}
               >
                 {workoutTemplate.id !== 0 ? "Save" : "Create"}

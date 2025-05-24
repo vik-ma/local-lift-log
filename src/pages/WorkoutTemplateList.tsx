@@ -26,11 +26,9 @@ import {
   useDefaultWorkoutTemplate,
   useExerciseList,
   useFilterExerciseList,
-  useValidateName,
   useWorkoutTemplateList,
 } from "../hooks";
 import {
-  ConvertEmptyStringToNull,
   DeleteItemFromList,
   UpdateItemInList,
   UpdateWorkoutTemplate,
@@ -56,10 +54,6 @@ export default function WorkoutTemplateList() {
 
   const deleteModal = useDisclosure();
   const workoutTemplateModal = useDisclosure();
-
-  const isNewWorkoutTemplateNameValid = useValidateName(
-    operatingWorkoutTemplate.name
-  );
 
   const exerciseList = useExerciseList(true);
 
@@ -99,22 +93,18 @@ export default function WorkoutTemplateList() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const addWorkoutTemplate = async () => {
-    if (!isNewWorkoutTemplateNameValid) return;
+  const addWorkoutTemplate = async (workoutTemplate: WorkoutTemplate) => {
+    if (workoutTemplate.id !== 0) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const noteToInsert = ConvertEmptyStringToNull(
-        operatingWorkoutTemplate.note
-      );
-
       const result = await db.execute(
         "INSERT into workout_templates (name, exercise_order, note) VALUES ($1, $2, $3)",
         [
-          operatingWorkoutTemplate.name,
-          operatingWorkoutTemplate.exercise_order,
-          noteToInsert,
+          workoutTemplate.name,
+          workoutTemplate.exercise_order,
+          workoutTemplate.note,
         ]
       );
 
@@ -170,25 +160,16 @@ export default function WorkoutTemplateList() {
     deleteModal.onClose();
   };
 
-  const updateWorkoutTemplate = async () => {
-    if (operatingWorkoutTemplate.id === 0 || operationType !== "edit") return;
+  const updateWorkoutTemplate = async (workoutTemplate: WorkoutTemplate) => {
+    if (workoutTemplate.id === 0 || operationType !== "edit") return;
 
-    const noteToInsert = ConvertEmptyStringToNull(
-      operatingWorkoutTemplate.note
-    );
-
-    const updatedWorkoutTemplate: WorkoutTemplate = {
-      ...operatingWorkoutTemplate,
-      note: noteToInsert,
-    };
-
-    const success = await UpdateWorkoutTemplate(updatedWorkoutTemplate);
+    const success = await UpdateWorkoutTemplate(workoutTemplate);
 
     if (!success) return;
 
     const updatedWorkoutTemplates = UpdateItemInList(
       workoutTemplates,
-      updatedWorkoutTemplate
+      workoutTemplate
     );
 
     sortWorkoutTemplatesByActiveCategory(updatedWorkoutTemplates);
@@ -243,8 +224,6 @@ export default function WorkoutTemplateList() {
       <WorkoutTemplateModal
         workoutTemplateModal={workoutTemplateModal}
         workoutTemplate={operatingWorkoutTemplate}
-        setWorkoutTemplate={setOperatingWorkoutTemplate}
-        isWorkoutTemplateNameValid={isNewWorkoutTemplateNameValid}
         buttonAction={
           operationType === "edit" ? updateWorkoutTemplate : addWorkoutTemplate
         }
