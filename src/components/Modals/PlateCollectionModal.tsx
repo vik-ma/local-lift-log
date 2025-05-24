@@ -30,7 +30,7 @@ type PlateCollectionModalProps = {
   plateCollection: PlateCollection;
   setPlateCollection: React.Dispatch<React.SetStateAction<PlateCollection>>;
   usePresetsList: UsePresetsListReturnType;
-  buttonAction: () => void;
+  buttonAction: (plateCollection: PlateCollection) => void;
 };
 
 type OperationType = "set-handle" | "set-plates";
@@ -123,6 +123,14 @@ export const PlateCollectionModal = ({
     if (plateCollection.availablePlatesMap.size === 0) return true;
     return false;
   }, [isNameInputValid, plateCollection, plateCalculatorPage]);
+
+  const handleSaveButton = () => {
+    if (disableDoneButton) return;
+
+    const updatedPlateCollection = { ...plateCollection, name: nameInput };
+
+    buttonAction(updatedPlateCollection);
+  };
 
   useEffect(() => {
     setNameInput(plateCollection.name);
@@ -273,7 +281,7 @@ export const PlateCollectionModal = ({
                 {plateCalculatorPage === "base" && (
                   <Button
                     color="primary"
-                    onPress={buttonAction}
+                    onPress={handleSaveButton}
                     isDisabled={disableDoneButton}
                   >
                     {plateCollection.id !== 0 ? "Save" : "Create"}
