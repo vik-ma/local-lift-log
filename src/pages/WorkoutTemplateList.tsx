@@ -314,7 +314,7 @@ export default function WorkoutTemplateList() {
                     Empty
                   </span>
                 )}
-                <span className="w-[21rem] break-all text-xs text-stone-500 text-left">
+                <span className="w-[21rem] break-all text-xs text-slate-400 text-left">
                   {template.note}
                 </span>
               </button>
