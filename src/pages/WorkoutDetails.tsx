@@ -56,7 +56,6 @@ export default function WorkoutDetails() {
 
   const workoutModal = useDisclosure();
 
-  const [workoutComment, setWorkoutComment] = useState<string>("");
   const [workoutTemplateNote, setWorkoutTemplateComment] = useState<
     string | null
   >(null);
@@ -248,7 +247,6 @@ export default function WorkoutDetails() {
         };
         setWorkoutNumbers(workoutNumbers);
 
-        setWorkoutComment(workout.comment === null ? "" : workout.comment);
         setGroupedSets(groupedSetList);
 
         populateIncompleteSets(groupedSetList);
@@ -401,8 +399,6 @@ export default function WorkoutDetails() {
       <WorkoutModal
         workoutModal={workoutModal}
         workout={workout}
-        workoutComment={workoutComment}
-        setWorkoutComment={setWorkoutComment}
         workoutTemplateNote={workoutTemplateNote}
         buttonAction={handleWorkoutModalSaveButton}
       />
