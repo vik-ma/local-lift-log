@@ -243,8 +243,8 @@ export default function Presets() {
     }
   };
 
-  const addPlateCollection = async () => {
-    if (operationType !== "add" && operatingPlateCollection.id !== 0) return;
+  const addPlateCollection = async (plateCollection: PlateCollection) => {
+    if (operationType !== "add" || plateCollection.id !== 0) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -254,16 +254,16 @@ export default function Presets() {
          (name, handle_id, available_plates_string, num_handles, weight_unit) 
          VALUES ($1, $2, $3, $4, $5)`,
         [
-          operatingPlateCollection.name,
-          operatingPlateCollection.handle_id,
-          operatingPlateCollection.available_plates_string,
-          operatingPlateCollection.num_handles,
-          operatingPlateCollection.weight_unit,
+          plateCollection.name,
+          plateCollection.handle_id,
+          plateCollection.available_plates_string,
+          plateCollection.num_handles,
+          plateCollection.weight_unit,
         ]
       );
 
       const newPlateCollection: PlateCollection = {
-        ...operatingPlateCollection,
+        ...plateCollection,
         id: result.lastInsertId,
       };
 
@@ -350,8 +350,8 @@ export default function Presets() {
     }
   };
 
-  const updatePlateCollection = async () => {
-    if (operationType !== "edit" || operatingPlateCollection.id === 0) return;
+  const updatePlateCollection = async (plateCollection: PlateCollection) => {
+    if (operationType !== "edit" || plateCollection.id === 0) return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -362,18 +362,18 @@ export default function Presets() {
          weight_unit = $5 
          WHERE id = $6`,
         [
-          operatingPlateCollection.name,
-          operatingPlateCollection.handle_id,
-          operatingPlateCollection.available_plates_string,
-          operatingPlateCollection.num_handles,
-          operatingPlateCollection.weight_unit,
-          operatingDistance.id,
+          plateCollection.name,
+          plateCollection.handle_id,
+          plateCollection.available_plates_string,
+          plateCollection.num_handles,
+          plateCollection.weight_unit,
+          plateCollection.id,
         ]
       );
 
       const updatedPlateCollections = UpdateItemInList(
         plateCollections,
-        operatingPlateCollection
+        plateCollection
       );
 
       setPlateCollections(updatedPlateCollections);
