@@ -8,24 +8,36 @@ import {
   Input,
 } from "@heroui/react";
 import { UseDisclosureReturnType } from "../../typings";
+import { useEffect, useState } from "react";
+import { useValidateName } from "../../hooks";
 
 type NameInputModalProps = {
   nameInputModal: UseDisclosureReturnType;
   name: string;
-  setName: React.Dispatch<React.SetStateAction<string>>;
   header: string;
-  isNameValid: boolean;
-  buttonAction: () => void;
+  buttonAction: (name: string) => void;
 };
 
 export const NameInputModal = ({
   nameInputModal,
   name,
-  setName,
   header,
-  isNameValid,
   buttonAction,
 }: NameInputModalProps) => {
+  const [nameInput, setNameInput] = useState<string>("");
+
+  const isNameValid = useValidateName(nameInput);
+
+  useEffect(() => {
+    setNameInput(name ?? "");
+  }, [name]);
+
+  const handleSaveButton = () => {
+    if (!isNameValid) return;
+
+    buttonAction(nameInput);
+  };
+
   return (
     <Modal
       isOpen={nameInputModal.isOpen}
@@ -43,7 +55,7 @@ export const NameInputModal = ({
                   label="Name"
                   errorMessage={!isNameValid && "Name can't be empty"}
                   variant="faded"
-                  onValueChange={(value) => setName(value)}
+                  onValueChange={setNameInput}
                   isRequired
                   isClearable
                 />
@@ -53,7 +65,7 @@ export const NameInputModal = ({
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="primary" onPress={() => buttonAction()}>
+              <Button color="primary" onPress={handleSaveButton}>
                 Add
               </Button>
             </ModalFooter>
