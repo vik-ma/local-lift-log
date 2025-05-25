@@ -122,6 +122,8 @@ export const TimePeriodModal = ({
 
     const updatedTimePeriod: TimePeriod = {
       ...timePeriod,
+      start_date: startDateString,
+      end_date: endDateString,
       name: nameInput,
       note: note,
       injury: injury,
