@@ -16,6 +16,8 @@ import {
   DatePicker,
 } from "@heroui/react";
 import { DietPhaseDropdown } from "..";
+import { useEffect, useMemo, useState } from "react";
+import { useValidateName } from "../../hooks";
 
 type TimePeriodModalProps = {
   timePeriodModal: UseDisclosureReturnType;
@@ -34,9 +36,13 @@ export const TimePeriodModal = ({
   userSettings,
   buttonAction,
 }: TimePeriodModalProps) => {
+  const [nameInput, setNameInput] = useState<string>("");
+  const [noteInput, setNoteInput] = useState<string>("");
+  const [injuryInput, setInjuryInput] = useState<string>("");
+
+  const isNameValid = useValidateName(nameInput);
+
   const {
-    isTimePeriodValid,
-    isTimePeriodNameValid,
     isStartDateValid,
     isEndDateValid,
     startDate,
@@ -44,6 +50,20 @@ export const TimePeriodModal = ({
     endDate,
     setEndDate,
   } = useTimePeriodInputs;
+
+  const isTimePeriodValid = useMemo(() => {
+    if (!isNameValid) return false;
+    if (!isStartDateValid) return false;
+    if (!isEndDateValid) return false;
+    return true;
+  }, [isNameValid, isStartDateValid, isEndDateValid]);
+
+  useEffect(() => {
+    setNameInput(timePeriod.name);
+    setNoteInput(timePeriod.note ?? "");
+    setInjuryInput(timePeriod.injury ?? "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timePeriod.id]);
 
   return (
     <Modal
@@ -60,15 +80,13 @@ export const TimePeriodModal = ({
               <div className="flex flex-col">
                 <Input
                   className="h-[4.5rem]"
-                  value={timePeriod.name}
-                  isInvalid={!isTimePeriodNameValid}
+                  value={nameInput}
+                  isInvalid={!isNameValid}
                   label="Name"
-                  errorMessage={!isTimePeriodNameValid && "Name can't be empty"}
+                  errorMessage={!isNameValid && "Name can't be empty"}
                   variant="faded"
                   size="sm"
-                  onValueChange={(value) =>
-                    setTimePeriod((prev) => ({ ...prev, name: value }))
-                  }
+                  onValueChange={setNameInput}
                   isRequired
                   isClearable
                 />
@@ -134,13 +152,11 @@ export const TimePeriodModal = ({
                 </h3>
                 <div className="flex flex-col gap-2">
                   <Input
-                    value={timePeriod.note ?? ""}
+                    value={noteInput}
                     label="Note"
                     variant="faded"
                     size="sm"
-                    onValueChange={(value) =>
-                      setTimePeriod((prev) => ({ ...prev, note: value }))
-                    }
+                    onValueChange={setNoteInput}
                     isClearable
                   />
                   <DietPhaseDropdown
@@ -149,13 +165,11 @@ export const TimePeriodModal = ({
                     setTimePeriod={setTimePeriod}
                   />
                   <Input
-                    value={timePeriod.injury ?? ""}
+                    value={injuryInput}
                     label="Injury"
                     variant="faded"
                     size="sm"
-                    onValueChange={(value) =>
-                      setTimePeriod((prev) => ({ ...prev, injury: value }))
-                    }
+                    onValueChange={setInjuryInput}
                     isClearable
                   />
                 </div>

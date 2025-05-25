@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { useValidateName } from ".";
 import { TimePeriod, UseTimePeriodInputsReturnType } from "../typings";
 import { CalendarDate, getLocalTimeZone } from "@internationalized/date";
 import {
@@ -17,8 +16,6 @@ export const useTimePeriodInputs = (
     ConvertDateStringToCalendarDate(timePeriod.end_date)
   );
 
-  const isTimePeriodNameValid = useValidateName(timePeriod.name);
-
   const isStartDateValid = useMemo(() => {
     return startDate !== null;
   }, [startDate]);
@@ -28,13 +25,6 @@ export const useTimePeriodInputs = (
 
     return !IsEndDateBeforeStartDate(startDate, endDate);
   }, [startDate, endDate]);
-
-  const isTimePeriodValid = useMemo(() => {
-    if (!isTimePeriodNameValid) return false;
-    if (!isStartDateValid) return false;
-    if (!isEndDateValid) return false;
-    return true;
-  }, [isTimePeriodNameValid, isStartDateValid, isEndDateValid]);
 
   const startDateString: string | null = useMemo(() => {
     if (startDate === null) return null;
@@ -54,8 +44,6 @@ export const useTimePeriodInputs = (
   }, [endDate]);
 
   return {
-    isTimePeriodValid,
-    isTimePeriodNameValid,
     isStartDateValid,
     isEndDateValid,
     startDate,

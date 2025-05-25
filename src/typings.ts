@@ -908,8 +908,6 @@ export type TimePeriod = {
 };
 
 export type UseTimePeriodInputsReturnType = {
-  isTimePeriodValid: boolean;
-  isTimePeriodNameValid: boolean;
   isStartDateValid: boolean;
   isEndDateValid: boolean;
   startDate: CalendarDate | null;
