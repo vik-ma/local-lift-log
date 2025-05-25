@@ -20,6 +20,7 @@ import { useValidateName } from "../../hooks";
 import {
   ConvertDateStringToCalendarDate,
   ConvertEmptyStringToNull,
+  ConvertISODateStringToCalendarDate,
   FormatISODateString,
   IsDatePassed,
   IsEndDateBeforeStartDate,
@@ -91,6 +92,8 @@ export const TimePeriodModal = ({
     setNameInput(timePeriod.name);
     setNoteInput(timePeriod.note ?? "");
     setInjuryInput(timePeriod.injury ?? "");
+    setStartDate(ConvertISODateStringToCalendarDate(timePeriod.start_date));
+    setEndDate(ConvertISODateStringToCalendarDate(timePeriod.end_date));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timePeriod.id]);
 
