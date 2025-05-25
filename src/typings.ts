@@ -907,17 +907,6 @@ export type TimePeriod = {
   numDaysBetweenDates?: number;
 };
 
-export type UseTimePeriodInputsReturnType = {
-  isStartDateValid: boolean;
-  isEndDateValid: boolean;
-  startDate: CalendarDate | null;
-  setStartDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
-  endDate: CalendarDate | null;
-  setEndDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
-  startDateString: string | null;
-  endDateString: string | null;
-};
-
 export type UseTimePeriodListReturnType = {
   timePeriods: TimePeriod[];
   setTimePeriods: React.Dispatch<React.SetStateAction<TimePeriod[]>>;

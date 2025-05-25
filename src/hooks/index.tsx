@@ -40,7 +40,6 @@ export { useMeasurementTypes } from "./useMeasurementTypes";
 export { usePresetsTypeString } from "./usePresetsTypeString";
 export { useTimePeriodList } from "./useTimePeriodList";
 export { useDefaultTimePeriod } from "./useDefaultTimePeriod";
-export { useTimePeriodInputs } from "./useTimePeriodInputs";
 export { useDietPhaseTypes } from "./useDietPhaseTypes";
 export { useTimePeriodListFilters } from "./useTimePeriodListFilters";
 export { useFilterMinAndMaxValueInputs } from "./useFilterMinAndMaxValueInputs";
