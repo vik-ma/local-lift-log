@@ -444,7 +444,7 @@ export const ExerciseModal = ({
                       <AnimatePresence>
                         {isMultiplierAccordionExpanded && (
                           <motion.div
-                            className="px-1 pt-1.5"
+                            className="px-1 pt-px"
                             initial={{ height: 0, overflow: "hidden" }}
                             animate={{ height: "auto" }}
                             exit={{ height: 0, overflow: "hidden" }}
@@ -464,7 +464,7 @@ export const ExerciseModal = ({
                                       className="flex gap-2 items-center"
                                       key={`multiplier-input-${key}`}
                                     >
-                                      <span className="text-sm w-[6.5rem]">
+                                      <span className="text-stone-500 text-sm w-[6.5rem]">
                                         {exerciseGroup}
                                       </span>
                                       <Input
@@ -485,7 +485,7 @@ export const ExerciseModal = ({
                                 }
                               )}
                             </div>
-                            <span className="text-xs text-stone-500">
+                            <span className="px-px text-xs text-slate-400">
                               Values must be between 0 and 1
                             </span>
                           </motion.div>
