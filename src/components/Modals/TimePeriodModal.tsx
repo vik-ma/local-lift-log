@@ -18,6 +18,11 @@ import {
 import { DietPhaseDropdown } from "..";
 import { useEffect, useMemo, useState } from "react";
 import { useValidateName } from "../../hooks";
+import {
+  ConvertDateStringToCalendarDate,
+  ConvertEmptyStringToNull,
+} from "../../helpers";
+import { getLocalTimeZone, CalendarDate } from "@internationalized/date";
 
 type TimePeriodModalProps = {
   timePeriodModal: UseDisclosureReturnType;
@@ -25,31 +30,37 @@ type TimePeriodModalProps = {
   setTimePeriod: React.Dispatch<React.SetStateAction<TimePeriod>>;
   useTimePeriodInputs: UseTimePeriodInputsReturnType;
   userSettings: UserSettings;
-  buttonAction: () => void;
+  buttonAction: (timePeriod: TimePeriod) => void;
 };
 
 export const TimePeriodModal = ({
   timePeriodModal,
   timePeriod,
   setTimePeriod,
-  useTimePeriodInputs,
   userSettings,
   buttonAction,
 }: TimePeriodModalProps) => {
   const [nameInput, setNameInput] = useState<string>("");
   const [noteInput, setNoteInput] = useState<string>("");
   const [injuryInput, setInjuryInput] = useState<string>("");
+  const [startDate, setStartDate] = useState<CalendarDate | null>(
+    ConvertDateStringToCalendarDate(timePeriod.start_date)
+  );
+  const [endDate, setEndDate] = useState<CalendarDate | null>(
+    ConvertDateStringToCalendarDate(timePeriod.end_date)
+  );
 
   const isNameValid = useValidateName(nameInput);
 
-  const {
-    isStartDateValid,
-    isEndDateValid,
-    startDate,
-    setStartDate,
-    endDate,
-    setEndDate,
-  } = useTimePeriodInputs;
+  const isStartDateValid = useMemo(() => {
+    return startDate !== null;
+  }, [startDate]);
+
+  const isEndDateValid = useMemo(() => {
+    if (startDate === null || endDate === null) return true;
+
+    return !IsEndDateBeforeStartDate(startDate, endDate);
+  }, [startDate, endDate]);
 
   const isTimePeriodValid = useMemo(() => {
     if (!isNameValid) return false;
@@ -58,12 +69,45 @@ export const TimePeriodModal = ({
     return true;
   }, [isNameValid, isStartDateValid, isEndDateValid]);
 
+  const startDateString: string | null = useMemo(() => {
+    if (startDate === null) return null;
+
+    const startDateDate = startDate.toDate(getLocalTimeZone());
+
+    return startDateDate.toISOString();
+  }, [startDate]);
+
+  const endDateString: string | null = useMemo(() => {
+    if (endDate === null) return null;
+
+    const endDateDate = endDate.toDate(getLocalTimeZone());
+    endDateDate.setHours(23, 59, 59, 999);
+
+    return endDateDate.toISOString();
+  }, [endDate]);
+
   useEffect(() => {
     setNameInput(timePeriod.name);
     setNoteInput(timePeriod.note ?? "");
     setInjuryInput(timePeriod.injury ?? "");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timePeriod.id]);
+
+  const handleSaveButton = () => {
+    if (!isTimePeriodValid) return;
+
+    const note = ConvertEmptyStringToNull(noteInput);
+    const injury = ConvertEmptyStringToNull(injuryInput);
+
+    const updatedTimePeriod: TimePeriod = {
+      ...timePeriod,
+      name: nameInput,
+      note: note,
+      injury: injury,
+    };
+
+    buttonAction(updatedTimePeriod);
+  };
 
   return (
     <Modal
@@ -181,7 +225,7 @@ export const TimePeriodModal = ({
               </Button>
               <Button
                 color="primary"
-                onPress={buttonAction}
+                onPress={handleSaveButton}
                 isDisabled={!isTimePeriodValid}
               >
                 {timePeriod.id !== 0 ? "Save" : "Create"}
