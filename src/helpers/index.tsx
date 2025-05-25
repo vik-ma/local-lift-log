@@ -24,6 +24,7 @@ export { ConvertCalendarDateToYmdString } from "./Dates/ConvertCalendarDateToYmd
 export { FormatDateToShortString } from "./Dates/FormatDateToShortString";
 export { ValidateStartAndEndDateStrings } from "./Dates/ValidateStartAndEndDateStrings";
 export { ConvertISODateStringToYmdDateString } from "./Dates/ConvertISODateStringToYmdDateString";
+export { IsDateBeforeEpochDate } from "./Dates/IsDateBeforeEpochDate";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringSetPrimaryToString } from "./Exercises/ConvertExerciseGroupStringSetPrimaryToString";
