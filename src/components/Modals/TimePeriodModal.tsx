@@ -3,7 +3,6 @@ import {
   TimePeriod,
   UseDisclosureReturnType,
   UserSettings,
-  UseTimePeriodInputsReturnType,
 } from "../../typings";
 import {
   Button,
@@ -21,6 +20,9 @@ import { useValidateName } from "../../hooks";
 import {
   ConvertDateStringToCalendarDate,
   ConvertEmptyStringToNull,
+  FormatISODateString,
+  IsDatePassed,
+  IsEndDateBeforeStartDate,
 } from "../../helpers";
 import { getLocalTimeZone, CalendarDate } from "@internationalized/date";
 
@@ -28,7 +30,6 @@ type TimePeriodModalProps = {
   timePeriodModal: UseDisclosureReturnType;
   timePeriod: TimePeriod;
   setTimePeriod: React.Dispatch<React.SetStateAction<TimePeriod>>;
-  useTimePeriodInputs: UseTimePeriodInputsReturnType;
   userSettings: UserSettings;
   buttonAction: (timePeriod: TimePeriod) => void;
 };
@@ -99,11 +100,25 @@ export const TimePeriodModal = ({
     const note = ConvertEmptyStringToNull(noteInput);
     const injury = ConvertEmptyStringToNull(injuryInput);
 
+    const formattedStartDate = FormatISODateString(
+      startDateString,
+      userSettings.locale
+    );
+    const formattedEndDate = FormatISODateString(
+      endDateString,
+      userSettings.locale
+    );
+
+    const isOngoing = endDateString === null || !IsDatePassed(endDateString);
+
     const updatedTimePeriod: TimePeriod = {
       ...timePeriod,
       name: nameInput,
       note: note,
       injury: injury,
+      formattedStartDate,
+      formattedEndDate,
+      isOngoing,
     };
 
     buttonAction(updatedTimePeriod);

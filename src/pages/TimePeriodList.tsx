@@ -17,21 +17,14 @@ import {
   TimePeriodModal,
   TimePeriodListItemContent,
 } from "../components";
-import {
-  useDefaultTimePeriod,
-  useTimePeriodInputs,
-  useTimePeriodList,
-} from "../hooks";
+import { useDefaultTimePeriod, useTimePeriodList } from "../hooks";
 import { useEffect, useState } from "react";
 import { TimePeriod, UserSettings } from "../typings";
 import {
-  ConvertEmptyStringToNull,
   DeleteItemFromList,
-  FormatISODateString,
   GetUserSettings,
   UpdateItemInList,
   ConvertISODateStringToCalendarDate,
-  IsDatePassed,
   CreateShownPropertiesSet,
 } from "../helpers";
 import Database from "tauri-plugin-sql-api";
@@ -51,16 +44,6 @@ export default function TimePeriodList() {
 
   const timePeriodModal = useDisclosure();
   const deleteModal = useDisclosure();
-
-  const timePeriodInputs = useTimePeriodInputs(operatingTimePeriod);
-
-  const {
-    isTimePeriodValid,
-    startDateString,
-    endDateString,
-    setStartDate,
-    setEndDate,
-  } = timePeriodInputs;
 
   const timePeriodList = useTimePeriodList();
 
@@ -98,36 +81,13 @@ export default function TimePeriodList() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const addTimePeriod = async () => {
+  const addTimePeriod = async (timePeriod: TimePeriod) => {
     if (
-      !isTimePeriodValid ||
+      timePeriod.id !== 0 ||
       operationType !== "add" ||
       userSettings === undefined
     )
       return;
-
-    const noteToInsert = ConvertEmptyStringToNull(operatingTimePeriod.note);
-
-    const formattedStartDate = FormatISODateString(
-      startDateString,
-      userSettings.locale
-    );
-    const formattedEndDate = FormatISODateString(
-      endDateString,
-      userSettings.locale
-    );
-
-    const isOngoing = endDateString === null || !IsDatePassed(endDateString);
-
-    const newTimePeriod: TimePeriod = {
-      ...operatingTimePeriod,
-      start_date: startDateString,
-      end_date: endDateString,
-      note: noteToInsert,
-      formattedStartDate,
-      formattedEndDate,
-      isOngoing,
-    };
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -137,18 +97,18 @@ export default function TimePeriodList() {
          (name, start_date, end_date, note, injury, diet_phase)
          VALUES ($1, $2, $3, $4, $5, $6)`,
         [
-          newTimePeriod.name,
-          newTimePeriod.start_date,
-          newTimePeriod.end_date,
-          newTimePeriod.note,
-          newTimePeriod.injury,
-          newTimePeriod.diet_phase,
+          timePeriod.name,
+          timePeriod.start_date,
+          timePeriod.end_date,
+          timePeriod.note,
+          timePeriod.injury,
+          timePeriod.diet_phase,
         ]
       );
 
-      newTimePeriod.id = result.lastInsertId;
+      timePeriod.id = result.lastInsertId;
 
-      sortTimePeriodByActiveCategory([...timePeriods, newTimePeriod]);
+      sortTimePeriodByActiveCategory([...timePeriods, timePeriod]);
 
       resetOperatingTimePeriod();
       timePeriodModal.onClose();
@@ -158,31 +118,13 @@ export default function TimePeriodList() {
     }
   };
 
-  const updateTimePeriod = async () => {
-    if (!isTimePeriodValid || userSettings === undefined) return;
-
-    const noteToInsert = ConvertEmptyStringToNull(operatingTimePeriod.note);
-
-    const formattedStartDate = FormatISODateString(
-      startDateString,
-      userSettings.locale
-    );
-    const formattedEndDate = FormatISODateString(
-      endDateString,
-      userSettings.locale
-    );
-
-    const isOngoing = endDateString === null || !IsDatePassed(endDateString);
-
-    const updatedTimePeriod: TimePeriod = {
-      ...operatingTimePeriod,
-      start_date: startDateString,
-      end_date: endDateString,
-      note: noteToInsert,
-      formattedStartDate,
-      formattedEndDate,
-      isOngoing,
-    };
+  const updateTimePeriod = async (timePeriod: TimePeriod) => {
+    if (
+      timePeriod.id === 0 ||
+      operationType !== "edit" ||
+      userSettings === undefined
+    )
+      return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -193,20 +135,17 @@ export default function TimePeriodList() {
          diet_phase = $6 
          WHERE id = $7`,
         [
-          updatedTimePeriod.name,
-          updatedTimePeriod.start_date,
-          updatedTimePeriod.end_date,
-          updatedTimePeriod.note,
-          updatedTimePeriod.injury,
-          updatedTimePeriod.diet_phase,
-          updatedTimePeriod.id,
+          timePeriod.name,
+          timePeriod.start_date,
+          timePeriod.end_date,
+          timePeriod.note,
+          timePeriod.injury,
+          timePeriod.diet_phase,
+          timePeriod.id,
         ]
       );
 
-      const updatedTimePeriods = UpdateItemInList(
-        timePeriods,
-        updatedTimePeriod
-      );
+      const updatedTimePeriods = UpdateItemInList(timePeriods, timePeriod);
 
       sortTimePeriodByActiveCategory(updatedTimePeriods);
 
@@ -284,7 +223,6 @@ export default function TimePeriodList() {
         timePeriodModal={timePeriodModal}
         timePeriod={operatingTimePeriod}
         setTimePeriod={setOperatingTimePeriod}
-        useTimePeriodInputs={timePeriodInputs}
         userSettings={userSettings}
         buttonAction={
           operationType === "edit" ? updateTimePeriod : addTimePeriod
