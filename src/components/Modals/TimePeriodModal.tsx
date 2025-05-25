@@ -22,6 +22,7 @@ import {
   ConvertEmptyStringToNull,
   ConvertISODateStringToCalendarDate,
   FormatISODateString,
+  GetNumberOfDaysBetweenDates,
   IsDatePassed,
   IsEndDateBeforeStartDate,
 } from "../../helpers";
@@ -114,6 +115,11 @@ export const TimePeriodModal = ({
 
     const isOngoing = endDateString === null || !IsDatePassed(endDateString);
 
+    const numDaysBetweenDates = GetNumberOfDaysBetweenDates(
+      timePeriod.start_date,
+      timePeriod.end_date
+    );
+
     const updatedTimePeriod: TimePeriod = {
       ...timePeriod,
       name: nameInput,
@@ -122,6 +128,7 @@ export const TimePeriodModal = ({
       formattedStartDate,
       formattedEndDate,
       isOngoing,
+      numDaysBetweenDates: numDaysBetweenDates,
     };
 
     buttonAction(updatedTimePeriod);
