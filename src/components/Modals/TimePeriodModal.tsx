@@ -13,16 +13,18 @@ import {
   ModalFooter,
   Input,
   DatePicker,
+  DateValue,
 } from "@heroui/react";
 import { DietPhaseDropdown } from "..";
 import { useEffect, useMemo, useState } from "react";
-import { useValidateName } from "../../hooks";
+import { useIsDateBeforeEpochDate, useValidateName } from "../../hooks";
 import {
   ConvertDateStringToCalendarDate,
   ConvertEmptyStringToNull,
   ConvertISODateStringToCalendarDate,
   FormatISODateString,
   GetNumberOfDaysBetweenDates,
+  IsDateBeforeEpochDate,
   IsDatePassed,
   IsEndDateBeforeStartDate,
 } from "../../helpers";
@@ -55,15 +57,22 @@ export const TimePeriodModal = ({
 
   const isNameValid = useValidateName(nameInput);
 
+  const isStartDateBeforeEpoch = useIsDateBeforeEpochDate(startDate);
+  const isEndDateBeforeEpoch = useIsDateBeforeEpochDate(endDate);
+
   const isStartDateValid = useMemo(() => {
-    return startDate !== null;
-  }, [startDate]);
+    if (startDate === null) return false;
+    if (isStartDateBeforeEpoch) return false;
+    return true;
+  }, [startDate, isStartDateBeforeEpoch]);
 
   const isEndDateValid = useMemo(() => {
     if (startDate === null || endDate === null) return true;
 
+    if (isEndDateBeforeEpoch) return false;
+
     return !IsEndDateBeforeStartDate(startDate, endDate);
-  }, [startDate, endDate]);
+  }, [startDate, endDate, isEndDateBeforeEpoch]);
 
   const isTimePeriodValid = useMemo(() => {
     if (!isNameValid) return false;
@@ -97,6 +106,10 @@ export const TimePeriodModal = ({
     setEndDate(ConvertISODateStringToCalendarDate(timePeriod.end_date));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timePeriod.id]);
+
+  const isDateUnavailable = (date: DateValue) => {
+    return IsDateBeforeEpochDate(date as CalendarDate);
+  };
 
   const handleSaveButton = () => {
     if (!isTimePeriodValid) return;
@@ -182,6 +195,7 @@ export const TimePeriodModal = ({
                       onChange={setStartDate}
                       isInvalid={!isStartDateValid}
                       errorMessage="Start Date must be selected"
+                      isDateUnavailable={isDateUnavailable}
                     />
                   </I18nProvider>
                   <I18nProvider locale={userSettings.locale}>
@@ -204,6 +218,7 @@ export const TimePeriodModal = ({
                       onChange={setEndDate}
                       isInvalid={!isEndDateValid}
                       errorMessage="End Date is before Start Date"
+                      isDateUnavailable={isDateUnavailable}
                     />
                   </I18nProvider>
                   {endDate !== null && (
