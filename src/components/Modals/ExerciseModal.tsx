@@ -257,7 +257,7 @@ export const ExerciseModal = ({
             </ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[440px]">
-                <div className="flex flex-col gap-3 w-[23.75rem]">
+                <div className="flex flex-col gap-4 w-[23.75rem]">
                   <div className="flex flex-col gap-0.5">
                     <Input
                       className="h-[5rem]"
@@ -280,219 +280,223 @@ export const ExerciseModal = ({
                       isClearable
                     />
                   </div>
-                  <div
-                    aria-label="Primary Exercise Groups Accordion"
-                    className="flex flex-col select-none cursor-pointer"
-                  >
+                  <div className="flex flex-col gap-3">
                     <div
-                      className="flex relative cursor-pointer pl-1 pb-0.5"
-                      onClick={handleClickPrimaryAccordion}
-                    >
-                      <span
-                        className={
-                          isExerciseGroupSetPrimaryStringValid
-                            ? "flex items-start font-medium text-lg"
-                            : "flex items-start text-danger font-medium text-lg"
-                        }
-                      >
-                        Primary Exercise Groups
-                        <span className="text-sm text-danger pt-[1px] pl-0.5">
-                          *
-                        </span>
-                      </span>
-                      <div className="absolute top-1 right-0">
-                        <ChevronIcon
-                          size={31}
-                          color="#a8a29e"
-                          direction={
-                            isPrimaryAccordionExpanded ? "down" : "left"
-                          }
-                        />
-                      </div>
-                    </div>
-                    <AnimatePresence>
-                      {isPrimaryAccordionExpanded && (
-                        <motion.div
-                          className="px-1 pt-0.5"
-                          initial={
-                            hasPrimaryAccordionBeenClosed.current
-                              ? { height: 0, overflow: "hidden" }
-                              : {}
-                          }
-                          animate={{ height: "auto" }}
-                          exit={{ height: 0, overflow: "hidden" }}
-                          transition={{
-                            height: { duration: 0.1 },
-                          }}
-                        >
-                          <ExerciseGroupCheckboxes
-                            isValid={isExerciseGroupSetPrimaryStringValid}
-                            value={exerciseGroupStringListPrimary}
-                            handleChange={
-                              handleExerciseGroupStringPrimaryChange
-                            }
-                            exerciseGroupDictionary={exerciseGroupDictionary}
-                            customAriaLabel="Select Primary Exercise Groups"
-                          />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                    {!isPrimaryAccordionExpanded && (
-                      <div className="px-1 text-sm w-[21rem] text-stone-500">
-                        {exercise.formattedGroupStringPrimary === "" ? (
-                          <span className="text-stone-400">
-                            No Exercise Group(s) Selected
-                          </span>
-                        ) : (
-                          <span>{exercise.formattedGroupStringPrimary}</span>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  <div
-                    aria-label="Secondary Exercise Groups Accordion"
-                    className="flex flex-col select-none"
-                  >
-                    <div
-                      className="flex relative cursor-pointer pl-1 pb-0.5"
-                      onClick={() =>
-                        setIsSecondaryAccordionExpanded(
-                          !isSecondaryAccordionExpanded
-                        )
-                      }
-                    >
-                      <span className="font-medium text-lg">
-                        Secondary Exercise Groups
-                      </span>
-                      <div className="absolute top-1 right-0">
-                        <ChevronIcon
-                          size={31}
-                          color="#a8a29e"
-                          direction={
-                            isSecondaryAccordionExpanded ? "down" : "left"
-                          }
-                        />
-                      </div>
-                    </div>
-                    <AnimatePresence>
-                      {isSecondaryAccordionExpanded && (
-                        <motion.div
-                          className="px-1 pt-0.5"
-                          initial={{ height: 0, overflow: "hidden" }}
-                          animate={{ height: "auto" }}
-                          exit={{ height: 0, overflow: "hidden" }}
-                          transition={{
-                            height: { duration: 0.1 },
-                          }}
-                          ref={secondaryAccordionRef}
-                        >
-                          <ExerciseGroupCheckboxes
-                            isValid={true}
-                            value={Array.from(
-                              exercise.exerciseGroupStringMapSecondary?.keys() ??
-                                []
-                            )}
-                            handleChange={
-                              handleExerciseGroupStringSecondaryChange
-                            }
-                            exerciseGroupDictionary={exerciseGroupDictionary}
-                            customAriaLabel="Select Secondary Exercise Groups"
-                            disabledKeys={exerciseGroupStringListPrimary}
-                          />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                    {!isSecondaryAccordionExpanded && (
-                      <div className="px-1 text-sm w-[21rem] text-stone-500">
-                        {exercise.formattedGroupStringSecondary ===
-                        undefined ? (
-                          <span className="text-stone-400">
-                            No Exercise Group(s) Selected
-                          </span>
-                        ) : (
-                          <span>{exercise.formattedGroupStringSecondary}</span>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  {exercise.exerciseGroupStringMapSecondary !== undefined && (
-                    <div
-                      aria-label="Secondary Exercise Group Multipliers Accordion"
-                      className="flex flex-col select-none"
+                      aria-label="Primary Exercise Groups Accordion"
+                      className="flex flex-col select-none cursor-pointer"
                     >
                       <div
                         className="flex relative cursor-pointer pl-1 pb-0.5"
-                        onClick={() =>
-                          setIsMultiplierAccordionExpanded(
-                            !isMultiplierAccordionExpanded
-                          )
-                        }
+                        onClick={handleClickPrimaryAccordion}
                       >
-                        <span className="font-medium text-lg">
-                          Secondary Multipliers
+                        <span
+                          className={
+                            isExerciseGroupSetPrimaryStringValid
+                              ? "flex items-start font-medium text-lg"
+                              : "flex items-start text-danger font-medium text-lg"
+                          }
+                        >
+                          Primary Exercise Groups
+                          <span className="text-sm text-danger pt-[1px] pl-0.5">
+                            *
+                          </span>
                         </span>
-                        <div className="absolute right-0">
+                        <div className="absolute top-1 right-0">
                           <ChevronIcon
                             size={31}
                             color="#a8a29e"
                             direction={
-                              isMultiplierAccordionExpanded ? "down" : "left"
+                              isPrimaryAccordionExpanded ? "down" : "left"
                             }
                           />
                         </div>
                       </div>
                       <AnimatePresence>
-                        {isMultiplierAccordionExpanded && (
+                        {isPrimaryAccordionExpanded && (
                           <motion.div
-                            className="px-1 pt-px"
+                            className="px-1 pt-0.5"
+                            initial={
+                              hasPrimaryAccordionBeenClosed.current
+                                ? { height: 0, overflow: "hidden" }
+                                : {}
+                            }
+                            animate={{ height: "auto" }}
+                            exit={{ height: 0, overflow: "hidden" }}
+                            transition={{
+                              height: { duration: 0.1 },
+                            }}
+                          >
+                            <ExerciseGroupCheckboxes
+                              isValid={isExerciseGroupSetPrimaryStringValid}
+                              value={exerciseGroupStringListPrimary}
+                              handleChange={
+                                handleExerciseGroupStringPrimaryChange
+                              }
+                              exerciseGroupDictionary={exerciseGroupDictionary}
+                              customAriaLabel="Select Primary Exercise Groups"
+                            />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      {!isPrimaryAccordionExpanded && (
+                        <div className="px-1 text-sm w-[21rem] text-stone-500">
+                          {exercise.formattedGroupStringPrimary === "" ? (
+                            <span className="text-stone-400">
+                              No Exercise Group(s) Selected
+                            </span>
+                          ) : (
+                            <span>{exercise.formattedGroupStringPrimary}</span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    <div
+                      aria-label="Secondary Exercise Groups Accordion"
+                      className="flex flex-col select-none"
+                    >
+                      <div
+                        className="flex relative cursor-pointer pl-1 pb-0.5"
+                        onClick={() =>
+                          setIsSecondaryAccordionExpanded(
+                            !isSecondaryAccordionExpanded
+                          )
+                        }
+                      >
+                        <span className="font-medium text-lg">
+                          Secondary Exercise Groups
+                        </span>
+                        <div className="absolute top-1 right-0">
+                          <ChevronIcon
+                            size={31}
+                            color="#a8a29e"
+                            direction={
+                              isSecondaryAccordionExpanded ? "down" : "left"
+                            }
+                          />
+                        </div>
+                      </div>
+                      <AnimatePresence>
+                        {isSecondaryAccordionExpanded && (
+                          <motion.div
+                            className="px-1 pt-0.5"
                             initial={{ height: 0, overflow: "hidden" }}
                             animate={{ height: "auto" }}
                             exit={{ height: 0, overflow: "hidden" }}
                             transition={{
                               height: { duration: 0.1 },
                             }}
-                            ref={multiplierAccordionRef}
+                            ref={secondaryAccordionRef}
                           >
-                            <div className="grid grid-cols-2 gap-x-2 gap-y-1">
-                              {Array.from(multiplierInputMap).map(
-                                ([key, value]) => {
-                                  const exerciseGroup =
-                                    exerciseGroupDictionary.get(key);
-
-                                  return (
-                                    <div
-                                      className="flex gap-2 items-center"
-                                      key={`multiplier-input-${key}`}
-                                    >
-                                      <span className="text-stone-500 text-sm w-[6.5rem]">
-                                        {exerciseGroup}
-                                      </span>
-                                      <Input
-                                        aria-label={`${exerciseGroup} Multiplier Input`}
-                                        className="w-[3.25rem]"
-                                        size="sm"
-                                        value={value}
-                                        variant="faded"
-                                        onValueChange={(value) =>
-                                          handleMultiplierChange(value, key)
-                                        }
-                                        isInvalid={multiplierInputInvaliditySet.has(
-                                          key
-                                        )}
-                                      />
-                                    </div>
-                                  );
-                                }
+                            <ExerciseGroupCheckboxes
+                              isValid={true}
+                              value={Array.from(
+                                exercise.exerciseGroupStringMapSecondary?.keys() ??
+                                  []
                               )}
-                            </div>
-                            <span className="px-px text-xs text-slate-400">
-                              Values must be between 0 and 1
-                            </span>
+                              handleChange={
+                                handleExerciseGroupStringSecondaryChange
+                              }
+                              exerciseGroupDictionary={exerciseGroupDictionary}
+                              customAriaLabel="Select Secondary Exercise Groups"
+                              disabledKeys={exerciseGroupStringListPrimary}
+                            />
                           </motion.div>
                         )}
                       </AnimatePresence>
+                      {!isSecondaryAccordionExpanded && (
+                        <div className="px-1 text-sm w-[21rem] text-stone-500">
+                          {exercise.formattedGroupStringSecondary ===
+                          undefined ? (
+                            <span className="text-stone-400">
+                              No Exercise Group(s) Selected
+                            </span>
+                          ) : (
+                            <span>
+                              {exercise.formattedGroupStringSecondary}
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
-                  )}
+                    {exercise.exerciseGroupStringMapSecondary !== undefined && (
+                      <div
+                        aria-label="Secondary Exercise Group Multipliers Accordion"
+                        className="flex flex-col select-none"
+                      >
+                        <div
+                          className="flex relative cursor-pointer pl-1 pb-0.5"
+                          onClick={() =>
+                            setIsMultiplierAccordionExpanded(
+                              !isMultiplierAccordionExpanded
+                            )
+                          }
+                        >
+                          <span className="font-medium text-lg">
+                            Secondary Multipliers
+                          </span>
+                          <div className="absolute right-0">
+                            <ChevronIcon
+                              size={31}
+                              color="#a8a29e"
+                              direction={
+                                isMultiplierAccordionExpanded ? "down" : "left"
+                              }
+                            />
+                          </div>
+                        </div>
+                        <AnimatePresence>
+                          {isMultiplierAccordionExpanded && (
+                            <motion.div
+                              className="px-1 pt-px"
+                              initial={{ height: 0, overflow: "hidden" }}
+                              animate={{ height: "auto" }}
+                              exit={{ height: 0, overflow: "hidden" }}
+                              transition={{
+                                height: { duration: 0.1 },
+                              }}
+                              ref={multiplierAccordionRef}
+                            >
+                              <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+                                {Array.from(multiplierInputMap).map(
+                                  ([key, value]) => {
+                                    const exerciseGroup =
+                                      exerciseGroupDictionary.get(key);
+
+                                    return (
+                                      <div
+                                        className="flex gap-2 items-center"
+                                        key={`multiplier-input-${key}`}
+                                      >
+                                        <span className="text-stone-500 text-sm w-[6.5rem]">
+                                          {exerciseGroup}
+                                        </span>
+                                        <Input
+                                          aria-label={`${exerciseGroup} Multiplier Input`}
+                                          className="w-[3.25rem]"
+                                          size="sm"
+                                          value={value}
+                                          variant="faded"
+                                          onValueChange={(value) =>
+                                            handleMultiplierChange(value, key)
+                                          }
+                                          isInvalid={multiplierInputInvaliditySet.has(
+                                            key
+                                          )}
+                                        />
+                                      </div>
+                                    );
+                                  }
+                                )}
+                              </div>
+                              <span className="px-px text-xs text-slate-400">
+                                Values must be between 0 and 1
+                              </span>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </ScrollShadow>
             </ModalBody>
