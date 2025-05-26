@@ -253,11 +253,6 @@ export const TimePeriodModal = ({
                     onValueChange={setNoteInput}
                     isClearable
                   />
-                  <DietPhaseDropdown
-                    value={timePeriod.diet_phase}
-                    targetType="time-period"
-                    setTimePeriod={setTimePeriod}
-                  />
                   <Input
                     value={injuryInput}
                     label="Injury"
@@ -265,6 +260,11 @@ export const TimePeriodModal = ({
                     size="sm"
                     onValueChange={setInjuryInput}
                     isClearable
+                  />
+                  <DietPhaseDropdown
+                    value={timePeriod.diet_phase}
+                    targetType="time-period"
+                    setTimePeriod={setTimePeriod}
                   />
                 </div>
               </div>
