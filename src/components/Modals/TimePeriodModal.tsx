@@ -194,7 +194,11 @@ export const TimePeriodModal = ({
                       value={startDate}
                       onChange={setStartDate}
                       isInvalid={!isStartDateValid}
-                      errorMessage="Start Date must be selected"
+                      errorMessage={
+                        isStartDateBeforeEpoch
+                          ? "Invalid Date"
+                          : "Start Date must be selected"
+                      }
                       isDateUnavailable={isDateUnavailable}
                     />
                   </I18nProvider>
@@ -217,7 +221,11 @@ export const TimePeriodModal = ({
                       value={endDate}
                       onChange={setEndDate}
                       isInvalid={!isEndDateValid}
-                      errorMessage="End Date is before Start Date"
+                      errorMessage={
+                        isEndDateBeforeEpoch
+                          ? "Invalid Date"
+                          : "End Date is before Start Date"
+                      }
                       isDateUnavailable={isDateUnavailable}
                     />
                   </I18nProvider>
