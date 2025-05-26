@@ -1031,15 +1031,8 @@ export type UseDietLogListReturnType = {
   sortCategory: DietLogSortCategory;
   sortDietLogsByActiveCategory: (dietLogList: DietLog[]) => void;
   handleSortOptionSelection: (key: string) => void;
-  addDietLog: (
-    date: string,
-    dietLogInputs: UseDietLogEntryInputsReturnType
-  ) => Promise<DietLog | undefined>;
-  updateDietLog: (
-    date: string,
-    dietLogId: number,
-    dietLogInputs: UseDietLogEntryInputsReturnType
-  ) => Promise<DietLog | undefined>;
+  addDietLog: (dietLog: DietLog) => Promise<DietLog | undefined>;
+  updateDietLog: (dietLog: DietLog) => Promise<DietLog | undefined>;
   deleteDietLog: (dietLog: DietLog) => Promise<DietLog | undefined>;
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
@@ -1050,7 +1043,7 @@ export type UseDietLogListReturnType = {
     startDate: Date,
     endDate: Date,
     overwriteExistingDietLogs: boolean,
-    dietLogInputs: UseDietLogEntryInputsReturnType,
+    dietLog: DietLog,
     latestDate?: number
   ) => Promise<DietLog | undefined>;
   getDietLogs: () => Promise<void>;

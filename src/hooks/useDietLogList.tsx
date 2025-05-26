@@ -4,7 +4,6 @@ import {
   DietLogMap,
   UseDietLogListReturnType,
   DietLogSortCategory,
-  UseDietLogEntryInputsReturnType,
 } from "../typings";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -19,9 +18,6 @@ import {
   IsNumberWithinLimit,
   ShouldDietLogDisableExpansion,
   UpdateItemInList,
-  ConvertInputStringToNumber,
-  ConvertInputStringToNumberOrNull,
-  ConvertEmptyStringToNull,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
 import { useDietLogListFilters } from ".";
@@ -167,43 +163,32 @@ export const useDietLogList = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const addDietLog = async (
-    date: string,
-    dietLogInputs: UseDietLogEntryInputsReturnType
-  ) => {
-    const {
-      caloriesInput,
-      commentInput,
-      fatInput,
-      carbsInput,
-      proteinInput,
-      isDietLogEntryInputValid,
-    } = dietLogInputs;
+  const addDietLog = async (dietLog: DietLog) => {
+    if (dietLog.id !== 0 || dietLogMap.has(dietLog.date)) return undefined;
 
-    if (!isDietLogEntryInputValid || dietLogMap.has(date)) return undefined;
+    // TODO: MOVE TO DIETLOGMODAL
+    // const calories = ConvertInputStringToNumber(caloriesInput);
+    // const comment = ConvertEmptyStringToNull(commentInput);
+    // const fat = ConvertInputStringToNumberOrNull(fatInput);
+    // const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    // const protein = ConvertInputStringToNumberOrNull(proteinInput);
 
-    const calories = ConvertInputStringToNumber(caloriesInput);
-    const comment = ConvertEmptyStringToNull(commentInput);
-    const fat = ConvertInputStringToNumberOrNull(fatInput);
-    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
-    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+    // const formattedDate = FormatYmdDateString(date);
 
-    const formattedDate = FormatYmdDateString(date);
+    // const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
 
-    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
-
-    const dietLog: DietLog = {
-      id: 0,
-      date,
-      calories,
-      fat,
-      carbs,
-      protein,
-      comment,
-      formattedDate,
-      isExpanded: !disableExpansion,
-      disableExpansion,
-    };
+    // const dietLog: DietLog = {
+    //   id: 0,
+    //   date,
+    //   calories,
+    //   fat,
+    //   carbs,
+    //   protein,
+    //   comment,
+    //   formattedDate,
+    //   isExpanded: !disableExpansion,
+    //   disableExpansion,
+    // };
 
     const newDietLogId = await InsertDietLogIntoDatabase(dietLog);
 
@@ -224,44 +209,32 @@ export const useDietLogList = (
     return newDietLog;
   };
 
-  const updateDietLog = async (
-    date: string,
-    dietLogId: number,
-    dietLogInputs: UseDietLogEntryInputsReturnType
-  ) => {
-    const {
-      caloriesInput,
-      commentInput,
-      fatInput,
-      carbsInput,
-      proteinInput,
-      isDietLogEntryInputValid,
-    } = dietLogInputs;
+  const updateDietLog = async (dietLog: DietLog) => {
+    if (dietLog.id === 0) return undefined;
 
-    if (!isDietLogEntryInputValid) return undefined;
+    // TODO: MOVE TO DIETLOGMODAL
+    // const calories = ConvertInputStringToNumber(caloriesInput);
+    // const comment = ConvertEmptyStringToNull(commentInput);
+    // const fat = ConvertInputStringToNumberOrNull(fatInput);
+    // const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    // const protein = ConvertInputStringToNumberOrNull(proteinInput);
 
-    const calories = ConvertInputStringToNumber(caloriesInput);
-    const comment = ConvertEmptyStringToNull(commentInput);
-    const fat = ConvertInputStringToNumberOrNull(fatInput);
-    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
-    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+    // const formattedDate = FormatYmdDateString(date);
 
-    const formattedDate = FormatYmdDateString(date);
+    // const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
 
-    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
-
-    const dietLog: DietLog = {
-      id: dietLogId,
-      date,
-      calories,
-      fat,
-      carbs,
-      protein,
-      comment,
-      formattedDate,
-      isExpanded: !disableExpansion,
-      disableExpansion,
-    };
+    // const dietLog: DietLog = {
+    //   id: dietLogId,
+    //   date,
+    //   calories,
+    //   fat,
+    //   carbs,
+    //   protein,
+    //   comment,
+    //   formattedDate,
+    //   isExpanded: !disableExpansion,
+    //   disableExpansion,
+    // };
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -325,41 +298,33 @@ export const useDietLogList = (
     startDate: Date,
     endDate: Date,
     overwriteExistingDietLogs: boolean,
-    dietLogInputs: UseDietLogEntryInputsReturnType,
+    dietLogTemplate: DietLog,
     latestDate?: number
   ) => {
-    const {
-      caloriesInput,
-      commentInput,
-      fatInput,
-      carbsInput,
-      proteinInput,
-      isDietLogEntryInputValid,
-    } = dietLogInputs;
+    if (dietLogTemplate.id !== 0) return undefined;
 
-    if (!isDietLogEntryInputValid) return undefined;
-
-    const calories = ConvertInputStringToNumber(caloriesInput);
-    const comment = ConvertEmptyStringToNull(commentInput);
-    const fat = ConvertInputStringToNumberOrNull(fatInput);
-    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
-    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+    // TODO: FIX
+    // const calories = ConvertInputStringToNumber(caloriesInput);
+    // const comment = ConvertEmptyStringToNull(commentInput);
+    // const fat = ConvertInputStringToNumberOrNull(fatInput);
+    // const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    // const protein = ConvertInputStringToNumberOrNull(proteinInput);
 
     const date = startDate;
 
-    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
+    // const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
 
-    const dietLogTemplate: DietLog = {
-      id: 0,
-      date: "",
-      calories,
-      fat,
-      carbs,
-      protein,
-      comment,
-      isExpanded: !disableExpansion,
-      disableExpansion,
-    };
+    // const dietLogTemplate: DietLog = {
+    //   id: 0,
+    //   date: "",
+    //   calories,
+    //   fat,
+    //   carbs,
+    //   protein,
+    //   comment,
+    //   isExpanded: !disableExpansion,
+    //   disableExpansion,
+    // };
 
     const updatedDietLogMap = new Map(dietLogMap);
 
