@@ -1013,37 +1013,6 @@ export type DietLog = {
   disableExpansion?: boolean;
 };
 
-export type UseDietLogEntryInputsReturnType = {
-  caloriesInput: string;
-  setCaloriesInput: React.Dispatch<React.SetStateAction<string>>;
-  fatInput: string;
-  setFatInput: React.Dispatch<React.SetStateAction<string>>;
-  carbsInput: string;
-  setCarbsInput: React.Dispatch<React.SetStateAction<string>>;
-  proteinInput: string;
-  setProteinInput: React.Dispatch<React.SetStateAction<string>>;
-  commentInput: string;
-  setCommentInput: React.Dispatch<React.SetStateAction<string>>;
-  isCaloriesInputValid: boolean;
-  isCarbsInputValid: boolean;
-  isFatInputValid: boolean;
-  isProteinInputValid: boolean;
-  isDietLogEntryInputValid: boolean;
-  targetDay: string;
-  setTargetDay: React.Dispatch<React.SetStateAction<string>>;
-  resetDietLogInputs: () => void;
-  calculateCaloriesFromMacros: () => void;
-  selectedDate: CalendarDate | null;
-  setSelectedDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
-  loadDietLogInputs: (dietLog: DietLog) => void;
-  dateEntryType: DietLogDateEntryType;
-  setDateEntryType: React.Dispatch<React.SetStateAction<DietLogDateEntryType>>;
-  dateStringToday: string;
-  dateStringYesterday: string;
-  dateStringSelectedDate: string | null;
-  dateRange: UseDateRangeReturnType;
-};
-
 export type DietLogDateEntryType = "recent" | "custom" | "range";
 
 export type DietLogMap = Map<string, DietLog>;
