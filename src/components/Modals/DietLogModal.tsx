@@ -14,8 +14,8 @@ import {
 } from "@heroui/react";
 import {
   DietLog,
+  DietLogDateEntryType,
   DietLogMap,
-  UseDietLogEntryInputsReturnType,
   UseDisclosureReturnType,
   UserSettings,
 } from "../../typings";
@@ -25,13 +25,19 @@ import { I18nProvider } from "@react-aria/i18n";
 import {
   ConvertCalendarDateToYmdString,
   ConvertDateToYmdString,
+  ConvertYmdDateStringToCalendarDate,
+  GetCurrentYmdDateString,
+  GetYesterdayYmdDateString,
+  IsStringEmpty,
+  IsStringInvalidInteger,
 } from "../../helpers";
 import { getLocalTimeZone } from "@internationalized/date";
+import { useDateRange } from "../../hooks";
 
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
   dietLog: DietLog;
-  useDietLogEntryInputs: UseDietLogEntryInputsReturnType;
+  defaultDateEntryType: DietLogDateEntryType;
   dietLogMap: DietLogMap;
   userSettings: UserSettings;
   setUserSettings: React.Dispatch<
@@ -49,7 +55,7 @@ type DietLogModalProps = {
 export const DietLogModal = ({
   dietLogModal,
   dietLog,
-  useDietLogEntryInputs,
+  defaultDateEntryType,
   dietLogMap,
   userSettings,
   setUserSettings,
@@ -57,36 +63,75 @@ export const DietLogModal = ({
   doneButtonAction,
   saveRangeButtonAction,
 }: DietLogModalProps) => {
+  const [caloriesInput, setCaloriesInput] = useState<string>("");
+  const [fatInput, setFatInput] = useState<string>("");
+  const [carbsInput, setCarbsInput] = useState<string>("");
+  const [proteinInput, setProteinInput] = useState<string>("");
+  const [commentInput, setCommentInput] = useState<string>("");
   const [dateRangeSaveType, setDateRangeSaveType] = useState<string>("pass");
 
-  const {
-    caloriesInput,
-    setCaloriesInput,
-    fatInput,
-    setFatInput,
-    carbsInput,
-    setCarbsInput,
-    proteinInput,
-    setProteinInput,
-    commentInput,
-    setCommentInput,
+  const [targetDay, setTargetDay] = useState<string>("Today");
+  const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(null);
+  const [dateEntryType, setDateEntryType] =
+    useState<DietLogDateEntryType>(defaultDateEntryType);
+
+  const dateRange = useDateRange();
+
+  const dateStringToday = useMemo(() => GetCurrentYmdDateString(), []);
+  const dateStringYesterday = useMemo(() => GetYesterdayYmdDateString(), []);
+  const dateStringSelectedDate = useMemo(
+    () => ConvertCalendarDateToYmdString(selectedDate),
+    [selectedDate]
+  );
+
+  const isCaloriesInputValid = useMemo(() => {
+    if (IsStringEmpty(caloriesInput)) return false;
+    if (IsStringInvalidInteger(caloriesInput, 0, true)) return false;
+    return true;
+  }, [caloriesInput]);
+
+  const isFatInputValid = useMemo(() => {
+    if (IsStringEmpty(fatInput)) return true;
+    if (IsStringInvalidInteger(fatInput)) return false;
+    return true;
+  }, [fatInput]);
+
+  const isCarbsInputValid = useMemo(() => {
+    if (IsStringEmpty(carbsInput)) return true;
+    if (IsStringInvalidInteger(carbsInput)) return false;
+    return true;
+  }, [carbsInput]);
+
+  const isProteinInputValid = useMemo(() => {
+    if (IsStringEmpty(proteinInput)) return true;
+    if (IsStringInvalidInteger(proteinInput)) return false;
+    return true;
+  }, [proteinInput]);
+
+  const isDietLogEntryInputValid = useMemo(() => {
+    if (!isCaloriesInputValid) return false;
+    if (!isFatInputValid) return false;
+    if (!isCarbsInputValid) return false;
+    if (!isProteinInputValid) return false;
+    return true;
+  }, [
     isCaloriesInputValid,
-    isCarbsInputValid,
     isFatInputValid,
+    isCarbsInputValid,
     isProteinInputValid,
-    isDietLogEntryInputValid,
-    targetDay,
-    setTargetDay,
-    calculateCaloriesFromMacros,
-    dateEntryType,
-    setDateEntryType,
-    dateStringToday,
-    dateStringYesterday,
-    dateStringSelectedDate,
-    selectedDate,
-    setSelectedDate,
-    dateRange,
-  } = useDietLogEntryInputs;
+  ]);
+
+  const calculateCaloriesFromMacros = () => {
+    const fatCalories = !isFatInputValid ? 0 : Number(fatInput) * 9;
+    const carbsCalories = !isCarbsInputValid ? 0 : Number(carbsInput) * 4;
+    const proteinCalories = !isProteinInputValid ? 0 : Number(proteinInput) * 4;
+
+    const totalCalories = Math.round(
+      fatCalories + carbsCalories + proteinCalories
+    );
+
+    setCaloriesInput(totalCalories.toString());
+  };
 
   const { startDate, endDate, isEndDateBeforeStartDate, isDateRangeInvalid } =
     dateRange;
@@ -141,7 +186,6 @@ export const DietLogModal = ({
     if (targetDay === "Today" && dietLogMap.has(dateStringToday)) {
       setTargetDay("Yesterday");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     dietLogMap,
     targetDay,
@@ -265,6 +309,20 @@ export const DietLogModal = ({
 
     return false;
   }, [startDate, endDate, isEndDateBeforeStartDate, dietLogMap]);
+
+  useEffect(() => {
+    setCaloriesInput(dietLog.calories.toString());
+    setFatInput(dietLog.fat ? dietLog.fat.toString() : "");
+    setCarbsInput(dietLog.carbs ? dietLog.carbs.toString() : "");
+    setProteinInput(dietLog.protein ? dietLog.protein.toString() : "");
+    setCommentInput(dietLog.comment ? dietLog.comment.toString() : "");
+
+    setSelectedDate(ConvertYmdDateStringToCalendarDate(dietLog.date));
+    // TODO: FIX DATE RANGE
+    // dateRange.setStartDate(null);
+    // dateRange.setEndDate(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dietLog.id]);
 
   return (
     <Modal
