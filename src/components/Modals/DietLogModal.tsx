@@ -371,7 +371,7 @@ export const DietLogModal = ({
                       />
                     </div>
                     {dietLog.id !== 0 && !isEditing && (
-                      <div className="flex flex-col gap-0.5">
+                      <div className="flex flex-col gap-px">
                         <h3 className="font-medium text-lg px-0.5 border-b-1 text-stone-600">
                           Last Diet Log
                         </h3>
@@ -426,7 +426,6 @@ export const DietLogModal = ({
                         </div>
                         <Button
                           className="mt-0.5"
-                          color="secondary"
                           variant="flat"
                           size="sm"
                           onPress={copyLastValues}
@@ -497,7 +496,8 @@ export const DietLogModal = ({
                   dateEntryType !== "range" && (
                     <Button
                       className="w-[12.5rem]"
-                      variant="flat"
+                      variant="light"
+                      color="primary"
                       onPress={() =>
                         setDateEntryType(
                           dateEntryType === "custom" ? "recent" : "custom"
