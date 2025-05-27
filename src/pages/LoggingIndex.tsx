@@ -4,6 +4,7 @@ import {
   BodyMeasurementsOperationType,
   BodyMeasurements,
   DietLog,
+  DietLogDateEntryType,
 } from "../typings";
 import {
   DeleteModal,
@@ -37,7 +38,6 @@ import {
   useReassignMeasurement,
   useBodyMeasurementsInput,
   useDietLogList,
-  useDietLogEntryInputs,
 } from "../hooks";
 
 export default function LoggingIndex() {
@@ -46,6 +46,8 @@ export default function LoggingIndex() {
     useState<BodyMeasurementsOperationType>("add");
   const [isOperatingBodyMeasurements, setIsOperatingBodyMeasurements] =
     useState<boolean>(true);
+  const [dateEntryType, setDateEntryType] =
+    useState<DietLogDateEntryType>("recent");
 
   const defaultBodyMeasurements = DefaultNewBodyMeasurements();
   const defaultDietLog = DefaultNewDietLog();
@@ -53,6 +55,12 @@ export default function LoggingIndex() {
   const [latestBodyMeasurements, setLatestBodyMeasurements] =
     useState<BodyMeasurements>(defaultBodyMeasurements);
   const [latestDietLog, setLatestDietLog] = useState<DietLog>(defaultDietLog);
+
+  const [operatingDietLog, setOperatingDietLog] = useState<DietLog>({
+    ...defaultDietLog,
+  });
+  const [operatingBodyMeasurements, setOperatingBodyMeasurements] =
+    useState<BodyMeasurements>({ ...defaultBodyMeasurements });
 
   const deleteModal = useDisclosure();
   const bodyMeasurementsModal = useDisclosure();
@@ -93,15 +101,6 @@ export default function LoggingIndex() {
     addDietLogEntryRange,
   } = dietLogList;
 
-  const dietLogEntryInputs = useDietLogEntryInputs("custom");
-
-  const {
-    resetDietLogInputs,
-    setDateEntryType,
-    loadDietLogInputs,
-    setTargetDay,
-  } = dietLogEntryInputs;
-
   useEffect(() => {
     if (!isDietLogListLoaded.current) return;
 
@@ -123,7 +122,8 @@ export default function LoggingIndex() {
       setWeightUnit(validUnits.weightUnit);
 
       if (userSettings.default_diet_log_day_is_yesterday === 1) {
-        setTargetDay("Yesterday");
+        // TODO: FIX
+        // setTargetDay("Yesterday");
       }
 
       loadBodyFatCalculationSettingsString(
@@ -313,14 +313,10 @@ export default function LoggingIndex() {
     timeInputModal.onClose();
   };
 
-  const resetDietLogEntry = () => {
-    setOperationType("add");
-    resetDietLogInputs();
-  };
-
   const handleAddDietLogEntryButton = () => {
     if (operationType !== "add") {
-      resetDietLogEntry();
+      setOperationType("add");
+      setOperatingDietLog({ ...defaultDietLog });
     }
 
     setIsOperatingBodyMeasurements(false);
@@ -330,7 +326,8 @@ export default function LoggingIndex() {
 
   const handleAddDietLogRangeEntryButton = () => {
     if (operationType !== "add") {
-      resetDietLogEntry();
+      setOperationType("add");
+      setOperatingDietLog({ ...defaultDietLog });
     }
 
     setIsOperatingBodyMeasurements(false);
@@ -366,16 +363,16 @@ export default function LoggingIndex() {
     if (latestDietLog.id === 0) return;
 
     setOperationType("edit");
-    loadDietLogInputs(latestDietLog);
+    setOperatingDietLog(latestDietLog);
     setDateEntryType("custom");
 
     dietLogModal.onOpen();
   };
 
-  const addDietLogEntry = async (date: string) => {
+  const addDietLogEntry = async (dietLog: DietLog) => {
     if (operationType !== "add" || isOperatingBodyMeasurements) return;
 
-    const newDietLog = await addDietLog(date, dietLogEntryInputs);
+    const newDietLog = await addDietLog(dietLog);
 
     if (newDietLog === undefined) return;
 
@@ -383,26 +380,20 @@ export default function LoggingIndex() {
       setLatestDietLog(newDietLog);
     }
 
-    resetDietLogEntry();
     dietLogModal.onClose();
     toast.success("Diet Log Entry Added");
   };
 
-  const updateDietLogEntry = async (date: string) => {
+  const updateDietLogEntry = async (dietLog: DietLog) => {
     if (operationType !== "edit") return;
 
-    const updatedLatestDietLog = await updateDietLog(
-      date,
-      latestDietLog.id,
-      dietLogEntryInputs
-    );
+    const updatedLatestDietLog = await updateDietLog(dietLog);
 
     if (updatedLatestDietLog === undefined) return;
 
     updatedLatestDietLog.isExpanded = !updatedLatestDietLog.disableExpansion;
     setLatestDietLog(updatedLatestDietLog);
 
-    resetDietLogEntry();
     dietLogModal.onClose();
     toast.success("Diet Log Entry Updated");
   };
@@ -426,7 +417,8 @@ export default function LoggingIndex() {
   const addDietLogEntries = async (
     startDate: Date,
     endDate: Date,
-    overwriteExistingDietLogs: boolean
+    overwriteExistingDietLogs: boolean,
+    dietLog: DietLog
   ) => {
     const latestDate = !isNaN(Date.parse(latestDietLog.date))
       ? Date.parse(latestDietLog.date)
@@ -436,7 +428,7 @@ export default function LoggingIndex() {
       startDate,
       endDate,
       overwriteExistingDietLogs,
-      dietLogEntryInputs,
+      dietLog,
       latestDate
     );
 
@@ -444,7 +436,6 @@ export default function LoggingIndex() {
       setLatestDietLog(newLatestDietLog);
     }
 
-    resetDietLogEntry();
     dietLogModal.onClose();
     toast.success("Diet Log Entries Added");
   };
@@ -497,8 +488,8 @@ export default function LoggingIndex() {
       />
       <DietLogModal
         dietLogModal={dietLogModal}
-        dietLog={latestDietLog}
-        useDietLogEntryInputs={dietLogEntryInputs}
+        dietLog={operatingDietLog}
+        defaultDateEntryType={dateEntryType}
         dietLogMap={dietLogMap}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
