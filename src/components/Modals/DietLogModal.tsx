@@ -354,6 +354,8 @@ export const DietLogModal = ({
     setCommentInput(dietLog.comment ? dietLog.comment.toString() : "");
 
     setSelectedDate(ConvertYmdDateStringToCalendarDate(dietLog.date));
+    setDateEntryType(dietLog.id === 0 ? "recent" : "custom");
+
     // TODO: FIX DATE RANGE
     // dateRange.setStartDate(null);
     // dateRange.setEndDate(null);
