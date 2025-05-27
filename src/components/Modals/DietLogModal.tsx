@@ -347,7 +347,7 @@ export const DietLogModal = ({
   }, [startDate, endDate, isEndDateBeforeStartDate, dietLogMap]);
 
   useEffect(() => {
-    setCaloriesInput(dietLog.calories.toString());
+    setCaloriesInput(dietLog.calories !== 0 ? dietLog.calories.toString() : "");
     setFatInput(dietLog.fat ? dietLog.fat.toString() : "");
     setCarbsInput(dietLog.carbs ? dietLog.carbs.toString() : "");
     setProteinInput(dietLog.protein ? dietLog.protein.toString() : "");
