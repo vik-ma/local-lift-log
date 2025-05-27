@@ -255,28 +255,7 @@ export const useDietLogList = (
   ) => {
     if (dietLogTemplate.id !== 0) return undefined;
 
-    // TODO: FIX
-    // const calories = ConvertInputStringToNumber(caloriesInput);
-    // const comment = ConvertEmptyStringToNull(commentInput);
-    // const fat = ConvertInputStringToNumberOrNull(fatInput);
-    // const carbs = ConvertInputStringToNumberOrNull(carbsInput);
-    // const protein = ConvertInputStringToNumberOrNull(proteinInput);
-
     const date = startDate;
-
-    // const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
-
-    // const dietLogTemplate: DietLog = {
-    //   id: 0,
-    //   date: "",
-    //   calories,
-    //   fat,
-    //   carbs,
-    //   protein,
-    //   comment,
-    //   isExpanded: !disableExpansion,
-    //   disableExpansion,
-    // };
 
     const updatedDietLogMap = new Map(dietLogMap);
 

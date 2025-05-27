@@ -53,7 +53,8 @@ type DietLogModalProps = {
   saveRangeButtonAction: (
     startDate: Date,
     endDate: Date,
-    overwriteExistingDietLogs: boolean
+    overwriteExistingDietLogs: boolean,
+    dietLog: DietLog
   ) => void;
 };
 
@@ -263,8 +264,27 @@ export const DietLogModal = ({
   const handleSaveButton = () => {
     if (disableSaveButton) return;
 
+    const calories = ConvertInputStringToNumber(caloriesInput);
+    const comment = ConvertEmptyStringToNull(commentInput);
+    const fat = ConvertInputStringToNumberOrNull(fatInput);
+    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+
+    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
+
+    const updatedDietLog: DietLog = {
+      ...dietLog,
+      calories,
+      fat,
+      carbs,
+      protein,
+      comment,
+      isExpanded: !disableExpansion,
+      disableExpansion,
+    };
+
     if (dateEntryType === "range") {
-      handleSaveRange();
+      handleSaveRange(updatedDietLog);
       return;
     }
 
@@ -277,34 +297,21 @@ export const DietLogModal = ({
 
     if (date === null) return;
 
-    const calories = ConvertInputStringToNumber(caloriesInput);
-    const comment = ConvertEmptyStringToNull(commentInput);
-    const fat = ConvertInputStringToNumberOrNull(fatInput);
-    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
-    const protein = ConvertInputStringToNumberOrNull(proteinInput);
-
     const formattedDate = FormatYmdDateString(date);
 
-    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
-
-    const updatedDietLog: DietLog = {
-      ...dietLog,
-      date,
-      calories,
-      fat,
-      carbs,
-      protein,
-      comment,
-      formattedDate,
-      isExpanded: !disableExpansion,
-      disableExpansion,
-    };
+    updatedDietLog.date = date;
+    updatedDietLog.formattedDate = formattedDate;
 
     doneButtonAction(updatedDietLog);
   };
 
-  const handleSaveRange = () => {
-    if (startDate === null || endDate === null || isEndDateBeforeStartDate)
+  const handleSaveRange = (dietLogTemplate: DietLog) => {
+    if (
+      dietLogTemplate.id !== 0 ||
+      startDate === null ||
+      endDate === null ||
+      isEndDateBeforeStartDate
+    )
       return;
 
     const startDateDate = startDate.toDate(getLocalTimeZone());
@@ -315,7 +322,8 @@ export const DietLogModal = ({
     saveRangeButtonAction(
       startDateDate,
       endDateDate,
-      overwriteExistingDietLogs
+      overwriteExistingDietLogs,
+      dietLogTemplate
     );
   };
 
