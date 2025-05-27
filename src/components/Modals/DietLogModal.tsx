@@ -25,11 +25,16 @@ import { I18nProvider } from "@react-aria/i18n";
 import {
   ConvertCalendarDateToYmdString,
   ConvertDateToYmdString,
+  ConvertEmptyStringToNull,
+  ConvertInputStringToNumber,
+  ConvertInputStringToNumberOrNull,
   ConvertYmdDateStringToCalendarDate,
+  FormatYmdDateString,
   GetCurrentYmdDateString,
   GetYesterdayYmdDateString,
   IsStringEmpty,
   IsStringInvalidInteger,
+  ShouldDietLogDisableExpansion,
 } from "../../helpers";
 import { getLocalTimeZone } from "@internationalized/date";
 import { useDateRange } from "../../hooks";
@@ -44,7 +49,7 @@ type DietLogModalProps = {
     React.SetStateAction<UserSettings | undefined>
   >;
   isEditing: boolean;
-  doneButtonAction: (date: string) => void;
+  doneButtonAction: (dietLog: DietLog) => void;
   saveRangeButtonAction: (
     startDate: Date,
     endDate: Date,
@@ -272,7 +277,30 @@ export const DietLogModal = ({
 
     if (date === null) return;
 
-    doneButtonAction(date);
+    const calories = ConvertInputStringToNumber(caloriesInput);
+    const comment = ConvertEmptyStringToNull(commentInput);
+    const fat = ConvertInputStringToNumberOrNull(fatInput);
+    const carbs = ConvertInputStringToNumberOrNull(carbsInput);
+    const protein = ConvertInputStringToNumberOrNull(proteinInput);
+
+    const formattedDate = FormatYmdDateString(date);
+
+    const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
+
+    const updatedDietLog: DietLog = {
+      ...dietLog,
+      date,
+      calories,
+      fat,
+      carbs,
+      protein,
+      comment,
+      formattedDate,
+      isExpanded: !disableExpansion,
+      disableExpansion,
+    };
+
+    doneButtonAction(updatedDietLog);
   };
 
   const handleSaveRange = () => {

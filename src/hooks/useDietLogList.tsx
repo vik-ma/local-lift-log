@@ -166,30 +166,6 @@ export const useDietLogList = (
   const addDietLog = async (dietLog: DietLog) => {
     if (dietLog.id !== 0 || dietLogMap.has(dietLog.date)) return undefined;
 
-    // TODO: MOVE TO DIETLOGMODAL
-    // const calories = ConvertInputStringToNumber(caloriesInput);
-    // const comment = ConvertEmptyStringToNull(commentInput);
-    // const fat = ConvertInputStringToNumberOrNull(fatInput);
-    // const carbs = ConvertInputStringToNumberOrNull(carbsInput);
-    // const protein = ConvertInputStringToNumberOrNull(proteinInput);
-
-    // const formattedDate = FormatYmdDateString(date);
-
-    // const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
-
-    // const dietLog: DietLog = {
-    //   id: 0,
-    //   date,
-    //   calories,
-    //   fat,
-    //   carbs,
-    //   protein,
-    //   comment,
-    //   formattedDate,
-    //   isExpanded: !disableExpansion,
-    //   disableExpansion,
-    // };
-
     const newDietLogId = await InsertDietLogIntoDatabase(dietLog);
 
     if (newDietLogId === 0) return undefined;
@@ -211,30 +187,6 @@ export const useDietLogList = (
 
   const updateDietLog = async (dietLog: DietLog) => {
     if (dietLog.id === 0) return undefined;
-
-    // TODO: MOVE TO DIETLOGMODAL
-    // const calories = ConvertInputStringToNumber(caloriesInput);
-    // const comment = ConvertEmptyStringToNull(commentInput);
-    // const fat = ConvertInputStringToNumberOrNull(fatInput);
-    // const carbs = ConvertInputStringToNumberOrNull(carbsInput);
-    // const protein = ConvertInputStringToNumberOrNull(proteinInput);
-
-    // const formattedDate = FormatYmdDateString(date);
-
-    // const disableExpansion = ShouldDietLogDisableExpansion(fat, carbs, protein);
-
-    // const dietLog: DietLog = {
-    //   id: dietLogId,
-    //   date,
-    //   calories,
-    //   fat,
-    //   carbs,
-    //   protein,
-    //   comment,
-    //   formattedDate,
-    //   isExpanded: !disableExpansion,
-    //   disableExpansion,
-    // };
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
