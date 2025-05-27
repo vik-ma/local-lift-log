@@ -121,11 +121,6 @@ export default function LoggingIndex() {
 
       setWeightUnit(validUnits.weightUnit);
 
-      if (userSettings.default_diet_log_day_is_yesterday === 1) {
-        // TODO: FIX
-        // setTargetDay("Yesterday");
-      }
-
       loadBodyFatCalculationSettingsString(
         userSettings.body_fat_calculation_settings,
         measurementMap.current

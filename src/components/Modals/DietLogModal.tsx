@@ -185,6 +185,14 @@ export const DietLogModal = ({
       setDateEntryType("custom");
     }
 
+    if (
+      userSettings.default_diet_log_day_is_yesterday &&
+      !dietLogMap.has(dateStringYesterday)
+    ) {
+      setTargetDay("Yesterday");
+      return;
+    }
+
     if (targetDay === "Yesterday" && dietLogMap.has(dateStringYesterday)) {
       setTargetDay("Today");
     }
@@ -199,6 +207,7 @@ export const DietLogModal = ({
     dateStringYesterday,
     disableTodayOrYesterdayEntry,
     dateEntryType,
+    userSettings,
   ]);
 
   const disableSaveButton = useMemo(() => {
