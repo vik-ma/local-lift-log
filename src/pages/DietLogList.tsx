@@ -8,12 +8,8 @@ import {
   ListPageSearchInput,
   LoadingSpinner,
 } from "../components";
-import {
-  useDefaultDietLog,
-  useDietLogEntryInputs,
-  useDietLogList,
-} from "../hooks";
-import { DietLog, UserSettings } from "../typings";
+import { useDefaultDietLog, useDietLogList } from "../hooks";
+import { DietLog, DietLogDateEntryType, UserSettings } from "../typings";
 import {
   Button,
   Dropdown,
@@ -30,6 +26,8 @@ type OperationType = "add" | "edit" | "delete";
 export default function DietLogList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
+  const [dateEntryType, setDateEntryType] =
+    useState<DietLogDateEntryType>("custom");
 
   const defaultDietLog = useDefaultDietLog();
 
@@ -61,11 +59,6 @@ export default function DietLogList() {
 
   const { filterMap, removeFilter, prefixMap } = dietLogListFilters;
 
-  const dietLogEntryInputs = useDietLogEntryInputs("custom");
-
-  const { resetDietLogInputs, setDateEntryType, loadDietLogInputs } =
-    dietLogEntryInputs;
-
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
@@ -77,30 +70,24 @@ export default function DietLogList() {
     loadUserSettings();
   }, []);
 
-  const addDietLogEntry = async (date: string) => {
+  const addDietLogEntry = async (dietLog: DietLog) => {
     if (operationType !== "add" || operatingDietLog.id !== 0) return;
 
-    const newDietLog = await addDietLog(date, dietLogEntryInputs);
+    const newDietLog = await addDietLog(dietLog);
 
     if (newDietLog === undefined) return;
 
-    resetDietLogEntry();
     dietLogModal.onClose();
     toast.success("Diet Log Entry Added");
   };
 
-  const updateDietLogEntry = async (date: string) => {
+  const updateDietLogEntry = async (dietLog: DietLog) => {
     if (operationType !== "edit") return;
 
-    const updatedDietLog = await updateDietLog(
-      date,
-      operatingDietLog.id,
-      dietLogEntryInputs
-    );
+    const updatedDietLog = await updateDietLog(dietLog);
 
     if (updatedDietLog === undefined) return;
 
-    resetDietLogEntry();
     dietLogModal.onClose();
     toast.success("Diet Log Entry Updated");
   };
@@ -121,24 +108,18 @@ export default function DietLogList() {
   const addDietLogEntries = async (
     startDate: Date,
     endDate: Date,
-    overwriteExistingDietLogs: boolean
+    overwriteExistingDietLogs: boolean,
+    dietLog: DietLog
   ) => {
     await addDietLogEntryRange(
       startDate,
       endDate,
       overwriteExistingDietLogs,
-      dietLogEntryInputs
+      dietLog
     );
 
-    resetDietLogEntry();
     dietLogModal.onClose();
     toast.success("Diet Log Entries Added");
-  };
-
-  const resetDietLogEntry = () => {
-    setOperationType("add");
-    setOperatingDietLog(defaultDietLog);
-    resetDietLogInputs();
   };
 
   const handleDietLogAccordionClick = (dietLog: DietLog, index: number) => {
@@ -159,7 +140,6 @@ export default function DietLogList() {
     if (key === "edit") {
       setOperationType("edit");
       setOperatingDietLog(dietLog);
-      loadDietLogInputs(dietLog);
       dietLogModal.onOpen();
     } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
       deleteDietLogEntry(dietLog);
@@ -172,10 +152,11 @@ export default function DietLogList() {
 
   const handleAddDietLogEntry = (isRange: boolean) => {
     if (operationType !== "add") {
-      resetDietLogEntry();
+      setOperationType("add");
+      setOperatingDietLog(defaultDietLog);
+      setDateEntryType(isRange ? "range" : "custom");
     }
 
-    setDateEntryType(isRange ? "range" : "custom");
     dietLogModal.onOpen();
   };
 
@@ -202,7 +183,7 @@ export default function DietLogList() {
       <DietLogModal
         dietLogModal={dietLogModal}
         dietLog={operatingDietLog}
-        useDietLogEntryInputs={dietLogEntryInputs}
+        defaultDateEntryType={dateEntryType}
         dietLogMap={dietLogMap}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
