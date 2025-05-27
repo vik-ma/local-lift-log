@@ -183,7 +183,8 @@ export default function DietLogList() {
       <DietLogModal
         dietLogModal={dietLogModal}
         dietLog={operatingDietLog}
-        defaultDateEntryType={dateEntryType}
+        dateEntryType={dateEntryType}
+        setDateEntryType={setDateEntryType}
         dietLogMap={dietLogMap}
         userSettings={userSettings}
         setUserSettings={setUserSettings}

@@ -42,7 +42,8 @@ import { useDateRange } from "../../hooks";
 type DietLogModalProps = {
   dietLogModal: UseDisclosureReturnType;
   dietLog: DietLog;
-  defaultDateEntryType: DietLogDateEntryType;
+  dateEntryType: DietLogDateEntryType;
+  setDateEntryType: React.Dispatch<React.SetStateAction<DietLogDateEntryType>>;
   dietLogMap: DietLogMap;
   userSettings: UserSettings;
   setUserSettings: React.Dispatch<
@@ -61,7 +62,8 @@ type DietLogModalProps = {
 export const DietLogModal = ({
   dietLogModal,
   dietLog,
-  defaultDateEntryType,
+  dateEntryType,
+  setDateEntryType,
   dietLogMap,
   userSettings,
   setUserSettings,
@@ -78,8 +80,6 @@ export const DietLogModal = ({
 
   const [targetDay, setTargetDay] = useState<string>("Today");
   const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(null);
-  const [dateEntryType, setDateEntryType] =
-    useState<DietLogDateEntryType>(defaultDateEntryType);
 
   const dateRange = useDateRange();
 
@@ -207,6 +207,7 @@ export const DietLogModal = ({
     dateStringYesterday,
     disableTodayOrYesterdayEntry,
     dateEntryType,
+    setDateEntryType,
     userSettings,
   ]);
 
@@ -363,7 +364,6 @@ export const DietLogModal = ({
     setCommentInput(dietLog.comment ? dietLog.comment.toString() : "");
 
     setSelectedDate(ConvertYmdDateStringToCalendarDate(dietLog.date));
-    setDateEntryType(dietLog.id === 0 ? "recent" : "custom");
 
     // TODO: FIX DATE RANGE
     // dateRange.setStartDate(null);

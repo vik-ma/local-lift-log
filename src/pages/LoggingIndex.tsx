@@ -484,7 +484,8 @@ export default function LoggingIndex() {
       <DietLogModal
         dietLogModal={dietLogModal}
         dietLog={operatingDietLog}
-        defaultDateEntryType={dateEntryType}
+        dateEntryType={dateEntryType}
+        setDateEntryType={setDateEntryType}
         dietLogMap={dietLogMap}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
