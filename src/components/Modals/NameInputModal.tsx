@@ -31,8 +31,12 @@ export const NameInputModal = ({
 
     buttonAction(nameInput);
 
-    setNameInput("");
+    resetInputs();
   };
+
+  const resetInputs = () => {
+    setNameInput("");
+  }
 
   return (
     <Modal

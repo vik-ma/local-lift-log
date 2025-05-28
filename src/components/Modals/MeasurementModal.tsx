@@ -41,6 +41,12 @@ export const MeasurementModal = ({
     const updatedMeasurement = { ...measurement, name: nameInput };
 
     buttonAction(updatedMeasurement);
+    
+    resetInputs();
+  };
+
+  const resetInputs = () => {
+    setNameInput("");
   };
 
   useEffect(() => {
