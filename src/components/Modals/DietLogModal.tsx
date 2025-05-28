@@ -335,6 +335,9 @@ export const DietLogModal = ({
       overwriteExistingDietLogs,
       dietLogTemplate
     );
+
+    dateRange.setStartDate(null);
+    dateRange.setEndDate(null);
   };
 
   const showOverwriteOptions = useMemo(() => {
@@ -362,12 +365,7 @@ export const DietLogModal = ({
     setCarbsInput(dietLog.carbs ? dietLog.carbs.toString() : "");
     setProteinInput(dietLog.protein ? dietLog.protein.toString() : "");
     setCommentInput(dietLog.comment ? dietLog.comment.toString() : "");
-
     setSelectedDate(ConvertYmdDateStringToCalendarDate(dietLog.date));
-
-    // TODO: FIX DATE RANGE
-    // dateRange.setStartDate(null);
-    // dateRange.setEndDate(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dietLog.id]);
 
