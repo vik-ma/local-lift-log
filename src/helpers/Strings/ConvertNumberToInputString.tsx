@@ -1,7 +1,7 @@
 import { IsNumberValid, IsNumberValidInteger } from "..";
 
 export const ConvertNumberToInputString = (
-  num: number,
+  num: number | null,
   minValue: number = 0,
   doNotAllowMinValue?: boolean,
   maxValue?: number,
@@ -9,6 +9,8 @@ export const ConvertNumberToInputString = (
   defaultInvalidValue?: string,
   doNotReturn0AsEmptyString?: boolean
 ) => {
+  if (num === null) return "";
+
   if (
     isInteger &&
     IsNumberValidInteger(num, minValue, doNotAllowMinValue, maxValue)
