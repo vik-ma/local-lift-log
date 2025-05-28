@@ -147,6 +147,16 @@ export const TimePeriodModal = ({
     };
 
     buttonAction(updatedTimePeriod);
+
+    resetInputs();
+  };
+
+  const resetInputs = () => {
+    setNameInput("");
+    setNoteInput("");
+    setInjuryInput("");
+    setStartDate(null);
+    setEndDate(null);
   };
 
   return (
