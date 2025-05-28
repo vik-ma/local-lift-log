@@ -33,6 +33,16 @@ export const TextInputModal = ({
     setValue(sourceValue ?? "");
   }, [sourceValue]);
 
+  const handleSaveButton = () => {
+    buttonAction(value);
+
+    resetInputs();
+  };
+
+  const resetInputs = () => {
+    setValue("");
+  };
+
   return (
     <Modal
       isOpen={textInputModal.isOpen}
@@ -58,7 +68,7 @@ export const TextInputModal = ({
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="primary" onPress={() => buttonAction(value)}>
+              <Button color="primary" onPress={handleSaveButton}>
                 {buttonText}
               </Button>
             </ModalFooter>
