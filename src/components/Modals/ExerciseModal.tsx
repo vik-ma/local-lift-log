@@ -242,6 +242,15 @@ export const ExerciseModal = ({
     updatedExercise.note = note;
 
     buttonAction(updatedExercise);
+    resetInputs();
+  };
+
+  const resetInputs = () => {
+    setNameInput("");
+    setNoteInput("");
+    setIsPrimaryAccordionExpanded(true);
+    setIsSecondaryAccordionExpanded(false);
+    setIsMultiplierAccordionExpanded(false);
   };
 
   return (
