@@ -251,12 +251,7 @@ export const DietLogModal = ({
     isDateRangeInvalid,
   ]);
 
-  // const currentCalendarDate = useMemo(() => today(getLocalTimeZone()), []);
-
   const isDateUnavailable = (date: DateValue) => {
-    // Disable dates before current date
-    // if (date.compare(currentCalendarDate) > 0) return true;
-
     const dateString = ConvertCalendarDateToYmdString(date as CalendarDate);
 
     if (dateString === null) return false;
