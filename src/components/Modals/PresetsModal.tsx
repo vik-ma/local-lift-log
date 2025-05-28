@@ -100,6 +100,13 @@ export const PresetsModal = ({
 
       doneButtonAction(undefined, distance);
     }
+
+    resetInputs();
+  };
+
+  const resetInputs = () => {
+    setNameInput("");
+    setValueInput("");
   };
 
   return (

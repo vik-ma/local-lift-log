@@ -130,6 +130,12 @@ export const PlateCollectionModal = ({
     const updatedPlateCollection = { ...plateCollection, name: nameInput };
 
     buttonAction(updatedPlateCollection);
+
+    resetInputs();
+  };
+
+  const resetInputs = () => {
+    setNameInput("");
   };
 
   useEffect(() => {
