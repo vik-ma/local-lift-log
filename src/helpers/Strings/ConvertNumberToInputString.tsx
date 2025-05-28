@@ -6,16 +6,17 @@ export const ConvertNumberToInputString = (
   doNotAllowMinValue?: boolean,
   maxValue?: number,
   isInteger?: boolean,
-  defaultInvalidValue?: string
+  defaultInvalidValue?: string,
+  doNotReturn0AsEmptyString?: boolean
 ) => {
   if (
     isInteger &&
     IsNumberValidInteger(num, minValue, doNotAllowMinValue, maxValue)
   )
-    return num.toString();
+    return num === 0 && !doNotReturn0AsEmptyString ? "" : num.toString();
 
   if (!isInteger && IsNumberValid(num, minValue, doNotAllowMinValue, maxValue))
-    return num.toString();
+    return num === 0 && !doNotReturn0AsEmptyString ? "" : num.toString();
 
   if (defaultInvalidValue !== undefined) return defaultInvalidValue;
 
