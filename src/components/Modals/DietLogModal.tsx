@@ -308,6 +308,7 @@ export const DietLogModal = ({
     updatedDietLog.formattedDate = formattedDate;
 
     doneButtonAction(updatedDietLog);
+    resetInputs();
   };
 
   const handleSaveRange = (dietLogTemplate: DietLog) => {
@@ -333,6 +334,7 @@ export const DietLogModal = ({
 
     dateRange.setStartDate(null);
     dateRange.setEndDate(null);
+    resetInputs();
   };
 
   const showOverwriteOptions = useMemo(() => {
@@ -353,6 +355,15 @@ export const DietLogModal = ({
 
     return false;
   }, [startDate, endDate, isEndDateBeforeStartDate, dietLogMap]);
+
+  const resetInputs = () => {
+    setCaloriesInput("");
+    setFatInput("");
+    setCarbsInput("");
+    setProteinInput("");
+    setCommentInput("");
+    setSelectedDate(null);
+  };
 
   useEffect(() => {
     setCaloriesInput(dietLog.calories !== 0 ? dietLog.calories.toString() : "");
