@@ -50,6 +50,12 @@ export const WorkoutModal = ({
     const updatedWorkout: Workout = { ...workout, comment: commentToInsert };
 
     buttonAction(updatedWorkout);
+
+    resetInputs();
+  };
+
+  const resetInputs = () => {
+    setCommentInput("");
   };
 
   useEffect(() => {

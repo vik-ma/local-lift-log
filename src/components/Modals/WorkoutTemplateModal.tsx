@@ -46,6 +46,13 @@ export const WorkoutTemplateModal = ({
     };
 
     buttonAction(updatedWorkoutTemplate);
+
+    resetInputs();
+  };
+
+  const resetInputs = () => {
+    setNameInput("");
+    setNoteInput("");
   };
 
   return (
