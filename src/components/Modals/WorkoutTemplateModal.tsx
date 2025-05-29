@@ -10,7 +10,10 @@ import {
 import { WorkoutTemplate, UseDisclosureReturnType } from "../../typings";
 import { useEffect, useState } from "react";
 import { useValidateName } from "../../hooks";
-import { ConvertEmptyStringToNull } from "../../helpers";
+import {
+  ConvertEmptyStringToNull,
+  ConvertNullToEmptyInputString,
+} from "../../helpers";
 
 type WorkoutTemplateModalProps = {
   workoutTemplateModal: UseDisclosureReturnType;
@@ -30,7 +33,7 @@ export const WorkoutTemplateModal = ({
 
   useEffect(() => {
     setNameInput(workoutTemplate.name);
-    setNoteInput(workoutTemplate.note ?? "");
+    setNoteInput(ConvertNullToEmptyInputString(workoutTemplate.note));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workoutTemplate.id]);
 

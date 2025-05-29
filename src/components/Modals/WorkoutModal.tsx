@@ -11,7 +11,10 @@ import {
   PopoverContent,
 } from "@heroui/react";
 import { UseDisclosureReturnType, Workout } from "../../typings";
-import { ConvertEmptyStringToNull } from "../../helpers";
+import {
+  ConvertEmptyStringToNull,
+  ConvertNullToEmptyInputString,
+} from "../../helpers";
 import { InfoIcon } from "../../assets";
 import { useEffect, useState } from "react";
 
@@ -59,7 +62,7 @@ export const WorkoutModal = ({
   };
 
   useEffect(() => {
-    setCommentInput(workout.comment ?? "");
+    setCommentInput(ConvertNullToEmptyInputString(workout.comment));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workout.id]);
 

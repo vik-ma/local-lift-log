@@ -20,6 +20,7 @@ import {
   GenerateNewExerciseGroupSetStringSecondary,
   ConvertEmptyStringToNull,
   UpdateExerciseGroupStrings,
+  ConvertNullToEmptyInputString,
 } from "../../helpers";
 import { ExerciseGroupCheckboxes } from "..";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -207,7 +208,7 @@ export const ExerciseModal = ({
 
   useEffect(() => {
     setNameInput(exercise.name);
-    setNoteInput(exercise.note ?? "");
+    setNoteInput(ConvertNullToEmptyInputString(exercise.note));
     // Expand the Primary Exercise Group accordion when creating new Exercise
     // Keep accordion closed if editing existing Exercise
     setIsPrimaryAccordionExpanded(!isExerciseGroupSetPrimaryStringValid);

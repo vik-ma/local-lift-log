@@ -22,6 +22,7 @@ import {
   ConvertDateStringToCalendarDate,
   ConvertEmptyStringToNull,
   ConvertISODateStringToCalendarDate,
+  ConvertNullToEmptyInputString,
   FormatISODateString,
   GetNumberOfDaysBetweenDates,
   IsDateBeforeEpochDate,
@@ -100,8 +101,8 @@ export const TimePeriodModal = ({
 
   useEffect(() => {
     setNameInput(timePeriod.name);
-    setNoteInput(timePeriod.note ?? "");
-    setInjuryInput(timePeriod.injury ?? "");
+    setNoteInput(ConvertNullToEmptyInputString(timePeriod.note));
+    setInjuryInput(ConvertNullToEmptyInputString(timePeriod.injury));
     setStartDate(ConvertISODateStringToCalendarDate(timePeriod.start_date));
     setEndDate(ConvertISODateStringToCalendarDate(timePeriod.end_date));
     // eslint-disable-next-line react-hooks/exhaustive-deps

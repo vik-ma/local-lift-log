@@ -28,6 +28,7 @@ import {
   ConvertEmptyStringToNull,
   ConvertInputStringToNumber,
   ConvertInputStringToNumberOrNull,
+  ConvertNullToEmptyInputString,
   ConvertNumberToInputString,
   ConvertYmdDateStringToCalendarDate,
   FormatYmdDateString,
@@ -371,7 +372,7 @@ export const DietLogModal = ({
     setFatInput(ConvertNumberToInputString(dietLog.fat));
     setCarbsInput(ConvertNumberToInputString(dietLog.carbs));
     setProteinInput(ConvertNumberToInputString(dietLog.protein));
-    setCommentInput(dietLog.comment ? dietLog.comment.toString() : "");
+    setCommentInput(ConvertNullToEmptyInputString(dietLog.comment));
     setSelectedDate(ConvertYmdDateStringToCalendarDate(dietLog.date));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dietLog.id]);
