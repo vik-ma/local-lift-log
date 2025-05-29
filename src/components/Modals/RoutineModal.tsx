@@ -12,15 +12,17 @@ import {
   SelectItem,
 } from "@heroui/react";
 import { Routine, UseDisclosureReturnType } from "../../typings";
-import { useMemo } from "react";
-import { NumDaysInScheduleOptions } from "../../helpers";
-import { useRoutineScheduleTypeMap } from "../../hooks";
+import { useEffect, useMemo, useState } from "react";
+import {
+  ConvertNullToEmptyInputString,
+  NumDaysInScheduleOptions,
+} from "../../helpers";
+import { useIsRoutineValid, useRoutineScheduleTypeMap } from "../../hooks";
 
 type RoutineModalProps = {
   routineModal: UseDisclosureReturnType;
   routine: Routine;
   setRoutine: React.Dispatch<React.SetStateAction<Routine>>;
-  isRoutineNameValid: boolean;
   buttonAction: () => void;
 };
 
@@ -28,9 +30,13 @@ export const RoutineModal = ({
   routineModal,
   routine,
   setRoutine,
-  isRoutineNameValid,
   buttonAction,
 }: RoutineModalProps) => {
+  const [nameInput, setNameInput] = useState<string>("");
+  const [noteInput, setNoteInput] = useState<string>("");
+
+  const { isRoutineNameValid, isRoutineValid } = useIsRoutineValid(routine);
+
   const numDaysInScheduleOptions: number[] = useMemo(() => {
     return NumDaysInScheduleOptions();
   }, []);
@@ -69,6 +75,12 @@ export const RoutineModal = ({
     setRoutine((prev) => ({ ...prev, num_days_in_schedule: numDays }));
   };
 
+  useEffect(() => {
+    setNameInput(routine.name);
+    setNoteInput(ConvertNullToEmptyInputString(routine.note));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [routine.id]);
+
   return (
     <Modal
       isOpen={routineModal.isOpen}
@@ -85,24 +97,20 @@ export const RoutineModal = ({
                 <div className="flex flex-col gap-0.5">
                   <Input
                     className="h-[5rem]"
-                    value={routine.name}
+                    value={nameInput}
                     isInvalid={!isRoutineNameValid}
                     label="Name"
                     errorMessage={!isRoutineNameValid && "Name can't be empty"}
                     variant="faded"
-                    onValueChange={(value) =>
-                      setRoutine((prev) => ({ ...prev, name: value }))
-                    }
+                    onValueChange={setNameInput}
                     isRequired
                     isClearable
                   />
                   <Input
-                    value={routine.note ?? ""}
+                    value={noteInput}
                     label="Note"
                     variant="faded"
-                    onValueChange={(value) =>
-                      setRoutine((prev) => ({ ...prev, note: value }))
-                    }
+                    onValueChange={setNoteInput}
                     isClearable
                   />
                 </div>
@@ -154,7 +162,7 @@ export const RoutineModal = ({
               <Button
                 color="primary"
                 onPress={buttonAction}
-                isDisabled={!isRoutineNameValid}
+                isDisabled={!isRoutineValid}
               >
                 {routine.id !== 0 ? "Save" : "Create"}
               </Button>
