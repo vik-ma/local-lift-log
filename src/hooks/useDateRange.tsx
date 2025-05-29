@@ -1,6 +1,6 @@
 import { CalendarDate } from "@heroui/react";
 import { useMemo, useState } from "react";
-import { useIsEndDateBeforeStartDate } from ".";
+import { useIsDateBeforeEpochDate, useIsEndDateBeforeStartDate } from ".";
 import { UseDateRangeReturnType } from "../typings";
 
 export const useDateRange = (): UseDateRangeReturnType => {
@@ -12,11 +12,21 @@ export const useDateRange = (): UseDateRangeReturnType => {
     endDate
   );
 
+  const isStartDateBeforeEpoch = useIsDateBeforeEpochDate(startDate);
+  const isEndDateBeforeEpoch = useIsDateBeforeEpochDate(endDate);
+
   const isDateRangeInvalid = useMemo(() => {
     if (startDate === null || endDate === null) return true;
+    if (isStartDateBeforeEpoch || isEndDateBeforeEpoch) return false;
     if (isEndDateBeforeStartDate) return true;
     return false;
-  }, [startDate, endDate, isEndDateBeforeStartDate]);
+  }, [
+    startDate,
+    endDate,
+    isEndDateBeforeStartDate,
+    isStartDateBeforeEpoch,
+    isEndDateBeforeEpoch,
+  ]);
 
   return {
     startDate,
@@ -25,5 +35,7 @@ export const useDateRange = (): UseDateRangeReturnType => {
     setEndDate,
     isEndDateBeforeStartDate,
     isDateRangeInvalid,
+    isStartDateBeforeEpoch,
+    isEndDateBeforeEpoch,
   };
 };

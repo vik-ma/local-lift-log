@@ -1108,6 +1108,8 @@ export type UseDateRangeReturnType = {
   setEndDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
   isEndDateBeforeStartDate: boolean;
   isDateRangeInvalid: boolean;
+  isStartDateBeforeEpoch: boolean;
+  isEndDateBeforeEpoch: boolean;
 };
 
 export type ChartDataCategory =
