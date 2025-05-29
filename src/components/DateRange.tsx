@@ -19,6 +19,8 @@ export const DateRange = ({
     endDate,
     setEndDate,
     isEndDateBeforeStartDate,
+    isStartDateBeforeEpoch,
+    isEndDateBeforeEpoch,
   } = dateRange;
 
   return (
@@ -39,6 +41,8 @@ export const DateRange = ({
           variant="faded"
           value={startDate}
           onChange={setStartDate}
+          isInvalid={isStartDateBeforeEpoch}
+          errorMessage="Invalid Date"
         />
       </I18nProvider>
       <I18nProvider locale={locale}>
@@ -51,15 +55,19 @@ export const DateRange = ({
             errorMessage: "w-[10.5rem]",
             helperWrapper: "px-px",
             label: "text-neutral-700",
-            segment: "data-[invalid=true]:focus:bg-danger-600/15"
+            segment: "data-[invalid=true]:focus:bg-danger-600/15",
           }}
           label={<span className="text-base font-medium px-0.5">End Date</span>}
           labelPlacement="outside"
           variant="faded"
           value={endDate}
           onChange={setEndDate}
-          isInvalid={isEndDateBeforeStartDate}
-          errorMessage="Start Date is before End Date"
+          isInvalid={isEndDateBeforeEpoch || isEndDateBeforeStartDate}
+          errorMessage={
+            isEndDateBeforeEpoch
+              ? "Invalid Date"
+              : "End Date is before Start Date"
+          }
         />
       </I18nProvider>
     </div>
