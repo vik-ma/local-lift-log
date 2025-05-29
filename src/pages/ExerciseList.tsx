@@ -321,6 +321,9 @@ export default function ExerciseList() {
                     )}
                   </>
                 )}
+                <span className="w-[18rem] break-all text-xs text-slate-400 text-left">
+                  {exercise.note}
+                </span>
               </button>
               <div className="flex items-center gap-0.5 pr-1">
                 <FavoriteButton
