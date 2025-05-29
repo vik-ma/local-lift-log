@@ -18,7 +18,10 @@ import {
   ConvertNullToEmptyInputString,
   NumDaysInScheduleOptions,
 } from "../../helpers";
-import { useIsRoutineValid, useRoutineScheduleTypeMap } from "../../hooks";
+import {
+  useRoutineScheduleTypeMap,
+  useValidateName,
+} from "../../hooks";
 
 type RoutineModalProps = {
   routineModal: UseDisclosureReturnType;
@@ -36,7 +39,19 @@ export const RoutineModal = ({
   const [nameInput, setNameInput] = useState<string>("");
   const [noteInput, setNoteInput] = useState<string>("");
 
-  const { isRoutineNameValid, isRoutineValid } = useIsRoutineValid(routine);
+  const isRoutineNameValid = useValidateName(nameInput);
+
+  const isRoutineValid = useMemo(() => {
+    if (!isRoutineNameValid) return false;
+
+    if (routine.schedule_type === 0 && routine.num_days_in_schedule !== 7)
+      return false;
+
+    if (routine.num_days_in_schedule < 2 || routine.num_days_in_schedule > 14)
+      return false;
+
+    return true;
+  }, [routine, isRoutineNameValid]);
 
   const numDaysInScheduleOptions: number[] = useMemo(() => {
     return NumDaysInScheduleOptions();
