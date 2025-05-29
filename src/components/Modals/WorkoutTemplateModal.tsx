@@ -19,12 +19,14 @@ type WorkoutTemplateModalProps = {
   workoutTemplateModal: UseDisclosureReturnType;
   workoutTemplate: WorkoutTemplate;
   buttonAction: (workoutTemplate: WorkoutTemplate) => void;
+  resetInputsAfterSaving?: boolean;
 };
 
 export const WorkoutTemplateModal = ({
   workoutTemplateModal,
   workoutTemplate,
   buttonAction,
+  resetInputsAfterSaving,
 }: WorkoutTemplateModalProps) => {
   const [nameInput, setNameInput] = useState<string>("");
   const [noteInput, setNoteInput] = useState<string>("");
@@ -50,7 +52,7 @@ export const WorkoutTemplateModal = ({
 
     buttonAction(updatedWorkoutTemplate);
 
-    resetInputs();
+    if (resetInputsAfterSaving) resetInputs();
   };
 
   const resetInputs = () => {

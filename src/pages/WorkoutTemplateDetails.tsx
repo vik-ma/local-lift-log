@@ -244,6 +244,7 @@ export default function WorkoutTemplateDetails() {
         workoutTemplateModal={workoutTemplateModal}
         workoutTemplate={workoutTemplate}
         buttonAction={updateWorkoutTemplate}
+        resetInputsAfterSaving
       />
       <DeleteModal
         deleteModal={deleteModal}

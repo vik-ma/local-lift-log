@@ -30,6 +30,7 @@ type WorkoutModalProps = {
   handleChangeRoutineButton?: () => void;
   handleRemoveRoutineButton?: () => void;
   handleReassignRoutineButton?: () => void;
+  resetInputsAfterSaving?: boolean;
 };
 
 export const WorkoutModal = ({
@@ -44,6 +45,7 @@ export const WorkoutModal = ({
   handleChangeRoutineButton,
   handleRemoveRoutineButton,
   handleReassignRoutineButton,
+  resetInputsAfterSaving,
 }: WorkoutModalProps) => {
   const [commentInput, setCommentInput] = useState<string>("");
 
@@ -54,7 +56,7 @@ export const WorkoutModal = ({
 
     buttonAction(updatedWorkout);
 
-    resetInputs();
+    if (resetInputsAfterSaving) resetInputs();
   };
 
   const resetInputs = () => {

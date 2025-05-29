@@ -239,6 +239,7 @@ export default function ExerciseList() {
         setExercise={setOperatingExercise}
         exerciseGroupDictionary={exerciseGroupDictionary}
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
+        resetInputsAfterSaving
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}

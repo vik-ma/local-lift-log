@@ -38,6 +38,7 @@ type ExerciseModalProps = {
   setExercise: React.Dispatch<React.SetStateAction<Exercise>>;
   exerciseGroupDictionary: ExerciseGroupMap;
   buttonAction: (exercise: Exercise) => void;
+  resetInputsAfterSaving?: boolean;
 };
 
 export const ExerciseModal = ({
@@ -46,6 +47,7 @@ export const ExerciseModal = ({
   setExercise,
   exerciseGroupDictionary,
   buttonAction,
+  resetInputsAfterSaving,
 }: ExerciseModalProps) => {
   const [nameInput, setNameInput] = useState<string>("");
   const [noteInput, setNoteInput] = useState<string>("");
@@ -243,7 +245,8 @@ export const ExerciseModal = ({
     updatedExercise.note = note;
 
     buttonAction(updatedExercise);
-    resetInputs();
+
+    if (resetInputsAfterSaving) resetInputs();
   };
 
   const resetInputs = () => {

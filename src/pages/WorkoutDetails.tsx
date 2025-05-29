@@ -401,6 +401,7 @@ export default function WorkoutDetails() {
         workout={workout}
         workoutTemplateNote={workoutTemplateNote}
         buttonAction={handleWorkoutModalSaveButton}
+        resetInputsAfterSaving
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
