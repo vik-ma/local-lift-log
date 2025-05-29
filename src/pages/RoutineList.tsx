@@ -12,7 +12,6 @@ import { Routine, UserSettings } from "../typings";
 import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
 import {
-  ConvertEmptyStringToNull,
   UpdateRoutine,
   DeleteItemFromList,
   UpdateItemInList,
@@ -39,7 +38,6 @@ import {
   useDefaultRoutine,
   useExerciseList,
   useFilterExerciseList,
-  useIsRoutineValid,
   useRoutineList,
   useWorkoutTemplateList,
 } from "../hooks";
@@ -61,9 +59,6 @@ export default function RoutineList() {
 
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
-
-  const { isRoutineNameValid, isRoutineValid } =
-    useIsRoutineValid(operatingRoutine);
 
   const exerciseList = useExerciseList(true, true);
 
@@ -141,13 +136,11 @@ export default function RoutineList() {
     }
   };
 
-  const addRoutine = async () => {
-    if (!isRoutineValid || operationType !== "add") return;
+  const addRoutine = async (routine: Routine) => {
+    if (operationType !== "add") return;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
-
-      const noteToInsert = ConvertEmptyStringToNull(operatingRoutine.note);
 
       const result = await db.execute(
         `INSERT into routines 
@@ -155,12 +148,12 @@ export default function RoutineList() {
          start_day, workout_template_order) 
          VALUES ($1, $2, $3, $4, $5, $6)`,
         [
-          operatingRoutine.name,
-          noteToInsert,
-          operatingRoutine.schedule_type,
-          operatingRoutine.num_days_in_schedule,
-          operatingRoutine.start_day,
-          operatingRoutine.workout_template_order,
+          routine.name,
+          routine.note,
+          routine.schedule_type,
+          routine.num_days_in_schedule,
+          routine.start_day,
+          routine.workout_template_order,
         ]
       );
 
@@ -205,41 +198,33 @@ export default function RoutineList() {
     deleteModal.onClose();
   };
 
-  const updateRoutine = async () => {
-    if (!isRoutineValid || routines[operatingRoutineIndex] === undefined)
-      return;
-
-    const noteToInsert = ConvertEmptyStringToNull(operatingRoutine.note);
-
-    const updatedRoutine: Routine = {
-      ...operatingRoutine,
-      note: noteToInsert,
-    };
+  const updateRoutine = async (routine: Routine) => {
+    if (routines[operatingRoutineIndex] === undefined) return;
 
     // If switching schedule_type from Weekly/Custom to No Day Set or vice versa
     if (
       (routines[operatingRoutineIndex].schedule_type !== 2 &&
-        updatedRoutine.schedule_type === 2) ||
+        routine.schedule_type === 2) ||
       (routines[operatingRoutineIndex].schedule_type === 2 &&
-        updatedRoutine.schedule_type !== 2)
+        routine.schedule_type !== 2)
     ) {
       const { workoutTemplateIdList, workoutTemplateIdSet } =
         CreateRoutineWorkoutTemplateList(
-          updatedRoutine.schedule_type === 2
+          routine.schedule_type === 2
             ? `[${operatingRoutine.workout_template_order}]`
-            : updatedRoutine.workoutTemplateIds,
+            : routine.workoutTemplateIds,
           workoutTemplateMap.current
         );
 
-      updatedRoutine.workoutTemplateIdList = workoutTemplateIdList;
-      updatedRoutine.workoutTemplateIdSet = workoutTemplateIdSet;
+      routine.workoutTemplateIdList = workoutTemplateIdList;
+      routine.workoutTemplateIdSet = workoutTemplateIdSet;
     }
 
-    const success = await UpdateRoutine(updatedRoutine);
+    const success = await UpdateRoutine(routine);
 
     if (!success) return;
 
-    const updatedRoutines = UpdateItemInList(routines, updatedRoutine);
+    const updatedRoutines = UpdateItemInList(routines, routine);
 
     sortRoutinesByActiveCategory(updatedRoutines);
 
@@ -270,7 +255,6 @@ export default function RoutineList() {
         routineModal={routineModal}
         routine={operatingRoutine}
         setRoutine={setOperatingRoutine}
-        isRoutineNameValid={isRoutineNameValid}
         buttonAction={operationType === "edit" ? updateRoutine : addRoutine}
       />
       <DeleteModal

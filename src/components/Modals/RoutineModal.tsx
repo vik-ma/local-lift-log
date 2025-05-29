@@ -14,6 +14,7 @@ import {
 import { Routine, UseDisclosureReturnType } from "../../typings";
 import { useEffect, useMemo, useState } from "react";
 import {
+  ConvertEmptyStringToNull,
   ConvertNullToEmptyInputString,
   NumDaysInScheduleOptions,
 } from "../../helpers";
@@ -23,7 +24,7 @@ type RoutineModalProps = {
   routineModal: UseDisclosureReturnType;
   routine: Routine;
   setRoutine: React.Dispatch<React.SetStateAction<Routine>>;
-  buttonAction: () => void;
+  buttonAction: (routine: Routine) => void;
 };
 
 export const RoutineModal = ({
@@ -80,6 +81,20 @@ export const RoutineModal = ({
     setNoteInput(ConvertNullToEmptyInputString(routine.note));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routine.id]);
+
+  const handleSaveButton = () => {
+    if (!isRoutineValid) return;
+
+    const note = ConvertEmptyStringToNull(noteInput);
+
+    const updatedRoutine: Routine = {
+      ...routine,
+      name: nameInput,
+      note: note,
+    };
+
+    buttonAction(updatedRoutine);
+  };
 
   return (
     <Modal
@@ -161,7 +176,7 @@ export const RoutineModal = ({
               </Button>
               <Button
                 color="primary"
-                onPress={buttonAction}
+                onPress={handleSaveButton}
                 isDisabled={!isRoutineValid}
               >
                 {routine.id !== 0 ? "Save" : "Create"}
