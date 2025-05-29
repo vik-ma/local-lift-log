@@ -365,6 +365,9 @@ export default function RoutineList() {
                       routine.num_days_in_schedule
                     )}
                   </span>
+                  <span className="w-[15rem] break-all text-xs text-slate-400 text-left">
+                    {routine.note}
+                  </span>
                 </button>
                 <div className="flex items-center gap-1 pr-1">
                   <Button
