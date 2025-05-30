@@ -20,7 +20,6 @@ import {
 import {
   GetScheduleDayNames,
   GetScheduleDayValues,
-  ConvertEmptyStringToNull,
   DefaultNewRoutine,
   IsNumberValidInteger,
   GetUserSettings,
@@ -35,7 +34,6 @@ import {
 } from "../helpers";
 import toast from "react-hot-toast";
 import {
-  useIsRoutineValid,
   useWorkoutTemplateList,
   useDetailsHeaderOptionsMenu,
   useExerciseList,
@@ -71,9 +69,6 @@ export default function RoutineDetails() {
 
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
-
-  const { isRoutineNameValid, isRoutineValid } =
-    useIsRoutineValid(editedRoutine);
 
   const exerciseList = useExerciseList(false);
 
@@ -209,26 +204,17 @@ export default function RoutineDetails() {
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Routine");
 
-  const updateRoutine = async () => {
-    if (!isRoutineValid) return;
-
-    const noteToInsert = ConvertEmptyStringToNull(editedRoutine.note);
-
-    const updatedRoutine: Routine = {
-      ...editedRoutine,
-      note: noteToInsert,
-    };
-
+  const updateRoutine = async (routine: Routine) => {
     // If switching schedule_type from Weekly/Custom to No Day Set
-    if (routine.schedule_type !== 2 && updatedRoutine.schedule_type === 2) {
+    if (routine.schedule_type !== 2 && routine.schedule_type === 2) {
       const { workoutTemplateIdList, workoutTemplateIdSet } =
         CreateRoutineWorkoutTemplateList(
           `[${routine.workout_template_order}]`,
           workoutTemplateMap.current
         );
 
-      updatedRoutine.workoutTemplateIdList = workoutTemplateIdList;
-      updatedRoutine.workoutTemplateIdSet = workoutTemplateIdSet;
+      routine.workoutTemplateIdList = workoutTemplateIdList;
+      routine.workoutTemplateIdSet = workoutTemplateIdSet;
 
       const noDayWorkoutTemplateList = CreateNoDayWorkoutTemplateList(
         workoutTemplateIdList,
@@ -239,22 +225,22 @@ export default function RoutineDetails() {
     }
 
     // If switching schedule_type from No Day Set to Weekly/Custom
-    if (routine.schedule_type === 2 && updatedRoutine.schedule_type !== 2) {
+    if (routine.schedule_type === 2 && routine.schedule_type !== 2) {
       await getWorkoutRoutineSchedules();
     }
 
-    const success = await UpdateRoutine(updatedRoutine);
+    const success = await UpdateRoutine(routine);
 
     if (!success) return;
 
-    if (updatedRoutine.num_days_in_schedule < routine.num_days_in_schedule) {
+    if (routine.num_days_in_schedule < routine.num_days_in_schedule) {
       deleteWorkoutTemplateSchedulesAboveDayNumber(
-        updatedRoutine.num_days_in_schedule
+        routine.num_days_in_schedule
       );
     }
 
-    setRoutine(updatedRoutine);
-    setEditedRoutine(updatedRoutine);
+    setRoutine(routine);
+    setEditedRoutine(routine);
 
     routineModal.onClose();
     toast.success("Routine Updated");
@@ -523,7 +509,6 @@ export default function RoutineDetails() {
         routineModal={routineModal}
         routine={editedRoutine}
         setRoutine={setEditedRoutine}
-        isRoutineNameValid={isRoutineNameValid}
         buttonAction={updateRoutine}
       />
       <DeleteModal
