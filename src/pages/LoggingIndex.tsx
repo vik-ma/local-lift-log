@@ -87,7 +87,6 @@ export default function LoggingIndex() {
 
   const {
     isDietLogListLoaded,
-    dietLogs,
     addDietLog,
     updateDietLog,
     deleteDietLog,
@@ -104,14 +103,6 @@ export default function LoggingIndex() {
 
   useEffect(() => {
     if (!isDietLogListLoaded.current) return;
-
-    if (dietLogs[0] !== undefined) {
-      if (!dietLogs[0].disableExpansion) {
-        dietLogs[0].isExpanded = true;
-      }
-
-      setLatestDietLog(dietLogs[0]);
-    }
 
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
