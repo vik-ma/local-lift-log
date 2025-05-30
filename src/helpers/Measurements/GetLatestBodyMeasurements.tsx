@@ -12,6 +12,7 @@ export const GetLatestBodyMeasurements = async () => {
        WHERE date IS NOT NULL 
         AND date LIKE '____-__-__T__:__:__.___Z'
         AND date GLOB '[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9][0-9][0-9]Z'
+        AND substr(date, 1, 10) <= date('now')
        ORDER BY date DESC
        LIMIT 1`
     );
