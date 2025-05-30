@@ -9,7 +9,6 @@ export { useLocaleList } from "./useLocaleList";
 export { useExerciseList } from "./useExerciseList";
 export { useValidTimeInputBehaviors } from "./useValidTimeInputBehaviors";
 export { useDefaultRoutine } from "./useDefaultRoutine";
-export { useIsRoutineValid } from "./useIsRoutineValid";
 export { useDefaultExercise } from "./useDefaultExercise";
 export { useDefaultWorkoutTemplate } from "./useDefaultWorkoutTemplate";
 export { useDefaultSetInputValues } from "./useDefaultSetInputValues";
