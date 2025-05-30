@@ -43,7 +43,6 @@ export { useDietPhaseTypes } from "./useDietPhaseTypes";
 export { useTimePeriodListFilters } from "./useTimePeriodListFilters";
 export { useFilterMinAndMaxValueInputs } from "./useFilterMinAndMaxValueInputs";
 export { useIsEndDateBeforeStartDate } from "./useIsEndDateBeforeStartDate";
-export { useDefaultDietLog } from "./useDefaultDietLog";
 export { useDietLogList } from "./useDietLogList";
 export { useDietLogListFilters } from "./useDietLogListFilters";
 export { useRoutineScheduleTypeMap } from "./useRoutineScheduleTypeMap";
