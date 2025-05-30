@@ -256,6 +256,7 @@ export default function RoutineList() {
         routine={operatingRoutine}
         setRoutine={setOperatingRoutine}
         buttonAction={operationType === "edit" ? updateRoutine : addRoutine}
+        resetInputsAfterSaving
       />
       <DeleteModal
         deleteModal={deleteModal}

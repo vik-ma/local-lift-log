@@ -18,16 +18,14 @@ import {
   ConvertNullToEmptyInputString,
   NumDaysInScheduleOptions,
 } from "../../helpers";
-import {
-  useRoutineScheduleTypeMap,
-  useValidateName,
-} from "../../hooks";
+import { useRoutineScheduleTypeMap, useValidateName } from "../../hooks";
 
 type RoutineModalProps = {
   routineModal: UseDisclosureReturnType;
   routine: Routine;
   setRoutine: React.Dispatch<React.SetStateAction<Routine>>;
   buttonAction: (routine: Routine) => void;
+  resetInputsAfterSaving?: boolean;
 };
 
 export const RoutineModal = ({
@@ -35,6 +33,7 @@ export const RoutineModal = ({
   routine,
   setRoutine,
   buttonAction,
+  resetInputsAfterSaving,
 }: RoutineModalProps) => {
   const [nameInput, setNameInput] = useState<string>("");
   const [noteInput, setNoteInput] = useState<string>("");
@@ -109,6 +108,13 @@ export const RoutineModal = ({
     };
 
     buttonAction(updatedRoutine);
+
+    if (resetInputsAfterSaving) resetInputs();
+  };
+
+  const resetInputs = () => {
+    setNameInput("");
+    setNoteInput("");
   };
 
   return (
