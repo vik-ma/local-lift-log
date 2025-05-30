@@ -136,6 +136,10 @@ export const useDietLogList = (
     const dietLogs: DietLog[] = [];
     const dietLogMap = new Map<string, DietLog>();
 
+    let latestValidDietLog: DietLog | undefined = undefined;
+
+    const currentDate = new Date();
+
     for (const row of result) {
       if (dietLogMap.has(row.date)) continue;
 
@@ -156,10 +160,21 @@ export const useDietLogList = (
 
       dietLogs.push(dietLog);
       dietLogMap.set(dietLog.date, dietLog);
+
+      if (
+        latestValidDietLog === undefined &&
+        new Date(row.date) <= currentDate
+      ) {
+        latestValidDietLog = dietLog;
+      }
     }
 
     setDietLogs(dietLogs);
     setDietLogMap(dietLogMap);
+    setLatestDietLog(
+      latestValidDietLog !== undefined ? latestValidDietLog : defaultDietLog
+    );
+
     isDietLogListLoaded.current = true;
   };
 
