@@ -1047,6 +1047,9 @@ export type UseDietLogListReturnType = {
     latestDate?: number
   ) => Promise<DietLog | undefined>;
   getDietLogs: () => Promise<void>;
+  latestDietLog: DietLog;
+  setLatestDietLog: React.Dispatch<React.SetStateAction<DietLog>>;
+  defaultDietLog: DietLog;
 };
 
 export type UseDietLogListFiltersReturnType = {

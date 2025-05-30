@@ -28,7 +28,6 @@ import {
   DeleteBodyMeasurementsWithId,
   GetAllBodyMeasurements,
   UpdateBodyMeasurementsTimestamp,
-  DefaultNewDietLog,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -50,15 +49,10 @@ export default function LoggingIndex() {
     useState<DietLogDateEntryType>("recent");
 
   const defaultBodyMeasurements = DefaultNewBodyMeasurements();
-  const defaultDietLog = DefaultNewDietLog();
 
   const [latestBodyMeasurements, setLatestBodyMeasurements] =
     useState<BodyMeasurements>(defaultBodyMeasurements);
-  const [latestDietLog, setLatestDietLog] = useState<DietLog>(defaultDietLog);
 
-  const [operatingDietLog, setOperatingDietLog] = useState<DietLog>({
-    ...defaultDietLog,
-  });
   const [operatingBodyMeasurements, setOperatingBodyMeasurements] =
     useState<BodyMeasurements>({ ...defaultBodyMeasurements });
 
@@ -99,7 +93,14 @@ export default function LoggingIndex() {
     deleteDietLog,
     dietLogMap,
     addDietLogEntryRange,
+    latestDietLog,
+    setLatestDietLog,
+    defaultDietLog,
   } = dietLogList;
+
+  const [operatingDietLog, setOperatingDietLog] = useState<DietLog>({
+    ...defaultDietLog,
+  });
 
   useEffect(() => {
     if (!isDietLogListLoaded.current) return;

@@ -8,6 +8,7 @@ import {
 import Database from "tauri-plugin-sql-api";
 import {
   ConvertDateToYmdString,
+  DefaultNewDietLog,
   DeleteDietLogWithId,
   DeleteItemFromList,
   FormatYmdDateString,
@@ -30,6 +31,10 @@ export const useDietLogList = (
     useState<DietLogSortCategory>("date-desc");
   const [dietLogMap, setDietLogMap] = useState<DietLogMap>(new Map());
   const [filterQuery, setFilterQuery] = useState<string>("");
+
+  const defaultDietLog = DefaultNewDietLog();
+
+  const [latestDietLog, setLatestDietLog] = useState<DietLog>(defaultDietLog);
 
   const filterDietLogListModal = useDisclosure();
 
@@ -132,6 +137,8 @@ export const useDietLogList = (
     const dietLogMap = new Map<string, DietLog>();
 
     for (const row of result) {
+      if (dietLogMap.has(row.date)) continue;
+
       const formattedDate = FormatYmdDateString(row.date);
 
       const disableExpansion = ShouldDietLogDisableExpansion(
@@ -389,5 +396,8 @@ export const useDietLogList = (
     dietLogListFilters,
     addDietLogEntryRange,
     getDietLogs,
+    latestDietLog,
+    setLatestDietLog,
+    defaultDietLog,
   };
 };

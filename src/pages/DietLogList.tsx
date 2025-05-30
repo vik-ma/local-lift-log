@@ -8,7 +8,7 @@ import {
   ListPageSearchInput,
   LoadingSpinner,
 } from "../components";
-import { useDefaultDietLog, useDietLogList } from "../hooks";
+import { useDietLogList } from "../hooks";
 import { DietLog, DietLogDateEntryType, UserSettings } from "../typings";
 import {
   Button,
@@ -28,11 +28,6 @@ export default function DietLogList() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [dateEntryType, setDateEntryType] =
     useState<DietLogDateEntryType>("custom");
-
-  const defaultDietLog = useDefaultDietLog();
-
-  const [operatingDietLog, setOperatingDietLog] =
-    useState<DietLog>(defaultDietLog);
 
   const dietLogModal = useDisclosure();
   const deleteModal = useDisclosure();
@@ -55,7 +50,11 @@ export default function DietLogList() {
     filterDietLogListModal,
     dietLogListFilters,
     addDietLogEntryRange,
+    defaultDietLog,
   } = dietLogList;
+
+  const [operatingDietLog, setOperatingDietLog] =
+    useState<DietLog>(defaultDietLog);
 
   const { filterMap, removeFilter, prefixMap } = dietLogListFilters;
 
