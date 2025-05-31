@@ -60,8 +60,7 @@ export const useBodyMeasurementsInput = (
     if (IsStringEmpty(bodyFatPercentageInput)) return true;
     if (IsStringInvalidNumber(bodyFatPercentageInput, 0, true, 100))
       return false;
-    return false;
-
+    
     return true;
   }, [bodyFatPercentageInput]);
 
