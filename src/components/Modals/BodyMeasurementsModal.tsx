@@ -18,7 +18,7 @@ import {
 import { Reorder } from "framer-motion";
 import {
   Measurement,
-  UseBodyMeasurementsInputReturnType,
+  UseActiveMeasurementsReturnType,
   UseDisclosureReturnType,
   UseMeasurementListReturnType,
 } from "../../typings";
@@ -27,7 +27,7 @@ import { DeleteItemFromList } from "../../helpers";
 
 type BodyMeasurementsModalProps = {
   bodyMeasurementsModal: UseDisclosureReturnType;
-  useBodyMeasurementsInputs: UseBodyMeasurementsInputReturnType;
+  useActiveMeasurements: UseActiveMeasurementsReturnType;
   useMeasurementList: UseMeasurementListReturnType;
   doneButtonAction: () => void;
   isEditing: boolean;
@@ -37,7 +37,7 @@ type ModalPage = "base" | "measurement-list";
 
 export const BodyMeasurementsModal = ({
   bodyMeasurementsModal,
-  useBodyMeasurementsInputs,
+  useActiveMeasurements,
   useMeasurementList,
   doneButtonAction,
   isEditing,
@@ -64,7 +64,7 @@ export const BodyMeasurementsModal = ({
     bodyFatMeasurementsMap,
     validBodyFatInputs,
     calculateBodyFatPercentage,
-  } = useBodyMeasurementsInputs;
+  } = useActiveMeasurements;
 
   const handleMeasurementClick = (measurement: Measurement) => {
     if (activeMeasurementSet.has(measurement.id.toString())) {

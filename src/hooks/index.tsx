@@ -52,5 +52,5 @@ export { useDefaultChartMapsAndConfig } from "./useDefaultChartMapsAndConfig";
 export { useChartColorLists } from "./useChartColorLists";
 export { useChartDateMap } from "./useChartDateMap";
 export { useChartTimePeriodIdSets } from "./useChartTimePeriodIdSets";
-export { useBodyMeasurementsInput } from "./useBodyMeasurementsInput";
+export { useActiveMeasurements } from "./useActiveMeasurements";
 export { useIsDateBeforeEpochDate } from "./useIsDateBeforeEpochDate";

@@ -2,7 +2,7 @@ import Database from "tauri-plugin-sql-api";
 import {
   BodyMeasurements,
   MeasurementMap,
-  UseBodyMeasurementsInputReturnType,
+  UseActiveMeasurementsReturnType,
 } from "../../typings";
 import {
   ConvertEmptyStringToNull,
@@ -15,7 +15,7 @@ import {
 
 export const UpdateBodyMeasurements = async (
   bodyMeasurements: BodyMeasurements,
-  useBodyMeasurementsInput: UseBodyMeasurementsInputReturnType,
+  useActiveMeasurements: UseActiveMeasurementsReturnType,
   clockStyle: string,
   measurementMap: MeasurementMap
 ) => {
@@ -26,7 +26,7 @@ export const UpdateBodyMeasurements = async (
     bodyFatPercentageInput,
     commentInput,
     activeMeasurements,
-  } = useBodyMeasurementsInput;
+  } = useActiveMeasurements;
 
   if (!areBodyMeasurementsValid) return undefined;
 

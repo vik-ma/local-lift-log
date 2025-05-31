@@ -1223,7 +1223,7 @@ export type BodyMeasurements = {
   disableExpansion?: boolean;
 };
 
-export type UseBodyMeasurementsInputReturnType = {
+export type UseActiveMeasurementsReturnType = {
   weightInput: string;
   setWeightInput: React.Dispatch<React.SetStateAction<string>>;
   weightUnit: string;

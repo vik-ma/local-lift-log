@@ -10,21 +10,21 @@ import {
 } from "@heroui/react";
 import {
   Measurement,
-  UseBodyMeasurementsInputReturnType,
+  UseActiveMeasurementsReturnType,
   UseMeasurementListReturnType,
 } from "../../typings";
 import { useState } from "react";
 import { MeasurementModalList } from "..";
 
 type BodyFatCalculationModalProps = {
-  useBodyMeasurementsInputs: UseBodyMeasurementsInputReturnType;
+  useActiveMeasurements: UseActiveMeasurementsReturnType;
   useMeasurementList: UseMeasurementListReturnType;
 };
 
 type ModalPage = "base" | "measurements-list";
 
 export const BodyFatCalculationModal = ({
-  useBodyMeasurementsInputs,
+  useActiveMeasurements,
   useMeasurementList,
 }: BodyFatCalculationModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
@@ -44,7 +44,7 @@ export const BodyFatCalculationModal = ({
     bodyFatMeasurementsMap,
     isBodyFatMeasurementListInvalid,
     saveBodyFatCalculationSettingsString,
-  } = useBodyMeasurementsInputs;
+  } = useActiveMeasurements;
 
   const caliperMeasurements = [
     "Biceps",

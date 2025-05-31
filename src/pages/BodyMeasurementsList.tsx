@@ -17,7 +17,7 @@ import {
   TimeInputModal,
 } from "../components";
 import {
-  useBodyMeasurementsInput,
+  useActiveMeasurements,
   useFilterMinAndMaxValueInputs,
   useListFilters,
   useMeasurementList,
@@ -82,7 +82,7 @@ export default function BodyMeasurementsList() {
 
   const { measurementMap, isMeasurementListLoaded } = measurementList;
 
-  const bodyMeasurementsInput = useBodyMeasurementsInput(
+  const activeMeasurements = useActiveMeasurements(
     userSettings,
     setUserSettings
   );
@@ -101,7 +101,7 @@ export default function BodyMeasurementsList() {
     updateActiveTrackingMeasurementOrder,
     loadBodyFatCalculationSettingsString,
     bodyFatCalculationModal,
-  } = bodyMeasurementsInput;
+  } = activeMeasurements;
 
   const filterMinAndMaxValueInputsBodyFat = useFilterMinAndMaxValueInputs({
     maxValue: 100,
@@ -453,7 +453,7 @@ export default function BodyMeasurementsList() {
     if (userSettings === undefined) return;
 
     const newBodyMeasurements = await InsertBodyMeasurementsIntoDatabase(
-      bodyMeasurementsInput,
+      activeMeasurements,
       userSettings.clock_style,
       measurementMap.current
     );
@@ -479,7 +479,7 @@ export default function BodyMeasurementsList() {
 
     const updatedBodyMeasurements = await UpdateBodyMeasurements(
       operatingBodyMeasurements,
-      bodyMeasurementsInput,
+      activeMeasurements,
       userSettings.clock_style,
       measurementMap.current
     );
@@ -592,7 +592,7 @@ export default function BodyMeasurementsList() {
       />
       <BodyMeasurementsModal
         bodyMeasurementsModal={bodyMeasurementsModal}
-        useBodyMeasurementsInputs={bodyMeasurementsInput}
+        useActiveMeasurements={activeMeasurements}
         useMeasurementList={measurementList}
         doneButtonAction={
           operationType === "edit"
@@ -626,7 +626,7 @@ export default function BodyMeasurementsList() {
         setIncludeNullInMaxValuesBodyFat={setIncludeNullInMaxValuesBodyFat}
       />
       <BodyFatCalculationModal
-        useBodyMeasurementsInputs={bodyMeasurementsInput}
+        useActiveMeasurements={activeMeasurements}
         useMeasurementList={measurementList}
       />
       <div className="flex flex-col items-center gap-1.5">

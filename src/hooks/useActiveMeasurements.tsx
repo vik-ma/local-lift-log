@@ -14,18 +14,18 @@ import {
   BodyMeasurements,
   Measurement,
   MeasurementMap,
-  UseBodyMeasurementsInputReturnType,
+  UseActiveMeasurementsReturnType,
   UserSettings,
 } from "../typings";
 import toast from "react-hot-toast";
 import { useDisclosure } from "@heroui/react";
 
-export const useBodyMeasurementsInput = (
+export const useActiveMeasurements = (
   userSettings: UserSettings | undefined,
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >
-): UseBodyMeasurementsInputReturnType => {
+): UseActiveMeasurementsReturnType => {
   const [weightInput, setWeightInput] = useState<string>("");
   const [weightUnit, setWeightUnit] = useState<string>("kg");
   const [commentInput, setCommentInput] = useState<string>("");
@@ -60,7 +60,7 @@ export const useBodyMeasurementsInput = (
     if (IsStringEmpty(bodyFatPercentageInput)) return true;
     if (IsStringInvalidNumber(bodyFatPercentageInput, 0, true, 100))
       return false;
-    
+
     return true;
   }, [bodyFatPercentageInput]);
 

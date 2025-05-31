@@ -11,11 +11,11 @@ import {
 import {
   BodyMeasurements,
   MeasurementMap,
-  UseBodyMeasurementsInputReturnType,
+  UseActiveMeasurementsReturnType,
 } from "../../typings";
 
 export const InsertBodyMeasurementsIntoDatabase = async (
-  useBodyMeasurementsInput: UseBodyMeasurementsInputReturnType,
+  useActiveMeasurements: UseActiveMeasurementsReturnType,
   clockStyle: string,
   measurementMap: MeasurementMap
 ) => {
@@ -26,7 +26,7 @@ export const InsertBodyMeasurementsIntoDatabase = async (
     bodyFatPercentageInput,
     commentInput,
     activeMeasurements,
-  } = useBodyMeasurementsInput;
+  } = useActiveMeasurements;
 
   if (!areBodyMeasurementsValid) return undefined;
 

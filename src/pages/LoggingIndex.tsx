@@ -35,7 +35,7 @@ import { Link } from "react-router-dom";
 import {
   useMeasurementList,
   useReassignMeasurement,
-  useBodyMeasurementsInput,
+  useActiveMeasurements,
   useDietLogList,
 } from "../hooks";
 
@@ -68,7 +68,7 @@ export default function LoggingIndex() {
   const { nameInputModal, handleReassignMeasurement, reassignMeasurement } =
     useReassignMeasurement(measurementList);
 
-  const bodyMeasurementsInput = useBodyMeasurementsInput(
+  const activeMeasurements = useActiveMeasurements(
     userSettings,
     setUserSettings
   );
@@ -81,7 +81,7 @@ export default function LoggingIndex() {
     updateActiveTrackingMeasurementOrder,
     bodyFatCalculationModal,
     loadBodyFatCalculationSettingsString,
-  } = bodyMeasurementsInput;
+  } = activeMeasurements;
 
   const dietLogList = useDietLogList(true);
 
@@ -169,7 +169,7 @@ export default function LoggingIndex() {
     if (userSettings === undefined || !isOperatingBodyMeasurements) return;
 
     const newBodyMeasurements = await InsertBodyMeasurementsIntoDatabase(
-      bodyMeasurementsInput,
+      activeMeasurements,
       userSettings.clock_style,
       measurementMap.current
     );
@@ -197,7 +197,7 @@ export default function LoggingIndex() {
 
     const updatedBodyMeasurements = await UpdateBodyMeasurements(
       latestBodyMeasurements,
-      bodyMeasurementsInput,
+      activeMeasurements,
       userSettings.clock_style,
       measurementMap.current
     );
@@ -451,7 +451,7 @@ export default function LoggingIndex() {
       />
       <BodyMeasurementsModal
         bodyMeasurementsModal={bodyMeasurementsModal}
-        useBodyMeasurementsInputs={bodyMeasurementsInput}
+        useActiveMeasurements={activeMeasurements}
         useMeasurementList={measurementList}
         doneButtonAction={
           operationType === "edit"
@@ -488,7 +488,7 @@ export default function LoggingIndex() {
         saveRangeButtonAction={addDietLogEntries}
       />
       <BodyFatCalculationModal
-        useBodyMeasurementsInputs={bodyMeasurementsInput}
+        useActiveMeasurements={activeMeasurements}
         useMeasurementList={measurementList}
       />
       <div className="flex flex-col gap-3 items-center w-full">
