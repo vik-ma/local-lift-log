@@ -230,6 +230,7 @@ export { GetSpeedUnitFromDistanceUnit } from "./Strings/GetSpeedUnitFromDistance
 export { GetPaceUnitFromDistanceUnit } from "./Strings/GetPaceUnitFromDistanceUnit";
 export { ConvertNumberToInputString } from "./Strings/ConvertNumberToInputString";
 export { ConvertNullToEmptyInputString } from "./Strings/ConvertNullToEmptyInputString";
+export { GetValidatedWeightUnit } from "./Strings/GetValidatedWeightUnit";
 
 export { UpdateItemInList } from "./Lists/UpdateItemInList";
 export { DeleteItemFromList } from "./Lists/DeleteItemFromList";
