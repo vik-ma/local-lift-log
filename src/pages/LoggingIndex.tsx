@@ -444,7 +444,7 @@ export default function LoggingIndex() {
       />
       <BodyMeasurementsModal
         bodyMeasurementsModal={bodyMeasurementsModal}
-        bodyMeasurements={operatingBodyMeasurements}
+        operatingBodyMeasurements={operatingBodyMeasurements}
         measurementMap={measurementMap.current}
         useActiveMeasurements={activeMeasurements}
         useMeasurementList={measurementList}

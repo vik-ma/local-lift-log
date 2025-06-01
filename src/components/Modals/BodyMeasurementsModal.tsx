@@ -38,7 +38,7 @@ import {
 
 type BodyMeasurementsModalProps = {
   bodyMeasurementsModal: UseDisclosureReturnType;
-  bodyMeasurements: BodyMeasurements;
+  operatingBodyMeasurements: BodyMeasurements;
   measurementMap: MeasurementMap;
   useActiveMeasurements: UseActiveMeasurementsReturnType;
   useMeasurementList: UseMeasurementListReturnType;
@@ -50,7 +50,7 @@ type ModalPage = "base" | "measurement-list";
 
 export const BodyMeasurementsModal = ({
   bodyMeasurementsModal,
-  bodyMeasurements,
+  operatingBodyMeasurements,
   measurementMap,
   useActiveMeasurements,
   useMeasurementList,
@@ -260,9 +260,9 @@ export const BodyMeasurementsModal = ({
   };
 
   useEffect(() => {
-    loadBodyMeasurementsInputs(bodyMeasurements, measurementMap);
+    loadBodyMeasurementsInputs(operatingBodyMeasurements, measurementMap);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bodyMeasurements.id]);
+  }, [operatingBodyMeasurements.id]);
 
   return (
     <Modal
