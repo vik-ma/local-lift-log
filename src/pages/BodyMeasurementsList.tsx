@@ -62,7 +62,7 @@ type SortCategory =
   | "bf-desc";
 
 export default function BodyMeasurementsList() {
-  const [bodyMeasurements, setBodyMeasurements] = useState<BodyMeasurements[]>(
+  const [bodyMeasurementsList, setBodyMeasurementsList] = useState<BodyMeasurements[]>(
     []
   );
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -138,7 +138,7 @@ export default function BodyMeasurementsList() {
 
   const filteredBodyMeasurements = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
-      return bodyMeasurements.filter(
+      return bodyMeasurementsList.filter(
         (item) =>
           ((item.weight > 0 &&
             item.weight
@@ -204,9 +204,9 @@ export default function BodyMeasurementsList() {
             ))
       );
     }
-    return bodyMeasurements;
+    return bodyMeasurementsList;
   }, [
-    bodyMeasurements,
+    bodyMeasurementsList,
     filterQuery,
     measurementMap,
     filterMap,
@@ -274,7 +274,7 @@ export default function BodyMeasurementsList() {
       bodyMeasurementsList.sort((a, b) => b.date.localeCompare(a.date));
     }
 
-    setBodyMeasurements(bodyMeasurementsList);
+    setBodyMeasurementsList(bodyMeasurementsList);
   };
 
   const sortBodyMeasurementsByWeight = (
@@ -307,7 +307,7 @@ export default function BodyMeasurementsList() {
       }
     });
 
-    setBodyMeasurements(bodyMeasurementsList);
+    setBodyMeasurementsList(bodyMeasurementsList);
   };
 
   const sortBodyMeasurementsByBodyFatPercentage = (
@@ -336,7 +336,7 @@ export default function BodyMeasurementsList() {
       return b.date.localeCompare(a.date);
     });
 
-    setBodyMeasurements(bodyMeasurementsList);
+    setBodyMeasurementsList(bodyMeasurementsList);
   };
 
   const sortBodyMeasurementsByActiveCategory = (
@@ -350,16 +350,16 @@ export default function BodyMeasurementsList() {
         sortBodyMeasurementsByDate([...bodyMeasurementsList], true);
         break;
       case "weight-desc":
-        sortBodyMeasurementsByWeight([...bodyMeasurements], false);
+        sortBodyMeasurementsByWeight([...bodyMeasurementsList], false);
         break;
       case "weight-asc":
-        sortBodyMeasurementsByWeight([...bodyMeasurements], true);
+        sortBodyMeasurementsByWeight([...bodyMeasurementsList], true);
         break;
       case "bf-desc":
-        sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurements], false);
+        sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurementsList], false);
         break;
       case "bf-asc":
-        sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurements], true);
+        sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurementsList], true);
         break;
       default:
         break;
@@ -369,22 +369,22 @@ export default function BodyMeasurementsList() {
   const handleSortOptionSelection = (key: string) => {
     if (key === "date-desc") {
       setSortCategory(key);
-      sortBodyMeasurementsByDate([...bodyMeasurements], false);
+      sortBodyMeasurementsByDate([...bodyMeasurementsList], false);
     } else if (key === "date-asc") {
       setSortCategory(key);
-      sortBodyMeasurementsByDate([...bodyMeasurements], true);
+      sortBodyMeasurementsByDate([...bodyMeasurementsList], true);
     } else if (key === "weight-desc") {
       setSortCategory(key);
-      sortBodyMeasurementsByWeight([...bodyMeasurements], false);
+      sortBodyMeasurementsByWeight([...bodyMeasurementsList], false);
     } else if (key === "weight-asc") {
       setSortCategory(key);
-      sortBodyMeasurementsByWeight([...bodyMeasurements], true);
+      sortBodyMeasurementsByWeight([...bodyMeasurementsList], true);
     } else if (key === "bf-desc") {
       setSortCategory(key);
-      sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurements], false);
+      sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurementsList], false);
     } else if (key === "bf-asc") {
       setSortCategory(key);
-      sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurements], true);
+      sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurementsList], true);
     }
   };
 
@@ -397,10 +397,10 @@ export default function BodyMeasurementsList() {
       isExpanded: !bodyMeasurement.isExpanded,
     };
 
-    const updatedBodyMeasurements = [...bodyMeasurements];
+    const updatedBodyMeasurements = [...bodyMeasurementsList];
     updatedBodyMeasurements[index] = updatedBodyMeasurement;
 
-    setBodyMeasurements(updatedBodyMeasurements);
+    setBodyMeasurementsList(updatedBodyMeasurements);
   };
 
   const resetBodyMeasurements = () => {
@@ -460,7 +460,7 @@ export default function BodyMeasurementsList() {
 
     if (newBodyMeasurements === undefined) return;
 
-    const updatedBodyMeasurements = [...bodyMeasurements, newBodyMeasurements];
+    const updatedBodyMeasurements = [...bodyMeasurementsList, newBodyMeasurements];
 
     sortBodyMeasurementsByActiveCategory(updatedBodyMeasurements);
 
@@ -487,7 +487,7 @@ export default function BodyMeasurementsList() {
     if (updatedBodyMeasurements === undefined) return;
 
     const updatedBodyMeasurementsList = UpdateItemInList(
-      bodyMeasurements,
+      bodyMeasurementsList,
       updatedBodyMeasurements
     );
 
@@ -511,7 +511,7 @@ export default function BodyMeasurementsList() {
     if (!success) return;
 
     const updatedBodyMeasurements = DeleteItemFromList(
-      bodyMeasurements,
+      bodyMeasurementsList,
       bodyMeasurement.id
     );
 
@@ -539,7 +539,7 @@ export default function BodyMeasurementsList() {
     if (updatedBodyMeasurements === undefined) return;
 
     const updatedBodyMeasurementsList = UpdateItemInList(
-      bodyMeasurements,
+      bodyMeasurementsList,
       updatedBodyMeasurements
     );
 
@@ -553,7 +553,7 @@ export default function BodyMeasurementsList() {
   const reassignBodyMeasurements = async (name: string) => {
     if (userSettings === undefined) return;
 
-    const success = await reassignMeasurement(bodyMeasurements, name);
+    const success = await reassignMeasurement(bodyMeasurementsList, name);
 
     if (!success) return;
 
@@ -635,7 +635,7 @@ export default function BodyMeasurementsList() {
           filterQuery={filterQuery}
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredBodyMeasurements.length}
-          totalListLength={bodyMeasurements.length}
+          totalListLength={bodyMeasurementsList.length}
           isListFiltered={filterMap.size > 0}
           bottomContent={
             <div className="flex flex-col gap-1.5">
