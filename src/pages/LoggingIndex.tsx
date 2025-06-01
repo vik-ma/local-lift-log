@@ -192,17 +192,16 @@ export default function LoggingIndex() {
     toast.success("Body Measurements Added");
   };
 
-  const updateBodyMeasurements = async () => {
+  const updateBodyMeasurements = async (bodyMeasurements: BodyMeasurements) => {
     if (
       userSettings === undefined ||
-      latestBodyMeasurements.id === 0 ||
-      !isOperatingBodyMeasurements
+      !isOperatingBodyMeasurements ||
+      bodyMeasurements.id === 0
     )
       return;
 
     const updatedBodyMeasurements = await UpdateBodyMeasurements(
-      latestBodyMeasurements,
-      activeMeasurements,
+      bodyMeasurements,
       userSettings.clock_style,
       measurementMap.current
     );
