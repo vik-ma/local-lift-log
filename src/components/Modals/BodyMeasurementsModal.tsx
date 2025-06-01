@@ -48,6 +48,7 @@ type BodyMeasurementsModalProps = {
   useMeasurementList: UseMeasurementListReturnType;
   doneButtonAction: (bodyMeasurements: BodyMeasurements) => void;
   isEditing: boolean;
+  resetInputsAfterSaving?: boolean;
 };
 
 type ModalPage = "base" | "measurement-list";
@@ -60,6 +61,7 @@ export const BodyMeasurementsModal = ({
   useMeasurementList,
   doneButtonAction,
   isEditing,
+  resetInputsAfterSaving,
 }: BodyMeasurementsModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
   const [weightInput, setWeightInput] = useState<string>("");
@@ -176,7 +178,7 @@ export const BodyMeasurementsModal = ({
     validateBodyFatMeasurementInput(value, updatedInputs[index].id);
   };
 
-  const resetBodyMeasurementsInput = () => {
+  const resetInputs = () => {
     setWeightInput("");
     setCommentInput("");
     setBodyFatPercentageInput("");
@@ -197,7 +199,7 @@ export const BodyMeasurementsModal = ({
     measurementMap: MeasurementMap
   ) => {
     if (bodyMeasurements.bodyMeasurementsValues === undefined) {
-      resetBodyMeasurementsInput();
+      resetInputs();
       return;
     }
 
@@ -289,6 +291,8 @@ export const BodyMeasurementsModal = ({
     };
 
     doneButtonAction(bodyMeasurements);
+
+    if (resetInputsAfterSaving) resetInputs();
   };
 
   useEffect(() => {
