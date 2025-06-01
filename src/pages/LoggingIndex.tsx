@@ -166,11 +166,16 @@ export default function LoggingIndex() {
     toast.success("Measurement Reassigned");
   };
 
-  const addBodyMeasurements = async () => {
-    if (userSettings === undefined || !isOperatingBodyMeasurements) return;
+  const addBodyMeasurements = async (bodyMeasurements: BodyMeasurements) => {
+    if (
+      userSettings === undefined ||
+      !isOperatingBodyMeasurements ||
+      bodyMeasurements.id !== 0
+    )
+      return;
 
     const newBodyMeasurements = await InsertBodyMeasurementsIntoDatabase(
-      activeMeasurements,
+      bodyMeasurements,
       userSettings.clock_style,
       measurementMap.current
     );

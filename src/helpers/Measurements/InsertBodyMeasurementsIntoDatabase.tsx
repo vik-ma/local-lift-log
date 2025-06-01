@@ -1,50 +1,19 @@
 import Database from "tauri-plugin-sql-api";
 import {
-  ConvertEmptyStringToNull,
-  ConvertInputStringToNumberOrNull,
-  ConvertNumberToTwoDecimals,
-  CreateBodyMeasurementsValues,
   CreateDetailedBodyMeasurementsList,
   GetCurrentDateTimeISOString,
-  IsStringEmpty,
 } from "..";
-import {
-  BodyMeasurements,
-  MeasurementMap,
-  UseActiveMeasurementsReturnType,
-} from "../../typings";
+import { BodyMeasurements, MeasurementMap } from "../../typings";
 
 export const InsertBodyMeasurementsIntoDatabase = async (
-  useActiveMeasurements: UseActiveMeasurementsReturnType,
+  bodyMeasurements: BodyMeasurements,
   clockStyle: string,
   measurementMap: MeasurementMap
 ) => {
-  const {
-    areBodyMeasurementsValid,
-    weightInput,
-    weightUnit,
-    bodyFatPercentageInput,
-    commentInput,
-    activeMeasurements,
-  } = useActiveMeasurements;
-
-  if (!areBodyMeasurementsValid) return undefined;
-
-  const weight = IsStringEmpty(weightInput)
-    ? 0
-    : ConvertNumberToTwoDecimals(Number(weightInput));
-
-  const bodyFatPercentage = ConvertInputStringToNumberOrNull(
-    bodyFatPercentageInput,
-    true
-  );
-
-  const comment = ConvertEmptyStringToNull(commentInput);
-
-  const measurementValues = CreateBodyMeasurementsValues(activeMeasurements);
-
   try {
     const currentDateString = GetCurrentDateTimeISOString();
+
+    bodyMeasurements.date = currentDateString;
 
     const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -53,24 +22,16 @@ export const InsertBodyMeasurementsIntoDatabase = async (
        (date, weight, weight_unit, body_fat_percentage, measurement_values, comment) 
        VALUES ($1, $2, $3, $4, $5, $6)`,
       [
-        currentDateString,
-        weight,
-        weightUnit,
-        bodyFatPercentage,
-        measurementValues,
-        comment,
+        bodyMeasurements.date,
+        bodyMeasurements.weight,
+        bodyMeasurements.weight_unit,
+        bodyMeasurements.body_fat_percentage,
+        bodyMeasurements.measurement_values,
+        bodyMeasurements.comment,
       ]
     );
 
-    const bodyMeasurements: BodyMeasurements = {
-      id: result.lastInsertId,
-      date: currentDateString,
-      weight: weight,
-      weight_unit: weightUnit,
-      body_fat_percentage: bodyFatPercentage,
-      measurement_values: measurementValues,
-      comment: comment,
-    };
+    bodyMeasurements.id = result.lastInsertId;
 
     const detailedBodyMeasurements = CreateDetailedBodyMeasurementsList(
       [bodyMeasurements],
@@ -78,6 +39,8 @@ export const InsertBodyMeasurementsIntoDatabase = async (
       clockStyle,
       result.lastInsertId
     );
+
+    console.log(detailedBodyMeasurements);
 
     return detailedBodyMeasurements[0];
   } catch (error) {

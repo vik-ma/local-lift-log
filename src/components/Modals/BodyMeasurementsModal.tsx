@@ -28,8 +28,12 @@ import { useEffect, useMemo, useState } from "react";
 import {
   CalculateBodyFatPercentage,
   ConvertBodyMeasurementsValuesToMeasurementInputs,
+  ConvertEmptyStringToNull,
+  ConvertInputStringToNumberOrNull,
   ConvertNullToEmptyInputString,
   ConvertNumberToInputString,
+  ConvertNumberToTwoDecimals,
+  CreateBodyMeasurementsValues,
   DeleteItemFromList,
   GetValidatedWeightUnit,
   IsStringEmpty,
@@ -42,7 +46,7 @@ type BodyMeasurementsModalProps = {
   measurementMap: MeasurementMap;
   useActiveMeasurements: UseActiveMeasurementsReturnType;
   useMeasurementList: UseMeasurementListReturnType;
-  doneButtonAction: () => void;
+  doneButtonAction: (bodyMeasurements: BodyMeasurements) => void;
   isEditing: boolean;
 };
 
@@ -259,6 +263,34 @@ export const BodyMeasurementsModal = ({
     setBodyFatPercentageInput(bodyFatPercentage.toString());
   };
 
+  const handleSaveButton = () => {
+    if (!areBodyMeasurementsValid) return;
+
+    const weight = IsStringEmpty(weightInput)
+      ? 0
+      : ConvertNumberToTwoDecimals(Number(weightInput));
+
+    const bodyFatPercentage = ConvertInputStringToNumberOrNull(
+      bodyFatPercentageInput,
+      true
+    );
+
+    const comment = ConvertEmptyStringToNull(commentInput);
+
+    const measurementValues = CreateBodyMeasurementsValues(activeMeasurements);
+
+    const bodyMeasurements: BodyMeasurements = {
+      ...operatingBodyMeasurements,
+      weight: weight,
+      weight_unit: weightUnit,
+      body_fat_percentage: bodyFatPercentage,
+      measurement_values: measurementValues,
+      comment: comment,
+    };
+
+    doneButtonAction(bodyMeasurements);
+  };
+
   useEffect(() => {
     loadBodyMeasurementsInputs(operatingBodyMeasurements, measurementMap);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -411,7 +443,7 @@ export const BodyMeasurementsModal = ({
                   onPress={
                     modalPage === "measurement-list"
                       ? () => setModalPage("base")
-                      : doneButtonAction
+                      : handleSaveButton
                   }
                   isDisabled={!areBodyMeasurementsValid && modalPage === "base"}
                 >
