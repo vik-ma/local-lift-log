@@ -1,4 +1,7 @@
+import { ValidWeightUnits } from "..";
+
 export const GetValidatedWeightUnit = (weightUnit: string) => {
-  if (weightUnit === "lbs") return "lbs";
-  return "kg";
+  if (ValidWeightUnits().includes(weightUnit)) return weightUnit;
+  
+  return ValidWeightUnits()[0];
 };
