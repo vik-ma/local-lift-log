@@ -28,7 +28,10 @@ import { useEffect, useMemo, useState } from "react";
 import {
   CalculateBodyFatPercentage,
   ConvertBodyMeasurementsValuesToMeasurementInputs,
+  ConvertNullToEmptyInputString,
+  ConvertNumberToInputString,
   DeleteItemFromList,
+  GetValidatedWeightUnit,
   IsStringEmpty,
   IsStringInvalidNumber,
 } from "../../helpers";
@@ -194,16 +197,17 @@ export const BodyMeasurementsModal = ({
       return;
     }
 
-    setWeightInput(
-      bodyMeasurements.weight === 0 ? "" : bodyMeasurements.weight.toString()
-    );
-    setCommentInput(bodyMeasurements.comment ?? "");
+    setWeightInput(ConvertNumberToInputString(bodyMeasurements.weight));
+    setCommentInput(ConvertNullToEmptyInputString(bodyMeasurements.comment));
     setBodyFatPercentageInput(
-      bodyMeasurements.body_fat_percentage
-        ? bodyMeasurements.body_fat_percentage.toString()
-        : ""
+      ConvertNumberToInputString(
+        bodyMeasurements.body_fat_percentage,
+        0,
+        true,
+        100
+      )
     );
-    setWeightUnit(bodyMeasurements.weight_unit);
+    setWeightUnit(GetValidatedWeightUnit(bodyMeasurements.weight_unit));
 
     const { updatedActiveMeasurements, updatedValidBodyFatInputs } =
       ConvertBodyMeasurementsValuesToMeasurementInputs(
