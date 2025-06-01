@@ -189,7 +189,10 @@ export const BodyMeasurementsModal = ({
     bodyMeasurements: BodyMeasurements,
     measurementMap: MeasurementMap
   ) => {
-    if (bodyMeasurements.bodyMeasurementsValues === undefined) return;
+    if (bodyMeasurements.bodyMeasurementsValues === undefined) {
+      resetBodyMeasurementsInput();
+      return;
+    }
 
     setWeightInput(
       bodyMeasurements.weight === 0 ? "" : bodyMeasurements.weight.toString()

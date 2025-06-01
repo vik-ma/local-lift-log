@@ -129,9 +129,11 @@ export default function LoggingIndex() {
   }, [isDietLogListLoaded.current]);
 
   const handleAddMeasurementsButton = () => {
+    if (operationType !== "add") {
+      setOperatingBodyMeasurements({ ...defaultBodyMeasurements });
+    }
+
     setIsOperatingBodyMeasurements(true);
-    // TODO: FIX
-    // resetBodyMeasurements();
     bodyMeasurementsModal.onOpen();
   };
 
@@ -181,8 +183,6 @@ export default function LoggingIndex() {
       updateActiveTrackingMeasurementOrder();
     }
 
-    // TODO: FIX
-    // resetBodyMeasurements();
     bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Added");
   };
@@ -206,8 +206,6 @@ export default function LoggingIndex() {
 
     setLatestBodyMeasurements(updatedBodyMeasurements);
 
-    // TODO: FIX
-    // resetBodyMeasurements();
     bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Updated");
   };
@@ -251,12 +249,6 @@ export default function LoggingIndex() {
     setLatestBodyMeasurements(detailedBodyMeasurements[0]);
   };
 
-  // TODO: REPLACE
-  // const resetBodyMeasurements = () => {
-  //   resetBodyMeasurementsInput();
-  //   setOperationType("add");
-  // };
-
   const handleBodyMeasurementsOptionSelection = (
     key: string,
     bodyMeasurements: BodyMeasurements
@@ -297,8 +289,6 @@ export default function LoggingIndex() {
 
     await getLatestBodyMeasurements(userSettings.clock_style);
 
-    // TODO: FIX
-    // resetBodyMeasurements();
     toast.success("Timestamp Updated");
     timeInputModal.onClose();
   };
