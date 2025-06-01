@@ -62,9 +62,9 @@ type SortCategory =
   | "bf-desc";
 
 export default function BodyMeasurementsList() {
-  const [bodyMeasurementsList, setBodyMeasurementsList] = useState<BodyMeasurements[]>(
-    []
-  );
+  const [bodyMeasurementsList, setBodyMeasurementsList] = useState<
+    BodyMeasurements[]
+  >([]);
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] =
     useState<BodyMeasurementsOperationType>("add");
@@ -95,8 +95,6 @@ export default function BodyMeasurementsList() {
   const {
     setActiveMeasurements,
     setWeightUnit,
-    resetBodyMeasurementsInput,
-    loadBodyMeasurementsInputs,
     getActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
     loadBodyFatCalculationSettingsString,
@@ -356,10 +354,16 @@ export default function BodyMeasurementsList() {
         sortBodyMeasurementsByWeight([...bodyMeasurementsList], true);
         break;
       case "bf-desc":
-        sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurementsList], false);
+        sortBodyMeasurementsByBodyFatPercentage(
+          [...bodyMeasurementsList],
+          false
+        );
         break;
       case "bf-asc":
-        sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurementsList], true);
+        sortBodyMeasurementsByBodyFatPercentage(
+          [...bodyMeasurementsList],
+          true
+        );
         break;
       default:
         break;
@@ -403,17 +407,12 @@ export default function BodyMeasurementsList() {
     setBodyMeasurementsList(updatedBodyMeasurements);
   };
 
-  const resetBodyMeasurements = () => {
-    resetBodyMeasurementsInput();
-    setOperatingBodyMeasurements(defaultBodyMeasurements);
-    setOperationType("add");
-  };
-
   const handleNewBodyMeasurementsButton = async () => {
     if (userSettings === undefined) return;
 
     if (operationType !== "add") {
-      resetBodyMeasurements();
+      setOperationType("add");
+      setOperatingBodyMeasurements({ ...defaultBodyMeasurements });
     }
 
     const activeMeasurements = await CreateActiveMeasurementInputs(
@@ -432,7 +431,6 @@ export default function BodyMeasurementsList() {
     if (userSettings === undefined) return;
 
     if (key === "edit") {
-      loadBodyMeasurementsInputs(bodyMeasurements, measurementMap.current);
       setOperatingBodyMeasurements(bodyMeasurements);
       setOperationType("edit");
       bodyMeasurementsModal.onOpen();
@@ -449,18 +447,21 @@ export default function BodyMeasurementsList() {
     }
   };
 
-  const addBodyMeasurements = async () => {
+  const addBodyMeasurements = async (bodyMeasurements: BodyMeasurements) => {
     if (userSettings === undefined) return;
 
     const newBodyMeasurements = await InsertBodyMeasurementsIntoDatabase(
-      activeMeasurements,
+      bodyMeasurements,
       userSettings.clock_style,
       measurementMap.current
     );
 
     if (newBodyMeasurements === undefined) return;
 
-    const updatedBodyMeasurements = [...bodyMeasurementsList, newBodyMeasurements];
+    const updatedBodyMeasurements = [
+      ...bodyMeasurementsList,
+      newBodyMeasurements,
+    ];
 
     sortBodyMeasurementsByActiveCategory(updatedBodyMeasurements);
 
@@ -468,18 +469,15 @@ export default function BodyMeasurementsList() {
       updateActiveTrackingMeasurementOrder();
     }
 
-    resetBodyMeasurements();
     bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Added");
   };
 
-  const updateBodyMeasurements = async () => {
-    if (userSettings === undefined || operatingBodyMeasurements.id === 0)
-      return;
+  const updateBodyMeasurements = async (bodyMeasurements: BodyMeasurements) => {
+    if (userSettings === undefined || bodyMeasurements.id === 0) return;
 
     const updatedBodyMeasurements = await UpdateBodyMeasurements(
-      operatingBodyMeasurements,
-      activeMeasurements,
+      bodyMeasurements,
       userSettings.clock_style,
       measurementMap.current
     );
@@ -493,7 +491,6 @@ export default function BodyMeasurementsList() {
 
     sortBodyMeasurementsByActiveCategory(updatedBodyMeasurementsList);
 
-    resetBodyMeasurements();
     bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Updated");
   };
@@ -517,7 +514,6 @@ export default function BodyMeasurementsList() {
 
     sortBodyMeasurementsByActiveCategory(updatedBodyMeasurements);
 
-    resetBodyMeasurements();
     toast.success("Body Measurements Deleted");
     deleteModal.onClose();
   };
@@ -545,7 +541,6 @@ export default function BodyMeasurementsList() {
 
     sortBodyMeasurementsByActiveCategory(updatedBodyMeasurementsList);
 
-    resetBodyMeasurements();
     toast.success("Timestamp Updated");
     timeInputModal.onClose();
   };
@@ -558,8 +553,6 @@ export default function BodyMeasurementsList() {
     if (!success) return;
 
     await getBodyMeasurements(userSettings.clock_style);
-
-    resetBodyMeasurements();
 
     nameInputModal.onClose();
     toast.success("Measurement Reassigned");
@@ -592,6 +585,8 @@ export default function BodyMeasurementsList() {
       />
       <BodyMeasurementsModal
         bodyMeasurementsModal={bodyMeasurementsModal}
+        operatingBodyMeasurements={operatingBodyMeasurements}
+        measurementMap={measurementMap.current}
         useActiveMeasurements={activeMeasurements}
         useMeasurementList={measurementList}
         doneButtonAction={
@@ -600,6 +595,7 @@ export default function BodyMeasurementsList() {
             : addBodyMeasurements
         }
         isEditing={operationType === "edit"}
+        resetInputsAfterSaving
       />
       <TimeInputModal
         timeInputModal={timeInputModal}

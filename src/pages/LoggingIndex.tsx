@@ -130,6 +130,7 @@ export default function LoggingIndex() {
 
   const handleAddMeasurementsButton = () => {
     if (operationType !== "add") {
+      setOperationType("add");
       setOperatingBodyMeasurements({ ...defaultBodyMeasurements });
     }
 
