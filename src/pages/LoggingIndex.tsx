@@ -75,8 +75,6 @@ export default function LoggingIndex() {
 
   const {
     setWeightUnit,
-    resetBodyMeasurementsInput,
-    loadBodyMeasurementsInputs,
     getActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
     bodyFatCalculationModal,
@@ -132,7 +130,8 @@ export default function LoggingIndex() {
 
   const handleAddMeasurementsButton = () => {
     setIsOperatingBodyMeasurements(true);
-    resetBodyMeasurements();
+    // TODO: FIX
+    // resetBodyMeasurements();
     bodyMeasurementsModal.onOpen();
   };
 
@@ -179,10 +178,11 @@ export default function LoggingIndex() {
     setLatestBodyMeasurements(newBodyMeasurements);
 
     if (userSettings.automatically_update_active_measurements === 1) {
-      await updateActiveTrackingMeasurementOrder();
+      updateActiveTrackingMeasurementOrder();
     }
 
-    resetBodyMeasurements();
+    // TODO: FIX
+    // resetBodyMeasurements();
     bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Added");
   };
@@ -206,7 +206,8 @@ export default function LoggingIndex() {
 
     setLatestBodyMeasurements(updatedBodyMeasurements);
 
-    resetBodyMeasurements();
+    // TODO: FIX
+    // resetBodyMeasurements();
     bodyMeasurementsModal.onClose();
     toast.success("Body Measurements Updated");
   };
@@ -250,10 +251,11 @@ export default function LoggingIndex() {
     setLatestBodyMeasurements(detailedBodyMeasurements[0]);
   };
 
-  const resetBodyMeasurements = () => {
-    resetBodyMeasurementsInput();
-    setOperationType("add");
-  };
+  // TODO: REPLACE
+  // const resetBodyMeasurements = () => {
+  //   resetBodyMeasurementsInput();
+  //   setOperationType("add");
+  // };
 
   const handleBodyMeasurementsOptionSelection = (
     key: string,
@@ -264,7 +266,8 @@ export default function LoggingIndex() {
     setIsOperatingBodyMeasurements(true);
 
     if (key === "edit") {
-      loadBodyMeasurementsInputs(bodyMeasurements, measurementMap.current);
+      // TODO: REPLACE
+      // loadBodyMeasurementsInputs(bodyMeasurements, measurementMap.current);
       setOperationType("edit");
       bodyMeasurementsModal.onOpen();
     } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
@@ -295,7 +298,8 @@ export default function LoggingIndex() {
 
     await getLatestBodyMeasurements(userSettings.clock_style);
 
-    resetBodyMeasurements();
+    // TODO: FIX
+    // resetBodyMeasurements();
     toast.success("Timestamp Updated");
     timeInputModal.onClose();
   };

@@ -1224,24 +1224,9 @@ export type BodyMeasurements = {
 };
 
 export type UseActiveMeasurementsReturnType = {
-  weightInput: string;
-  setWeightInput: React.Dispatch<React.SetStateAction<string>>;
   weightUnit: string;
   setWeightUnit: React.Dispatch<React.SetStateAction<string>>;
-  commentInput: string;
-  setCommentInput: React.Dispatch<React.SetStateAction<string>>;
-  bodyFatPercentageInput: string;
-  setBodyFatPercentageInput: React.Dispatch<React.SetStateAction<string>>;
-  isWeightInputValid: boolean;
-  isBodyFatPercentageInputValid: boolean;
-  areBodyMeasurementsValid: boolean;
-  resetBodyMeasurementsInput: () => void;
-  loadBodyMeasurementsInputs: (
-    bodyMeasurements: BodyMeasurements,
-    measurementMap: MeasurementMap
-  ) => void;
-  invalidMeasurementInputs: Set<number>;
-  handleActiveMeasurementInputChange: (value: string, index: number) => void;
+  activeMeasurementsValue: React.RefObject<Measurement[]>;
   activeMeasurements: Measurement[];
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
   getActiveMeasurements: (activeMeasurementsString: string) => void;
@@ -1263,7 +1248,6 @@ export type UseActiveMeasurementsReturnType = {
   isBodyFatMeasurementListInvalid: boolean;
   saveBodyFatCalculationSettingsString: () => void;
   validBodyFatInputs: React.RefObject<Set<number>>;
-  calculateBodyFatPercentage: () => void;
 };
 
 export type BodyFatCalculationConstants = {

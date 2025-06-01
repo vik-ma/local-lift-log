@@ -17,13 +17,21 @@ import {
 } from "..";
 import { Reorder } from "framer-motion";
 import {
+  BodyMeasurements,
   Measurement,
+  MeasurementMap,
   UseActiveMeasurementsReturnType,
   UseDisclosureReturnType,
   UseMeasurementListReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
-import { DeleteItemFromList } from "../../helpers";
+import {
+  CalculateBodyFatPercentage,
+  ConvertBodyMeasurementsValuesToMeasurementInputs,
+  DeleteItemFromList,
+  IsStringEmpty,
+  IsStringInvalidNumber,
+} from "../../helpers";
 
 type BodyMeasurementsModalProps = {
   bodyMeasurementsModal: UseDisclosureReturnType;
@@ -43,28 +51,74 @@ export const BodyMeasurementsModal = ({
   isEditing,
 }: BodyMeasurementsModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
+  const [weightInput, setWeightInput] = useState<string>("");
+  const [commentInput, setCommentInput] = useState<string>("");
+  const [bodyFatPercentageInput, setBodyFatPercentageInput] =
+    useState<string>("");
+  const [invalidMeasurementInputs, setInvalidMeasurementInputs] = useState<
+    Set<number>
+  >(new Set<number>());
 
   const {
-    weightInput,
-    setWeightInput,
     weightUnit,
     setWeightUnit,
-    commentInput,
-    setCommentInput,
-    bodyFatPercentageInput,
-    setBodyFatPercentageInput,
-    isWeightInputValid,
-    isBodyFatPercentageInputValid,
-    areBodyMeasurementsValid,
-    invalidMeasurementInputs,
-    handleActiveMeasurementInputChange,
+    isMale,
+    ageGroup,
+    activeMeasurementsValue,
     activeMeasurements,
     setActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
     bodyFatMeasurementsMap,
     validBodyFatInputs,
-    calculateBodyFatPercentage,
   } = useActiveMeasurements;
+
+  const isWeightInputValid = useMemo(() => {
+    if (IsStringEmpty(weightInput)) return true;
+    if (IsStringInvalidNumber(weightInput, 0, true)) return false;
+
+    return true;
+  }, [weightInput]);
+
+  const isBodyFatPercentageInputValid = useMemo(() => {
+    if (IsStringEmpty(bodyFatPercentageInput)) return true;
+    if (IsStringInvalidNumber(bodyFatPercentageInput, 0, true, 100))
+      return false;
+
+    return true;
+  }, [bodyFatPercentageInput]);
+
+  const areActiveMeasurementsInputsEmpty = useMemo(() => {
+    let isEmpty = true;
+
+    let i = 0;
+    while (isEmpty && i < activeMeasurements.length) {
+      if (activeMeasurements[i].input!.trim().length !== 0) isEmpty = false;
+      i++;
+    }
+
+    return isEmpty;
+  }, [activeMeasurements]);
+
+  const areBodyMeasurementsValid = useMemo(() => {
+    if (!isWeightInputValid) return false;
+    if (!isBodyFatPercentageInputValid) return false;
+    if (invalidMeasurementInputs.size > 0) return false;
+    if (
+      IsStringEmpty(weightInput) &&
+      IsStringEmpty(bodyFatPercentageInput) &&
+      areActiveMeasurementsInputsEmpty
+    )
+      return false;
+
+    return true;
+  }, [
+    isWeightInputValid,
+    isBodyFatPercentageInputValid,
+    invalidMeasurementInputs,
+    weightInput,
+    bodyFatPercentageInput,
+    areActiveMeasurementsInputsEmpty,
+  ]);
 
   const handleMeasurementClick = (measurement: Measurement) => {
     if (activeMeasurementSet.has(measurement.id.toString())) {
@@ -80,6 +134,79 @@ export const BodyMeasurementsModal = ({
       ];
       setActiveMeasurements(updatedMeasurements);
     }
+  };
+
+  const validateActiveMeasurementInput = (value: string, index: number) => {
+    const updatedInvalidInputs = new Set(invalidMeasurementInputs);
+    if (!IsStringEmpty(value) && IsStringInvalidNumber(value, 0, true)) {
+      updatedInvalidInputs.add(index);
+    } else {
+      updatedInvalidInputs.delete(index);
+    }
+
+    setInvalidMeasurementInputs(updatedInvalidInputs);
+  };
+
+  const validateBodyFatMeasurementInput = (value: string, id: number) => {
+    if (!bodyFatMeasurementsMap.has(id)) return;
+
+    if (IsStringInvalidNumber(value, 0, true)) {
+      validBodyFatInputs.current.delete(id);
+    } else {
+      validBodyFatInputs.current.add(id);
+    }
+  };
+
+  const handleActiveMeasurementInputChange = (value: string, index: number) => {
+    const updatedInputs = [...activeMeasurements];
+    updatedInputs[index] = { ...updatedInputs[index], input: value };
+    setActiveMeasurements(updatedInputs);
+    validateActiveMeasurementInput(value, index);
+    validateBodyFatMeasurementInput(value, updatedInputs[index].id);
+  };
+
+  const resetBodyMeasurementsInput = () => {
+    setWeightInput("");
+    setCommentInput("");
+    setBodyFatPercentageInput("");
+    validBodyFatInputs.current = new Set();
+
+    const updatedInputs = activeMeasurementsValue.current.map(
+      (measurement) => ({
+        ...measurement,
+        input: "",
+      })
+    );
+
+    setActiveMeasurements(updatedInputs);
+  };
+
+  const loadBodyMeasurementsInputs = (
+    bodyMeasurements: BodyMeasurements,
+    measurementMap: MeasurementMap
+  ) => {
+    if (bodyMeasurements.bodyMeasurementsValues === undefined) return;
+
+    setWeightInput(
+      bodyMeasurements.weight === 0 ? "" : bodyMeasurements.weight.toString()
+    );
+    setCommentInput(bodyMeasurements.comment ?? "");
+    setBodyFatPercentageInput(
+      bodyMeasurements.body_fat_percentage
+        ? bodyMeasurements.body_fat_percentage.toString()
+        : ""
+    );
+    setWeightUnit(bodyMeasurements.weight_unit);
+
+    const { updatedActiveMeasurements, updatedValidBodyFatInputs } =
+      ConvertBodyMeasurementsValuesToMeasurementInputs(
+        bodyMeasurements.bodyMeasurementsValues,
+        measurementMap,
+        bodyFatMeasurementsMap
+      );
+
+    setActiveMeasurements(updatedActiveMeasurements);
+    validBodyFatInputs.current = updatedValidBodyFatInputs;
   };
 
   const handleClearAllButton = () => {
@@ -100,6 +227,26 @@ export const BodyMeasurementsModal = ({
   const activeMeasurementSet = useMemo(() => {
     return new Set<string>(activeMeasurements.map((obj) => obj.id.toString()));
   }, [activeMeasurements]);
+
+  const calculateBodyFatPercentage = () => {
+    if (validBodyFatInputs.current.size !== 4) return;
+
+    const measurementInputs: string[] = [];
+
+    for (const measurement of activeMeasurements) {
+      if (validBodyFatInputs.current.has(measurement.id)) {
+        measurementInputs.push(measurement.input!);
+      }
+    }
+
+    const bodyFatPercentage = CalculateBodyFatPercentage(
+      isMale,
+      ageGroup,
+      measurementInputs
+    );
+
+    setBodyFatPercentageInput(bodyFatPercentage.toString());
+  };
 
   return (
     <Modal
