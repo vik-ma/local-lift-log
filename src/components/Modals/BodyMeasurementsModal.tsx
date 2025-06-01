@@ -24,7 +24,7 @@ import {
   UseDisclosureReturnType,
   UseMeasurementListReturnType,
 } from "../../typings";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   CalculateBodyFatPercentage,
   ConvertBodyMeasurementsValuesToMeasurementInputs,
@@ -35,6 +35,8 @@ import {
 
 type BodyMeasurementsModalProps = {
   bodyMeasurementsModal: UseDisclosureReturnType;
+  bodyMeasurements: BodyMeasurements;
+  measurementMap: MeasurementMap;
   useActiveMeasurements: UseActiveMeasurementsReturnType;
   useMeasurementList: UseMeasurementListReturnType;
   doneButtonAction: () => void;
@@ -45,6 +47,8 @@ type ModalPage = "base" | "measurement-list";
 
 export const BodyMeasurementsModal = ({
   bodyMeasurementsModal,
+  bodyMeasurements,
+  measurementMap,
   useActiveMeasurements,
   useMeasurementList,
   doneButtonAction,
@@ -247,6 +251,11 @@ export const BodyMeasurementsModal = ({
 
     setBodyFatPercentageInput(bodyFatPercentage.toString());
   };
+
+  useEffect(() => {
+    loadBodyMeasurementsInputs(bodyMeasurements, measurementMap);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bodyMeasurements.id]);
 
   return (
     <Modal

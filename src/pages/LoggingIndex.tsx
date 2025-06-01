@@ -266,8 +266,7 @@ export default function LoggingIndex() {
     setIsOperatingBodyMeasurements(true);
 
     if (key === "edit") {
-      // TODO: REPLACE
-      // loadBodyMeasurementsInputs(bodyMeasurements, measurementMap.current);
+      setOperatingBodyMeasurements(bodyMeasurements);
       setOperationType("edit");
       bodyMeasurementsModal.onOpen();
     } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
@@ -455,6 +454,8 @@ export default function LoggingIndex() {
       />
       <BodyMeasurementsModal
         bodyMeasurementsModal={bodyMeasurementsModal}
+        bodyMeasurements={operatingBodyMeasurements}
+        measurementMap={measurementMap.current}
         useActiveMeasurements={activeMeasurements}
         useMeasurementList={measurementList}
         doneButtonAction={
