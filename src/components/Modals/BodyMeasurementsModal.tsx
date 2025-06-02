@@ -333,6 +333,7 @@ export const BodyMeasurementsModal = ({
                       <WeightUnitDropdown
                         value={weightUnit}
                         setState={setWeightUnit}
+                        customWidthString="w-[6.5rem]"
                         targetType="state"
                         showLabel
                         isSmall
@@ -357,9 +358,11 @@ export const BodyMeasurementsModal = ({
                         {/* Span is needed for Tooltip to show when Button is disabled */}
                         <span>
                           <Button
-                            className="w-[6rem]"
+                            className="w-[6.5rem] h-[2.75rem] font-medium"
                             color="secondary"
                             variant="flat"
+                            size="lg"
+                            radius="sm"
                             isDisabled={validBodyFatInputs.current.size !== 4}
                             onPress={calculateBodyFatPercentage}
                           >
