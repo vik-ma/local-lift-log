@@ -368,33 +368,34 @@ export const BodyMeasurementsModal = ({
                         </span>
                       </Tooltip>
                     </div>
-                    <Reorder.Group
-                      className="flex flex-col gap-1.5 w-full"
-                      values={activeMeasurements}
-                      onReorder={setActiveMeasurements}
-                    >
-                      {activeMeasurements.map((measurement, index) => (
-                        <BodyMeasurementsReorderItem
-                          key={measurement.id}
-                          measurement={measurement}
-                          index={index}
-                          activeMeasurements={activeMeasurements}
-                          setActiveMeasurements={setActiveMeasurements}
-                          invalidMeasurementInputs={invalidMeasurementInputs}
-                          handleActiveMeasurementInputChange={
-                            handleActiveMeasurementInputChange
-                          }
-                          isEditing={isEditing}
-                          updateActiveTrackingMeasurementOrder={
-                            updateActiveTrackingMeasurementOrder
-                          }
-                          isBodyFatCalculationMeasurement={bodyFatMeasurementsMap.has(
-                            measurement.id
-                          )}
-                        />
-                      ))}
-                    </Reorder.Group>
-                    {activeMeasurements.length === 0 && (
+                    {activeMeasurements.length > 0 ? (
+                      <Reorder.Group
+                        className="flex flex-col gap-1.5 w-full"
+                        values={activeMeasurements}
+                        onReorder={setActiveMeasurements}
+                      >
+                        {activeMeasurements.map((measurement, index) => (
+                          <BodyMeasurementsReorderItem
+                            key={measurement.id}
+                            measurement={measurement}
+                            index={index}
+                            activeMeasurements={activeMeasurements}
+                            setActiveMeasurements={setActiveMeasurements}
+                            invalidMeasurementInputs={invalidMeasurementInputs}
+                            handleActiveMeasurementInputChange={
+                              handleActiveMeasurementInputChange
+                            }
+                            isEditing={isEditing}
+                            updateActiveTrackingMeasurementOrder={
+                              updateActiveTrackingMeasurementOrder
+                            }
+                            isBodyFatCalculationMeasurement={bodyFatMeasurementsMap.has(
+                              measurement.id
+                            )}
+                          />
+                        ))}
+                      </Reorder.Group>
+                    ) : (
                       <EmptyListLabel
                         itemName="Active Measurements"
                         customLabel="No Body Measurements Selected"
