@@ -397,7 +397,7 @@ export const BodyMeasurementsModal = ({
                     {activeMeasurements.length === 0 && (
                       <EmptyListLabel
                         itemName="Active Measurements"
-                        customLabel="Add a Body Measurement to log"
+                        customLabel="No Body Measurements Selected"
                       />
                     )}
                     <Input
