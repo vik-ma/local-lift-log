@@ -547,7 +547,7 @@ export default function LoggingIndex() {
                 size="sm"
                 onPress={handleAddMeasurementsButton}
               >
-                Add Measurements
+                New Body Measurements
               </Button>
               <Button
                 className="font-medium"
@@ -599,15 +599,16 @@ export default function LoggingIndex() {
                 size="sm"
                 onPress={handleAddDietLogEntryButton}
               >
-                Add Diet Log
+                New Diet Log
               </Button>
               <Button
                 className="font-medium"
                 variant="flat"
+                color="secondary"
                 size="sm"
                 onPress={handleAddDietLogRangeEntryButton}
               >
-                Add Diet Logs For Multiple Dates
+                New Diet Logs For Multiple Dates
               </Button>
             </div>
           </div>

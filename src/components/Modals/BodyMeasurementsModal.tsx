@@ -432,7 +432,7 @@ export const BodyMeasurementsModal = ({
                     color="secondary"
                     onPress={() => setModalPage("measurement-list")}
                   >
-                    Select Measurements
+                    Select Body Measurements
                   </Button>
                 )}
               </div>
