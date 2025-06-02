@@ -35,7 +35,7 @@ import { Link } from "react-router-dom";
 import {
   useMeasurementList,
   useReassignMeasurement,
-  useActiveMeasurements,
+  useBodyMeasurementsSettings,
   useDietLogList,
 } from "../hooks";
 
@@ -68,7 +68,7 @@ export default function LoggingIndex() {
   const { nameInputModal, handleReassignMeasurement, reassignMeasurement } =
     useReassignMeasurement(measurementList);
 
-  const activeMeasurements = useActiveMeasurements(
+  const activeMeasurements = useBodyMeasurementsSettings(
     userSettings,
     setUserSettings
   );
@@ -451,7 +451,7 @@ export default function LoggingIndex() {
         bodyMeasurementsModal={bodyMeasurementsModal}
         operatingBodyMeasurements={operatingBodyMeasurements}
         measurementMap={measurementMap.current}
-        useActiveMeasurements={activeMeasurements}
+        useBodyMeasurementsSettings={activeMeasurements}
         useMeasurementList={measurementList}
         doneButtonAction={
           operationType === "edit"
@@ -488,7 +488,7 @@ export default function LoggingIndex() {
         saveRangeButtonAction={addDietLogEntries}
       />
       <BodyFatCalculationModal
-        useActiveMeasurements={activeMeasurements}
+        useBodyMeasurementsSettings={activeMeasurements}
         useMeasurementList={measurementList}
       />
       <div className="flex flex-col gap-3 items-center w-full">

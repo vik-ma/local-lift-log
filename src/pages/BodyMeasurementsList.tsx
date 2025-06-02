@@ -17,7 +17,7 @@ import {
   TimeInputModal,
 } from "../components";
 import {
-  useActiveMeasurements,
+  useBodyMeasurementsSettings,
   useFilterMinAndMaxValueInputs,
   useListFilters,
   useMeasurementList,
@@ -82,7 +82,7 @@ export default function BodyMeasurementsList() {
 
   const { measurementMap, isMeasurementListLoaded } = measurementList;
 
-  const activeMeasurements = useActiveMeasurements(
+  const activeMeasurements = useBodyMeasurementsSettings(
     userSettings,
     setUserSettings
   );
@@ -587,7 +587,7 @@ export default function BodyMeasurementsList() {
         bodyMeasurementsModal={bodyMeasurementsModal}
         operatingBodyMeasurements={operatingBodyMeasurements}
         measurementMap={measurementMap.current}
-        useActiveMeasurements={activeMeasurements}
+        useBodyMeasurementsSettings={activeMeasurements}
         useMeasurementList={measurementList}
         doneButtonAction={
           operationType === "edit"
@@ -622,7 +622,7 @@ export default function BodyMeasurementsList() {
         setIncludeNullInMaxValuesBodyFat={setIncludeNullInMaxValuesBodyFat}
       />
       <BodyFatCalculationModal
-        useActiveMeasurements={activeMeasurements}
+        useBodyMeasurementsSettings={activeMeasurements}
         useMeasurementList={measurementList}
       />
       <div className="flex flex-col items-center gap-1.5">

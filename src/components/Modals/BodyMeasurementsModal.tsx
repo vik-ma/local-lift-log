@@ -20,7 +20,7 @@ import {
   BodyMeasurements,
   Measurement,
   MeasurementMap,
-  UseActiveMeasurementsReturnType,
+  UseBodyMeasurementsSettingsReturnType,
   UseDisclosureReturnType,
   UseMeasurementListReturnType,
 } from "../../typings";
@@ -44,7 +44,7 @@ type BodyMeasurementsModalProps = {
   bodyMeasurementsModal: UseDisclosureReturnType;
   operatingBodyMeasurements: BodyMeasurements;
   measurementMap: MeasurementMap;
-  useActiveMeasurements: UseActiveMeasurementsReturnType;
+  useBodyMeasurementsSettings: UseBodyMeasurementsSettingsReturnType;
   useMeasurementList: UseMeasurementListReturnType;
   doneButtonAction: (bodyMeasurements: BodyMeasurements) => void;
   isEditing: boolean;
@@ -57,7 +57,7 @@ export const BodyMeasurementsModal = ({
   bodyMeasurementsModal,
   operatingBodyMeasurements,
   measurementMap,
-  useActiveMeasurements,
+  useBodyMeasurementsSettings,
   useMeasurementList,
   doneButtonAction,
   isEditing,
@@ -83,7 +83,7 @@ export const BodyMeasurementsModal = ({
     updateActiveTrackingMeasurementOrder,
     bodyFatMeasurementsMap,
     validBodyFatInputs,
-  } = useActiveMeasurements;
+  } = useBodyMeasurementsSettings;
 
   const isWeightInputValid = useMemo(() => {
     if (IsStringEmpty(weightInput)) return true;

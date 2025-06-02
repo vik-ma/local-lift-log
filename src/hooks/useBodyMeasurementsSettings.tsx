@@ -9,18 +9,18 @@ import {
 import {
   Measurement,
   MeasurementMap,
-  UseActiveMeasurementsReturnType,
+  UseBodyMeasurementsSettingsReturnType,
   UserSettings,
 } from "../typings";
 import toast from "react-hot-toast";
 import { useDisclosure } from "@heroui/react";
 
-export const useActiveMeasurements = (
+export const useBodyMeasurementsSettings = (
   userSettings: UserSettings | undefined,
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >
-): UseActiveMeasurementsReturnType => {
+): UseBodyMeasurementsSettingsReturnType => {
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
   );
