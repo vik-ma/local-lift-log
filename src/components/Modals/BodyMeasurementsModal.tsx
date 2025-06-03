@@ -35,7 +35,7 @@ import {
   ConvertNumberToTwoDecimals,
   CreateBodyMeasurementsValues,
   DeleteItemFromList,
-  GetValidatedWeightUnit,
+  GetValidatedUnit,
   IsStringEmpty,
   IsStringInvalidNumber,
 } from "../../helpers";
@@ -213,7 +213,7 @@ export const BodyMeasurementsModal = ({
         100
       )
     );
-    setWeightUnit(GetValidatedWeightUnit(bodyMeasurements.weight_unit));
+    setWeightUnit(GetValidatedUnit(bodyMeasurements.weight_unit, "weight"));
 
     const { updatedActiveMeasurements, updatedValidBodyFatInputs } =
       ConvertBodyMeasurementsValuesToMeasurementInputs(
