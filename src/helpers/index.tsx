@@ -107,6 +107,7 @@ export { CreateMultisetIndexCutoffs } from "./Multisets/CreateMultisetIndexCutof
 export { AddNewSetsToMultiset } from "./Multisets/AddNewSetsToMultiset";
 export { GetMultisetWithId } from "./Multisets/GetMultisetWithId";
 export { GenerateMultisetExerciseListText } from "./Multisets/GenerateMultisetExerciseListText";
+export { GetValidatedMultisetType } from "./Multisets/GetValidatedMultisetType";
 
 export { IsStringInvalidNumber } from "./Numbers/IsStringInvalidNumber";
 export { IsStringInvalidInteger } from "./Numbers/IsStringInvalidInteger";
