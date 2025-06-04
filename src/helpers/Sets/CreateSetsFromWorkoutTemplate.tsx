@@ -6,6 +6,7 @@ import {
   GenerateMultisetSetOrderString,
   GetExerciseOrder,
   GetMultisetWithId,
+  GetValidatedMultisetType,
   InsertMultisetIntoDatabase,
   InsertSetIntoDatabase,
   ReplaceNumberIn2DList,
@@ -69,6 +70,11 @@ export const CreateSetsFromWorkoutTemplate = async (
       const multiset = await GetMultisetWithId(id);
 
       if (multiset === undefined) continue;
+
+      const validatedMultisetType = GetValidatedMultisetType(
+        multiset.multiset_type
+      );
+      multiset.multiset_type = validatedMultisetType;
 
       const setListIdList = GenerateMultisetSetListIdList(multiset.set_order);
 

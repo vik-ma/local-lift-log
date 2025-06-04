@@ -9,6 +9,7 @@ import {
   GenerateMultisetSetOrderList,
   GetExerciseWithId,
   GetMultisetWithId,
+  GetValidatedMultisetType,
 } from "..";
 
 type MultisetGroupedSet = {
@@ -33,6 +34,11 @@ export const GetMultisetGroupedSet = async (
   const multiset = await GetMultisetWithId(multisetId);
 
   if (multiset === undefined) return multisetExerciseAndSetList;
+
+  const validatedMultisetType = GetValidatedMultisetType(
+    multiset.multiset_type
+  );
+  multiset.multiset_type = validatedMultisetType;
 
   // Split sets of Multiset
   const multisetStrings = multiset.set_order.split("/");

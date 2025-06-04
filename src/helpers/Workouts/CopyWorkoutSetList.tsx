@@ -1,5 +1,6 @@
 import {
   GetMultisetWithId,
+  GetValidatedMultisetType,
   InsertMultisetIntoDatabase,
   InsertSetIntoDatabase,
   ReplaceIdsInOrderString,
@@ -87,6 +88,11 @@ export const CopyWorkoutSetList = async (
     const multiset = await GetMultisetWithId(Number(oldMultisetId));
 
     if (multiset === undefined) continue;
+
+    const validatedMultisetType = GetValidatedMultisetType(
+      multiset.multiset_type
+    );
+    multiset.multiset_type = validatedMultisetType;
 
     const newMultisetId = await InsertMultisetIntoDatabase(multiset);
 
