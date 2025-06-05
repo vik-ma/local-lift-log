@@ -51,11 +51,11 @@ import {
   CopySetTrackingValues,
   UpdateCalculationString,
   DeleteMultisetWithId,
-  GetValidatedUserSettingsUnits,
   DefaultNewSet,
   NumNewSetsOptionList,
   GetLatestUserWeight,
   IsDateStringOlderThanOneWeek,
+  GetValidatedUnit,
 } from "../helpers";
 import {
   useSetTrackingInputs,
@@ -190,13 +190,20 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         setUserSettings(userSettings);
 
-        const validUnits = GetValidatedUserSettingsUnits(userSettings);
+        const weightUnit = GetValidatedUnit(
+          userSettings.default_unit_weight,
+          "weight"
+        );
+        const distanceUnit = GetValidatedUnit(
+          userSettings.default_unit_distance,
+          "distance"
+        );
 
         const emptySet: WorkoutSet = {
           ...defaultSet.current,
-          weight_unit: validUnits.weightUnit,
-          distance_unit: validUnits.distanceUnit,
-          user_weight_unit: validUnits.weightUnit,
+          weight_unit: weightUnit,
+          distance_unit: distanceUnit,
+          user_weight_unit: weightUnit,
         };
 
         defaultSet.current = emptySet;
@@ -208,11 +215,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           userSettings.show_secondary_exercise_groups === 1
         );
 
-        setFilterWeightRangeUnit(validUnits.weightUnit);
-        setFilterDistanceRangeUnit(validUnits.distanceUnit);
+        setFilterWeightRangeUnit(weightUnit);
+        setFilterDistanceRangeUnit(distanceUnit);
 
-        defaultWeightUnit.current = validUnits.weightUnit;
-        defaultDistanceUnit.current = validUnits.distanceUnit;
+        defaultWeightUnit.current = weightUnit;
+        defaultDistanceUnit.current = distanceUnit;
       } catch (error) {
         console.log(error);
       }

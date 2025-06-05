@@ -31,8 +31,8 @@ import {
   DeleteItemFromList,
   UpdateItemInList,
   UpdateCalculationString,
-  GetValidatedUserSettingsUnits,
   DefaultNewSet,
+  GetValidatedUnit,
 } from "../helpers";
 import {
   CalculationModal,
@@ -168,13 +168,20 @@ export default function Multisets() {
 
       setUserSettings(userSettings);
 
-      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+      const weightUnit = GetValidatedUnit(
+        userSettings.default_unit_weight,
+        "weight"
+      );
+      const distanceUnit = GetValidatedUnit(
+        userSettings.default_unit_distance,
+        "distance"
+      );
 
       const emptySet: WorkoutSet = {
         ...defaultSet.current,
-        weight_unit: validUnits.weightUnit,
-        distance_unit: validUnits.distanceUnit,
-        user_weight_unit: validUnits.weightUnit,
+        weight_unit: weightUnit,
+        distance_unit: distanceUnit,
+        user_weight_unit: weightUnit,
       };
 
       defaultSet.current = emptySet;
@@ -185,8 +192,8 @@ export default function Multisets() {
         userSettings.show_secondary_exercise_groups === 1
       );
 
-      setFilterWeightRangeUnit(validUnits.weightUnit);
-      setFilterDistanceRangeUnit(validUnits.distanceUnit);
+      setFilterWeightRangeUnit(weightUnit);
+      setFilterDistanceRangeUnit(distanceUnit);
     };
 
     loadUserSettings();

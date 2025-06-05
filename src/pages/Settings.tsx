@@ -10,12 +10,12 @@ import {
   IsStringInvalidNumber,
   ConvertNumberToTwoDecimals,
   CreateShownPropertiesSet,
-  GetValidatedUserSettingsUnits,
   UpdateUserSetting,
   NumNewSetsOptionList,
   GetValidatedNumNewSets,
   ConvertNumberToInputString,
   IsNumberValidInteger,
+  GetValidatedUnit,
 } from "../helpers";
 import {
   Switch,
@@ -133,11 +133,22 @@ export default function Settings() {
 
       setUserSettings(userSettings);
 
-      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+      const weightUnit = GetValidatedUnit(
+        userSettings.default_unit_weight,
+        "weight"
+      );
+      const distanceUnit = GetValidatedUnit(
+        userSettings.default_unit_distance,
+        "distance"
+      );
+      const measurementUnit = GetValidatedUnit(
+        userSettings.default_unit_measurement,
+        "circumference"
+      );
 
-      userSettings.default_unit_weight = validUnits.weightUnit;
-      userSettings.default_unit_distance = validUnits.distanceUnit;
-      userSettings.default_unit_measurement = validUnits.measurementUnit;
+      userSettings.default_unit_weight = weightUnit;
+      userSettings.default_unit_distance = distanceUnit;
+      userSettings.default_unit_measurement = measurementUnit;
 
       const defaultIncrementValues: DefaultIncrementInputs = {
         weight: ConvertNumberToInputString(

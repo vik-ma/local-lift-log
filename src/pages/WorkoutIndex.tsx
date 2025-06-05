@@ -23,7 +23,7 @@ import {
   UpdateWorkout,
   CreateSetsFromWorkoutTemplate,
   GenerateExerciseOrderString,
-  GetValidatedUserSettingsUnits,
+  GetValidatedUnit,
 } from "../helpers";
 import { UserSettings, Workout, WorkoutTemplate } from "../typings";
 
@@ -56,10 +56,17 @@ export default function WorkoutIndex() {
 
       setUserSettings(userSettings);
 
-      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+      const weightUnit = GetValidatedUnit(
+        userSettings.default_unit_weight,
+        "weight"
+      );
+      const distanceUnit = GetValidatedUnit(
+        userSettings.default_unit_distance,
+        "distance"
+      );
 
-      defaultWeightUnit.current = validUnits.weightUnit;
-      defaultDistanceUnit.current = validUnits.distanceUnit;
+      defaultWeightUnit.current = weightUnit;
+      defaultDistanceUnit.current = distanceUnit;
 
       setIncludeSecondaryGroups(
         userSettings.show_secondary_exercise_groups === 1

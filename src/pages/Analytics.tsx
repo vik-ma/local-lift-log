@@ -99,12 +99,12 @@ import {
   GetCurrentYmdDateString,
   GetPaceUnitFromDistanceUnit,
   GetSpeedUnitFromDistanceUnit,
-  GetValidatedUserSettingsUnits,
   GetAllBodyMeasurementsWeights,
   GetAllBodyMeasurementsBodyFat,
   GetBodyMeasurementsWithMeasurementId,
   IsNumberValid,
   IsNumberValidInteger,
+  GetValidatedUnit,
 } from "../helpers";
 import toast from "react-hot-toast";
 
@@ -1858,15 +1858,26 @@ export default function Analytics() {
   };
 
   const assignDefaultUnits = (userSettings: UserSettings) => {
-    const validUnits = GetValidatedUserSettingsUnits(userSettings);
+    const weightUnit = GetValidatedUnit(
+      userSettings.default_unit_weight,
+      "weight"
+    );
+    const distanceUnit = GetValidatedUnit(
+      userSettings.default_unit_distance,
+      "distance"
+    );
+    const circumferenceUnit = GetValidatedUnit(
+      userSettings.default_unit_measurement,
+      "circumference"
+    );
 
-    setWeightUnit(validUnits.weightUnit);
-    setDistanceUnit(validUnits.distanceUnit);
-    setCircumferenceUnit(validUnits.measurementUnit);
-    setSpeedUnit(GetSpeedUnitFromDistanceUnit(validUnits.distanceUnit));
-    setPaceUnit(GetPaceUnitFromDistanceUnit(validUnits.distanceUnit));
+    setWeightUnit(weightUnit);
+    setDistanceUnit(distanceUnit);
+    setCircumferenceUnit(circumferenceUnit);
+    setSpeedUnit(GetSpeedUnitFromDistanceUnit(distanceUnit));
+    setPaceUnit(GetPaceUnitFromDistanceUnit(distanceUnit));
 
-    chartDataUnitMap.current.set("body_weight", ` ${validUnits.weightUnit}`);
+    chartDataUnitMap.current.set("body_weight", ` ${weightUnit}`);
   };
 
   const updateChartDataAndFilteredHighestCategoryValues = (

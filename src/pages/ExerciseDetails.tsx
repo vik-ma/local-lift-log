@@ -18,7 +18,6 @@ import {
   GetExerciseWithId,
   GetCompletedSetsWithExerciseId,
   GetUserSettings,
-  GetValidatedUserSettingsUnits,
   FormatDateToShortString,
   FormatTimeInSecondsToHhmmssString,
   CalculatePaceValue,
@@ -31,6 +30,7 @@ import {
   UpdateIsFavorite,
   UpdateUserSetting,
   UpdateExercise,
+  GetValidatedUnit,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -373,12 +373,18 @@ export default function ExerciseDetails() {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
-      const validUnits = GetValidatedUserSettingsUnits(userSettings);
 
-      const weightUnit = validUnits.weightUnit;
-      const distanceUnit = validUnits.distanceUnit;
-      const speedUnit = GetSpeedUnitFromDistanceUnit(validUnits.distanceUnit);
-      const paceUnit = GetPaceUnitFromDistanceUnit(validUnits.distanceUnit);
+      const weightUnit = GetValidatedUnit(
+        userSettings.default_unit_weight,
+        "weight"
+      );
+      const distanceUnit = GetValidatedUnit(
+        userSettings.default_unit_distance,
+        "distance"
+      );
+
+      const speedUnit = GetSpeedUnitFromDistanceUnit(distanceUnit);
+      const paceUnit = GetPaceUnitFromDistanceUnit(distanceUnit);
 
       setWeightUnit(weightUnit);
       setDistanceUnit(distanceUnit);

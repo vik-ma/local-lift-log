@@ -31,7 +31,7 @@ import {
   DeleteItemFromList,
   GetAllBodyMeasurements,
   GetUserSettings,
-  GetValidatedUserSettingsUnits,
+  GetValidatedUnit,
   InsertBodyMeasurementsIntoDatabase,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
@@ -238,12 +238,15 @@ export default function BodyMeasurementsList() {
 
       if (userSettings === undefined) return;
 
-      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+      const weightUnit = GetValidatedUnit(
+        userSettings.default_unit_weight,
+        "weight"
+      );
 
-      setWeightUnit(validUnits.weightUnit);
-      setFilterWeightRangeUnit(validUnits.weightUnit);
+      setWeightUnit(weightUnit);
+      setFilterWeightRangeUnit(weightUnit);
 
-      defaultWeightUnit.current = validUnits.weightUnit;
+      defaultWeightUnit.current = weightUnit;
 
       loadBodyFatCalculationSettingsString(
         userSettings.body_fat_calculation_settings,

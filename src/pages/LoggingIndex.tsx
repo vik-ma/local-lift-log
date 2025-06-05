@@ -19,7 +19,6 @@ import {
 } from "../components";
 import {
   GetUserSettings,
-  GetValidatedUserSettingsUnits,
   InsertBodyMeasurementsIntoDatabase,
   DefaultNewBodyMeasurements,
   GetLatestBodyMeasurements,
@@ -28,6 +27,7 @@ import {
   DeleteBodyMeasurementsWithId,
   GetAllBodyMeasurements,
   UpdateBodyMeasurementsTimestamp,
+  GetValidatedUnit,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -107,9 +107,12 @@ export default function LoggingIndex() {
 
       if (userSettings === undefined) return;
 
-      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+      const weightUnit = GetValidatedUnit(
+        userSettings.default_unit_weight,
+        "weight"
+      );
 
-      setWeightUnit(validUnits.weightUnit);
+      setWeightUnit(weightUnit);
 
       loadBodyFatCalculationSettingsString(
         userSettings.body_fat_calculation_settings,

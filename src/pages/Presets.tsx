@@ -40,7 +40,7 @@ import {
   CreateDefaultEquipmentWeights,
   DeleteItemFromList,
   GetUserSettings,
-  GetValidatedUserSettingsUnits,
+  GetValidatedUnit,
   UpdateItemInList,
   UpdateUserSetting,
 } from "../helpers";
@@ -147,23 +147,30 @@ export default function Presets() {
 
       setUserSettings(userSettings);
 
-      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+      const weightUnit = GetValidatedUnit(
+        userSettings.default_unit_weight,
+        "weight"
+      );
+      const distanceUnit = GetValidatedUnit(
+        userSettings.default_unit_distance,
+        "distance"
+      );
 
       setOperatingEquipmentWeight((prev) => ({
         ...prev,
-        weight_unit: validUnits.weightUnit,
+        weight_unit: weightUnit,
       }));
 
       setOperatingDistance((prev) => ({
         ...prev,
-        distance_unit: validUnits.distanceUnit,
+        distance_unit: distanceUnit,
       }));
 
-      setFilterWeightRangeUnit(validUnits.weightUnit);
-      setFilterDistanceRangeUnit(validUnits.distanceUnit);
+      setFilterWeightRangeUnit(weightUnit);
+      setFilterDistanceRangeUnit(distanceUnit);
 
-      defaultWeightUnit.current = validUnits.weightUnit;
-      defaultDistanceUnit.current = validUnits.distanceUnit;
+      defaultWeightUnit.current = weightUnit;
+      defaultDistanceUnit.current = distanceUnit;
     };
 
     if (searchParams.get("tab") === "distance") {

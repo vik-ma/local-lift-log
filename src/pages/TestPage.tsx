@@ -21,7 +21,7 @@ import {
   CreateDefaultMeasurements,
   GetCurrentDateTimeISOString,
   GetUserSettings,
-  GetValidatedUserSettingsUnits,
+  GetValidatedUnit,
 } from "../helpers";
 
 export default function Test() {
@@ -89,9 +89,12 @@ export default function Test() {
 
       setUserSettings(userSettings);
 
-      const validUnits = GetValidatedUserSettingsUnits(userSettings);
+      const weightUnit = GetValidatedUnit(
+        userSettings.default_unit_weight,
+        "weight"
+      );
 
-      setFilterWeightRangeUnit(validUnits.weightUnit);
+      setFilterWeightRangeUnit(weightUnit);
     };
 
     loadUserSettings();
