@@ -161,6 +161,7 @@ export { GetBodyMeasurementsWithMeasurementId } from "./Measurements/GetBodyMeas
 export { GetBodyFatCalculationConstants } from "./Measurements/GetBodyFatCalculationConstants";
 export { CalculateBodyFatPercentage } from "./Measurements/CalculateBodyFatPercentage";
 export { CreateValidBodyMeasurementsValues } from "./Measurements/CreateValidBodyMeasurementsValues";
+export { GetValidatedMeasurementType } from "./Measurements/GetValidatedMeasurementType";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
