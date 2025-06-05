@@ -64,7 +64,7 @@ export const BodyMeasurementsReorderItem = ({
           setMeasurements={setActiveMeasurements}
           measurement={measurement}
           targetType="active"
-          isDisabled={measurement.measurement_type === "Caliper"}
+          isDisabled={measurement.measurement_type !== "Circumference"}
           showLabel
         />
         {!isEditing && (

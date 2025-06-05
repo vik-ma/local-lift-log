@@ -41,7 +41,7 @@ export const MeasurementModal = ({
     const updatedMeasurement = { ...measurement, name: nameInput };
 
     buttonAction(updatedMeasurement);
-    
+
     resetInputs();
   };
 
@@ -95,7 +95,9 @@ export const MeasurementModal = ({
                   <MeasurementUnitDropdown
                     measurement={measurement}
                     isDisabled={
-                      measurement.measurement_type === "Caliper" ? true : false
+                      measurement.measurement_type !== "Circumference"
+                        ? true
+                        : false
                     }
                     setMeasurement={setMeasurement}
                     targetType="modal"
