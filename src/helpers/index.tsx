@@ -63,7 +63,6 @@ export { CreateShownPropertiesSet } from "./UserSettings/CreateShownPropertiesSe
 export { ValidateLoadExerciseOptionsString } from "./UserSettings/ValidateLoadExerciseOptionsString";
 export { UpdateLoadExerciseOptions } from "./UserSettings/UpdateLoadExerciseOptions";
 export { CreateLoadExerciseOptionsList } from "./UserSettings/CreateLoadExerciseOptionsList";
-export { GetValidatedUserSettingsUnits } from "./UserSettings/GetValidatedUserSettingsUnits";
 export { ValidateLoadExerciseOptionsCategoriesString } from "./UserSettings/ValidateLoadExerciseOptionsCategoriesString";
 export { ValidateUserSetting } from "./UserSettings/ValidateUserSetting";
 export { UpdateUserSetting } from "./UserSettings/UpdateUserSetting";
