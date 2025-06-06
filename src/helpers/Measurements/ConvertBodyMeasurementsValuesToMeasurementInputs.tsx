@@ -3,6 +3,8 @@ import {
   MeasurementMap,
   BodyMeasurementsValues,
 } from "../../typings";
+import { GetValidatedUnit } from "../Strings/GetValidatedUnit";
+import { GetValidatedMeasurementType } from "./GetValidatedMeasurementType";
 
 export const ConvertBodyMeasurementsValuesToMeasurementInputs = (
   bodyMeasurementsValues: BodyMeasurementsValues,
@@ -17,11 +19,20 @@ export const ConvertBodyMeasurementsValuesToMeasurementInputs = (
 
     const measurementId = Number(id);
 
+    const measurementType = GetValidatedMeasurementType(
+      values.measurement_type
+    );
+
+    const unit = GetValidatedUnit(
+      values.unit,
+      measurementType === "Caliper" ? "caliper" : "circumference"
+    );
+
     const measurementInput: Measurement = {
       id: measurementId,
       name: measurement ? measurement.name : "Unknown",
-      default_unit: values.unit,
-      measurement_type: values.measurement_type,
+      default_unit: unit,
+      measurement_type: measurementType,
       is_favorite: measurement ? measurement.is_favorite : 0,
       input: values.value.toString(),
     };
