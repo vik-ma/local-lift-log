@@ -105,6 +105,7 @@ import {
   IsNumberValid,
   IsNumberValidInteger,
   GetValidatedUnit,
+  GetValidatedMeasurementType,
 } from "../helpers";
 import toast from "react-hot-toast";
 
@@ -945,10 +946,9 @@ export default function Analytics() {
     )
       return;
 
-    const measurementType = measurement.measurement_type;
-
-    if (measurementType !== "Caliper" && measurementType !== "Circumference")
-      return;
+    const measurementType = GetValidatedMeasurementType(
+      measurement.measurement_type
+    );
 
     const userMeasurements = await GetBodyMeasurementsWithMeasurementId(
       measurement.id
