@@ -1,12 +1,15 @@
-import { IsNumberValid, IsNumberValidInteger, ValidMeasurementUnits } from "..";
+import {
+  GetValidatedMeasurementType,
+  GetValidatedUnit,
+  IsNumberValid,
+  IsNumberValidInteger,
+} from "..";
 import { BodyMeasurementsValues, MeasurementMap } from "../../typings";
 
 export const CreateValidBodyMeasurementsValues = (
   bodyMeasurementsValues: BodyMeasurementsValues,
   measurementMap: MeasurementMap
 ) => {
-  const validMeasurementUnits = ValidMeasurementUnits();
-
   const validBodyMeasurementsValues: BodyMeasurementsValues = {};
 
   let containsInvalidMeasurement = false;
@@ -22,15 +25,17 @@ export const CreateValidBodyMeasurementsValues = (
 
     numMeasurements++;
 
-    const measurementUnit = validMeasurementUnits.includes(values.unit)
-      ? values.unit
-      : "mm";
+    const measurementType = GetValidatedMeasurementType(
+      values.measurement_type
+    );
 
-    const measurementType =
-      values.measurement_type === "Caliper" ? "Caliper" : "Circumference";
+    const unit = GetValidatedUnit(
+      values.unit,
+      measurementType === "Caliper" ? "caliper" : "circumference"
+    );
 
     validBodyMeasurementsValues[id] = {
-      unit: measurementUnit,
+      unit: unit,
       value: values.value,
       measurement_type: measurementType,
     };
