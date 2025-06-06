@@ -3,6 +3,8 @@ import {
   ConvertNumberToTwoDecimals,
   IsStringInvalidNumber,
   IsStringEmpty,
+  GetValidatedMeasurementType,
+  GetValidatedUnit,
 } from "..";
 
 export const CreateBodyMeasurementsValues = (
@@ -25,10 +27,19 @@ export const CreateBodyMeasurementsValues = (
       Number(measurement.input)
     );
 
+    const measurementType = GetValidatedMeasurementType(
+      measurement.measurement_type
+    );
+
+    const unit = GetValidatedUnit(
+      measurement.default_unit,
+      measurementType === "Caliper" ? "caliper" : "circumference"
+    );
+
     bodyMeasurementValues[measurement.id] = {
       value: inputNumber,
-      unit: measurement.default_unit,
-      measurement_type: measurement.measurement_type,
+      unit: unit,
+      measurement_type: measurementType,
     };
   }
 
