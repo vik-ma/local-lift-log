@@ -32,9 +32,6 @@ type UseMultisetActionsProps = {
   exerciseList: UseExerciseListReturnType;
   defaultMultiset: Multiset;
   defaultPage?: MultisetModalPage;
-  setOperationType?: React.Dispatch<
-    React.SetStateAction<"add" | "edit" | "delete">
-  >;
   userSettings?: UserSettings | undefined;
   removeSetFromMultiset?: (
     setToDelete?: WorkoutSet,
@@ -51,7 +48,6 @@ export const useMultisetActions = ({
   exerciseList,
   defaultMultiset,
   defaultPage,
-  setOperationType,
   userSettings,
   removeSetFromMultiset,
 }: UseMultisetActionsProps): UseMultisetActionsReturnType => {
@@ -155,8 +151,6 @@ export const useMultisetActions = ({
     if (!multisetModal.isOpen) {
       multisetModal.onOpen();
     }
-
-    if (setOperationType !== undefined) setOperationType("edit");
   };
 
   const handleMultisetSetOptionSelection = (
