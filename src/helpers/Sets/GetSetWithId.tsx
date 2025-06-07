@@ -1,3 +1,4 @@
+import { GetValidatedUnit } from "..";
 import { WorkoutSet } from "../../typings";
 import Database from "tauri-plugin-sql-api";
 
@@ -19,6 +20,10 @@ export const GetSetWithId = async (
     if (result.length === 0) return undefined;
 
     const set = result[0];
+
+    set.weight_unit = GetValidatedUnit(set.weight_unit, "weight");
+    set.distance_unit = GetValidatedUnit(set.distance_unit, "distance");
+    set.user_weight_unit = GetValidatedUnit(set.user_weight_unit, "weight");
 
     const exerciseName = await db.select<ExerciseName[]>(
       `SELECT name FROM exercises WHERE id = $1`,
