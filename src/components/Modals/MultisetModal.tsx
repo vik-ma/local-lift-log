@@ -137,7 +137,11 @@ export const MultisetModal = ({
   };
 
   const handleSaveSetButton = () => {
-    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
+    if (
+      operatingSetInputs.isSetTrackingValuesInvalid ||
+      !operatingSetInputs.isSetEdited
+    )
+      return;
 
     const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
       operatingSetInputs.setTrackingValuesInput
@@ -320,7 +324,8 @@ export const MultisetModal = ({
                       (modalPage !== "edit-set" &&
                         multiset.setList.length === 0) ||
                       (modalPage === "edit-set" &&
-                        operatingSetInputs.isSetTrackingValuesInvalid)
+                        (operatingSetInputs.isSetTrackingValuesInvalid ||
+                          !operatingSetInputs.isSetEdited))
                     }
                     onPress={
                       modalPage === "edit-set"
