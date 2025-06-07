@@ -155,7 +155,7 @@ export const useMultisetActions = ({
     setOperatingMultiset(multiset);
     setModalPage("edit-set");
 
-    operatingSetInputs.setTrackingValuesInputStrings(set);
+    operatingSetInputs.assignSetTrackingValuesInputs(set);
     operatingSetInputs.setUneditedSet({ ...set });
     operatingSetInputs.setIsSetEdited(false);
     setSelectedMultisetExercise(exercise);

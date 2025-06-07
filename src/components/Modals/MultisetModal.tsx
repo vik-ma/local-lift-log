@@ -93,7 +93,7 @@ export const MultisetModal = ({
     const oldSet = { ...operatingSetInputs.uneditedSet };
     setOperatingSet(oldSet);
     operatingSetInputs.setIsSetEdited(false);
-    operatingSetInputs.setTrackingValuesInputStrings(oldSet);
+    operatingSetInputs.assignSetTrackingValuesInputs(oldSet);
   };
 
   const showClearAllButton = useMemo(() => {

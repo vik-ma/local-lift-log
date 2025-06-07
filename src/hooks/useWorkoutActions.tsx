@@ -516,7 +516,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (activeSet?.id === updatedSet.id) {
       setActiveSet(updatedSet);
-      activeSetInputs.setTrackingValuesInputStrings(updatedSet);
+      activeSetInputs.assignSetTrackingValuesInputs(updatedSet);
     }
   };
 
@@ -579,7 +579,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setOperatingGroupedSet(groupedSet);
     setOperationType("edit");
     setSelectedExercise(exercise);
-    operatingSetInputs.setTrackingValuesInputStrings(set);
+    operatingSetInputs.assignSetTrackingValuesInputs(set);
 
     setModal.onOpen();
   };
@@ -1231,7 +1231,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       setOperatingSet(oldSet);
       operatingSetInputs.setIsSetEdited(false);
-      operatingSetInputs.setTrackingValuesInputStrings(oldSet);
+      operatingSetInputs.assignSetTrackingValuesInputs(oldSet);
     }
 
     if (
@@ -1242,7 +1242,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       const oldSet = { ...activeSetInputs.uneditedSet };
       setActiveSet(oldSet);
       activeSetInputs.setIsSetEdited(false);
-      activeSetInputs.setTrackingValuesInputStrings(oldSet);
+      activeSetInputs.assignSetTrackingValuesInputs(oldSet);
     }
   };
 
@@ -2526,7 +2526,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     };
 
     setActiveSet(updatedSet);
-    activeSetInputs.setTrackingValuesInputStrings(updatedSet);
+    activeSetInputs.assignSetTrackingValuesInputs(updatedSet);
   };
 
   const handleFillInLastWorkoutSetValues = async (
@@ -2598,7 +2598,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
 
     if (isActiveSet) {
-      activeSetInputs.setTrackingValuesInputStrings(updatedSet);
+      activeSetInputs.assignSetTrackingValuesInputs(updatedSet);
       setActiveSet(updatedSet);
 
       if (!activeSetInputs.isSetEdited) {
@@ -2606,7 +2606,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         activeSetInputs.setIsSetEdited(true);
       }
     } else {
-      operatingSetInputs.setTrackingValuesInputStrings(updatedSet);
+      operatingSetInputs.assignSetTrackingValuesInputs(updatedSet);
       setOperatingSet(updatedSet);
 
       if (!operatingSetInputs.isSetEdited) {

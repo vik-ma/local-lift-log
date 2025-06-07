@@ -52,7 +52,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     return false;
   }, [setInputsInvalidityMap, isTimeInputInvalid]);
 
-  const setTrackingValuesInputStrings = (set: WorkoutSet) => {
+  const assignSetTrackingValuesInputs = (set: WorkoutSet) => {
     const newSetTrackingValuesInput = {
       weight: ConvertNumberToInputString(
         set.weight,
@@ -104,7 +104,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     setSetTrackingValuesInput,
     isTimeInputInvalid,
     setIsTimeInputInvalid,
-    setTrackingValuesInputStrings,
+    assignSetTrackingValuesInputs,
     isSetEdited,
     setIsSetEdited,
     uneditedSet,

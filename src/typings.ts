@@ -337,7 +337,7 @@ export type UseSetTrackingInputsReturnType = {
   >;
   isTimeInputInvalid: boolean;
   setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
-  setTrackingValuesInputStrings: (set: WorkoutSet) => void;
+  assignSetTrackingValuesInputs: (set: WorkoutSet) => void;
   isSetEdited: boolean;
   setIsSetEdited: React.Dispatch<React.SetStateAction<boolean>>;
   uneditedSet: WorkoutSet | undefined;

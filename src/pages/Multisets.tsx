@@ -452,7 +452,7 @@ export default function Multisets() {
       updatedSet.distance = value;
     }
 
-    operatingSetInputs.setTrackingValuesInputStrings(updatedSet);
+    operatingSetInputs.assignSetTrackingValuesInputs(updatedSet);
     setOperatingSet(updatedSet);
 
     if (!operatingSetInputs.isSetEdited)
