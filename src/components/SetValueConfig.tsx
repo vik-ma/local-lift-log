@@ -43,10 +43,13 @@ export const SetValueConfig = ({
   userWeight,
 }: SetValueConfigProps) => {
   const [showNoteInput, setShowNoteInput] = useState<boolean>(false);
-  const [isValuesAccordionExpanded, setIsValuesAccordionExpanded] =
-    useState<boolean>(false);
 
-  const { isSetEdited, setIsSetEdited } = useSetTrackingInputs;
+  const {
+    isSetEdited,
+    setIsSetEdited,
+    isValuesAccordionExpanded,
+    setIsValuesAccordionExpanded,
+  } = useSetTrackingInputs;
 
   const handleTrackingCheckboxClick = (value: boolean, key: string) => {
     const updatedSet = { ...operatingSet };

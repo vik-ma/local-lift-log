@@ -164,11 +164,14 @@ export const MultisetModal = ({
     };
 
     updateOperatingSet(updatedSet);
+
+    operatingSetInputs.setIsSetEdited(false);
   };
 
   useEffect(() => {
     operatingSetInputs.assignSetTrackingValuesInputs(operatingSet);
     operatingSetInputs.setUneditedSet({ ...operatingSet });
+    operatingSetInputs.setIsSetEdited(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingSet.id]);
 

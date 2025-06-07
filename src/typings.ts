@@ -340,6 +340,8 @@ export type UseSetTrackingInputsReturnType = {
   assignSetTrackingValuesInputs: (set: WorkoutSet) => void;
   isSetEdited: boolean;
   setIsSetEdited: React.Dispatch<React.SetStateAction<boolean>>;
+  isValuesAccordionExpanded: boolean;
+  setIsValuesAccordionExpanded: React.Dispatch<React.SetStateAction<boolean>>;
   uneditedSet: WorkoutSet | undefined;
   setUneditedSet: React.Dispatch<React.SetStateAction<WorkoutSet | undefined>>;
 };
