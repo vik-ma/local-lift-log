@@ -581,7 +581,6 @@ export default function Multisets() {
         }
         handleClickMultiset={() => {}}
         showWorkoutItems={false}
-        operatingSetInputs={operatingSetInputs}
         openCalculationModal={openCalculationModal}
         useFilterExerciseList={filterExerciseList}
       />

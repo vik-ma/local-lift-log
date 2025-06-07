@@ -25,7 +25,7 @@ import {
   MultisetTypeDropdown,
   NumSetsDropdown,
 } from "../";
-import { useMultisetActions } from "../../hooks";
+import { useMultisetActions, useSetTrackingInputs } from "../../hooks";
 import { useEffect, useMemo, useState } from "react";
 import {
   ConvertEmptyStringToNull,
@@ -50,7 +50,6 @@ type MultisetModalProps = {
   saveButtonAction: (numSets?: string) => void;
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
   showWorkoutItems: boolean;
-  operatingSetInputs: UseSetTrackingInputsReturnType;
   openCalculationModal: (
     isWeight: boolean,
     exercise: Exercise,
@@ -75,7 +74,6 @@ export const MultisetModal = ({
   saveButtonAction,
   handleClickMultiset,
   showWorkoutItems,
-  operatingSetInputs,
   openCalculationModal,
   useFilterExerciseList,
 }: MultisetModalProps) => {
@@ -91,6 +89,8 @@ export const MultisetModal = ({
     undoOperatingMultisetChanges,
     setMultisetSetOperationType,
   } = useMultisetActions;
+
+  const operatingSetInputs = useSetTrackingInputs();
 
   const resetSetInputValues = () => {
     if (operatingSetInputs.uneditedSet?.id !== operatingSet.id) return;

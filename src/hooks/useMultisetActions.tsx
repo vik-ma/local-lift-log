@@ -10,12 +10,7 @@ import {
   UserSettings,
 } from "../typings";
 import { useEffect, useState, useMemo, useRef } from "react";
-import {
-  useDefaultExercise,
-  useListFilters,
-  useMultisetTypeMap,
-  useSetTrackingInputs,
-} from ".";
+import { useDefaultExercise, useListFilters, useMultisetTypeMap } from ".";
 import Database from "tauri-plugin-sql-api";
 import {
   GenerateSetListText,
@@ -24,8 +19,6 @@ import {
   UpdateItemInList,
   IsNumberValidInteger,
   DeleteItemFromList,
-  ConvertSetInputValuesToNumbers,
-  ConvertEmptyStringToNull,
   DoesListOrSetHaveCommonElement,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
@@ -82,8 +75,6 @@ export const useMultisetActions = ({
   const filterMultisetsModal = useDisclosure();
 
   const listFilters = useListFilters({ useExerciseList: exerciseList });
-
-  const operatingSetInputs = useSetTrackingInputs();
 
   const {
     filterMap,
