@@ -481,30 +481,7 @@ export const useMultisetActions = ({
     clearMultiset(undefined, { ...uneditedMultiset });
   };
 
-  const updateOperatingSet = async () => {
-    // TODO: FIX
-    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
-
-    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
-      operatingSetInputs.setTrackingValuesInput
-    );
-
-    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
-
-    const updatedSet: WorkoutSet = {
-      ...operatingSet,
-      note: noteToInsert,
-      weight: setTrackingValuesNumber.weight,
-      reps: setTrackingValuesNumber.reps,
-      distance: setTrackingValuesNumber.distance,
-      rir: setTrackingValuesNumber.rir,
-      rpe: setTrackingValuesNumber.rpe,
-      resistance_level: setTrackingValuesNumber.resistance_level,
-      partial_reps: setTrackingValuesNumber.partial_reps,
-      user_weight: setTrackingValuesNumber.user_weight,
-      isEditedInMultiset: true,
-    };
-
+  const updateOperatingSet = async (updatedSet: WorkoutSet) => {
     const updatedSetList = UpdateItemInList(
       operatingMultiset.setList,
       updatedSet

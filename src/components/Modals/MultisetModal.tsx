@@ -27,7 +27,12 @@ import {
 } from "../";
 import { useMultisetActions } from "../../hooks";
 import { useEffect, useMemo, useState } from "react";
-import { GetValidatedNumNewSets, NumNewSetsOptionList } from "../../helpers";
+import {
+  ConvertEmptyStringToNull,
+  ConvertSetInputValuesToNumbers,
+  GetValidatedNumNewSets,
+  NumNewSetsOptionList,
+} from "../../helpers";
 
 type MultisetModalProps = {
   multiset: Multiset;
@@ -129,6 +134,32 @@ export const MultisetModal = ({
   const handleAddExerciseButton = () => {
     setMultisetSetOperationType("add");
     setModalPage("exercise-list");
+  };
+
+  const handleSaveSetButton = () => {
+    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
+
+    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
+      operatingSetInputs.setTrackingValuesInput
+    );
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
+
+    const updatedSet: WorkoutSet = {
+      ...operatingSet,
+      note: noteToInsert,
+      weight: setTrackingValuesNumber.weight,
+      reps: setTrackingValuesNumber.reps,
+      distance: setTrackingValuesNumber.distance,
+      rir: setTrackingValuesNumber.rir,
+      rpe: setTrackingValuesNumber.rpe,
+      resistance_level: setTrackingValuesNumber.resistance_level,
+      partial_reps: setTrackingValuesNumber.partial_reps,
+      user_weight: setTrackingValuesNumber.user_weight,
+      isEditedInMultiset: true,
+    };
+
+    updateOperatingSet(updatedSet);
   };
 
   useEffect(() => {
@@ -293,7 +324,7 @@ export const MultisetModal = ({
                     }
                     onPress={
                       modalPage === "edit-set"
-                        ? updateOperatingSet
+                        ? handleSaveSetButton
                         : () => saveButtonAction(numNewSets)
                     }
                   >

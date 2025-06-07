@@ -878,7 +878,7 @@ export type UseMultisetActionsReturnType = {
   undoOperatingMultisetChanges: () => void;
   setUneditedMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
   setsToDelete: Set<number>;
-  updateOperatingSet: () => Promise<void>;
+  updateOperatingSet: (updatedSet: WorkoutSet) => Promise<void>;
   setCalledOutsideModal: React.Dispatch<React.SetStateAction<boolean>>;
   handleChangeExercise: (
     set: WorkoutSet,
