@@ -291,6 +291,7 @@ export default function Multisets() {
 
     for (let i = 0; i < operatingMultiset.setList.length; i++) {
       operatingMultiset.setList[i].multiset_id = multisetId;
+      operatingMultiset.setList[i].isEditedInMultiset = false;
 
       const setId = await InsertSetIntoDatabase(operatingMultiset.setList[i]);
 
@@ -353,9 +354,9 @@ export default function Multisets() {
         const success = await UpdateSet(operatingMultiset.setList[i]);
 
         if (!success) continue;
-
-        operatingMultiset.setList[i].isEditedInMultiset = false;
       }
+
+      operatingMultiset.setList[i].isEditedInMultiset = false;
 
       setListIdOrder.push(operatingMultiset.setList[i].id);
     }
