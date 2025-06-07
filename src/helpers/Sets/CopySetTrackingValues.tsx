@@ -1,4 +1,5 @@
 import { WorkoutSet } from "../../typings";
+import { GetValidatedUnit } from "../Strings/GetValidatedUnit";
 
 export const CopySetTrackingValues = (
   oldSet: WorkoutSet,
@@ -23,10 +24,13 @@ export const CopySetTrackingValues = (
   updatedSet.is_tracking_resistance_level = oldSet.is_tracking_resistance_level;
   updatedSet.is_tracking_partial_reps = oldSet.is_tracking_partial_reps;
   updatedSet.is_tracking_user_weight = oldSet.is_tracking_user_weight;
-  updatedSet.weight_unit = oldSet.weight_unit;
-  updatedSet.distance_unit = oldSet.distance_unit;
+  updatedSet.weight_unit = GetValidatedUnit(oldSet.weight_unit, "weight");
+  updatedSet.distance_unit = GetValidatedUnit(oldSet.distance_unit, "distance");
   updatedSet.user_weight = oldSet.user_weight;
-  updatedSet.user_weight_unit = oldSet.user_weight_unit;
+  updatedSet.user_weight_unit = GetValidatedUnit(
+    oldSet.user_weight_unit,
+    "weight"
+  );
 
   return updatedSet;
 };
