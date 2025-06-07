@@ -29,7 +29,13 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
       weight: IsStringInvalidNumber(setTrackingValuesInput.weight),
       reps: IsStringInvalidInteger(setTrackingValuesInput.reps),
       rir: IsStringInvalidInteger(setTrackingValuesInput.rir),
-      rpe: IsStringInvalidInteger(setTrackingValuesInput.rpe, 0, true, 10),
+      rpe: IsStringInvalidInteger(
+        setTrackingValuesInput.rpe,
+        0,
+        true,
+        10,
+        true
+      ),
       distance: IsStringInvalidNumber(setTrackingValuesInput.distance),
       resistance_level: IsStringInvalidNumber(
         setTrackingValuesInput.resistance_level
@@ -38,6 +44,8 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
       user_weight: IsStringInvalidNumber(
         setTrackingValuesInput.user_weight,
         0,
+        true,
+        undefined,
         true
       ),
     };
@@ -59,9 +67,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
         0,
         false,
         undefined,
-        false,
-        undefined,
-        true
+        false
       ),
       reps: ConvertNumberToInputString(set.reps, 0, false, undefined, true),
       rir: ConvertNumberToInputString(set.rir, -1, true, undefined, true),
@@ -71,18 +77,14 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
         0,
         false,
         undefined,
-        false,
-        undefined,
-        true
+        false
       ),
       resistance_level: ConvertNumberToInputString(
         set.resistance_level,
         0,
         false,
         undefined,
-        false,
-        undefined,
-        true
+        false
       ),
       partial_reps: ConvertNumberToInputString(
         set.partial_reps,
