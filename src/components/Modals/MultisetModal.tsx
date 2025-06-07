@@ -26,7 +26,7 @@ import {
   NumSetsDropdown,
 } from "../";
 import { useMultisetActions } from "../../hooks";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { GetValidatedNumNewSets, NumNewSetsOptionList } from "../../helpers";
 
 type MultisetModalProps = {
@@ -130,6 +130,12 @@ export const MultisetModal = ({
     setMultisetSetOperationType("add");
     setModalPage("exercise-list");
   };
+
+  useEffect(() => {
+    operatingSetInputs.assignSetTrackingValuesInputs(operatingSet);
+    operatingSetInputs.setUneditedSet({ ...operatingSet });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [operatingSet.id]);
 
   return (
     <Modal isOpen={multisetModal.isOpen} onOpenChange={closeMultisetModal}>

@@ -154,7 +154,6 @@ export default function Multisets() {
     deleteModal,
     exerciseList,
     defaultMultiset,
-    operatingSetInputs,
     setOperationType,
     userSettings,
     removeSetFromMultiset,

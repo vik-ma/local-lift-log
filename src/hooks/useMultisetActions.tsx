@@ -3,7 +3,6 @@ import {
   WorkoutSet,
   Exercise,
   UseExerciseListReturnType,
-  UseSetTrackingInputsReturnType,
   UseDisclosureReturnType,
   MultisetModalPage,
   MultisetOperationType,
@@ -11,7 +10,12 @@ import {
   UserSettings,
 } from "../typings";
 import { useEffect, useState, useMemo, useRef } from "react";
-import { useDefaultExercise, useListFilters, useMultisetTypeMap } from ".";
+import {
+  useDefaultExercise,
+  useListFilters,
+  useMultisetTypeMap,
+  useSetTrackingInputs,
+} from ".";
 import Database from "tauri-plugin-sql-api";
 import {
   GenerateSetListText,
@@ -34,7 +38,6 @@ type UseMultisetActionsProps = {
   deleteModal: UseDisclosureReturnType;
   exerciseList: UseExerciseListReturnType;
   defaultMultiset: Multiset;
-  operatingSetInputs: UseSetTrackingInputsReturnType;
   defaultPage?: MultisetModalPage;
   setOperationType?: React.Dispatch<
     React.SetStateAction<"add" | "edit" | "delete">
@@ -54,7 +57,6 @@ export const useMultisetActions = ({
   deleteModal,
   exerciseList,
   defaultMultiset,
-  operatingSetInputs,
   defaultPage,
   setOperationType,
   userSettings,
@@ -80,6 +82,8 @@ export const useMultisetActions = ({
   const filterMultisetsModal = useDisclosure();
 
   const listFilters = useListFilters({ useExerciseList: exerciseList });
+
+  const operatingSetInputs = useSetTrackingInputs();
 
   const {
     filterMap,
@@ -155,9 +159,6 @@ export const useMultisetActions = ({
     setOperatingMultiset(multiset);
     setModalPage("edit-set");
 
-    operatingSetInputs.assignSetTrackingValuesInputs(set);
-    operatingSetInputs.setUneditedSet({ ...set });
-    operatingSetInputs.setIsSetEdited(false);
     setSelectedMultisetExercise(exercise);
 
     if (!multisetModal.isOpen) {
@@ -481,6 +482,7 @@ export const useMultisetActions = ({
   };
 
   const updateOperatingSet = async () => {
+    // TODO: FIX
     if (operatingSetInputs.isSetTrackingValuesInvalid) return;
 
     const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
