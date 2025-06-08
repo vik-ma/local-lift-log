@@ -345,8 +345,6 @@ export default function WorkoutDetails() {
       oldWorkoutSetList,
       workout.id,
       keepSetValues,
-      defaultWeightUnit.current,
-      defaultDistanceUnit.current,
       oldWorkoutExerciseOrder
     );
 

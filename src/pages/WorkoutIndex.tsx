@@ -99,8 +99,6 @@ export default function WorkoutIndex() {
       oldWorkoutSetList,
       newWorkout.id,
       keepSetValues,
-      defaultWeightUnit.current,
-      defaultDistanceUnit.current,
       workoutToCopy.exercise_order
     );
 

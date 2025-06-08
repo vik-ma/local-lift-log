@@ -1,6 +1,7 @@
 import {
   GetMultisetWithId,
   GetValidatedMultisetType,
+  GetValidatedUnit,
   InsertMultisetIntoDatabase,
   InsertSetIntoDatabase,
   ReplaceIdsInOrderString,
@@ -20,8 +21,6 @@ export const CopyWorkoutSetList = async (
   setList: WorkoutSet[],
   newWorkoutId: number,
   keepSetValues: boolean,
-  defaultWeightUnit: string,
-  defaultDistanceUnit: string,
   workoutExerciseOrder: string
 ) => {
   const newSetList = [...setList];
@@ -34,6 +33,10 @@ export const CopyWorkoutSetList = async (
     set.is_completed = 0;
     set.time_completed = null;
 
+    set.weight_unit = GetValidatedUnit(set.weight_unit, "weight");
+    set.distance_unit = GetValidatedUnit(set.distance_unit, "distance");
+    set.user_weight_unit = GetValidatedUnit(set.user_weight_unit, "weight");
+
     if (!keepSetValues) {
       set.weight = 0;
       set.reps = 0;
@@ -44,10 +47,6 @@ export const CopyWorkoutSetList = async (
       set.resistance_level = 0;
       set.partial_reps = 0;
       set.user_weight = 0;
-    } else {
-      set.weight_unit = defaultWeightUnit;
-      set.distance_unit = defaultDistanceUnit;
-      set.user_weight_unit = defaultWeightUnit;
     }
 
     const newSetId = await InsertSetIntoDatabase(set);
