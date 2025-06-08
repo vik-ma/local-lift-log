@@ -129,8 +129,6 @@ export default function WorkoutDetails() {
     filterExerciseList,
     groupedWorkoutSetListModal,
     mergeGroupedSets,
-    defaultWeightUnit,
-    defaultDistanceUnit,
     populateUserWeightValues,
     showGetUserWeightButton,
     showOldUserWeightLabel,

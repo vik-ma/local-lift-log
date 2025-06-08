@@ -14,7 +14,7 @@ import {
   useFilterExerciseList,
   useWorkoutList,
 } from "../hooks";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CopyWorkoutSetList,
   GetUserSettings,
@@ -23,7 +23,6 @@ import {
   UpdateWorkout,
   CreateSetsFromWorkoutTemplate,
   GenerateExerciseOrderString,
-  GetValidatedUnit,
 } from "../helpers";
 import { UserSettings, Workout, WorkoutTemplate } from "../typings";
 
@@ -45,9 +44,6 @@ export default function WorkoutIndex() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
-  const defaultWeightUnit = useRef<string>("kg");
-  const defaultDistanceUnit = useRef<string>("km");
-
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
@@ -55,18 +51,6 @@ export default function WorkoutIndex() {
       if (userSettings === undefined) return;
 
       setUserSettings(userSettings);
-
-      const weightUnit = GetValidatedUnit(
-        userSettings.default_unit_weight,
-        "weight"
-      );
-      const distanceUnit = GetValidatedUnit(
-        userSettings.default_unit_distance,
-        "distance"
-      );
-
-      defaultWeightUnit.current = weightUnit;
-      defaultDistanceUnit.current = distanceUnit;
 
       setIncludeSecondaryGroups(
         userSettings.show_secondary_exercise_groups === 1

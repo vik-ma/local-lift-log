@@ -177,9 +177,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const [showOldUserWeightLabel, setShowOldUserWeightLabel] =
     useState<boolean>(false);
 
-  const defaultWeightUnit = useRef<string>("kg");
-  const defaultDistanceUnit = useRef<string>("km");
-
   useEffect(() => {
     const loadUserSettings = async () => {
       try {
@@ -216,9 +213,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         setFilterWeightRangeUnit(weightUnit);
         setFilterDistanceRangeUnit(distanceUnit);
-
-        defaultWeightUnit.current = weightUnit;
-        defaultDistanceUnit.current = distanceUnit;
       } catch (error) {
         console.log(error);
       }
@@ -3159,8 +3153,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     filterExerciseList,
     groupedWorkoutSetListModal,
     mergeGroupedSets,
-    defaultWeightUnit,
-    defaultDistanceUnit,
     userWeight,
     showGetUserWeightButton,
     showOldUserWeightLabel,
