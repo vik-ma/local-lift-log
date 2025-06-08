@@ -484,7 +484,6 @@ export default function WorkoutDetails() {
         saveButtonAction={handleSaveMultisetButton}
         handleClickMultiset={handleClickMultiset}
         showWorkoutItems={true}
-        operatingSetInputs={operatingSetInputs}
         openCalculationModal={openCalculationModal}
         useFilterExerciseList={filterExerciseList}
       />
