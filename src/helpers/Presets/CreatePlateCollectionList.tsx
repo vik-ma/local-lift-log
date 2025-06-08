@@ -1,6 +1,7 @@
 import { EquipmentWeight, PlateCollection } from "../../typings";
 import {
   GenerateFormattedAvailablePlatesString,
+  GetValidatedUnit,
   IsNumberDivisibleBy2,
 } from "..";
 
@@ -17,7 +18,7 @@ export const CreatePlateCollectionList = (
   const plateCollectionList: PlateCollection[] = [];
 
   for (const plate of plateCollections) {
-    const weightUnit = plate.weight_unit;
+    const weightUnit = GetValidatedUnit(plate.weight_unit, "weight");
 
     const availablePlatesMap = new Map<EquipmentWeight, number>();
 
