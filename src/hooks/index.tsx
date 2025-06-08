@@ -16,7 +16,6 @@ export { useWorkoutActions } from "./useWorkoutActions";
 export { useDefaultWorkout } from "./useDefaultWorkout";
 export { useWorkoutTemplateList } from "./useWorkoutTemplateList";
 export { useDefaultMeasurement } from "./useDefaultMeasurement";
-export { useHandleMeasurementTypeChange } from "./useHandleMeasurementTypeChange";
 export { useReassignMeasurement } from "./useReassignMeasurement";
 export { useMultisetTypeMap } from "./useMultisetTypeMap";
 export { useDefaultMultiset } from "./useDefaultMultiset";
