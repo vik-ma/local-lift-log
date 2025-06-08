@@ -3,6 +3,7 @@ import {
   GenerateFormattedAvailablePlatesString,
   GetValidatedUnit,
   IsNumberDivisibleBy2,
+  IsStringEmpty,
 } from "..";
 
 export const CreatePlateCollectionList = (
@@ -18,6 +19,12 @@ export const CreatePlateCollectionList = (
   const plateCollectionList: PlateCollection[] = [];
 
   for (const plate of plateCollections) {
+    if (
+      IsStringEmpty(plate.name) ||
+      (plate.num_handles !== 1 && plate.num_handles !== 2)
+    )
+      continue;
+
     const weightUnit = GetValidatedUnit(plate.weight_unit, "weight");
 
     const availablePlatesMap = new Map<EquipmentWeight, number>();
