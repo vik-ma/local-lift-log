@@ -23,7 +23,7 @@ export const ConvertExerciseGroupSetStringSecondary = (
       !exerciseGroupSetPrimary.has(exerciseGroup) &&
       !exerciseGroupMultiplierMap.has(exerciseGroup) &&
       multiplier !== undefined &&
-      !IsStringInvalidNumber(multiplier, 0, false, 1)
+      !IsStringInvalidNumber(multiplier, 0, true, 1)
     ) {
       exerciseGroupNameList.push(exerciseGroupDictionary.get(exerciseGroup)!);
       exerciseGroupMultiplierMap.set(exerciseGroup, multiplier);

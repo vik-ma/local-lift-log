@@ -431,84 +431,87 @@ export const ExerciseModal = ({
                         </div>
                       )}
                     </div>
-                    {exercise.exerciseGroupStringMapSecondary !== undefined && (
-                      <div
-                        aria-label="Secondary Exercise Group Multipliers Accordion"
-                        className="flex flex-col select-none"
-                      >
+                    {exercise.exerciseGroupStringMapSecondary !== undefined &&
+                      multiplierInputMap.size > 0 && (
                         <div
-                          className="flex relative cursor-pointer pl-1 pb-0.5"
-                          onClick={() =>
-                            setIsMultiplierAccordionExpanded(
-                              !isMultiplierAccordionExpanded
-                            )
-                          }
+                          aria-label="Secondary Exercise Group Multipliers Accordion"
+                          className="flex flex-col select-none"
                         >
-                          <span className="font-medium text-lg">
-                            Secondary Multipliers
-                          </span>
-                          <div className="absolute right-0">
-                            <ChevronIcon
-                              size={31}
-                              color="#a8a29e"
-                              direction={
-                                isMultiplierAccordionExpanded ? "down" : "left"
-                              }
-                            />
+                          <div
+                            className="flex relative cursor-pointer pl-1 pb-0.5"
+                            onClick={() =>
+                              setIsMultiplierAccordionExpanded(
+                                !isMultiplierAccordionExpanded
+                              )
+                            }
+                          >
+                            <span className="font-medium text-lg">
+                              Secondary Multipliers
+                            </span>
+                            <div className="absolute right-0">
+                              <ChevronIcon
+                                size={31}
+                                color="#a8a29e"
+                                direction={
+                                  isMultiplierAccordionExpanded
+                                    ? "down"
+                                    : "left"
+                                }
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <AnimatePresence>
-                          {isMultiplierAccordionExpanded && (
-                            <motion.div
-                              className="px-1 pt-px"
-                              initial={{ height: 0, overflow: "hidden" }}
-                              animate={{ height: "auto" }}
-                              exit={{ height: 0, overflow: "hidden" }}
-                              transition={{
-                                height: { duration: 0.1 },
-                              }}
-                              ref={multiplierAccordionRef}
-                            >
-                              <div className="grid grid-cols-2 gap-x-2 gap-y-1">
-                                {Array.from(multiplierInputMap).map(
-                                  ([key, value]) => {
-                                    const exerciseGroup =
-                                      exerciseGroupDictionary.get(key);
+                          <AnimatePresence>
+                            {isMultiplierAccordionExpanded && (
+                              <motion.div
+                                className="px-1 pt-px"
+                                initial={{ height: 0, overflow: "hidden" }}
+                                animate={{ height: "auto" }}
+                                exit={{ height: 0, overflow: "hidden" }}
+                                transition={{
+                                  height: { duration: 0.1 },
+                                }}
+                                ref={multiplierAccordionRef}
+                              >
+                                <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+                                  {Array.from(multiplierInputMap).map(
+                                    ([key, value]) => {
+                                      const exerciseGroup =
+                                        exerciseGroupDictionary.get(key);
 
-                                    return (
-                                      <div
-                                        className="flex gap-2 items-center"
-                                        key={`multiplier-input-${key}`}
-                                      >
-                                        <span className="text-stone-500 text-sm w-[6.5rem]">
-                                          {exerciseGroup}
-                                        </span>
-                                        <Input
-                                          aria-label={`${exerciseGroup} Multiplier Input`}
-                                          className="w-[3.25rem]"
-                                          size="sm"
-                                          value={value}
-                                          variant="faded"
-                                          onValueChange={(value) =>
-                                            handleMultiplierChange(value, key)
-                                          }
-                                          isInvalid={multiplierInputInvaliditySet.has(
-                                            key
-                                          )}
-                                        />
-                                      </div>
-                                    );
-                                  }
-                                )}
-                              </div>
-                              <span className="px-px text-xs text-slate-400">
-                                Values must be between 0 and 1
-                              </span>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    )}
+                                      return (
+                                        <div
+                                          className="flex gap-2 items-center"
+                                          key={`multiplier-input-${key}`}
+                                        >
+                                          <span className="text-stone-500 text-sm w-[6.5rem]">
+                                            {exerciseGroup}
+                                          </span>
+                                          <Input
+                                            aria-label={`${exerciseGroup} Multiplier Input`}
+                                            className="w-[3.25rem]"
+                                            size="sm"
+                                            value={value}
+                                            variant="faded"
+                                            onValueChange={(value) =>
+                                              handleMultiplierChange(value, key)
+                                            }
+                                            isInvalid={multiplierInputInvaliditySet.has(
+                                              key
+                                            )}
+                                          />
+                                        </div>
+                                      );
+                                    }
+                                  )}
+                                </div>
+                                <span className="px-px text-xs text-slate-400">
+                                  Values must be between 0 and 1
+                                </span>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      )}
                   </div>
                 </div>
               </ScrollShadow>
