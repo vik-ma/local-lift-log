@@ -87,7 +87,7 @@ export const MeasurementModalList = ({
             key={measurement.id}
             className={
               hideCircumferenceMeasurements &&
-              measurement.measurement_type === "Circumference"
+              measurement.measurement_type !== "Caliper"
                 ? "hidden"
                 : hiddenMeasurements?.has(measurement.id)
                 ? "hidden"
