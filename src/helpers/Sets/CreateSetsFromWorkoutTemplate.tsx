@@ -7,6 +7,7 @@ import {
   GetExerciseOrder,
   GetMultisetWithId,
   GetValidatedMultisetType,
+  GetValidatedUnit,
   InsertMultisetIntoDatabase,
   InsertSetIntoDatabase,
   ReplaceNumberIn2DList,
@@ -38,6 +39,10 @@ export const CreateSetsFromWorkoutTemplate = async (
 
     for (let i = 0; i < result.length; i++) {
       const set: WorkoutSet = result[i];
+
+      set.weight_unit = GetValidatedUnit(set.weight_unit, "weight");
+      set.distance_unit = GetValidatedUnit(set.distance_unit, "distance");
+      set.user_weight_unit = GetValidatedUnit(set.user_weight_unit, "weight");
 
       if (createSetsForWorkoutTemplate) {
         set.is_template = 1;
