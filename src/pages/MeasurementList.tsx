@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   LoadingSpinner,
   DeleteModal,
@@ -37,11 +37,7 @@ import {
   GetValidatedUnit,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
-import {
-  useDefaultMeasurement,
-  useHandleMeasurementTypeChange,
-  useMeasurementList,
-} from "../hooks";
+import { useDefaultMeasurement, useMeasurementList } from "../hooks";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -227,11 +223,6 @@ export default function MeasurementList() {
     });
   };
 
-  const handleMeasurementTypeChange = useHandleMeasurementTypeChange(
-    userSettings?.default_unit_measurement ?? "cm",
-    setOperatingMeasurement
-  );
-
   const restoreDefaultMeasurements = async (useMetricUnits: boolean) => {
     const newMeasurements = await CreateDefaultMeasurements(useMetricUnits);
 
@@ -328,7 +319,6 @@ export default function MeasurementList() {
         measurementModal={measurementModal}
         measurement={operatingMeasurement}
         setMeasurement={setOperatingMeasurement}
-        handleMeasurementTypeChange={handleMeasurementTypeChange}
         buttonAction={handleSaveButton}
       />
       <Modal

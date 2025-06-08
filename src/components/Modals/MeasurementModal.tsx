@@ -18,7 +18,6 @@ type MeasurementModalProps = {
   measurementModal: UseDisclosureReturnType;
   measurement: Measurement;
   setMeasurement: React.Dispatch<React.SetStateAction<Measurement>>;
-  handleMeasurementTypeChange: (measurementType: string) => void;
   buttonAction: (updatedMeasurement: Measurement) => void;
 };
 
@@ -26,7 +25,6 @@ export const MeasurementModal = ({
   measurementModal,
   measurement,
   setMeasurement,
-  handleMeasurementTypeChange,
   buttonAction,
 }: MeasurementModalProps) => {
   const [nameInput, setNameInput] = useState<string>("");
@@ -34,6 +32,17 @@ export const MeasurementModal = ({
   const isMeasurementNameValid = useValidateName(nameInput);
 
   const measurementTypes = useMeasurementTypes();
+
+  const handleMeasurementTypeChange = (measurementType: string) => {
+    const newDefaultUnit: string =
+      measurementType === "Caliper" ? "mm" : measurement.default_unit;
+
+    setMeasurement((prev) => ({
+      ...prev,
+      default_unit: newDefaultUnit,
+      measurement_type: measurementType,
+    }));
+  };
 
   const handleSaveButton = () => {
     if (!isMeasurementNameValid) return;
