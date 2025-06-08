@@ -181,7 +181,7 @@ export const usePresetsList = (
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const equipmentWeights = await db.select<EquipmentWeight[]>(
-        "SELECT * FROM equipment_weights"
+        "SELECT * FROM equipment_weights WHERE weight_unit IN ('kg', 'lbs')"
       );
 
       const plateCollections = await db.select<PlateCollection[]>(
@@ -218,7 +218,9 @@ export const usePresetsList = (
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const result = await db.select<Distance[]>("SELECT * FROM distances");
+      const result = await db.select<Distance[]>(
+        "SELECT * FROM distances WHERE distance_unit IN ('km', 'm', 'mi', 'ft', 'yd')"
+      );
 
       sortDistancesByFavoritesFirst(result);
       isDistanceListLoaded.current = true;
