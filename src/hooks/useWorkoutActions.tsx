@@ -1763,11 +1763,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     multisetActions.setModalPage("base");
   };
 
-  const createNewMultiset = async (numSets: string) => {
+  const createNewMultiset = async (noteInput: string, numSets: string) => {
     if (operationType !== "add" || !NumNewSetsOptionList().includes(numSets))
       return;
 
-    const noteToInsert = ConvertEmptyStringToNull(operatingMultiset.note);
+    const noteToInsert = ConvertEmptyStringToNull(noteInput);
 
     operatingMultiset.note = noteToInsert;
 
@@ -2067,16 +2067,19 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success(`Set${numSetsToAdd > 1 ? "s" : ""} Added To Multiset`);
   };
 
-  const handleSaveMultisetButton = async (numSets?: string) => {
+  const handleSaveMultisetButton = async (
+    noteInput: string,
+    numSets?: string
+  ) => {
     if (operationType === "add" && numSets) {
-      await createNewMultiset(numSets);
+      await createNewMultiset(noteInput, numSets);
     }
     if (operationType === "edit") {
-      await updateMultiset();
+      await updateMultiset(noteInput);
     }
   };
 
-  const updateMultiset = async () => {
+  const updateMultiset = async (noteInput: string) => {
     if (!operatingMultiset.isEditedInModal) {
       resetOperatingMultiset();
       multisetActions.multisetModal.onClose();
@@ -2091,7 +2094,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     )
       return;
 
-    const noteToInsert = ConvertEmptyStringToNull(operatingMultiset.note);
+    const noteToInsert = ConvertEmptyStringToNull(noteInput);
 
     operatingMultiset.note = noteToInsert;
 
