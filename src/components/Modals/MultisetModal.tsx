@@ -29,6 +29,7 @@ import { useMultisetActions, useSetTrackingInputs } from "../../hooks";
 import { useEffect, useMemo, useState } from "react";
 import {
   ConvertEmptyStringToNull,
+  ConvertNullToEmptyInputString,
   ConvertSetInputValuesToNumbers,
   GetValidatedNumNewSets,
   NumNewSetsOptionList,
@@ -77,6 +78,8 @@ export const MultisetModal = ({
   openCalculationModal,
   useFilterExerciseList,
 }: MultisetModalProps) => {
+  const [noteInput, setNoteInput] = useState<string>("");
+
   const numSetsOptions = NumNewSetsOptionList();
 
   const [numNewSets, setNumNewSets] = useState<string>(
@@ -175,6 +178,22 @@ export const MultisetModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingSet.id]);
 
+  useEffect(() => {
+    setNoteInput(ConvertNullToEmptyInputString(multiset.note));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [multiset.id]);
+
+  const handleNoteInputChange = (value: string) => {
+    setNoteInput(value);
+
+    if (!multiset.isEditedInModal) {
+      setMultiset((prev) => ({
+        ...prev,
+        isEditedInModal: true,
+      }));
+    }
+  };
+
   return (
     <Modal isOpen={multisetModal.isOpen} onOpenChange={closeMultisetModal}>
       <ModalContent>
@@ -229,18 +248,12 @@ export const MultisetModal = ({
                       setMultiset={setMultiset}
                     />
                     <Input
-                      value={multiset.note ?? ""}
+                      value={noteInput}
                       className="w-64"
                       label="Note"
                       labelPlacement="outside-left"
                       variant="faded"
-                      onValueChange={(value) =>
-                        setMultiset((prev) => ({
-                          ...prev,
-                          note: value,
-                          isEditedInModal: true,
-                        }))
-                      }
+                      onValueChange={(value) => handleNoteInputChange(value)}
                       isClearable
                     />
                   </div>
