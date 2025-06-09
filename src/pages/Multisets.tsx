@@ -274,10 +274,10 @@ export default function Multisets() {
     multisetActions.setNewMultisetSetIndex((prev) => prev - 1);
   };
 
-  const createMultiset = async () => {
+  const createMultiset = async (noteInput: string) => {
     if (operationType !== "add") return;
 
-    const noteToInsert = ConvertEmptyStringToNull(operatingMultiset.note);
+    const noteToInsert = ConvertEmptyStringToNull(noteInput);
 
     operatingMultiset.note = noteToInsert;
 
@@ -321,7 +321,7 @@ export default function Multisets() {
     toast.success("Multiset Created");
   };
 
-  const updateMultiset = async () => {
+  const updateMultiset = async (noteInput: string) => {
     if (!operatingMultiset.isEditedInModal) {
       resetOperatingMultiset();
       multisetActions.multisetModal.onClose();
@@ -330,7 +330,7 @@ export default function Multisets() {
 
     if (operationType !== "edit" || operatingMultiset.id === 0) return;
 
-    const noteToInsert = ConvertEmptyStringToNull(operatingMultiset.note);
+    const noteToInsert = ConvertEmptyStringToNull(noteInput);
 
     operatingMultiset.note = noteToInsert;
 

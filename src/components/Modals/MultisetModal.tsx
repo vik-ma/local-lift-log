@@ -48,7 +48,7 @@ type MultisetModalProps = {
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
-  saveButtonAction: (numSets?: string) => void;
+  saveButtonAction: (noteInput: string, numSets?: string) => void;
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
   showWorkoutItems: boolean;
   openCalculationModal: (
@@ -346,7 +346,7 @@ export const MultisetModal = ({
                     onPress={
                       modalPage === "edit-set"
                         ? handleSaveSetButton
-                        : () => saveButtonAction(numNewSets)
+                        : () => saveButtonAction(noteInput, numNewSets)
                     }
                   >
                     {modalPage === "edit-set" ? "Update Set" : "Save"}
