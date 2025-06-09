@@ -194,6 +194,12 @@ export const MultisetModal = ({
     }
   };
 
+  const handleUndoChangesButton = () => {
+    setNoteInput(ConvertNullToEmptyInputString(multiset.note));
+
+    undoOperatingMultisetChanges();
+  };
+
   return (
     <Modal isOpen={multisetModal.isOpen} onOpenChange={closeMultisetModal}>
       <ModalContent>
@@ -270,7 +276,7 @@ export const MultisetModal = ({
                       <Button
                         variant="flat"
                         size="sm"
-                        onPress={undoOperatingMultisetChanges}
+                        onPress={handleUndoChangesButton}
                       >
                         Undo Changes
                       </Button>
