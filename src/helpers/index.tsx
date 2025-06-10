@@ -55,6 +55,7 @@ export { IsRoutineScheduleTypeFiltered } from "./Routines/IsRoutineScheduleTypeF
 export { FormatRoutineScheduleTypeString } from "./Routines/FormatRoutineScheduleTypeString";
 export { CreateNoDayWorkoutTemplateList } from "./Routines/CreateNoDayWorkoutTemplateList";
 export { DeleteWorkoutRoutineSchedule } from "./Routines/DeleteWorkoutRoutineSchedule";
+export { GetValidatedRoutineScheduleType } from "./Routines/GetValidatedRoutineScheduleType";
 
 export { CreateDefaultUserSettings } from "./UserSettings/CreateDefaultUserSettings";
 export { GetUserSettings } from "./UserSettings/GetUserSettings";
