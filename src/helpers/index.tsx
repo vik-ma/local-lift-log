@@ -57,6 +57,7 @@ export { CreateNoDayWorkoutTemplateList } from "./Routines/CreateNoDayWorkoutTem
 export { DeleteWorkoutRoutineSchedule } from "./Routines/DeleteWorkoutRoutineSchedule";
 export { GetValidatedRoutineScheduleType } from "./Routines/GetValidatedRoutineScheduleType";
 export { GetValidatedNumDaysInSchedule } from "./Routines/GetValidatedNumDaysInSchedule";
+export { GetValidatedStartDay } from "./Routines/GetValidatedStartDay";
 
 export { CreateDefaultUserSettings } from "./UserSettings/CreateDefaultUserSettings";
 export { GetUserSettings } from "./UserSettings/GetUserSettings";
