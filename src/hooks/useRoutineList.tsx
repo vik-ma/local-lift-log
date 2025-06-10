@@ -12,6 +12,9 @@ import {
   CreateRoutineWorkoutTemplateList,
   DoesListOrSetHaveCommonElement,
   FormatRoutineScheduleTypeString,
+  GetValidatedNumDaysInSchedule,
+  GetValidatedRoutineScheduleType,
+  GetValidatedStartDay,
   IsNumberWithinLimit,
   IsRoutineScheduleTypeFiltered,
 } from "../helpers";
@@ -128,6 +131,12 @@ export const useRoutineList = (
       const newRoutineMap = new Map<number, Routine>();
 
       for (const row of result) {
+        row.schedule_type = GetValidatedRoutineScheduleType(row.schedule_type);
+        row.num_days_in_schedule = GetValidatedNumDaysInSchedule(
+          row.num_days_in_schedule
+        );
+        row.start_day = GetValidatedStartDay(row.start_day);
+
         const { workoutTemplateIdList, workoutTemplateIdSet } =
           CreateRoutineWorkoutTemplateList(
             row.schedule_type === 2

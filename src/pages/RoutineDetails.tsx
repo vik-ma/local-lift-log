@@ -31,6 +31,9 @@ import {
   DeleteItemFromList,
   DeleteWorkoutRoutineSchedule,
   UpdateUserSetting,
+  GetValidatedNumDaysInSchedule,
+  GetValidatedStartDay,
+  GetValidatedRoutineScheduleType,
 } from "../helpers";
 import toast from "react-hot-toast";
 import {
@@ -151,6 +154,14 @@ export default function RoutineDetails() {
         if (result.length === 0) return;
 
         const routine = result[0];
+
+        routine.schedule_type = GetValidatedRoutineScheduleType(
+          routine.schedule_type
+        );
+        routine.num_days_in_schedule = GetValidatedNumDaysInSchedule(
+          routine.num_days_in_schedule
+        );
+        routine.start_day = GetValidatedStartDay(routine.start_day);
 
         const isNoDaySchedule = routine.schedule_type === 2;
 
