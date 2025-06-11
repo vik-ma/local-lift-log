@@ -461,9 +461,7 @@ export default function RoutineDetails() {
   };
 
   const updateRoutineStartDay = async (weekdayNum: string) => {
-    const startDay = Number(weekdayNum);
-
-    if (isNaN(startDay) || startDay < 0 || startDay > 7) return;
+    const startDay = GetValidatedStartDay(Number(weekdayNum));
 
     const updatedRoutine: Routine = { ...routine, start_day: startDay };
 
