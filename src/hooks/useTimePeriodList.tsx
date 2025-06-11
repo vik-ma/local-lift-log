@@ -8,6 +8,7 @@ import Database from "tauri-plugin-sql-api";
 import {
   FormatISODateString,
   GetNumberOfDaysBetweenDates,
+  GetValidatedDietPhase,
   IsDatePassed,
   IsDateWithinLimit,
   IsNumberWithinLimit,
@@ -148,7 +149,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
           start_date: row.start_date,
           end_date: row.end_date,
           note: row.note,
-          diet_phase: row.diet_phase,
+          diet_phase: GetValidatedDietPhase(row.diet_phase),
           injury: row.injury,
           formattedStartDate: formattedStartDate,
           formattedEndDate: formattedEndDate,
