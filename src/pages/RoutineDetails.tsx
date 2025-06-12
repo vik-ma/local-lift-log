@@ -215,17 +215,17 @@ export default function RoutineDetails() {
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Routine");
 
-  const updateRoutine = async (routine: Routine) => {
+  const updateRoutine = async (updatedRoutine: Routine) => {
     // If switching schedule_type from Weekly/Custom to No Day Set
-    if (routine.schedule_type !== 2 && routine.schedule_type === 2) {
+    if (routine.schedule_type !== 2 && updatedRoutine.schedule_type === 2) {
       const { workoutTemplateIdList, workoutTemplateIdSet } =
         CreateRoutineWorkoutTemplateList(
           `[${routine.workout_template_order}]`,
           workoutTemplateMap.current
         );
 
-      routine.workoutTemplateIdList = workoutTemplateIdList;
-      routine.workoutTemplateIdSet = workoutTemplateIdSet;
+      updatedRoutine.workoutTemplateIdList = workoutTemplateIdList;
+      updatedRoutine.workoutTemplateIdSet = workoutTemplateIdSet;
 
       const noDayWorkoutTemplateList = CreateNoDayWorkoutTemplateList(
         workoutTemplateIdList,
@@ -236,22 +236,22 @@ export default function RoutineDetails() {
     }
 
     // If switching schedule_type from No Day Set to Weekly/Custom
-    if (routine.schedule_type === 2 && routine.schedule_type !== 2) {
+    if (routine.schedule_type === 2 && updatedRoutine.schedule_type !== 2) {
       await getWorkoutRoutineSchedules();
     }
 
-    const success = await UpdateRoutine(routine);
+    const success = await UpdateRoutine(updatedRoutine);
 
     if (!success) return;
 
-    if (routine.num_days_in_schedule < routine.num_days_in_schedule) {
+    if (updatedRoutine.num_days_in_schedule < routine.num_days_in_schedule) {
       deleteWorkoutTemplateSchedulesAboveDayNumber(
-        routine.num_days_in_schedule
+        updatedRoutine.num_days_in_schedule
       );
     }
 
-    setRoutine(routine);
-    setEditedRoutine(routine);
+    setRoutine(updatedRoutine);
+    setEditedRoutine({ ...updatedRoutine });
 
     routineModal.onClose();
     toast.success("Routine Updated");
