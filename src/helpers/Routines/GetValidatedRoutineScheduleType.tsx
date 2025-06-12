@@ -1,4 +1,4 @@
-import { RoutineScheduleTypes } from "../Constants/RoutineScheduleTypes";
+import { RoutineScheduleTypes } from "..";
 
 export const GetValidatedRoutineScheduleType = (
   routineScheduleType: number

@@ -1,10 +1,10 @@
+import { GetValidatedMeasurementType, GetValidatedUnit } from "..";
 import {
   Measurement,
   MeasurementMap,
   BodyMeasurementsValues,
 } from "../../typings";
-import { GetValidatedUnit } from "../Strings/GetValidatedUnit";
-import { GetValidatedMeasurementType } from "./GetValidatedMeasurementType";
+
 
 export const ConvertBodyMeasurementsValuesToMeasurementInputs = (
   bodyMeasurementsValues: BodyMeasurementsValues,

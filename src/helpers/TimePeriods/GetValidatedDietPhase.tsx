@@ -1,4 +1,4 @@
-import { DietPhaseTypes } from "../Constants/DietPhaseTypes";
+import { DietPhaseTypes } from "..";
 
 export const GetValidatedDietPhase = (dietPhase: string | null) => {
   if (dietPhase === null) return dietPhase;

@@ -1,5 +1,5 @@
 import { WorkoutSet } from "../../typings";
-import { GetValidatedUnit } from "../Strings/GetValidatedUnit";
+import { GetValidatedUnit } from "..";
 
 export const CopySetTrackingValues = (
   oldSet: WorkoutSet,
