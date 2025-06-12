@@ -40,18 +40,6 @@ export const RoutineModal = ({
 
   const isRoutineNameValid = useValidateName(nameInput);
 
-  const isRoutineValid = useMemo(() => {
-    if (!isRoutineNameValid) return false;
-
-    if (routine.schedule_type === 0 && routine.num_days_in_schedule !== 7)
-      return false;
-
-    if (routine.num_days_in_schedule < 2 || routine.num_days_in_schedule > 14)
-      return false;
-
-    return true;
-  }, [routine, isRoutineNameValid]);
-
   const numDaysInScheduleOptions: number[] = useMemo(() => {
     return NumDaysInScheduleOptions();
   }, []);
@@ -97,7 +85,7 @@ export const RoutineModal = ({
   }, [routine.id]);
 
   const handleSaveButton = () => {
-    if (!isRoutineValid) return;
+    if (!isRoutineNameValid) return;
 
     const note = ConvertEmptyStringToNull(noteInput);
 
@@ -198,7 +186,7 @@ export const RoutineModal = ({
               <Button
                 color="primary"
                 onPress={handleSaveButton}
-                isDisabled={!isRoutineValid}
+                isDisabled={!isRoutineNameValid}
               >
                 {routine.id !== 0 ? "Save" : "Create"}
               </Button>
