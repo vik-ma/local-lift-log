@@ -16,6 +16,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   ConvertEmptyStringToNull,
   ConvertNullToEmptyInputString,
+  IsNumberValidInteger,
   NumDaysInScheduleOptions,
 } from "../../helpers";
 import { useRoutineScheduleTypeMap, useValidateName } from "../../hooks";
@@ -71,9 +72,9 @@ export const RoutineModal = ({
   ) => {
     if (routine.schedule_type !== 1) return;
 
-    const numDays: number = parseInt(e.target.value);
+    const numDays = Number(e.target.value);
 
-    if (isNaN(numDays) || numDays < 2 || numDays > 14) return;
+    if (!IsNumberValidInteger(numDays, 2, false, 14)) return;
 
     setRoutine((prev) => ({ ...prev, num_days_in_schedule: numDays }));
   };

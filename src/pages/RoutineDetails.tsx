@@ -265,11 +265,14 @@ export default function RoutineDetails() {
   const addWorkoutTemplateToDay = async (workoutTemplate: WorkoutTemplate) => {
     if (
       !IsNumberValidInteger(workoutTemplate.id, 1) ||
-      routine.schedule_type === 2
+      routine.schedule_type === 2 ||
+      !IsNumberValidInteger(
+        selectedDay,
+        0,
+        false,
+        routine.num_days_in_schedule - 1
+      )
     )
-      return;
-
-    if (selectedDay < 0 || selectedDay > routine.num_days_in_schedule - 1)
       return;
 
     try {
