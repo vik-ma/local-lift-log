@@ -58,6 +58,7 @@ export { DeleteWorkoutRoutineSchedule } from "./Routines/DeleteWorkoutRoutineSch
 export { GetValidatedRoutineScheduleType } from "./Routines/GetValidatedRoutineScheduleType";
 export { GetValidatedNumDaysInSchedule } from "./Routines/GetValidatedNumDaysInSchedule";
 export { GetValidatedStartDay } from "./Routines/GetValidatedStartDay";
+export { GetValidatedRoutineScheduleItemDay } from "./Routines/GetValidatedRoutineScheduleItemDay";
 
 export { CreateDefaultUserSettings } from "./UserSettings/CreateDefaultUserSettings";
 export { GetUserSettings } from "./UserSettings/GetUserSettings";
