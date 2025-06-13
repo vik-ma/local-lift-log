@@ -2,6 +2,7 @@ import {
   CreateValidBodyMeasurementsValues,
   FormatDateTimeString,
   FormatNumItemsString,
+  GetValidatedUnit,
   IsNumberValid,
 } from "..";
 import {
@@ -22,6 +23,11 @@ export const CreateDetailedBodyMeasurementsList = (
     const bodyMeasurements = bodyMeasurementsList[i];
 
     if (bodyMeasurements.weight < 0) continue;
+
+    bodyMeasurements.weight_unit = GetValidatedUnit(
+      bodyMeasurements.weight_unit,
+      "weight"
+    );
 
     const formattedDate = FormatDateTimeString(
       bodyMeasurements.date,
