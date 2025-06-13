@@ -141,10 +141,7 @@ export const RoutineModal = ({
                 </div>
                 <div className="flex justify-between items-center px-1 py-0.5 gap-4">
                   <RadioGroup
-                    value={
-                      routineScheduleTypeMap.get(routine.schedule_type) ??
-                      routineScheduleTypeMap.get(0)
-                    }
+                    value={routineScheduleTypeMap.get(routine.schedule_type)}
                     onValueChange={(value) => handleScheduleTypeChange(value)}
                     label="Schedule Type"
                   >
