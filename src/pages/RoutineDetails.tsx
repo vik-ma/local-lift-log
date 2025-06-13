@@ -34,6 +34,7 @@ import {
   GetValidatedNumDaysInSchedule,
   GetValidatedStartDay,
   GetValidatedRoutineScheduleType,
+  GetValidatedRoutineScheduleItemDay,
 } from "../helpers";
 import toast from "react-hot-toast";
 import {
@@ -106,7 +107,7 @@ export default function RoutineDetails() {
         if (workoutTemplateMap.current.has(row.workout_template_id)) {
           const schedule: RoutineScheduleItem = {
             id: row.id,
-            day: row.day,
+            day: GetValidatedRoutineScheduleItemDay(row.day),
             workout_template_id: row.workout_template_id,
             name: row.name,
           };
