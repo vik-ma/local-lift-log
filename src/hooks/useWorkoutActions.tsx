@@ -1207,38 +1207,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setModal.onOpen();
   };
 
-  const resetSetInputValues = (isOperatingSet: boolean) => {
-    if (selectedExercise === undefined) return;
-
-    if (
-      isOperatingSet &&
-      operatingSetInputs.uneditedSet?.id === operatingSet.id
-    ) {
-      const oldSet =
-        operatingSet.id === 0
-          ? AssignTrackingValuesIfCardio(
-              operatingSetInputs.uneditedSet,
-              selectedExercise.formattedGroupStringPrimary ?? ""
-            )
-          : { ...operatingSetInputs.uneditedSet };
-
-      setOperatingSet(oldSet);
-      operatingSetInputs.setIsSetEdited(false);
-      operatingSetInputs.assignSetTrackingValuesInputs(oldSet);
-    }
-
-    if (
-      !isOperatingSet &&
-      activeSet !== undefined &&
-      activeSetInputs.uneditedSet?.id === activeSet.id
-    ) {
-      const oldSet = { ...activeSetInputs.uneditedSet };
-      setActiveSet(oldSet);
-      activeSetInputs.setIsSetEdited(false);
-      activeSetInputs.assignSetTrackingValuesInputs(oldSet);
-    }
-  };
-
   const clearActiveSetInputValues = () => {
     if (activeSet === undefined) return;
 
@@ -3094,7 +3062,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     updateShownSetListComments,
     handleGroupedSetAccordionClick,
     handleReassignExercise,
-    resetSetInputValues,
     groupedSets,
     setGroupedSets,
     userSettings,
