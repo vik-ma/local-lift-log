@@ -136,8 +136,8 @@ export const WorkoutGroupedSetList = ({
                         <h3
                           className={
                             isExerciseInvalid
-                              ? "text-lg font-medium truncate max-w-80 text-red-700"
-                              : "text-lg font-medium truncate max-w-80 text-secondary"
+                              ? "text-lg leading-tight font-medium truncate max-w-80 text-red-700"
+                              : "text-lg leading-tight font-medium truncate max-w-80 text-secondary"
                           }
                         >
                           {title}
@@ -157,8 +157,8 @@ export const WorkoutGroupedSetList = ({
                         className={
                           completedSetsMap?.get(groupedSet.id) ===
                           groupedSet.setList.length
-                            ? "text-sm text-secondary"
-                            : "text-sm text-stone-500"
+                            ? "text-sm leading-tight text-secondary"
+                            : "text-sm leading-tight text-stone-500"
                         }
                       >
                         {completedSetsMap
@@ -290,8 +290,8 @@ export const WorkoutGroupedSetList = ({
                   {groupedSet.isExpanded && (
                     <div>
                       {groupedSet.showGroupedSetNote && (
-                        <div className="flex justify-between items-center px-2 pb-0.5">
-                          <span className="text-stone-400 break-words text-sm max-w-[23.5rem]">
+                        <div className="flex justify-between items-center px-2 pb-1">
+                          <span className="text-stone-400 break-words text-sm leading-none max-w-[23.5rem]">
                             {isMultiset
                               ? groupedSet.multiset?.note
                               : groupedSet.exerciseList[0].note}
