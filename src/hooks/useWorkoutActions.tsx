@@ -146,7 +146,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const defaultSetInputValues = useDefaultSetInputValues();
 
-  const operatingSetInputs = useSetTrackingInputs();
   const activeSetInputs = useSetTrackingInputs();
 
   const exerciseList = useExerciseList(true);
@@ -205,7 +204,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         defaultSet.current = emptySet;
 
         setOperatingSet({ ...emptySet });
-        operatingSetInputs.setUneditedSet({ ...emptySet });
 
         setIncludeSecondaryGroups(
           userSettings.show_secondary_exercise_groups === 1
@@ -495,9 +493,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     const emptySet: WorkoutSet = { ...defaultSet.current };
 
     setOperatingSet(emptySet);
-    operatingSetInputs.setUneditedSet({ ...emptySet });
-    operatingSetInputs.setIsSetEdited(false);
-    operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
   };
 
   const handleSaveSetButton = async (
@@ -531,12 +526,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     groupedSet: GroupedWorkoutSet
   ) => {
     setOperatingSet({ ...set, set_index: index });
-    operatingSetInputs.setUneditedSet({ ...set, set_index: index });
-    operatingSetInputs.setIsSetEdited(false);
     setOperatingGroupedSet(groupedSet);
     setOperationType("edit");
     setSelectedExercise(exercise);
-    operatingSetInputs.assignSetTrackingValuesInputs(set);
 
     setModal.onOpen();
   };
@@ -1894,7 +1886,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       operatingGroupedSet.multiset.set_order
     );
 
-    // TODO: IT ONLY EVER ADDS ONE. REFACTOR?
+    // TODO: IT ONLY EVER ADDS ONE
+    // REFACTOR OR ADD NumNewSetsDropdown TO THIS operationType IN SetModal
     for (let i = 0; i < numSetsToAdd; i++) {
       if (isTemplate && workoutTemplate.id !== 0) {
         newSet.workout_template_id = workoutTemplate.id;
@@ -2517,13 +2510,14 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         activeSetInputs.setIsSetEdited(true);
       }
     } else {
-      operatingSetInputs.assignSetTrackingValuesInputs(updatedSet);
       setOperatingSet(updatedSet);
+      // TODO: TEST AND REMOVE
+      // operatingSetInputs.assignSetTrackingValuesInputs(updatedSet);
 
-      if (!operatingSetInputs.isSetEdited) {
-        operatingSetInputs.setUneditedSet(uneditedSet);
-        operatingSetInputs.setIsSetEdited(true);
-      }
+      // if (!operatingSetInputs.isSetEdited) {
+      //   operatingSetInputs.setUneditedSet(uneditedSet);
+      //   operatingSetInputs.setIsSetEdited(true);
+      // }
     }
 
     if (userSettings?.save_calculation_string === 1) {
@@ -3021,7 +3015,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     operationType,
     selectedExercise,
     setSelectedExercise,
-    operatingSetInputs,
     shownSetListComments,
     setIsExerciseBeingDragged,
     workoutTemplate,
