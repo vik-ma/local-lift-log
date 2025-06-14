@@ -19,7 +19,12 @@ import {
   UseFilterExerciseListReturnType,
 } from "../../typings";
 import { useMemo, useState } from "react";
-import { GetValidatedNumNewSets, NumNewSetsOptionList } from "../../helpers";
+import {
+  ConvertEmptyStringToNull,
+  ConvertSetInputValuesToNumbers,
+  GetValidatedNumNewSets,
+  NumNewSetsOptionList,
+} from "../../helpers";
 import { useSetTrackingInputs } from "../../hooks";
 
 type SetModalProps = {
@@ -33,7 +38,11 @@ type SetModalProps = {
   operatingSet: WorkoutSet;
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   isSetTrackingValuesInvalid: boolean;
-  handleSaveSetButton: (numSets: string, targetSet?: string) => void;
+  handleSaveSetButton: (
+    templateSet: WorkoutSet,
+    numSets: string,
+    targetSet?: string
+  ) => void;
   userSettings: UserSettings;
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
@@ -87,6 +96,43 @@ export const SetModal = ({
     setOperatingSet(oldSet);
     operatingSetInputs.setIsSetEdited(false);
     operatingSetInputs.assignSetTrackingValuesInputs(oldSet);
+  };
+
+  const handleSaveButton = () => {
+    if (
+      operatingSetInputs.isSetTrackingValuesInvalid ||
+      selectedExercise === undefined
+    )
+      return;
+
+    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
+      operatingSetInputs.setTrackingValuesInput
+    );
+
+    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
+
+    const templateSet: WorkoutSet = {
+      ...operatingSet,
+      exercise_id: selectedExercise.id,
+      note: noteToInsert,
+      exercise_name: selectedExercise.name,
+      weight: setTrackingValuesNumber.weight,
+      reps: setTrackingValuesNumber.reps,
+      distance: setTrackingValuesNumber.distance,
+      rir: setTrackingValuesNumber.rir,
+      rpe: setTrackingValuesNumber.rpe,
+      resistance_level: setTrackingValuesNumber.resistance_level,
+      partial_reps: setTrackingValuesNumber.partial_reps,
+      user_weight: setTrackingValuesNumber.user_weight,
+    };
+
+    if (operationType === "add-sets-to-multiset") {
+      handleSaveSetButton(templateSet, numNewSets, multisetSetTarget);
+    } else {
+      handleSaveSetButton(templateSet, numNewSets);
+    }
+
+    operatingSetInputs.setIsSetEdited(false);
   };
 
   return (
@@ -180,11 +226,7 @@ export const SetModal = ({
                   isDisabled={
                     selectedExercise === undefined || isSetTrackingValuesInvalid
                   }
-                  onPress={
-                    operationType === "add-sets-to-multiset"
-                      ? () => handleSaveSetButton(numNewSets, multisetSetTarget)
-                      : () => handleSaveSetButton(numNewSets)
-                  }
+                  onPress={handleSaveButton}
                 >
                   {operationType === "edit" ? "Save" : "Add"}
                 </Button>
