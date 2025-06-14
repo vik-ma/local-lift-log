@@ -512,8 +512,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       await updateSet(set);
     }
     if (operationType === "add-sets-to-multiset" && targetSet) {
-      // TODO: FIX
-      await addSetsToMultiset(numSets, targetSet);
+      await addSetsToMultiset(set, numSets, targetSet);
     }
   };
 
@@ -1863,7 +1862,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Multiset Created");
   };
 
-  const addSetsToMultiset = async (numSets: string, targetSet: string) => {
+  const addSetsToMultiset = async (
+    newSet: WorkoutSet,
+    numSets: string,
+    targetSet: string
+  ) => {
     if (
       selectedExercise === undefined ||
       operatingGroupedSet === undefined ||
@@ -1881,13 +1884,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     )
       return;
 
-    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
-
-    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
-      operatingSetInputs.setTrackingValuesInput
-    );
-
-    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
+    newSet.multiset_id = operatingGroupedSet.multiset.id;
 
     const newSets: WorkoutSet[] = [];
 
@@ -1897,23 +1894,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       operatingGroupedSet.multiset.set_order
     );
 
+    // TODO: IT ONLY EVER ADDS ONE. REFACTOR?
     for (let i = 0; i < numSetsToAdd; i++) {
-      const newSet: WorkoutSet = {
-        ...operatingSet,
-        exercise_id: selectedExercise.id,
-        note: noteToInsert,
-        exercise_name: selectedExercise.name,
-        weight: setTrackingValuesNumber.weight,
-        reps: setTrackingValuesNumber.reps,
-        distance: setTrackingValuesNumber.distance,
-        rir: setTrackingValuesNumber.rir,
-        rpe: setTrackingValuesNumber.rpe,
-        resistance_level: setTrackingValuesNumber.resistance_level,
-        partial_reps: setTrackingValuesNumber.partial_reps,
-        user_weight: setTrackingValuesNumber.user_weight,
-        multiset_id: operatingGroupedSet.multiset.id,
-      };
-
       if (isTemplate && workoutTemplate.id !== 0) {
         newSet.workout_template_id = workoutTemplate.id;
       }

@@ -127,7 +127,7 @@ export const SetModal = ({
     };
 
     if (operationType === "add-sets-to-multiset") {
-      handleSaveSetButton(templateSet, numNewSets, multisetSetTarget);
+      handleSaveSetButton(templateSet, "1", multisetSetTarget);
     } else {
       handleSaveSetButton(templateSet, numNewSets);
     }
