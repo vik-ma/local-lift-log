@@ -417,32 +417,13 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
   };
 
-  const updateSet = async () => {
-    if (selectedExercise === undefined || operatingGroupedSet === undefined)
+  const updateSet = async (updatedSet: WorkoutSet) => {
+    if (
+      selectedExercise === undefined ||
+      operatingGroupedSet === undefined ||
+      updatedSet.id === 0
+    )
       return;
-
-    if (operatingSetInputs.isSetTrackingValuesInvalid) return;
-
-    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
-      operatingSetInputs.setTrackingValuesInput
-    );
-
-    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
-
-    const updatedSet: WorkoutSet = {
-      ...operatingSet,
-      exercise_id: selectedExercise.id,
-      note: noteToInsert,
-      exercise_name: selectedExercise.name,
-      weight: setTrackingValuesNumber.weight,
-      reps: setTrackingValuesNumber.reps,
-      distance: setTrackingValuesNumber.distance,
-      rir: setTrackingValuesNumber.rir,
-      rpe: setTrackingValuesNumber.rpe,
-      resistance_level: setTrackingValuesNumber.resistance_level,
-      partial_reps: setTrackingValuesNumber.partial_reps,
-      user_weight: setTrackingValuesNumber.user_weight,
-    };
 
     const success = await UpdateSet(updatedSet);
 
@@ -528,8 +509,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       await addSetsToExercise(set, numSets);
     }
     if (operationType === "edit") {
-      // TODO: FIX
-      await updateSet();
+      await updateSet(set);
     }
     if (operationType === "add-sets-to-multiset" && targetSet) {
       // TODO: FIX
