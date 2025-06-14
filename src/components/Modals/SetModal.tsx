@@ -18,7 +18,7 @@ import {
   UseDisclosureReturnType,
   UseFilterExerciseListReturnType,
 } from "../../typings";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ConvertEmptyStringToNull,
   ConvertSetInputValuesToNumbers,
@@ -134,6 +134,13 @@ export const SetModal = ({
 
     operatingSetInputs.setIsSetEdited(false);
   };
+
+  useEffect(() => {
+    operatingSetInputs.assignSetTrackingValuesInputs(operatingSet);
+    operatingSetInputs.setUneditedSet({ ...operatingSet });
+    operatingSetInputs.setIsSetEdited(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [operatingSet.id]);
 
   return (
     <Modal isOpen={setModal.isOpen} onOpenChange={setModal.onOpenChange}>
