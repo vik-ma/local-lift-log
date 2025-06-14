@@ -457,12 +457,10 @@ export default function WorkoutDetails() {
         operationType={operationType}
         operatingSet={operatingSet}
         setOperatingSet={setOperatingSet}
-        useSetTrackingInputs={operatingSetInputs}
         isSetTrackingValuesInvalid={
           operatingSetInputs.isSetTrackingValuesInvalid
         }
         handleSaveSetButton={handleSaveSetButton}
-        resetSetInputValues={resetSetInputValues}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
         exerciseList={exerciseList}

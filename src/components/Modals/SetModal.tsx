@@ -20,6 +20,7 @@ import {
 } from "../../typings";
 import { useMemo, useState } from "react";
 import { GetValidatedNumNewSets, NumNewSetsOptionList } from "../../helpers";
+import { useSetTrackingInputs } from "../../hooks";
 
 type SetModalProps = {
   setModal: UseDisclosureReturnType;
@@ -31,10 +32,8 @@ type SetModalProps = {
   operationType: string;
   operatingSet: WorkoutSet;
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
-  useSetTrackingInputs: UseSetTrackingInputsReturnType;
   isSetTrackingValuesInvalid: boolean;
   handleSaveSetButton: (numSets: string, targetSet?: string) => void;
-  resetSetInputValues: (isOperatingSet: boolean) => void;
   userSettings: UserSettings;
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
@@ -59,10 +58,8 @@ export const SetModal = ({
   operationType,
   operatingSet,
   setOperatingSet,
-  useSetTrackingInputs,
   isSetTrackingValuesInvalid,
   handleSaveSetButton,
-  resetSetInputValues,
   userSettings,
   setUserSettings,
   exerciseList,
@@ -80,6 +77,17 @@ export const SetModal = ({
   const isAddingExercise = useMemo(() => {
     return operationType === "add" && selectedExercise !== undefined;
   }, [operationType, selectedExercise]);
+
+  const operatingSetInputs = useSetTrackingInputs();
+
+  const resetSetInputValues = () => {
+    if (operatingSetInputs.uneditedSet?.id !== operatingSet.id) return;
+
+    const oldSet = { ...operatingSetInputs.uneditedSet };
+    setOperatingSet(oldSet);
+    operatingSetInputs.setIsSetEdited(false);
+    operatingSetInputs.assignSetTrackingValuesInputs(oldSet);
+  };
 
   return (
     <Modal isOpen={setModal.isOpen} onOpenChange={setModal.onOpenChange}>
@@ -106,7 +114,7 @@ export const SetModal = ({
                   operatingSet={operatingSet}
                   setOperatingSet={setOperatingSet}
                   operationType={operationType}
-                  useSetTrackingInputs={useSetTrackingInputs}
+                  useSetTrackingInputs={operatingSetInputs}
                   userSettings={userSettings}
                   resetSetInputValues={resetSetInputValues}
                   openCalculationModal={openCalculationModal}
