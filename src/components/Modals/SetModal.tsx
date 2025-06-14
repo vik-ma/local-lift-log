@@ -87,24 +87,29 @@ export const SetModal = ({
 
   const operatingSetInputs = useSetTrackingInputs();
 
-  const resetSetInputValues = () => {
-    if (operatingSetInputs.uneditedSet?.id !== operatingSet.id) return;
+  const {
+    uneditedSet,
+    setUneditedSet,
+    setIsSetEdited,
+    assignSetTrackingValuesInputs,
+    isSetTrackingValuesInvalid,
+    setTrackingValuesInput,
+  } = operatingSetInputs;
 
-    const oldSet = { ...operatingSetInputs.uneditedSet };
+  const resetSetInputValues = () => {
+    if (uneditedSet?.id !== operatingSet.id) return;
+
+    const oldSet = { ...uneditedSet };
     setOperatingSet(oldSet);
-    operatingSetInputs.setIsSetEdited(false);
-    operatingSetInputs.assignSetTrackingValuesInputs(oldSet);
+    setIsSetEdited(false);
+    assignSetTrackingValuesInputs(oldSet);
   };
 
   const handleSaveButton = () => {
-    if (
-      operatingSetInputs.isSetTrackingValuesInvalid ||
-      selectedExercise === undefined
-    )
-      return;
+    if (isSetTrackingValuesInvalid || selectedExercise === undefined) return;
 
     const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
-      operatingSetInputs.setTrackingValuesInput
+      setTrackingValuesInput
     );
 
     const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
@@ -130,13 +135,13 @@ export const SetModal = ({
       handleSaveSetButton(templateSet, numNewSets);
     }
 
-    operatingSetInputs.setIsSetEdited(false);
+    setIsSetEdited(false);
   };
 
   useEffect(() => {
-    operatingSetInputs.assignSetTrackingValuesInputs(operatingSet);
-    operatingSetInputs.setUneditedSet({ ...operatingSet });
-    operatingSetInputs.setIsSetEdited(false);
+    assignSetTrackingValuesInputs(operatingSet);
+    setUneditedSet({ ...operatingSet });
+    setIsSetEdited(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingSet.id]);
 
@@ -229,8 +234,7 @@ export const SetModal = ({
                 <Button
                   color="primary"
                   isDisabled={
-                    selectedExercise === undefined ||
-                    operatingSetInputs.isSetTrackingValuesInvalid
+                    selectedExercise === undefined || isSetTrackingValuesInvalid
                   }
                   onPress={handleSaveButton}
                 >
