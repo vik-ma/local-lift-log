@@ -37,7 +37,6 @@ type SetModalProps = {
   operationType: string;
   operatingSet: WorkoutSet;
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
-  isSetTrackingValuesInvalid: boolean;
   handleSaveSetButton: (
     set: WorkoutSet,
     numSets: string,
@@ -67,7 +66,6 @@ export const SetModal = ({
   operationType,
   operatingSet,
   setOperatingSet,
-  isSetTrackingValuesInvalid,
   handleSaveSetButton,
   userSettings,
   setUserSettings,
@@ -231,7 +229,8 @@ export const SetModal = ({
                 <Button
                   color="primary"
                   isDisabled={
-                    selectedExercise === undefined || isSetTrackingValuesInvalid
+                    selectedExercise === undefined ||
+                    operatingSetInputs.isSetTrackingValuesInvalid
                   }
                   onPress={handleSaveButton}
                 >

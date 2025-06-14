@@ -71,7 +71,6 @@ export default function WorkoutTemplateDetails() {
     operationType,
     selectedExercise,
     setSelectedExercise,
-    operatingSetInputs,
     shownSetListComments,
     setIsExerciseBeingDragged,
     workoutTemplate,
@@ -294,9 +293,6 @@ export default function WorkoutTemplateDetails() {
         operationType={operationType}
         operatingSet={operatingSet}
         setOperatingSet={setOperatingSet}
-        isSetTrackingValuesInvalid={
-          operatingSetInputs.isSetTrackingValuesInvalid
-        }
         handleSaveSetButton={handleSaveSetButton}
         userSettings={userSettings}
         setUserSettings={setUserSettings}

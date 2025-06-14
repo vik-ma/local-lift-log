@@ -74,7 +74,6 @@ export default function WorkoutDetails() {
     updateShownSetListComments,
     handleGroupedSetAccordionClick,
     handleReassignExercise,
-    resetSetInputValues,
     groupedSets,
     setGroupedSets,
     userSettings,
@@ -87,7 +86,6 @@ export default function WorkoutDetails() {
     operationType,
     selectedExercise,
     setSelectedExercise,
-    operatingSetInputs,
     shownSetListComments,
     setIsExerciseBeingDragged,
     workout,
@@ -457,9 +455,6 @@ export default function WorkoutDetails() {
         operationType={operationType}
         operatingSet={operatingSet}
         setOperatingSet={setOperatingSet}
-        isSetTrackingValuesInvalid={
-          operatingSetInputs.isSetTrackingValuesInvalid
-        }
         handleSaveSetButton={handleSaveSetButton}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
@@ -615,7 +610,7 @@ export default function WorkoutDetails() {
           shownSetListComments={shownSetListComments}
           activeSetInputs={activeSetInputs}
           handleEditSet={handleEditSet}
-          resetSetInputValues={resetSetInputValues}
+          resetSetInputValues={() => {}}
           saveActiveSet={saveActiveSet}
           handleToggleSetCommentButton={handleToggleSetCommentButton}
           populateUserWeightValues={populateUserWeightValues}
