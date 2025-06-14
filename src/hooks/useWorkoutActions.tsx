@@ -222,40 +222,19 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const addSetsToExercise = async (numSets: string) => {
+  const addSetsToExercise = async (newSet: WorkoutSet, numSets: string) => {
     if (
       selectedExercise === undefined ||
       !NumNewSetsOptionList().includes(numSets) ||
-      operatingSetInputs.isSetTrackingValuesInvalid
+      newSet.id !== 0
     )
       return;
-
-    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
-      operatingSetInputs.setTrackingValuesInput
-    );
-
-    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
 
     const newSets: WorkoutSet[] = [];
 
     const numSetsToAdd: number = parseInt(numSets);
 
     for (let i = 0; i < numSetsToAdd; i++) {
-      const newSet: WorkoutSet = {
-        ...operatingSet,
-        exercise_id: selectedExercise.id,
-        note: noteToInsert,
-        exercise_name: selectedExercise.name,
-        weight: setTrackingValuesNumber.weight,
-        reps: setTrackingValuesNumber.reps,
-        distance: setTrackingValuesNumber.distance,
-        rir: setTrackingValuesNumber.rir,
-        rpe: setTrackingValuesNumber.rpe,
-        resistance_level: setTrackingValuesNumber.resistance_level,
-        partial_reps: setTrackingValuesNumber.partial_reps,
-        user_weight: setTrackingValuesNumber.user_weight,
-      };
-
       if (isTemplate && workoutTemplate.id !== 0) {
         newSet.workout_template_id = workoutTemplate.id;
       }
@@ -540,14 +519,20 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     operatingSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
   };
 
-  const handleSaveSetButton = async (numSets: string, targetSet?: string) => {
+  const handleSaveSetButton = async (
+    set: WorkoutSet,
+    numSets: string,
+    targetSet?: string
+  ) => {
     if (operationType === "add") {
-      await addSetsToExercise(numSets);
+      await addSetsToExercise(set, numSets);
     }
     if (operationType === "edit") {
+      // TODO: FIX
       await updateSet();
     }
     if (operationType === "add-sets-to-multiset" && targetSet) {
+      // TODO: FIX
       await addSetsToMultiset(numSets, targetSet);
     }
   };

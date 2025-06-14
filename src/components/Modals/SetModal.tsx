@@ -39,7 +39,7 @@ type SetModalProps = {
   setOperatingSet: React.Dispatch<React.SetStateAction<WorkoutSet>>;
   isSetTrackingValuesInvalid: boolean;
   handleSaveSetButton: (
-    templateSet: WorkoutSet,
+    set: WorkoutSet,
     numSets: string,
     targetSet?: string
   ) => void;
