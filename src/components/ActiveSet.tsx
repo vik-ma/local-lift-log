@@ -23,6 +23,7 @@ import {
   UseSetTrackingInputsReturnType,
   UserWeight,
 } from "../typings";
+import { useSetTrackingInputs } from "../hooks";
 
 type ActiveSetProps = {
   activeSet: WorkoutSet | undefined;
@@ -55,14 +56,12 @@ type ActiveSetProps = {
   ) => void;
   updateShownSetListComments: (groupedSetId: string, index: number) => void;
   shownSetListComments: SetListNotes;
-  activeSetInputs: UseSetTrackingInputsReturnType;
   handleEditSet: (
     set: WorkoutSet,
     index: number,
     exercise: Exercise,
     groupedSet: GroupedWorkoutSet
   ) => void;
-  resetSetInputValues: (isOperatingSet: boolean) => void;
   saveActiveSet: () => void;
   handleToggleSetCommentButton: (
     set: WorkoutSet,
@@ -99,9 +98,7 @@ export const ActiveSet = ({
   handleSetOptionSelection,
   updateShownSetListComments,
   shownSetListComments,
-  activeSetInputs,
   handleEditSet,
-  resetSetInputValues,
   saveActiveSet,
   handleToggleSetCommentButton,
   populateUserWeightValues,
@@ -125,6 +122,30 @@ export const ActiveSet = ({
   const exerciseIndex = activeGroupedSet?.isMultiset
     ? activeSet?.set_index ?? 0
     : 0;
+
+  const activeSetInputs = useSetTrackingInputs();
+
+  const {
+    uneditedSet,
+    isSetEdited,
+    setIsSetEdited,
+    assignSetTrackingValuesInputs,
+    isSetTrackingValuesInvalid,
+  } = activeSetInputs;
+
+  const resetSetInputValues = () => {
+    if (
+      uneditedSet === undefined ||
+      activeSet === undefined ||
+      uneditedSet.id !== activeSet.id
+    )
+      return;
+
+    const oldSet = { ...uneditedSet };
+    setActiveSet(oldSet);
+    setIsSetEdited(false);
+    assignSetTrackingValuesInputs(oldSet);
+  };
 
   return (
     <div>
@@ -359,15 +380,14 @@ export const ActiveSet = ({
                           </Button>
                         </div>
                         <div className="flex gap-1.5">
-                          {activeSetInputs.isSetEdited &&
-                            activeSet.is_completed === 1 && (
-                              <Button
-                                variant="light"
-                                onPress={() => resetSetInputValues(false)}
-                              >
-                                Reset
-                              </Button>
-                            )}
+                          {isSetEdited && activeSet.is_completed === 1 && (
+                            <Button
+                              variant="light"
+                              onPress={resetSetInputValues}
+                            >
+                              Reset
+                            </Button>
+                          )}
                           <Button
                             variant="light"
                             onPress={clearActiveSetInputValues}
@@ -376,9 +396,7 @@ export const ActiveSet = ({
                           </Button>
                           <Button
                             color="primary"
-                            isDisabled={
-                              activeSetInputs.isSetTrackingValuesInvalid
-                            }
+                            isDisabled={isSetTrackingValuesInvalid}
                             onPress={saveActiveSet}
                           >
                             {activeSet.is_completed ? "Update" : "Save"}

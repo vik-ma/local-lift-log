@@ -95,7 +95,6 @@ export default function WorkoutDetails() {
     saveActiveSet,
     populateIncompleteSets,
     handleActiveSetOptionSelection,
-    activeSetInputs,
     isActiveSetExpanded,
     setIsActiveSetExpanded,
     activeGroupedSet,
@@ -608,9 +607,7 @@ export default function WorkoutDetails() {
           handleSetOptionSelection={handleSetOptionSelection}
           updateShownSetListComments={updateShownSetListComments}
           shownSetListComments={shownSetListComments}
-          activeSetInputs={activeSetInputs}
           handleEditSet={handleEditSet}
-          resetSetInputValues={() => {}}
           saveActiveSet={saveActiveSet}
           handleToggleSetCommentButton={handleToggleSetCommentButton}
           populateUserWeightValues={populateUserWeightValues}
