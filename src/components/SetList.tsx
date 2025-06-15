@@ -96,7 +96,7 @@ export const SetList = ({
                 <div
                   className={
                     isMultiset
-                      ? "flex relative items-end w-[19rem]"
+                      ? "flex relative leading-snug items-end w-[19rem]"
                       : "flex items-center"
                   }
                 >
@@ -135,7 +135,7 @@ export const SetList = ({
                 <div
                   className={
                     isMultiset
-                      ? "flex flex-wrap justify-start w-full gap-x-5 pb-0.5"
+                      ? "flex flex-wrap leading-snug justify-start w-full gap-x-5 pb-0.5"
                       : "flex flex-wrap justify-evenly w-full gap-x-5 px-1 py-0.5"
                   }
                 >
