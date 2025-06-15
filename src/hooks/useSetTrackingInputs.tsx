@@ -18,6 +18,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   const [uneditedSet, setUneditedSet] = useState<WorkoutSet>();
   const [isValuesAccordionExpanded, setIsValuesAccordionExpanded] =
     useState<boolean>(false);
+  const [setNoteInput, setSetNoteInput] = useState<string>("");
 
   const defaultSetTrackingValuesInput: SetTrackingValuesInput = useMemo(() => {
     return DefaultSetInputValues();
@@ -101,6 +102,14 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     setSetTrackingValuesInput(newSetTrackingValuesInput);
   };
 
+  const handleSetNoteInputChange = (value: string) => {
+    setSetNoteInput(value);
+
+    if (!isSetEdited) {
+      setIsSetEdited(true);
+    }
+  };
+
   return {
     isSetTrackingValuesInvalid,
     setInputsInvalidityMap,
@@ -115,5 +124,8 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     setIsValuesAccordionExpanded,
     uneditedSet,
     setUneditedSet,
+    setNoteInput,
+    setSetNoteInput,
+    handleSetNoteInputChange,
   };
 };

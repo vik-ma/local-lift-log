@@ -344,6 +344,9 @@ export type UseSetTrackingInputsReturnType = {
   setIsValuesAccordionExpanded: React.Dispatch<React.SetStateAction<boolean>>;
   uneditedSet: WorkoutSet | undefined;
   setUneditedSet: React.Dispatch<React.SetStateAction<WorkoutSet | undefined>>;
+  setNoteInput: string;
+  setSetNoteInput: React.Dispatch<React.SetStateAction<string>>;
+  handleSetNoteInputChange: (value: string) => void;
 };
 
 export type ExerciseSortCategory = "favorite" | "name" | "num-sets";

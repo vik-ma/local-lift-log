@@ -75,8 +75,6 @@ export const SetModal = ({
   openCalculationModal,
   useFilterExerciseList,
 }: SetModalProps) => {
-  const [noteInput, setNoteInput] = useState<string>("");
-
   const numSetsOptions = NumNewSetsOptionList();
 
   const [numNewSets, setNumNewSets] = useState<string>(
@@ -93,11 +91,12 @@ export const SetModal = ({
   const {
     uneditedSet,
     setUneditedSet,
-    isSetEdited,
     setIsSetEdited,
     assignSetTrackingValuesInputs,
     isSetTrackingValuesInvalid,
     setTrackingValuesInput,
+    setNoteInput,
+    setSetNoteInput,
   } = operatingSetInputs;
 
   const resetSetInputValues = () => {
@@ -116,7 +115,7 @@ export const SetModal = ({
       setTrackingValuesInput
     );
 
-    const noteToInsert = ConvertEmptyStringToNull(noteInput);
+    const noteToInsert = ConvertEmptyStringToNull(setNoteInput);
 
     const templateSet: WorkoutSet = {
       ...operatingSet,
@@ -142,19 +141,11 @@ export const SetModal = ({
     setIsSetEdited(false);
   };
 
-  const handleNoteInputChange = (value: string) => {
-    setNoteInput(value);
-
-    if (!isSetEdited) {
-      setIsSetEdited(true);
-    }
-  };
-
   useEffect(() => {
     assignSetTrackingValuesInputs(operatingSet);
     setUneditedSet({ ...operatingSet });
     setIsSetEdited(false);
-    setNoteInput(ConvertNullToEmptyInputString(operatingSet.note));
+    setSetNoteInput(ConvertNullToEmptyInputString(operatingSet.note));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingSet.id]);
 
@@ -187,8 +178,6 @@ export const SetModal = ({
                   userSettings={userSettings}
                   resetSetInputValues={resetSetInputValues}
                   openCalculationModal={openCalculationModal}
-                  noteInput={noteInput}
-                  handleNoteInputChange={handleNoteInputChange}
                 />
               )}
             </ModalBody>

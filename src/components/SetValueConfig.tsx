@@ -26,8 +26,6 @@ type SetValueConfigProps = {
     setInputs: UseSetTrackingInputsReturnType,
     set: WorkoutSet
   ) => Promise<void>;
-  noteInput: string;
-  handleNoteInputChange: (value: string) => void;
   isMultiset?: boolean;
   userWeight?: UserWeight;
 };
@@ -41,8 +39,6 @@ export const SetValueConfig = ({
   userSettings,
   resetSetInputValues,
   openCalculationModal,
-  noteInput,
-  handleNoteInputChange,
   isMultiset,
   userWeight,
 }: SetValueConfigProps) => {
@@ -53,6 +49,8 @@ export const SetValueConfig = ({
     setIsSetEdited,
     isValuesAccordionExpanded,
     setIsValuesAccordionExpanded,
+    setNoteInput,
+    handleSetNoteInputChange,
   } = useSetTrackingInputs;
 
   const handleTrackingCheckboxClick = (value: boolean, key: string) => {
@@ -137,11 +135,11 @@ export const SetValueConfig = ({
         <div className="flex flex-col gap-2.5 w-[24rem]">
           {showNoteInput && (
             <Input
-              value={noteInput}
+              value={setNoteInput}
               label="Note"
               variant="faded"
               size="sm"
-              onValueChange={(value) => handleNoteInputChange(value)}
+              onValueChange={(value) => handleSetNoteInputChange(value)}
               isClearable
             />
           )}
