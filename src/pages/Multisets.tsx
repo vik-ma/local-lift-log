@@ -15,7 +15,6 @@ import {
   useFilterExerciseList,
   useMultisetActions,
   usePresetsList,
-  useSetTrackingInputs,
 } from "../hooks";
 import { Button, useDisclosure } from "@heroui/react";
 import {
@@ -67,8 +66,6 @@ export default function Multisets() {
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(
     defaultSet.current
   );
-
-  const operatingSetInputs = useSetTrackingInputs();
 
   const exerciseList = useExerciseList(true);
 
@@ -451,11 +448,14 @@ export default function Multisets() {
       updatedSet.distance = value;
     }
 
-    operatingSetInputs.assignSetTrackingValuesInputs(updatedSet);
-    setOperatingSet(updatedSet);
+    // Needed for useEffect in SetValueConfig to trigger change in inputs
+    if (updatedSet.addCalculationTrigger === undefined) {
+      updatedSet.addCalculationTrigger = 0;
+    } else {
+      updatedSet.addCalculationTrigger++;
+    }
 
-    if (!operatingSetInputs.isSetEdited)
-      operatingSetInputs.setIsSetEdited(true);
+    setOperatingSet(updatedSet);
 
     if (userSettings?.save_calculation_string === 1) {
       const { success, updatedExercise } = await UpdateCalculationString(
