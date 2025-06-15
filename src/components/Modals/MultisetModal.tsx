@@ -95,13 +95,25 @@ export const MultisetModal = ({
 
   const operatingSetInputs = useSetTrackingInputs();
 
-  const resetSetInputValues = () => {
-    if (operatingSetInputs.uneditedSet?.id !== operatingSet.id) return;
+  const {
+    uneditedSet,
+    setUneditedSet,
+    isSetEdited,
+    setIsSetEdited,
+    assignSetTrackingValuesInputs,
+    isSetTrackingValuesInvalid,
+    setTrackingValuesInput,
+    setNoteInput,
+    setSetNoteInput,
+  } = operatingSetInputs;
 
-    const oldSet = { ...operatingSetInputs.uneditedSet };
+  const resetSetInputValues = () => {
+    if (uneditedSet?.id !== operatingSet.id) return;
+
+    const oldSet = { ...uneditedSet };
     setOperatingSet(oldSet);
-    operatingSetInputs.setIsSetEdited(false);
-    operatingSetInputs.assignSetTrackingValuesInputs(oldSet);
+    setIsSetEdited(false);
+    assignSetTrackingValuesInputs(oldSet);
   };
 
   const showClearAllButton = useMemo(() => {
@@ -140,19 +152,13 @@ export const MultisetModal = ({
   };
 
   const handleSaveSetButton = () => {
-    if (
-      operatingSetInputs.isSetTrackingValuesInvalid ||
-      !operatingSetInputs.isSetEdited
-    )
-      return;
+    if (isSetTrackingValuesInvalid || !isSetEdited) return;
 
     const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
-      operatingSetInputs.setTrackingValuesInput
+      setTrackingValuesInput
     );
 
-    const noteToInsert = ConvertEmptyStringToNull(
-      operatingSetInputs.setNoteInput
-    );
+    const noteToInsert = ConvertEmptyStringToNull(setNoteInput);
 
     const updatedSet: WorkoutSet = {
       ...operatingSet,
@@ -170,13 +176,14 @@ export const MultisetModal = ({
 
     updateOperatingSet(updatedSet);
 
-    operatingSetInputs.setIsSetEdited(false);
+    setIsSetEdited(false);
   };
 
   useEffect(() => {
-    operatingSetInputs.assignSetTrackingValuesInputs(operatingSet);
-    operatingSetInputs.setUneditedSet({ ...operatingSet });
-    operatingSetInputs.setIsSetEdited(false);
+    assignSetTrackingValuesInputs(operatingSet);
+    setUneditedSet({ ...operatingSet });
+    setIsSetEdited(false);
+    setSetNoteInput(ConvertNullToEmptyInputString(operatingSet.note));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingSet.id]);
 
