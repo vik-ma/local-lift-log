@@ -78,7 +78,7 @@ export const MultisetModal = ({
   openCalculationModal,
   useFilterExerciseList,
 }: MultisetModalProps) => {
-  const [noteInput, setNoteInput] = useState<string>("");
+  const [multisetNoteInput, setMultisetNoteInput] = useState<string>("");
 
   const numSetsOptions = NumNewSetsOptionList();
 
@@ -150,7 +150,9 @@ export const MultisetModal = ({
       operatingSetInputs.setTrackingValuesInput
     );
 
-    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
+    const noteToInsert = ConvertEmptyStringToNull(
+      operatingSetInputs.setNoteInput
+    );
 
     const updatedSet: WorkoutSet = {
       ...operatingSet,
@@ -179,12 +181,12 @@ export const MultisetModal = ({
   }, [operatingSet.id]);
 
   useEffect(() => {
-    setNoteInput(ConvertNullToEmptyInputString(multiset.note));
+    setMultisetNoteInput(ConvertNullToEmptyInputString(multiset.note));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [multiset.id]);
 
-  const handleNoteInputChange = (value: string) => {
-    setNoteInput(value);
+  const handleMultisetNoteInputChange = (value: string) => {
+    setMultisetNoteInput(value);
 
     if (!multiset.isEditedInModal) {
       setMultiset((prev) => ({
@@ -195,7 +197,7 @@ export const MultisetModal = ({
   };
 
   const handleUndoChangesButton = () => {
-    setNoteInput(ConvertNullToEmptyInputString(multiset.note));
+    setMultisetNoteInput(ConvertNullToEmptyInputString(multiset.note));
 
     undoOperatingMultisetChanges();
   };
@@ -254,12 +256,14 @@ export const MultisetModal = ({
                       setMultiset={setMultiset}
                     />
                     <Input
-                      value={noteInput}
+                      value={multisetNoteInput}
                       className="w-64"
                       label="Note"
                       labelPlacement="outside-left"
                       variant="faded"
-                      onValueChange={(value) => handleNoteInputChange(value)}
+                      onValueChange={(value) =>
+                        handleMultisetNoteInputChange(value)
+                      }
                       isClearable
                     />
                   </div>
@@ -352,7 +356,7 @@ export const MultisetModal = ({
                     onPress={
                       modalPage === "edit-set"
                         ? handleSaveSetButton
-                        : () => saveButtonAction(noteInput, numNewSets)
+                        : () => saveButtonAction(multisetNoteInput, numNewSets)
                     }
                   >
                     {modalPage === "edit-set" ? "Update Set" : "Save"}
