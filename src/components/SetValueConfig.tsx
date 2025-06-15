@@ -1,5 +1,5 @@
 import { Button, Input, ScrollShadow, Checkbox } from "@heroui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SetValueInputs } from ".";
 import { ChevronIcon, CommentIcon } from "../assets";
 import {
@@ -51,6 +51,7 @@ export const SetValueConfig = ({
     setIsValuesAccordionExpanded,
     setNoteInput,
     handleSetNoteInputChange,
+    assignSetTrackingValuesInputs,
   } = useSetTrackingInputs;
 
   const handleTrackingCheckboxClick = (value: boolean, key: string) => {
@@ -105,6 +106,16 @@ export const SetValueConfig = ({
     setOperatingSet(updatedSet);
     if (!isSetEdited) setIsSetEdited(true);
   };
+
+  useEffect(() => {
+    // Change inputs when addCalculationResult function from useWorkoutActions adds calculation value
+    if (operatingSet.addCalculationTrigger === undefined) return;
+
+    assignSetTrackingValuesInputs(operatingSet);
+
+    if (!isSetEdited) setIsSetEdited(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [operatingSet.addCalculationTrigger]);
 
   return (
     <div className="flex flex-col gap-1 h-[400px]">

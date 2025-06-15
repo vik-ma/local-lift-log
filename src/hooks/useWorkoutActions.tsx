@@ -2501,6 +2501,14 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       updatedSet.distance = value;
     }
 
+    // Needed for useEffect in SetValueConfig to trigger change in inputs
+    if (updatedSet.addCalculationTrigger === undefined) {
+      updatedSet.addCalculationTrigger = 0;
+    } else {
+      updatedSet.addCalculationTrigger++;
+    }
+
+    // TODO: FIX
     if (isActiveSet) {
       activeSetInputs.assignSetTrackingValuesInputs(updatedSet);
       setActiveSet(updatedSet);
@@ -2511,13 +2519,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
     } else {
       setOperatingSet(updatedSet);
-      // TODO: TEST AND REMOVE
-      // operatingSetInputs.assignSetTrackingValuesInputs(updatedSet);
-
-      // if (!operatingSetInputs.isSetEdited) {
-      //   operatingSetInputs.setUneditedSet(uneditedSet);
-      //   operatingSetInputs.setIsSetEdited(true);
-      // }
     }
 
     if (userSettings?.save_calculation_string === 1) {
