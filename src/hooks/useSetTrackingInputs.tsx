@@ -105,9 +105,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   const handleSetNoteInputChange = (value: string) => {
     setSetNoteInput(value);
 
-    if (!isSetEdited) {
-      setIsSetEdited(true);
-    }
+    if (!isSetEdited) setIsSetEdited(true);
   };
 
   return {

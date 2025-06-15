@@ -130,6 +130,7 @@ export const SetModal = ({
       resistance_level: setTrackingValuesNumber.resistance_level,
       partial_reps: setTrackingValuesNumber.partial_reps,
       user_weight: setTrackingValuesNumber.user_weight,
+      addCalculationTrigger: undefined,
     };
 
     if (operationType === "add-sets-to-multiset") {

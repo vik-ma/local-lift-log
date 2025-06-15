@@ -172,6 +172,7 @@ export const MultisetModal = ({
       partial_reps: setTrackingValuesNumber.partial_reps,
       user_weight: setTrackingValuesNumber.user_weight,
       isEditedInMultiset: true,
+      addCalculationTrigger: undefined,
     };
 
     updateOperatingSet(updatedSet);
