@@ -5,7 +5,10 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@heroui/react";
-import { ConvertDateStringToTimeString } from "../helpers";
+import {
+  ConvertDateStringToTimeString,
+  ConvertSetInputValuesToNumbers,
+} from "../helpers";
 import {
   ChevronIcon,
   CommentIcon,
@@ -62,7 +65,7 @@ type ActiveSetProps = {
     exercise: Exercise,
     groupedSet: GroupedWorkoutSet
   ) => void;
-  saveActiveSet: () => void;
+  saveActiveSet: (set: WorkoutSet) => void;
   handleToggleSetCommentButton: (
     set: WorkoutSet,
     index: number,
@@ -131,6 +134,7 @@ export const ActiveSet = ({
     setIsSetEdited,
     assignSetTrackingValuesInputs,
     isSetTrackingValuesInvalid,
+    setTrackingValuesInput,
   } = activeSetInputs;
 
   const resetSetInputValues = () => {
@@ -145,6 +149,31 @@ export const ActiveSet = ({
     setActiveSet(oldSet);
     setIsSetEdited(false);
     assignSetTrackingValuesInputs(oldSet);
+  };
+
+  const handleSaveButton = () => {
+    if (activeSet === undefined || isSetTrackingValuesInvalid) return;
+
+    const setTrackingValuesNumber = ConvertSetInputValuesToNumbers(
+      setTrackingValuesInput
+    );
+
+    const updatedActiveSet: WorkoutSet = {
+      ...activeSet,
+      weight: setTrackingValuesNumber.weight,
+      reps: setTrackingValuesNumber.reps,
+      distance: setTrackingValuesNumber.distance,
+      rir: setTrackingValuesNumber.rir,
+      rpe: setTrackingValuesNumber.rpe,
+      resistance_level: setTrackingValuesNumber.resistance_level,
+      partial_reps: setTrackingValuesNumber.partial_reps,
+      user_weight: setTrackingValuesNumber.user_weight,
+      addCalculationTrigger: undefined,
+    };
+
+    saveActiveSet(updatedActiveSet);
+
+    setIsSetEdited(false);
   };
 
   return (
@@ -397,7 +426,7 @@ export const ActiveSet = ({
                           <Button
                             color="primary"
                             isDisabled={isSetTrackingValuesInvalid}
-                            onPress={saveActiveSet}
+                            onPress={handleSaveButton}
                           >
                             {activeSet.is_completed ? "Update" : "Save"}
                           </Button>
