@@ -26,6 +26,8 @@ type SetValueConfigProps = {
     setInputs: UseSetTrackingInputsReturnType,
     set: WorkoutSet
   ) => Promise<void>;
+  noteInput: string;
+  handleNoteInputChange: (value: string) => void;
   isMultiset?: boolean;
   userWeight?: UserWeight;
 };
@@ -39,6 +41,8 @@ export const SetValueConfig = ({
   userSettings,
   resetSetInputValues,
   openCalculationModal,
+  noteInput,
+  handleNoteInputChange,
   isMultiset,
   userWeight,
 }: SetValueConfigProps) => {
@@ -133,16 +137,11 @@ export const SetValueConfig = ({
         <div className="flex flex-col gap-2.5 w-[24rem]">
           {showNoteInput && (
             <Input
-              value={operatingSet.note ?? ""}
+              value={noteInput}
               label="Note"
               variant="faded"
               size="sm"
-              onValueChange={(value) =>
-                setOperatingSet((prev) => ({
-                  ...prev,
-                  note: value,
-                }))
-              }
+              onValueChange={(value) => handleNoteInputChange(value)}
               isClearable
             />
           )}

@@ -21,6 +21,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import {
   ConvertEmptyStringToNull,
+  ConvertNullToEmptyInputString,
   ConvertSetInputValuesToNumbers,
   GetValidatedNumNewSets,
   NumNewSetsOptionList,
@@ -74,6 +75,8 @@ export const SetModal = ({
   openCalculationModal,
   useFilterExerciseList,
 }: SetModalProps) => {
+  const [noteInput, setNoteInput] = useState<string>("");
+
   const numSetsOptions = NumNewSetsOptionList();
 
   const [numNewSets, setNumNewSets] = useState<string>(
@@ -90,6 +93,7 @@ export const SetModal = ({
   const {
     uneditedSet,
     setUneditedSet,
+    isSetEdited,
     setIsSetEdited,
     assignSetTrackingValuesInputs,
     isSetTrackingValuesInvalid,
@@ -112,7 +116,7 @@ export const SetModal = ({
       setTrackingValuesInput
     );
 
-    const noteToInsert = ConvertEmptyStringToNull(operatingSet.note);
+    const noteToInsert = ConvertEmptyStringToNull(noteInput);
 
     const templateSet: WorkoutSet = {
       ...operatingSet,
@@ -138,10 +142,19 @@ export const SetModal = ({
     setIsSetEdited(false);
   };
 
+  const handleNoteInputChange = (value: string) => {
+    setNoteInput(value);
+
+    if (!isSetEdited) {
+      setIsSetEdited(true);
+    }
+  };
+
   useEffect(() => {
     assignSetTrackingValuesInputs(operatingSet);
     setUneditedSet({ ...operatingSet });
     setIsSetEdited(false);
+    setNoteInput(ConvertNullToEmptyInputString(operatingSet.note));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingSet.id]);
 
@@ -174,6 +187,8 @@ export const SetModal = ({
                   userSettings={userSettings}
                   resetSetInputValues={resetSetInputValues}
                   openCalculationModal={openCalculationModal}
+                  noteInput={noteInput}
+                  handleNoteInputChange={handleNoteInputChange}
                 />
               )}
             </ModalBody>
