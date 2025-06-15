@@ -27,6 +27,7 @@ import {
   UserWeight,
 } from "../typings";
 import { useSetTrackingInputs } from "../hooks";
+import { useEffect } from "react";
 
 type ActiveSetProps = {
   activeSet: WorkoutSet | undefined;
@@ -130,6 +131,7 @@ export const ActiveSet = ({
 
   const {
     uneditedSet,
+    setUneditedSet,
     isSetEdited,
     setIsSetEdited,
     assignSetTrackingValuesInputs,
@@ -175,6 +177,17 @@ export const ActiveSet = ({
 
     setIsSetEdited(false);
   };
+
+  useEffect(() => {
+    if (activeSet === undefined) return;
+
+    assignSetTrackingValuesInputs(activeSet);
+    setUneditedSet({ ...activeSet });
+    setIsSetEdited(false);
+
+    // TODO: ADD NOTE INPUT?
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeSet?.id]);
 
   return (
     <div>
