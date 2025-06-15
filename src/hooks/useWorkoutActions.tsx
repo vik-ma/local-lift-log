@@ -20,7 +20,6 @@ import Database from "tauri-plugin-sql-api";
 
 import toast from "react-hot-toast";
 import {
-  ConvertSetInputValuesToNumbers,
   InsertSetIntoDatabase,
   ReassignExerciseIdForSets,
   UpdateSet,
@@ -1177,42 +1176,19 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
   };
 
-  const saveActiveSet = async () => {
-    if (
-      activeSet === undefined ||
-      workout.id === 0 ||
-      activeGroupedSet === undefined
-    )
-      return;
+  const saveActiveSet = async (set: WorkoutSet) => {
+    if (workout.id === 0 || activeGroupedSet === undefined) return;
 
-    if (activeSetInputs.isSetTrackingValuesInvalid) return;
-
-    const isUpdatingActiveSet = activeSet.is_completed === 1;
+    const isUpdatingActiveSet = set.is_completed === 1;
 
     const currentDateString = GetCurrentDateTimeISOString();
 
-    const setTrackingValuesNumbers = ConvertSetInputValuesToNumbers(
-      activeSetInputs.setTrackingValuesInput
-    );
-
-    const updatedSet: WorkoutSet = {
-      ...activeSet,
-      weight: setTrackingValuesNumbers.weight,
-      reps: setTrackingValuesNumbers.reps,
-      distance: setTrackingValuesNumbers.distance,
-      rir: setTrackingValuesNumbers.rir,
-      rpe: setTrackingValuesNumbers.rpe,
-      resistance_level: setTrackingValuesNumbers.resistance_level,
-      partial_reps: setTrackingValuesNumbers.partial_reps,
-      user_weight: setTrackingValuesNumbers.user_weight,
-    };
-
     if (!isUpdatingActiveSet) {
-      updatedSet.is_completed = 1;
-      updatedSet.time_completed = currentDateString;
+      set.is_completed = 1;
+      set.time_completed = currentDateString;
     }
 
-    const success = await UpdateSet(updatedSet);
+    const success = await UpdateSet(set);
 
     if (!success) return;
 
@@ -1220,7 +1196,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const updatedSetList = UpdateItemInList(
       groupedSets[groupedSetIndex].setList,
-      updatedSet
+      set
     );
 
     const completedSetsValue = completedSetsMap.get(activeGroupedSet.id) ?? 0;
@@ -1235,7 +1211,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       return newList;
     });
 
-    goToNextIncompleteSet(updatedSet, isUpdatingActiveSet);
+    goToNextIncompleteSet(set, isUpdatingActiveSet);
     toast.success("Set Saved");
   };
 
