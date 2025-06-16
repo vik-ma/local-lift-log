@@ -7,7 +7,6 @@ import {
   SetListNotes,
   ActiveSetNote,
   Workout,
-  SetTrackingValuesInput,
   Multiset,
   CalculationListItem,
   PresetsType,
@@ -57,8 +56,6 @@ import {
   GetValidatedUnit,
 } from "../helpers";
 import {
-  useSetTrackingInputs,
-  useDefaultSetInputValues,
   useMultisetActions,
   useDefaultMultiset,
   useExerciseList,
@@ -142,10 +139,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
     presetsList.listFilters;
-
-  const defaultSetInputValues = useDefaultSetInputValues();
-
-  const activeSetInputs = useSetTrackingInputs();
 
   const exerciseList = useExerciseList(true);
 
@@ -466,7 +459,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     if (activeSet?.id === updatedSet.id) {
       setActiveSet(updatedSet);
-      activeSetInputs.assignSetTrackingValuesInputs(updatedSet);
     }
   };
 
@@ -578,7 +570,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
       setActiveGroupedSet(groupedSet);
 
-      updateActiveSetTrackingValues(newActiveSet, activeSet);
       setIsActiveSetExpanded(true);
     }
   };
@@ -860,9 +851,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         if (activeGroupedSet?.id === groupedSet.id) {
           setActiveSet(undefined);
           setActiveGroupedSet(undefined);
-          activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
-          activeSetInputs.setIsSetEdited(false);
-          activeSetInputs.setUneditedSet(undefined);
         }
       }
 
@@ -1165,15 +1153,15 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const clearActiveSetInputValues = () => {
     if (activeSet === undefined) return;
 
-    activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
     setActiveSet({
       ...activeSet,
       time_in_seconds: 0,
     });
 
-    if (activeSet.is_completed === 1) {
-      activeSetInputs.setIsSetEdited(true);
-    }
+    // TODO: FIX
+    // if (activeSet.is_completed === 1) {
+    //   activeSetInputs.setIsSetEdited(true);
+    // }
   };
 
   const saveActiveSet = async (set: WorkoutSet) => {
@@ -1335,9 +1323,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setIncompleteSetIds([]);
       setActiveSet(undefined);
       setActiveGroupedSet(undefined);
-      activeSetInputs.setSetTrackingValuesInput(defaultSetInputValues);
-      activeSetInputs.setIsSetEdited(false);
-      activeSetInputs.setUneditedSet(undefined);
       return;
     }
 
@@ -1363,7 +1348,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
           };
           setActiveSet(newActiveSet);
           setActiveGroupedSet(group);
-          updateActiveSetTrackingValues(newActiveSet, lastSet);
           break;
         }
       }
@@ -1375,114 +1359,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     );
 
     setIncompleteSetIds(updatedIncompleteSetIds);
-  };
-
-  const updateActiveSetTrackingValues = (
-    activeSet: WorkoutSet,
-    lastSet: WorkoutSet | undefined
-  ) => {
-    const activeSetInputValues: SetTrackingValuesInput = {
-      weight:
-        activeSet.weight > 0 && activeSet.is_tracking_weight
-          ? activeSet.weight.toString()
-          : "",
-      reps:
-        activeSet.reps > 0 && activeSet.is_tracking_reps
-          ? activeSet.reps.toString()
-          : "",
-      rir:
-        activeSet.rir > -1 && activeSet.is_tracking_rir
-          ? activeSet.rir.toString()
-          : "",
-      rpe:
-        activeSet.rpe > 0 && activeSet.is_tracking_rpe
-          ? activeSet.rpe.toString()
-          : "",
-      distance:
-        activeSet.distance > 0 && activeSet.is_tracking_distance
-          ? activeSet.distance.toString()
-          : "",
-      resistance_level:
-        activeSet.resistance_level > 0 && activeSet.is_tracking_resistance_level
-          ? activeSet.resistance_level.toString()
-          : "",
-      partial_reps:
-        activeSet.partial_reps > 0 && activeSet.is_tracking_partial_reps
-          ? activeSet.partial_reps.toString()
-          : "",
-      user_weight:
-        activeSet.user_weight > 0 && activeSet.is_tracking_user_weight
-          ? activeSet.user_weight.toString()
-          : "",
-    };
-
-    if (
-      lastSet !== undefined &&
-      activeSet.exercise_id === lastSet.exercise_id
-    ) {
-      // If same exercise, keep input values from last set, unless it already has values set
-      if (
-        activeSet.is_tracking_weight === 1 &&
-        activeSet.weight === 0 &&
-        lastSet.weight > 0
-      ) {
-        activeSetInputValues.weight = lastSet.weight.toString();
-      }
-      if (
-        activeSet.is_tracking_reps === 1 &&
-        activeSet.reps === 0 &&
-        lastSet.reps > 0
-      ) {
-        activeSetInputValues.reps = lastSet.reps.toString();
-      }
-      if (
-        activeSet.is_tracking_rir === 1 &&
-        activeSet.rir === -1 &&
-        lastSet.rir > -1
-      ) {
-        activeSetInputValues.rir = lastSet.rir.toString();
-      }
-      if (
-        activeSet.is_tracking_rpe === 1 &&
-        activeSet.rpe === 0 &&
-        lastSet.rpe > 0
-      ) {
-        activeSetInputValues.rpe = lastSet.rpe.toString();
-      }
-      if (
-        activeSet.is_tracking_distance === 1 &&
-        activeSet.distance === 0 &&
-        lastSet.distance > 0
-      ) {
-        activeSetInputValues.distance = lastSet.distance.toString();
-      }
-      if (
-        activeSet.is_tracking_resistance_level === 1 &&
-        activeSet.resistance_level === 0 &&
-        lastSet.resistance_level > 0
-      ) {
-        activeSetInputValues.resistance_level =
-          lastSet.resistance_level.toString();
-      }
-      if (
-        activeSet.is_tracking_partial_reps === 1 &&
-        activeSet.partial_reps === 0 &&
-        lastSet.partial_reps > 0
-      ) {
-        activeSetInputValues.partial_reps = lastSet.partial_reps.toString();
-      }
-      if (
-        activeSet.is_tracking_user_weight === 1 &&
-        activeSet.user_weight === 0 &&
-        lastSet.user_weight > 0
-      ) {
-        activeSetInputValues.user_weight = lastSet.user_weight.toString();
-      }
-    }
-
-    activeSetInputs.setSetTrackingValuesInput(activeSetInputValues);
-    activeSetInputs.setUneditedSet({ ...activeSet });
-    activeSetInputs.setIsSetEdited(false);
   };
 
   const populateIncompleteSets = (groupedSetList: GroupedWorkoutSet[]) => {
@@ -1506,7 +1382,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
             };
             setActiveSet(newActiveSet);
             setActiveGroupedSet(groupedSetList[i]);
-            updateActiveSetTrackingValues(newActiveSet, undefined);
           }
         } else {
           numCompletedSets += 1;
@@ -2406,7 +2281,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     };
 
     setActiveSet(updatedSet);
-    activeSetInputs.assignSetTrackingValuesInputs(updatedSet);
   };
 
   const handleFillInLastWorkoutSetValues = async (
@@ -2445,7 +2319,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       if (activeSet?.id === updatedSet.id) {
         setActiveSet(updatedSet);
         setActiveGroupedSet(updatedGroupedSet);
-        updateActiveSetTrackingValues(updatedSet, undefined);
       }
     }
 
@@ -2993,12 +2866,10 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setActiveSet,
     saveActiveSet,
     goToNextIncompleteSet,
-    updateActiveSetTrackingValues,
     populateIncompleteSets,
     handleActiveSetOptionSelection,
     incompleteSetIds,
     setIncompleteSetIds,
-    activeSetInputs,
     isActiveSetExpanded,
     setIsActiveSetExpanded,
     activeGroupedSet,
