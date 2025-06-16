@@ -11,7 +11,6 @@ export { useValidTimeInputBehaviors } from "./useValidTimeInputBehaviors";
 export { useDefaultRoutine } from "./useDefaultRoutine";
 export { useDefaultExercise } from "./useDefaultExercise";
 export { useDefaultWorkoutTemplate } from "./useDefaultWorkoutTemplate";
-export { useDefaultSetInputValues } from "./useDefaultSetInputValues";
 export { useWorkoutActions } from "./useWorkoutActions";
 export { useDefaultWorkout } from "./useDefaultWorkout";
 export { useWorkoutTemplateList } from "./useWorkoutTemplateList";
