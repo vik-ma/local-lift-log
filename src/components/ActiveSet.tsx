@@ -189,6 +189,20 @@ export const ActiveSet = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeSet?.id]);
 
+  useEffect(() => {
+    // Change inputs when addCalculationResult function from useWorkoutActions adds calculation value
+    if (
+      activeSet === undefined ||
+      activeSet.addCalculationTrigger === undefined
+    )
+      return;
+
+    assignSetTrackingValuesInputs(activeSet);
+
+    if (!isSetEdited) setIsSetEdited(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeSet?.addCalculationTrigger]);
+
   return (
     <div>
       {activeSet !== undefined && (
