@@ -2469,8 +2469,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         ? { ...activeSet }
         : { ...operatingSet };
 
-    const uneditedSet = { ...updatedSet };
-
     if (presetsType === "equipment") {
       updatedSet.weight = value;
     } else {
@@ -2484,15 +2482,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       updatedSet.addCalculationTrigger++;
     }
 
-    // TODO: FIX
     if (isActiveSet) {
-      activeSetInputs.assignSetTrackingValuesInputs(updatedSet);
       setActiveSet(updatedSet);
-
-      if (!activeSetInputs.isSetEdited) {
-        activeSetInputs.setUneditedSet(uneditedSet);
-        activeSetInputs.setIsSetEdited(true);
-      }
     } else {
       setOperatingSet(updatedSet);
     }
