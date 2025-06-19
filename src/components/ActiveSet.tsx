@@ -73,7 +73,6 @@ type ActiveSetProps = {
     groupedSet: GroupedWorkoutSet
   ) => void;
   populateUserWeightValues: () => void;
-  clearActiveSetInputValues: () => void;
   openCalculationModal: (
     isWeight: boolean,
     exercise: Exercise,
@@ -106,7 +105,6 @@ export const ActiveSet = ({
   saveActiveSet,
   handleToggleSetCommentButton,
   populateUserWeightValues,
-  clearActiveSetInputValues,
   openCalculationModal,
   showGetUserWeightButton,
   showOldUserWeightLabel,
@@ -446,7 +444,8 @@ export const ActiveSet = ({
                           )}
                           <Button
                             variant="light"
-                            onPress={clearActiveSetInputValues}
+                            // TODO: FIX
+                            onPress={() => {}}
                           >
                             Clear
                           </Button>

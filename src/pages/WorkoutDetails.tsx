@@ -120,7 +120,6 @@ export default function WorkoutDetails() {
     numMultisetSets,
     presetsList,
     calculationModal,
-    clearActiveSetInputValues,
     addCalculationResult,
     openCalculationModal,
     filterExerciseList,
@@ -608,7 +607,6 @@ export default function WorkoutDetails() {
           saveActiveSet={saveActiveSet}
           handleToggleSetCommentButton={handleToggleSetCommentButton}
           populateUserWeightValues={populateUserWeightValues}
-          clearActiveSetInputValues={clearActiveSetInputValues}
           openCalculationModal={openCalculationModal}
           showGetUserWeightButton={showGetUserWeightButton}
           showOldUserWeightLabel={showOldUserWeightLabel}

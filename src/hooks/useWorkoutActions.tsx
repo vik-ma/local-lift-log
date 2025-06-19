@@ -1171,20 +1171,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setModal.onOpen();
   };
 
-  const clearActiveSetInputValues = () => {
-    if (activeSet === undefined) return;
-
-    setActiveSet({
-      ...activeSet,
-      time_in_seconds: 0,
-    });
-
-    // TODO: FIX
-    // if (activeSet.is_completed === 1) {
-    //   activeSetInputs.setIsSetEdited(true);
-    // }
-  };
-
   const saveActiveSet = async (set: WorkoutSet) => {
     if (workout.id === 0 || activeGroupedSet === undefined) return;
 
@@ -2917,7 +2903,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     populateUserWeightValues,
     presetsList,
     calculationModal,
-    clearActiveSetInputValues,
     addCalculationResult,
     openCalculationModal,
     filterExerciseList,
