@@ -43,7 +43,6 @@ type CalculationModalProps = {
     totalMultiplier: number,
     isActiveSet: boolean
   ) => void;
-  multiplierIncrement: number;
   userSettings: UserSettings;
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
@@ -54,7 +53,6 @@ export const CalculationModal = ({
   useCalculationModal,
   usePresetsList,
   doneButtonAction,
-  multiplierIncrement,
   userSettings,
   setUserSettings,
 }: CalculationModalProps) => {
@@ -128,7 +126,8 @@ export const CalculationModal = ({
         : Number(totalMultiplierInput);
 
     const disableButton =
-      isInputInvalid || multiplier - multiplierIncrement <= 0;
+      isInputInvalid ||
+      multiplier - userSettings.default_increment_calculation_multiplier <= 0;
 
     return {
       totalMultiplier: multiplier,
@@ -136,7 +135,10 @@ export const CalculationModal = ({
       disableTotalMultiplierIncreaseButton:
         isInputInvalid && !IsStringEmpty(totalMultiplierInput),
     };
-  }, [totalMultiplierInput, multiplierIncrement]);
+  }, [
+    totalMultiplierInput,
+    userSettings.default_increment_calculation_multiplier,
+  ]);
 
   const totalWeight = useMemo(() => {
     return calculationListWeight.reduce(
@@ -315,7 +317,9 @@ export const CalculationModal = ({
                       calculationListDistance={calculationListDistance}
                       setCalculationListDistance={setCalculationListDistance}
                       presetsType={presetsType}
-                      multiplierIncrement={multiplierIncrement}
+                      multiplierIncrement={
+                        userSettings.default_increment_calculation_multiplier
+                      }
                       totalMultiplierInput={totalMultiplierInput}
                       setTotalMultiplierInput={setTotalMultiplierInput}
                       isTotalMultiplierInvalid={isTotalMultiplierInvalid}

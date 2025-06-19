@@ -364,9 +364,6 @@ export default function WorkoutTemplateDetails() {
           useCalculationModal={calculationModal}
           usePresetsList={presetsList}
           doneButtonAction={addCalculationResult}
-          multiplierIncrement={
-            userSettings.default_increment_calculation_multiplier
-          }
           userSettings={userSettings}
           setUserSettings={setUserSettings}
         />

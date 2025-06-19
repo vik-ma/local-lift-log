@@ -124,9 +124,6 @@ export default function Test() {
         useCalculationModal={calculationModal}
         usePresetsList={presetsList}
         doneButtonAction={calculationModalDoneButtonAction}
-        multiplierIncrement={
-          userSettings.default_increment_calculation_multiplier
-        }
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
