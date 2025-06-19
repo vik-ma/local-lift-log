@@ -16,6 +16,7 @@ import {
   ConvertNumberToInputString,
   IsNumberValidInteger,
   GetValidatedUnit,
+  GetValidatedIncrementMultiplier,
 } from "../helpers";
 import {
   Switch,
@@ -130,6 +131,25 @@ export default function Settings() {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
+
+      userSettings.default_increment_weight = GetValidatedIncrementMultiplier(
+        userSettings.default_increment_weight
+      );
+      userSettings.default_increment_distance = GetValidatedIncrementMultiplier(
+        userSettings.default_increment_distance
+      );
+      userSettings.default_increment_time = GetValidatedIncrementMultiplier(
+        userSettings.default_increment_time,
+        true
+      );
+      userSettings.default_increment_resistance_level =
+        GetValidatedIncrementMultiplier(
+          userSettings.default_increment_resistance_level
+        );
+      userSettings.default_increment_calculation_multiplier =
+        GetValidatedIncrementMultiplier(
+          userSettings.default_increment_calculation_multiplier
+        );
 
       setUserSettings(userSettings);
 
