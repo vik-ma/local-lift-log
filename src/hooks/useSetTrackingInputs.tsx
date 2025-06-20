@@ -108,6 +108,10 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     if (!isSetEdited) setIsSetEdited(true);
   };
 
+  const clearSetInputValues = () => {
+    setSetTrackingValuesInput(defaultSetTrackingValuesInput);
+  };
+
   return {
     isSetTrackingValuesInvalid,
     setInputsInvalidityMap,
@@ -125,5 +129,6 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     setNoteInput,
     setSetNoteInput,
     handleSetNoteInputChange,
+    clearSetInputValues,
   };
 };

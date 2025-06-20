@@ -135,6 +135,7 @@ export const ActiveSet = ({
     assignSetTrackingValuesInputs,
     isSetTrackingValuesInvalid,
     setTrackingValuesInput,
+    clearSetInputValues,
   } = activeSetInputs;
 
   const resetSetInputValues = () => {
@@ -442,11 +443,7 @@ export const ActiveSet = ({
                               Reset
                             </Button>
                           )}
-                          <Button
-                            variant="light"
-                            // TODO: FIX
-                            onPress={() => {}}
-                          >
+                          <Button variant="light" onPress={clearSetInputValues}>
                             Clear
                           </Button>
                           <Button

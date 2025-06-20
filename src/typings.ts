@@ -348,6 +348,7 @@ export type UseSetTrackingInputsReturnType = {
   setNoteInput: string;
   setSetNoteInput: React.Dispatch<React.SetStateAction<string>>;
   handleSetNoteInputChange: (value: string) => void;
+  clearSetInputValues: () => void;
 };
 
 export type ExerciseSortCategory = "favorite" | "name" | "num-sets";
