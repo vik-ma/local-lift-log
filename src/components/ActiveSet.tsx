@@ -177,6 +177,12 @@ export const ActiveSet = ({
     setIsSetEdited(false);
   };
 
+  const handleClearButton = () => {
+    clearSetInputValues();
+
+    if (activeSet?.is_completed) setIsSetEdited(true);
+  };
+
   useEffect(() => {
     if (activeSet === undefined) return;
 
@@ -443,7 +449,7 @@ export const ActiveSet = ({
                               Reset
                             </Button>
                           )}
-                          <Button variant="light" onPress={clearSetInputValues}>
+                          <Button variant="light" onPress={handleClearButton}>
                             Clear
                           </Button>
                           <Button
