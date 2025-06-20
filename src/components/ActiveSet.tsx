@@ -178,9 +178,15 @@ export const ActiveSet = ({
   };
 
   const handleClearButton = () => {
+    if (activeSet === undefined) return;
+
     clearSetInputValues();
 
-    if (activeSet?.is_completed) setIsSetEdited(true);
+    const updatedActiveSet = { ...activeSet, time_in_seconds: 0 };
+
+    setActiveSet(updatedActiveSet);
+
+    if (activeSet.is_completed) setIsSetEdited(true);
   };
 
   useEffect(() => {
