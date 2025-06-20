@@ -55,6 +55,7 @@ import {
   IsDateStringOlderThanOneWeek,
   GetValidatedUnit,
   GetValidatedIncrementMultipliers,
+  GetValidatedTimeInputBehavior,
 } from "../helpers";
 import {
   useMultisetActions,
@@ -177,6 +178,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
         if (userSettings === undefined) return;
 
         GetValidatedIncrementMultipliers(userSettings);
+        GetValidatedTimeInputBehavior(userSettings);
 
         setUserSettings(userSettings);
 

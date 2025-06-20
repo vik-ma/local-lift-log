@@ -17,6 +17,7 @@ import {
   IsNumberValidInteger,
   GetValidatedUnit,
   GetValidatedIncrementMultipliers,
+  GetValidatedTimeInputBehavior,
 } from "../helpers";
 import {
   Switch,
@@ -133,8 +134,7 @@ export default function Settings() {
       if (userSettings === undefined) return;
 
       GetValidatedIncrementMultipliers(userSettings);
-
-      setUserSettings(userSettings);
+      GetValidatedTimeInputBehavior(userSettings);
 
       const weightUnit = GetValidatedUnit(
         userSettings.default_unit_weight,
@@ -152,6 +152,8 @@ export default function Settings() {
       userSettings.default_unit_weight = weightUnit;
       userSettings.default_unit_distance = distanceUnit;
       userSettings.default_unit_measurement = measurementUnit;
+
+      setUserSettings(userSettings);
 
       const defaultIncrementValues: DefaultIncrementInputs = {
         weight: ConvertNumberToInputString(

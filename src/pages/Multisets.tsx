@@ -33,6 +33,7 @@ import {
   DefaultNewSet,
   GetValidatedUnit,
   GetValidatedIncrementMultipliers,
+  GetValidatedTimeInputBehavior,
 } from "../helpers";
 import {
   CalculationModal,
@@ -163,6 +164,7 @@ export default function Multisets() {
       if (userSettings === undefined) return;
 
       GetValidatedIncrementMultipliers(userSettings);
+      GetValidatedTimeInputBehavior(userSettings);
 
       setUserSettings(userSettings);
 
