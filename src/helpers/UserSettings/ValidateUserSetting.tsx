@@ -11,7 +11,7 @@ import {
   ValidDistanceUnits,
   ValidMeasurementUnits,
   ValidTimeInputBehaviors,
-  ValidTimeInputs,
+  TimeInputMap,
   ValidWeightUnits,
   ValidateBodyFatCalculationSettingsString,
 } from "..";
@@ -31,7 +31,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "default_unit_distance":
       return ValidDistanceUnits().includes(value as string);
     case "default_time_input":
-      return ValidTimeInputs().includes(value as string);
+      return TimeInputMap().has(value as string);
     case "default_unit_measurement":
       return ValidMeasurementUnits().includes(value as string);
     case "active_tracking_measurements":
