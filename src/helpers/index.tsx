@@ -73,7 +73,8 @@ export { UpdateUserSetting } from "./UserSettings/UpdateUserSetting";
 export { GetValidatedNumNewSets } from "./UserSettings/GetValidatedNumNewSets";
 export { ValidateBodyFatCalculationSettingsString } from "./UserSettings/ValidateBodyFatCalculationSettingsString";
 export { GenerateBodyFatCalculationSettingsString } from "./UserSettings/GenerateBodyFatCalculationSettingsString";
-export { GetValidatedTimeInputBehavior } from "./UserSettings/GetValidatedTimeInputBehavior";
+export { ValidateAndModifyIncrementMultipliers } from "./UserSettings/ValidateAndModifyIncrementMultipliers";
+export { ValidateAndModifyTimeInputBehavior } from "./UserSettings/ValidateAndModifyTimeInputBehavior";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
@@ -136,7 +137,6 @@ export { CalculatePaceValue } from "./Numbers/CalculatePaceValue";
 export { ConvertPaceValue } from "./Numbers/ConvertPaceValue";
 export { IsNumberValid } from "./Numbers/IsNumberValid";
 export { IsNumberValidInteger } from "./Numbers/IsNumberValidInteger";
-export { GetValidatedIncrementMultipliers } from "./Numbers/GetValidatedIncrementMultipliers";
 
 export { GetLatestUserWeight } from "./Measurements/GetLatestUserWeight";
 export { CreateDefaultMeasurements } from "./Measurements/CreateDefaultMeasurements";

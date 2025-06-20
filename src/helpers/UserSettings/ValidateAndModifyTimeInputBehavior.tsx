@@ -1,7 +1,9 @@
 import { UserSettings } from "../../typings";
 import { TimeInputMap, ValidTimeInputBehaviors } from "..";
 
-export const GetValidatedTimeInputBehavior = (userSettings: UserSettings) => {
+export const ValidateAndModifyTimeInputBehavior = (
+  userSettings: UserSettings
+) => {
   const timeInputMap = TimeInputMap();
 
   const validTimeInputBehaviorsHhmmss = ValidTimeInputBehaviors(true);

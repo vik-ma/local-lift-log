@@ -1,7 +1,7 @@
 import { IsNumberValid, IsNumberValidInteger } from "..";
 import { UserSettings } from "../../typings";
 
-export const GetValidatedIncrementMultipliers = (
+export const ValidateAndModifyIncrementMultipliers = (
   userSettings: UserSettings
 ) => {
   if (!IsNumberValid(userSettings.default_increment_weight, 0, true))
