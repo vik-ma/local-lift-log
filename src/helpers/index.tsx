@@ -73,6 +73,7 @@ export { UpdateUserSetting } from "./UserSettings/UpdateUserSetting";
 export { GetValidatedNumNewSets } from "./UserSettings/GetValidatedNumNewSets";
 export { ValidateBodyFatCalculationSettingsString } from "./UserSettings/ValidateBodyFatCalculationSettingsString";
 export { GenerateBodyFatCalculationSettingsString } from "./UserSettings/GenerateBodyFatCalculationSettingsString";
+export { GetValidatedTimeInputBehavior } from "./UserSettings/GetValidatedTimeInputBehavior";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
