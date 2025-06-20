@@ -496,9 +496,7 @@ export const SetValueInputs = ({
       {!!operatingSet.is_tracking_time && (
         <div className="flex flex-wrap justify-center gap-1">
           <TimeValueInput
-            defaultTimeInput={userSettings.default_time_input}
-            time_input_behavior_hhmmss={userSettings.time_input_behavior_hhmmss}
-            time_input_behavior_mmss={userSettings.time_input_behavior_mmss}
+            userSettings={userSettings}
             set={operatingSet}
             setSet={setOperatingSet}
             setIsTimeInputInvalid={setIsTimeInputInvalid}

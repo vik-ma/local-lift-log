@@ -6,7 +6,7 @@ import {
   DropdownTrigger,
   Input,
 } from "@heroui/react";
-import { WorkoutSet, DefaultIncrementInputs } from "../typings";
+import { WorkoutSet, DefaultIncrementInputs, UserSettings } from "../typings";
 import { useState, useMemo, useEffect, useRef } from "react";
 import {
   ConvertNumberToTwoDecimals,
@@ -20,9 +20,7 @@ import { ChevronIcon } from "../assets";
 import { useTimeInputMap } from "../hooks";
 
 type TimeValueInputProps = {
-  defaultTimeInput: string;
-  time_input_behavior_hhmmss: string;
-  time_input_behavior_mmss: string;
+  userSettings: UserSettings;
   setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
   set?: WorkoutSet;
   setSet?: React.Dispatch<React.SetStateAction<WorkoutSet>>;
@@ -54,9 +52,7 @@ type TimeInputBehaviorMapType = {
 };
 
 export const TimeValueInput = ({
-  defaultTimeInput,
-  time_input_behavior_hhmmss,
-  time_input_behavior_mmss,
+  userSettings,
   set,
   setSet,
   setIsTimeInputInvalid,
@@ -69,7 +65,9 @@ export const TimeValueInput = ({
   setIsSetEdited,
   allow0 = true,
 }: TimeValueInputProps) => {
-  const [inputType, setInputType] = useState<string>(defaultTimeInput);
+  const [inputType, setInputType] = useState<string>(
+    userSettings.default_time_input
+  );
 
   const timeInputBehaviorMap: TimeInputBehaviorMapType = useMemo(() => {
     return { first: 1, second: 2, third: 3, never: 0 };
@@ -243,11 +241,12 @@ export const TimeValueInput = ({
     updateValue(timeInSeconds);
 
     // Don't move focus
-    if (time_input_behavior_hhmmss === "never") return;
+    if (userSettings.time_input_behavior_hhmmss === "never") return;
 
     // Move focus to HH:MM:SS Minutes Input field after typing in a number in Hours field
     if (
-      value.hours.length === timeInputBehaviorMap[time_input_behavior_hhmmss] &&
+      value.hours.length ===
+        timeInputBehaviorMap[userSettings.time_input_behavior_hhmmss] &&
       hhmmssMinutesInput.current &&
       document.activeElement === hhmmssHoursInput.current
     ) {
@@ -280,11 +279,12 @@ export const TimeValueInput = ({
     updateValue(timeInSeconds);
 
     // Don't move focus
-    if (time_input_behavior_mmss === "never") return;
+    if (userSettings.time_input_behavior_mmss === "never") return;
 
     // Move focus to MM:SS Seconds Input field after typing in 3 numbers in Minutes field
     if (
-      value.minutes.length === timeInputBehaviorMap[time_input_behavior_mmss] &&
+      value.minutes.length ===
+        timeInputBehaviorMap[userSettings.time_input_behavior_mmss] &&
       mmssSecondsInput.current &&
       document.activeElement === mmssMinutesInput.current
     ) {

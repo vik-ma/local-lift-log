@@ -939,11 +939,7 @@ export default function Settings() {
             <span className="text-lg">Time</span>
             <div className="flex gap-2 items-center">
               <TimeValueInput
-                defaultTimeInput={userSettings.default_time_input}
-                time_input_behavior_hhmmss={
-                  userSettings.time_input_behavior_hhmmss
-                }
-                time_input_behavior_mmss={userSettings.time_input_behavior_mmss}
+                userSettings={userSettings}
                 setIsTimeInputInvalid={setIsTimeInputInvalid}
                 defaultIncrementInputValues={defaultIncrementInputValues}
                 setDefaultIncrementInputValues={setDefaultIncrementInputValues}
