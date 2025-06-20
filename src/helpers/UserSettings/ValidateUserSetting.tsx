@@ -41,9 +41,9 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "clock_style":
       return ValidClockStyles().includes(value as string);
     case "time_input_behavior_hhmmss":
-      return ValidTimeInputBehaviors(true).some((item) => item.key === value);
+      return ValidTimeInputBehaviors(true).has(value as string);
     case "time_input_behavior_mmss":
-      return ValidTimeInputBehaviors(false).some((item) => item.key === value);
+      return ValidTimeInputBehaviors(false).has(value as string);
     case "default_increment_weight":
       return IsNumberValid(value as number, 0, true);
     case "default_increment_distance":

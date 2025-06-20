@@ -37,8 +37,8 @@ export const TimeInputBehaviorDropdown = ({
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      {validTimeInputBehaviors.map((unit) => (
-        <SelectItem key={unit.key}>{unit.label}</SelectItem>
+      {Array.from(validTimeInputBehaviors).map(([key, value]) => (
+        <SelectItem key={key}>{value}</SelectItem>
       ))}
     </Select>
   );
