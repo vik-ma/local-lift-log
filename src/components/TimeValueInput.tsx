@@ -6,7 +6,7 @@ import {
   DropdownTrigger,
   Input,
 } from "@heroui/react";
-import { DefaultIncrementInputs, UserSettings } from "../typings";
+import { UserSettings } from "../typings";
 import { useState, useMemo, useEffect, useRef } from "react";
 import {
   ConvertNumberToTwoDecimals,
@@ -24,10 +24,6 @@ type TimeValueInputProps = {
   setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
   timeInSeconds: number;
   setTimeInSeconds: React.Dispatch<React.SetStateAction<number>>;
-  defaultIncrementInputValues?: DefaultIncrementInputs;
-  setDefaultIncrementInputValues?: React.Dispatch<
-    React.SetStateAction<DefaultIncrementInputs>
-  >;
   isClearable?: boolean;
   isSmall?: boolean;
   showTimeLabel?: boolean;
@@ -56,8 +52,6 @@ export const TimeValueInput = ({
   setIsTimeInputInvalid,
   timeInSeconds,
   setTimeInSeconds,
-  defaultIncrementInputValues,
-  setDefaultIncrementInputValues,
   isClearable = true,
   isSmall = false,
   showTimeLabel = true,
@@ -293,14 +287,6 @@ export const TimeValueInput = ({
   const updateValue = (seconds: number) => {
     setTimeInSeconds(seconds);
 
-    // TODO: FIX
-    // if (setDefaultIncrementInputValues !== undefined) {
-    //   setDefaultIncrementInputValues((prev) => ({
-    //     ...prev,
-    //     time: seconds,
-    //   }));
-    // }
-
     if (
       isSetEdited !== undefined &&
       setIsSetEdited !== undefined &&
@@ -309,13 +295,6 @@ export const TimeValueInput = ({
       setIsSetEdited(true);
     }
   };
-
-  // TODO: FIX
-  // useEffect(() => {
-  //   if (defaultIncrementInputValues !== undefined) {
-  //     setTimeInSeconds(defaultIncrementInputValues.time);
-  //   }
-  // }, [defaultIncrementInputValues]);
 
   useEffect(() => {
     setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());
