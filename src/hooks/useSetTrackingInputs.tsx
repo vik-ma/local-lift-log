@@ -118,6 +118,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
 
   const clearSetInputValues = () => {
     setSetTrackingValuesInput(defaultSetTrackingValuesInput);
+    setTimeInSeconds(0);
   };
 
   return {
