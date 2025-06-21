@@ -14,7 +14,6 @@ import {
   NumNewSetsOptionList,
   GetValidatedNumNewSets,
   ConvertNumberToInputString,
-  IsNumberValidInteger,
   GetValidatedUnit,
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
@@ -173,9 +172,7 @@ export default function Settings() {
           false,
           "1"
         ),
-        time: IsNumberValidInteger(userSettings.default_increment_time, 0, true)
-          ? userSettings.default_increment_time
-          : 60,
+        time: userSettings.default_increment_time,
         resistanceLevel: ConvertNumberToInputString(
           userSettings.default_increment_resistance_level,
           0,
@@ -196,6 +193,7 @@ export default function Settings() {
 
       setDefaultIncrementInputValues(defaultIncrementValues);
       setDefaultIncrementOriginalValues({ ...defaultIncrementValues });
+      setTimeInSeconds(userSettings.default_increment_time);
 
       const workoutPropertySet = CreateShownPropertiesSet(
         userSettings.shown_workout_properties,
