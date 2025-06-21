@@ -6,7 +6,7 @@ import {
   DropdownTrigger,
   Input,
 } from "@heroui/react";
-import { WorkoutSet, DefaultIncrementInputs, UserSettings } from "../typings";
+import { DefaultIncrementInputs, UserSettings } from "../typings";
 import { useState, useMemo, useEffect, useRef } from "react";
 import {
   ConvertNumberToTwoDecimals,
@@ -22,8 +22,8 @@ import { useTimeInputMap } from "../hooks";
 type TimeValueInputProps = {
   userSettings: UserSettings;
   setIsTimeInputInvalid: React.Dispatch<React.SetStateAction<boolean>>;
-  set?: WorkoutSet;
-  setSet?: React.Dispatch<React.SetStateAction<WorkoutSet>>;
+  timeInSeconds: number;
+  setTimeInSeconds: React.Dispatch<React.SetStateAction<number>>;
   defaultIncrementInputValues?: DefaultIncrementInputs;
   setDefaultIncrementInputValues?: React.Dispatch<
     React.SetStateAction<DefaultIncrementInputs>
@@ -53,9 +53,9 @@ type TimeInputBehaviorMapType = {
 
 export const TimeValueInput = ({
   userSettings,
-  set,
-  setSet,
   setIsTimeInputInvalid,
+  timeInSeconds,
+  setTimeInSeconds,
   defaultIncrementInputValues,
   setDefaultIncrementInputValues,
   isClearable = true,
@@ -74,8 +74,6 @@ export const TimeValueInput = ({
   }, []);
 
   const timeInputMap = useTimeInputMap();
-
-  const [timeInSeconds, setTimeInSeconds] = useState<number>(0);
 
   const convertSecondsToMinutes = (seconds: number): string => {
     if (seconds === 0) return "";
@@ -293,16 +291,15 @@ export const TimeValueInput = ({
   };
 
   const updateValue = (seconds: number) => {
-    if (setSet !== undefined) {
-      setSet((prev) => ({ ...prev, time_in_seconds: seconds }));
-    }
+    setTimeInSeconds(seconds);
 
-    if (setDefaultIncrementInputValues !== undefined) {
-      setDefaultIncrementInputValues((prev) => ({
-        ...prev,
-        time: seconds,
-      }));
-    }
+    // TODO: FIX
+    // if (setDefaultIncrementInputValues !== undefined) {
+    //   setDefaultIncrementInputValues((prev) => ({
+    //     ...prev,
+    //     time: seconds,
+    //   }));
+    // }
 
     if (
       isSetEdited !== undefined &&
@@ -313,15 +310,12 @@ export const TimeValueInput = ({
     }
   };
 
-  useEffect(() => {
-    if (set !== undefined) {
-      setTimeInSeconds(set.time_in_seconds >= 0 ? set.time_in_seconds : 0);
-    }
-
-    if (defaultIncrementInputValues !== undefined) {
-      setTimeInSeconds(defaultIncrementInputValues.time);
-    }
-  }, [set, defaultIncrementInputValues]);
+  // TODO: FIX
+  // useEffect(() => {
+  //   if (defaultIncrementInputValues !== undefined) {
+  //     setTimeInSeconds(defaultIncrementInputValues.time);
+  //   }
+  // }, [defaultIncrementInputValues]);
 
   useEffect(() => {
     setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());
