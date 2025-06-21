@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import {
   ConvertNumberToInputString,
   DefaultSetInputValues,
+  IsNumberValidInteger,
   IsStringInvalidInteger,
   IsStringInvalidNumber,
 } from "../helpers";
@@ -101,6 +102,12 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     };
 
     setSetTrackingValuesInput(newSetTrackingValuesInput);
+
+    const time = IsNumberValidInteger(set.time_in_seconds)
+      ? set.time_in_seconds
+      : 0;
+
+    setTimeInSeconds(time);
   };
 
   const handleSetNoteInputChange = (value: string) => {
