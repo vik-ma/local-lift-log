@@ -71,6 +71,7 @@ export default function Settings() {
     useState<SpecificSettingModalPage>("default-plate-calc");
   const [selectedTimePeriodProperties, setSelectedTimePeriodProperties] =
     useState<Set<string>>(new Set());
+  const [timeInSeconds, setTimeInSeconds] = useState<number>(0);
 
   const numSetsOptions = NumNewSetsOptionList();
 
@@ -943,8 +944,8 @@ export default function Settings() {
               <TimeValueInput
                 userSettings={userSettings}
                 setIsTimeInputInvalid={setIsTimeInputInvalid}
-                defaultIncrementInputValues={defaultIncrementInputValues}
-                setDefaultIncrementInputValues={setDefaultIncrementInputValues}
+                timeInSeconds={timeInSeconds}
+                setTimeInSeconds={setTimeInSeconds}
                 isClearable={false}
                 isSmall={true}
                 showTimeLabel={false}
@@ -956,9 +957,7 @@ export default function Settings() {
                 size="sm"
                 isDisabled={
                   isTimeInputInvalid ||
-                  defaultIncrementOriginalValues.time ===
-                    defaultIncrementInputValues.time ||
-                  defaultIncrementInputValues.time === 0
+                  defaultIncrementOriginalValues.time === timeInSeconds
                 }
                 onPress={() => handleDefaultIncrementValueChange("time")}
               >
