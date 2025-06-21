@@ -286,14 +286,16 @@ export default function Settings() {
     if (
       key === "time" &&
       !isTimeInputInvalid &&
-      defaultIncrementOriginalValues.time !== defaultIncrementInputValues.time
+      defaultIncrementOriginalValues.time !== timeInSeconds
     ) {
-      updatedOriginalValues.time = defaultIncrementInputValues.time;
+      updatedOriginalValues.time = timeInSeconds;
 
       const success = await updateUserSetting(
         "default_increment_time",
-        defaultIncrementInputValues.time
+        timeInSeconds
       );
+
+      console.log(success);
 
       if (!success) return;
     }
