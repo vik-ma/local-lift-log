@@ -137,6 +137,7 @@ export const ActiveSet = ({
     setTrackingValuesInput,
     clearSetInputValues,
     timeInSeconds,
+    areInputsEmpty,
   } = activeSetInputs;
 
   const resetSetInputValues = () => {
@@ -457,7 +458,11 @@ export const ActiveSet = ({
                               Reset
                             </Button>
                           )}
-                          <Button variant="light" onPress={handleClearButton}>
+                          <Button
+                            variant="light"
+                            onPress={handleClearButton}
+                            isDisabled={areInputsEmpty}
+                          >
                             Clear
                           </Button>
                           <Button
