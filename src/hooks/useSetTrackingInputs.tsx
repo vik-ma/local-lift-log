@@ -19,6 +19,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   const [isValuesAccordionExpanded, setIsValuesAccordionExpanded] =
     useState<boolean>(false);
   const [setNoteInput, setSetNoteInput] = useState<string>("");
+  const [timeInSeconds, setTimeInSeconds] = useState<number>(0);
 
   const defaultSetTrackingValuesInput: SetTrackingValuesInput = useMemo(() => {
     return DefaultSetInputValues();
@@ -130,5 +131,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     setSetNoteInput,
     handleSetNoteInputChange,
     clearSetInputValues,
+    timeInSeconds,
+    setTimeInSeconds,
   };
 };

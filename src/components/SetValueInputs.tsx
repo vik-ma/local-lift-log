@@ -80,6 +80,8 @@ export const SetValueInputs = ({
     setIsTimeInputInvalid,
     isSetEdited,
     setIsSetEdited,
+    timeInSeconds,
+    setTimeInSeconds,
   } = useSetTrackingInputs;
 
   const disableUpdateValueButtonsMap = useMemo(() => {
@@ -497,8 +499,8 @@ export const SetValueInputs = ({
         <div className="flex flex-wrap justify-center gap-1">
           <TimeValueInput
             userSettings={userSettings}
-            set={operatingSet}
-            setSet={setOperatingSet}
+            timeInSeconds={timeInSeconds}
+            setTimeInSeconds={setTimeInSeconds}
             setIsTimeInputInvalid={setIsTimeInputInvalid}
             isSmall={true}
             isSetEdited={isSetEdited}
