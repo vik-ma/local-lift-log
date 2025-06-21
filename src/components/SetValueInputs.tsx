@@ -142,8 +142,8 @@ export const SetValueInputs = ({
       },
       time: {
         decrease:
-          operatingSet.time_in_seconds - userSettings.default_increment_time <
-            0 || isTimeInputInvalid,
+          timeInSeconds - userSettings.default_increment_time < 0 ||
+          isTimeInputInvalid,
         increase: isTimeInputInvalid,
       },
       resistance_level: {
@@ -181,7 +181,7 @@ export const SetValueInputs = ({
     setTrackingValuesInput,
     userSettings,
     isTimeInputInvalid,
-    operatingSet.time_in_seconds,
+    timeInSeconds,
   ]);
 
   const handleUpdateValueButton = (key: string, isIncrease: boolean) => {
@@ -235,10 +235,10 @@ export const SetValueInputs = ({
         if (isTimeInputInvalid) return;
 
         const newValue =
-          updatedSet.time_in_seconds +
-          modifier * userSettings.default_increment_time;
+          timeInSeconds + modifier * userSettings.default_increment_time;
 
         updatedSet.time_in_seconds = newValue;
+        setTimeInSeconds(newValue);
 
         break;
       }
