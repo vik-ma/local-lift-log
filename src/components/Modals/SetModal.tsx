@@ -97,6 +97,7 @@ export const SetModal = ({
     setTrackingValuesInput,
     setNoteInput,
     setSetNoteInput,
+    timeInSeconds,
   } = operatingSetInputs;
 
   const resetSetInputValues = () => {
@@ -124,6 +125,7 @@ export const SetModal = ({
       exercise_name: selectedExercise.name,
       weight: setTrackingValuesNumber.weight,
       reps: setTrackingValuesNumber.reps,
+      time_in_seconds: timeInSeconds,
       distance: setTrackingValuesNumber.distance,
       rir: setTrackingValuesNumber.rir,
       rpe: setTrackingValuesNumber.rpe,

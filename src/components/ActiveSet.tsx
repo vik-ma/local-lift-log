@@ -136,6 +136,7 @@ export const ActiveSet = ({
     isSetTrackingValuesInvalid,
     setTrackingValuesInput,
     clearSetInputValues,
+    timeInSeconds,
   } = activeSetInputs;
 
   const resetSetInputValues = () => {
@@ -163,6 +164,7 @@ export const ActiveSet = ({
       ...activeSet,
       weight: setTrackingValuesNumber.weight,
       reps: setTrackingValuesNumber.reps,
+      time_in_seconds: timeInSeconds,
       distance: setTrackingValuesNumber.distance,
       rir: setTrackingValuesNumber.rir,
       rpe: setTrackingValuesNumber.rpe,

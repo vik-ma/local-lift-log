@@ -105,6 +105,7 @@ export const MultisetModal = ({
     setTrackingValuesInput,
     setNoteInput,
     setSetNoteInput,
+    timeInSeconds,
   } = operatingSetInputs;
 
   const resetSetInputValues = () => {
@@ -165,6 +166,7 @@ export const MultisetModal = ({
       note: noteToInsert,
       weight: setTrackingValuesNumber.weight,
       reps: setTrackingValuesNumber.reps,
+      time_in_seconds: timeInSeconds,
       distance: setTrackingValuesNumber.distance,
       rir: setTrackingValuesNumber.rir,
       rpe: setTrackingValuesNumber.rpe,
