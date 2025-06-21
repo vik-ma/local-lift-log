@@ -121,6 +121,13 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     setTimeInSeconds(0);
   };
 
+  const areInputsEmpty = useMemo(() => {
+    return (
+      setTrackingValuesInput === defaultSetTrackingValuesInput &&
+      timeInSeconds === 0
+    );
+  }, [setTrackingValuesInput, defaultSetTrackingValuesInput, timeInSeconds]);
+
   return {
     isSetTrackingValuesInvalid,
     setInputsInvalidityMap,
@@ -141,5 +148,6 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     clearSetInputValues,
     timeInSeconds,
     setTimeInSeconds,
+    areInputsEmpty,
   };
 };

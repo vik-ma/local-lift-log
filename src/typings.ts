@@ -351,6 +351,7 @@ export type UseSetTrackingInputsReturnType = {
   clearSetInputValues: () => void;
   timeInSeconds: number;
   setTimeInSeconds: React.Dispatch<React.SetStateAction<number>>;
+  areInputsEmpty: boolean;
 };
 
 export type ExerciseSortCategory = "favorite" | "name" | "num-sets";
