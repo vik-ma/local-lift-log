@@ -128,7 +128,7 @@ export const WorkoutGroupedSetList = ({
               >
                 <div className="bg-white rounded-lg border border-stone-300 overflow-hidden">
                   <div
-                    className="flex justify-between pl-2 py-1 cursor-pointer hover:bg-stone-100"
+                    className="flex justify-between pl-1.5 py-1 cursor-pointer hover:bg-stone-100"
                     onClick={() => handleGroupedSetAccordionClick(groupedSet)}
                   >
                     <div className="flex flex-col items-start">
