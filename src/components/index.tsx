@@ -90,6 +90,7 @@ export { FilterMinAndMaxDatesModal } from "./Modals/FilterMinAndMaxDatesModal";
 export { LoadExerciseOptionsModal } from "./Modals/LoadExerciseOptionsModal";
 export { BodyFatCalculationModal } from "./Modals/BodyFatCalculationModal";
 export { PresetsModal } from "./Modals/PresetsModal";
+export { WorkoutNoteModal } from "./Modals/WorkoutNoteModal";
 
 export { ExerciseModalList } from "./ModalLists/ExerciseModalList";
 export { MultisetTemplateModalList } from "./ModalLists/MultisetTemplateModalList";
