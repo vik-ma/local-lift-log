@@ -134,6 +134,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const timeInputModal = useDisclosure();
   const textInputModal = useDisclosure();
   const groupedWorkoutSetListModal = useDisclosure();
+  const workoutNoteModal = useDisclosure();
 
   const calculationModal = useCalculationModal();
 
@@ -2896,5 +2897,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     showGetUserWeightButton,
     showOldUserWeightLabel,
     setShowOldUserWeightLabel,
+    workoutNoteModal,
   };
 };

@@ -15,15 +15,15 @@ import {
 
 type WorkoutNoteModalProps = {
   workoutNoteModal: UseDisclosureReturnType;
-  set: WorkoutSet;
-  groupedWorkoutSet: GroupedWorkoutSet;
+  operatingSet: WorkoutSet;
+  operatingGroupedWorkoutSet: GroupedWorkoutSet | undefined;
   isTemplate: boolean;
   handleSaveButton: () => void;
 };
 export const WorkoutNoteModal = ({
   workoutNoteModal,
-  set,
-  groupedWorkoutSet,
+  operatingSet,
+  operatingGroupedWorkoutSet,
   isTemplate,
   handleSaveButton,
 }: WorkoutNoteModalProps) => {
