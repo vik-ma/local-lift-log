@@ -20,6 +20,7 @@ import {
 } from "../../typings";
 import { useEffect, useMemo, useState } from "react";
 import {
+  AssignTrackingValuesIfCardio,
   ConvertEmptyStringToNull,
   ConvertSetInputValuesToNumbers,
   GetValidatedNumNewSets,
@@ -99,9 +100,18 @@ export const SetModal = ({
   } = operatingSetInputs;
 
   const resetSetInputValues = () => {
-    if (uneditedSet?.id !== operatingSet.id) return;
+    if (uneditedSet?.id !== operatingSet.id || selectedExercise === undefined)
+      return;
 
-    const oldSet = { ...uneditedSet };
+    // Reset is_tracking values only if creating new Set
+    const oldSet =
+      operatingSet.id === 0
+        ? AssignTrackingValuesIfCardio(
+            uneditedSet,
+            selectedExercise.formattedGroupStringPrimary ?? ""
+          )
+        : { ...uneditedSet };
+
     setOperatingSet(oldSet);
     setIsSetEdited(false);
     assignSetTrackingValuesInputs(oldSet);

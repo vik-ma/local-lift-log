@@ -28,6 +28,7 @@ import {
 import { useMultisetActions, useSetTrackingInputs } from "../../hooks";
 import { useEffect, useMemo, useState } from "react";
 import {
+  AssignTrackingValuesIfCardio,
   ConvertEmptyStringToNull,
   ConvertNullToEmptyInputString,
   ConvertSetInputValuesToNumbers,
@@ -108,9 +109,21 @@ export const MultisetModal = ({
   } = operatingSetInputs;
 
   const resetSetInputValues = () => {
-    if (uneditedSet?.id !== operatingSet.id) return;
+    if (
+      uneditedSet?.id !== operatingSet.id ||
+      selectedMultisetExercise === undefined
+    )
+      return;
 
-    const oldSet = { ...uneditedSet };
+    // Reset is_tracking values only if creating new Set
+    const oldSet =
+      operatingSet.id === 0
+        ? AssignTrackingValuesIfCardio(
+            uneditedSet,
+            selectedMultisetExercise.formattedGroupStringPrimary ?? ""
+          )
+        : { ...uneditedSet };
+
     setOperatingSet(oldSet);
     setIsSetEdited(false);
     assignSetTrackingValuesInputs(oldSet);
