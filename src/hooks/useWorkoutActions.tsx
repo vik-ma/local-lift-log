@@ -1306,6 +1306,17 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     textInputModal.onOpen();
   };
 
+  const openWorkoutNoteModal = (
+    set: WorkoutSet,
+    index: number,
+    groupedSet: GroupedWorkoutSet
+  ) => {
+    setOperatingSet({ ...set, set_index: index });
+    setOperatingGroupedSet(groupedSet);
+
+    workoutNoteModal.onOpen();
+  };
+
   const goToNextIncompleteSet = (
     lastSet: WorkoutSet,
     isUpdatingActiveSet?: boolean
@@ -2898,5 +2909,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     showOldUserWeightLabel,
     setShowOldUserWeightLabel,
     workoutNoteModal,
+    openWorkoutNoteModal,
   };
 };

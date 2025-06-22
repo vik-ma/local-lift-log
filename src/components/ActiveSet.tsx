@@ -84,6 +84,11 @@ type ActiveSetProps = {
   showOldUserWeightLabel: boolean;
   setShowOldUserWeightLabel: React.Dispatch<React.SetStateAction<boolean>>;
   userWeight: UserWeight | undefined;
+  openWorkoutNoteModal: (
+    set: WorkoutSet,
+    index: number,
+    groupedSet: GroupedWorkoutSet
+  ) => void;
 };
 
 export const ActiveSet = ({
@@ -110,6 +115,7 @@ export const ActiveSet = ({
   showOldUserWeightLabel,
   setShowOldUserWeightLabel,
   userWeight,
+  openWorkoutNoteModal,
 }: ActiveSetProps) => {
   let setCounter = 1;
   // Assign Multiset Set number
@@ -433,8 +439,21 @@ export const ActiveSet = ({
                       <div className="flex justify-between">
                         <div className="flex gap-1">
                           <Button
+                            aria-label="Toggle Active Set Comment"
+                            isIconOnly
                             variant="light"
-                            color="primary"
+                            onPress={() =>
+                              openWorkoutNoteModal(
+                                activeSet,
+                                activeSet.set_index!,
+                                activeGroupedSet!
+                              )
+                            }
+                          >
+                            <CommentIcon size={21} />
+                          </Button>
+                          <Button
+                            variant="light"
                             onPress={() =>
                               handleEditSet(
                                 activeSet,
@@ -447,7 +466,7 @@ export const ActiveSet = ({
                             Edit Set
                           </Button>
                         </div>
-                        <div className="flex gap-1.5">
+                        <div className="flex gap-1">
                           {isSetEdited && activeSet.is_completed === 1 && (
                             <Button
                               variant="light"
