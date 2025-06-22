@@ -311,7 +311,7 @@ export const SetList = ({
               </div>
             </div>
             {shownSetListComments[groupedSet.id]?.has(index) && (
-              <div className="flex justify-between items-center pb-0.5 pr-2">
+              <div className="flex justify-between items-center pb-px pr-2">
                 <span className="text-stone-400 max-w-[21.75rem]">
                   {isTemplate ? `${set.note}` : `${set.comment}`}
                 </span>
@@ -320,8 +320,9 @@ export const SetList = ({
                     isTemplate ? "Note" : "Comment"
                   } Input`}
                   isIconOnly
-                  className="z-1 h-7 w-7"
+                  className="z-1 h-7"
                   size="sm"
+                  radius="lg"
                   variant="light"
                   onPress={() =>
                     handleToggleSetCommentButton(set, index, groupedSet)
