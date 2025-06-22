@@ -142,7 +142,7 @@ export const SetValueConfig = ({
           )}
         </h2>
       </div>
-      <ScrollShadow className="pb-1.5">
+      <ScrollShadow className="h-full">
         <div className="flex flex-col gap-2.5 w-[24rem]">
           {showNoteInput && (
             <Input
