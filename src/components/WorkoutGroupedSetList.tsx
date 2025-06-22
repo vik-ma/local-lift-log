@@ -1,4 +1,4 @@
-import { Reorder } from "framer-motion";
+import { AnimatePresence, motion, Reorder } from "framer-motion";
 import {
   Button,
   Dropdown,
@@ -287,33 +287,44 @@ export const WorkoutGroupedSetList = ({
                       </Dropdown>
                     </div>
                   </div>
-                  {groupedSet.isExpanded && (
-                    <div>
-                      {groupedSet.showGroupedSetNote && (
-                        <div className="flex justify-between items-center px-2 pb-1">
-                          <span className="text-stone-400 break-words text-sm leading-none max-w-[23.5rem]">
-                            {isMultiset
-                              ? groupedSet.multiset?.note
-                              : groupedSet.exerciseList[0].note}
-                          </span>
+                  <AnimatePresence>
+                    {groupedSet.isExpanded && (
+                      <motion.div
+                        initial={{ height: 0, overflow: "hidden" }}
+                        animate={{ height: "auto" }}
+                        exit={{ height: 0, overflow: "hidden" }}
+                        transition={{
+                          height: { duration: 0.07 },
+                        }}
+                      >
+                        {groupedSet.showGroupedSetNote && (
+                          <div className="flex justify-between items-center px-2 pb-1">
+                            <span className="text-stone-400 break-words text-sm leading-none max-w-[23.5rem]">
+                              {isMultiset
+                                ? groupedSet.multiset?.note
+                                : groupedSet.exerciseList[0].note}
+                            </span>
+                          </div>
+                        )}
+                        <div className="flex flex-col divide-y border-t border-t-stone-200 divide-stone-200">
+                          <SetList
+                            groupedSet={groupedSet}
+                            activeSetId={activeSetId}
+                            clickSetAction={handleClickSet}
+                            optionsSelectionAction={handleSetOptionSelection}
+                            clickCommentButtonAction={
+                              updateShownSetListComments
+                            }
+                            shownSetListComments={shownSetListComments}
+                            isTemplate={isTemplate}
+                            handleToggleSetCommentButton={
+                              handleToggleSetCommentButton
+                            }
+                          />
                         </div>
-                      )}
-                      <div className="flex flex-col divide-y border-t border-t-stone-200 divide-stone-200">
-                        <SetList
-                          groupedSet={groupedSet}
-                          activeSetId={activeSetId}
-                          clickSetAction={handleClickSet}
-                          optionsSelectionAction={handleSetOptionSelection}
-                          clickCommentButtonAction={updateShownSetListComments}
-                          shownSetListComments={shownSetListComments}
-                          isTemplate={isTemplate}
-                          handleToggleSetCommentButton={
-                            handleToggleSetCommentButton
-                          }
-                        />
-                      </div>
-                    </div>
-                  )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </Reorder.Item>
             );
