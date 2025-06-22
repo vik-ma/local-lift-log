@@ -312,7 +312,7 @@ export const SetList = ({
             </div>
             {shownSetListComments[groupedSet.id]?.has(index) && (
               <div className="flex justify-between items-center pb-px pr-2">
-                <span className="text-stone-400 max-w-[21.75rem]">
+                <span className="text-stone-400 font-normal max-w-[21.75rem]">
                   {isTemplate ? `${set.note}` : `${set.comment}`}
                 </span>
                 <Button
