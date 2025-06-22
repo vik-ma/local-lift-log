@@ -198,8 +198,6 @@ export const ActiveSet = ({
     assignSetTrackingValuesInputs(activeSet);
     setUneditedSet({ ...activeSet });
     setIsSetEdited(false);
-
-    // TODO: ADD NOTE INPUT?
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeSet?.id]);
 

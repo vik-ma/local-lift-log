@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import {
+  ConvertNullToEmptyInputString,
   ConvertNumberToInputString,
   DefaultSetInputValues,
   IsNumberValidInteger,
@@ -108,6 +109,8 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
       : 0;
 
     setTimeInSeconds(time);
+
+    setSetNoteInput(ConvertNullToEmptyInputString(set.note));
   };
 
   const handleSetNoteInputChange = (value: string) => {

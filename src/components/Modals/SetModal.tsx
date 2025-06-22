@@ -21,7 +21,6 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import {
   ConvertEmptyStringToNull,
-  ConvertNullToEmptyInputString,
   ConvertSetInputValuesToNumbers,
   GetValidatedNumNewSets,
   NumNewSetsOptionList,
@@ -96,7 +95,6 @@ export const SetModal = ({
     isSetTrackingValuesInvalid,
     setTrackingValuesInput,
     setNoteInput,
-    setSetNoteInput,
     timeInSeconds,
   } = operatingSetInputs;
 
@@ -148,7 +146,6 @@ export const SetModal = ({
     assignSetTrackingValuesInputs(operatingSet);
     setUneditedSet({ ...operatingSet });
     setIsSetEdited(false);
-    setSetNoteInput(ConvertNullToEmptyInputString(operatingSet.note));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingSet.id]);
 
