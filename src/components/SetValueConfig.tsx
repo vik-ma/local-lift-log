@@ -162,7 +162,6 @@ export const SetValueConfig = ({
                   <Button
                     variant="flat"
                     size="sm"
-                    color="danger"
                     onPress={() => resetSetInputValues(true)}
                   >
                     Reset
