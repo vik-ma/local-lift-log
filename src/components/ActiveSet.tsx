@@ -221,6 +221,15 @@ export const ActiveSet = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeSet?.addCalculationTrigger]);
 
+  useEffect(() => {
+    // Change inputs when activeSet is updated from updateSet function in useWorkoutActions
+    if (activeSet === undefined || activeSet.updateSetTrigger === undefined)
+      return;
+
+    assignSetTrackingValuesInputs(activeSet);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeSet?.updateSetTrigger]);
+
   return (
     <div>
       {activeSet !== undefined && (

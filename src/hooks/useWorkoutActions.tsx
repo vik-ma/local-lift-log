@@ -464,6 +464,12 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Set Updated");
 
     if (activeSet?.id === updatedSet.id) {
+      if (activeSet.updateSetTrigger === undefined) {
+        updatedSet.updateSetTrigger = 0;
+      } else {
+        updatedSet.updateSetTrigger = activeSet.updateSetTrigger += 1;
+      }
+
       setActiveSet(updatedSet);
     }
   };

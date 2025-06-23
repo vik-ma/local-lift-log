@@ -146,6 +146,7 @@ export type WorkoutSet = {
   paceUnit?: string;
   workout_comment?: string;
   addCalculationTrigger?: number;
+  updateSetTrigger?: number;
 };
 
 export type GroupedWorkoutSet = {
