@@ -35,7 +35,7 @@ export const SetNotesModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>TODO: FIX HEADER</ModalHeader>
+            <ModalHeader>{operatingSet.exercise_name} Set Notes</ModalHeader>
             <ModalBody>
               <ScrollShadow className="h-[400px]"></ScrollShadow>
             </ModalBody>
