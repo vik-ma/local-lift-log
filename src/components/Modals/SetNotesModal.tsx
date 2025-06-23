@@ -13,24 +13,24 @@ import {
   ScrollShadow,
 } from "@heroui/react";
 
-type WorkoutNoteModalProps = {
-  workoutNoteModal: UseDisclosureReturnType;
+type SetNotesModalProps = {
+  setNotesModal: UseDisclosureReturnType;
   operatingSet: WorkoutSet;
   operatingGroupedWorkoutSet: GroupedWorkoutSet | undefined;
   isTemplate: boolean;
   handleSaveButton: () => void;
 };
-export const WorkoutNoteModal = ({
-  workoutNoteModal,
+export const SetNotesModal = ({
+  setNotesModal,
   operatingSet,
   operatingGroupedWorkoutSet,
   isTemplate,
   handleSaveButton,
-}: WorkoutNoteModalProps) => {
+}: SetNotesModalProps) => {
   return (
     <Modal
-      isOpen={workoutNoteModal.isOpen}
-      onOpenChange={workoutNoteModal.onOpenChange}
+      isOpen={setNotesModal.isOpen}
+      onOpenChange={setNotesModal.onOpenChange}
     >
       <ModalContent>
         {(onClose) => (

@@ -134,7 +134,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const timeInputModal = useDisclosure();
   const textInputModal = useDisclosure();
   const groupedWorkoutSetListModal = useDisclosure();
-  const workoutNoteModal = useDisclosure();
+  const setNotesModal = useDisclosure();
 
   const calculationModal = useCalculationModal();
 
@@ -1312,7 +1312,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     textInputModal.onOpen();
   };
 
-  const openWorkoutNoteModal = (
+  const openSetNotesModal = (
     set: WorkoutSet,
     index: number,
     groupedSet: GroupedWorkoutSet
@@ -1320,7 +1320,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setOperatingSet({ ...set, set_index: index });
     setOperatingGroupedSet(groupedSet);
 
-    workoutNoteModal.onOpen();
+    setNotesModal.onOpen();
   };
 
   const goToNextIncompleteSet = (
@@ -2914,7 +2914,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     showGetUserWeightButton,
     showOldUserWeightLabel,
     setShowOldUserWeightLabel,
-    workoutNoteModal,
-    openWorkoutNoteModal,
+    setNotesModal,
+    openSetNotesModal,
   };
 };

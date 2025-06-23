@@ -22,7 +22,7 @@ import {
   FilterPresetsListModal,
   FilterMultisetListModal,
   GroupedWorkoutSetListModal,
-  WorkoutNoteModal,
+  SetNotesModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -131,8 +131,8 @@ export default function WorkoutDetails() {
     showOldUserWeightLabel,
     setShowOldUserWeightLabel,
     userWeight,
-    workoutNoteModal,
-    openWorkoutNoteModal,
+    setNotesModal,
+    openSetNotesModal,
   } = useWorkoutActions(false);
 
   const workoutList = useWorkoutList(false, exerciseList, true, Number(id));
@@ -496,8 +496,8 @@ export default function WorkoutDetails() {
         header="Set Comment"
         buttonAction={handleTextInputModalButton}
       />
-      <WorkoutNoteModal
-        workoutNoteModal={workoutNoteModal}
+      <SetNotesModal
+        setNotesModal={setNotesModal}
         operatingSet={operatingSet}
         operatingGroupedWorkoutSet={operatingGroupedSet}
         isTemplate={false}
@@ -622,7 +622,7 @@ export default function WorkoutDetails() {
           showOldUserWeightLabel={showOldUserWeightLabel}
           setShowOldUserWeightLabel={setShowOldUserWeightLabel}
           userWeight={userWeight}
-          openWorkoutNoteModal={openWorkoutNoteModal}
+          openSetNotesModal={openSetNotesModal}
         />
       </div>
     </>

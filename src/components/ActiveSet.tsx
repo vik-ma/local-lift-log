@@ -84,7 +84,7 @@ type ActiveSetProps = {
   showOldUserWeightLabel: boolean;
   setShowOldUserWeightLabel: React.Dispatch<React.SetStateAction<boolean>>;
   userWeight: UserWeight | undefined;
-  openWorkoutNoteModal: (
+  openSetNotesModal: (
     set: WorkoutSet,
     index: number,
     groupedSet: GroupedWorkoutSet
@@ -115,7 +115,7 @@ export const ActiveSet = ({
   showOldUserWeightLabel,
   setShowOldUserWeightLabel,
   userWeight,
-  openWorkoutNoteModal,
+  openSetNotesModal,
 }: ActiveSetProps) => {
   let setCounter = 1;
   // Assign Multiset Set number
@@ -452,7 +452,7 @@ export const ActiveSet = ({
                             isIconOnly
                             variant="light"
                             onPress={() =>
-                              openWorkoutNoteModal(
+                              openSetNotesModal(
                                 activeSet,
                                 activeSet.set_index!,
                                 activeGroupedSet!
