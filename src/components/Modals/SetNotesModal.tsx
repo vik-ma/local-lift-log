@@ -55,6 +55,20 @@ export const SetNotesModal = ({
                     </span>
                   )}
                 </div>
+                {operatingGroupedWorkoutSet?.isMultiset && (
+                  <div className="flex flex-col">
+                    <h3 className="text-lg font-semibold">Multiset Note</h3>
+                    {operatingGroupedWorkoutSet.multiset!.note === null ? (
+                      <span className="text-stone-400 italic text-sm">
+                        No Multiset Note
+                      </span>
+                    ) : (
+                      <span className="text-stone-500 text-sm">
+                        {operatingGroupedWorkoutSet.multiset!.note}
+                      </span>
+                    )}
+                  </div>
+                )}
                 <div className="flex flex-col">
                   <h3 className="text-lg font-semibold">Set Note</h3>
                   {operatingSet.note === null ? (
