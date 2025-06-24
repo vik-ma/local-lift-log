@@ -27,7 +27,9 @@ export const SetNotesModal = ({
   isTemplate,
   handleSaveButton,
 }: SetNotesModalProps) => {
-  const setIndex = 0;
+  const setIndex = operatingGroupedWorkoutSet?.isMultiset
+    ? operatingSet.set_index
+    : 0;
 
   return (
     <Modal
@@ -42,14 +44,14 @@ export const SetNotesModal = ({
               <ScrollShadow className="flex flex-col gap-1.5 h-[400px]">
                 <div className="flex flex-col">
                   <h3 className="text-lg font-semibold">Exercise Note</h3>
-                  {operatingGroupedWorkoutSet?.exerciseList[setIndex].note ===
+                  {operatingGroupedWorkoutSet?.exerciseList[setIndex!].note ===
                   null ? (
                     <span className="text-stone-400 italic text-sm">
                       No Exercise Note
                     </span>
                   ) : (
                     <span className="text-stone-500 text-sm">
-                      {operatingGroupedWorkoutSet?.exerciseList[setIndex].note}
+                      {operatingGroupedWorkoutSet?.exerciseList[setIndex!].note}
                     </span>
                   )}
                 </div>
