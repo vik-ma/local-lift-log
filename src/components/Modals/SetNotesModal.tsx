@@ -50,7 +50,7 @@ export const SetNotesModal = ({
                       No Exercise Note
                     </span>
                   ) : (
-                    <span className="text-stone-500 text-sm">
+                    <span className="text-stone-500 text-sm break-words">
                       {operatingGroupedWorkoutSet?.exerciseList[setIndex!].note}
                     </span>
                   )}
@@ -63,7 +63,7 @@ export const SetNotesModal = ({
                         No Multiset Note
                       </span>
                     ) : (
-                      <span className="text-stone-500 text-sm">
+                      <span className="text-stone-500 text-sm break-words">
                         {operatingGroupedWorkoutSet.multiset!.note}
                       </span>
                     )}
@@ -76,7 +76,7 @@ export const SetNotesModal = ({
                       No Set Note
                     </span>
                   ) : (
-                    <span className="text-stone-500 text-sm">
+                    <span className="text-stone-500 text-sm break-words">
                       {operatingSet.note}
                     </span>
                   )}
