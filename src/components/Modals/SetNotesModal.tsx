@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   GroupedWorkoutSet,
   UseDisclosureReturnType,
@@ -14,7 +14,7 @@ import {
   ScrollShadow,
   Input,
 } from "@heroui/react";
-import { ConvertNullToEmptyInputString } from "../../helpers";
+import { ConvertNullToEmptyInputString, IsStringEmpty } from "../../helpers";
 
 type SetNotesModalProps = {
   setNotesModal: UseDisclosureReturnType;
@@ -40,6 +40,14 @@ export const SetNotesModal = ({
     setCommentInput(ConvertNullToEmptyInputString(operatingSet.comment));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingSet.id]);
+
+  const disableSaveButton = useMemo(() => {
+    if (operatingSet.comment === commentInput) return true;
+    if (IsStringEmpty(commentInput) && operatingSet.comment === null)
+      return true;
+
+    return false;
+  }, [operatingSet.comment, commentInput]);
 
   return (
     <Modal
@@ -110,7 +118,11 @@ export const SetNotesModal = ({
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button color="primary" onPress={handleSaveButton}>
+              <Button
+                color="primary"
+                onPress={handleSaveButton}
+                isDisabled={disableSaveButton}
+              >
                 Save
               </Button>
             </ModalFooter>
