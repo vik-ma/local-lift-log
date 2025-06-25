@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   GroupedWorkoutSet,
   UseDisclosureReturnType,
@@ -14,6 +14,7 @@ import {
   ScrollShadow,
   Input,
 } from "@heroui/react";
+import { ConvertNullToEmptyInputString } from "../../helpers";
 
 type SetNotesModalProps = {
   setNotesModal: UseDisclosureReturnType;
@@ -34,6 +35,11 @@ export const SetNotesModal = ({
   const setIndex = operatingGroupedWorkoutSet?.isMultiset
     ? operatingSet.set_index
     : 0;
+
+  useEffect(() => {
+    setCommentInput(ConvertNullToEmptyInputString(operatingSet.comment));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [operatingSet.id]);
 
   return (
     <Modal
