@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   GroupedWorkoutSet,
   UseDisclosureReturnType,
@@ -11,6 +12,7 @@ import {
   ModalHeader,
   ModalFooter,
   ScrollShadow,
+  Input,
 } from "@heroui/react";
 
 type SetNotesModalProps = {
@@ -27,6 +29,8 @@ export const SetNotesModal = ({
   isTemplate,
   handleSaveButton,
 }: SetNotesModalProps) => {
+  const [commentInput, setCommentInput] = useState<string>("");
+
   const setIndex = operatingGroupedWorkoutSet?.isMultiset
     ? operatingSet.set_index
     : 0;
@@ -81,6 +85,19 @@ export const SetNotesModal = ({
                     </span>
                   )}
                 </div>
+                {!isTemplate && (
+                  <div className="flex flex-col gap-0.5">
+                    <h3 className="text-lg font-semibold">Set Comment</h3>
+                    <Input
+                      aria-label="Set Comment Input"
+                      value={commentInput}
+                      variant="faded"
+                      radius="sm"
+                      onValueChange={setCommentInput}
+                      isClearable
+                    />
+                  </div>
+                )}
               </ScrollShadow>
             </ModalBody>
             <ModalFooter>
