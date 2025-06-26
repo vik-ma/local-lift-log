@@ -37,17 +37,29 @@ export const SetNotesModal = ({
     : 0;
 
   useEffect(() => {
-    setCommentInput(ConvertNullToEmptyInputString(operatingSet.comment));
+    setCommentInput(
+      ConvertNullToEmptyInputString(
+        isTemplate ? operatingSet.comment : operatingSet.note
+      )
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operatingSet.id]);
 
   const disableSaveButton = useMemo(() => {
-    if (operatingSet.comment === commentInput) return true;
-    if (IsStringEmpty(commentInput) && operatingSet.comment === null)
+    if (!isTemplate && operatingSet.comment === commentInput) return true;
+    if (
+      !isTemplate &&
+      IsStringEmpty(commentInput) &&
+      operatingSet.comment === null
+    )
+      return true;
+
+    if (isTemplate && operatingSet.note === commentInput) return true;
+    if (isTemplate && IsStringEmpty(commentInput) && operatingSet.note === null)
       return true;
 
     return false;
-  }, [operatingSet.comment, commentInput]);
+  }, [operatingSet.comment, operatingSet.note, commentInput, isTemplate]);
 
   return (
     <Modal
