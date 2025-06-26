@@ -1201,7 +1201,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     toast.success("Set Saved");
   };
 
-  const handleTextInputModalButton = (value: string) => {
+  const handleSetNotesModalButton = (value: string) => {
     if (isTemplate) {
       saveSetNote(value);
     } else {
@@ -2899,7 +2899,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     handleClickExerciseMultiset,
     handleClickMultiset,
     textInputModal,
-    handleTextInputModalButton,
+    handleSetNotesModalButton,
     handleToggleSetCommentButton,
     numMultisetSets,
     populateUserWeightValues,

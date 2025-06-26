@@ -21,7 +21,7 @@ type SetNotesModalProps = {
   operatingSet: WorkoutSet;
   operatingGroupedWorkoutSet: GroupedWorkoutSet | undefined;
   isTemplate: boolean;
-  handleSaveButton: () => void;
+  handleSaveButton: (value: string) => void;
 };
 export const SetNotesModal = ({
   setNotesModal,
@@ -120,7 +120,7 @@ export const SetNotesModal = ({
               </Button>
               <Button
                 color="primary"
-                onPress={handleSaveButton}
+                onPress={() => handleSaveButton(commentInput)}
                 isDisabled={disableSaveButton}
               >
                 Save

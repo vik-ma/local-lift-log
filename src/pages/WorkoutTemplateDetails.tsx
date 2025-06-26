@@ -86,7 +86,7 @@ export default function WorkoutTemplateDetails() {
     handleClickMultiset,
     handleToggleSetCommentButton,
     textInputModal,
-    handleTextInputModalButton,
+    handleSetNotesModalButton,
     numMultisetSets,
     presetsList,
     calculationModal,
@@ -323,7 +323,7 @@ export default function WorkoutTemplateDetails() {
         sourceValue={operatingSet.note}
         label="Note"
         header="Set Note"
-        buttonAction={handleTextInputModalButton}
+        buttonAction={handleSetNotesModalButton}
       />
       <GroupedWorkoutSetListModal
         groupedWorkoutSetListModal={groupedWorkoutSetListModal}

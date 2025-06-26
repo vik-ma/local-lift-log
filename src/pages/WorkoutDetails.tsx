@@ -116,7 +116,7 @@ export default function WorkoutDetails() {
     handleClickExerciseMultiset,
     handleClickMultiset,
     textInputModal,
-    handleTextInputModalButton,
+    handleSetNotesModalButton,
     handleToggleSetCommentButton,
     numMultisetSets,
     presetsList,
@@ -494,14 +494,14 @@ export default function WorkoutDetails() {
         sourceValue={operatingSet.comment}
         label="Comment"
         header="Set Comment"
-        buttonAction={handleTextInputModalButton}
+        buttonAction={handleSetNotesModalButton}
       />
       <SetNotesModal
         setNotesModal={setNotesModal}
         operatingSet={operatingSet}
         operatingGroupedWorkoutSet={operatingGroupedSet}
         isTemplate={false}
-        handleSaveButton={() => {}}
+        handleSaveButton={handleSetNotesModalButton}
       />
       <GroupedWorkoutSetListModal
         groupedWorkoutSetListModal={groupedWorkoutSetListModal}
