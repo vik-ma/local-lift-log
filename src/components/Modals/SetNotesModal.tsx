@@ -99,18 +99,32 @@ export const SetNotesModal = ({
                     )}
                   </div>
                 )}
-                <div className="flex flex-col">
-                  <h3 className="text-lg font-semibold">Set Note</h3>
-                  {operatingSet.note === null ? (
-                    <span className="text-stone-400 italic text-sm">
-                      No Set Note
-                    </span>
-                  ) : (
-                    <span className="text-stone-500 text-sm break-words">
-                      {operatingSet.note}
-                    </span>
-                  )}
-                </div>
+                {isTemplate ? (
+                  <div className="flex flex-col gap-0.5">
+                    <h3 className="text-lg font-semibold">Set Note</h3>
+                    <Input
+                      aria-label="Set Note Input"
+                      value={commentInput}
+                      variant="faded"
+                      radius="sm"
+                      onValueChange={setCommentInput}
+                      isClearable
+                    />
+                  </div>
+                ) : (
+                  <div className="flex flex-col">
+                    <h3 className="text-lg font-semibold">Set Note</h3>
+                    {operatingSet.note === null ? (
+                      <span className="text-stone-400 italic text-sm">
+                        No Set Note
+                      </span>
+                    ) : (
+                      <span className="text-stone-500 text-sm break-words">
+                        {operatingSet.note}
+                      </span>
+                    )}
+                  </div>
+                )}
                 {!isTemplate && (
                   <div className="flex flex-col gap-0.5">
                     <h3 className="text-lg font-semibold">Set Comment</h3>

@@ -23,6 +23,7 @@ import {
   FilterPresetsListModal,
   FilterMultisetListModal,
   GroupedWorkoutSetListModal,
+  SetNotesModal,
 } from "../components";
 import toast from "react-hot-toast";
 import {
@@ -96,6 +97,7 @@ export default function WorkoutTemplateDetails() {
     setWorkoutNumbers,
     groupedWorkoutSetListModal,
     mergeGroupedSets,
+    setNotesModal,
   } = useWorkoutActions(true);
 
   const workoutTemplateList = useWorkoutTemplateList(
@@ -324,6 +326,13 @@ export default function WorkoutTemplateDetails() {
         label="Note"
         header="Set Note"
         buttonAction={handleSetNotesModalButton}
+      />
+      <SetNotesModal
+        setNotesModal={setNotesModal}
+        operatingSet={operatingSet}
+        operatingGroupedWorkoutSet={operatingGroupedSet}
+        isTemplate={true}
+        handleSaveButton={handleSetNotesModalButton}
       />
       <GroupedWorkoutSetListModal
         groupedWorkoutSetListModal={groupedWorkoutSetListModal}
