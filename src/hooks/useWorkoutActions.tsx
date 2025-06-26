@@ -132,7 +132,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const setModal = useDisclosure();
   const deleteModal = useDisclosure();
   const timeInputModal = useDisclosure();
-  const textInputModal = useDisclosure();
   const groupedWorkoutSetListModal = useDisclosure();
   const setNotesModal = useDisclosure();
 
@@ -1246,7 +1245,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     resetOperatingSet();
     toast.success("Note Saved");
-    textInputModal.onClose();
+    setNotesModal.onClose();
   };
 
   const saveSetComment = async (value: string) => {
@@ -1298,7 +1297,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     resetOperatingSet();
     toast.success("Comment Saved");
-    textInputModal.onClose();
+    setNotesModal.onClose();
   };
 
   const handleToggleSetCommentButton = (
@@ -1309,7 +1308,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setOperatingSet({ ...set, set_index: index });
     setOperatingGroupedSet(groupedSet);
 
-    textInputModal.onOpen();
+    // TODO: FIX
+    // textInputModal.onOpen();
   };
 
   const openSetNotesModal = (
@@ -2898,7 +2898,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     handleSaveMultisetButton,
     handleClickExerciseMultiset,
     handleClickMultiset,
-    textInputModal,
     handleSetNotesModalButton,
     handleToggleSetCommentButton,
     numMultisetSets,

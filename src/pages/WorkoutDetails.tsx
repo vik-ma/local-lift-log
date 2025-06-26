@@ -11,7 +11,6 @@ import {
   TimeInputModal,
   DetailsHeader,
   MultisetModal,
-  TextInputModal,
   WorkoutTemplateListModal,
   WorkoutListModal,
   CalculationModal,
@@ -115,7 +114,6 @@ export default function WorkoutDetails() {
     handleSaveMultisetButton,
     handleClickExerciseMultiset,
     handleClickMultiset,
-    textInputModal,
     handleSetNotesModalButton,
     handleToggleSetCommentButton,
     numMultisetSets,
@@ -488,13 +486,6 @@ export default function WorkoutDetails() {
         locale={userSettings.locale}
         value={operatingSet.time_completed}
         saveButtonAction={updateSetTimeCompleted}
-      />
-      <TextInputModal
-        textInputModal={textInputModal}
-        sourceValue={operatingSet.comment}
-        label="Comment"
-        header="Set Comment"
-        buttonAction={handleSetNotesModalButton}
       />
       <SetNotesModal
         setNotesModal={setNotesModal}

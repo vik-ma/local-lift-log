@@ -15,7 +15,6 @@ import {
   WorkoutTemplateModal,
   DetailsHeader,
   MultisetModal,
-  TextInputModal,
   CalculationModal,
   FilterExerciseGroupsModal,
   WorkoutTemplateListModal,
@@ -86,7 +85,6 @@ export default function WorkoutTemplateDetails() {
     handleClickExerciseMultiset,
     handleClickMultiset,
     handleToggleSetCommentButton,
-    textInputModal,
     handleSetNotesModalButton,
     numMultisetSets,
     presetsList,
@@ -319,13 +317,6 @@ export default function WorkoutTemplateDetails() {
         showWorkoutItems={true}
         openCalculationModal={openCalculationModal}
         useFilterExerciseList={filterExerciseList}
-      />
-      <TextInputModal
-        textInputModal={textInputModal}
-        sourceValue={operatingSet.note}
-        label="Note"
-        header="Set Note"
-        buttonAction={handleSetNotesModalButton}
       />
       <SetNotesModal
         setNotesModal={setNotesModal}
