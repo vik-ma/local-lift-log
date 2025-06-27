@@ -606,6 +606,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       handleChangeWarmupForSet(set, index, groupedSet, false);
     } else if (key === "set-warmup") {
       handleChangeWarmupForSet(set, index, groupedSet, true);
+    } else if (key === "view-notes") {
+      openSetNotesModal(set, index, groupedSet);
     }
   };
 

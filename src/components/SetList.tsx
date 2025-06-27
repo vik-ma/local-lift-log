@@ -290,6 +290,7 @@ export const SetList = ({
                     >
                       Change Exercise
                     </DropdownItem>
+                    <DropdownItem key="view-notes">View Notes</DropdownItem>
                     {set.is_warmup === 1 ? (
                       <DropdownItem key="unset-warmup">
                         Unset Warmup
