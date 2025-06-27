@@ -5,7 +5,6 @@ import {
   CalculationModal,
   FilterPresetsListModal,
   LoadingSpinner,
-  TextInputModal,
   TimeInputModal,
 } from "../components";
 import {
@@ -26,7 +25,6 @@ import {
 
 export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [text, setText] = useState<string>("");
   const [isMetric, setIsMetric] = useState<boolean>(true);
 
   const currentDate = GetCurrentDateTimeISOString();
@@ -34,7 +32,6 @@ export default function Test() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const calculationModal = useCalculationModal();
-  const textInputModal = useDisclosure();
   const timeInputModal = useDisclosure();
 
   const presetsList = usePresetsList(false, false);
@@ -105,13 +102,6 @@ export default function Test() {
 
   return (
     <>
-      <TextInputModal
-        textInputModal={textInputModal}
-        label="Test"
-        header="Test Text Input Modal"
-        sourceValue={text}
-        buttonAction={(value) => setText(value)}
-      />
       <TimeInputModal
         timeInputModal={timeInputModal}
         header="Test Time Input Modal"
@@ -205,9 +195,6 @@ export default function Test() {
             Distances
           </Button>
         </div>
-        <Button variant="flat" onPress={() => textInputModal.onOpen()}>
-          Open Text Input Modal
-        </Button>
         <Button variant="flat" onPress={() => timeInputModal.onOpen()}>
           Open Time Input Modal
         </Button>

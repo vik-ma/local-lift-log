@@ -69,7 +69,6 @@ export { BodyMeasurementsModal } from "./Modals/BodyMeasurementsModal";
 export { MeasurementModal } from "./Modals/MeasurementModal";
 export { NameInputModal } from "./Modals/NameInputModal";
 export { MultisetModal } from "./Modals/MultisetModal";
-export { TextInputModal } from "./Modals/TextInputModal";
 export { WorkoutListModal } from "./Modals/WorkoutListModal";
 export { CalculationModal } from "./Modals/CalculationModal";
 export { PlateCollectionModal } from "./Modals/PlateCollectionModal";
