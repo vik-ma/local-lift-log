@@ -67,7 +67,7 @@ type ActiveSetProps = {
     groupedSet: GroupedWorkoutSet
   ) => void;
   saveActiveSet: (set: WorkoutSet) => void;
-  handleToggleSetCommentButton: (
+  openSetNotesModal: (
     set: WorkoutSet,
     index: number,
     groupedSet: GroupedWorkoutSet
@@ -84,11 +84,6 @@ type ActiveSetProps = {
   showOldUserWeightLabel: boolean;
   setShowOldUserWeightLabel: React.Dispatch<React.SetStateAction<boolean>>;
   userWeight: UserWeight | undefined;
-  openSetNotesModal: (
-    set: WorkoutSet,
-    index: number,
-    groupedSet: GroupedWorkoutSet
-  ) => void;
 };
 
 export const ActiveSet = ({
@@ -108,14 +103,13 @@ export const ActiveSet = ({
   shownSetListComments,
   handleEditSet,
   saveActiveSet,
-  handleToggleSetCommentButton,
+  openSetNotesModal,
   populateUserWeightValues,
   openCalculationModal,
   showGetUserWeightButton,
   showOldUserWeightLabel,
   setShowOldUserWeightLabel,
   userWeight,
-  openSetNotesModal,
 }: ActiveSetProps) => {
   let setCounter = 1;
   // Assign Multiset Set number
@@ -318,7 +312,7 @@ export const ActiveSet = ({
                           variant="light"
                           size="sm"
                           onPress={() =>
-                            handleToggleSetCommentButton(
+                            openSetNotesModal(
                               activeSet,
                               activeSet.set_index!,
                               activeGroupedSet!
@@ -404,9 +398,7 @@ export const ActiveSet = ({
                       clickCommentButtonAction={updateShownSetListComments}
                       shownSetListComments={shownSetListComments}
                       isTemplate={false}
-                      handleToggleSetCommentButton={
-                        handleToggleSetCommentButton
-                      }
+                      openSetNotesModal={openSetNotesModal}
                     />
                   </div>
                   {activeGroupedSet?.exerciseList[exerciseIndex].isInvalid ? (

@@ -1300,18 +1300,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setNotesModal.onClose();
   };
 
-  const handleToggleSetCommentButton = (
-    set: WorkoutSet,
-    index: number,
-    groupedSet: GroupedWorkoutSet
-  ) => {
-    setOperatingSet({ ...set, set_index: index });
-    setOperatingGroupedSet(groupedSet);
-
-    // TODO: FIX
-    // textInputModal.onOpen();
-  };
-
   const openSetNotesModal = (
     set: WorkoutSet,
     index: number,
@@ -2899,7 +2887,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     handleClickExerciseMultiset,
     handleClickMultiset,
     handleSetNotesModalButton,
-    handleToggleSetCommentButton,
     numMultisetSets,
     populateUserWeightValues,
     presetsList,

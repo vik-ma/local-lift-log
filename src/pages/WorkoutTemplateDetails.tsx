@@ -84,7 +84,7 @@ export default function WorkoutTemplateDetails() {
     handleSaveMultisetButton,
     handleClickExerciseMultiset,
     handleClickMultiset,
-    handleToggleSetCommentButton,
+    openSetNotesModal,
     handleSetNotesModalButton,
     numMultisetSets,
     presetsList,
@@ -397,7 +397,7 @@ export default function WorkoutTemplateDetails() {
             handleReassignExercise={handleReassignExercise}
             isTemplate={true}
             multisetTypeMap={multisetActions.multisetTypeMap}
-            handleToggleSetCommentButton={handleToggleSetCommentButton}
+            openSetNotesModal={openSetNotesModal}
           />
         </div>
       </div>

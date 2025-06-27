@@ -115,7 +115,7 @@ export default function WorkoutDetails() {
     handleClickExerciseMultiset,
     handleClickMultiset,
     handleSetNotesModalButton,
-    handleToggleSetCommentButton,
+    openSetNotesModal,
     numMultisetSets,
     presetsList,
     calculationModal,
@@ -130,7 +130,6 @@ export default function WorkoutDetails() {
     setShowOldUserWeightLabel,
     userWeight,
     setNotesModal,
-    openSetNotesModal,
   } = useWorkoutActions(false);
 
   const workoutList = useWorkoutList(false, exerciseList, true, Number(id));
@@ -586,7 +585,7 @@ export default function WorkoutDetails() {
             activeSetId={activeSet?.id}
             completedSetsMap={completedSetsMap}
             multisetTypeMap={multisetActions.multisetTypeMap}
-            handleToggleSetCommentButton={handleToggleSetCommentButton}
+            openSetNotesModal={openSetNotesModal}
           />
         </div>
         <ActiveSet
@@ -606,14 +605,13 @@ export default function WorkoutDetails() {
           shownSetListComments={shownSetListComments}
           handleEditSet={handleEditSet}
           saveActiveSet={saveActiveSet}
-          handleToggleSetCommentButton={handleToggleSetCommentButton}
+          openSetNotesModal={openSetNotesModal}
           populateUserWeightValues={populateUserWeightValues}
           openCalculationModal={openCalculationModal}
           showGetUserWeightButton={showGetUserWeightButton}
           showOldUserWeightLabel={showOldUserWeightLabel}
           setShowOldUserWeightLabel={setShowOldUserWeightLabel}
           userWeight={userWeight}
-          openSetNotesModal={openSetNotesModal}
         />
       </div>
     </>

@@ -38,7 +38,7 @@ type SetListProps = {
   clickCommentButtonAction: (groupedSetId: string, index: number) => void;
   shownSetListComments: SetListNotes;
   isTemplate: boolean;
-  handleToggleSetCommentButton: (
+  openSetNotesModal: (
     set: WorkoutSet,
     index: number,
     groupedSet: GroupedWorkoutSet
@@ -53,7 +53,7 @@ export const SetList = ({
   clickCommentButtonAction,
   shownSetListComments,
   isTemplate,
-  handleToggleSetCommentButton,
+  openSetNotesModal,
 }: SetListProps) => {
   let setNum = 0;
 
@@ -324,9 +324,7 @@ export const SetList = ({
                   size="sm"
                   radius="lg"
                   variant="light"
-                  onPress={() =>
-                    handleToggleSetCommentButton(set, index, groupedSet)
-                  }
+                  onPress={() => openSetNotesModal(set, index, groupedSet)}
                 >
                   <EditIcon size={22} color="#808080" />
                 </Button>
