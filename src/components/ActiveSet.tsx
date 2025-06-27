@@ -1,9 +1,5 @@
 import {
   Button,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
 } from "@heroui/react";
 import {
   ConvertDateStringToTimeString,
@@ -12,7 +8,6 @@ import {
 import {
   ChevronIcon,
   CommentIcon,
-  VerticalMenuIcon,
   MinimizeIcon,
 } from "../assets";
 import { SetList, SetValueInputs } from ".";
@@ -20,7 +15,6 @@ import {
   GroupedWorkoutSet,
   UserSettings,
   WorkoutSet,
-  ActiveSetNote,
   Exercise,
   SetListNotes,
   UseSetTrackingInputsReturnType,
@@ -40,11 +34,6 @@ type ActiveSetProps = {
     groupedWorkoutSet: GroupedWorkoutSet,
     set?: WorkoutSet
   ) => void;
-  handleActiveSetOptionSelection: (key: string) => void;
-  activeSetNote: ActiveSetNote | undefined;
-  setActiveSetNote: React.Dispatch<
-    React.SetStateAction<ActiveSetNote | undefined>
-  >;
   handleClickSet: (
     set: WorkoutSet,
     index: number,
@@ -94,9 +83,6 @@ export const ActiveSet = ({
   userSettings,
   activeGroupedSet,
   handleReassignExercise,
-  handleActiveSetOptionSelection,
-  activeSetNote,
-  setActiveSetNote,
   handleClickSet,
   handleSetOptionSelection,
   updateShownSetListComments,
@@ -286,109 +272,6 @@ export const ActiveSet = ({
             {isActiveSetExpanded ? (
               <div className="flex flex-col h-full overflow-y-auto">
                 <div className="flex flex-col">
-                  <div className="flex flex-col">
-                    <div className="flex justify-between gap-1.5">
-                      <div className="px-3">
-                        {activeSetNote !== undefined && (
-                          <div className="flex gap-2.5 items-center pt-1.5">
-                            <h3 className="font-medium">
-                              {activeSetNote.note_type}
-                            </h3>
-                            <Button
-                              className="h-7"
-                              size="sm"
-                              variant="flat"
-                              onPress={() => setActiveSetNote(undefined)}
-                            >
-                              Hide
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex">
-                        <Button
-                          aria-label="Toggle Active Set Comment"
-                          isIconOnly
-                          variant="light"
-                          size="sm"
-                          onPress={() =>
-                            openSetNotesModal(
-                              activeSet,
-                              activeSet.set_index!,
-                              activeGroupedSet!
-                            )
-                          }
-                        >
-                          <CommentIcon size={20} />
-                        </Button>
-                        <Dropdown shouldBlockScroll={false}>
-                          <DropdownTrigger>
-                            <Button
-                              aria-label="Toggle Active Set Options Menu"
-                              isIconOnly
-                              variant="light"
-                              size="sm"
-                              isDisabled={
-                                activeSet.comment === null &&
-                                activeGroupedSet?.exerciseList[exerciseIndex]
-                                  .note === null &&
-                                activeSet.note === null
-                              }
-                            >
-                              <VerticalMenuIcon size={18} />
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu
-                            aria-label="Active Set Options Menu"
-                            onAction={(key) =>
-                              handleActiveSetOptionSelection(key as string)
-                            }
-                          >
-                            <DropdownItem
-                              className={activeSetNote ? "" : "hidden"}
-                              key="hide-note"
-                            >
-                              Hide Note
-                            </DropdownItem>
-                            <DropdownItem
-                              className={
-                                activeSet.note === null ? "hidden" : ""
-                              }
-                              key="show-set-note"
-                            >
-                              Show Set Note
-                            </DropdownItem>
-                            <DropdownItem
-                              className={
-                                activeGroupedSet?.exerciseList[exerciseIndex]
-                                  .note === null
-                                  ? "hidden"
-                                  : ""
-                              }
-                              key="show-exercise-note"
-                            >
-                              Show Exercise Note
-                            </DropdownItem>
-                            <DropdownItem
-                              className={
-                                activeSet.comment === null ? "hidden" : ""
-                              }
-                              key="show-set-comment"
-                            >
-                              Show Set Comment
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
-                      </div>
-                    </div>
-                    {activeSetNote !== undefined && (
-                      <div className="flex flex-col px-3 pb-1.5">
-                        <div className="text-stone-500 break-words text-sm">
-                          {activeSetNote.note}
-                        </div>
-                      </div>
-                    )}
-                  </div>
                   <div className="flex flex-col border-y divide-y divide-stone-200">
                     <SetList
                       groupedSet={activeGroupedSet!}

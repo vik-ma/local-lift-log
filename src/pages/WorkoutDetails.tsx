@@ -94,12 +94,9 @@ export default function WorkoutDetails() {
     setActiveSet,
     saveActiveSet,
     populateIncompleteSets,
-    handleActiveSetOptionSelection,
     isActiveSetExpanded,
     setIsActiveSetExpanded,
     activeGroupedSet,
-    activeSetNote,
-    setActiveSetNote,
     handleEditSet,
     completedSetsMap,
     timeInputModal,
@@ -596,9 +593,6 @@ export default function WorkoutDetails() {
           userSettings={userSettings!}
           activeGroupedSet={activeGroupedSet}
           handleReassignExercise={handleReassignExercise}
-          handleActiveSetOptionSelection={handleActiveSetOptionSelection}
-          activeSetNote={activeSetNote}
-          setActiveSetNote={setActiveSetNote}
           handleClickSet={handleClickSet}
           handleSetOptionSelection={handleSetOptionSelection}
           updateShownSetListComments={updateShownSetListComments}
