@@ -3,7 +3,7 @@ import {
   ConvertDateStringToTimeString,
   ConvertSetInputValuesToNumbers,
 } from "../helpers";
-import { ChevronIcon, CommentIcon, MinimizeIcon } from "../assets";
+import { ChevronIcon, CommentIcon, EditIcon, MinimizeIcon } from "../assets";
 import { SetList, SetValueInputs } from ".";
 import {
   GroupedWorkoutSet,
@@ -348,7 +348,9 @@ export const ActiveSet = ({
                         />
                       </Button>
                       <Button
+                        aria-label="Edit Set"
                         variant="light"
+                        isIconOnly
                         onPress={() =>
                           handleEditSet(
                             activeSet,
@@ -358,7 +360,7 @@ export const ActiveSet = ({
                           )
                         }
                       >
-                        Edit Set
+                        <EditIcon color="#808080" />
                       </Button>
                     </div>
                     <div className="flex gap-1">

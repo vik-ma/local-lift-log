@@ -6,8 +6,8 @@ type MinimizeIconProps = {
 export const MinimizeIcon = ({ color, size }: MinimizeIconProps) => {
   return (
     <svg
-      width={size || 30}
-      height={size || 30}
+      width={size || 28}
+      height={size || 28}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
