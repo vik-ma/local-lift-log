@@ -41,8 +41,8 @@ export const CommentIcon = ({
     >
       <defs>
         <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor={color1} />
-          <stop offset="100%" stopColor={color2} />
+          <stop offset="44%" stopColor={color1} />
+          <stop offset="52%" stopColor={color2} />
         </linearGradient>
       </defs>
       <path
