@@ -1,15 +1,9 @@
-import {
-  Button,
-} from "@heroui/react";
+import { Button } from "@heroui/react";
 import {
   ConvertDateStringToTimeString,
   ConvertSetInputValuesToNumbers,
 } from "../helpers";
-import {
-  ChevronIcon,
-  CommentIcon,
-  MinimizeIcon,
-} from "../assets";
+import { ChevronIcon, CommentIcon, MinimizeIcon } from "../assets";
 import { SetList, SetValueInputs } from ".";
 import {
   GroupedWorkoutSet,
@@ -334,7 +328,11 @@ export const ActiveSet = ({
                               )
                             }
                           >
-                            <CommentIcon size={21} />
+                            <CommentIcon
+                              size={21}
+                              hasComment={activeSet.comment !== null}
+                              hasNote={activeSet.note !== null}
+                            />
                           </Button>
                           <Button
                             variant="light"
