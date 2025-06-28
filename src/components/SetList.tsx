@@ -254,7 +254,7 @@ export const SetList = ({
                       radius="lg"
                       variant="light"
                     >
-                      <VerticalMenuIcon size={14} />
+                      <VerticalMenuIcon color="#a8a29e" size={14} />
                     </Button>
                   </DropdownTrigger>
                   <DropdownMenu
