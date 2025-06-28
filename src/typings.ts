@@ -306,11 +306,6 @@ export type SetListNotes = {
   [key: string]: Set<number>;
 };
 
-export type ActiveSetNote = {
-  note: string;
-  note_type: "Set Note" | "Exercise Note" | "Comment";
-};
-
 export type Multiset = {
   id: number;
   multiset_type: number;

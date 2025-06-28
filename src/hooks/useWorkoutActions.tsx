@@ -5,7 +5,6 @@ import {
   WorkoutTemplate,
   GroupedWorkoutSet,
   SetListNotes,
-  ActiveSetNote,
   Workout,
   Multiset,
   CalculationListItem,
@@ -109,9 +108,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const [completedSetsMap, setCompletedSetsMap] = useState<Map<string, number>>(
     new Map()
   );
-  const [activeSetNote, setActiveSetNote] = useState<
-    ActiveSetNote | undefined
-  >();
   const [isActiveSetExpanded, setIsActiveSetExpanded] =
     useState<boolean>(false);
   const [activeGroupedSet, setActiveGroupedSet] = useState<GroupedWorkoutSet>();
@@ -1390,41 +1386,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     }
     setIncompleteSetIds(incompleteSetIdList);
     setCompletedSetsMap(newCompletedSetsMap);
-  };
-
-  const handleActiveSetOptionSelection = (key: string) => {
-    if (
-      activeSet === undefined ||
-      activeGroupedSet === undefined ||
-      activeSet.set_index === undefined
-    )
-      return;
-
-    if (key === "show-set-note" && activeSet.note) {
-      const note: ActiveSetNote = {
-        note: activeSet.note,
-        note_type: "Set Note",
-      };
-      setActiveSetNote(note);
-    } else if (
-      key === "show-exercise-note" &&
-      activeGroupedSet.exerciseList[activeSet.set_index] &&
-      activeGroupedSet.exerciseList[activeSet.set_index].note
-    ) {
-      const note: ActiveSetNote = {
-        note: activeGroupedSet.exerciseList[activeSet.set_index].note ?? "",
-        note_type: "Exercise Note",
-      };
-      setActiveSetNote(note);
-    } else if (key === "show-set-comment" && activeSet.comment) {
-      const note: ActiveSetNote = {
-        note: activeSet.comment,
-        note_type: "Comment",
-      };
-      setActiveSetNote(note);
-    } else if (key === "hide-note") {
-      setActiveSetNote(undefined);
-    }
   };
 
   const updateSetTimeCompleted = async (newDateString: string) => {
@@ -2866,14 +2827,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     saveActiveSet,
     goToNextIncompleteSet,
     populateIncompleteSets,
-    handleActiveSetOptionSelection,
     incompleteSetIds,
     setIncompleteSetIds,
     isActiveSetExpanded,
     setIsActiveSetExpanded,
     activeGroupedSet,
-    activeSetNote,
-    setActiveSetNote,
     handleEditSet,
     completedSetsMap,
     timeInputModal,
