@@ -314,78 +314,75 @@ export const ActiveSet = ({
                         setShowOldUserWeightLabel={setShowOldUserWeightLabel}
                         userWeight={userWeight}
                       />
-                      <div className="flex justify-between">
-                        <div className="flex gap-1">
-                          <Button
-                            aria-label="Toggle Active Set Comment"
-                            isIconOnly
-                            variant="light"
-                            onPress={() =>
-                              openSetNotesModal(
-                                activeSet,
-                                activeSet.set_index!,
-                                activeGroupedSet!
-                              )
-                            }
-                          >
-                            <CommentIcon
-                              size={21}
-                              hasComment={activeSet.comment !== null}
-                              hasNote={activeSet.note !== null}
-                            />
-                          </Button>
-                          <Button
-                            variant="light"
-                            onPress={() =>
-                              handleEditSet(
-                                activeSet,
-                                activeSet.set_index!,
-                                activeGroupedSet!.exerciseList[exerciseIndex],
-                                activeGroupedSet!
-                              )
-                            }
-                          >
-                            Edit Set
-                          </Button>
-                        </div>
-                        <div className="flex gap-1">
-                          {isSetEdited && activeSet.is_completed === 1 && (
-                            <Button
-                              variant="light"
-                              onPress={resetSetInputValues}
-                            >
-                              Reset
-                            </Button>
-                          )}
-                          <Button
-                            variant="light"
-                            onPress={handleClearButton}
-                            isDisabled={areInputsEmpty}
-                          >
-                            Clear
-                          </Button>
-                          <Button
-                            color="primary"
-                            isDisabled={isSetTrackingValuesInvalid}
-                            onPress={handleSaveButton}
-                          >
-                            {activeSet.is_completed ? "Update" : "Save"}
-                          </Button>
-                        </div>
-                      </div>
                     </div>
                   )}
                 </div>
-                <div className="absolute bottom-1 right-1">
-                  <Button
-                    aria-label="Expand Or Shrink Active Set"
-                    isIconOnly
-                    size="lg"
-                    variant="light"
-                    onPress={() => setIsActiveSetExpanded(false)}
-                  >
-                    <MinimizeIcon color="#eab308" />
-                  </Button>
+                <div className="absolute bottom-1.5 left-1.5 right-1.5">
+                  <div className="flex justify-between">
+                    <div className="flex gap-1">
+                      <Button
+                        aria-label="Minimize Active Set"
+                        isIconOnly
+                        variant="light"
+                        color="secondary"
+                        onPress={() => setIsActiveSetExpanded(false)}
+                      >
+                        <MinimizeIcon color="#eab308" />
+                      </Button>
+                      <Button
+                        aria-label="Toggle Active Set Comment"
+                        isIconOnly
+                        variant="light"
+                        onPress={() =>
+                          openSetNotesModal(
+                            activeSet,
+                            activeSet.set_index!,
+                            activeGroupedSet!
+                          )
+                        }
+                      >
+                        <CommentIcon
+                          size={21}
+                          hasComment={activeSet.comment !== null}
+                          hasNote={activeSet.note !== null}
+                        />
+                      </Button>
+                      <Button
+                        variant="light"
+                        onPress={() =>
+                          handleEditSet(
+                            activeSet,
+                            activeSet.set_index!,
+                            activeGroupedSet!.exerciseList[exerciseIndex],
+                            activeGroupedSet!
+                          )
+                        }
+                      >
+                        Edit Set
+                      </Button>
+                    </div>
+                    <div className="flex gap-1">
+                      {isSetEdited && activeSet.is_completed === 1 && (
+                        <Button variant="light" onPress={resetSetInputValues}>
+                          Reset
+                        </Button>
+                      )}
+                      <Button
+                        variant="light"
+                        onPress={handleClearButton}
+                        isDisabled={areInputsEmpty}
+                      >
+                        Clear
+                      </Button>
+                      <Button
+                        color="primary"
+                        isDisabled={isSetTrackingValuesInvalid}
+                        onPress={handleSaveButton}
+                      >
+                        {activeSet.is_completed ? "Update" : "Save"}
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
             ) : null}
