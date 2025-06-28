@@ -17,11 +17,11 @@ export const CommentIcon = ({
   const hasNoteAndComment = hasNote && hasComment;
 
   const color1 = hasNoteAndComment
-    ? "#4577e6"
+    ? "#5c85e0"
     : hasComment
     ? "#d7a200"
     : hasNote
-    ? "#4577e6"
+    ? "#5c85e0"
     : "#808080";
 
   const color2 = hasNoteAndComment
@@ -29,7 +29,7 @@ export const CommentIcon = ({
     : hasComment
     ? "#d7a200"
     : hasNote
-    ? "#4577e6"
+    ? "#5c85e0"
     : "#808080";
 
   return (
@@ -41,7 +41,7 @@ export const CommentIcon = ({
     >
       <defs>
         <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="44%" stopColor={color1} />
+          <stop offset="50%" stopColor={color1} />
           <stop offset="52%" stopColor={color2} />
         </linearGradient>
       </defs>
