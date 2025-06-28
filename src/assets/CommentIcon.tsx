@@ -19,15 +19,15 @@ export const CommentIcon = ({
   const color1 = hasNoteAndComment
     ? "#7e87fc"
     : hasComment
-    ? "#d7a200"
+    ? "#e3ac02"
     : hasNote
     ? "#7e87fc"
     : "#808080";
 
   const color2 = hasNoteAndComment
-    ? "#d7a200"
+    ? "#e3ac02"
     : hasComment
-    ? "#d7a200"
+    ? "#e3ac02"
     : hasNote
     ? "#7e87fc"
     : "#808080";
