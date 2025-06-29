@@ -1159,16 +1159,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setModal.onOpen();
   };
 
-  const saveActiveSet = async (set: WorkoutSet) => {
+  const saveActiveSet = async (set: WorkoutSet, oldDateString?: string) => {
     if (workout.id === 0 || activeGroupedSet === undefined) return;
 
     const isUpdatingActiveSet = set.is_completed === 1;
 
-    const currentDateString = GetCurrentDateTimeISOString();
+    const dateString = oldDateString ?? GetCurrentDateTimeISOString();
 
     if (!isUpdatingActiveSet) {
       set.is_completed = 1;
-      set.time_completed = currentDateString;
+      set.time_completed = dateString;
     }
 
     const success = await UpdateSet(set);
