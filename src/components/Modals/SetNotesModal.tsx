@@ -39,7 +39,7 @@ export const SetNotesModal = ({
   useEffect(() => {
     setCommentInput(
       ConvertNullToEmptyInputString(
-        isTemplate ? operatingSet.comment : operatingSet.note
+        isTemplate ? operatingSet.note : operatingSet.comment
       )
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
