@@ -49,16 +49,20 @@ export const OldSetWarningModal = ({
                 ?
               </div>
             </ModalBody>
-            <ModalFooter>
-              <Button color="primary" variant="light" onPress={onClose}>
-                Cancel
-              </Button>
-              <Button color="primary" onPress={() => doneButtonAction(true)}>
-                Today
-              </Button>
-              <Button color="primary" onPress={() => doneButtonAction(false)}>
-                {workout.formattedDate}
-              </Button>
+            <ModalFooter className="flex justify-between">
+              <div>
+                <Button color="primary" variant="light" onPress={onClose}>
+                  Cancel
+                </Button>
+              </div>
+              <div className="flex gap-2">
+                <Button color="primary" onPress={() => doneButtonAction(true)}>
+                  Today
+                </Button>
+                <Button color="primary" onPress={() => doneButtonAction(false)}>
+                  {workout.formattedDate}
+                </Button>
+              </div>
             </ModalFooter>
           </>
         )}
