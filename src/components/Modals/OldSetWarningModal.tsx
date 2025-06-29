@@ -29,22 +29,22 @@ export const OldSetWarningModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>TODO: FIX</ModalHeader>
+            <ModalHeader>
+              Workout is{" "}
+              {GetNumberOfDaysBetweenDates(
+                "2025-06-28T13:12:33.836Z",
+                GetCurrentDateTimeISOString()
+              )}{" "}
+              days old
+            </ModalHeader>
             <ModalBody>
               <div className="h-16">
-                Workout is{" "}
-                <span className="font-medium text-danger">
-                  {GetNumberOfDaysBetweenDates(
-                    "2025-06-28T13:12:33.836Z",
-                    GetCurrentDateTimeISOString()
-                  )}{" "}
-                  days old
-                </span>
-                . Do you want to complete Set on{" "}
+                Do you want to set the date for the completed Set for{" "}
+                <span className="font-medium text-secondary">Today</span> or{" "}
                 <span className="font-medium text-secondary">
                   {workout.formattedDate}
-                </span>{" "}
-                or <span className="font-medium text-secondary">Today</span>?
+                </span>
+                ?
               </div>
             </ModalBody>
             <ModalFooter>
