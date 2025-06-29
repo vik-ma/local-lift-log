@@ -90,6 +90,7 @@ export { LoadExerciseOptionsModal } from "./Modals/LoadExerciseOptionsModal";
 export { BodyFatCalculationModal } from "./Modals/BodyFatCalculationModal";
 export { PresetsModal } from "./Modals/PresetsModal";
 export { SetNotesModal } from "./Modals/SetNotesModal";
+export { OldSetWarningModal } from "./Modals/OldSetWarningModal";
 
 export { ExerciseModalList } from "./ModalLists/ExerciseModalList";
 export { MultisetTemplateModalList } from "./ModalLists/MultisetTemplateModalList";
