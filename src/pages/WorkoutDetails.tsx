@@ -203,7 +203,11 @@ export default function WorkoutDetails() {
         const db = await Database.load(import.meta.env.VITE_DB);
 
         const result = await db.select<Workout[]>(
-          "SELECT * FROM workouts WHERE id = $1",
+          `SELECT * FROM workouts 
+           WHERE id = $1 
+            AND date IS NOT NULL 
+            AND date LIKE '____-__-__T__:__:__.___Z'
+            AND date GLOB '[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9][0-9][0-9]Z'`,
           [id]
         );
 
