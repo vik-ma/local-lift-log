@@ -405,6 +405,18 @@ export default function WorkoutDetails() {
     oldSetWarningModal.onOpen();
   };
 
+  const saveOldSet = (saveOnToday: boolean) => {
+    if (oldSetToSave === undefined) return;
+
+    if (saveOnToday) {
+      saveActiveSet(oldSetToSave);
+    } else {
+      // TODO: CALCULATE LATEST DATE FOR DAY IN ISO STRING FOR LOCAL TIMEZONE
+    }
+
+    setOldSetToSave(undefined);
+  };
+
   if (workout.id === 0 || userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -560,6 +572,7 @@ export default function WorkoutDetails() {
       <OldSetWarningModal
         oldSetWarningModal={oldSetWarningModal}
         workout={workout}
+        doneButtonAction={saveOldSet}
       />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal

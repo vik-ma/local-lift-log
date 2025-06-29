@@ -15,11 +15,13 @@ import {
 type OldSetWarningModalProps = {
   oldSetWarningModal: UseDisclosureReturnType;
   workout: Workout;
+  doneButtonAction: (saveOnToday: boolean) => void;
 };
 
 export const OldSetWarningModal = ({
   oldSetWarningModal,
   workout,
+  doneButtonAction,
 }: OldSetWarningModalProps) => {
   return (
     <Modal
@@ -39,7 +41,7 @@ export const OldSetWarningModal = ({
             </ModalHeader>
             <ModalBody>
               <div className="h-16">
-                Do you want to set the date for the completed Set for{" "}
+                Do you want to set the date for the completed Set as{" "}
                 <span className="font-medium text-secondary">Today</span> or{" "}
                 <span className="font-medium text-secondary">
                   {workout.formattedDate}
@@ -51,10 +53,12 @@ export const OldSetWarningModal = ({
               <Button color="primary" variant="light" onPress={onClose}>
                 Cancel
               </Button>
-              {/* TODO: FIX */}
-              {/* <Button color="primary" onPress={handleSaveButton}>
-                Add
-              </Button> */}
+              <Button color="primary" onPress={() => doneButtonAction(true)}>
+                Today
+              </Button>
+              <Button color="primary" onPress={() => doneButtonAction(false)}>
+                {workout.formattedDate}
+              </Button>
             </ModalFooter>
           </>
         )}
