@@ -38,6 +38,7 @@ import {
   CopyWorkoutSetList,
   FormatDateString,
   UpdateExerciseOrder,
+  IsDateStringOlderThan24Hours,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -60,6 +61,8 @@ export default function WorkoutDetails() {
     string | null
   >(null);
   const [showWorkoutTemplateComment, setShowWorkoutTemplateComment] =
+    useState<boolean>(false);
+  const [isWorkoutOlderThan24Hours, setIsWorkoutOlderThan24Hours] =
     useState<boolean>(false);
 
   const {
@@ -214,6 +217,10 @@ export default function WorkoutDetails() {
         if (result.length === 0) return;
 
         const workout: Workout = result[0];
+
+        if (IsDateStringOlderThan24Hours(workout.date)) {
+          setIsWorkoutOlderThan24Hours(true);
+        }
 
         const setList = await GetWorkoutSetList(workout.id);
 
@@ -610,6 +617,7 @@ export default function WorkoutDetails() {
           showOldUserWeightLabel={showOldUserWeightLabel}
           setShowOldUserWeightLabel={setShowOldUserWeightLabel}
           userWeight={userWeight}
+          isWorkoutOlderThan24Hours={isWorkoutOlderThan24Hours}
         />
       </div>
     </>
