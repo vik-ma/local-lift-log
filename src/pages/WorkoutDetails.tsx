@@ -557,7 +557,10 @@ export default function WorkoutDetails() {
         setUserSettings={setUserSettings}
       />
       {/* TODO: ADD CONDITIONAL BASED ON USER_SETTING */}
-      <OldSetWarningModal oldSetWarningModal={oldSetWarningModal} />
+      <OldSetWarningModal
+        oldSetWarningModal={oldSetWarningModal}
+        workout={workout}
+      />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal
           useCalculationModal={calculationModal}
