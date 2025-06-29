@@ -68,6 +68,7 @@ type ActiveSetProps = {
   setShowOldUserWeightLabel: React.Dispatch<React.SetStateAction<boolean>>;
   userWeight: UserWeight | undefined;
   isWorkoutOlderThan24Hours: boolean;
+  openOldSetWarningModal: () => void;
 };
 
 export const ActiveSet = ({
@@ -92,6 +93,7 @@ export const ActiveSet = ({
   setShowOldUserWeightLabel,
   userWeight,
   isWorkoutOlderThan24Hours,
+  openOldSetWarningModal,
 }: ActiveSetProps) => {
   let setCounter = 1;
   // Assign Multiset Set number

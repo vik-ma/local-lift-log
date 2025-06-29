@@ -22,6 +22,7 @@ import {
   FilterMultisetListModal,
   GroupedWorkoutSetListModal,
   SetNotesModal,
+  OldSetWarningModal,
 } from "../components";
 import Database from "tauri-plugin-sql-api";
 import {
@@ -56,6 +57,7 @@ export default function WorkoutDetails() {
   const { id } = useParams();
 
   const workoutModal = useDisclosure();
+  const oldSetWarningModal = useDisclosure();
 
   const [workoutTemplateNote, setWorkoutTemplateComment] = useState<
     string | null
@@ -392,6 +394,10 @@ export default function WorkoutDetails() {
     workoutListModal.onClose();
   };
 
+  const openOldSetWarningModal = () => {
+    oldSetWarningModal.onOpen();
+  };
+
   if (workout.id === 0 || userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -543,6 +549,8 @@ export default function WorkoutDetails() {
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
+      {/* TODO: ADD CONDITIONAL BASED ON USER_SETTING */}
+      <OldSetWarningModal oldSetWarningModal={oldSetWarningModal} />
       {userSettings.show_calculation_buttons === 1 && (
         <CalculationModal
           useCalculationModal={calculationModal}
@@ -618,6 +626,7 @@ export default function WorkoutDetails() {
           setShowOldUserWeightLabel={setShowOldUserWeightLabel}
           userWeight={userWeight}
           isWorkoutOlderThan24Hours={isWorkoutOlderThan24Hours}
+          openOldSetWarningModal={openOldSetWarningModal}
         />
       </div>
     </>
