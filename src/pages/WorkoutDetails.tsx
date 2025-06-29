@@ -1,6 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { Workout, DetailHeaderOptionItem, WorkoutTemplate } from "../typings";
+import {
+  Workout,
+  DetailHeaderOptionItem,
+  WorkoutTemplate,
+  WorkoutSet,
+} from "../typings";
 import {
   LoadingSpinner,
   WorkoutGroupedSetList,
@@ -66,6 +71,7 @@ export default function WorkoutDetails() {
     useState<boolean>(false);
   const [isWorkoutOlderThan24Hours, setIsWorkoutOlderThan24Hours] =
     useState<boolean>(false);
+  const [oldSetToSave, setOldSetToSave] = useState<WorkoutSet>();
 
   const {
     updateExerciseOrder,
@@ -394,7 +400,8 @@ export default function WorkoutDetails() {
     workoutListModal.onClose();
   };
 
-  const openOldSetWarningModal = () => {
+  const openOldSetWarningModal = (set: WorkoutSet) => {
+    setOldSetToSave(set);
     oldSetWarningModal.onOpen();
   };
 

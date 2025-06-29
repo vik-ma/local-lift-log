@@ -68,7 +68,7 @@ type ActiveSetProps = {
   setShowOldUserWeightLabel: React.Dispatch<React.SetStateAction<boolean>>;
   userWeight: UserWeight | undefined;
   isWorkoutOlderThan24Hours: boolean;
-  openOldSetWarningModal: () => void;
+  openOldSetWarningModal: (set: WorkoutSet) => void;
 };
 
 export const ActiveSet = ({
@@ -158,6 +158,12 @@ export const ActiveSet = ({
       user_weight: setTrackingValuesNumber.user_weight,
       addCalculationTrigger: undefined,
     };
+
+    // TODO: ADD USER_SETTING CONDITIONAL
+    if (isWorkoutOlderThan24Hours && updatedActiveSet.is_completed === 0) {
+      openOldSetWarningModal(updatedActiveSet);
+      return;
+    }
 
     saveActiveSet(updatedActiveSet);
 
