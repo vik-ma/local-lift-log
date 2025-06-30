@@ -53,6 +53,7 @@ import {
   useWorkoutActions,
   useWorkoutList,
 } from "../hooks";
+import { parseAbsoluteToLocal } from "@internationalized/date";
 
 type WorkoutTemplateComment = {
   comment: string | null;
@@ -411,7 +412,11 @@ export default function WorkoutDetails() {
     if (saveOnToday) {
       saveActiveSet(oldSetToSave);
     } else {
-      // TODO: CALCULATE LATEST DATE FOR DAY IN ISO STRING FOR LOCAL TIMEZONE
+      const dateOfWorkout = parseAbsoluteToLocal(workout.date).toDate();
+
+      dateOfWorkout.setHours(23, 59, 59, 999);
+
+      saveActiveSet(oldSetToSave, dateOfWorkout.toISOString());
     }
 
     setOldSetToSave(undefined);
