@@ -5,6 +5,7 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
+  Checkbox,
 } from "@heroui/react";
 import { UseDisclosureReturnType, Workout } from "../../typings";
 import {
@@ -16,6 +17,8 @@ type OldSetWarningModalProps = {
   oldSetWarningModal: UseDisclosureReturnType;
   workout: Workout;
   setSaveOldSetOnToday: React.Dispatch<React.SetStateAction<boolean>>;
+  doNotShowOldSetWarningModal: boolean;
+  setDoNotShowOldSetWarningModal: React.Dispatch<React.SetStateAction<boolean>>;
   doneButtonAction: (saveOnToday: boolean) => void;
 };
 
@@ -23,6 +26,8 @@ export const OldSetWarningModal = ({
   oldSetWarningModal,
   workout,
   setSaveOldSetOnToday,
+  doNotShowOldSetWarningModal,
+  setDoNotShowOldSetWarningModal,
   doneButtonAction,
 }: OldSetWarningModalProps) => {
   const handleChoiceButton = (saveOnToday: boolean) => {
@@ -47,13 +52,24 @@ export const OldSetWarningModal = ({
               days old
             </ModalHeader>
             <ModalBody>
-              <div className="h-16">
-                Do you want to set the date for the completed Set as{" "}
-                <span className="font-medium text-secondary">Today</span> or{" "}
-                <span className="font-medium text-secondary">
-                  {workout.formattedDate}
-                </span>
-                ?
+              <div className="flex flex-col justify-between h-24">
+                <div>
+                  Do you want to set the date for the completed Set as{" "}
+                  <span className="font-medium text-secondary">Today</span> or{" "}
+                  <span className="font-medium text-secondary">
+                    {workout.formattedDate}
+                  </span>
+                  ?
+                </div>
+                <Checkbox
+                  className="hover:underline"
+                  classNames={{ label: "text-sm" }}
+                  color="primary"
+                  isSelected={doNotShowOldSetWarningModal}
+                  onValueChange={setDoNotShowOldSetWarningModal}
+                >
+                  Do Not Show Warning Again For Workout
+                </Checkbox>
               </div>
             </ModalBody>
             <ModalFooter className="flex justify-between">

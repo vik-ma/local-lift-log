@@ -74,6 +74,8 @@ export default function WorkoutDetails() {
     useState<boolean>(false);
   const [oldSetToSave, setOldSetToSave] = useState<WorkoutSet>();
   const [saveOldSetOnToday, setSaveOldSetOnToday] = useState<boolean>(false);
+  const [doNotShowOldSetWarningModal, setDoNotShowOldSetWarningModal] =
+    useState<boolean>(false);
 
   const {
     updateExerciseOrder,
@@ -578,6 +580,8 @@ export default function WorkoutDetails() {
         oldSetWarningModal={oldSetWarningModal}
         workout={workout}
         setSaveOldSetOnToday={setSaveOldSetOnToday}
+        doNotShowOldSetWarningModal={doNotShowOldSetWarningModal}
+        setDoNotShowOldSetWarningModal={setDoNotShowOldSetWarningModal}
         doneButtonAction={saveOldSet}
       />
       {userSettings.show_calculation_buttons === 1 && (
