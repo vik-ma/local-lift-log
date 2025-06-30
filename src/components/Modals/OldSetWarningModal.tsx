@@ -34,7 +34,7 @@ export const OldSetWarningModal = ({
             <ModalHeader>
               Workout is{" "}
               {GetNumberOfDaysBetweenDates(
-                "2025-06-28T13:12:33.836Z",
+                workout.date,
                 GetCurrentDateTimeISOString()
               )}{" "}
               days old
