@@ -73,6 +73,7 @@ export default function WorkoutDetails() {
   const [isWorkoutOlderThan24Hours, setIsWorkoutOlderThan24Hours] =
     useState<boolean>(false);
   const [oldSetToSave, setOldSetToSave] = useState<WorkoutSet>();
+  const [saveOldSetOnToday, setSaveOldSetOnToday] = useState<boolean>(false);
 
   const {
     updateExerciseOrder,
@@ -573,10 +574,10 @@ export default function WorkoutDetails() {
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
-      {/* TODO: ADD CONDITIONAL BASED ON USER_SETTING */}
       <OldSetWarningModal
         oldSetWarningModal={oldSetWarningModal}
         workout={workout}
+        setSaveOldSetOnToday={setSaveOldSetOnToday}
         doneButtonAction={saveOldSet}
       />
       {userSettings.show_calculation_buttons === 1 && (

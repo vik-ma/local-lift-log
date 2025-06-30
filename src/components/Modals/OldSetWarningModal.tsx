@@ -15,14 +15,21 @@ import {
 type OldSetWarningModalProps = {
   oldSetWarningModal: UseDisclosureReturnType;
   workout: Workout;
+  setSaveOldSetOnToday: React.Dispatch<React.SetStateAction<boolean>>;
   doneButtonAction: (saveOnToday: boolean) => void;
 };
 
 export const OldSetWarningModal = ({
   oldSetWarningModal,
   workout,
+  setSaveOldSetOnToday,
   doneButtonAction,
 }: OldSetWarningModalProps) => {
+  const handleChoiceButton = (saveOnToday: boolean) => {
+    setSaveOldSetOnToday(saveOnToday);
+    doneButtonAction(saveOnToday);
+  };
+
   return (
     <Modal
       isOpen={oldSetWarningModal.isOpen}
@@ -56,10 +63,16 @@ export const OldSetWarningModal = ({
                 </Button>
               </div>
               <div className="flex gap-2">
-                <Button color="primary" onPress={() => doneButtonAction(true)}>
+                <Button
+                  color="primary"
+                  onPress={() => handleChoiceButton(true)}
+                >
                   Today
                 </Button>
-                <Button color="primary" onPress={() => doneButtonAction(false)}>
+                <Button
+                  color="primary"
+                  onPress={() => handleChoiceButton(false)}
+                >
                   {workout.formattedDate}
                 </Button>
               </div>
