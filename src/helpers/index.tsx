@@ -26,6 +26,7 @@ export { ValidateStartAndEndDateStrings } from "./Dates/ValidateStartAndEndDateS
 export { ConvertISODateStringToYmdDateString } from "./Dates/ConvertISODateStringToYmdDateString";
 export { IsDateBeforeEpochDate } from "./Dates/IsDateBeforeEpochDate";
 export { IsDateStringOlderThan24Hours } from "./Dates/IsDateStringOlderThan24Hours";
+export { GetLatestTimeForDayISODateString } from "./Dates/GetLatestTimeForDayISODateString";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringSetPrimaryToString } from "./Exercises/ConvertExerciseGroupStringSetPrimaryToString";
