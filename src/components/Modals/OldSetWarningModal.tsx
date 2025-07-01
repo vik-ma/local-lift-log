@@ -52,7 +52,7 @@ export const OldSetWarningModal = ({
               days old
             </ModalHeader>
             <ModalBody>
-              <div className="flex flex-col justify-between h-[4.625rem]">
+              <div className="flex flex-col justify-between h-[4.5rem]">
                 <div>
                   Do you want to set the date for the completed Set as{" "}
                   <span className="font-medium text-secondary">Today</span> or{" "}
@@ -68,7 +68,7 @@ export const OldSetWarningModal = ({
                     isSelected={doNotShowOldSetWarningModal}
                     onValueChange={setDoNotShowOldSetWarningModal}
                   >
-                    Do Not Show Warning Again For Workout
+                    Remember Choice
                   </Checkbox>
                 </div>
               </div>
