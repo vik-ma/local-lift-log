@@ -45,6 +45,7 @@ import {
   FormatDateString,
   UpdateExerciseOrder,
   IsDateStringOlderThan24Hours,
+  GetLatestTimeForDayISODateString,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -53,7 +54,6 @@ import {
   useWorkoutActions,
   useWorkoutList,
 } from "../hooks";
-import { parseAbsoluteToLocal } from "@internationalized/date";
 
 type WorkoutTemplateComment = {
   comment: string | null;
@@ -405,8 +405,20 @@ export default function WorkoutDetails() {
   };
 
   const openOldSetWarningModal = (set: WorkoutSet) => {
-    setOldSetToSave(set);
-    oldSetWarningModal.onOpen();
+    if (doNotShowOldSetWarningModal) {
+      if (saveOldSetOnToday) {
+        saveActiveSet(set);
+      } else {
+        const dateOfWorkout = GetLatestTimeForDayISODateString(workout.date);
+
+        if (dateOfWorkout === "Invalid Date") return;
+
+        saveActiveSet(set, dateOfWorkout);
+      }
+    } else {
+      setOldSetToSave(set);
+      oldSetWarningModal.onOpen();
+    }
   };
 
   const saveOldSet = (saveOnToday: boolean) => {
@@ -415,11 +427,11 @@ export default function WorkoutDetails() {
     if (saveOnToday) {
       saveActiveSet(oldSetToSave);
     } else {
-      const dateOfWorkout = parseAbsoluteToLocal(workout.date).toDate();
+      const dateOfWorkout = GetLatestTimeForDayISODateString(workout.date);
 
-      dateOfWorkout.setHours(23, 59, 59, 999);
+      if (dateOfWorkout === "Invalid Date") return;
 
-      saveActiveSet(oldSetToSave, dateOfWorkout.toISOString());
+      saveActiveSet(oldSetToSave, dateOfWorkout);
     }
 
     setOldSetToSave(undefined);

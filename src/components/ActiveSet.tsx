@@ -159,7 +159,6 @@ export const ActiveSet = ({
       addCalculationTrigger: undefined,
     };
 
-    // TODO: ADD USER_SETTING CONDITIONAL
     if (isWorkoutOlderThan24Hours && updatedActiveSet.is_completed === 0) {
       openOldSetWarningModal(updatedActiveSet);
       return;
