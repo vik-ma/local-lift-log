@@ -52,7 +52,7 @@ export const OldSetWarningModal = ({
               days old
             </ModalHeader>
             <ModalBody>
-              <div className="flex flex-col justify-between h-24">
+              <div className="flex flex-col justify-between h-[4.625rem]">
                 <div>
                   Do you want to set the date for the completed Set as{" "}
                   <span className="font-medium text-secondary">Today</span> or{" "}
@@ -61,15 +61,16 @@ export const OldSetWarningModal = ({
                   </span>
                   ?
                 </div>
-                <Checkbox
-                  className="hover:underline"
-                  classNames={{ label: "text-sm" }}
-                  color="primary"
-                  isSelected={doNotShowOldSetWarningModal}
-                  onValueChange={setDoNotShowOldSetWarningModal}
-                >
-                  Do Not Show Warning Again For Workout
-                </Checkbox>
+                <div className="flex justify-end">
+                  <Checkbox
+                    className="hover:underline pt-0 pb-px"
+                    color="primary"
+                    isSelected={doNotShowOldSetWarningModal}
+                    onValueChange={setDoNotShowOldSetWarningModal}
+                  >
+                    Do Not Show Warning Again For Workout
+                  </Checkbox>
+                </div>
               </div>
             </ModalBody>
             <ModalFooter className="flex justify-between">
