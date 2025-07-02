@@ -141,22 +141,22 @@ export const SetList = ({
                 >
                   {set.is_tracking_weight === 1 &&
                     (set.weight > 0 || set.is_completed === 1) && (
-                      <div className="truncate max-w-[4.25rem]">
+                      <span className="truncate max-w-[4.25rem]">
                         {set.weight} {set.weight_unit}
-                      </div>
+                      </span>
                     )}
                   {set.is_tracking_reps === 1 &&
                     (set.reps > 0 || set.is_completed === 1) && (
-                      <div className="truncate max-w-[4.25rem]">
+                      <span className="truncate max-w-[4.25rem]">
                         {set.reps} Rep
                         {set.reps !== 1 && "s"}
-                      </div>
+                      </span>
                     )}
                   {set.is_tracking_distance === 1 &&
                     (set.distance > 0 || set.is_completed === 1) && (
-                      <div className="truncate max-w-[4.25rem]">
+                      <span className="truncate max-w-[4.25rem]">
                         {set.distance} {set.distance_unit}
-                      </div>
+                      </span>
                     )}
                   {set.is_tracking_time === 1 &&
                     (set.time_in_seconds > 0 || set.is_completed === 1) && (
@@ -165,30 +165,30 @@ export const SetList = ({
                       </span>
                     )}
                   {set.is_tracking_rpe === 1 && set.rpe > 0 && (
-                    <div className="truncate max-w-[3rem]">RPE {set.rpe}</div>
+                    <span className="truncate max-w-[3rem]">RPE {set.rpe}</span>
                   )}
                   {set.is_tracking_rir === 1 && set.rir > -1 && (
-                    <div className="truncate max-w-[3rem]">{set.rir} RIR</div>
+                    <span className="truncate max-w-[3rem]">{set.rir} RIR</span>
                   )}
                   {set.is_tracking_resistance_level === 1 &&
                     (set.resistance_level > 0 || set.is_completed === 1) && (
-                      <div className="truncate max-w-[9rem]">
+                      <span className="truncate max-w-[9rem]">
                         Resistance Level {set.resistance_level}
-                      </div>
+                      </span>
                     )}
                   {set.is_tracking_partial_reps === 1 &&
                     (set.partial_reps > 0 || set.is_completed === 1) && (
-                      <div className="truncate max-w-[7rem]">
+                      <span className="truncate max-w-[7rem]">
                         {set.partial_reps} Partial Rep
                         {set.partial_reps !== 1 && "s"}
-                      </div>
+                      </span>
                     )}
                   {set.is_tracking_user_weight === 1 &&
                     set.user_weight > 0 &&
                     set.is_completed === 1 && (
-                      <div className="truncate max-w-[10rem] text-slate-400">
+                      <span className="truncate max-w-[10rem] text-slate-400">
                         Body Weight {set.user_weight} {set.user_weight_unit}
-                      </div>
+                      </span>
                     )}
                 </div>
               </div>
