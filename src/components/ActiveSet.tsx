@@ -379,6 +379,7 @@ export const ActiveSet = ({
                         </Button>
                       )}
                       <Button
+                        color="primary"
                         variant="light"
                         onPress={handleClearButton}
                         isDisabled={areInputsEmpty}
