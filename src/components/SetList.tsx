@@ -141,28 +141,21 @@ export const SetList = ({
                 >
                   {set.is_tracking_weight === 1 &&
                     (set.weight > 0 || set.is_completed === 1) && (
-                      <div className="flex gap-1">
-                        <span className="truncate max-w-12">{set.weight}</span>
-                        <span>{set.weight_unit}</span>
+                      <div className="truncate max-w-[4.25rem]">
+                        {set.weight} {set.weight_unit}
                       </div>
                     )}
                   {set.is_tracking_reps === 1 &&
                     (set.reps > 0 || set.is_completed === 1) && (
-                      <div className="flex gap-1">
-                        <span className="truncate max-w-12">{set.reps}</span>
-                        <span>
-                          Rep
-                          {set.reps !== 1 && "s"}
-                        </span>
+                      <div className="truncate max-w-[4.25rem]">
+                        {set.reps} Rep
+                        {set.reps !== 1 && "s"}
                       </div>
                     )}
                   {set.is_tracking_distance === 1 &&
                     (set.distance > 0 || set.is_completed === 1) && (
-                      <div className="flex gap-1">
-                        <span className="truncate max-w-12">
-                          {set.distance}
-                        </span>
-                        <span>{set.distance_unit}</span>
+                      <div className="truncate max-w-[4.25rem]">
+                        {set.distance} {set.distance_unit}
                       </div>
                     )}
                   {set.is_tracking_time === 1 &&
@@ -172,47 +165,29 @@ export const SetList = ({
                       </span>
                     )}
                   {set.is_tracking_rpe === 1 && set.rpe > 0 && (
-                    <div className="flex gap-1">
-                      <span>RPE</span>
-                      <span className="truncate max-w-4">{set.rpe}</span>
-                    </div>
+                    <div className="truncate max-w-[3rem]">RPE {set.rpe}</div>
                   )}
                   {set.is_tracking_rir === 1 && set.rir > -1 && (
-                    <div className="flex gap-1">
-                      <span className="truncate max-w-10">{set.rir}</span>
-                      <span>RIR</span>
-                    </div>
+                    <div className="truncate max-w-[3rem]">{set.rir} RIR</div>
                   )}
                   {set.is_tracking_resistance_level === 1 &&
                     (set.resistance_level > 0 || set.is_completed === 1) && (
-                      <div className="flex gap-1">
-                        <span>Resistance Level</span>
-                        <span className="truncate max-w-12">
-                          {set.resistance_level}
-                        </span>
+                      <div className="truncate max-w-[9rem]">
+                        Resistance Level {set.resistance_level}
                       </div>
                     )}
                   {set.is_tracking_partial_reps === 1 &&
                     (set.partial_reps > 0 || set.is_completed === 1) && (
-                      <div className="flex gap-1">
-                        <span className="truncate max-w-10">
-                          {set.partial_reps}
-                        </span>
-                        <span>
-                          Partial Rep
-                          {set.partial_reps !== 1 && "s"}
-                        </span>
+                      <div className="truncate max-w-[7rem]">
+                        {set.partial_reps} Partial Rep
+                        {set.partial_reps !== 1 && "s"}
                       </div>
                     )}
                   {set.is_tracking_user_weight === 1 &&
                     set.user_weight > 0 &&
                     set.is_completed === 1 && (
-                      <div className="flex gap-1 text-slate-400">
-                        <span>Body Weight</span>
-                        <span className="truncate max-w-14">
-                          {set.user_weight}
-                        </span>
-                        <span>{set.user_weight_unit}</span>
+                      <div className="truncate max-w-[10rem] text-slate-400">
+                        Body Weight {set.user_weight} {set.user_weight_unit}
                       </div>
                     )}
                 </div>
