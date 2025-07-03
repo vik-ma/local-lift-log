@@ -135,7 +135,7 @@ export const SetList = ({
                 <div
                   className={
                     isMultiset
-                      ? "flex flex-wrap leading-snug justify-start w-[16rem] px-1 gap-x-5 pb-0.5"
+                      ? "flex flex-wrap leading-snug justify-start w-[16rem] gap-x-5 pb-0.5"
                       : "flex flex-wrap justify-evenly w-[16rem] px-1 gap-x-5 py-0.5"
                   }
                 >
