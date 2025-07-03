@@ -796,7 +796,7 @@ export default function Presets() {
           onSelectionChange={(key) => changeTab(key as PresetTab)}
         >
           <Tab
-            className="flex flex-col gap-1 w-full px-0 py-1.5"
+            className="flex flex-col gap-1 w-full px-0 py-1"
             key="equipment"
             title="Equipment Weights"
           >
