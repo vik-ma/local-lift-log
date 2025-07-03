@@ -742,22 +742,18 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     if (setId === 0) return;
 
     newSet = { ...newSet, id: setId };
-    const newSets: WorkoutSet[] = [newSet];
 
     const groupedSetIndex = FindIndexInList(
       groupedSets,
       exercise.id.toString()
     );
 
-    setGroupedSets((prev) => {
-      const newList = [...prev];
-      newList[groupedSetIndex].isExpanded = true;
-      newList[groupedSetIndex].setList = [
-        ...newList[groupedSetIndex].setList,
-        ...newSets,
-      ];
-      return newList;
-    });
+    const updatedGroupedSets = [...groupedSets];
+
+    updatedGroupedSets[groupedSetIndex].isExpanded = true;
+    updatedGroupedSets[groupedSetIndex].setList.push(newSet);
+
+    setGroupedSets(updatedGroupedSets);
 
     const updatedWorkoutNumbers: WorkoutNumbers = {
       ...workoutNumbers,
