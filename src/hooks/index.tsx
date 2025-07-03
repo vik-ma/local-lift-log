@@ -27,7 +27,6 @@ export { usePresetsList } from "./usePresetsList";
 export { useCalculationModal } from "./useCalculationModal";
 export { useExerciseGroupList } from "./useExerciseGroupList";
 export { usePlateCollectionModal } from "./usePlateCollectionModal";
-export { useValidateExerciseGroupStringSecondary } from "./useValidateExerciseGroupStringSecondary";
 export { useMultiplierInputMap } from "./useMultiplierInputMap";
 export { useRoutineList } from "./useRoutineList";
 export { useWeekdayMap } from "./useWeekdayMap";
