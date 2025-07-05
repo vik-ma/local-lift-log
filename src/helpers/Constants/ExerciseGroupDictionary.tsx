@@ -1,26 +1,26 @@
 import { ExerciseGroupMap } from "../../typings";
 
 export const ExerciseGroupDictionary = () => {
-  const EXERCISE_GROUP_DICTIONARY: ExerciseGroupMap = new Map<string, string>();
-
-  EXERCISE_GROUP_DICTIONARY.set("0", "Chest");
-  EXERCISE_GROUP_DICTIONARY.set("1", "Triceps");
-  EXERCISE_GROUP_DICTIONARY.set("2", "Biceps");
-  EXERCISE_GROUP_DICTIONARY.set("3", "Forearms");
-  EXERCISE_GROUP_DICTIONARY.set("4", "Shoulders");
-  EXERCISE_GROUP_DICTIONARY.set("5", "Upper Back");
-  EXERCISE_GROUP_DICTIONARY.set("6", "Mid Back (Lats)");
-  EXERCISE_GROUP_DICTIONARY.set("7", "Lower Back");
-  EXERCISE_GROUP_DICTIONARY.set("8", "Glutes");
-  EXERCISE_GROUP_DICTIONARY.set("9", "Adductors");
-  EXERCISE_GROUP_DICTIONARY.set("10", "Quadriceps");
-  EXERCISE_GROUP_DICTIONARY.set("11", "Hamstrings");
-  EXERCISE_GROUP_DICTIONARY.set("12", "Calves");
-  EXERCISE_GROUP_DICTIONARY.set("13", "Core (Abs)");
-  EXERCISE_GROUP_DICTIONARY.set("14", "Grip");
-  EXERCISE_GROUP_DICTIONARY.set("15", "Neck");
-  EXERCISE_GROUP_DICTIONARY.set("16", "Cardio");
-  EXERCISE_GROUP_DICTIONARY.set("17", "Other");
+  const EXERCISE_GROUP_DICTIONARY: ExerciseGroupMap = new Map<string, string>([
+    ["0", "Chest"],
+    ["1", "Triceps"],
+    ["2", "Biceps"],
+    ["3", "Forearms"],
+    ["4", "Shoulders"],
+    ["5", "Upper Back"],
+    ["6", "Mid Back (Lats)"],
+    ["7", "Lower Back"],
+    ["8", "Glutes"],
+    ["9", "Adductors"],
+    ["10", "Quadriceps"],
+    ["11", "Hamstrings"],
+    ["12", "Calves"],
+    ["13", "Core (Abs)"],
+    ["14", "Grip"],
+    ["15", "Neck"],
+    ["16", "Cardio"],
+    ["17", "Other"],
+  ]);
 
   Object.freeze(EXERCISE_GROUP_DICTIONARY);
 
