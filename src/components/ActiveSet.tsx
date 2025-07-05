@@ -274,7 +274,7 @@ export const ActiveSet = ({
           {isActiveSetExpanded ? (
             <div className="flex flex-col overflow-auto">
               <ScrollShadow
-                className="flex flex-col border-y divide-y divide-stone-200"
+                className="flex flex-col border-y divide-y divide-stone-200 h-full"
                 hideScrollBar
               >
                 <SetList
