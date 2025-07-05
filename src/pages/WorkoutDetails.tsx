@@ -435,6 +435,7 @@ export default function WorkoutDetails() {
     }
 
     setOldSetToSave(undefined);
+    oldSetWarningModal.onClose();
   };
 
   if (workout.id === 0 || userSettings === undefined) return <LoadingSpinner />;
