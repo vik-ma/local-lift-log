@@ -263,14 +263,50 @@ export default function Test() {
         <div
           className={
             isExpanded
-              ? "fixed bottom-0 top-16 bg-red-500 w-[400px]"
-              : "fixed bottom-0 bg-red-500 h-20 w-[400px]"
+              ? "fixed bottom-0 top-16 bg-red-500 w-[400px] flex flex-col"
+              : "fixed bottom-0 bg-red-500 h-20 w-[400px] flex flex-col"
           }
         >
           <button
-            className="h-20 w-[400px] cursor-pointer"
+            className="h-20 w-[400px] cursor-pointer hover:bg-red-400"
             onClick={() => setIsExpanded(!isExpanded)}
           ></button>
+
+          {isExpanded && (
+            <div className="flex flex-col flex-1 min-h-0">
+              <div className="bg-white overflow-y-auto flex-1">
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+              </div>
+              <div className="bg-blue-200 shrink-0">
+                Always Shown 1 <br />
+                Always Shown 2 <br />
+                Always Shown 3 <br />
+                Always Shown 4 <br />
+                Always Shown 5 <br />
+                Always Shown 6 <br />
+                Always Shown 7 <br />
+                Always Shown 8 <br />
+                Always Shown 9 <br />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
