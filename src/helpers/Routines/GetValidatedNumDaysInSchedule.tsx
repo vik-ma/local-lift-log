@@ -1,4 +1,4 @@
-import { NumDaysInScheduleOptions } from "./NumDaysInScheduleOptions";
+import { NumDaysInScheduleOptions } from "..";
 
 export const GetValidatedNumDaysInSchedule = (numDaysInSchedule: number) => {
   const validNumDaysInSchedule = NumDaysInScheduleOptions();
