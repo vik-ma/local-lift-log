@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useCalculationModal, useListFilters, usePresetsList } from "../hooks";
-import { Button, useDisclosure } from "@heroui/react";
+import { Button, ScrollShadow, useDisclosure } from "@heroui/react";
 import {
   CalculationModal,
   FilterPresetsListModal,
@@ -274,7 +274,7 @@ export default function Test() {
 
           {isExpanded && (
             <div className="flex flex-col flex-1 min-h-0">
-              <div className="bg-white overflow-y-auto flex-1">
+              <ScrollShadow className="bg-white flex-1" hideScrollBar>
                 Scrollable <br />
                 Scrollable <br />
                 Scrollable <br />
@@ -293,7 +293,7 @@ export default function Test() {
                 Scrollable <br />
                 Scrollable <br />
                 Scrollable <br />
-              </div>
+              </ScrollShadow>
               <div className="bg-blue-200 shrink-0">
                 Always Shown 1 <br />
                 Always Shown 2 <br />
