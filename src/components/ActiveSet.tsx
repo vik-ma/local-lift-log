@@ -272,9 +272,9 @@ export const ActiveSet = ({
             </div>
           </button>
           {isActiveSetExpanded ? (
-            <div className="flex flex-col flex-1 min-h-0">
+            <div className="flex flex-col overflow-auto">
               <ScrollShadow
-                className="flex flex-col border-y divide-y divide-stone-200 flex-1"
+                className="flex flex-col border-y divide-y divide-stone-200"
                 hideScrollBar
               >
                 <SetList
@@ -288,7 +288,7 @@ export const ActiveSet = ({
                   openSetNotesModal={openSetNotesModal}
                 />
               </ScrollShadow>
-              <div className="shrink-0">
+              <div>
                 {activeGroupedSet?.exerciseList[exerciseIndex].isInvalid ? (
                   <div className="flex flex-col p-5 justify-center gap-3">
                     <div className="flex justify-center text-lg text-center font-medium">

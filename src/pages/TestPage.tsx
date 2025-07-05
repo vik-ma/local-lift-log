@@ -273,8 +273,21 @@ export default function Test() {
           ></button>
 
           {isExpanded && (
-            <div className="flex flex-col flex-1 min-h-0">
-              <ScrollShadow className="bg-white flex-1" hideScrollBar>
+            <div className="overflow-auto flex flex-col">
+              <ScrollShadow className="bg-white">
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                {/* Scrollable <br />
                 Scrollable <br />
                 Scrollable <br />
                 Scrollable <br />
@@ -293,8 +306,10 @@ export default function Test() {
                 Scrollable <br />
                 Scrollable <br />
                 Scrollable <br />
+                Scrollable <br />
+                Scrollable <br /> */}
               </ScrollShadow>
-              <div className="bg-blue-200 shrink-0">
+              <div className="bg-blue-200">
                 Always Shown 1 <br />
                 Always Shown 2 <br />
                 Always Shown 3 <br />
