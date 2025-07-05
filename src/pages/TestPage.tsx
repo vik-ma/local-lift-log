@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useCalculationModal, useListFilters, usePresetsList } from "../hooks";
-import { Button, ScrollShadow, useDisclosure } from "@heroui/react";
+import { Button, useDisclosure } from "@heroui/react";
 import {
   CalculationModal,
   FilterPresetsListModal,
@@ -274,20 +274,7 @@ export default function Test() {
 
           {isExpanded && (
             <div className="overflow-auto flex flex-col">
-              <ScrollShadow className="bg-white">
-                Scrollable <br />
-                Scrollable <br />
-                Scrollable <br />
-                Scrollable <br />
-                Scrollable <br />
-                Scrollable <br />
-                Scrollable <br />
-                Scrollable <br />
-                Scrollable <br />
-                Scrollable <br />
-                Scrollable <br />
-                Scrollable <br />
-                {/* Scrollable <br />
+              <div className="bg-white overflow-y-auto scroll-gradient scrollable-hidden-scrollbar">
                 Scrollable <br />
                 Scrollable <br />
                 Scrollable <br />
@@ -307,8 +294,21 @@ export default function Test() {
                 Scrollable <br />
                 Scrollable <br />
                 Scrollable <br />
-                Scrollable <br /> */}
-              </ScrollShadow>
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+                Scrollable <br />
+              </div>
               <div className="bg-blue-200">
                 Always Shown 1 <br />
                 Always Shown 2 <br />

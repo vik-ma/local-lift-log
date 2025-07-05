@@ -1,4 +1,4 @@
-import { Button, ScrollShadow } from "@heroui/react";
+import { Button } from "@heroui/react";
 import {
   ConvertDateStringToTimeString,
   ConvertSetInputValuesToNumbers,
@@ -273,10 +273,7 @@ export const ActiveSet = ({
           </button>
           {isActiveSetExpanded ? (
             <div className="flex flex-col overflow-auto">
-              <ScrollShadow
-                className="flex flex-col border-y divide-y divide-stone-200 h-full"
-                hideScrollBar
-              >
+              <div className="flex flex-col border-y divide-y divide-stone-200 scroll-gradient scrollable-hidden-scrollbar">
                 <SetList
                   groupedSet={activeGroupedSet!}
                   activeSetId={activeSet.id}
@@ -287,7 +284,7 @@ export const ActiveSet = ({
                   isTemplate={false}
                   openSetNotesModal={openSetNotesModal}
                 />
-              </ScrollShadow>
+              </div>
               <div>
                 {activeGroupedSet?.exerciseList[exerciseIndex].isInvalid ? (
                   <div className="flex flex-col p-5 justify-center gap-3">

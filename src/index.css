@@ -141,6 +141,16 @@ body {
   background-size: 100% 54px, 100% 54px, 100% 18px, 100% 18px;
 }
 
+.scrollable-hidden-scrollbar {
+  overflow: auto; /* or 'scroll' */
+  -ms-overflow-style: none; /* Hide scrollbar on IE and Edge */
+  scrollbar-width: none; /* Hide scrollbar on Firefox */
+}
+
+.scrollable-hidden-scrollbar::-webkit-scrollbar {
+  display: none; /* Hide scrollbar on Chrome, Safari, Opera */
+}
+
 .multiset-divider {
   border-top: 1px solid theme("colors.stone.400") !important;
 }
