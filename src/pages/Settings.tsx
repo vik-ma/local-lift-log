@@ -431,7 +431,7 @@ export default function Settings() {
               <ModalHeader>
                 {specificSettingModalPage === "default-plate-calc"
                   ? "Set Default Plate Collection"
-                  : "Set Workout Rating Order"}
+                  : ""}
               </ModalHeader>
               <ModalBody>
                 <div className="h-[400px] flex flex-col gap-2">
