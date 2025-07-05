@@ -305,7 +305,7 @@ export const ActiveSet = ({
                     </Button>
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-3 py-3 px-1.5">
+                  <div className="flex flex-col gap-3 pt-3 pb-[3.5rem] px-1.5">
                     <SetValueInputs
                       operatingSet={activeSet}
                       setOperatingSet={
@@ -326,6 +326,76 @@ export const ActiveSet = ({
                     />
                   </div>
                 )}
+              </div>
+              <div className="absolute bottom-1.5 left-1.5 right-1.5">
+                <div className="flex justify-between">
+                  <div className="flex gap-1">
+                    <Button
+                      aria-label="Minimize Active Set"
+                      isIconOnly
+                      variant="light"
+                      color="secondary"
+                      onPress={() => setIsActiveSetExpanded(false)}
+                    >
+                      <MinimizeIcon color="#eab308" />
+                    </Button>
+                    <Button
+                      aria-label="Toggle Active Set Comment"
+                      isIconOnly
+                      variant="light"
+                      onPress={() =>
+                        openSetNotesModal(
+                          activeSet,
+                          activeSet.set_index!,
+                          activeGroupedSet!
+                        )
+                      }
+                    >
+                      <CommentIcon
+                        size={21}
+                        hasComment={activeSet.comment !== null}
+                        hasNote={activeSet.note !== null}
+                      />
+                    </Button>
+                    <Button
+                      aria-label="Edit Set"
+                      variant="light"
+                      isIconOnly
+                      onPress={() =>
+                        handleEditSet(
+                          activeSet,
+                          activeSet.set_index!,
+                          activeGroupedSet!.exerciseList[exerciseIndex],
+                          activeGroupedSet!
+                        )
+                      }
+                    >
+                      <EditIcon color="#808080" />
+                    </Button>
+                  </div>
+                  <div className="flex gap-1">
+                    {isSetEdited && activeSet.is_completed === 1 && (
+                      <Button variant="light" onPress={resetSetInputValues}>
+                        Reset
+                      </Button>
+                    )}
+                    <Button
+                      color="primary"
+                      variant="light"
+                      onPress={handleClearButton}
+                      isDisabled={areInputsEmpty}
+                    >
+                      Clear
+                    </Button>
+                    <Button
+                      color="primary"
+                      isDisabled={isSetTrackingValuesInvalid}
+                      onPress={handleSaveButton}
+                    >
+                      {activeSet.is_completed ? "Update" : "Save"}
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           ) : null}
