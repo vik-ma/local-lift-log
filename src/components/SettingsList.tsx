@@ -55,17 +55,19 @@ type SettingsListProps = {
 
 type SpecificSettingModalPage = "default-plate-calc";
 
+type SettingsItemCategory =
+  | "general"
+  | "workout"
+  | "exercise"
+  | "measurement"
+  | "time-period"
+  | "diet-log"
+  | "increment";
+
 type SettingsItem = {
   label: string;
   content: ReactNode;
-  category:
-    | "general"
-    | "workout"
-    | "exercise"
-    | "measurement"
-    | "time-period"
-    | "diet-log"
-    | "increment";
+  category: SettingsItemCategory;
 };
 
 export const SettingsList = ({
@@ -1165,6 +1167,43 @@ export const SettingsList = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userSettings]);
 
+  const filteredSettingsList = useMemo(() => {
+    const filteredList: SettingsItem[] = [];
+
+    const containsCategoryMap = new Map<SettingsItemCategory, boolean>([
+      ["general", false],
+      ["workout", false],
+      ["exercise", false],
+      ["measurement", false],
+      ["time-period", false],
+      ["diet-log", false],
+      ["increment", false],
+    ]);
+
+    for (const settingsItem of settingsList) {
+      const category = settingsItem.category;
+
+      if (containsCategoryMap.get(category) === false) {
+        const headerItem: SettingsItem = {
+          label: category,
+          content: (
+            <h3 className="flex justify-center text-lg font-medium">
+              {category}
+            </h3>
+          ),
+          category: category,
+        };
+
+        filteredList.push(headerItem);
+        containsCategoryMap.set(category, true);
+      }
+
+      filteredList.push(settingsItem);
+    }
+
+    return filteredList;
+  }, [settingsList]);
+
   return (
     <>
       <CreateDefaultSettingsModal
@@ -1227,7 +1266,7 @@ export const SettingsList = ({
           </h1>
         </div>
         <div className="flex flex-col gap-3 w-full">
-          {settingsList.map((settingsItem) => settingsItem.content)}
+          {filteredSettingsList.map((settingsItem) => settingsItem.content)}
 
           {/* <h3 className="flex justify-center text-lg font-medium">Exercises</h3> */}
           {/* <h3 className="flex justify-center text-lg font-medium">Workouts</h3> */}
