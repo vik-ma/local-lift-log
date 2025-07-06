@@ -482,7 +482,7 @@ export const PlateCalculator = ({
         />
       ) : (
         <PlateCollectionModalList
-          presetsList={usePresetsList}
+          usePresetsList={usePresetsList}
           handlePlateCollectionClick={handlePlateCollectionClick}
           userSettings={userSettings}
           setUserSettings={setUserSettings}

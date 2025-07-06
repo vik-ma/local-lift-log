@@ -332,7 +332,7 @@ export const SettingsList = ({
                 <div className="h-[400px] flex flex-col gap-2">
                   {specificSettingModalPage === "default-plate-calc" ? (
                     <PlateCollectionModalList
-                      presetsList={presetsList}
+                      usePresetsList={presetsList}
                       handlePlateCollectionClick={
                         handleDefaultPlateCollectionIdChange
                       }

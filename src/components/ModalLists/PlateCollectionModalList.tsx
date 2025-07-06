@@ -14,7 +14,7 @@ import {
 import { GoToArrowIcon } from "../../assets";
 
 type PlateCollectionModalListProps = {
-  presetsList: UsePresetsListReturnType;
+  usePresetsList: UsePresetsListReturnType;
   handlePlateCollectionClick: (plateCollection: PlateCollection) => void;
   userSettings?: UserSettings;
   setUserSettings?: React.Dispatch<
@@ -24,7 +24,7 @@ type PlateCollectionModalListProps = {
 };
 
 export const PlateCollectionModalList = ({
-  presetsList,
+  usePresetsList,
   handlePlateCollectionClick,
   userSettings,
   setUserSettings,
@@ -37,7 +37,7 @@ export const PlateCollectionModalList = ({
     setFilterQueryPlateCollection,
     isEquipmentWeightListLoaded,
     listFilters,
-  } = presetsList;
+  } = usePresetsList;
 
   const { filterMap } = listFilters;
 
