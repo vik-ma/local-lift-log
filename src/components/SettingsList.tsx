@@ -347,33 +347,6 @@ export const SettingsList = ({
         category: "general",
       },
       {
-        label: "Show Timestamp On Completed Sets",
-        content: (
-          <div
-            key="show_timestamp_on_completed_set"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span className="text-lg">Show Timestamp On Completed Sets</span>
-            <Switch
-              aria-label="Show Timestamp On Completed Sets Switch Element"
-              className="flex-row-reverse gap-3"
-              color="primary"
-              size="lg"
-              isSelected={
-                userSettings.show_timestamp_on_completed_set ? true : false
-              }
-              onValueChange={(value) =>
-                updateUserSetting(
-                  "show_timestamp_on_completed_set",
-                  value ? 1 : 0
-                )
-              }
-            />
-          </div>
-        ),
-        category: "workout",
-      },
-      {
         label: "Default Time Input",
         content: (
           <div
@@ -486,102 +459,6 @@ export const SettingsList = ({
           </div>
         ),
         category: "general",
-      },
-      {
-        label:
-          "Automatically Update Active Measurements After Saving User Measurements",
-        content: (
-          <div
-            key="automatically_update_active_measurements"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span className="text-lg">
-              Automatically Update Active Measurements After Saving User
-              Measurements
-            </span>
-            <Switch
-              aria-label="Automatically Update Active Measurements Switch Element"
-              className="flex-row-reverse gap-3"
-              color="primary"
-              size="lg"
-              isSelected={
-                userSettings.automatically_update_active_measurements
-                  ? true
-                  : false
-              }
-              onValueChange={(value) =>
-                updateUserSetting(
-                  "automatically_update_active_measurements",
-                  value ? 1 : 0
-                )
-              }
-            />
-          </div>
-        ),
-        category: "measurement",
-      },
-      {
-        label: "Default Number Of New Sets",
-        content: (
-          <div
-            key="default_num_new_sets"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span className="text-lg">Default Number Of New Sets</span>
-            <NumSetsDropdown
-              numNewSets={GetValidatedNumNewSets(
-                userSettings.default_num_new_sets,
-                numSetsOptions
-              )}
-              targetType="settings"
-              numSetsOptions={numSetsOptions}
-              updateUserSetting={updateUserSetting}
-            />
-          </div>
-        ),
-        category: "workout",
-      },
-      {
-        label: "Properties To Display In Time Period List",
-        content: (
-          <div
-            key="shown_time_period_properties"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span className="text-lg">
-              Properties To Display In Time Period List
-            </span>
-            <TimePeriodPropertyDropdown
-              selectedTimePeriodProperties={selectedTimePeriodProperties}
-              setSelectedTimePeriodProperties={setSelectedTimePeriodProperties}
-              userSettings={userSettings}
-              setUserSettings={setUserSettings}
-              isInSettingsPage
-            />
-          </div>
-        ),
-        category: "time-period",
-      },
-      {
-        label: "Default Diet Log Entry Day",
-        content: (
-          <div
-            key="default_diet_log_day_is_yesterday"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span className="text-lg">Default Diet Log Entry Day</span>
-            <DietLogDayDropdown
-              value={
-                userSettings.default_diet_log_day_is_yesterday === 1
-                  ? "Yesterday"
-                  : "Today"
-              }
-              targetType="settings"
-              updateUserSetting={updateUserSetting}
-            />
-          </div>
-        ),
-        category: "diet-log",
       },
       {
         label: "Never Show Delete Modal Confirmation When Deleting Item",
@@ -782,6 +659,54 @@ export const SettingsList = ({
           </div>
         ),
         category: "exercise",
+      },
+      {
+        label: "Show Timestamp On Completed Sets",
+        content: (
+          <div
+            key="show_timestamp_on_completed_set"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span className="text-lg">Show Timestamp On Completed Sets</span>
+            <Switch
+              aria-label="Show Timestamp On Completed Sets Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={
+                userSettings.show_timestamp_on_completed_set ? true : false
+              }
+              onValueChange={(value) =>
+                updateUserSetting(
+                  "show_timestamp_on_completed_set",
+                  value ? 1 : 0
+                )
+              }
+            />
+          </div>
+        ),
+        category: "workout",
+      },
+      {
+        label: "Default Number Of New Sets",
+        content: (
+          <div
+            key="default_num_new_sets"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span className="text-lg">Default Number Of New Sets</span>
+            <NumSetsDropdown
+              numNewSets={GetValidatedNumNewSets(
+                userSettings.default_num_new_sets,
+                numSetsOptions
+              )}
+              targetType="settings"
+              numSetsOptions={numSetsOptions}
+              updateUserSetting={updateUserSetting}
+            />
+          </div>
+        ),
+        category: "workout",
       },
       {
         label: "Properties To Display In Workout List",
@@ -1158,6 +1083,81 @@ export const SettingsList = ({
           </div>
         ),
         category: "increment",
+      },
+      {
+        label:
+          "Automatically Update Active Measurements After Saving User Measurements",
+        content: (
+          <div
+            key="automatically_update_active_measurements"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span className="text-lg">
+              Automatically Update Active Measurements After Saving User
+              Measurements
+            </span>
+            <Switch
+              aria-label="Automatically Update Active Measurements Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={
+                userSettings.automatically_update_active_measurements
+                  ? true
+                  : false
+              }
+              onValueChange={(value) =>
+                updateUserSetting(
+                  "automatically_update_active_measurements",
+                  value ? 1 : 0
+                )
+              }
+            />
+          </div>
+        ),
+        category: "measurement",
+      },
+      {
+        label: "Properties To Display In Time Period List",
+        content: (
+          <div
+            key="shown_time_period_properties"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span className="text-lg">
+              Properties To Display In Time Period List
+            </span>
+            <TimePeriodPropertyDropdown
+              selectedTimePeriodProperties={selectedTimePeriodProperties}
+              setSelectedTimePeriodProperties={setSelectedTimePeriodProperties}
+              userSettings={userSettings}
+              setUserSettings={setUserSettings}
+              isInSettingsPage
+            />
+          </div>
+        ),
+        category: "time-period",
+      },
+      {
+        label: "Default Diet Log Entry Day",
+        content: (
+          <div
+            key="default_diet_log_day_is_yesterday"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span className="text-lg">Default Diet Log Entry Day</span>
+            <DietLogDayDropdown
+              value={
+                userSettings.default_diet_log_day_is_yesterday === 1
+                  ? "Yesterday"
+                  : "Today"
+              }
+              targetType="settings"
+              updateUserSetting={updateUserSetting}
+            />
+          </div>
+        ),
+        category: "diet-log",
       },
     ];
 
