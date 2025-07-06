@@ -325,7 +325,10 @@ export const SettingsList = ({
       {
         label: "Default Distance Unit",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="default_unit_distance"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Default Distance Unit</span>
             <DistanceUnitDropdown
               value={userSettings.default_unit_distance}
@@ -338,7 +341,10 @@ export const SettingsList = ({
       {
         label: "Show Timestamp On Completed Sets",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="show_timestamp_on_completed_set"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Show Timestamp On Completed Sets</span>
             <Switch
               aria-label="Show Timestamp On Completed Sets Switch Element"
@@ -361,7 +367,10 @@ export const SettingsList = ({
       {
         label: "Default Time Input",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="default_time_input"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Default Time Input</span>
             <Select
               aria-label="Time Input Type Dropdown List"
@@ -383,7 +392,10 @@ export const SettingsList = ({
       {
         label: "Default Measurement Unit (Circumference)",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="default_unit_measurement"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">
               Default Measurement Unit (Circumference)
             </span>
@@ -398,7 +410,7 @@ export const SettingsList = ({
       {
         label: "Date Format",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div key="locale" className="flex gap-3 items-center justify-between">
             <span className="text-lg">Date Format</span>
             <LocaleDropdown
               value={userSettings.locale}
@@ -411,7 +423,10 @@ export const SettingsList = ({
       {
         label: "Clock Format",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="clock_style"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Clock Format</span>
             <ClockStyleDropdown
               value={userSettings.clock_style}
@@ -424,7 +439,10 @@ export const SettingsList = ({
       {
         label: "Time Input Behavior For HH:MM:SS",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="time_input_behavior_hhmmss"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="flex flex-1 text-lg">
               Time Input Behavior For HH:MM:SS
             </span>
@@ -439,7 +457,10 @@ export const SettingsList = ({
       {
         label: "Time Input Behavior For MM:SS",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="time_input_behavior_mmss"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="flex flex-1 text-lg">
               Time Input Behavior For MM:SS
             </span>
@@ -455,7 +476,10 @@ export const SettingsList = ({
         label:
           "Automatically Update Active Measurements After Saving User Measurements",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="automatically_update_active_measurements"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">
               Automatically Update Active Measurements After Saving User
               Measurements
@@ -483,7 +507,10 @@ export const SettingsList = ({
       {
         label: "Default Number Of New Sets",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="default_num_new_sets"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Default Number Of New Sets</span>
             <NumSetsDropdown
               numNewSets={GetValidatedNumNewSets(
@@ -500,7 +527,10 @@ export const SettingsList = ({
       {
         label: "Properties To Display In Time Period List",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="shown_time_period_properties"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">
               Properties To Display In Time Period List
             </span>
@@ -517,7 +547,10 @@ export const SettingsList = ({
       {
         label: "Default Diet Log Entry Day",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="default_diet_log_day_is_yesterday"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Default Diet Log Entry Day</span>
             <DietLogDayDropdown
               value={
@@ -534,7 +567,10 @@ export const SettingsList = ({
       {
         label: "Never Show Delete Modal Confirmation When Deleting Item",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="never_show_delete_modal"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">
               Never Show Delete Modal Confirmation When Deleting Item
             </span>
@@ -554,7 +590,10 @@ export const SettingsList = ({
       {
         label: "Show Secondary Exercise Groups In Exercise List",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="show_secondary_exercise_groups"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">
               Show Secondary Exercise Groups In Exercise List
             </span>
@@ -579,7 +618,10 @@ export const SettingsList = ({
       {
         label: "Show Warmup Sets In Exercise Details Page",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="show_warmups_in_exercise_details"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">
               Show Warmup Sets In Exercise Details Page
             </span>
@@ -604,7 +646,10 @@ export const SettingsList = ({
       {
         label: "Show Multiset Sets In Exercise Details Page",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="show_multisets_in_exercise_details"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">
               Show Multiset Sets In Exercise Details Page
             </span>
@@ -629,7 +674,10 @@ export const SettingsList = ({
       {
         label: "Show Pace In Exercise Details Page",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="show_pace_in_exercise_details"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Show Pace In Exercise Details Page</span>
             <Switch
               aria-label="Show Pace Exercise In Details Page Switch Element"
@@ -652,7 +700,10 @@ export const SettingsList = ({
       {
         label: "Show Set Comments In Exercise Details Page",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="show_set_comments_in_exercise_details"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">
               Show Set Comments In Exercise Details Page
             </span>
@@ -679,7 +730,10 @@ export const SettingsList = ({
       {
         label: "Show Workout Comments In Exercise Details Page",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="show_workout_comments_in_exercise_details"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">
               Show Workout Comments In Exercise Details Page
             </span>
@@ -706,7 +760,10 @@ export const SettingsList = ({
       {
         label: "Properties To Display In Workout List",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="shown_workout_properties"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">
               Properties To Display In Workout List
             </span>
@@ -723,7 +780,10 @@ export const SettingsList = ({
       {
         label: "Show Get Latest Body Weight Button",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="show_get_latest_body_weight_button"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Show Get Latest Body Weight Button</span>
             <Switch
               aria-label="Show Get Latest Body Weight Button Switch Element"
@@ -746,7 +806,10 @@ export const SettingsList = ({
       {
         label: "Show Outdated Body Weight Message",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="show_outdated_body_weight_message"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Show Outdated Body Weight Message</span>
             <Switch
               aria-label="Show Outdated Body Weight Message Switch Element"
@@ -769,7 +832,10 @@ export const SettingsList = ({
       {
         label: "Show Calculation Buttons Next To Weight And Distance Inputs",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="show_calculation_buttons"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">
               Show Calculation Buttons Next To Weight And Distance Inputs
             </span>
@@ -789,7 +855,10 @@ export const SettingsList = ({
       {
         label: "Automatically Save Last Calculation String For Exercises",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="save_calculation_string"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">
               Automatically Save Last Calculation String For Exercises
             </span>
@@ -809,7 +878,10 @@ export const SettingsList = ({
       {
         label: "Default Weight Calculation Tab",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="default_calculation_tab"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Default Weight Calculation Tab</span>
             <Select
               aria-label="Default Weight Calculation Tab Dropdown List"
@@ -830,7 +902,10 @@ export const SettingsList = ({
       {
         label: "Default Plate Collection",
         content: (
-          <div className="flex gap-3 items-center justify-between pr-1">
+          <div
+            key="default_plate_collection_id"
+            className="flex gap-3 items-center justify-between pr-1"
+          >
             <span className="text-lg">Default Plate Collection</span>
             <Button
               aria-label="Select Default Plate Collection Button"
@@ -848,7 +923,10 @@ export const SettingsList = ({
       {
         label: "Weight",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="default_increment_weight"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Weight</span>
             <div className="flex gap-2 items-center">
               <Input
@@ -885,7 +963,10 @@ export const SettingsList = ({
       {
         label: "Distance",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="default_increment_distance"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Distance</span>
             <div className="flex gap-2 items-center">
               <Input
@@ -922,7 +1003,10 @@ export const SettingsList = ({
       {
         label: "Time",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="default_increment_time"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Time</span>
             <div className="flex gap-2 items-center">
               <TimeValueInput
@@ -954,7 +1038,10 @@ export const SettingsList = ({
       {
         label: "Resistance Level",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="default_increment_resistance_level"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Resistance Level</span>
             <div className="flex gap-2 items-center">
               <Input
@@ -993,7 +1080,10 @@ export const SettingsList = ({
       {
         label: "Calculation Multiplier",
         content: (
-          <div className="flex gap-3 items-center justify-between">
+          <div
+            key="default_increment_calculation_multiplier"
+            className="flex gap-3 items-center justify-between"
+          >
             <span className="text-lg">Calculation Multiplier</span>
             <div className="flex gap-2 items-center">
               <Input
