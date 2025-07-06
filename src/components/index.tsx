@@ -34,6 +34,7 @@ export { DietLogAccordions } from "./DietLogAccordions";
 export { DateRange } from "./DateRange";
 export { TimePeriodListItemContent } from "./TimePeriodListItemContent";
 export { ExerciseMaxValues } from "./ExerciseMaxValues";
+export { SettingsList } from "./SettingsList";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
