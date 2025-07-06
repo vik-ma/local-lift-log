@@ -1269,3 +1269,10 @@ export type UserWeight = {
 };
 
 export type PresetsOperationType = "add" | "edit" | "delete";
+
+export type DefaultIncrementInputInvalidityMap = {
+  weight: boolean;
+  distance: boolean;
+  resistanceLevel: boolean;
+  calculationMultiplier: boolean;
+};
