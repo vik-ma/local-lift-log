@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, ReactNode } from "react";
 import {
   UserSettings,
   PlateCollection,
@@ -54,6 +54,11 @@ type SettingsListProps = {
 };
 
 type SpecificSettingModalPage = "default-plate-calc";
+
+type SettingsItem = {
+  label: string;
+  content: ReactNode;
+};
 
 export const SettingsList = ({
   userSettings,
@@ -299,6 +304,30 @@ export const SettingsList = ({
     specificSettingModal.onOpen();
   };
 
+  const settingsList = useMemo(() => {
+    const settingsItemList: SettingsItem[] = [
+      {
+        label: "Default Weight Unit",
+        content: (
+          <div
+            key="default_unit_weight"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span className="text-lg">Default Weight Unit</span>
+            <WeightUnitDropdown
+              value={userSettings.default_unit_weight}
+              updateUserSetting={updateUserSetting}
+              targetType="settings"
+            />
+          </div>
+        ),
+      },
+    ];
+
+    return settingsItemList;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userSettings]);
+
   return (
     <>
       <CreateDefaultSettingsModal
@@ -361,14 +390,7 @@ export const SettingsList = ({
           </h1>
         </div>
         <div className="flex flex-col gap-3 w-full">
-          <div className="flex gap-3 items-center justify-between">
-            <span className="text-lg">Default Weight Unit</span>
-            <WeightUnitDropdown
-              value={userSettings.default_unit_weight}
-              updateUserSetting={updateUserSetting}
-              targetType="settings"
-            />
-          </div>
+          {settingsList.map((settingsItem) => settingsItem.content)}
           <div className="flex gap-3 items-center justify-between">
             <span className="text-lg">Default Distance Unit</span>
             <DistanceUnitDropdown
