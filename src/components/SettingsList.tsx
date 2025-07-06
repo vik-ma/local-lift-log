@@ -1,10 +1,9 @@
 import { useState, useMemo } from "react";
 import {
   UserSettings,
-  DefaultIncrementInputs,
   PlateCollection,
   DefaultIncrementInputInvalidityMap,
-  UsePresetsListReturnType,
+  UseSettingsListReturnType,
 } from "../typings";
 import {
   CreateDefaultUserSettings,
@@ -51,25 +50,7 @@ type SettingsListProps = {
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
-  defaultIncrementInputValues: DefaultIncrementInputs;
-  setDefaultIncrementInputValues: React.Dispatch<
-    React.SetStateAction<DefaultIncrementInputs>
-  >;
-  defaultIncrementOriginalValues: DefaultIncrementInputs;
-  setDefaultIncrementOriginalValues: React.Dispatch<
-    React.SetStateAction<DefaultIncrementInputs>
-  >;
-  usePresetsList: UsePresetsListReturnType;
-  timeInSeconds: number;
-  setTimeInSeconds: React.Dispatch<React.SetStateAction<number>>;
-  selectedTimePeriodProperties: Set<string>;
-  setSelectedTimePeriodProperties: React.Dispatch<
-    React.SetStateAction<Set<string>>
-  >;
-  selectedWorkoutProperties: Set<string>;
-  setSelectedWorkoutProperties: React.Dispatch<
-    React.SetStateAction<Set<string>>
-  >;
+  useSettingsList: UseSettingsListReturnType;
 };
 
 type SpecificSettingModalPage = "default-plate-calc";
@@ -77,18 +58,22 @@ type SpecificSettingModalPage = "default-plate-calc";
 export const SettingsList = ({
   userSettings,
   setUserSettings,
-  defaultIncrementInputValues,
-  defaultIncrementOriginalValues,
-  setDefaultIncrementInputValues,
-  setDefaultIncrementOriginalValues,
-  usePresetsList,
-  timeInSeconds,
-  setTimeInSeconds,
-  selectedTimePeriodProperties,
-  setSelectedTimePeriodProperties,
-  selectedWorkoutProperties,
-  setSelectedWorkoutProperties,
+  useSettingsList,
 }: SettingsListProps) => {
+  const {
+    defaultIncrementInputValues,
+    setDefaultIncrementInputValues,
+    defaultIncrementOriginalValues,
+    setDefaultIncrementOriginalValues,
+    presetsList,
+    timeInSeconds,
+    setTimeInSeconds,
+    selectedTimePeriodProperties,
+    setSelectedTimePeriodProperties,
+    selectedWorkoutProperties,
+    setSelectedWorkoutProperties,
+  } = useSettingsList;
+
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [specificSettingModalPage, setSpecificSettingModalPage] =
     useState<SpecificSettingModalPage>("default-plate-calc");
@@ -305,9 +290,9 @@ export const SettingsList = ({
   ) => {
     if (
       modalPage === "default-plate-calc" &&
-      !usePresetsList.isEquipmentWeightListLoaded.current
+      !presetsList.isEquipmentWeightListLoaded.current
     ) {
-      await usePresetsList.getEquipmentWeights();
+      await presetsList.getEquipmentWeights();
     }
 
     setSpecificSettingModalPage(modalPage);
@@ -347,7 +332,7 @@ export const SettingsList = ({
                 <div className="h-[400px] flex flex-col gap-2">
                   {specificSettingModalPage === "default-plate-calc" ? (
                     <PlateCollectionModalList
-                      presetsList={usePresetsList}
+                      presetsList={presetsList}
                       handlePlateCollectionClick={
                         handleDefaultPlateCollectionIdChange
                       }

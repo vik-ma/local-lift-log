@@ -1276,3 +1276,25 @@ export type DefaultIncrementInputInvalidityMap = {
   resistanceLevel: boolean;
   calculationMultiplier: boolean;
 };
+
+export type UseSettingsListReturnType = {
+  defaultIncrementInputValues: DefaultIncrementInputs;
+  setDefaultIncrementInputValues: React.Dispatch<
+    React.SetStateAction<DefaultIncrementInputs>
+  >;
+  defaultIncrementOriginalValues: DefaultIncrementInputs;
+  setDefaultIncrementOriginalValues: React.Dispatch<
+    React.SetStateAction<DefaultIncrementInputs>
+  >;
+  presetsList: UsePresetsListReturnType;
+  timeInSeconds: number;
+  setTimeInSeconds: React.Dispatch<React.SetStateAction<number>>;
+  selectedTimePeriodProperties: Set<string>;
+  setSelectedTimePeriodProperties: React.Dispatch<
+    React.SetStateAction<Set<string>>
+  >;
+  selectedWorkoutProperties: Set<string>;
+  setSelectedWorkoutProperties: React.Dispatch<
+    React.SetStateAction<Set<string>>
+  >;
+};

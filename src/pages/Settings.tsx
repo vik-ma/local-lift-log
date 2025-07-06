@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { UserSettings, DefaultIncrementInputs } from "../typings";
 import {
   GetUserSettings,
@@ -9,36 +9,24 @@ import {
   ValidateAndModifyTimeInputBehavior,
 } from "../helpers";
 import { LoadingSpinner, SettingsList } from "../components";
-import { usePresetsList } from "../hooks";
+import { useSettingsList } from "../hooks";
 
 export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
-  const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
-    Set<string>
-  >(new Set());
-  const [selectedTimePeriodProperties, setSelectedTimePeriodProperties] =
-    useState<Set<string>>(new Set());
-  const [timeInSeconds, setTimeInSeconds] = useState<number>(0);
 
-  const emptyDefaultIncrementValues: DefaultIncrementInputs = useMemo(() => {
-    return {
-      weight: "",
-      distance: "",
-      time: 0,
-      resistanceLevel: "",
-      calculationMultiplier: "",
-    };
-  }, []);
+  const settingsList = useSettingsList();
 
-  const presetsList = usePresetsList(false, false);
+  const {
+    setDefaultIncrementInputValues,
+    setDefaultIncrementOriginalValues,
+    presetsList,
+    setTimeInSeconds,
+    setSelectedTimePeriodProperties,
+    setSelectedWorkoutProperties,
+  } = settingsList;
 
   const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
     presetsList.listFilters;
-
-  const [defaultIncrementInputValues, setDefaultIncrementInputValues] =
-    useState<DefaultIncrementInputs>(emptyDefaultIncrementValues);
-  const [defaultIncrementOriginalValues, setDefaultIncrementOriginalValues] =
-    useState<DefaultIncrementInputs>(emptyDefaultIncrementValues);
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -134,17 +122,7 @@ export default function Settings() {
     <SettingsList
       userSettings={userSettings}
       setUserSettings={setUserSettings}
-      defaultIncrementInputValues={defaultIncrementInputValues}
-      defaultIncrementOriginalValues={defaultIncrementOriginalValues}
-      setDefaultIncrementInputValues={setDefaultIncrementInputValues}
-      setDefaultIncrementOriginalValues={setDefaultIncrementOriginalValues}
-      usePresetsList={presetsList}
-      timeInSeconds={timeInSeconds}
-      setTimeInSeconds={setTimeInSeconds}
-      selectedTimePeriodProperties={selectedTimePeriodProperties}
-      setSelectedTimePeriodProperties={setSelectedTimePeriodProperties}
-      selectedWorkoutProperties={selectedWorkoutProperties}
-      setSelectedWorkoutProperties={setSelectedWorkoutProperties}
+      useSettingsList={settingsList}
     />
   );
 }
