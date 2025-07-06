@@ -195,8 +195,6 @@ export const SettingsList = ({
         timeInSeconds
       );
 
-      console.log(success);
-
       if (!success) return;
     }
 
