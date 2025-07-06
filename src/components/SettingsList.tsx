@@ -56,13 +56,13 @@ type SettingsListProps = {
 type SpecificSettingModalPage = "default-plate-calc";
 
 type SettingsItemCategory =
-  | "general"
-  | "workout"
-  | "exercise"
-  | "measurement"
-  | "time-period"
-  | "diet-log"
-  | "increment";
+  | "General"
+  | "Exercises"
+  | "Workouts"
+  | "Default Increments"
+  | "Measurement"
+  | "Time Periods"
+  | "Diet Logs";
 
 type SettingsItem = {
   label: string;
@@ -329,7 +329,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "general",
+        category: "General",
       },
       {
         label: "Default Distance Unit",
@@ -346,7 +346,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "general",
+        category: "General",
       },
       {
         label: "Default Time Input",
@@ -372,7 +372,7 @@ export const SettingsList = ({
             </Select>
           </div>
         ),
-        category: "general",
+        category: "General",
       },
       {
         label: "Default Measurement Unit (Circumference)",
@@ -391,7 +391,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "general",
+        category: "General",
       },
       {
         label: "Date Format",
@@ -405,7 +405,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "general",
+        category: "General",
       },
       {
         label: "Clock Format",
@@ -422,7 +422,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "general",
+        category: "General",
       },
       {
         label: "Time Input Behavior For HH:MM:SS",
@@ -441,7 +441,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "general",
+        category: "General",
       },
       {
         label: "Time Input Behavior For MM:SS",
@@ -460,7 +460,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "general",
+        category: "General",
       },
       {
         label: "Never Show Delete Modal Confirmation When Deleting Item",
@@ -484,7 +484,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "general",
+        category: "General",
       },
       {
         label: "Show Secondary Exercise Groups In Exercise List",
@@ -513,7 +513,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "exercise",
+        category: "Exercises",
       },
       {
         label: "Show Warmup Sets In Exercise Details Page",
@@ -542,7 +542,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "exercise",
+        category: "Exercises",
       },
       {
         label: "Show Multiset Sets In Exercise Details Page",
@@ -571,7 +571,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "exercise",
+        category: "Exercises",
       },
       {
         label: "Show Pace In Exercise Details Page",
@@ -598,7 +598,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "exercise",
+        category: "Exercises",
       },
       {
         label: "Show Set Comments In Exercise Details Page",
@@ -629,7 +629,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "exercise",
+        category: "Exercises",
       },
       {
         label: "Show Workout Comments In Exercise Details Page",
@@ -660,7 +660,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "exercise",
+        category: "Exercises",
       },
       {
         label: "Show Timestamp On Completed Sets",
@@ -687,7 +687,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "workout",
+        category: "Workouts",
       },
       {
         label: "Default Number Of New Sets",
@@ -708,7 +708,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "workout",
+        category: "Workouts",
       },
       {
         label: "Properties To Display In Workout List",
@@ -729,7 +729,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "workout",
+        category: "Workouts",
       },
       {
         label: "Show Get Latest Body Weight Button",
@@ -756,7 +756,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "workout",
+        category: "Workouts",
       },
       {
         label: "Show Outdated Body Weight Message",
@@ -783,7 +783,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "workout",
+        category: "Workouts",
       },
       {
         label: "Show Calculation Buttons Next To Weight And Distance Inputs",
@@ -807,7 +807,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "workout",
+        category: "Workouts",
       },
       {
         label: "Automatically Save Last Calculation String For Exercises",
@@ -831,7 +831,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "workout",
+        category: "Workouts",
       },
       {
         label: "Default Weight Calculation Tab",
@@ -856,7 +856,7 @@ export const SettingsList = ({
             </Select>
           </div>
         ),
-        category: "workout",
+        category: "Workouts",
       },
       {
         label: "Default Plate Collection",
@@ -878,7 +878,7 @@ export const SettingsList = ({
             </Button>
           </div>
         ),
-        category: "workout",
+        category: "Workouts",
       },
       {
         label: "Weight",
@@ -919,7 +919,7 @@ export const SettingsList = ({
             </div>
           </div>
         ),
-        category: "increment",
+        category: "Default Increments",
       },
       {
         label: "Distance",
@@ -960,7 +960,7 @@ export const SettingsList = ({
             </div>
           </div>
         ),
-        category: "increment",
+        category: "Default Increments",
       },
       {
         label: "Time",
@@ -996,7 +996,7 @@ export const SettingsList = ({
             </div>
           </div>
         ),
-        category: "increment",
+        category: "Default Increments",
       },
       {
         label: "Resistance Level",
@@ -1039,7 +1039,7 @@ export const SettingsList = ({
             </div>
           </div>
         ),
-        category: "increment",
+        category: "Default Increments",
       },
       {
         label: "Calculation Multiplier",
@@ -1084,7 +1084,7 @@ export const SettingsList = ({
             </div>
           </div>
         ),
-        category: "increment",
+        category: "Default Increments",
       },
       {
         label:
@@ -1117,7 +1117,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "measurement",
+        category: "Measurement",
       },
       {
         label: "Properties To Display In Time Period List",
@@ -1138,7 +1138,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "time-period",
+        category: "Time Periods",
       },
       {
         label: "Default Diet Log Entry Day",
@@ -1159,7 +1159,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "diet-log",
+        category: "Diet Logs",
       },
     ];
 
@@ -1171,13 +1171,13 @@ export const SettingsList = ({
     const filteredList: SettingsItem[] = [];
 
     const containsCategoryMap = new Map<SettingsItemCategory, boolean>([
-      ["general", false],
-      ["workout", false],
-      ["exercise", false],
-      ["measurement", false],
-      ["time-period", false],
-      ["diet-log", false],
-      ["increment", false],
+      ["General", false],
+      ["Workouts", false],
+      ["Exercises", false],
+      ["Measurement", false],
+      ["Time Periods", false],
+      ["Diet Logs", false],
+      ["Default Increments", false],
     ]);
 
     for (const settingsItem of settingsList) {
@@ -1267,16 +1267,6 @@ export const SettingsList = ({
         </div>
         <div className="flex flex-col gap-3 w-full">
           {filteredSettingsList.map((settingsItem) => settingsItem.content)}
-
-          {/* <h3 className="flex justify-center text-lg font-medium">Exercises</h3> */}
-          {/* <h3 className="flex justify-center text-lg font-medium">Workouts</h3> */}
-          {/* <h3 className="flex justify-center text-lg font-medium">
-            Calculations
-          </h3> */}
-          {/* <h3 className="flex justify-center text-lg font-medium">
-            Default Increments
-          </h3> */}
-
           <div className="flex justify-center">
             <Button
               variant="flat"
