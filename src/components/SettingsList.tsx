@@ -1202,7 +1202,7 @@ export const SettingsList = ({
         const headerItem: SettingsItem = {
           label: category,
           content: (
-            <h3 className="flex justify-center text-xl font-semibold">
+            <h3 className="flex leading-none text-2xl font-semibold pt-1">
               {category}
             </h3>
           ),
