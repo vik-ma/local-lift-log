@@ -40,6 +40,7 @@ import {
   NumSetsDropdown,
   TimePeriodPropertyDropdown,
   DietLogDayDropdown,
+  SearchInput,
 } from "../components";
 import toast from "react-hot-toast";
 import Database from "tauri-plugin-sql-api";
@@ -92,6 +93,7 @@ export const SettingsList = ({
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [specificSettingModalPage, setSpecificSettingModalPage] =
     useState<SpecificSettingModalPage>("default-plate-calc");
+  const [filterQuery, setFilterQuery] = useState<string>("");
 
   const numSetsOptions = NumNewSetsOptionList();
 
@@ -1181,6 +1183,17 @@ export const SettingsList = ({
     ]);
 
     for (const settingsItem of settingsList) {
+      if (
+        filterQuery !== "" &&
+        !settingsItem.label
+          .toLocaleLowerCase()
+          .includes(filterQuery.toLocaleLowerCase()) &&
+        !settingsItem.category
+          .toLocaleLowerCase()
+          .includes(filterQuery.toLocaleLowerCase())
+      )
+        continue;
+
       const category = settingsItem.category;
 
       if (containsCategoryMap.get(category) === false) {
@@ -1202,7 +1215,7 @@ export const SettingsList = ({
     }
 
     return filteredList;
-  }, [settingsList]);
+  }, [settingsList, filterQuery]);
 
   return (
     <>
@@ -1265,6 +1278,14 @@ export const SettingsList = ({
             Settings
           </h1>
         </div>
+        <SearchInput
+          filterQuery={filterQuery}
+          setFilterQuery={setFilterQuery}
+          // TODO: FIX
+          filteredListLength={0}
+          totalListLength={settingsList.length}
+          isListFiltered={false}
+        />
         <div className="flex flex-col gap-3 w-full">
           {filteredSettingsList.map((settingsItem) => settingsItem.content)}
           <div className="flex justify-center">
