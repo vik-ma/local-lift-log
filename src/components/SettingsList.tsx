@@ -1169,8 +1169,10 @@ export const SettingsList = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userSettings]);
 
-  const filteredSettingsList = useMemo(() => {
-    const filteredList: SettingsItem[] = [];
+  const { filteredSettingsList, numFilteredSettings } = useMemo(() => {
+    const filteredSettingsList: SettingsItem[] = [];
+
+    let numFilteredSettings = 0;
 
     const containsCategoryMap = new Map<SettingsItemCategory, boolean>([
       ["General", false],
@@ -1207,14 +1209,15 @@ export const SettingsList = ({
           category: category,
         };
 
-        filteredList.push(headerItem);
+        filteredSettingsList.push(headerItem);
         containsCategoryMap.set(category, true);
       }
 
-      filteredList.push(settingsItem);
+      filteredSettingsList.push(settingsItem);
+      numFilteredSettings++;
     }
 
-    return filteredList;
+    return { filteredSettingsList, numFilteredSettings };
   }, [settingsList, filterQuery]);
 
   return (
@@ -1281,8 +1284,7 @@ export const SettingsList = ({
         <SearchInput
           filterQuery={filterQuery}
           setFilterQuery={setFilterQuery}
-          // TODO: FIX
-          filteredListLength={0}
+          filteredListLength={numFilteredSettings}
           totalListLength={settingsList.length}
           isListFiltered={false}
         />
