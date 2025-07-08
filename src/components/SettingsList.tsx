@@ -323,7 +323,7 @@ export const SettingsList = ({
             key="default_unit_weight"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Default Weight Unit</span>
+            <span>Default Weight Unit</span>
             <WeightUnitDropdown
               value={userSettings.default_unit_weight}
               updateUserSetting={updateUserSetting}
@@ -340,7 +340,7 @@ export const SettingsList = ({
             key="default_unit_distance"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Default Distance Unit</span>
+            <span>Default Distance Unit</span>
             <DistanceUnitDropdown
               value={userSettings.default_unit_distance}
               updateUserSetting={updateUserSetting}
@@ -357,7 +357,7 @@ export const SettingsList = ({
             key="default_time_input"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Default Time Input</span>
+            <span>Default Time Input</span>
             <Select
               aria-label="Time Input Type Dropdown List"
               className="w-32"
@@ -383,7 +383,7 @@ export const SettingsList = ({
             key="default_unit_measurement"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">
+            <span>
               Default Measurement Unit (Circumference)
             </span>
             <MeasurementUnitDropdown
@@ -399,7 +399,7 @@ export const SettingsList = ({
         label: "Date Format",
         content: (
           <div key="locale" className="flex gap-3 items-center justify-between">
-            <span className="text-lg">Date Format</span>
+            <span>Date Format</span>
             <LocaleDropdown
               value={userSettings.locale}
               updateUserSetting={updateUserSetting}
@@ -416,7 +416,7 @@ export const SettingsList = ({
             key="clock_style"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Clock Format</span>
+            <span>Clock Format</span>
             <ClockStyleDropdown
               value={userSettings.clock_style}
               updateUserSetting={updateUserSetting}
@@ -433,7 +433,7 @@ export const SettingsList = ({
             key="time_input_behavior_hhmmss"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="flex flex-1 text-lg">
+            <span className="flex flex-1">
               Time Input Behavior For HH:MM:SS
             </span>
             <TimeInputBehaviorDropdown
@@ -452,7 +452,7 @@ export const SettingsList = ({
             key="time_input_behavior_mmss"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="flex flex-1 text-lg">
+            <span className="flex flex-1">
               Time Input Behavior For MM:SS
             </span>
             <TimeInputBehaviorDropdown
@@ -471,7 +471,7 @@ export const SettingsList = ({
             key="never_show_delete_modal"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">
+            <span>
               Never Show Delete Modal Confirmation When Deleting Item
             </span>
             <Switch
@@ -495,7 +495,7 @@ export const SettingsList = ({
             key="show_secondary_exercise_groups"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">
+            <span>
               Show Secondary Exercise Groups In Exercise List
             </span>
             <Switch
@@ -524,7 +524,7 @@ export const SettingsList = ({
             key="show_warmups_in_exercise_details"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">
+            <span>
               Show Warmup Sets In Exercise Details Page
             </span>
             <Switch
@@ -553,7 +553,7 @@ export const SettingsList = ({
             key="show_multisets_in_exercise_details"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">
+            <span>
               Show Multiset Sets In Exercise Details Page
             </span>
             <Switch
@@ -582,7 +582,7 @@ export const SettingsList = ({
             key="show_pace_in_exercise_details"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Show Pace In Exercise Details Page</span>
+            <span>Show Pace In Exercise Details Page</span>
             <Switch
               aria-label="Show Pace Exercise In Details Page Switch Element"
               className="flex-row-reverse gap-3"
@@ -609,7 +609,7 @@ export const SettingsList = ({
             key="show_set_comments_in_exercise_details"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">
+            <span>
               Show Set Comments In Exercise Details Page
             </span>
             <Switch
@@ -640,7 +640,7 @@ export const SettingsList = ({
             key="show_workout_comments_in_exercise_details"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">
+            <span>
               Show Workout Comments In Exercise Details Page
             </span>
             <Switch
@@ -671,7 +671,7 @@ export const SettingsList = ({
             key="show_timestamp_on_completed_set"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Show Timestamp On Completed Sets</span>
+            <span>Show Timestamp On Completed Sets</span>
             <Switch
               aria-label="Show Timestamp On Completed Sets Switch Element"
               className="flex-row-reverse gap-3"
@@ -698,7 +698,7 @@ export const SettingsList = ({
             key="default_num_new_sets"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Default Number Of New Sets</span>
+            <span>Default Number Of New Sets</span>
             <NumSetsDropdown
               numNewSets={GetValidatedNumNewSets(
                 userSettings.default_num_new_sets,
@@ -719,7 +719,7 @@ export const SettingsList = ({
             key="shown_workout_properties"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">
+            <span>
               Properties To Display In Workout List
             </span>
             <WorkoutPropertyDropdown
@@ -740,7 +740,7 @@ export const SettingsList = ({
             key="show_get_latest_body_weight_button"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Show Get Latest Body Weight Button</span>
+            <span>Show Get Latest Body Weight Button</span>
             <Switch
               aria-label="Show Get Latest Body Weight Button Switch Element"
               className="flex-row-reverse gap-3"
@@ -767,7 +767,7 @@ export const SettingsList = ({
             key="show_outdated_body_weight_message"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Show Outdated Body Weight Message</span>
+            <span>Show Outdated Body Weight Message</span>
             <Switch
               aria-label="Show Outdated Body Weight Message Switch Element"
               className="flex-row-reverse gap-3"
@@ -794,7 +794,7 @@ export const SettingsList = ({
             key="show_calculation_buttons"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">
+            <span>
               Show Calculation Buttons Next To Weight And Distance Inputs
             </span>
             <Switch
@@ -818,7 +818,7 @@ export const SettingsList = ({
             key="save_calculation_string"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">
+            <span>
               Automatically Save Last Calculation String For Exercises
             </span>
             <Switch
@@ -842,7 +842,7 @@ export const SettingsList = ({
             key="default_calculation_tab"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Default Weight Calculation Tab</span>
+            <span>Default Weight Calculation Tab</span>
             <Select
               aria-label="Default Weight Calculation Tab Dropdown List"
               className="w-[6rem]"
@@ -867,7 +867,7 @@ export const SettingsList = ({
             key="default_plate_collection_id"
             className="flex gap-3 items-center justify-between pr-1"
           >
-            <span className="text-lg">Default Plate Collection</span>
+            <span>Default Plate Collection</span>
             <Button
               aria-label="Select Default Plate Collection Button"
               color="primary"
@@ -889,7 +889,7 @@ export const SettingsList = ({
             key="default_increment_weight"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Weight</span>
+            <span>Weight</span>
             <div className="flex gap-2 items-center">
               <Input
                 aria-label="Default Weight Increment Input Field"
@@ -930,7 +930,7 @@ export const SettingsList = ({
             key="default_increment_distance"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Distance</span>
+            <span>Distance</span>
             <div className="flex gap-2 items-center">
               <Input
                 aria-label="Default Distance Increment Input Field"
@@ -971,7 +971,7 @@ export const SettingsList = ({
             key="default_increment_time"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Time</span>
+            <span>Time</span>
             <div className="flex gap-2 items-center">
               <TimeValueInput
                 userSettings={userSettings}
@@ -1007,7 +1007,7 @@ export const SettingsList = ({
             key="default_increment_resistance_level"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Resistance Level</span>
+            <span>Resistance Level</span>
             <div className="flex gap-2 items-center">
               <Input
                 aria-label="Default Resistance Level Increment Input Field"
@@ -1050,7 +1050,7 @@ export const SettingsList = ({
             key="default_increment_calculation_multiplier"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Calculation Multiplier</span>
+            <span>Calculation Multiplier</span>
             <div className="flex gap-2 items-center">
               <Input
                 aria-label="Default Calculation Multiplier Increment Input Field"
@@ -1096,7 +1096,7 @@ export const SettingsList = ({
             key="automatically_update_active_measurements"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">
+            <span>
               Automatically Update Active Measurements After Saving User
               Measurements
             </span>
@@ -1128,7 +1128,7 @@ export const SettingsList = ({
             key="shown_time_period_properties"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">
+            <span>
               Properties To Display In Time Period List
             </span>
             <TimePeriodPropertyDropdown
@@ -1149,7 +1149,7 @@ export const SettingsList = ({
             key="default_diet_log_day_is_yesterday"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="text-lg">Default Diet Log Entry Day</span>
+            <span>Default Diet Log Entry Day</span>
             <DietLogDayDropdown
               value={
                 userSettings.default_diet_log_day_is_yesterday === 1
@@ -1228,7 +1228,7 @@ export const SettingsList = ({
         header="Restore Default Settings"
         extraContent={
           <div>
-            <p className="text-lg text-center font-semibold text-danger">
+            <p className="text-lg font-semibold text-danger">
               Reset all settings to their default values?
             </p>
           </div>
