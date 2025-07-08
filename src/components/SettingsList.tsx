@@ -1288,11 +1288,12 @@ export const SettingsList = ({
           totalListLength={settingsList.length}
           isListFiltered={false}
         />
-        <div className="flex flex-col gap-3 w-full">
+        <div className="flex flex-col gap-2 w-full">
           {filteredSettingsList.map((settingsItem) => settingsItem.content)}
-          <div className="flex justify-center">
+          <div className="flex pb-2">
             <Button
               variant="flat"
+              size="sm"
               onPress={() => createDefaultSettingsModal.onOpen()}
             >
               Restore Default Settings
