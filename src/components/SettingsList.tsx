@@ -61,7 +61,7 @@ type SettingsItemCategory =
   | "Exercises"
   | "Workouts"
   | "Default Increments"
-  | "Measurement"
+  | "Measurements"
   | "Time Periods"
   | "Diet Logs";
 
@@ -1119,7 +1119,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "Measurement",
+        category: "Measurements",
       },
       {
         label: "Properties To Display In Time Period List",
@@ -1178,7 +1178,7 @@ export const SettingsList = ({
       ["General", false],
       ["Workouts", false],
       ["Exercises", false],
-      ["Measurement", false],
+      ["Measurements", false],
       ["Time Periods", false],
       ["Diet Logs", false],
       ["Default Increments", false],
