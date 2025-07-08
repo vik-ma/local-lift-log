@@ -1275,12 +1275,7 @@ export const SettingsList = ({
           )}
         </ModalContent>
       </Modal>
-      <div className="flex flex-col items-center gap-4">
-        <div className="bg-neutral-900 px-6 py-4 rounded-xl">
-          <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
-            Settings
-          </h1>
-        </div>
+      <div className="flex flex-col gap-2 w-full">
         <SearchInput
           filterQuery={filterQuery}
           setFilterQuery={setFilterQuery}
@@ -1288,17 +1283,15 @@ export const SettingsList = ({
           totalListLength={settingsList.length}
           isListFiltered={false}
         />
-        <div className="flex flex-col gap-2 w-full">
-          {filteredSettingsList.map((settingsItem) => settingsItem.content)}
-          <div className="flex pb-2">
-            <Button
-              variant="flat"
-              size="sm"
-              onPress={() => createDefaultSettingsModal.onOpen()}
-            >
-              Restore Default Settings
-            </Button>
-          </div>
+        {filteredSettingsList.map((settingsItem) => settingsItem.content)}
+        <div className="flex pb-2">
+          <Button
+            variant="flat"
+            size="sm"
+            onPress={() => createDefaultSettingsModal.onOpen()}
+          >
+            Restore Default Settings
+          </Button>
         </div>
       </div>
     </>
