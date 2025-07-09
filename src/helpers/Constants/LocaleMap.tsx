@@ -1,4 +1,4 @@
-export const LocaleList = () => {
+export const LocaleMap = () => {
   const LOCALE_MAP = new Map([
     ["en-GB", "DD-MM-YYYY"],
     ["en-US", "MM-DD-YYYY"],
@@ -8,3 +8,4 @@ export const LocaleList = () => {
 
   return LOCALE_MAP;
 };
+  

@@ -198,7 +198,7 @@ export { GetUniqueMultisetIds } from "./Workouts/GetUniqueMultisetIds";
 export { CreateWorkout } from "./Workouts/CreateWorkout";
 export { DeleteWorkoutWithId } from "./Workouts/DeleteWorkoutWithId";
 
-export { LocaleList } from "./Constants/LocaleList";
+export { LocaleMap } from "./Constants/LocaleMap";
 export { TimeInputMap } from "./Constants/TimeInputMap";
 export { ValidClockStyles } from "./Constants/ValidClockStyles";
 export { ValidDistanceUnits } from "./Constants/ValidDistanceUnits";

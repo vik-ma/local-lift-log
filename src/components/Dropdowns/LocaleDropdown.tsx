@@ -1,5 +1,5 @@
 import { Select, SelectItem } from "@heroui/react";
-import { useLocaleList } from "../../hooks";
+import { useLocaleMap } from "../../hooks";
 import { SettingsDropdownProps } from "../../typings";
 
 export const LocaleDropdown = ({
@@ -8,7 +8,7 @@ export const LocaleDropdown = ({
   setValue,
   updateUserSetting,
 }: SettingsDropdownProps) => {
-  const localeList = useLocaleList();
+  const localeMap = useLocaleMap();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "settings" && updateUserSetting !== undefined) {
@@ -29,7 +29,7 @@ export const LocaleDropdown = ({
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      {Array.from(localeList).map(([code, label]) => (
+      {Array.from(localeMap).map(([code, label]) => (
         <SelectItem key={code}>{label}</SelectItem>
       ))}
     </Select>

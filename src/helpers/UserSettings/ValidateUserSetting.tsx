@@ -2,7 +2,7 @@ import {
   IsNumberValid,
   IsNumberValidBinary,
   IsNumberValidInteger,
-  LocaleList,
+  LocaleMap,
   NumNewSetsOptionList,
   ValidateActiveMeasurementsString,
   ValidateShownPropertiesString,
@@ -37,7 +37,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "active_tracking_measurements":
       return ValidateActiveMeasurementsString(value as string);
     case "locale":
-      return LocaleList().has(value as string);
+      return LocaleMap().has(value as string);
     case "clock_style":
       return ValidClockStyles().includes(value as string);
     case "time_input_behavior_hhmmss":
