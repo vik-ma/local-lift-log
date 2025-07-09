@@ -228,7 +228,10 @@ export const WorkoutGroupedSetList = ({
                             Copy Last Completed Values
                           </DropdownItem>
                           {isExerciseInvalid ? (
-                            <DropdownItem key="reassign-exercise">
+                            <DropdownItem
+                              key="reassign-exercise"
+                              className="text-secondary"
+                            >
                               Reassign Exercise
                             </DropdownItem>
                           ) : (

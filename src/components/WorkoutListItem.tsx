@@ -97,13 +97,19 @@ export const WorkoutListItem = ({
                   Edit
                 </DropdownItem>
                 <DropdownItem
-                  className={workout.hasInvalidWorkoutTemplate ? "" : "hidden"}
+                  className={
+                    workout.hasInvalidWorkoutTemplate
+                      ? "text-secondary"
+                      : "hidden"
+                  }
                   key="reassign-workout-template"
                 >
                   Reassign Workout Template
                 </DropdownItem>
                 <DropdownItem
-                  className={workout.hasInvalidRoutine ? "" : "hidden"}
+                  className={
+                    workout.hasInvalidRoutine ? "text-secondary" : "hidden"
+                  }
                   key="reassign-routine"
                 >
                   Reassign Routine

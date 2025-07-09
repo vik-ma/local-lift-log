@@ -85,7 +85,9 @@ export const MultisetSetMenu = ({
           </DropdownItem>
         )}
         <DropdownItem
-          className={set.hasInvalidExerciseId && !isInModal ? "" : "hidden"}
+          className={
+            set.hasInvalidExerciseId && !isInModal ? "text-secondary" : "hidden"
+          }
           key="reassign-exercise"
         >
           Reassign Exercise

@@ -250,7 +250,7 @@ export const SetList = ({
                     <DropdownItem
                       className={
                         groupedSet.isMultiset && exercise.isInvalid
-                          ? ""
+                          ? "text-secondary"
                           : "hidden"
                       }
                       key="reassign-exercise"
