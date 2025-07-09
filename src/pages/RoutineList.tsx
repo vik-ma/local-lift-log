@@ -386,7 +386,9 @@ export default function RoutineList() {
                         )
                       }
                     >
-                      <DropdownItem key="edit">Edit</DropdownItem>
+                      <DropdownItem key="edit" className="text-slate-400">
+                        Edit
+                      </DropdownItem>
                       <DropdownItem
                         key="set-active"
                         className={isActiveRoutine ? "" : "text-secondary"}

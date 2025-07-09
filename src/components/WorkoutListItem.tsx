@@ -93,7 +93,9 @@ export const WorkoutListItem = ({
                   handleWorkoutOptionSelection(key as string, workout)
                 }
               >
-                <DropdownItem key="edit">Edit</DropdownItem>
+                <DropdownItem key="edit" className="text-slate-400">
+                  Edit
+                </DropdownItem>
                 <DropdownItem
                   className={workout.hasInvalidWorkoutTemplate ? "" : "hidden"}
                   key="reassign-workout-template"

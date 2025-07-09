@@ -350,7 +350,9 @@ export default function ExerciseList() {
                       handleExerciseOptionSelection(key as string, exercise)
                     }
                   >
-                    <DropdownItem key="edit">Edit</DropdownItem>
+                    <DropdownItem key="edit" className="text-slate-400">
+                      Edit
+                    </DropdownItem>
                     <DropdownItem
                       key="toggle-favorite"
                       className="text-secondary"

@@ -884,7 +884,12 @@ export default function Presets() {
                                 )
                               }
                             >
-                              <DropdownItem key="edit">Edit</DropdownItem>
+                              <DropdownItem
+                                key="edit"
+                                className="text-slate-400"
+                              >
+                                Edit
+                              </DropdownItem>
                               <DropdownItem
                                 key="toggle-favorite"
                                 className="text-secondary"
@@ -1007,7 +1012,12 @@ export default function Presets() {
                                 )
                               }
                             >
-                              <DropdownItem key="edit">Edit</DropdownItem>
+                              <DropdownItem
+                                key="edit"
+                                className="text-slate-400"
+                              >
+                                Edit
+                              </DropdownItem>
                               <DropdownItem
                                 key="toggle-favorite"
                                 className="text-secondary"
@@ -1148,7 +1158,12 @@ export default function Presets() {
                                   )
                                 }
                               >
-                                <DropdownItem key="edit">Edit</DropdownItem>
+                                <DropdownItem
+                                  key="edit"
+                                  className="text-slate-400"
+                                >
+                                  Edit
+                                </DropdownItem>
                                 <DropdownItem
                                   className={
                                     plate.id ===

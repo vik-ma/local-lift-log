@@ -458,7 +458,9 @@ export default function MeasurementList() {
                         handleOptionSelection(key as string, measurement)
                       }
                     >
-                      <DropdownItem key="edit">Edit</DropdownItem>
+                      <DropdownItem key="edit" className="text-slate-400">
+                        Edit
+                      </DropdownItem>
                       {activeMeasurementSet.has(measurement.id) ? (
                         <DropdownItem key="untrack" className="text-success">
                           Untrack

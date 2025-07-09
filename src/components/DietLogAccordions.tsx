@@ -89,7 +89,9 @@ export const DietLogAccordions = ({
                       handleDietLogOptionSelection(key as string, dietLog)
                     }
                   >
-                    <DropdownItem key="edit">Edit</DropdownItem>
+                    <DropdownItem key="edit" className="text-slate-400">
+                      Edit
+                    </DropdownItem>
                     <DropdownItem key="delete" className="text-danger">
                       Delete
                     </DropdownItem>

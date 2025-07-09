@@ -122,7 +122,9 @@ export const BodyMeasurementsAccordions = ({
                       )
                     }
                   >
-                    <DropdownItem key="edit">Edit</DropdownItem>
+                    <DropdownItem key="edit" className="text-slate-400">
+                      Edit
+                    </DropdownItem>
                     <DropdownItem key="edit-timestamp">
                       Change Timestamp
                     </DropdownItem>
