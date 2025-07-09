@@ -1,13 +1,8 @@
-type LocaleMap = {
-  label: string;
-  code: string;
-};
-
-export const LocaleList = (): LocaleMap[] => {
-  const LOCALE_MAP: LocaleMap[] = [
-    { label: "DD-MM-YYYY", code: "en-GB" },
-    { label: "MM-DD-YYYY", code: "en-US" },
-  ];
+export const LocaleList = () => {
+  const LOCALE_MAP = new Map([
+    ["en-GB", "DD-MM-YYYY"],
+    ["en-US", "MM-DD-YYYY"],
+  ]);
 
   Object.freeze(LOCALE_MAP);
 

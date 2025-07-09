@@ -20,9 +20,7 @@ export const CreateDefaultUserSettings = async (
 
   const default_time_input = "hhmmss";
 
-  const default_locale = LocaleList().some((item) => item.code === locale)
-    ? locale
-    : "en-GB";
+  const default_locale = LocaleList().has(locale) ? locale : "en-GB";
 
   const default_clock_style =
     clockStyle === "24h" || clockStyle === "12h" ? clockStyle : "24h";

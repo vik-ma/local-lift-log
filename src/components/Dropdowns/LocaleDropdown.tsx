@@ -29,8 +29,8 @@ export const LocaleDropdown = ({
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      {localeList.map((unit) => (
-        <SelectItem key={unit.code}>{unit.label}</SelectItem>
+      {Array.from(localeList).map(([code, label]) => (
+        <SelectItem key={code}>{label}</SelectItem>
       ))}
     </Select>
   );
