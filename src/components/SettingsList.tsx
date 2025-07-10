@@ -54,7 +54,7 @@ type SettingsListProps = {
   useSettingsList: UseSettingsListReturnType;
 };
 
-type SpecificSettingModalPage = "default-plate-calc";
+type ExtraSettingModalPage = "default-plate-calc";
 
 type SettingsItemCategory =
   | "General"
@@ -91,14 +91,14 @@ export const SettingsList = ({
   } = useSettingsList;
 
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
-  const [specificSettingModalPage, setSpecificSettingModalPage] =
-    useState<SpecificSettingModalPage>("default-plate-calc");
+  const [extraSettingModalPage, setExtraSettingModalPage] =
+    useState<ExtraSettingModalPage>("default-plate-calc");
   const [filterQuery, setFilterQuery] = useState<string>("");
 
   const numSetsOptions = NumNewSetsOptionList();
 
   const createDefaultSettingsModal = useDisclosure();
-  const specificSettingModal = useDisclosure();
+  const extraSettingModal = useDisclosure();
 
   const defaultIncrementInputsInvalidityMap =
     useMemo((): DefaultIncrementInputInvalidityMap => {
@@ -268,7 +268,7 @@ export const SettingsList = ({
 
     if (!success) return;
 
-    specificSettingModal.onClose();
+    extraSettingModal.onClose();
   };
 
   const restoreDefaultSettings = async (
@@ -300,8 +300,8 @@ export const SettingsList = ({
     }
   };
 
-  const handleOpenSpecificSettingModal = async (
-    modalPage: SpecificSettingModalPage
+  const handleOpenExtraSettingModal = async (
+    modalPage: ExtraSettingModalPage
   ) => {
     if (
       modalPage === "default-plate-calc" &&
@@ -310,8 +310,8 @@ export const SettingsList = ({
       await presetsList.getEquipmentWeights();
     }
 
-    setSpecificSettingModalPage(modalPage);
-    specificSettingModal.onOpen();
+    setExtraSettingModalPage(modalPage);
+    extraSettingModal.onOpen();
   };
 
   const settingsList = useMemo(() => {
@@ -873,7 +873,7 @@ export const SettingsList = ({
               color="primary"
               size="sm"
               onPress={() =>
-                handleOpenSpecificSettingModal("default-plate-calc")
+                handleOpenExtraSettingModal("default-plate-calc")
               }
             >
               Select
@@ -1238,20 +1238,20 @@ export const SettingsList = ({
         isDismissible={true}
       />
       <Modal
-        isOpen={specificSettingModal.isOpen}
-        onOpenChange={specificSettingModal.onOpenChange}
+        isOpen={extraSettingModal.isOpen}
+        onOpenChange={extraSettingModal.onOpenChange}
       >
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader>
-                {specificSettingModalPage === "default-plate-calc"
+                {extraSettingModalPage === "default-plate-calc"
                   ? "Set Default Plate Collection"
                   : ""}
               </ModalHeader>
               <ModalBody>
                 <div className="h-[400px] flex flex-col gap-2">
-                  {specificSettingModalPage === "default-plate-calc" ? (
+                  {extraSettingModalPage === "default-plate-calc" ? (
                     <PlateCollectionModalList
                       usePresetsList={presetsList}
                       handlePlateCollectionClick={
