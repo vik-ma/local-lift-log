@@ -85,11 +85,11 @@ export const BodyMeasurementsAccordions = ({
                     weight and any body measurements are set */}
                 {measurement.weight !== 0 &&
                   measurement.measurementsText !== undefined && (
-                    <span className="w-[19rem] break-all text-xs text-slate-400">
+                    <span className="w-[19rem] break-all text-xs text-stone-400">
                       {measurement.measurementsText}
                     </span>
                   )}
-                <span className="w-[19rem] break-all text-xs text-stone-400">
+                <span className="w-[19rem] break-all text-xs text-slate-400">
                   {measurement.comment}
                 </span>
               </div>
