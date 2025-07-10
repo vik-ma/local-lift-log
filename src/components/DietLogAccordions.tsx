@@ -59,7 +59,7 @@ export const DietLogAccordions = ({
                 <span className="text-xs text-secondary text-left">
                   {dietLog.formattedDate}
                 </span>
-                <span className="w-[19rem] break-all text-xs text-stone-400 text-left">
+                <span className="w-[19rem] break-all text-xs text-slate-400 text-left">
                   {dietLog.comment}
                 </span>
               </div>
@@ -112,20 +112,20 @@ export const DietLogAccordions = ({
                   <div className="flex flex-col divide-y divide-stone-200 text-sm pb-0.5">
                     {dietLog.fat !== null && (
                       <div className="flex px-2">
-                        <div className="font-medium text-stone-600 w-[9.75rem]">
+                        <div className="font-medium text-stone-500 w-[9.75rem]">
                           Fat
                         </div>
-                        <span className="font-medium">
+                        <span className="font-medium text-stone-600">
                           <span className="font-semibold">{dietLog.fat}</span> g
                         </span>
                       </div>
                     )}
                     {dietLog.carbs !== null && (
                       <div className="flex px-2">
-                        <div className="font-medium text-stone-600 w-[9.75rem]">
+                        <div className="font-medium text-stone-500 w-[9.75rem]">
                           Carbs
                         </div>
-                        <span className="font-medium">
+                        <span className="font-medium text-stone-600">
                           <span className="font-semibold">{dietLog.carbs}</span>{" "}
                           g
                         </span>
@@ -133,10 +133,10 @@ export const DietLogAccordions = ({
                     )}
                     {dietLog.protein !== null && (
                       <div className="flex px-2">
-                        <div className="font-medium text-stone-600 w-[9.75rem]">
+                        <div className="font-medium text-stone-500 w-[9.75rem]">
                           Protein
                         </div>
-                        <span className="font-medium">
+                        <span className="font-medium text-stone-600">
                           <span className="font-semibold">
                             {dietLog.protein}
                           </span>{" "}
