@@ -34,7 +34,7 @@ export const TimePeriodListItemContent = ({
         </span>
         {timePeriod.isOngoing &&
           selectedTimePeriodProperties.has("ongoing") && (
-            <span className="text-sm text-indigo-500">(Ongoing)</span>
+            <span className="text-sm text-blue-400">(Ongoing)</span>
           )}
       </div>
       <div className={`${contentWidth} text-xs text-left truncate`}>
@@ -51,19 +51,19 @@ export const TimePeriodListItemContent = ({
             {timePeriod.formattedEndDate}
           </span>
         )}
-        <span className="text-slate-400 pl-1">
+        <span className="text-stone-400 pl-1">
           ({timePeriod.numDaysBetweenDates} Days)
         </span>
       </div>
-      {selectedTimePeriodProperties.has("diet-phase") && (
-        <DietPhaseTypeSpan value={timePeriod.diet_phase} />
-      )}
       {selectedTimePeriodProperties.has("note") && (
         <span
-          className={`${contentWidth} break-all text-xs text-stone-400 text-left`}
+          className={`${contentWidth} break-all text-xs text-slate-400 text-left`}
         >
           {timePeriod.note}
         </span>
+      )}
+      {selectedTimePeriodProperties.has("diet-phase") && (
+        <DietPhaseTypeSpan value={timePeriod.diet_phase} />
       )}
       {timePeriod.injury !== null &&
         selectedTimePeriodProperties.has("injury") && (
