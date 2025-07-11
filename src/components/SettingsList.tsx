@@ -483,33 +483,6 @@ export const SettingsList = ({
         category: "General",
       },
       {
-        label: "Show Secondary Exercise Groups In Exercise List",
-        content: (
-          <div
-            key="show_secondary_exercise_groups"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span>Show Secondary Exercise Groups In Exercise List</span>
-            <Switch
-              aria-label="Show Secondary Exercise Groups Switch Element"
-              className="flex-row-reverse gap-3"
-              color="primary"
-              size="lg"
-              isSelected={
-                userSettings.show_secondary_exercise_groups ? true : false
-              }
-              onValueChange={(value) =>
-                updateUserSetting(
-                  "show_secondary_exercise_groups",
-                  value ? 1 : 0
-                )
-              }
-            />
-          </div>
-        ),
-        category: "Exercises",
-      },
-      {
         label: "Show Warmup Sets In Exercise Details Page",
         content: (
           <div
