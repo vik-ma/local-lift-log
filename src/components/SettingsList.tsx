@@ -1,7 +1,6 @@
 import { useState, useMemo, ReactNode } from "react";
 import {
   UserSettings,
-  PlateCollection,
   DefaultIncrementInputInvalidityMap,
   UseSettingsListReturnType,
 } from "../typings";
@@ -20,11 +19,6 @@ import {
   Button,
   useDisclosure,
   Input,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
 } from "@heroui/react";
 import {
   WeightUnitDropdown,
@@ -36,7 +30,6 @@ import {
   CreateDefaultSettingsModal,
   TimeValueInput,
   WorkoutPropertyDropdown,
-  PlateCollectionModalList,
   NumSetsDropdown,
   TimePeriodPropertyDropdown,
   DietLogDayDropdown,
@@ -53,8 +46,6 @@ type SettingsListProps = {
   >;
   useSettingsList: UseSettingsListReturnType;
 };
-
-type ExtraSettingModalPage = "default-plate-calc";
 
 type SettingsItemCategory =
   | "General"
@@ -81,7 +72,6 @@ export const SettingsList = ({
     setDefaultIncrementInputValues,
     defaultIncrementOriginalValues,
     setDefaultIncrementOriginalValues,
-    presetsList,
     timeInSeconds,
     setTimeInSeconds,
     selectedTimePeriodProperties,
@@ -91,14 +81,11 @@ export const SettingsList = ({
   } = useSettingsList;
 
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
-  const [extraSettingModalPage, setExtraSettingModalPage] =
-    useState<ExtraSettingModalPage>("default-plate-calc");
   const [filterQuery, setFilterQuery] = useState<string>("");
 
   const numSetsOptions = NumNewSetsOptionList();
 
   const createDefaultSettingsModal = useDisclosure();
-  const extraSettingModal = useDisclosure();
 
   const defaultIncrementInputsInvalidityMap =
     useMemo((): DefaultIncrementInputInvalidityMap => {
@@ -258,19 +245,6 @@ export const SettingsList = ({
     setDefaultIncrementOriginalValues({ ...updatedOriginalValues });
   };
 
-  const handleDefaultPlateCollectionIdChange = async (
-    plateCollection: PlateCollection
-  ) => {
-    const success = await updateUserSetting(
-      "default_plate_collection_id",
-      plateCollection.id
-    );
-
-    if (!success) return;
-
-    extraSettingModal.onClose();
-  };
-
   const restoreDefaultSettings = async (
     unitType: string,
     locale: string,
@@ -298,20 +272,6 @@ export const SettingsList = ({
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleOpenExtraSettingModal = async (
-    modalPage: ExtraSettingModalPage
-  ) => {
-    if (
-      modalPage === "default-plate-calc" &&
-      !presetsList.isEquipmentWeightListLoaded.current
-    ) {
-      await presetsList.getEquipmentWeights();
-    }
-
-    setExtraSettingModalPage(modalPage);
-    extraSettingModal.onOpen();
   };
 
   const settingsList = useMemo(() => {
@@ -816,26 +776,6 @@ export const SettingsList = ({
         category: "Workouts",
       },
       {
-        label: "Default Plate Collection",
-        content: (
-          <div
-            key="default_plate_collection_id"
-            className="flex gap-3 items-center justify-between pr-1"
-          >
-            <span>Default Plate Collection</span>
-            <Button
-              aria-label="Select Default Plate Collection Button"
-              color="primary"
-              size="sm"
-              onPress={() => handleOpenExtraSettingModal("default-plate-calc")}
-            >
-              Select
-            </Button>
-          </div>
-        ),
-        category: "Workouts",
-      },
-      {
         label: "Weight",
         content: (
           <div
@@ -1189,44 +1129,6 @@ export const SettingsList = ({
         isRestoreSettings={true}
         isDismissible={true}
       />
-      <Modal
-        isOpen={extraSettingModal.isOpen}
-        onOpenChange={extraSettingModal.onOpenChange}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>
-                {extraSettingModalPage === "default-plate-calc"
-                  ? "Set Default Plate Collection"
-                  : ""}
-              </ModalHeader>
-              <ModalBody>
-                <div className="h-[400px] flex flex-col gap-2">
-                  {extraSettingModalPage === "default-plate-calc" ? (
-                    <PlateCollectionModalList
-                      usePresetsList={presetsList}
-                      handlePlateCollectionClick={
-                        handleDefaultPlateCollectionIdChange
-                      }
-                      defaultPlateCollectionId={
-                        userSettings.default_plate_collection_id
-                      }
-                    />
-                  ) : (
-                    <div></div>
-                  )}
-                </div>
-              </ModalBody>
-              <ModalFooter className="flex justify-between">
-                <Button color="primary" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
       <div className="flex flex-col gap-2 w-full">
         <SearchInput
           filterQuery={filterQuery}
