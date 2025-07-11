@@ -50,8 +50,8 @@ export const CreateDefaultSettingsModal = ({
         {(onClose) => (
           <>
             <ModalHeader>{header}</ModalHeader>
-            <ModalBody>
-              <div className="flex flex-col gap-4">
+            <ModalBody className="py-0">
+              <div className="flex flex-col">
                 {extraContent}
                 <div className="flex flex-col gap-1.5">
                   <div className="flex gap-3 items-center justify-between">
