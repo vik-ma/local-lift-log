@@ -383,9 +383,7 @@ export const SettingsList = ({
             key="default_unit_measurement"
             className="flex gap-3 items-center justify-between"
           >
-            <span>
-              Default Measurement Unit (Circumference)
-            </span>
+            <span>Default Measurement Unit (Circumference)</span>
             <MeasurementUnitDropdown
               value={userSettings.default_unit_measurement}
               updateUserSetting={updateUserSetting}
@@ -452,9 +450,7 @@ export const SettingsList = ({
             key="time_input_behavior_mmss"
             className="flex gap-3 items-center justify-between"
           >
-            <span className="flex flex-1">
-              Time Input Behavior For MM:SS
-            </span>
+            <span className="flex flex-1">Time Input Behavior For MM:SS</span>
             <TimeInputBehaviorDropdown
               value={userSettings.time_input_behavior_mmss}
               updateUserSetting={updateUserSetting}
@@ -471,9 +467,7 @@ export const SettingsList = ({
             key="never_show_delete_modal"
             className="flex gap-3 items-center justify-between"
           >
-            <span>
-              Never Show Delete Modal Confirmation When Deleting Item
-            </span>
+            <span>Never Show Delete Modal Confirmation When Deleting Item</span>
             <Switch
               aria-label="Never Show Delete Modal Confirmation Switch Element"
               className="flex-row-reverse gap-3"
@@ -495,9 +489,7 @@ export const SettingsList = ({
             key="show_secondary_exercise_groups"
             className="flex gap-3 items-center justify-between"
           >
-            <span>
-              Show Secondary Exercise Groups In Exercise List
-            </span>
+            <span>Show Secondary Exercise Groups In Exercise List</span>
             <Switch
               aria-label="Show Secondary Exercise Groups Switch Element"
               className="flex-row-reverse gap-3"
@@ -524,9 +516,7 @@ export const SettingsList = ({
             key="show_warmups_in_exercise_details"
             className="flex gap-3 items-center justify-between"
           >
-            <span>
-              Show Warmup Sets In Exercise Details Page
-            </span>
+            <span>Show Warmup Sets In Exercise Details Page</span>
             <Switch
               aria-label="Show Warmup Sets In Exercise Details Page Switch Element"
               className="flex-row-reverse gap-3"
@@ -553,9 +543,7 @@ export const SettingsList = ({
             key="show_multisets_in_exercise_details"
             className="flex gap-3 items-center justify-between"
           >
-            <span>
-              Show Multiset Sets In Exercise Details Page
-            </span>
+            <span>Show Multiset Sets In Exercise Details Page</span>
             <Switch
               aria-label="Show Multiset Sets In Exercise Details Page Switch Element"
               className="flex-row-reverse gap-3"
@@ -609,9 +597,7 @@ export const SettingsList = ({
             key="show_set_comments_in_exercise_details"
             className="flex gap-3 items-center justify-between"
           >
-            <span>
-              Show Set Comments In Exercise Details Page
-            </span>
+            <span>Show Set Comments In Exercise Details Page</span>
             <Switch
               aria-label="Show Set Comments In Details Page Switch Element"
               className="flex-row-reverse gap-3"
@@ -640,9 +626,7 @@ export const SettingsList = ({
             key="show_workout_comments_in_exercise_details"
             className="flex gap-3 items-center justify-between"
           >
-            <span>
-              Show Workout Comments In Exercise Details Page
-            </span>
+            <span>Show Workout Comments In Exercise Details Page</span>
             <Switch
               aria-label="Show Workout Comments In Exercise Details Page Switch Element"
               className="flex-row-reverse gap-3"
@@ -719,9 +703,7 @@ export const SettingsList = ({
             key="shown_workout_properties"
             className="flex gap-3 items-center justify-between"
           >
-            <span>
-              Properties To Display In Workout List
-            </span>
+            <span>Properties To Display In Workout List</span>
             <WorkoutPropertyDropdown
               selectedWorkoutProperties={selectedWorkoutProperties}
               setSelectedWorkoutProperties={setSelectedWorkoutProperties}
@@ -872,9 +854,7 @@ export const SettingsList = ({
               aria-label="Select Default Plate Collection Button"
               color="primary"
               size="sm"
-              onPress={() =>
-                handleOpenExtraSettingModal("default-plate-calc")
-              }
+              onPress={() => handleOpenExtraSettingModal("default-plate-calc")}
             >
               Select
             </Button>
@@ -1128,9 +1108,7 @@ export const SettingsList = ({
             key="shown_time_period_properties"
             className="flex gap-3 items-center justify-between"
           >
-            <span>
-              Properties To Display In Time Period List
-            </span>
+            <span>Properties To Display In Time Period List</span>
             <TimePeriodPropertyDropdown
               selectedTimePeriodProperties={selectedTimePeriodProperties}
               setSelectedTimePeriodProperties={setSelectedTimePeriodProperties}
@@ -1227,10 +1205,11 @@ export const SettingsList = ({
         doneButtonAction={restoreDefaultSettings}
         header="Restore Default Settings"
         extraContent={
-          <div>
-            <p className="text-lg font-semibold text-danger">
+          <div className="flex flex-col gap-3">
+            <p className="text-lg font-medium text-danger">
               Reset all settings to their default values?
             </p>
+            <h3 className="text-lg font-medium pb-1">New Settings</h3>
           </div>
         }
         doneButtonText="Reset"
