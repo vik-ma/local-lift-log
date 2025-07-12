@@ -1,5 +1,5 @@
-use dotenvy::dotenv;
 use dirs::config_dir;
+use dotenvy::dotenv;
 
 use std::env;
 use std::fs;
