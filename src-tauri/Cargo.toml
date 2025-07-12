@@ -7,25 +7,25 @@ license = ""
 repository = ""
 default-run = "app"
 edition = "2021"
-rust-version = "1.60"
+rust-version = "1.88"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.5.1", features = [] }
+tauri-build = { version = "2.3.0", features = [] }
 
 [dependencies]
-serde_json = "1.0"
-serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.6.0", features = [] }
-diesel = { version = "2.1.4", features = ["sqlite"] }
-diesel_migrations = "2.1.0"
-chrono = "0.4.34"
+serde_json = "1.0.140"
+serde = { version = "1.0.219", features = ["derive"] }
+tauri = { version = "2.6.2", features = [] }
+diesel = { version = "2.2.12", features = ["sqlite"] }
+diesel_migrations = "2.2.0"
+chrono = "0.4.41"
 dotenvy = "0.15.7"
 
 [dependencies.tauri-plugin-sql]
 git = "https://github.com/tauri-apps/plugins-workspace"
-branch = "v1"
+branch = "v2"
 features = ["sqlite"]
 
 [features]
