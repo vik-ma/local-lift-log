@@ -10,7 +10,7 @@ import {
   MeasurementListOptions,
 } from "../components";
 import { Measurement, UserSettings } from "../typings";
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import {
   Button,
   Modal,

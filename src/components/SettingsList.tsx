@@ -31,7 +31,7 @@ import {
   SearchInput,
 } from "../components";
 import toast from "react-hot-toast";
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import { useTimeInputMap } from "../hooks";
 
 type SettingsListProps = {

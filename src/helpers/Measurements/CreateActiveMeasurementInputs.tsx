@@ -1,5 +1,5 @@
 import { Measurement } from "../../typings";
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import { GenerateActiveMeasurementList } from "..";
 
 export const CreateActiveMeasurementInputs = async (
@@ -32,6 +32,6 @@ export const CreateActiveMeasurementInputs = async (
   } catch (error) {
     console.log(error);
   }
-  
+
   return activeMeasurements;
 };

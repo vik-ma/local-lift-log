@@ -1,4 +1,4 @@
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import { Multiset } from "../../typings";
 
 export const UpdateMultiset = async (multiset: Multiset): Promise<boolean> => {

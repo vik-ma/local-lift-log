@@ -17,7 +17,7 @@ import {
   FilterWorkoutTemplateListModal,
   FilterRoutineListModal,
 } from "../components";
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
 import {

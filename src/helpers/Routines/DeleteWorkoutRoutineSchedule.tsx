@@ -1,4 +1,4 @@
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 
 type WorkoutRoutineScheduleColumn = "id" | "routine_id" | "workout_template_id";
 

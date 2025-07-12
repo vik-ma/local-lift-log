@@ -1,6 +1,6 @@
 import { GetValidatedUnit } from "..";
 import { WorkoutSet } from "../../typings";
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 
 type ExerciseName = {
   name: string;

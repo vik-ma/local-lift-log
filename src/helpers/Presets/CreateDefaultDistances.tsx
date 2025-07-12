@@ -1,4 +1,4 @@
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import { DefaultDistances } from "..";
 
 export const CreateDefaultDistances = async (isMetric: boolean) => {

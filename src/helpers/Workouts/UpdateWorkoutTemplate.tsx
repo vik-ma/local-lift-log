@@ -1,5 +1,5 @@
 import { WorkoutTemplate } from "../../typings";
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 
 export const UpdateWorkoutTemplate = async (
   workoutTemplate: WorkoutTemplate

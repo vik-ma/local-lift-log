@@ -7,7 +7,7 @@ import {
 } from "../typings";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useDisclosure } from "@heroui/react";
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import {
   CreateExerciseSetIds,
   DoesListOrSetHaveCommonElement,

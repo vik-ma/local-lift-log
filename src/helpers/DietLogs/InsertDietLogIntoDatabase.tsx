@@ -1,4 +1,4 @@
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import { DietLog } from "../../typings";
 
 export const InsertDietLogIntoDatabase = async (dietLog: DietLog) => {

@@ -26,7 +26,7 @@ import {
   UpdateItemInList,
   CreateShownPropertiesSet,
 } from "../helpers";
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
 import { VerticalMenuIcon } from "../assets";
 

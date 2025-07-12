@@ -6,7 +6,7 @@ import {
 } from "../typings";
 import { useEffect, useMemo } from "react";
 import { useDisclosure } from "@heroui/react";
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import {
   LoadingSpinner,
   DeleteModal,

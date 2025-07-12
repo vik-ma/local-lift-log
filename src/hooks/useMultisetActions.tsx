@@ -11,7 +11,7 @@ import {
 } from "../typings";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useDefaultExercise, useListFilters, useMultisetTypeMap } from ".";
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import {
   GenerateSetListText,
   ReassignExerciseIdForSets,

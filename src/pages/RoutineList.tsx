@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Routine, UserSettings } from "../typings";
 import toast from "react-hot-toast";
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import {
   UpdateRoutine,
   DeleteItemFromList,

@@ -1,4 +1,4 @@
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 
 export const DeleteDietLogWithId = async (dietLogId: number) => {
   try {

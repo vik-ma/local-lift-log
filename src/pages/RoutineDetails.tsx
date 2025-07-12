@@ -8,7 +8,7 @@ import {
 } from "../typings";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Button, useDisclosure, Chip, Switch } from "@heroui/react";
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import {
   LoadingSpinner,
   DeleteModal,

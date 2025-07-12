@@ -1,4 +1,4 @@
-import Database from "tauri-plugin-sql-api";
+import Database from "@tauri-apps/plugin-sql";
 import { WorkoutSet } from "../../typings";
 
 export const GetCompletedSetsWithExerciseId = async (exerciseId: number) => {
