@@ -9,8 +9,6 @@ import {
   IsStringInvalidNumber,
   ConvertNumberToTwoDecimals,
   UpdateUserSetting,
-  NumNewSetsOptionList,
-  GetValidatedNumNewSets,
 } from "../helpers";
 import {
   Switch,
@@ -29,7 +27,6 @@ import {
   TimeInputBehaviorDropdown,
   CreateDefaultSettingsModal,
   TimeValueInput,
-  NumSetsDropdown,
   DietLogDayDropdown,
   SearchInput,
 } from "../components";
@@ -75,8 +72,6 @@ export const SettingsList = ({
 
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [filterQuery, setFilterQuery] = useState<string>("");
-
-  const numSetsOptions = NumNewSetsOptionList();
 
   const createDefaultSettingsModal = useDisclosure();
 
@@ -596,27 +591,6 @@ export const SettingsList = ({
                   value ? 1 : 0
                 )
               }
-            />
-          </div>
-        ),
-        category: "Workouts",
-      },
-      {
-        label: "Default Number Of New Sets",
-        content: (
-          <div
-            key="default_num_new_sets"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span>Default Number Of New Sets</span>
-            <NumSetsDropdown
-              numNewSets={GetValidatedNumNewSets(
-                userSettings.default_num_new_sets,
-                numSetsOptions
-              )}
-              targetType="settings"
-              numSetsOptions={numSetsOptions}
-              updateUserSetting={updateUserSetting}
             />
           </div>
         ),
