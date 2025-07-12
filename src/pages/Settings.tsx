@@ -19,14 +19,10 @@ export default function Settings() {
   const {
     setDefaultIncrementInputValues,
     setDefaultIncrementOriginalValues,
-    presetsList,
     setTimeInSeconds,
     setSelectedTimePeriodProperties,
     setSelectedWorkoutProperties,
   } = settingsList;
-
-  const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
-    presetsList.listFilters;
 
   useEffect(() => {
     const loadUserSettings = async () => {
@@ -107,9 +103,6 @@ export default function Settings() {
         "time-period"
       );
       setSelectedTimePeriodProperties(timePeriodPropertySet);
-
-      setFilterWeightRangeUnit(userSettings.default_unit_weight);
-      setFilterDistanceRangeUnit(userSettings.default_unit_distance);
     };
 
     loadUserSettings();

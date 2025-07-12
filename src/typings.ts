@@ -1286,7 +1286,6 @@ export type UseSettingsListReturnType = {
   setDefaultIncrementOriginalValues: React.Dispatch<
     React.SetStateAction<DefaultIncrementInputs>
   >;
-  presetsList: UsePresetsListReturnType;
   timeInSeconds: number;
   setTimeInSeconds: React.Dispatch<React.SetStateAction<number>>;
   selectedTimePeriodProperties: Set<string>;

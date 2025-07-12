@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { DefaultIncrementInputs, UseSettingsListReturnType } from "../typings";
-import { usePresetsList } from ".";
 
 export const useSettingsList = (): UseSettingsListReturnType => {
   const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
@@ -20,8 +19,6 @@ export const useSettingsList = (): UseSettingsListReturnType => {
     };
   }, []);
 
-  const presetsList = usePresetsList(false, false);
-
   const [defaultIncrementInputValues, setDefaultIncrementInputValues] =
     useState<DefaultIncrementInputs>(emptyDefaultIncrementValues);
   const [defaultIncrementOriginalValues, setDefaultIncrementOriginalValues] =
@@ -32,7 +29,6 @@ export const useSettingsList = (): UseSettingsListReturnType => {
     setDefaultIncrementInputValues,
     defaultIncrementOriginalValues,
     setDefaultIncrementOriginalValues,
-    presetsList,
     timeInSeconds,
     setTimeInSeconds,
     selectedTimePeriodProperties,
