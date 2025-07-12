@@ -1288,12 +1288,4 @@ export type UseSettingsListReturnType = {
   >;
   timeInSeconds: number;
   setTimeInSeconds: React.Dispatch<React.SetStateAction<number>>;
-  selectedTimePeriodProperties: Set<string>;
-  setSelectedTimePeriodProperties: React.Dispatch<
-    React.SetStateAction<Set<string>>
-  >;
-  selectedWorkoutProperties: Set<string>;
-  setSelectedWorkoutProperties: React.Dispatch<
-    React.SetStateAction<Set<string>>
-  >;
 };

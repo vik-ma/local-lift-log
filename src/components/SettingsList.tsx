@@ -29,9 +29,7 @@ import {
   TimeInputBehaviorDropdown,
   CreateDefaultSettingsModal,
   TimeValueInput,
-  WorkoutPropertyDropdown,
   NumSetsDropdown,
-  TimePeriodPropertyDropdown,
   DietLogDayDropdown,
   SearchInput,
 } from "../components";
@@ -73,10 +71,6 @@ export const SettingsList = ({
     setDefaultIncrementOriginalValues,
     timeInSeconds,
     setTimeInSeconds,
-    selectedTimePeriodProperties,
-    setSelectedTimePeriodProperties,
-    selectedWorkoutProperties,
-    setSelectedWorkoutProperties,
   } = useSettingsList;
 
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
@@ -629,25 +623,6 @@ export const SettingsList = ({
         category: "Workouts",
       },
       {
-        label: "Properties To Display In Workout List",
-        content: (
-          <div
-            key="shown_workout_properties"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span>Properties To Display In Workout List</span>
-            <WorkoutPropertyDropdown
-              selectedWorkoutProperties={selectedWorkoutProperties}
-              setSelectedWorkoutProperties={setSelectedWorkoutProperties}
-              userSettings={userSettings}
-              setUserSettings={setUserSettings}
-              isInSettingsPage
-            />
-          </div>
-        ),
-        category: "Workouts",
-      },
-      {
         label: "Show Get Latest Body Weight Button",
         content: (
           <div
@@ -1033,25 +1008,6 @@ export const SettingsList = ({
           </div>
         ),
         category: "Logging",
-      },
-      {
-        label: "Properties To Display In Time Period List",
-        content: (
-          <div
-            key="shown_time_period_properties"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span>Properties To Display In Time Period List</span>
-            <TimePeriodPropertyDropdown
-              selectedTimePeriodProperties={selectedTimePeriodProperties}
-              setSelectedTimePeriodProperties={setSelectedTimePeriodProperties}
-              userSettings={userSettings}
-              setUserSettings={setUserSettings}
-              isInSettingsPage
-            />
-          </div>
-        ),
-        category: "Time Periods",
       },
     ];
 

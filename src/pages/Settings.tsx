@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { UserSettings, DefaultIncrementInputs } from "../typings";
 import {
   GetUserSettings,
-  CreateShownPropertiesSet,
   ConvertNumberToInputString,
   GetValidatedUnit,
   ValidateAndModifyIncrementMultipliers,
@@ -20,8 +19,6 @@ export default function Settings() {
     setDefaultIncrementInputValues,
     setDefaultIncrementOriginalValues,
     setTimeInSeconds,
-    setSelectedTimePeriodProperties,
-    setSelectedWorkoutProperties,
   } = settingsList;
 
   useEffect(() => {
@@ -91,18 +88,6 @@ export default function Settings() {
       setDefaultIncrementInputValues(defaultIncrementValues);
       setDefaultIncrementOriginalValues({ ...defaultIncrementValues });
       setTimeInSeconds(userSettings.default_increment_time);
-
-      const workoutPropertySet = CreateShownPropertiesSet(
-        userSettings.shown_workout_properties,
-        "workout"
-      );
-      setSelectedWorkoutProperties(workoutPropertySet);
-
-      const timePeriodPropertySet = CreateShownPropertiesSet(
-        userSettings.shown_time_period_properties,
-        "time-period"
-      );
-      setSelectedTimePeriodProperties(timePeriodPropertySet);
     };
 
     loadUserSettings();
