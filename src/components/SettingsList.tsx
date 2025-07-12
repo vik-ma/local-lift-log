@@ -52,9 +52,8 @@ type SettingsItemCategory =
   | "Exercises"
   | "Workouts"
   | "Default Increments"
-  | "Measurements"
-  | "Time Periods"
-  | "Diet Logs";
+  | "Logging"
+  | "Time Periods";
 
 type SettingsItem = {
   label: string;
@@ -1012,26 +1011,7 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "Measurements",
-      },
-      {
-        label: "Properties To Display In Time Period List",
-        content: (
-          <div
-            key="shown_time_period_properties"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span>Properties To Display In Time Period List</span>
-            <TimePeriodPropertyDropdown
-              selectedTimePeriodProperties={selectedTimePeriodProperties}
-              setSelectedTimePeriodProperties={setSelectedTimePeriodProperties}
-              userSettings={userSettings}
-              setUserSettings={setUserSettings}
-              isInSettingsPage
-            />
-          </div>
-        ),
-        category: "Time Periods",
+        category: "Logging",
       },
       {
         label: "Default Diet Log Entry Day",
@@ -1052,7 +1032,26 @@ export const SettingsList = ({
             />
           </div>
         ),
-        category: "Diet Logs",
+        category: "Logging",
+      },
+      {
+        label: "Properties To Display In Time Period List",
+        content: (
+          <div
+            key="shown_time_period_properties"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span>Properties To Display In Time Period List</span>
+            <TimePeriodPropertyDropdown
+              selectedTimePeriodProperties={selectedTimePeriodProperties}
+              setSelectedTimePeriodProperties={setSelectedTimePeriodProperties}
+              userSettings={userSettings}
+              setUserSettings={setUserSettings}
+              isInSettingsPage
+            />
+          </div>
+        ),
+        category: "Time Periods",
       },
     ];
 
@@ -1067,12 +1066,11 @@ export const SettingsList = ({
 
     const containsCategoryMap = new Map<SettingsItemCategory, boolean>([
       ["General", false],
-      ["Workouts", false],
       ["Exercises", false],
-      ["Measurements", false],
-      ["Time Periods", false],
-      ["Diet Logs", false],
+      ["Workouts", false],
       ["Default Increments", false],
+      ["Logging", false],
+      ["Time Periods", false],
     ]);
 
     for (const settingsItem of settingsList) {
