@@ -1,1 +1,1 @@
-{}
+{"local-lift-log":{"identifier":"local-lift-log","description":"Capability for the main window","local":true,"windows":["main"],"permissions":["sql:default","sql:allow-execute"]}}
