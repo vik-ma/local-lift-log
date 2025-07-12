@@ -75,6 +75,7 @@ dependencies = [
  "chrono",
  "diesel",
  "diesel_migrations",
+ "dirs",
  "dotenvy",
  "serde",
  "serde_json",

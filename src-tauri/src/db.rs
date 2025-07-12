@@ -1,5 +1,5 @@
 use dotenvy::dotenv;
-use tauri::api::path;
+use dirs::config_dir;
 
 use std::env;
 use std::fs;
@@ -49,7 +49,7 @@ fn db_file_exists() -> bool {
 }
 
 fn get_db_path() -> String {
-    let config_dir = path::config_dir().unwrap();
+    let config_dir = config_dir().unwrap();
     let app_dir = "local-lift-log";
     let filename = get_filename();
 
