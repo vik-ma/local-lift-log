@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCalculationModal, useListFilters, usePresetsList } from "../hooks";
 import { Button, useDisclosure } from "@heroui/react";
 import {
@@ -22,10 +22,15 @@ import {
   GetUserSettings,
   GetValidatedUnit,
 } from "../helpers";
+import { load, Store } from "@tauri-apps/plugin-store";
 
 export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isMetric, setIsMetric] = useState<boolean>(true);
+
+  const storeValue = useRef<Store>(null);
+
+  const [storeTest, setStoreTest] = useState<number>(0);
 
   const currentDate = GetCurrentDateTimeISOString();
 
@@ -78,7 +83,29 @@ export default function Test() {
     );
   };
 
+  const changeStoreValue = async () => {
+    if (storeValue.current === null) return;
+
+    const newVal = storeTest + 1;
+
+    setStoreTest(newVal);
+
+    await storeValue.current.set("test", { value: newVal });
+  };
+
   useEffect(() => {
+    const loadStore = async () => {
+      const store = await load("store.json", { autoSave: true });
+
+      storeValue.current = store;
+
+      const val = await store.get<{ value: number }>("test");
+
+      if (val === undefined) return;
+
+      setStoreTest(val.value);
+    };
+
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
 
@@ -94,7 +121,9 @@ export default function Test() {
       setFilterWeightRangeUnit(weightUnit);
     };
 
+    loadStore();
     loadUserSettings();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -126,6 +155,15 @@ export default function Test() {
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
             TEST
           </h1>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex gap-1">
+            <span className="font-semibold">Store Value:</span>
+            <span>{storeTest}</span>
+          </div>
+          <Button size="sm" onPress={changeStoreValue}>
+            Change
+          </Button>
         </div>
         <Button onPress={() => calculationModal.calculationModal.onOpen()}>
           Open Calculation Modal
