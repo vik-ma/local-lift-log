@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "local-lift-log",
+  "description": "Capability for the main window",
+  "windows": ["main"],
+  "permissions": ["sql:default", "sql:allow-execute"]
+}
