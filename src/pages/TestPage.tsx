@@ -32,6 +32,8 @@ export default function Test() {
   const store = useRef<Store>(null);
 
   const [storeTest, setStoreTest] = useState<number>(0);
+  const [sortCategoryTimePeriods, setSortCategoryTimePeriods] =
+    useState<string>("");
 
   const currentDate = GetCurrentDateTimeISOString();
 
@@ -100,11 +102,15 @@ export default function Test() {
 
       if (store.current === null) return;
 
-      const val = await store.current.get<{ value: number }>("test");
+      const testVal = await store.current.get<{ value: number }>("test");
+      const sortCategoryVal = await store.current.get<{ value: string }>(
+        "sort-category-time-periods"
+      );
 
-      if (val === undefined) return;
+      if (testVal === undefined || sortCategoryVal === undefined) return;
 
-      setStoreTest(val.value);
+      setStoreTest(testVal.value);
+      setSortCategoryTimePeriods(sortCategoryVal.value);
     };
 
     const loadUserSettings = async () => {
@@ -124,7 +130,6 @@ export default function Test() {
 
     loadStore();
     loadUserSettings();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -161,6 +166,10 @@ export default function Test() {
           <div className="flex gap-1">
             <span className="font-semibold">Store Value:</span>
             <span>{storeTest}</span>
+          </div>
+          <div className="flex gap-1">
+            <span className="font-semibold">Category:</span>
+            <span>{sortCategoryTimePeriods}</span>
           </div>
           <Button size="sm" onPress={changeStoreValue}>
             Change

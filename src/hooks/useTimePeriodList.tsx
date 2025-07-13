@@ -1,5 +1,6 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  StoreRef,
   TimePeriod,
   TimePeriodSortCategory,
   UseTimePeriodListReturnType,
@@ -12,12 +13,15 @@ import {
   IsDatePassed,
   IsDateWithinLimit,
   IsNumberWithinLimit,
+  LoadStore,
   ValidateStartAndEndDateStrings,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
 import { useTimePeriodListFilters } from ".";
 
-export const useTimePeriodList = (): UseTimePeriodListReturnType => {
+export const useTimePeriodList = (
+  store: StoreRef
+): UseTimePeriodListReturnType => {
   const [timePeriods, setTimePeriods] = useState<TimePeriod[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
@@ -160,7 +164,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
         timePeriods.push(timePeriod);
       }
 
-      sortTimePeriodsByOngoingFirst(timePeriods);
+      sortTimePeriodByActiveCategory(timePeriods);
 
       isTimePeriodListLoaded.current = true;
     } catch (error) {
@@ -280,38 +284,48 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
     setTimePeriods(timePeriodList);
   };
 
-  const handleSortOptionSelection = (key: string) => {
+  const handleSortOptionSelection = async (key: string) => {
+    if (store.current === null) return;
+
     switch (key) {
       case "name":
         setSortCategory(key);
+        await store.current.set("sort-category-time-periods", { value: key });
         sortTimePeriodsByName([...timePeriods]);
         break;
       case "ongoing":
         setSortCategory(key);
+        await store.current.set("sort-category-time-periods", { value: key });
         sortTimePeriodsByOngoingFirst([...timePeriods]);
         break;
       case "start-date-desc":
         setSortCategory(key);
+        await store.current.set("sort-category-time-periods", { value: key });
         sortTimePeriodsByStartDate([...timePeriods], false);
         break;
       case "start-date-asc":
         setSortCategory(key);
+        await store.current.set("sort-category-time-periods", { value: key });
         sortTimePeriodsByStartDate([...timePeriods], true);
         break;
       case "end-date-desc":
         setSortCategory(key);
+        await store.current.set("sort-category-time-periods", { value: key });
         sortTimePeriodsByEndDate([...timePeriods], false);
         break;
       case "end-date-asc":
         setSortCategory(key);
+        await store.current.set("sort-category-time-periods", { value: key });
         sortTimePeriodsByEndDate([...timePeriods], true);
         break;
       case "length-desc":
         setSortCategory(key);
+        await store.current.set("sort-category-time-periods", { value: key });
         sortTimePeriodsByLength([...timePeriods], false);
         break;
       case "length-asc":
         setSortCategory(key);
+        await store.current.set("sort-category-time-periods", { value: key });
         sortTimePeriodsByLength([...timePeriods], true);
         break;
       default:
@@ -346,6 +360,7 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
         sortTimePeriodsByLength([...timePeriodList], true);
         break;
       default:
+        sortTimePeriodsByOngoingFirst([...timePeriodList]);
         break;
     }
   };
@@ -353,6 +368,15 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
   const handleOpenFilterButton = async () => {
     filterTimePeriodListModal.onOpen();
   };
+
+  useEffect(() => {
+    const loadStore = async () => {
+      await LoadStore(store);
+    };
+
+    loadStore();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [store.current]);
 
   return {
     timePeriods,

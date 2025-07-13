@@ -18,7 +18,7 @@ import {
   TimePeriodListItemContent,
 } from "../components";
 import { useDefaultTimePeriod, useTimePeriodList } from "../hooks";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TimePeriod, UserSettings } from "../typings";
 import {
   DeleteItemFromList,
@@ -29,6 +29,7 @@ import {
 import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
 import { VerticalMenuIcon } from "../assets";
+import { Store } from "@tauri-apps/plugin-store";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -44,7 +45,9 @@ export default function TimePeriodList() {
   const timePeriodModal = useDisclosure();
   const deleteModal = useDisclosure();
 
-  const timePeriodList = useTimePeriodList();
+  const store = useRef<Store>(null);
+
+  const timePeriodList = useTimePeriodList(store);
 
   const {
     timePeriods,
