@@ -23,6 +23,7 @@ diesel = { version = "2.2.12", features = ["sqlite"] }
 diesel_migrations = "2.2.0"
 chrono = "0.4.41"
 dotenvy = "0.15.7"
+tauri-plugin-store = "2"
 
 [dependencies.tauri-plugin-sql]
 features = ["sqlite"]
