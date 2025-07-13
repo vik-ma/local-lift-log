@@ -281,30 +281,41 @@ export const useTimePeriodList = (): UseTimePeriodListReturnType => {
   };
 
   const handleSortOptionSelection = (key: string) => {
-    if (key === "name") {
-      setSortCategory(key);
-      sortTimePeriodsByName([...timePeriods]);
-    } else if (key === "ongoing") {
-      setSortCategory(key);
-      sortTimePeriodsByOngoingFirst([...timePeriods]);
-    } else if (key === "start-date-desc") {
-      setSortCategory(key);
-      sortTimePeriodsByStartDate([...timePeriods], false);
-    } else if (key === "start-date-asc") {
-      setSortCategory(key);
-      sortTimePeriodsByStartDate([...timePeriods], true);
-    } else if (key === "end-date-desc") {
-      setSortCategory(key);
-      sortTimePeriodsByEndDate([...timePeriods], false);
-    } else if (key === "end-date-asc") {
-      setSortCategory(key);
-      sortTimePeriodsByEndDate([...timePeriods], true);
-    } else if (key === "length-desc") {
-      setSortCategory(key);
-      sortTimePeriodsByLength([...timePeriods], false);
-    } else if (key === "length-asc") {
-      setSortCategory(key);
-      sortTimePeriodsByLength([...timePeriods], true);
+    switch (key) {
+      case "name":
+        setSortCategory(key);
+        sortTimePeriodsByName([...timePeriods]);
+        break;
+      case "ongoing":
+        setSortCategory(key);
+        sortTimePeriodsByOngoingFirst([...timePeriods]);
+        break;
+      case "start-date-desc":
+        setSortCategory(key);
+        sortTimePeriodsByStartDate([...timePeriods], false);
+        break;
+      case "start-date-asc":
+        setSortCategory(key);
+        sortTimePeriodsByStartDate([...timePeriods], true);
+        break;
+      case "end-date-desc":
+        setSortCategory(key);
+        sortTimePeriodsByEndDate([...timePeriods], false);
+        break;
+      case "end-date-asc":
+        setSortCategory(key);
+        sortTimePeriodsByEndDate([...timePeriods], true);
+        break;
+      case "length-desc":
+        setSortCategory(key);
+        sortTimePeriodsByLength([...timePeriods], false);
+        break;
+      case "length-asc":
+        setSortCategory(key);
+        sortTimePeriodsByLength([...timePeriods], true);
+        break;
+      default:
+        break;
     }
   };
 
