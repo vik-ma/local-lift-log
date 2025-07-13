@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import { CalendarDate, useDisclosure } from "@heroui/react";
+import { Store } from "@tauri-apps/plugin-store";
 
 export type Routine = {
   id: number;
@@ -1289,3 +1290,5 @@ export type UseSettingsListReturnType = {
   timeInSeconds: number;
   setTimeInSeconds: React.Dispatch<React.SetStateAction<number>>;
 };
+
+export type StoreRef = React.RefObject<Store | null>;
