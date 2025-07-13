@@ -19,6 +19,8 @@ export const InsertDietLogIntoDatabase = async (dietLog: DietLog) => {
       ]
     );
 
+    if (result.lastInsertId === undefined) return 0;
+
     return result.lastInsertId;
   } catch (error) {
     console.log(error);

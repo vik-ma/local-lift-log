@@ -157,6 +157,8 @@ export default function RoutineList() {
         ]
       );
 
+      if (result.lastInsertId === undefined) return;
+
       navigate(`/routines/${result.lastInsertId}`);
     } catch (error) {
       console.log(error);

@@ -35,6 +35,8 @@ export const CreateWorkout = async (
       ]
     );
 
+    if (result.lastInsertId === undefined) return undefined;
+
     newWorkout.id = result.lastInsertId;
 
     return newWorkout;

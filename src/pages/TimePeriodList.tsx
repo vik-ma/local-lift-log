@@ -105,6 +105,8 @@ export default function TimePeriodList() {
         ]
       );
 
+      if (result.lastInsertId === undefined) return;
+
       timePeriod.id = result.lastInsertId;
 
       sortTimePeriodByActiveCategory([...timePeriods, timePeriod]);

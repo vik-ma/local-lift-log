@@ -139,10 +139,10 @@ export const CreateDefaultUserSettings = async (
       ]
     );
 
-    const id: number = result.lastInsertId;
+    if (result.lastInsertId === undefined) return undefined;
 
     const defaultUserSettings: UserSettings = {
-      id: id,
+      id: result.lastInsertId,
       show_timestamp_on_completed_set,
       active_routine_id,
       default_unit_weight,

@@ -18,6 +18,8 @@ export const InsertMeasurementIntoDatabase = async (
       ]
     );
 
+    if (result.lastInsertId === undefined) return 0;
+
     return result.lastInsertId;
   } catch (error) {
     console.log(error);

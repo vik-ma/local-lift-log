@@ -31,6 +31,8 @@ export const InsertBodyMeasurementsIntoDatabase = async (
       ]
     );
 
+    if (result.lastInsertId === undefined) return undefined;
+
     bodyMeasurements.id = result.lastInsertId;
 
     const detailedBodyMeasurements = CreateDetailedBodyMeasurementsList(

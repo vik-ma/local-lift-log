@@ -102,6 +102,8 @@ export default function ExerciseList() {
         ]
       );
 
+      if (result.lastInsertId === undefined) return;
+
       exercise.id = result.lastInsertId;
 
       sortExercisesByActiveCategory([...exercises, exercise]);

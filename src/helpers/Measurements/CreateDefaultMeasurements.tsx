@@ -24,6 +24,8 @@ export const CreateDefaultMeasurements = async (
         ]
       );
 
+      if (result.lastInsertId === undefined) continue;
+
       const newMeasurement: Measurement = {
         id: result.lastInsertId,
         name: DEFAULT_MEASUREMENTS[i].name,

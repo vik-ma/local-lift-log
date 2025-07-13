@@ -25,6 +25,8 @@ export const CreateDefaultEquipmentWeights = async (isMetric: boolean) => {
         ]
       );
 
+      if (result.lastInsertId === undefined) continue;
+
       if (equipment.name === "Barbell") {
         handleId = result.lastInsertId;
       } else if (equipment.name !== "Dumbbell") {

@@ -49,6 +49,9 @@ export const InsertSetIntoDatabase = async (
         set.user_weight_unit,
       ]
     );
+
+    if (result.lastInsertId === undefined) return 0;
+
     return result.lastInsertId;
   } catch (error) {
     console.log(error);

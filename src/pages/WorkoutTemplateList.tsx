@@ -108,6 +108,8 @@ export default function WorkoutTemplateList() {
         ]
       );
 
+      if (result.lastInsertId === undefined) return;
+
       navigate(`/workout-templates/${result.lastInsertId}`);
     } catch (error) {
       console.log(error);

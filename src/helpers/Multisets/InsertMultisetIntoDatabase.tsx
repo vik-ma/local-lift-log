@@ -19,6 +19,9 @@ export const InsertMultisetIntoDatabase = async (
         multiset.note,
       ]
     );
+
+    if (result.lastInsertId === undefined) return 0;
+
     return result.lastInsertId;
   } catch (error) {
     console.log(error);

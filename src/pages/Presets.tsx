@@ -201,6 +201,8 @@ export default function Presets() {
         ]
       );
 
+      if (result.lastInsertId === undefined) return;
+
       const newEquipment: EquipmentWeight = {
         ...equipmentWeight,
         id: result.lastInsertId,
@@ -233,6 +235,8 @@ export default function Presets() {
           distance.is_favorite,
         ]
       );
+
+      if (result.lastInsertId === undefined) return;
 
       const newDistance: Distance = {
         ...distance,
@@ -268,6 +272,8 @@ export default function Presets() {
           plateCollection.weight_unit,
         ]
       );
+
+      if (result.lastInsertId === undefined) return;
 
       const newPlateCollection: PlateCollection = {
         ...plateCollection,
