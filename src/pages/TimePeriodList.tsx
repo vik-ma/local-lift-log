@@ -25,6 +25,7 @@ import {
   GetUserSettings,
   UpdateItemInList,
   CreateShownPropertiesSet,
+  LoadStore,
 } from "../helpers";
 import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
@@ -65,6 +66,10 @@ export default function TimePeriodList() {
 
   useEffect(() => {
     const loadUserSettings = async () => {
+      await LoadStore(store);
+
+      if (store.current === null) return;
+
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
