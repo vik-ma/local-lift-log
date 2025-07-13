@@ -261,3 +261,5 @@ export { ShouldDietLogDisableExpansion } from "./DietLogs/ShouldDietLogDisableEx
 export { InsertDietLogIntoDatabase } from "./DietLogs/InsertDietLogIntoDatabase";
 export { DeleteDietLogWithId } from "./DietLogs/DeleteDietLogWithId";
 export { GetAllDietLogs } from "./DietLogs/GetAllDietLogs";
+
+export { LoadStore } from "./Store/LoadStore";

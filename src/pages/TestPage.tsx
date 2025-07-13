@@ -21,14 +21,15 @@ import {
   GetCurrentDateTimeISOString,
   GetUserSettings,
   GetValidatedUnit,
+  LoadStore,
 } from "../helpers";
-import { load, Store } from "@tauri-apps/plugin-store";
+import { Store } from "@tauri-apps/plugin-store";
 
 export default function Test() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isMetric, setIsMetric] = useState<boolean>(true);
 
-  const storeValue = useRef<Store>(null);
+  const store = useRef<Store>(null);
 
   const [storeTest, setStoreTest] = useState<number>(0);
 
@@ -84,22 +85,22 @@ export default function Test() {
   };
 
   const changeStoreValue = async () => {
-    if (storeValue.current === null) return;
+    if (store.current === null) return;
 
     const newVal = storeTest + 1;
 
     setStoreTest(newVal);
 
-    await storeValue.current.set("test", { value: newVal });
+    await store.current.set("test", { value: newVal });
   };
 
   useEffect(() => {
     const loadStore = async () => {
-      const store = await load("store.json", { autoSave: true });
+      await LoadStore(store);
 
-      storeValue.current = store;
+      if (store.current === null) return;
 
-      const val = await store.get<{ value: number }>("test");
+      const val = await store.current.get<{ value: number }>("test");
 
       if (val === undefined) return;
 
