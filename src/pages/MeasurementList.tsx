@@ -478,7 +478,7 @@ export default function MeasurementList() {
                           ? "Remove Favorite"
                           : "Set Favorite"}
                       </DropdownItem>
-                      <DropdownItem className="text-danger" key="delete">
+                      <DropdownItem key="delete" className="text-danger">
                         Delete
                       </DropdownItem>
                     </DropdownMenu>

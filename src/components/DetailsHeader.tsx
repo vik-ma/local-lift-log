@@ -106,7 +106,7 @@ export const DetailsHeader = ({
                     }
 
                     return (
-                      <DropdownItem className={className} key={key}>
+                      <DropdownItem key={key} className={className}>
                         {value.text}
                       </DropdownItem>
                     );

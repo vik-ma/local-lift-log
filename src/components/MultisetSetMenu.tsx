@@ -98,7 +98,7 @@ export const MultisetSetMenu = ({
         >
           Change Exercise
         </DropdownItem>
-        <DropdownItem className="text-danger" key="delete-set">
+        <DropdownItem key="delete-set" className="text-danger">
           Remove Set
         </DropdownItem>
       </DropdownMenu>

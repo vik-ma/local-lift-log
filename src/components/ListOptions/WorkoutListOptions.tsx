@@ -103,7 +103,7 @@ export const WorkoutListOptions = ({
             aria-label="Workout List Options Menu"
             onAction={(key) => handleOptionMenuSelection(key as string)}
           >
-            <DropdownItem className="text-danger" key="delete-empty-workouts">
+            <DropdownItem key="delete-empty-workouts" className="text-danger">
               Delete All Empty Workouts
             </DropdownItem>
           </DropdownMenu>
