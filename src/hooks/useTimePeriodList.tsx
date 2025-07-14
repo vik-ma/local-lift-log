@@ -164,7 +164,7 @@ export const useTimePeriodList = (
         timePeriods.push(timePeriod);
       }
 
-      sortTimePeriodByActiveCategory(timePeriods);
+      sortTimePeriodsByCategory(timePeriods);
 
       isTimePeriodListLoaded.current = true;
     } catch (error) {
@@ -290,13 +290,13 @@ export const useTimePeriodList = (
     setSortCategory(key as TimePeriodSortCategory);
     await store.current.set("sort-category-time-periods", { value: key });
 
-    await sortTimePeriodByActiveCategory(
+    await sortTimePeriodsByCategory(
       [...timePeriods],
       key as TimePeriodSortCategory
     );
   };
 
-  const sortTimePeriodByActiveCategory = async (
+  const sortTimePeriodsByCategory = async (
     timePeriodList: TimePeriod[],
     category?: TimePeriodSortCategory
   ) => {
@@ -330,7 +330,7 @@ export const useTimePeriodList = (
         sortTimePeriodsByLength([...timePeriodList], true);
         break;
       default:
-        // Overwrite invalid keys
+        // Overwrite invalid categories
         setSortCategory("ongoing");
         await store.current.set("sort-category-time-periods", {
           value: "ongoing",
@@ -363,7 +363,7 @@ export const useTimePeriodList = (
     getTimePeriods,
     sortCategory,
     handleSortOptionSelection,
-    sortTimePeriodByActiveCategory,
+    sortTimePeriodsByCategory,
     handleOpenFilterButton,
     filterTimePeriodListModal,
     timePeriodListFilters,

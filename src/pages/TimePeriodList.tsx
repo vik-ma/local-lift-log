@@ -58,7 +58,7 @@ export default function TimePeriodList() {
     setFilterQuery,
     isTimePeriodListLoaded,
     getTimePeriods,
-    sortTimePeriodByActiveCategory,
+    sortTimePeriodsByCategory,
     timePeriodListFilters,
     selectedTimePeriodProperties,
     setSelectedTimePeriodProperties,
@@ -117,7 +117,7 @@ export default function TimePeriodList() {
 
       timePeriod.id = result.lastInsertId;
 
-      sortTimePeriodByActiveCategory([...timePeriods, timePeriod]);
+      sortTimePeriodsByCategory([...timePeriods, timePeriod]);
 
       resetOperatingTimePeriod();
       timePeriodModal.onClose();
@@ -156,7 +156,7 @@ export default function TimePeriodList() {
 
       const updatedTimePeriods = UpdateItemInList(timePeriods, timePeriod);
 
-      sortTimePeriodByActiveCategory(updatedTimePeriods);
+      sortTimePeriodsByCategory(updatedTimePeriods);
 
       resetOperatingTimePeriod();
       toast.success("Time Period Updated");
