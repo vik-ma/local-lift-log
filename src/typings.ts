@@ -927,7 +927,7 @@ export type UseTimePeriodListReturnType = {
   ) => Promise<void>;
   sortCategory: TimePeriodSortCategory;
   handleSortOptionSelection: (key: string) => void;
-  sortTimePeriodsByCategory: (timePeriodList: TimePeriod[]) => void;
+  sortTimePeriodsByActiveCategory: (timePeriodList: TimePeriod[]) => void;
   handleOpenFilterButton: () => Promise<void>;
   filterTimePeriodListModal: UseDisclosureReturnType;
   timePeriodListFilters: UseTimePeriodListFiltersReturnType;

@@ -167,7 +167,7 @@ export const useTimePeriodList = (
         timePeriods.push(timePeriod);
       }
 
-      sortTimePeriodsByCategory(timePeriods, category);
+      sortTimePeriodsByActiveCategory(timePeriods, category);
 
       isTimePeriodListLoaded.current = true;
     } catch (error) {
@@ -290,22 +290,25 @@ export const useTimePeriodList = (
   const handleSortOptionSelection = async (key: string) => {
     if (store.current === null) return;
 
-    setSortCategory(key as TimePeriodSortCategory);
     await store.current.set("sort-category-time-periods", { value: key });
 
-    await sortTimePeriodsByCategory(
+    await sortTimePeriodsByActiveCategory(
       [...timePeriods],
       key as TimePeriodSortCategory
     );
   };
 
-  const sortTimePeriodsByCategory = async (
+  const sortTimePeriodsByActiveCategory = async (
     timePeriodList: TimePeriod[],
-    category?: TimePeriodSortCategory
+    newCategory?: TimePeriodSortCategory
   ) => {
     if (store.current === null) return;
 
-    const activeCategory = category ?? sortCategory;
+    if (newCategory !== undefined) {
+      setSortCategory(newCategory);
+    }
+
+    const activeCategory = newCategory ?? sortCategory;
 
     switch (activeCategory) {
       case "ongoing":
@@ -366,7 +369,7 @@ export const useTimePeriodList = (
     getTimePeriods,
     sortCategory,
     handleSortOptionSelection,
-    sortTimePeriodsByCategory,
+    sortTimePeriodsByActiveCategory,
     handleOpenFilterButton,
     filterTimePeriodListModal,
     timePeriodListFilters,
