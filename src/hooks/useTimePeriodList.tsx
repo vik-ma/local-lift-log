@@ -290,44 +290,21 @@ export const useTimePeriodList = (
     setSortCategory(key as TimePeriodSortCategory);
     await store.current.set("sort-category-time-periods", { value: key });
 
-    switch (key) {
-      case "name":
-        sortTimePeriodsByName([...timePeriods]);
-        break;
-      case "ongoing":
-        sortTimePeriodsByOngoingFirst([...timePeriods]);
-        break;
-      case "start-date-desc":
-        sortTimePeriodsByStartDate([...timePeriods], false);
-        break;
-      case "start-date-asc":
-        sortTimePeriodsByStartDate([...timePeriods], true);
-        break;
-      case "end-date-desc":
-        sortTimePeriodsByEndDate([...timePeriods], false);
-        break;
-      case "end-date-asc":
-        sortTimePeriodsByEndDate([...timePeriods], true);
-        break;
-      case "length-desc":
-        sortTimePeriodsByLength([...timePeriods], false);
-        break;
-      case "length-asc":
-        sortTimePeriodsByLength([...timePeriods], true);
-        break;
-      default:
-        // Overwrite invalid keys
-        setSortCategory("ongoing");
-        await store.current.set("sort-category-time-periods", {
-          value: "ongoing",
-        });
-        sortTimePeriodsByOngoingFirst([...timePeriods]);
-        break;
-    }
+    await sortTimePeriodByActiveCategory(
+      [...timePeriods],
+      key as TimePeriodSortCategory
+    );
   };
 
-  const sortTimePeriodByActiveCategory = (timePeriodList: TimePeriod[]) => {
-    switch (sortCategory) {
+  const sortTimePeriodByActiveCategory = async (
+    timePeriodList: TimePeriod[],
+    category?: TimePeriodSortCategory
+  ) => {
+    if (store.current === null) return;
+
+    const activeCategory = category ?? sortCategory;
+
+    switch (activeCategory) {
       case "ongoing":
         sortTimePeriodsByOngoingFirst([...timePeriodList]);
         break;
@@ -353,6 +330,11 @@ export const useTimePeriodList = (
         sortTimePeriodsByLength([...timePeriodList], true);
         break;
       default:
+        // Overwrite invalid keys
+        setSortCategory("ongoing");
+        await store.current.set("sort-category-time-periods", {
+          value: "ongoing",
+        });
         sortTimePeriodsByOngoingFirst([...timePeriodList]);
         break;
     }
