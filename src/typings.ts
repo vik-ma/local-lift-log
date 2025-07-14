@@ -921,7 +921,10 @@ export type UseTimePeriodListReturnType = {
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   isTimePeriodListLoaded: React.RefObject<boolean>;
-  getTimePeriods: (locale: string) => Promise<void>;
+  getTimePeriods: (
+    locale: string,
+    category: TimePeriodSortCategory
+  ) => Promise<void>;
   sortCategory: TimePeriodSortCategory;
   handleSortOptionSelection: (key: string) => void;
   sortTimePeriodsByCategory: (timePeriodList: TimePeriod[]) => void;

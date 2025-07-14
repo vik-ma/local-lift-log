@@ -19,7 +19,7 @@ import {
 } from "../components";
 import { useDefaultTimePeriod, useTimePeriodList } from "../hooks";
 import { useEffect, useRef, useState } from "react";
-import { TimePeriod, UserSettings } from "../typings";
+import { TimePeriod, TimePeriodSortCategory, UserSettings } from "../typings";
 import {
   DeleteItemFromList,
   GetUserSettings,
@@ -75,7 +75,22 @@ export default function TimePeriodList() {
       if (userSettings === undefined) return;
 
       setUserSettings(userSettings);
-      getTimePeriods(userSettings.locale);
+
+      let sortCategory: TimePeriodSortCategory = "ongoing";
+
+      await LoadStore(store);
+
+      if (store.current !== null) {
+        const val = await store.current.get<{ value: TimePeriodSortCategory }>(
+          "sort-category-time-periods"
+        );
+
+        if (val !== undefined) {
+          sortCategory = val.value
+        }
+      }
+
+      getTimePeriods(userSettings.locale, sortCategory);
 
       const timePeriodPropertySet = CreateShownPropertiesSet(
         userSettings.shown_time_period_properties,

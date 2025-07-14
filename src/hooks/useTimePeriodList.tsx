@@ -123,7 +123,10 @@ export const useTimePeriodList = (
     filterStatus,
   ]);
 
-  const getTimePeriods = async (locale: string) => {
+  const getTimePeriods = async (
+    locale: string,
+    category: TimePeriodSortCategory
+  ) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -164,7 +167,7 @@ export const useTimePeriodList = (
         timePeriods.push(timePeriod);
       }
 
-      sortTimePeriodsByCategory(timePeriods);
+      sortTimePeriodsByCategory(timePeriods, category);
 
       isTimePeriodListLoaded.current = true;
     } catch (error) {
