@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   StoreRef,
   TimePeriod,
@@ -13,7 +13,6 @@ import {
   IsDatePassed,
   IsDateWithinLimit,
   IsNumberWithinLimit,
-  LoadStore,
   ValidateStartAndEndDateStrings,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
@@ -349,15 +348,6 @@ export const useTimePeriodList = (
   const handleOpenFilterButton = async () => {
     filterTimePeriodListModal.onOpen();
   };
-
-  useEffect(() => {
-    const loadStore = async () => {
-      await LoadStore(store);
-    };
-
-    loadStore();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store.current]);
 
   return {
     timePeriods,
