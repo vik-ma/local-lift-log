@@ -7,6 +7,7 @@ import {
   DistanceSortCategory,
   UsePresetsListReturnType,
   PlateCollection,
+  StoreRef,
 } from "../typings";
 import Database from "@tauri-apps/plugin-sql";
 import {
@@ -23,6 +24,7 @@ import { useListFilters, usePresetsTypeString } from ".";
 import { useDisclosure } from "@heroui/react";
 
 export const usePresetsList = (
+  store: StoreRef,
   getEquipmentWeightsOnLoad: boolean,
   getDistancesOnLoad: boolean
 ): UsePresetsListReturnType => {
@@ -355,39 +357,26 @@ export const usePresetsList = (
     setEquipmentWeights(equipmentWeightList);
   };
 
-  const handleSortOptionSelectionEquipment = (key: string) => {
-    if (key === "favorite") {
-      setSortCategoryEquipment(key);
-      sortEquipmentWeightsByFavoritesFirst([...equipmentWeights]);
-    } else if (key === "weight-desc") {
-      setSortCategoryEquipment(key);
-      sortEquipmentWeightsByWeight([...equipmentWeights], false);
-    } else if (key === "weight-asc") {
-      setSortCategoryEquipment(key);
-      sortEquipmentWeightsByWeight([...equipmentWeights], true);
-    } else if (key === "name") {
-      setSortCategoryEquipment(key);
-      sortEquipmentWeightsByName([...equipmentWeights]);
-    } else if (key === "plate-col") {
-      setSortCategoryEquipment(key);
-      sortEquipmentWeightsByPlateCalcFirst([...equipmentWeights]);
-    }
+  const handleSortOptionSelectionEquipment = async (key: string) => {
+    if (store.current === null) return;
+
+    await store.current.set("sort-category-equipment-weights", { value: key });
+
+    await sortEquipmentWeightByActiveCategory(
+      [...equipmentWeights],
+      key as EquipmentWeightSortCategory
+    );
   };
 
-  const handleSortOptionSelectionDistance = (key: string) => {
-    if (key === "favorite") {
-      setSortCategoryDistance(key);
-      sortDistancesByFavoritesFirst([...distances]);
-    } else if (key === "distance-desc") {
-      setSortCategoryDistance(key);
-      sortDistancesByDistance([...distances], false);
-    } else if (key === "distance-asc") {
-      setSortCategoryDistance(key);
-      sortDistancesByDistance([...distances], true);
-    } else if (key === "name") {
-      setSortCategoryDistance(key);
-      sortDistancesByName([...distances]);
-    }
+  const handleSortOptionSelectionDistance = async (key: string) => {
+    if (store.current === null) return;
+
+    await store.current.set("sort-category-distances", { value: key });
+
+    await sortDistancesByActiveCategory(
+      [...distances],
+      key as DistanceSortCategory
+    );
   };
 
   const toggleFavoriteEquipmentWeight = async (
@@ -437,45 +426,73 @@ export const usePresetsList = (
     sortDistancesByActiveCategory(updatedDistances);
   };
 
-  const sortEquipmentWeightByActiveCategory = (
-    equipmentWeightList: EquipmentWeight[]
+  const sortEquipmentWeightByActiveCategory = async (
+    equipmentWeightList: EquipmentWeight[],
+    newCategory?: EquipmentWeightSortCategory
   ) => {
+    if (store.current === null) return;
+
+    if (newCategory !== undefined) {
+      setSortCategoryEquipment(newCategory);
+    }
+
     switch (sortCategoryEquipment) {
       case "favorite":
-        sortEquipmentWeightsByFavoritesFirst(equipmentWeightList);
+        sortEquipmentWeightsByFavoritesFirst([...equipmentWeightList]);
         break;
       case "name":
-        sortEquipmentWeightsByName(equipmentWeightList);
+        sortEquipmentWeightsByName([...equipmentWeightList]);
         break;
       case "weight-asc":
-        sortEquipmentWeightsByWeight(equipmentWeightList, true);
+        sortEquipmentWeightsByWeight([...equipmentWeightList], true);
         break;
       case "weight-desc":
-        sortEquipmentWeightsByWeight(equipmentWeightList, false);
+        sortEquipmentWeightsByWeight([...equipmentWeightList], false);
         break;
       case "plate-col":
-        sortEquipmentWeightsByPlateCalcFirst(equipmentWeightList);
+        sortEquipmentWeightsByPlateCalcFirst([...equipmentWeightList]);
         break;
       default:
+        // Overwrite invalid categories
+        setSortCategoryEquipment("favorite");
+        await store.current.set("sort-category-equipment-weights", {
+          value: "ongoing",
+        });
+        sortEquipmentWeightsByFavoritesFirst([...equipmentWeightList]);
         break;
     }
   };
 
-  const sortDistancesByActiveCategory = (distanceList: Distance[]) => {
+  const sortDistancesByActiveCategory = async (
+    distanceList: Distance[],
+    newCategory?: DistanceSortCategory
+  ) => {
+    if (store.current === null) return;
+
+    if (newCategory !== undefined) {
+      setSortCategoryDistance(newCategory);
+    }
+
     switch (sortCategoryDistance) {
       case "favorite":
-        sortDistancesByFavoritesFirst(distanceList);
+        sortDistancesByFavoritesFirst([...distanceList]);
         break;
       case "name":
-        sortDistancesByName(distanceList);
+        sortDistancesByName([...distanceList]);
         break;
       case "distance-asc":
-        sortDistancesByDistance(distanceList, true);
+        sortDistancesByDistance([...distanceList], true);
         break;
       case "distance-desc":
-        sortDistancesByDistance(distanceList, false);
+        sortDistancesByDistance([...distanceList], false);
         break;
       default:
+        // Overwrite invalid categories
+        setSortCategoryDistance("favorite");
+        await store.current.set("sort-category-distances", {
+          value: "ongoing",
+        });
+        sortDistancesByFavoritesFirst([...distanceList]);
         break;
     }
   };
