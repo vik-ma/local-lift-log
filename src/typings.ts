@@ -619,10 +619,10 @@ export type UsePresetsListReturnType = {
   distances: Distance[];
   setDistances: React.Dispatch<React.SetStateAction<Distance[]>>;
   getEquipmentWeights: (
-    defaultEquipmentHandleId?: number,
+    category: EquipmentWeightSortCategory,
     defaultPlateCollectionId?: number
   ) => Promise<void>;
-  getDistances: () => Promise<void>;
+  getDistances: (category: DistanceSortCategory) => Promise<void>;
   presetsType: PresetsType;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
   filterQueryEquipment: string;

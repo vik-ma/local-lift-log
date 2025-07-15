@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   Distance,
   EquipmentWeight,
@@ -23,11 +23,7 @@ import {
 import { useListFilters, usePresetsTypeString } from ".";
 import { useDisclosure } from "@heroui/react";
 
-export const usePresetsList = (
-  store: StoreRef,
-  getEquipmentWeightsOnLoad: boolean,
-  getDistancesOnLoad: boolean
-): UsePresetsListReturnType => {
+export const usePresetsList = (store: StoreRef): UsePresetsListReturnType => {
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
     []
   );
@@ -178,7 +174,10 @@ export const usePresetsList = (
     return plateCollections;
   }, [plateCollections, filterQueryPlateCollection]);
 
-  const getEquipmentWeights = async (defaultPlateCollectionId?: number) => {
+  const getEquipmentWeights = async (
+    category: EquipmentWeightSortCategory,
+    defaultPlateCollectionId?: number
+  ) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -190,7 +189,7 @@ export const usePresetsList = (
         "SELECT * FROM plate_collections"
       );
 
-      sortEquipmentWeightsByFavoritesFirst(equipmentWeights);
+      sortEquipmentWeightsByActiveCategory(equipmentWeights, category);
 
       const plateCollectionList = CreatePlateCollectionList(
         plateCollections,
@@ -216,7 +215,7 @@ export const usePresetsList = (
     }
   };
 
-  const getDistances = async () => {
+  const getDistances = async (category: DistanceSortCategory) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -224,23 +223,13 @@ export const usePresetsList = (
         "SELECT * FROM distances WHERE distance_unit IN ('km', 'm', 'mi', 'ft', 'yd')"
       );
 
-      sortDistancesByFavoritesFirst(result);
+      sortDistancesByActiveCategory(result, category);
+
       isDistanceListLoaded.current = true;
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    if (getEquipmentWeightsOnLoad) {
-      getEquipmentWeights();
-    }
-
-    if (getDistancesOnLoad) {
-      getDistances();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const sortEquipmentWeightsByName = (
     equipmentWeightList: EquipmentWeight[]

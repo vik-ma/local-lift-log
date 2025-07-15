@@ -19,6 +19,8 @@ import {
   UserSettings,
   PlateCollection,
   PresetsOperationType,
+  EquipmentWeightSortCategory,
+  DistanceSortCategory,
 } from "../typings";
 import {
   Button,
@@ -41,6 +43,7 @@ import {
   DeleteItemFromList,
   GetUserSettings,
   GetValidatedUnit,
+  LoadStore,
   UpdateItemInList,
   UpdateUserSetting,
 } from "../helpers";
@@ -48,6 +51,7 @@ import toast from "react-hot-toast";
 import { usePlateCollectionModal, usePresetsList } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 import { useSearchParams } from "react-router-dom";
+import { Store } from "@tauri-apps/plugin-store";
 
 type PresetTab = "equipment" | "distance" | "plate";
 
@@ -91,7 +95,9 @@ export default function Presets() {
   const setUnitsModal = useDisclosure();
   const plateCollectionModal = usePlateCollectionModal();
 
-  const presetsList = usePresetsList(true, true);
+  const store = useRef<Store>(null);
+
+  const presetsList = usePresetsList(store);
 
   const {
     presetsType,
@@ -171,6 +177,36 @@ export default function Presets() {
 
       defaultWeightUnit.current = weightUnit;
       defaultDistanceUnit.current = distanceUnit;
+
+      await LoadStore(store);
+
+      if (store.current === null) return;
+
+      let sortCategoryEquipment: EquipmentWeightSortCategory = "favorite";
+      let sortCategoryDistance: DistanceSortCategory = "favorite";
+
+      if (store.current !== null) {
+        const valEquipment = await store.current.get<{
+          value: EquipmentWeightSortCategory;
+        }>("sort-category-equipment-weights");
+
+        if (valEquipment !== undefined) {
+          sortCategoryEquipment = valEquipment.value;
+        }
+
+        const valDistance = await store.current.get<{
+          value: DistanceSortCategory;
+        }>("sort-category-distances");
+
+        if (valDistance !== undefined) {
+          sortCategoryDistance = valDistance.value;
+        }
+      }
+
+      await Promise.all([
+        getEquipmentWeights(sortCategoryEquipment),
+        getDistances(sortCategoryDistance),
+      ]);
     };
 
     if (searchParams.get("tab") === "distance") {
