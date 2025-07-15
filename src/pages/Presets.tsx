@@ -110,7 +110,7 @@ export default function Presets() {
     filteredDistances,
     toggleFavoriteEquipmentWeight,
     toggleFavoriteDistance,
-    sortEquipmentWeightByActiveCategory,
+    sortEquipmentWeightsByActiveCategory,
     sortDistancesByActiveCategory,
     plateCollections,
     setPlateCollections,
@@ -208,7 +208,7 @@ export default function Presets() {
         id: result.lastInsertId,
       };
 
-      sortEquipmentWeightByActiveCategory([...equipmentWeights, newEquipment]);
+      sortEquipmentWeightsByActiveCategory([...equipmentWeights, newEquipment]);
 
       resetOperatingEquipment();
       presetsModal.onClose();
@@ -321,7 +321,7 @@ export default function Presets() {
         equipmentWeight
       );
 
-      sortEquipmentWeightByActiveCategory(updatedEquipmentWeights);
+      sortEquipmentWeightsByActiveCategory(updatedEquipmentWeights);
 
       resetOperatingEquipment();
       presetsModal.onClose();

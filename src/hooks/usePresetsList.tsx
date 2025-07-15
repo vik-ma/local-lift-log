@@ -362,7 +362,7 @@ export const usePresetsList = (
 
     await store.current.set("sort-category-equipment-weights", { value: key });
 
-    await sortEquipmentWeightByActiveCategory(
+    await sortEquipmentWeightsByActiveCategory(
       [...equipmentWeights],
       key as EquipmentWeightSortCategory
     );
@@ -402,7 +402,7 @@ export const usePresetsList = (
       updatedEquipmentWeight
     );
 
-    sortEquipmentWeightByActiveCategory(updatedEquipmentWeights);
+    sortEquipmentWeightsByActiveCategory(updatedEquipmentWeights);
   };
 
   const toggleFavoriteDistance = async (distance: Distance) => {
@@ -426,7 +426,7 @@ export const usePresetsList = (
     sortDistancesByActiveCategory(updatedDistances);
   };
 
-  const sortEquipmentWeightByActiveCategory = async (
+  const sortEquipmentWeightsByActiveCategory = async (
     equipmentWeightList: EquipmentWeight[],
     newCategory?: EquipmentWeightSortCategory
   ) => {
@@ -592,7 +592,7 @@ export const usePresetsList = (
     handleSortOptionSelectionDistance,
     isEquipmentWeightListLoaded,
     isDistanceListLoaded,
-    sortEquipmentWeightByActiveCategory,
+    sortEquipmentWeightsByActiveCategory,
     sortDistancesByActiveCategory,
     plateCollections,
     setPlateCollections,
