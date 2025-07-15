@@ -66,19 +66,17 @@ export default function TimePeriodList() {
 
   useEffect(() => {
     const loadUserSettings = async () => {
-      await LoadStore(store);
-
-      if (store.current === null) return;
-
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
 
       setUserSettings(userSettings);
 
-      let sortCategory: TimePeriodSortCategory = "ongoing";
-
       await LoadStore(store);
+
+      if (store.current === null) return;
+
+      let sortCategory: TimePeriodSortCategory = "ongoing";
 
       if (store.current !== null) {
         const val = await store.current.get<{ value: TimePeriodSortCategory }>(

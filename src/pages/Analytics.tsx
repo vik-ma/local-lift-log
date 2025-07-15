@@ -76,6 +76,7 @@ import {
   TimePeriod,
   UnitCategory,
   UserSettings,
+  TimePeriodSortCategory,
 } from "../typings";
 import {
   ConvertMeasurementValue,
@@ -106,8 +107,10 @@ import {
   IsNumberValidInteger,
   GetValidatedUnit,
   GetValidatedMeasurementType,
+  LoadStore,
 } from "../helpers";
 import toast from "react-hot-toast";
+import { Store } from "@tauri-apps/plugin-store";
 
 export type AnalyticsChartListModalPage =
   | "measurement-list"
@@ -252,7 +255,9 @@ export default function Analytics() {
     shownReferenceAreas
   );
 
-  const timePeriodList = useTimePeriodList();
+  const store = useRef<Store>(null);
+
+  const timePeriodList = useTimePeriodList(store);
 
   const {
     getTimePeriods,
@@ -310,6 +315,10 @@ export default function Analytics() {
 
   useEffect(() => {
     const loadUserSettings = async () => {
+      await LoadStore(store);
+
+      if (store.current === null) return;
+
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
@@ -344,7 +353,19 @@ export default function Analytics() {
       modalListType === "time-period-list" &&
       !isTimePeriodListLoaded.current
     ) {
-      await getTimePeriods(userSettings.locale);
+      let sortCategoryTimePeriod: TimePeriodSortCategory = "ongoing";
+
+      if (store.current !== null) {
+        const val = await store.current.get<{ value: TimePeriodSortCategory }>(
+          "sort-category-time-periods"
+        );
+
+        if (val !== undefined) {
+          sortCategoryTimePeriod = val.value;
+        }
+      }
+
+      await getTimePeriods(userSettings.locale, sortCategoryTimePeriod);
 
       const timePeriodPropertySet = CreateShownPropertiesSet(
         userSettings.shown_time_period_properties,
