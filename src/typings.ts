@@ -669,7 +669,6 @@ export type UsePresetsListReturnType = {
   listFilters: UseListFiltersReturnType;
   filterPresetsListModal: UseDisclosureReturnType;
   presetsTypeString: string;
-  handleOpenFilterButton: () => Promise<void>;
 };
 
 export type CalculationModalTab = "sum" | "plate";
@@ -928,7 +927,6 @@ export type UseTimePeriodListReturnType = {
   sortCategory: TimePeriodSortCategory;
   handleSortOptionSelection: (key: string) => void;
   sortTimePeriodsByActiveCategory: (timePeriodList: TimePeriod[]) => void;
-  handleOpenFilterButton: () => Promise<void>;
   filterTimePeriodListModal: UseDisclosureReturnType;
   timePeriodListFilters: UseTimePeriodListFiltersReturnType;
   selectedTimePeriodProperties: Set<string>;

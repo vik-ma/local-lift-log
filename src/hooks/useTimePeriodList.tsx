@@ -345,10 +345,6 @@ export const useTimePeriodList = (
     }
   };
 
-  const handleOpenFilterButton = async () => {
-    filterTimePeriodListModal.onOpen();
-  };
-
   return {
     timePeriods,
     setTimePeriods,
@@ -360,7 +356,6 @@ export const useTimePeriodList = (
     sortCategory,
     handleSortOptionSelection,
     sortTimePeriodsByActiveCategory,
-    handleOpenFilterButton,
     filterTimePeriodListModal,
     timePeriodListFilters,
     selectedTimePeriodProperties,

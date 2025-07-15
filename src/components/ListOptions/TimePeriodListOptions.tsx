@@ -24,10 +24,10 @@ export const TimePeriodListOptions = ({
   const {
     sortCategory,
     handleSortOptionSelection,
-    handleOpenFilterButton,
     timePeriodListFilters,
     selectedTimePeriodProperties,
     setSelectedTimePeriodProperties,
+    filterTimePeriodListModal,
   } = useTimePeriodList;
 
   return (
@@ -45,7 +45,7 @@ export const TimePeriodListOptions = ({
           timePeriodListFilters.filterMap.size > 0 ? "secondary" : "default"
         }
         size="sm"
-        onPress={handleOpenFilterButton}
+        onPress={() => filterTimePeriodListModal.onOpen()}
       >
         Filter
       </Button>

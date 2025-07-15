@@ -546,18 +546,6 @@ export const usePresetsList = (store: StoreRef): UsePresetsListReturnType => {
 
   const presetsTypeString = usePresetsTypeString(presetsType);
 
-  const handleOpenFilterButton = async () => {
-    if (presetsType === "equipment" && !isEquipmentWeightListLoaded.current) {
-      await getEquipmentWeights();
-    }
-
-    if (presetsType === "distance" && !isDistanceListLoaded.current) {
-      await getDistances();
-    }
-
-    filterPresetsListModal.onOpen();
-  };
-
   return {
     equipmentWeights,
     setEquipmentWeights,
@@ -600,6 +588,5 @@ export const usePresetsList = (store: StoreRef): UsePresetsListReturnType => {
     listFilters,
     filterPresetsListModal,
     presetsTypeString,
-    handleOpenFilterButton,
   };
 };

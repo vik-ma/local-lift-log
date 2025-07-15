@@ -22,7 +22,7 @@ export const PresetsListOptions = ({
     handleSortOptionSelectionEquipment,
     handleSortOptionSelectionDistance,
     listFilters,
-    handleOpenFilterButton,
+    filterPresetsListModal,
     presetsType,
   } = usePresetsList;
 
@@ -35,7 +35,7 @@ export const PresetsListOptions = ({
         variant="flat"
         color={filterMap.size > 0 ? "secondary" : "default"}
         size="sm"
-        onPress={handleOpenFilterButton}
+        onPress={() => filterPresetsListModal.onOpen()}
       >
         Filter
       </Button>
