@@ -74,8 +74,6 @@ export default function TimePeriodList() {
 
       await LoadStore(store);
 
-      if (store.current === null) return;
-
       let sortCategory: TimePeriodSortCategory = "ongoing";
 
       if (store.current !== null) {
