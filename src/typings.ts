@@ -700,7 +700,8 @@ export type UseCalculationModalReturnType = {
     setInputs: UseSetTrackingInputsReturnType,
     set: WorkoutSet,
     presetsList: UsePresetsListReturnType,
-    userSettings: UserSettings
+    userSettings: UserSettings,
+    sortCategory: EquipmentWeightSortCategory | DistanceSortCategory
   ) => Promise<void>;
 };
 

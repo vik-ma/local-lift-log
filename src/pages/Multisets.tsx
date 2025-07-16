@@ -7,6 +7,8 @@ import {
   PresetsType,
   CalculationListItem,
   UseSetTrackingInputsReturnType,
+  EquipmentWeightSortCategory,
+  DistanceSortCategory,
 } from "../typings";
 import {
   useCalculationModal,
@@ -34,6 +36,8 @@ import {
   GetValidatedUnit,
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
+  LoadStore,
+  GetPresetsSortCategoryFromStore,
 } from "../helpers";
 import {
   CalculationModal,
@@ -197,6 +201,8 @@ export default function Multisets() {
 
       setFilterWeightRangeUnit(weightUnit);
       setFilterDistanceRangeUnit(distanceUnit);
+
+      await LoadStore(store);
     };
 
     loadUserSettings();
@@ -499,6 +505,8 @@ export default function Multisets() {
   ) => {
     if (userSettings === undefined) return;
 
+    const sortCategory = await GetPresetsSortCategoryFromStore(store, isWeight);
+
     await calculationModal.openCalculationModal(
       isWeight,
       exercise,
@@ -506,7 +514,8 @@ export default function Multisets() {
       setInputs,
       set,
       presetsList,
-      userSettings
+      userSettings,
+      sortCategory as EquipmentWeightSortCategory | DistanceSortCategory
     );
   };
 

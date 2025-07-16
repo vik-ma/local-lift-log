@@ -11,6 +11,8 @@ import {
   PresetsType,
   UseSetTrackingInputsReturnType,
   UserWeight,
+  EquipmentWeightSortCategory,
+  DistanceSortCategory,
 } from "../typings";
 import { useState, useEffect, useRef } from "react";
 import { useDisclosure } from "@heroui/react";
@@ -55,6 +57,7 @@ import {
   GetValidatedUnit,
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
+  GetPresetsSortCategoryFromStore,
 } from "../helpers";
 import {
   useMultisetActions,
@@ -2379,6 +2382,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   ) => {
     if (userSettings === undefined) return;
 
+    const sortCategory = await GetPresetsSortCategoryFromStore(store, isWeight);
+
     await calculationModal.openCalculationModal(
       isWeight,
       exercise,
@@ -2386,7 +2391,8 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       setInputs,
       set,
       presetsList,
-      userSettings
+      userSettings,
+      sortCategory as EquipmentWeightSortCategory | DistanceSortCategory
     );
   };
 
