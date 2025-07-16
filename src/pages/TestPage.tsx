@@ -151,6 +151,7 @@ export default function Test() {
         doneButtonAction={calculationModalDoneButtonAction}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
+        store={store}
       />
       <FilterPresetsListModal
         usePresetsList={presetsList}

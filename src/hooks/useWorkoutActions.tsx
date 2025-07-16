@@ -2867,5 +2867,6 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     setShowOldUserWeightLabel,
     setNotesModal,
     openSetNotesModal,
+    store,
   };
 };

@@ -96,6 +96,7 @@ export default function WorkoutTemplateDetails() {
     groupedWorkoutSetListModal,
     mergeGroupedSets,
     setNotesModal,
+    store,
   } = useWorkoutActions(true);
 
   const workoutTemplateList = useWorkoutTemplateList(
@@ -366,6 +367,7 @@ export default function WorkoutTemplateDetails() {
           doneButtonAction={addCalculationResult}
           userSettings={userSettings}
           setUserSettings={setUserSettings}
+          store={store}
         />
       )}
       <div className="flex flex-col">

@@ -23,10 +23,14 @@ import {
   SumCalculatorPage,
   CalculationModalTab,
   PlateCollection,
+  StoreRef,
+  EquipmentWeightSortCategory,
+  DistanceSortCategory,
 } from "../../typings";
 import { useEffect, useMemo, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,
+  GetPresetsSortCategoryFromStore,
   IsStringEmpty,
   IsStringInvalidNumber,
 } from "../../helpers";
@@ -47,6 +51,7 @@ type CalculationModalProps = {
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
+  store: StoreRef;
 };
 
 export const CalculationModal = ({
@@ -55,6 +60,7 @@ export const CalculationModal = ({
   doneButtonAction,
   userSettings,
   setUserSettings,
+  store,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
     CalculationListItem[]
@@ -102,12 +108,20 @@ export const CalculationModal = ({
   } = useCalculationModal;
 
   const loadPresets = async () => {
+    const sortCategory = await GetPresetsSortCategoryFromStore(
+      store,
+      presetsType === "equipment"
+    );
+
     if (presetsType === "equipment" && !isEquipmentWeightListLoaded.current) {
-      await getEquipmentWeights(userSettings.default_plate_collection_id);
+      await getEquipmentWeights(
+        sortCategory as EquipmentWeightSortCategory,
+        userSettings.default_plate_collection_id
+      );
     }
 
     if (presetsType === "distance" && !isDistanceListLoaded.current) {
-      await getDistances();
+      await getDistances(sortCategory as DistanceSortCategory);
     }
   };
 

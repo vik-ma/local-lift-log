@@ -142,6 +142,7 @@ export default function WorkoutDetails() {
     setShowOldUserWeightLabel,
     userWeight,
     setNotesModal,
+    store,
   } = useWorkoutActions(false);
 
   const workoutList = useWorkoutList(false, exerciseList, true, Number(id));
@@ -604,6 +605,7 @@ export default function WorkoutDetails() {
           doneButtonAction={addCalculationResult}
           userSettings={userSettings}
           setUserSettings={setUserSettings}
+          store={store}
         />
       )}
       <div className="flex flex-col">
