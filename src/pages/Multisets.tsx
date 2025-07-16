@@ -49,6 +49,7 @@ import {
   MultisetModal,
 } from "../components";
 import toast from "react-hot-toast";
+import { Store } from "@tauri-apps/plugin-store";
 
 export type OperationType = "add" | "edit" | "delete";
 
@@ -77,7 +78,9 @@ export default function Multisets() {
 
   const calculationModal = useCalculationModal();
 
-  const presetsList = usePresetsList(false, false);
+  const store = useRef<Store>(null);
+
+  const presetsList = usePresetsList(store);
 
   const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
     presetsList.listFilters;

@@ -64,6 +64,7 @@ import {
   usePresetsList,
   useFilterExerciseList,
 } from "../hooks";
+import { Store } from "@tauri-apps/plugin-store";
 
 type OperationType =
   | "add"
@@ -133,7 +134,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const calculationModal = useCalculationModal();
 
-  const presetsList = usePresetsList(false, false);
+  const store = useRef<Store>(null);
+
+  const presetsList = usePresetsList(store);
 
   const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
     presetsList.listFilters;
