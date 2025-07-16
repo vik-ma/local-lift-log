@@ -224,7 +224,6 @@ export const usePresetsList = (store: StoreRef): UsePresetsListReturnType => {
       );
 
       sortDistancesByActiveCategory(result, category);
-
       isDistanceListLoaded.current = true;
     } catch (error) {
       console.log(error);
@@ -425,7 +424,9 @@ export const usePresetsList = (store: StoreRef): UsePresetsListReturnType => {
       setSortCategoryEquipment(newCategory);
     }
 
-    switch (sortCategoryEquipment) {
+    const activeCategory = newCategory ?? sortCategoryEquipment;
+
+    switch (activeCategory) {
       case "favorite":
         sortEquipmentWeightsByFavoritesFirst([...equipmentWeightList]);
         break;
@@ -462,7 +463,9 @@ export const usePresetsList = (store: StoreRef): UsePresetsListReturnType => {
       setSortCategoryDistance(newCategory);
     }
 
-    switch (sortCategoryDistance) {
+    const activeCategory = newCategory ?? sortCategoryDistance;
+
+    switch (activeCategory) {
       case "favorite":
         sortDistancesByFavoritesFirst([...distanceList]);
         break;
