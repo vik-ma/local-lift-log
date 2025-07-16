@@ -41,6 +41,7 @@ import {
   CreateDefaultDistances,
   CreateDefaultEquipmentWeights,
   DeleteItemFromList,
+  GetPresetsSortCategoryFromStore,
   GetUserSettings,
   GetValidatedUnit,
   LoadStore,
@@ -180,30 +181,20 @@ export default function Presets() {
 
       await LoadStore(store);
 
-      let sortCategoryEquipment: EquipmentWeightSortCategory = "favorite";
-      let sortCategoryDistance: DistanceSortCategory = "favorite";
-
-      if (store.current !== null) {
-        const valEquipment = await store.current.get<{
-          value: EquipmentWeightSortCategory;
-        }>("sort-category-equipment-weights");
-
-        if (valEquipment !== undefined) {
-          sortCategoryEquipment = valEquipment.value;
-        }
-
-        const valDistance = await store.current.get<{
-          value: DistanceSortCategory;
-        }>("sort-category-distances");
-
-        if (valDistance !== undefined) {
-          sortCategoryDistance = valDistance.value;
-        }
-      }
+      const sortCategoryEquipment = await GetPresetsSortCategoryFromStore(
+        store,
+        true
+      );
+      const sortCategoryDistance = await GetPresetsSortCategoryFromStore(
+        store,
+        false
+      );
 
       await Promise.all([
-        getEquipmentWeights(sortCategoryEquipment),
-        getDistances(sortCategoryDistance),
+        getEquipmentWeights(
+          sortCategoryEquipment as EquipmentWeightSortCategory
+        ),
+        getDistances(sortCategoryDistance as DistanceSortCategory),
       ]);
     };
 
@@ -691,39 +682,23 @@ export default function Presets() {
   };
 
   const createDefaultEquipmentWeights = async (useMetricUnits: boolean) => {
-    if (presetsType !== "equipment" || store.current === null) return;
+    if (presetsType !== "equipment") return;
 
-    let sortCategoryEquipment: EquipmentWeightSortCategory = "favorite";
-
-    const valEquipment = await store.current.get<{
-      value: EquipmentWeightSortCategory;
-    }>("sort-category-equipment-weights");
-
-    if (valEquipment !== undefined) {
-      sortCategoryEquipment = valEquipment.value;
-    }
+    const sortCategory = await GetPresetsSortCategoryFromStore(store, true);
 
     await CreateDefaultEquipmentWeights(useMetricUnits);
-    await getEquipmentWeights(sortCategoryEquipment);
+    await getEquipmentWeights(sortCategory as EquipmentWeightSortCategory);
     setUnitsModal.onClose();
     toast.success("Default Equipment Weights Restored");
   };
 
   const createDefaultDistances = async (useMetricUnits: boolean) => {
-    if (presetsType !== "distance" || store.current === null) return;
+    if (presetsType !== "distance") return;
 
-    let sortCategoryDistance: DistanceSortCategory = "favorite";
-
-    const valDistance = await store.current.get<{
-      value: DistanceSortCategory;
-    }>("sort-category-distances");
-
-    if (valDistance !== undefined) {
-      sortCategoryDistance = valDistance.value;
-    }
+    const sortCategory = await GetPresetsSortCategoryFromStore(store, false);
 
     await CreateDefaultDistances(useMetricUnits);
-    await getDistances(sortCategoryDistance);
+    await getDistances(sortCategory as DistanceSortCategory);
     setUnitsModal.onClose();
     toast.success("Default Distances Restored");
   };
