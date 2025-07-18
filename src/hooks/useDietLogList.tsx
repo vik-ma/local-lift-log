@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   DietLog,
   DietLogMap,
@@ -24,10 +24,7 @@ import {
 import { useDisclosure } from "@heroui/react";
 import { useDietLogListFilters } from ".";
 
-export const useDietLogList = (
-  store: StoreRef,
-  getDietLogsOnLoad: boolean
-): UseDietLogListReturnType => {
+export const useDietLogList = (store: StoreRef): UseDietLogListReturnType => {
   const [dietLogs, setDietLogs] = useState<DietLog[]>([]);
   const [sortCategory, setSortCategory] =
     useState<DietLogSortCategory>("date-desc");
@@ -132,7 +129,7 @@ export const useDietLogList = (
     includeNullInMaxValuesProtein,
   ]);
 
-  const getDietLogs = async () => {
+  const getDietLogs = async (category: DietLogSortCategory) => {
     const result = await GetAllDietLogs(false);
 
     const dietLogs: DietLog[] = [];
@@ -171,7 +168,7 @@ export const useDietLogList = (
       }
     }
 
-    setDietLogs(dietLogs);
+    sortDietLogsByActiveCategory(dietLogs, category);
     setDietLogMap(dietLogMap);
     setLatestDietLog(
       latestValidDietLog !== undefined ? latestValidDietLog : defaultDietLog
@@ -179,13 +176,6 @@ export const useDietLogList = (
 
     isDietLogListLoaded.current = true;
   };
-
-  useEffect(() => {
-    if (getDietLogsOnLoad) {
-      getDietLogs();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const addDietLog = async (dietLog: DietLog) => {
     if (dietLog.id !== 0 || dietLogMap.has(dietLog.date)) return undefined;

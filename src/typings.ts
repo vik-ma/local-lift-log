@@ -1055,7 +1055,7 @@ export type UseDietLogListReturnType = {
     dietLog: DietLog,
     latestDate?: number
   ) => Promise<DietLog | undefined>;
-  getDietLogs: () => Promise<void>;
+  getDietLogs: (category: DietLogSortCategory) => Promise<void>;
   latestDietLog: DietLog;
   setLatestDietLog: React.Dispatch<React.SetStateAction<DietLog>>;
   defaultDietLog: DietLog;
