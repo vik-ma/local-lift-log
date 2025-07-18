@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   DeleteModal,
   DietLogAccordions,
@@ -9,7 +9,12 @@ import {
   LoadingSpinner,
 } from "../components";
 import { useDietLogList } from "../hooks";
-import { DietLog, DietLogDateEntryType, UserSettings } from "../typings";
+import {
+  DietLog,
+  DietLogDateEntryType,
+  DietLogSortCategory,
+  UserSettings,
+} from "../typings";
 import {
   Button,
   Dropdown,
@@ -19,7 +24,8 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import toast from "react-hot-toast";
-import { GetUserSettings } from "../helpers";
+import { GetUserSettings, LoadStore } from "../helpers";
+import { Store } from "@tauri-apps/plugin-store";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -32,7 +38,9 @@ export default function DietLogList() {
   const dietLogModal = useDisclosure();
   const deleteModal = useDisclosure();
 
-  const dietLogList = useDietLogList(true);
+  const store = useRef<Store>(null);
+
+  const dietLogList = useDietLogList(store);
 
   const {
     dietLogs,
@@ -51,6 +59,7 @@ export default function DietLogList() {
     dietLogListFilters,
     addDietLogEntryRange,
     defaultDietLog,
+    getDietLogs,
   } = dietLogList;
 
   const [operatingDietLog, setOperatingDietLog] =
@@ -61,12 +70,30 @@ export default function DietLogList() {
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
+
       if (userSettings === undefined) return;
 
       setUserSettings(userSettings);
+
+      await LoadStore(store);
+
+      let sortCategory: DietLogSortCategory = "date-desc";
+
+      if (store.current !== null) {
+        const val = await store.current.get<{ value: DietLogSortCategory }>(
+          "sort-category-diet-logs"
+        );
+
+        if (val !== undefined) {
+          sortCategory = val.value;
+        }
+      }
+
+      await getDietLogs(sortCategory);
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addDietLogEntry = async (dietLog: DietLog) => {
