@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   UserSettings,
   BodyMeasurementsOperationType,
@@ -28,6 +28,7 @@ import {
   GetAllBodyMeasurements,
   UpdateBodyMeasurementsTimestamp,
   GetValidatedUnit,
+  LoadStore,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -38,6 +39,7 @@ import {
   useBodyMeasurementsSettings,
   useDietLogList,
 } from "../hooks";
+import { Store } from "@tauri-apps/plugin-store";
 
 export default function LoggingIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -81,7 +83,9 @@ export default function LoggingIndex() {
     loadBodyFatCalculationSettingsString,
   } = activeMeasurements;
 
-  const dietLogList = useDietLogList(true);
+  const store = useRef<Store>(null);
+
+  const dietLogList = useDietLogList(store);
 
   const {
     isDietLogListLoaded,
@@ -93,6 +97,7 @@ export default function LoggingIndex() {
     latestDietLog,
     setLatestDietLog,
     defaultDietLog,
+    getDietLogs,
   } = dietLogList;
 
   const [operatingDietLog, setOperatingDietLog] = useState<DietLog>({
@@ -100,8 +105,6 @@ export default function LoggingIndex() {
   });
 
   useEffect(() => {
-    if (!isDietLogListLoaded.current) return;
-
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
 
@@ -119,9 +122,13 @@ export default function LoggingIndex() {
         measurementMap.current
       );
 
+      // TODO: REMOVE??
+      await LoadStore(store);
+
       await Promise.all([
         getActiveMeasurements(userSettings.active_tracking_measurements),
         getLatestBodyMeasurements(userSettings.clock_style),
+        getDietLogs("date-desc"),
       ]);
 
       setUserSettings(userSettings);
