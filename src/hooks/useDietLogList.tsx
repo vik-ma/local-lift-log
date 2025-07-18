@@ -4,6 +4,7 @@ import {
   DietLogMap,
   UseDietLogListReturnType,
   DietLogSortCategory,
+  StoreRef,
 } from "../typings";
 import Database from "@tauri-apps/plugin-sql";
 import {
@@ -24,6 +25,7 @@ import { useDisclosure } from "@heroui/react";
 import { useDietLogListFilters } from ".";
 
 export const useDietLogList = (
+  store: StoreRef,
   getDietLogsOnLoad: boolean
 ): UseDietLogListReturnType => {
   const [dietLogs, setDietLogs] = useState<DietLog[]>([]);
@@ -358,24 +360,30 @@ export const useDietLogList = (
     setDietLogs(dietLogList);
   };
 
-  const handleSortOptionSelection = (key: string) => {
-    if (key === "date-desc") {
-      setSortCategory(key);
-      sortDietLogsByDate([...dietLogs], false);
-    } else if (key === "date-asc") {
-      setSortCategory(key);
-      sortDietLogsByDate([...dietLogs], true);
-    } else if (key === "calories-desc") {
-      setSortCategory(key);
-      sortDietLogsByCalories([...dietLogs], false);
-    } else if (key === "calories-asc") {
-      setSortCategory(key);
-      sortDietLogsByCalories([...dietLogs], true);
-    }
+  const handleSortOptionSelection = async (key: string) => {
+    if (store.current === null) return;
+
+    await store.current.set("sort-category-diet-logs", { value: key });
+
+    await sortDietLogsByActiveCategory(
+      [...dietLogs],
+      key as DietLogSortCategory
+    );
   };
 
-  const sortDietLogsByActiveCategory = (dietLogList: DietLog[]) => {
-    switch (sortCategory) {
+  const sortDietLogsByActiveCategory = async (
+    dietLogList: DietLog[],
+    newCategory?: DietLogSortCategory
+  ) => {
+    if (store.current === null) return;
+
+    if (newCategory !== undefined) {
+      setSortCategory(newCategory);
+    }
+
+    const activeCategory = newCategory ?? sortCategory;
+
+    switch (activeCategory) {
       case "date-desc":
         sortDietLogsByDate([...dietLogList], false);
         break;
@@ -389,6 +397,12 @@ export const useDietLogList = (
         sortDietLogsByCalories([...dietLogList], true);
         break;
       default:
+        // Overwrite invalid categories
+        setSortCategory("date-desc");
+        await store.current.set("sort-category-diet-logs", {
+          value: "date-desc",
+        });
+        sortDietLogsByDate([...dietLogList], false);
         break;
     }
   };
