@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   BodyMeasurements,
   BodyMeasurementsOperationType,
+  BodyMeasurementSortCategory,
   UserSettings,
 } from "../typings";
 import {
@@ -53,14 +54,6 @@ import {
 import toast from "react-hot-toast";
 import { VerticalMenuIcon } from "../assets";
 
-type SortCategory =
-  | "date-asc"
-  | "date-desc"
-  | "weight-asc"
-  | "weight-desc"
-  | "bf-asc"
-  | "bf-desc";
-
 export default function BodyMeasurementsList() {
   const [bodyMeasurementsList, setBodyMeasurementsList] = useState<
     BodyMeasurements[]
@@ -69,7 +62,8 @@ export default function BodyMeasurementsList() {
   const [operationType, setOperationType] =
     useState<BodyMeasurementsOperationType>("add");
   const [filterQuery, setFilterQuery] = useState<string>("");
-  const [sortCategory, setSortCategory] = useState<SortCategory>("date-desc");
+  const [sortCategory, setSortCategory] =
+    useState<BodyMeasurementSortCategory>("date-desc");
 
   const defaultBodyMeasurements = DefaultNewBodyMeasurements();
 

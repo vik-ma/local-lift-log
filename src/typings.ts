@@ -1279,6 +1279,14 @@ export type DistanceSortCategory =
 
 export type MeasurementSortCategory = "favorite" | "active" | "name";
 
+export type BodyMeasurementSortCategory =
+  | "date-asc"
+  | "date-desc"
+  | "weight-asc"
+  | "weight-desc"
+  | "bf-asc"
+  | "bf-desc";
+
 export type TimePeriodSortCategory =
   | "name"
   | "ongoing"
@@ -1303,6 +1311,7 @@ export type ListSortCategory =
   | EquipmentWeightSortCategory
   | DistanceSortCategory
   | MeasurementSortCategory
+  | BodyMeasurementSortCategory
   | TimePeriodSortCategory
   | DietLogSortCategory;
 
@@ -1314,5 +1323,6 @@ export type ListSortCategoryStoreKey =
   | "equipment-weights"
   | "distances"
   | "measurements"
+  | "body-measurements"
   | "time-periods"
   | "diet-logs";
