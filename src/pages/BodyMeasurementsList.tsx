@@ -56,9 +56,9 @@ import { VerticalMenuIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
 
 export default function BodyMeasurementsList() {
-  const [bodyMeasurementsList, setBodyMeasurementsList] = useState<
-    BodyMeasurements[]
-  >([]);
+  const [bodyMeasurements, setBodyMeasurements] = useState<BodyMeasurements[]>(
+    []
+  );
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] =
     useState<BodyMeasurementsOperationType>("add");
@@ -133,7 +133,7 @@ export default function BodyMeasurementsList() {
 
   const filteredBodyMeasurements = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
-      return bodyMeasurementsList.filter(
+      return bodyMeasurements.filter(
         (item) =>
           ((item.weight > 0 &&
             item.weight
@@ -199,9 +199,9 @@ export default function BodyMeasurementsList() {
             ))
       );
     }
-    return bodyMeasurementsList;
+    return bodyMeasurements;
   }, [
-    bodyMeasurementsList,
+    bodyMeasurements,
     filterQuery,
     measurementMap,
     filterMap,
@@ -272,7 +272,7 @@ export default function BodyMeasurementsList() {
       bodyMeasurementsList.sort((a, b) => b.date.localeCompare(a.date));
     }
 
-    setBodyMeasurementsList(bodyMeasurementsList);
+    setBodyMeasurements(bodyMeasurementsList);
   };
 
   const sortBodyMeasurementsByWeight = (
@@ -305,7 +305,7 @@ export default function BodyMeasurementsList() {
       }
     });
 
-    setBodyMeasurementsList(bodyMeasurementsList);
+    setBodyMeasurements(bodyMeasurementsList);
   };
 
   const sortBodyMeasurementsByBodyFatPercentage = (
@@ -334,7 +334,7 @@ export default function BodyMeasurementsList() {
       return b.date.localeCompare(a.date);
     });
 
-    setBodyMeasurementsList(bodyMeasurementsList);
+    setBodyMeasurements(bodyMeasurementsList);
   };
 
   const sortBodyMeasurementsByActiveCategory = async (
@@ -391,7 +391,7 @@ export default function BodyMeasurementsList() {
     await store.current.set("sort-category-body-measurements", { value: key });
 
     await sortBodyMeasurementsByActiveCategory(
-      [...bodyMeasurementsList],
+      [...bodyMeasurements],
       key as BodyMeasurementSortCategory
     );
   };
@@ -405,10 +405,10 @@ export default function BodyMeasurementsList() {
       isExpanded: !bodyMeasurement.isExpanded,
     };
 
-    const updatedBodyMeasurements = [...bodyMeasurementsList];
+    const updatedBodyMeasurements = [...bodyMeasurements];
     updatedBodyMeasurements[index] = updatedBodyMeasurement;
 
-    setBodyMeasurementsList(updatedBodyMeasurements);
+    setBodyMeasurements(updatedBodyMeasurements);
   };
 
   const handleNewBodyMeasurementsButton = async () => {
@@ -451,21 +451,18 @@ export default function BodyMeasurementsList() {
     }
   };
 
-  const addBodyMeasurements = async (bodyMeasurements: BodyMeasurements) => {
+  const addBodyMeasurements = async (bodyMeasurement: BodyMeasurements) => {
     if (userSettings === undefined) return;
 
     const newBodyMeasurements = await InsertBodyMeasurementsIntoDatabase(
-      bodyMeasurements,
+      bodyMeasurement,
       userSettings.clock_style,
       measurementMap.current
     );
 
     if (newBodyMeasurements === undefined) return;
 
-    const updatedBodyMeasurements = [
-      ...bodyMeasurementsList,
-      newBodyMeasurements,
-    ];
+    const updatedBodyMeasurements = [...bodyMeasurements, newBodyMeasurements];
 
     sortBodyMeasurementsByActiveCategory(updatedBodyMeasurements);
 
@@ -477,11 +474,11 @@ export default function BodyMeasurementsList() {
     toast.success("Body Measurements Added");
   };
 
-  const updateBodyMeasurements = async (bodyMeasurements: BodyMeasurements) => {
-    if (userSettings === undefined || bodyMeasurements.id === 0) return;
+  const updateBodyMeasurements = async (bodyMeasurement: BodyMeasurements) => {
+    if (userSettings === undefined || bodyMeasurement.id === 0) return;
 
     const updatedBodyMeasurements = await UpdateBodyMeasurements(
-      bodyMeasurements,
+      bodyMeasurement,
       userSettings.clock_style,
       measurementMap.current
     );
@@ -489,7 +486,7 @@ export default function BodyMeasurementsList() {
     if (updatedBodyMeasurements === undefined) return;
 
     const updatedBodyMeasurementsList = UpdateItemInList(
-      bodyMeasurementsList,
+      bodyMeasurements,
       updatedBodyMeasurements
     );
 
@@ -512,7 +509,7 @@ export default function BodyMeasurementsList() {
     if (!success) return;
 
     const updatedBodyMeasurements = DeleteItemFromList(
-      bodyMeasurementsList,
+      bodyMeasurements,
       bodyMeasurement.id
     );
 
@@ -539,7 +536,7 @@ export default function BodyMeasurementsList() {
     if (updatedBodyMeasurements === undefined) return;
 
     const updatedBodyMeasurementsList = UpdateItemInList(
-      bodyMeasurementsList,
+      bodyMeasurements,
       updatedBodyMeasurements
     );
 
@@ -552,7 +549,7 @@ export default function BodyMeasurementsList() {
   const reassignBodyMeasurements = async (name: string) => {
     if (userSettings === undefined) return;
 
-    const success = await reassignMeasurement(bodyMeasurementsList, name);
+    const success = await reassignMeasurement(bodyMeasurements, name);
 
     if (!success) return;
 
@@ -635,7 +632,7 @@ export default function BodyMeasurementsList() {
           filterQuery={filterQuery}
           setFilterQuery={setFilterQuery}
           filteredListLength={filteredBodyMeasurements.length}
-          totalListLength={bodyMeasurementsList.length}
+          totalListLength={bodyMeasurements.length}
           isListFiltered={filterMap.size > 0}
           bottomContent={
             <div className="flex flex-col gap-1.5">
