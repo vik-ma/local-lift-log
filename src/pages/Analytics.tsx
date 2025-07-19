@@ -77,6 +77,7 @@ import {
   UnitCategory,
   UserSettings,
   TimePeriodSortCategory,
+  MeasurementSortCategory,
 } from "../typings";
 import {
   ConvertMeasurementValue,
@@ -172,6 +173,8 @@ export default function Analytics() {
     setCountSecondaryExerciseGroupsAsOne,
   ] = useState<boolean>(false);
 
+  const store = useRef<Store>(null);
+
   const dateMap = useChartDateMap();
 
   const { chartLineColorList, chartAreaColorList, referenceAreaColorList } =
@@ -199,7 +202,7 @@ export default function Analytics() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
-  const measurementList = useMeasurementList(false, true, true);
+  const measurementList = useMeasurementList(store, true, true);
 
   const { isMeasurementListLoaded, getMeasurements } = measurementList;
 
@@ -255,8 +258,6 @@ export default function Analytics() {
     referenceAreas,
     shownReferenceAreas
   );
-
-  const store = useRef<Store>(null);
 
   const timePeriodList = useTimePeriodList(store);
 
@@ -347,7 +348,13 @@ export default function Analytics() {
       modalListType === "measurement-list" &&
       !isMeasurementListLoaded.current
     ) {
-      await getMeasurements();
+      const sortCategoryMeasurement = await GetSortCategory(
+        store,
+        "favorite" as MeasurementSortCategory,
+        "measurements"
+      );
+
+      await getMeasurements(sortCategoryMeasurement);
     }
 
     if (

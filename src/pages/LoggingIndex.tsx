@@ -62,9 +62,12 @@ export default function LoggingIndex() {
   const timeInputModal = useDisclosure();
   const dietLogModal = useDisclosure();
 
-  const measurementList = useMeasurementList(true);
+  const store = useRef<Store>(null);
 
-  const { measurementMap, isMeasurementListLoaded } = measurementList;
+  const measurementList = useMeasurementList(store);
+
+  const { getMeasurements, measurementMap, isMeasurementListLoaded } =
+    measurementList;
 
   const { nameInputModal, handleReassignMeasurement, reassignMeasurement } =
     useReassignMeasurement(measurementList);
@@ -81,8 +84,6 @@ export default function LoggingIndex() {
     bodyFatCalculationModal,
     loadBodyFatCalculationSettingsString,
   } = activeMeasurements;
-
-  const store = useRef<Store>(null);
 
   const dietLogList = useDietLogList(store);
 
@@ -122,6 +123,7 @@ export default function LoggingIndex() {
       );
 
       await Promise.all([
+        getMeasurements("favorite"),
         getActiveMeasurements(userSettings.active_tracking_measurements),
         getLatestBodyMeasurements(userSettings.clock_style),
         getDietLogs("date-desc"),

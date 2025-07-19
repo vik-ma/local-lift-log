@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   LoadingSpinner,
   DeleteModal,
@@ -9,7 +9,7 @@ import {
   ListFilters,
   MeasurementListOptions,
 } from "../components";
-import { Measurement, UserSettings } from "../typings";
+import { Measurement, MeasurementSortCategory, UserSettings } from "../typings";
 import Database from "@tauri-apps/plugin-sql";
 import {
   Button,
@@ -35,9 +35,12 @@ import {
   FormatNumBodyMeasurementsEntriesString,
   UpdateUserSetting,
   GetValidatedUnit,
+  LoadStore,
+  GetSortCategory,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import { useDefaultMeasurement, useMeasurementList } from "../hooks";
+import { Store } from "@tauri-apps/plugin-store";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -54,7 +57,9 @@ export default function MeasurementList() {
   const measurementModal = useDisclosure();
   const setUnitsModal = useDisclosure();
 
-  const measurementList = useMeasurementList(false, true);
+  const store = useRef<Store>(null);
+
+  const measurementList = useMeasurementList(store, true);
 
   const {
     measurements,
@@ -101,7 +106,15 @@ export default function MeasurementList() {
 
         setActiveMeasurementSet(activeMeasurementSet);
 
-        await getMeasurements(activeMeasurementSet);
+        await LoadStore(store);
+
+        const sortCategory = await GetSortCategory(
+          store,
+          "favorite" as MeasurementSortCategory,
+          "measurements"
+        );
+
+        await getMeasurements(sortCategory, activeMeasurementSet);
       } catch (error) {
         console.log(error);
       }
