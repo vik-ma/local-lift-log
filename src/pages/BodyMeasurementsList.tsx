@@ -39,6 +39,7 @@ import {
   IsMeasurementInBodyMeasurementsValues,
   IsNumberWithinLimit,
   IsWeightWithinLimit,
+  LoadStore,
   UpdateBodyMeasurements,
   UpdateBodyMeasurementsTimestamp,
   UpdateItemInList,
@@ -75,9 +76,10 @@ export default function BodyMeasurementsList() {
 
   const defaultWeightUnit = useRef<string>("kg");
 
-  const measurementList = useMeasurementList(true);
+  const measurementList = useMeasurementList(store);
 
-  const { measurementMap, isMeasurementListLoaded } = measurementList;
+  const { getMeasurements, measurementMap, isMeasurementListLoaded } =
+    measurementList;
 
   const activeMeasurements = useBodyMeasurementsSettings(
     userSettings,
@@ -250,7 +252,10 @@ export default function BodyMeasurementsList() {
         measurementMap.current
       );
 
+      await LoadStore(store);
+
       await Promise.all([
+        getMeasurements("favorite"),
         getActiveMeasurements(userSettings.active_tracking_measurements),
         getBodyMeasurements(userSettings.clock_style),
       ]);

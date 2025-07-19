@@ -110,7 +110,10 @@ export const useMeasurementList = (
     setMeasurements(measurements);
   };
 
-  const getMeasurements = async (activeMeasurements?: Set<number>) => {
+  const getMeasurements = async (
+    category: MeasurementSortCategory,
+    activeMeasurements?: Set<number>
+  ) => {
     const { measurements, newMeasurementMap } =
       showNumberOfBodyMeasurementsEntries
         ? await GetMeasurementListWithNumberOfBodyMeasurementsEntries(
@@ -119,7 +122,11 @@ export const useMeasurementList = (
         : await GetMeasurementList();
 
     measurementMap.current = newMeasurementMap;
-    sortMeasurementsByActiveFirst(measurements, activeMeasurements);
+    sortMeasurementsByActiveCategory(
+      measurements,
+      activeMeasurements,
+      category
+    );
 
     isMeasurementListLoaded.current = true;
   };

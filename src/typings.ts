@@ -787,7 +787,10 @@ export type UseMeasurementListReturnType = {
   measurementMap: React.RefObject<MeasurementMap>;
   createMeasurement: (newMeasurement: Measurement) => Promise<number>;
   listFilters: UseListFiltersReturnType;
-  getMeasurements: (activeMeasurements?: Set<number>) => Promise<void>;
+  getMeasurements: (
+    category: MeasurementSortCategory,
+    activeMeasurements?: Set<number>
+  ) => Promise<void>;
 };
 
 export type WorkoutTemplateMap = Map<number, WorkoutTemplate>;
