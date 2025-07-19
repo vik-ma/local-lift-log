@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   Measurement,
   MeasurementMap,
   MeasurementSortCategory,
+  StoreRef,
   UseMeasurementListReturnType,
 } from "../typings";
 import {
@@ -15,7 +16,7 @@ import {
 import { useListFilters } from ".";
 
 export const useMeasurementList = (
-  getMeasurementsOnLoad: boolean,
+  store: StoreRef,
   showNumberOfBodyMeasurementsEntries?: boolean,
   ignoreMeasurementsWithNoEntries?: boolean
 ): UseMeasurementListReturnType => {
@@ -123,13 +124,6 @@ export const useMeasurementList = (
     isMeasurementListLoaded.current = true;
   };
 
-  useEffect(() => {
-    if (getMeasurementsOnLoad) {
-      getMeasurements();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const createMeasurement = async (
     newMeasurement: Measurement
   ): Promise<number> => {
@@ -183,34 +177,54 @@ export const useMeasurementList = (
     measurementMap.current = updatedMeasurementMap;
   };
 
-  const handleSortOptionSelection = (key: string) => {
-    if (key === "name") {
-      setSortCategory(key);
-      sortMeasurementsByName([...measurements]);
-    } else if (key === "favorite") {
-      setSortCategory(key);
-      sortMeasurementsByFavoritesFirst([...measurements]);
-    } else if (key === "active") {
-      setSortCategory(key);
-      sortMeasurementsByActiveFirst([...measurements]);
-    }
+  const handleSortOptionSelection = async (key: string) => {
+    if (store.current === null) return;
+
+    await store.current.set("sort-category-measurements", { value: key });
+
+    await sortMeasurementsByActiveCategory(
+      [...measurements],
+      undefined,
+      key as MeasurementSortCategory
+    );
   };
 
-  const sortMeasurementsByActiveCategory = (
-    measurements: Measurement[],
-    activeMeasurements?: Set<number>
+  const sortMeasurementsByActiveCategory = async (
+    measurementList: Measurement[],
+    activeMeasurements?: Set<number>,
+    newCategory?: MeasurementSortCategory
   ) => {
-    switch (sortCategory) {
+    if (store.current === null) return;
+
+    if (newCategory !== undefined) {
+      setSortCategory(newCategory);
+    }
+
+    const activeCategory = newCategory ?? sortCategory;
+
+    switch (activeCategory) {
       case "favorite":
-        sortMeasurementsByFavoritesFirst(measurements, activeMeasurements);
+        sortMeasurementsByFavoritesFirst(
+          [...measurementList],
+          activeMeasurements
+        );
         break;
       case "name":
-        sortMeasurementsByName(measurements);
+        sortMeasurementsByName([...measurementList]);
         break;
       case "active":
-        sortMeasurementsByActiveFirst(measurements, activeMeasurements);
+        sortMeasurementsByActiveFirst([...measurementList], activeMeasurements);
         break;
       default:
+        // Overwrite invalid categories
+        setSortCategory("favorite");
+        await store.current.set("sort-category-measurements", {
+          value: "date-desc",
+        });
+        sortMeasurementsByFavoritesFirst(
+          [...measurementList],
+          activeMeasurements
+        );
         break;
     }
   };
