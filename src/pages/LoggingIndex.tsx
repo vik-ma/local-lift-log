@@ -28,7 +28,6 @@ import {
   GetAllBodyMeasurements,
   UpdateBodyMeasurementsTimestamp,
   GetValidatedUnit,
-  LoadStore,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -121,9 +120,6 @@ export default function LoggingIndex() {
         userSettings.body_fat_calculation_settings,
         measurementMap.current
       );
-
-      // TODO: REMOVE??
-      await LoadStore(store);
 
       await Promise.all([
         getActiveMeasurements(userSettings.active_tracking_measurements),
