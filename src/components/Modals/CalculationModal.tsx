@@ -110,7 +110,9 @@ export const CalculationModal = ({
   const loadPresets = async () => {
     const sortCategory = await GetSortCategory(
       store,
-      "favorite",
+      presetsType === "equipment"
+        ? ("favorite" as EquipmentWeightSortCategory)
+        : ("favorite" as DistanceSortCategory),
       presetsType === "equipment" ? "equipment-weights" : "distances"
     );
 

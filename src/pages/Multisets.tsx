@@ -507,7 +507,7 @@ export default function Multisets() {
 
     const sortCategory = await GetSortCategory(
       store,
-      "favorite",
+      "favorite" as EquipmentWeightSortCategory,
       "equipment-weights"
     );
 

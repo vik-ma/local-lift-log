@@ -183,12 +183,12 @@ export default function Presets() {
 
       const sortCategoryEquipment = await GetSortCategory(
         store,
-        "favorite",
+        "favorite" as EquipmentWeightSortCategory,
         "equipment-weights"
       );
       const sortCategoryDistance = await GetSortCategory(
         store,
-        "favorite",
+        "favorite" as DistanceSortCategory,
         "distances"
       );
 
@@ -688,7 +688,7 @@ export default function Presets() {
 
     const sortCategory = await GetSortCategory(
       store,
-      "favorite",
+      "favorite" as EquipmentWeightSortCategory,
       "equipment-weights"
     );
 
@@ -701,7 +701,11 @@ export default function Presets() {
   const createDefaultDistances = async (useMetricUnits: boolean) => {
     if (presetsType !== "distance") return;
 
-    const sortCategory = await GetSortCategory(store, "favorite", "distances");
+    const sortCategory = await GetSortCategory(
+      store,
+      "favorite" as DistanceSortCategory,
+      "distances"
+    );
 
     await CreateDefaultDistances(useMetricUnits);
     await getDistances(sortCategory as DistanceSortCategory);

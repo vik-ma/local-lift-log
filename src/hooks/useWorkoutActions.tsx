@@ -2384,7 +2384,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
     const sortCategory = await GetSortCategory(
       store,
-      "favorite",
+      "favorite" as EquipmentWeightSortCategory,
       "equipment-weights"
     );
 

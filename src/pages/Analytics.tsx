@@ -108,6 +108,7 @@ import {
   GetValidatedUnit,
   GetValidatedMeasurementType,
   LoadStore,
+  GetSortCategory,
 } from "../helpers";
 import toast from "react-hot-toast";
 import { Store } from "@tauri-apps/plugin-store";
@@ -353,17 +354,11 @@ export default function Analytics() {
       modalListType === "time-period-list" &&
       !isTimePeriodListLoaded.current
     ) {
-      let sortCategoryTimePeriod: TimePeriodSortCategory = "ongoing";
-
-      if (store.current !== null) {
-        const val = await store.current.get<{ value: TimePeriodSortCategory }>(
-          "sort-category-time-periods"
-        );
-
-        if (val !== undefined) {
-          sortCategoryTimePeriod = val.value;
-        }
-      }
+      const sortCategoryTimePeriod = await GetSortCategory(
+        store,
+        "ongoing" as TimePeriodSortCategory,
+        "time-periods"
+      );
 
       await getTimePeriods(userSettings.locale, sortCategoryTimePeriod);
 
