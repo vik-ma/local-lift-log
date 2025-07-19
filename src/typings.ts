@@ -1305,3 +1305,14 @@ export type ListSortCategory =
   | MeasurementSortCategory
   | TimePeriodSortCategory
   | DietLogSortCategory;
+
+export type ListSortCategoryStoreKey =
+  | "exercises"
+  | "workouts"
+  | "workout-templates"
+  | "routines"
+  | "equipment-weights"
+  | "distances"
+  | "measurements"
+  | "time-periods"
+  | "diet-logs";
