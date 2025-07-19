@@ -57,7 +57,7 @@ import {
   GetValidatedUnit,
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
-  GetPresetsSortCategoryFromStore,
+  GetSortCategory,
 } from "../helpers";
 import {
   useMultisetActions,
@@ -2382,7 +2382,11 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   ) => {
     if (userSettings === undefined) return;
 
-    const sortCategory = await GetPresetsSortCategoryFromStore(store, isWeight);
+    const sortCategory = await GetSortCategory(
+      store,
+      "favorite",
+      "equipment-weights"
+    );
 
     await calculationModal.openCalculationModal(
       isWeight,

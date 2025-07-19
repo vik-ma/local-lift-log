@@ -41,7 +41,7 @@ import {
   CreateDefaultDistances,
   CreateDefaultEquipmentWeights,
   DeleteItemFromList,
-  GetPresetsSortCategoryFromStore,
+  GetSortCategory,
   GetUserSettings,
   GetValidatedUnit,
   LoadStore,
@@ -181,13 +181,15 @@ export default function Presets() {
 
       await LoadStore(store);
 
-      const sortCategoryEquipment = await GetPresetsSortCategoryFromStore(
+      const sortCategoryEquipment = await GetSortCategory(
         store,
-        true
+        "favorite",
+        "equipment-weights"
       );
-      const sortCategoryDistance = await GetPresetsSortCategoryFromStore(
+      const sortCategoryDistance = await GetSortCategory(
         store,
-        false
+        "favorite",
+        "distances"
       );
 
       await Promise.all([
@@ -684,7 +686,11 @@ export default function Presets() {
   const createDefaultEquipmentWeights = async (useMetricUnits: boolean) => {
     if (presetsType !== "equipment") return;
 
-    const sortCategory = await GetPresetsSortCategoryFromStore(store, true);
+    const sortCategory = await GetSortCategory(
+      store,
+      "favorite",
+      "equipment-weights"
+    );
 
     await CreateDefaultEquipmentWeights(useMetricUnits);
     await getEquipmentWeights(sortCategory as EquipmentWeightSortCategory);
@@ -695,7 +701,7 @@ export default function Presets() {
   const createDefaultDistances = async (useMetricUnits: boolean) => {
     if (presetsType !== "distance") return;
 
-    const sortCategory = await GetPresetsSortCategoryFromStore(store, false);
+    const sortCategory = await GetSortCategory(store, "favorite", "distances");
 
     await CreateDefaultDistances(useMetricUnits);
     await getDistances(sortCategory as DistanceSortCategory);

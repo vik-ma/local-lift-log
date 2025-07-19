@@ -30,7 +30,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,
-  GetPresetsSortCategoryFromStore,
+  GetSortCategory,
   IsStringEmpty,
   IsStringInvalidNumber,
 } from "../../helpers";
@@ -108,9 +108,10 @@ export const CalculationModal = ({
   } = useCalculationModal;
 
   const loadPresets = async () => {
-    const sortCategory = await GetPresetsSortCategoryFromStore(
+    const sortCategory = await GetSortCategory(
       store,
-      presetsType === "equipment"
+      "favorite",
+      presetsType === "equipment" ? "equipment-weights" : "distances"
     );
 
     if (presetsType === "equipment" && !isEquipmentWeightListLoaded.current) {

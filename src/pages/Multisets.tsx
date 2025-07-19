@@ -37,7 +37,7 @@ import {
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
   LoadStore,
-  GetPresetsSortCategoryFromStore,
+  GetSortCategory,
 } from "../helpers";
 import {
   CalculationModal,
@@ -505,7 +505,11 @@ export default function Multisets() {
   ) => {
     if (userSettings === undefined) return;
 
-    const sortCategory = await GetPresetsSortCategoryFromStore(store, isWeight);
+    const sortCategory = await GetSortCategory(
+      store,
+      "favorite",
+      "equipment-weights"
+    );
 
     await calculationModal.openCalculationModal(
       isWeight,
