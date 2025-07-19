@@ -263,5 +263,4 @@ export { DeleteDietLogWithId } from "./DietLogs/DeleteDietLogWithId";
 export { GetAllDietLogs } from "./DietLogs/GetAllDietLogs";
 
 export { LoadStore } from "./Store/LoadStore";
-export { GetPresetsSortCategoryFromStore } from "./Store/GetPresetsSortCategoryFromStore";
 export { GetSortCategory } from "./Store/GetSortCategory";
