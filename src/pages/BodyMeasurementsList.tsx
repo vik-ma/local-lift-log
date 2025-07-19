@@ -53,6 +53,7 @@ import {
 } from "@heroui/react";
 import toast from "react-hot-toast";
 import { VerticalMenuIcon } from "../assets";
+import { Store } from "@tauri-apps/plugin-store";
 
 export default function BodyMeasurementsList() {
   const [bodyMeasurementsList, setBodyMeasurementsList] = useState<
@@ -64,6 +65,8 @@ export default function BodyMeasurementsList() {
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<BodyMeasurementSortCategory>("date-desc");
+
+  const store = useRef<Store>(null);
 
   const defaultBodyMeasurements = DefaultNewBodyMeasurements();
 
@@ -334,10 +337,19 @@ export default function BodyMeasurementsList() {
     setBodyMeasurementsList(bodyMeasurementsList);
   };
 
-  const sortBodyMeasurementsByActiveCategory = (
-    bodyMeasurementsList: BodyMeasurements[]
+  const sortBodyMeasurementsByActiveCategory = async (
+    bodyMeasurementsList: BodyMeasurements[],
+    newCategory?: BodyMeasurementSortCategory
   ) => {
-    switch (sortCategory) {
+    if (store.current === null) return;
+
+    if (newCategory !== undefined) {
+      setSortCategory(newCategory);
+    }
+
+    const activeCategory = newCategory ?? sortCategory;
+
+    switch (activeCategory) {
       case "date-desc":
         sortBodyMeasurementsByDate([...bodyMeasurementsList], false);
         break;
@@ -363,30 +375,25 @@ export default function BodyMeasurementsList() {
         );
         break;
       default:
+        // Overwrite invalid categories
+        setSortCategory("date-desc");
+        await store.current.set("sort-category-body-measurements", {
+          value: "date-desc",
+        });
+        sortBodyMeasurementsByDate([...bodyMeasurementsList], false);
         break;
     }
   };
 
-  const handleSortOptionSelection = (key: string) => {
-    if (key === "date-desc") {
-      setSortCategory(key);
-      sortBodyMeasurementsByDate([...bodyMeasurementsList], false);
-    } else if (key === "date-asc") {
-      setSortCategory(key);
-      sortBodyMeasurementsByDate([...bodyMeasurementsList], true);
-    } else if (key === "weight-desc") {
-      setSortCategory(key);
-      sortBodyMeasurementsByWeight([...bodyMeasurementsList], false);
-    } else if (key === "weight-asc") {
-      setSortCategory(key);
-      sortBodyMeasurementsByWeight([...bodyMeasurementsList], true);
-    } else if (key === "bf-desc") {
-      setSortCategory(key);
-      sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurementsList], false);
-    } else if (key === "bf-asc") {
-      setSortCategory(key);
-      sortBodyMeasurementsByBodyFatPercentage([...bodyMeasurementsList], true);
-    }
+  const handleSortOptionSelection = async (key: string) => {
+    if (store.current === null) return;
+
+    await store.current.set("sort-category-body-measurements", { value: key });
+
+    await sortBodyMeasurementsByActiveCategory(
+      [...bodyMeasurementsList],
+      key as BodyMeasurementSortCategory
+    );
   };
 
   const handleBodyMeasurementAccordionClick = (
