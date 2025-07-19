@@ -351,8 +351,6 @@ export type UseSetTrackingInputsReturnType = {
   areInputsEmpty: boolean;
 };
 
-export type ExerciseSortCategory = "favorite" | "name" | "num-sets";
-
 export type ExerciseMap = Map<number, Exercise>;
 
 export type UseExerciseListReturnType = {
@@ -600,19 +598,6 @@ export type UseWorkoutTemplateListReturnType = {
 
 export type PresetsType = "equipment" | "distance";
 
-export type EquipmentWeightSortCategory =
-  | "favorite"
-  | "name"
-  | "weight-desc"
-  | "weight-asc"
-  | "plate-col";
-
-export type DistanceSortCategory =
-  | "favorite"
-  | "name"
-  | "distance-desc"
-  | "distance-asc";
-
 export type UsePresetsListReturnType = {
   equipmentWeights: EquipmentWeight[];
   setEquipmentWeights: React.Dispatch<React.SetStateAction<EquipmentWeight[]>>;
@@ -726,29 +711,6 @@ export type OperatingCalculationItem = {
   index: number;
 };
 
-export type WorkoutSortCategory =
-  | "date-asc"
-  | "date-desc"
-  | "num-sets-asc"
-  | "num-sets-desc"
-  | "num-exercises-asc"
-  | "num-exercises-desc";
-
-export type WorkoutTemplateSortCategory =
-  | "name"
-  | "date"
-  | "num-sets-asc"
-  | "num-sets-desc"
-  | "num-exercises-asc"
-  | "num-exercises-desc";
-
-export type RoutineSortCategory =
-  | "name"
-  | "num-workouts-asc"
-  | "num-workouts-desc"
-  | "num-days-asc"
-  | "num-days-desc";
-
 export type SumCalculatorPage = "base" | "list" | "calc";
 
 export type PlateCalculatorPage = "base" | "equipment-list" | "plate-calc-list";
@@ -808,8 +770,6 @@ export type UseRoutineListReturnType = {
   handleOpenFilterButton: () => Promise<void>;
   sortRoutinesByActiveCategory: (routineList: Routine[]) => void;
 };
-
-export type MeasurementSortCategory = "favorite" | "active" | "name";
 
 export type UseMeasurementListReturnType = {
   measurements: Measurement[];
@@ -938,16 +898,6 @@ export type UseTimePeriodListReturnType = {
 
 export type ShownPropertiesTargetType = "workout" | "time-period";
 
-export type TimePeriodSortCategory =
-  | "name"
-  | "ongoing"
-  | "start-date-asc"
-  | "start-date-desc"
-  | "end-date-asc"
-  | "end-date-desc"
-  | "length-asc"
-  | "length-desc";
-
 export type UseTimePeriodListFiltersReturnType = {
   filterMap: Map<TimePeriodListFilterMapKey, string>;
   filterMinStartDate: CalendarDate | null;
@@ -1025,12 +975,6 @@ export type DietLog = {
 export type DietLogDateEntryType = "recent" | "custom" | "range";
 
 export type DietLogMap = Map<string, DietLog>;
-
-export type DietLogSortCategory =
-  | "date-asc"
-  | "date-desc"
-  | "calories-asc"
-  | "calories-desc";
 
 export type UseDietLogListReturnType = {
   dietLogs: DietLog[];
@@ -1294,3 +1238,70 @@ export type UseSettingsListReturnType = {
 };
 
 export type StoreRef = React.RefObject<Store | null>;
+
+export type ExerciseSortCategory = "favorite" | "name" | "num-sets";
+
+export type WorkoutSortCategory =
+  | "date-asc"
+  | "date-desc"
+  | "num-sets-asc"
+  | "num-sets-desc"
+  | "num-exercises-asc"
+  | "num-exercises-desc";
+
+export type WorkoutTemplateSortCategory =
+  | "name"
+  | "date"
+  | "num-sets-asc"
+  | "num-sets-desc"
+  | "num-exercises-asc"
+  | "num-exercises-desc";
+
+export type RoutineSortCategory =
+  | "name"
+  | "num-workouts-asc"
+  | "num-workouts-desc"
+  | "num-days-asc"
+  | "num-days-desc";
+
+export type EquipmentWeightSortCategory =
+  | "favorite"
+  | "name"
+  | "weight-desc"
+  | "weight-asc"
+  | "plate-col";
+
+export type DistanceSortCategory =
+  | "favorite"
+  | "name"
+  | "distance-desc"
+  | "distance-asc";
+
+export type MeasurementSortCategory = "favorite" | "active" | "name";
+
+export type TimePeriodSortCategory =
+  | "name"
+  | "ongoing"
+  | "start-date-asc"
+  | "start-date-desc"
+  | "end-date-asc"
+  | "end-date-desc"
+  | "length-asc"
+  | "length-desc";
+
+export type DietLogSortCategory =
+  | "date-asc"
+  | "date-desc"
+  | "calories-asc"
+  | "calories-desc";
+
+export type ListSortCategory =
+  | ExerciseSortCategory
+  | WorkoutSortCategory
+  | WorkoutTemplateSortCategory
+  | RoutineSortCategory
+  | EquipmentWeightSortCategory
+  | DistanceSortCategory
+  | MeasurementSortCategory
+  | TimePeriodSortCategory
+  | DietLogSortCategory;
