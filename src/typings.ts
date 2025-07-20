@@ -594,6 +594,7 @@ export type UseWorkoutTemplateListReturnType = {
   sortWorkoutTemplatesByActiveCategory: (
     workoutTemplateList: WorkoutTemplate[]
   ) => void;
+  loadWorkoutTemplateList: () => Promise<void>;
 };
 
 export type PresetsType = "equipment" | "distance";

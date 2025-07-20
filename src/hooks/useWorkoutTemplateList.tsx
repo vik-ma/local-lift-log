@@ -306,5 +306,6 @@ export const useWorkoutTemplateList = (
     isWorkoutTemplateListLoaded,
     getWorkoutTemplates,
     sortWorkoutTemplatesByActiveCategory,
+    loadWorkoutTemplateList,
   };
 };

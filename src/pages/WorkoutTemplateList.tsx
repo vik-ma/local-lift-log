@@ -1,10 +1,5 @@
 import Database from "@tauri-apps/plugin-sql";
-import {
-  ExerciseSortCategory,
-  UserSettings,
-  WorkoutTemplate,
-  WorkoutTemplateSortCategory,
-} from "../typings";
+import { UserSettings, WorkoutTemplate } from "../typings";
 import {
   Button,
   useDisclosure,
@@ -42,7 +37,6 @@ import {
   DeleteMultisetWithId,
   GetUserSettings,
   LoadStore,
-  GetSortCategory,
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
@@ -67,8 +61,6 @@ export default function WorkoutTemplateList() {
 
   const exerciseList = useExerciseList(store);
 
-  const { getExercises } = exerciseList;
-
   const { setIncludeSecondaryGroups } = exerciseList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
@@ -84,7 +76,7 @@ export default function WorkoutTemplateList() {
     listFilters,
     isWorkoutTemplateListLoaded,
     sortWorkoutTemplatesByActiveCategory,
-    getWorkoutTemplates,
+    loadWorkoutTemplateList,
   } = workoutTemplateList;
 
   const { filterMap, removeFilter, prefixMap } = listFilters;
@@ -103,21 +95,7 @@ export default function WorkoutTemplateList() {
 
       await LoadStore(store);
 
-      const exerciseSortCategory = await GetSortCategory(
-        store,
-        "favorite" as ExerciseSortCategory,
-        "exercises"
-      );
-
-      await getExercises(exerciseSortCategory);
-
-      const workoutTemplateSortCategory = await GetSortCategory(
-        store,
-        "name" as WorkoutTemplateSortCategory,
-        "workout-templates"
-      );
-
-      await getWorkoutTemplates(workoutTemplateSortCategory);
+      await loadWorkoutTemplateList();
     };
 
     loadUserSettings();
