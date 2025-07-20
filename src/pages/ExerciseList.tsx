@@ -223,7 +223,7 @@ export default function ExerciseList() {
         "exercises"
       );
 
-      getExercises(sortCategory);
+      await getExercises(sortCategory);
     };
 
     loadUserSettings();

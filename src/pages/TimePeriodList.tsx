@@ -81,7 +81,7 @@ export default function TimePeriodList() {
         "time-periods"
       );
 
-      getTimePeriods(userSettings.locale, sortCategory);
+      await getTimePeriods(userSettings.locale, sortCategory);
 
       const timePeriodPropertySet = CreateShownPropertiesSet(
         userSettings.shown_time_period_properties,
