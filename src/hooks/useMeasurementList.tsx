@@ -226,7 +226,7 @@ export const useMeasurementList = (
         // Overwrite invalid categories
         setSortCategory("favorite");
         await store.current.set("sort-category-measurements", {
-          value: "date-desc",
+          value: "favorite",
         });
         sortMeasurementsByFavoritesFirst(
           [...measurementList],

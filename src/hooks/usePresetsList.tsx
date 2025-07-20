@@ -446,7 +446,7 @@ export const usePresetsList = (store: StoreRef): UsePresetsListReturnType => {
         // Overwrite invalid categories
         setSortCategoryEquipment("favorite");
         await store.current.set("sort-category-equipment-weights", {
-          value: "ongoing",
+          value: "favorite",
         });
         sortEquipmentWeightsByFavoritesFirst([...equipmentWeightList]);
         break;
@@ -482,7 +482,7 @@ export const usePresetsList = (store: StoreRef): UsePresetsListReturnType => {
         // Overwrite invalid categories
         setSortCategoryDistance("favorite");
         await store.current.set("sort-category-distances", {
-          value: "ongoing",
+          value: "favorite",
         });
         sortDistancesByFavoritesFirst([...distanceList]);
         break;
