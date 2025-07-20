@@ -3,6 +3,7 @@ import {
   ExerciseSortCategory,
   UserSettings,
   WorkoutTemplate,
+  WorkoutTemplateSortCategory,
 } from "../typings";
 import {
   Button,
@@ -72,7 +73,7 @@ export default function WorkoutTemplateList() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
-  const workoutTemplateList = useWorkoutTemplateList(true, exerciseList);
+  const workoutTemplateList = useWorkoutTemplateList(store, exerciseList);
 
   const {
     workoutTemplates,
@@ -83,6 +84,7 @@ export default function WorkoutTemplateList() {
     listFilters,
     isWorkoutTemplateListLoaded,
     sortWorkoutTemplatesByActiveCategory,
+    getWorkoutTemplates,
   } = workoutTemplateList;
 
   const { filterMap, removeFilter, prefixMap } = listFilters;
@@ -101,13 +103,21 @@ export default function WorkoutTemplateList() {
 
       await LoadStore(store);
 
-      const sortCategory = await GetSortCategory(
+      const exerciseSortCategory = await GetSortCategory(
         store,
         "favorite" as ExerciseSortCategory,
         "exercises"
       );
 
-      await getExercises(sortCategory);
+      await getExercises(exerciseSortCategory);
+
+      const workoutTemplateSortCategory = await GetSortCategory(
+        store,
+        "name" as WorkoutTemplateSortCategory,
+        "workout-templates"
+      );
+
+      await getWorkoutTemplates(workoutTemplateSortCategory);
     };
 
     loadUserSettings();
