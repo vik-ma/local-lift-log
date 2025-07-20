@@ -129,7 +129,7 @@ export const useExerciseList = (
     }
   };
 
-  const getExercises = async () => {
+  const getExercises = async (category: ExerciseSortCategory) => {
     const { exercises, newExerciseMap } = showTotalNumSets
       ? await GetExerciseListWithGroupStringsAndTotalSets(
           exerciseGroupDictionary,
@@ -137,7 +137,7 @@ export const useExerciseList = (
         )
       : await GetExerciseListWithGroupStrings(exerciseGroupDictionary);
 
-    sortExercisesByFavoritesFirst(exercises);
+    sortExercisesByActiveCategory(exercises, category);
     exerciseMap.current = newExerciseMap;
     isExerciseListLoaded.current = true;
   };

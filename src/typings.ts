@@ -356,7 +356,7 @@ export type ExerciseMap = Map<number, Exercise>;
 export type UseExerciseListReturnType = {
   exercises: Exercise[];
   setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
-  getExercises: () => Promise<void>;
+  getExercises: (category: ExerciseSortCategory) => Promise<void>;
   toggleFavorite: (exercises: Exercise) => void;
   handleSortOptionSelection: (key: string) => void;
   sortCategory: ExerciseSortCategory;
