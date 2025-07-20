@@ -141,9 +141,7 @@ export const useWorkoutList = (
       const resultWorkouts = await db.select<Workout[]>(
         `SELECT 
           workouts.*,
-          json_group_array(
-            DISTINCT exercise_id
-          ) AS exerciseIdList,
+          json_group_array(DISTINCT exercise_id) AS exerciseIdList,
           (SELECT COUNT(*) 
             FROM sets 
             WHERE sets.workout_id = workouts.id AND sets.is_template = 0) AS numSets
