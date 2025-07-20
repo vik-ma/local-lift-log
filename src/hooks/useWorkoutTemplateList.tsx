@@ -4,6 +4,8 @@ import {
   WorkoutTemplateSortCategory,
   UseExerciseListReturnType,
   WorkoutTemplateMap,
+  StoreRef,
+  ExerciseSortCategory,
 } from "../typings";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useDisclosure } from "@heroui/react";
@@ -11,11 +13,12 @@ import Database from "@tauri-apps/plugin-sql";
 import {
   CreateExerciseSetIds,
   DoesListOrSetHaveCommonElement,
+  GetSortCategory,
 } from "../helpers";
 import { useListFilters } from ".";
 
 export const useWorkoutTemplateList = (
-  getWorkoutTemplatesOnLoad: boolean,
+  store: StoreRef,
   useExerciseList: UseExerciseListReturnType,
   ignoreEmptyWorkoutTemplates?: boolean,
   ignoreWorkoutTemplateId?: number
@@ -154,7 +157,13 @@ export const useWorkoutTemplateList = (
 
   const loadWorkoutTemplateList = async () => {
     if (!isExerciseListLoaded.current) {
-      await getExercises();
+      const exerciseSortCategory = await GetSortCategory(
+        store,
+        "favorite" as ExerciseSortCategory,
+        "exercises"
+      );
+
+      await getExercises(exerciseSortCategory);
     }
 
     if (!isWorkoutTemplateListLoaded.current) {
@@ -221,29 +230,30 @@ export const useWorkoutTemplateList = (
     setWorkoutTemplates(workoutTemplateList);
   };
 
-  const handleSortOptionSelection = (key: string) => {
-    if (key === "name") {
-      setSortCategory(key);
-      sortWorkoutTemplatesByName([...workoutTemplates]);
-    } else if (key === "num-sets-desc") {
-      setSortCategory(key);
-      sortWorkoutTemplatesByNumSets([...workoutTemplates], false);
-    } else if (key === "num-sets-asc") {
-      setSortCategory(key);
-      sortWorkoutTemplatesByNumSets([...workoutTemplates], true);
-    } else if (key === "num-exercises-desc") {
-      setSortCategory(key);
-      sortWorkoutTemplatesByNumExercises([...workoutTemplates], false);
-    } else if (key === "num-exercises-asc") {
-      setSortCategory(key);
-      sortWorkoutTemplatesByNumExercises([...workoutTemplates], true);
-    }
+  const handleSortOptionSelection = async (key: string) => {
+    if (store.current === null) return;
+
+    await store.current.set("sort-category-workout-templates", { value: key });
+
+    await sortWorkoutTemplatesByActiveCategory(
+      [...workoutTemplates],
+      key as WorkoutTemplateSortCategory
+    );
   };
 
-  const sortWorkoutTemplatesByActiveCategory = (
-    workoutTemplateList: WorkoutTemplate[]
+  const sortWorkoutTemplatesByActiveCategory = async (
+    workoutTemplateList: WorkoutTemplate[],
+    newCategory?: WorkoutTemplateSortCategory
   ) => {
-    switch (sortCategory) {
+    if (store.current === null) return;
+
+    if (newCategory !== undefined) {
+      setSortCategory(newCategory);
+    }
+
+    const activeCategory = newCategory ?? sortCategory;
+
+    switch (activeCategory) {
       case "name":
         sortWorkoutTemplatesByName([...workoutTemplateList]);
         break;
@@ -260,6 +270,12 @@ export const useWorkoutTemplateList = (
         sortWorkoutTemplatesByNumExercises([...workoutTemplateList], true);
         break;
       default:
+        // Overwrite invalid categories
+        setSortCategory("name");
+        await store.current.set("sort-category-workout-templates", {
+          value: "name",
+        });
+        sortWorkoutTemplatesByName([...workoutTemplateList]);
         break;
     }
   };
