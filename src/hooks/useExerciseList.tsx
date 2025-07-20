@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   GetExerciseListWithGroupStrings,
   GetExerciseListWithGroupStringsAndTotalSets,
@@ -10,11 +10,12 @@ import {
   UseExerciseListReturnType,
   ExerciseSortCategory,
   ExerciseMap,
+  StoreRef,
 } from "../typings";
 import { useExerciseGroupDictionary, useExerciseGroupList } from ".";
 
 export const useExerciseList = (
-  getExercisesOnLoad: boolean,
+  store: StoreRef,
   showTotalNumSets?: boolean,
   ignoreExercisesWithNoSets?: boolean
 ): UseExerciseListReturnType => {
@@ -84,31 +85,46 @@ export const useExerciseList = (
     sortExercisesByActiveCategory(updatedExercises);
   };
 
-  const handleSortOptionSelection = (key: string) => {
-    if (key === "name") {
-      setSortCategory(key);
-      sortExercisesByName([...exercises]);
-    } else if (key === "num-sets") {
-      setSortCategory(key);
-      sortExercisesByNumSetsCompleted([...exercises]);
-    } else if (key === "favorite") {
-      setSortCategory(key);
-      sortExercisesByFavoritesFirst([...exercises]);
-    }
+  const handleSortOptionSelection = async (key: string) => {
+    if (store.current === null) return;
+
+    await store.current.set("sort-category-exercises", { value: key });
+
+    await sortExercisesByActiveCategory(
+      [...exercises],
+      key as ExerciseSortCategory
+    );
   };
 
-  const sortExercisesByActiveCategory = (exerciseList: Exercise[]) => {
-    switch (sortCategory) {
+  const sortExercisesByActiveCategory = async (
+    exerciseList: Exercise[],
+    newCategory?: ExerciseSortCategory
+  ) => {
+    if (store.current === null) return;
+
+    if (newCategory !== undefined) {
+      setSortCategory(newCategory);
+    }
+
+    const activeCategory = newCategory ?? sortCategory;
+
+    switch (activeCategory) {
       case "favorite":
-        sortExercisesByFavoritesFirst(exerciseList);
+        sortExercisesByFavoritesFirst([...exerciseList]);
         break;
       case "name":
-        sortExercisesByName(exerciseList);
+        sortExercisesByName([...exerciseList]);
         break;
       case "num-sets":
-        sortExercisesByNumSetsCompleted(exerciseList);
+        sortExercisesByNumSetsCompleted([...exerciseList]);
         break;
       default:
+        // Overwrite invalid categories
+        setSortCategory("favorite");
+        await store.current.set("sort-category-exercises", {
+          value: "favorite",
+        });
+        sortExercisesByFavoritesFirst([...exerciseList]);
         break;
     }
   };
@@ -125,13 +141,6 @@ export const useExerciseList = (
     exerciseMap.current = newExerciseMap;
     isExerciseListLoaded.current = true;
   };
-
-  useEffect(() => {
-    if (getExercisesOnLoad) {
-      getExercises();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return {
     exercises,
