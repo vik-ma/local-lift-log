@@ -590,7 +590,7 @@ export type UseWorkoutTemplateListReturnType = {
   listFilters: UseListFiltersReturnType;
   workoutTemplateMap: React.RefObject<WorkoutTemplateMap>;
   isWorkoutTemplateListLoaded: React.RefObject<boolean>;
-  getWorkoutTemplates: () => Promise<void>;
+  getWorkoutTemplates: (category: WorkoutTemplateSortCategory) => Promise<void>;
   sortWorkoutTemplatesByActiveCategory: (
     workoutTemplateList: WorkoutTemplate[]
   ) => void;

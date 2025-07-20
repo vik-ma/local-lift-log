@@ -7,7 +7,7 @@ import {
   StoreRef,
   ExerciseSortCategory,
 } from "../typings";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useRef, useMemo } from "react";
 import { useDisclosure } from "@heroui/react";
 import Database from "@tauri-apps/plugin-sql";
 import {
@@ -88,7 +88,7 @@ export const useWorkoutTemplateList = (
     includeSecondaryGroups,
   ]);
 
-  const getWorkoutTemplates = async () => {
+  const getWorkoutTemplates = async (category: WorkoutTemplateSortCategory) => {
     if (!isExerciseListLoaded.current) return;
 
     try {
@@ -147,7 +147,7 @@ export const useWorkoutTemplateList = (
         newWorkoutTemplateMap.set(workoutTemplate.id, workoutTemplate);
       }
 
-      sortWorkoutTemplatesByName(workoutTemplates);
+      sortWorkoutTemplatesByActiveCategory(workoutTemplates, category);
       workoutTemplateMap.current = newWorkoutTemplateMap;
       isWorkoutTemplateListLoaded.current = true;
     } catch (error) {
@@ -167,16 +167,15 @@ export const useWorkoutTemplateList = (
     }
 
     if (!isWorkoutTemplateListLoaded.current) {
-      await getWorkoutTemplates();
+      const workoutTemplateSortCategory = await GetSortCategory(
+        store,
+        "name" as WorkoutTemplateSortCategory,
+        "workout-templates"
+      );
+
+      await getWorkoutTemplates(workoutTemplateSortCategory);
     }
   };
-
-  useEffect(() => {
-    if (getWorkoutTemplatesOnLoad) {
-      loadWorkoutTemplateList();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const sortWorkoutTemplatesByName = (
     workoutTemplateList: WorkoutTemplate[]
