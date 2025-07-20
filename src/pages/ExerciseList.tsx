@@ -1,6 +1,6 @@
 import Database from "@tauri-apps/plugin-sql";
-import { useEffect, useState } from "react";
-import { Exercise, UserSettings } from "../typings";
+import { useEffect, useRef, useState } from "react";
+import { Exercise, ExerciseSortCategory, UserSettings } from "../typings";
 import {
   CreateDefaultExercises,
   DeleteItemFromList,
@@ -9,6 +9,8 @@ import {
   GetUserSettings,
   FormatNumItemsString,
   UpdateExercise,
+  LoadStore,
+  GetSortCategory,
 } from "../helpers";
 import {
   Button,
@@ -37,6 +39,7 @@ import {
   useDefaultExercise,
   useFilterExerciseList,
 } from "../hooks";
+import { Store } from "@tauri-apps/plugin-store";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -44,7 +47,9 @@ export default function ExerciseList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
 
-  const exerciseList = useExerciseList(true, true);
+  const store = useRef<Store>(null);
+
+  const exerciseList = useExerciseList(store, true);
 
   const {
     exercises,
@@ -157,7 +162,14 @@ export default function ExerciseList() {
 
   const restoreDefaultExercises = async () => {
     await CreateDefaultExercises();
-    await getExercises();
+
+    const sortCategory = await GetSortCategory(
+      store,
+      "favorite" as ExerciseSortCategory,
+      "exercises"
+    );
+
+    await getExercises(sortCategory);
     toast.success("Default Exercises Restored");
   };
 
@@ -194,6 +206,7 @@ export default function ExerciseList() {
   useEffect(() => {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
+
       if (userSettings === undefined) return;
 
       setUserSettings(userSettings);
@@ -201,6 +214,16 @@ export default function ExerciseList() {
       setIncludeSecondaryGroups(
         userSettings.show_secondary_exercise_groups === 1
       );
+
+      await LoadStore(store);
+
+      const sortCategory = await GetSortCategory(
+        store,
+        "favorite" as ExerciseSortCategory,
+        "exercises"
+      );
+
+      getExercises(sortCategory);
     };
 
     loadUserSettings();
