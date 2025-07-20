@@ -78,6 +78,7 @@ import {
   UserSettings,
   TimePeriodSortCategory,
   MeasurementSortCategory,
+  ExerciseSortCategory,
 } from "../typings";
 import {
   ConvertMeasurementValue,
@@ -188,7 +189,7 @@ export default function Analytics() {
 
   const areAllTestLinesAndAreasRendered = useRef<boolean>(false);
 
-  const exerciseList = useExerciseList(false, true, true);
+  const exerciseList = useExerciseList(store, true, true);
 
   const {
     isExerciseListLoaded,
@@ -317,10 +318,6 @@ export default function Analytics() {
 
   useEffect(() => {
     const loadUserSettings = async () => {
-      await LoadStore(store);
-
-      if (store.current === null) return;
-
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
@@ -328,9 +325,20 @@ export default function Analytics() {
       setUserSettings(userSettings);
 
       assignDefaultUnits(userSettings);
+
+      await LoadStore(store);
+
+      const sortCategory = await GetSortCategory(
+        store,
+        "favorite" as ExerciseSortCategory,
+        "exercises"
+      );
+
+      await getExercises(sortCategory);
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleOpenListModal = async (
@@ -341,7 +349,13 @@ export default function Analytics() {
     setAnalyticsChartListModalPage(modalListType);
 
     if (modalListType === "exercise-groups" && !isExerciseListLoaded.current) {
-      await getExercises();
+      const sortCategoryExercise = await GetSortCategory(
+        store,
+        "favorite" as ExerciseSortCategory,
+        "exercises"
+      );
+
+      await getExercises(sortCategoryExercise);
     }
 
     if (
@@ -2955,7 +2969,13 @@ export default function Analytics() {
 
   const handleOpenLoadExerciseOptionsModal = async () => {
     if (!isExerciseListLoaded.current) {
-      await getExercises();
+      const sortCategory = await GetSortCategory(
+        store,
+        "favorite" as ExerciseSortCategory,
+        "exercises"
+      );
+
+      await getExercises(sortCategory);
     }
 
     loadExerciseOptionsModal.onOpen();

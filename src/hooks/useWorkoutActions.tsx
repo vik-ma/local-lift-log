@@ -13,6 +13,7 @@ import {
   UserWeight,
   EquipmentWeightSortCategory,
   DistanceSortCategory,
+  ExerciseSortCategory,
 } from "../typings";
 import { useState, useEffect, useRef } from "react";
 import { useDisclosure } from "@heroui/react";
@@ -58,6 +59,7 @@ import {
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
   GetSortCategory,
+  LoadStore,
 } from "../helpers";
 import {
   useMultisetActions,
@@ -144,13 +146,14 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
     presetsList.listFilters;
 
-  const exerciseList = useExerciseList(true);
+  const exerciseList = useExerciseList(store);
 
   const {
     setIncludeSecondaryGroups,
     exerciseGroupDictionary,
     exercises,
     setExercises,
+    getExercises,
   } = exerciseList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
@@ -210,6 +213,16 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
         setFilterWeightRangeUnit(weightUnit);
         setFilterDistanceRangeUnit(distanceUnit);
+
+        await LoadStore(store);
+
+        const sortCategory = await GetSortCategory(
+          store,
+          "favorite" as ExerciseSortCategory,
+          "exercises"
+        );
+
+        await getExercises(sortCategory);
       } catch (error) {
         console.log(error);
       }

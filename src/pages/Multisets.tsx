@@ -9,6 +9,7 @@ import {
   UseSetTrackingInputsReturnType,
   EquipmentWeightSortCategory,
   DistanceSortCategory,
+  ExerciseSortCategory,
 } from "../typings";
 import {
   useCalculationModal,
@@ -61,6 +62,8 @@ export default function Multisets() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
+  const store = useRef<Store>(null);
+
   const defaultMultiset = useDefaultMultiset();
 
   const [operatingMultiset, setOperatingMultiset] =
@@ -74,15 +77,13 @@ export default function Multisets() {
     defaultSet.current
   );
 
-  const exerciseList = useExerciseList(true);
+  const exerciseList = useExerciseList(store);
 
-  const { setIncludeSecondaryGroups } = exerciseList;
+  const { setIncludeSecondaryGroups, getExercises } = exerciseList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
   const calculationModal = useCalculationModal();
-
-  const store = useRef<Store>(null);
 
   const presetsList = usePresetsList(store);
 
@@ -203,6 +204,14 @@ export default function Multisets() {
       setFilterDistanceRangeUnit(distanceUnit);
 
       await LoadStore(store);
+
+      const sortCategory = await GetSortCategory(
+        store,
+        "favorite" as ExerciseSortCategory,
+        "exercises"
+      );
+
+      await getExercises(sortCategory);
     };
 
     loadUserSettings();
