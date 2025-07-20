@@ -1,5 +1,11 @@
-import { useState, useEffect } from "react";
-import { Routine, UserSettings, Workout, WorkoutTemplate } from "../typings";
+import { useState, useEffect, useRef } from "react";
+import {
+  ExerciseSortCategory,
+  Routine,
+  UserSettings,
+  Workout,
+  WorkoutTemplate,
+} from "../typings";
 import { useNavigate } from "react-router-dom";
 import {
   LoadingSpinner,
@@ -24,8 +30,10 @@ import {
   CreateShownPropertiesSet,
   DeleteMultisetWithId,
   DeleteWorkoutWithId,
+  GetSortCategory,
   GetUniqueMultisetIds,
   GetUserSettings,
+  LoadStore,
   UpdateItemInList,
   UpdateWorkout,
 } from "../helpers";
@@ -36,6 +44,7 @@ import {
   useWorkoutList,
 } from "../hooks";
 import { GoToArrowIcon } from "../assets";
+import { Store } from "@tauri-apps/plugin-store";
 
 type OperationType =
   | "edit"
@@ -51,6 +60,8 @@ export default function WorkoutList() {
     Set<string>
   >(new Set());
 
+  const store = useRef<Store>(null);
+
   const defaultWorkout = useDefaultWorkout();
 
   const [operatingWorkout, setOperatingWorkout] =
@@ -61,7 +72,9 @@ export default function WorkoutList() {
   const deleteModal = useDisclosure();
   const workoutModal = useDisclosure();
 
-  const exerciseList = useExerciseList(true);
+  const exerciseList = useExerciseList(store);
+
+  const { getExercises } = exerciseList;
 
   const { setIncludeSecondaryGroups } = exerciseList;
 
@@ -105,6 +118,16 @@ export default function WorkoutList() {
       setIncludeSecondaryGroups(
         userSettings.show_secondary_exercise_groups === 1
       );
+
+      await LoadStore(store);
+
+      const sortCategory = await GetSortCategory(
+        store,
+        "favorite" as ExerciseSortCategory,
+        "exercises"
+      );
+
+      await getExercises(sortCategory);
     };
 
     loadUserSettings();

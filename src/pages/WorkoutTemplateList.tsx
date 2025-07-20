@@ -1,5 +1,9 @@
 import Database from "@tauri-apps/plugin-sql";
-import { UserSettings, WorkoutTemplate } from "../typings";
+import {
+  ExerciseSortCategory,
+  UserSettings,
+  WorkoutTemplate,
+} from "../typings";
 import {
   Button,
   useDisclosure,
@@ -8,7 +12,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@heroui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   LoadingSpinner,
   DeleteModal,
@@ -36,14 +40,19 @@ import {
   GetUniqueMultisetIds,
   DeleteMultisetWithId,
   GetUserSettings,
+  LoadStore,
+  GetSortCategory,
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
+import { Store } from "@tauri-apps/plugin-store";
 
 type OperationType = "add" | "edit" | "delete";
 
 export default function WorkoutTemplateList() {
   const [operationType, setOperationType] = useState<OperationType>("edit");
   const [userSettings, setUserSettings] = useState<UserSettings>();
+
+  const store = useRef<Store>(null);
 
   const defaultWorkoutTemplate = useDefaultWorkoutTemplate();
 
@@ -55,7 +64,9 @@ export default function WorkoutTemplateList() {
   const deleteModal = useDisclosure();
   const workoutTemplateModal = useDisclosure();
 
-  const exerciseList = useExerciseList(true);
+  const exerciseList = useExerciseList(store);
+
+  const { getExercises } = exerciseList;
 
   const { setIncludeSecondaryGroups } = exerciseList;
 
@@ -87,6 +98,16 @@ export default function WorkoutTemplateList() {
       setIncludeSecondaryGroups(
         userSettings.show_secondary_exercise_groups === 1
       );
+
+      await LoadStore(store);
+
+      const sortCategory = await GetSortCategory(
+        store,
+        "favorite" as ExerciseSortCategory,
+        "exercises"
+      );
+
+      await getExercises(sortCategory);
     };
 
     loadUserSettings();

@@ -7,8 +7,8 @@ import {
   DropdownItem,
 } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { Routine, UserSettings } from "../typings";
+import { useState, useEffect, useRef } from "react";
+import { ExerciseSortCategory, Routine, UserSettings } from "../typings";
 import toast from "react-hot-toast";
 import Database from "@tauri-apps/plugin-sql";
 import {
@@ -21,6 +21,8 @@ import {
   DeleteWorkoutRoutineSchedule,
   CreateRoutineWorkoutTemplateList,
   UpdateUserSetting,
+  LoadStore,
+  GetSortCategory,
 } from "../helpers";
 import {
   LoadingSpinner,
@@ -42,6 +44,7 @@ import {
   useWorkoutTemplateList,
 } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
+import { Store } from "@tauri-apps/plugin-store";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -49,6 +52,8 @@ export default function RoutineList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingRoutineIndex, setOperatingRoutineIndex] = useState<number>(0);
+
+  const store = useRef<Store>(null);
 
   const navigate = useNavigate();
 
@@ -60,7 +65,9 @@ export default function RoutineList() {
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
 
-  const exerciseList = useExerciseList(true, true);
+  const exerciseList = useExerciseList(store, true);
+
+  const { getExercises } = exerciseList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
@@ -90,9 +97,20 @@ export default function RoutineList() {
       if (userSettings === undefined) return;
 
       setUserSettings(userSettings);
+
+      await LoadStore(store);
+
+      const sortCategory = await GetSortCategory(
+        store,
+        "favorite" as ExerciseSortCategory,
+        "exercises"
+      );
+
+      await getExercises(sortCategory);
     };
 
     loadUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSetActiveButton = async (routine: Routine) => {
