@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import {
+  StoreRef,
   UseExerciseListReturnType,
   UseWorkoutListReturnType,
   Workout,
@@ -17,7 +18,7 @@ import { useDisclosure } from "@heroui/react";
 import { useListFilters, useRoutineList, useWorkoutTemplateList } from ".";
 
 export const useWorkoutList = (
-  getWorkoutsOnLoad: boolean,
+  store: StoreRef,
   useExerciseList: UseExerciseListReturnType,
   ignoreEmptyWorkouts?: boolean,
   ignoreWorkoutId?: number
@@ -36,7 +37,7 @@ export const useWorkoutList = (
   } = useExerciseList;
 
   const workoutTemplateList = useWorkoutTemplateList(
-    getWorkoutsOnLoad,
+    store,
     useExerciseList,
     true
   );
@@ -47,7 +48,7 @@ export const useWorkoutList = (
     workoutTemplateMap,
   } = workoutTemplateList;
 
-  const routineList = useRoutineList(getWorkoutsOnLoad, workoutTemplateList);
+  const routineList = useRoutineList(true, workoutTemplateList);
 
   const { routineMap, isRoutineListLoaded, getRoutines } = routineList;
 
@@ -288,54 +289,61 @@ export const useWorkoutList = (
     setWorkouts(workoutList);
   };
 
-  const handleSortOptionSelection = (key: string) => {
-    if (key === "date-desc") {
-      setSortCategory(key);
-      sortWorkoutsByDate([...workouts], false);
-    } else if (key === "date-asc") {
-      setSortCategory(key);
-      sortWorkoutsByDate([...workouts], true);
-    } else if (key === "num-sets-desc") {
-      setSortCategory(key);
-      sortWorkoutsByNumSets([...workouts], false);
-    } else if (key === "num-sets-asc") {
-      setSortCategory(key);
-      sortWorkoutsByNumSets([...workouts], true);
-    } else if (key === "num-exercises-desc") {
-      setSortCategory(key);
-      sortWorkoutsByNumExercises([...workouts], false);
-    } else if (key === "num-exercises-asc") {
-      setSortCategory(key);
-      sortWorkoutsByNumExercises([...workouts], true);
-    }
+  const handleSortOptionSelection = async (key: string) => {
+    if (store.current === null) return;
+
+    await store.current.set("sort-category-workouts", { value: key });
+
+    await sortWorkoutsByActiveCategory(
+      [...workouts],
+      key as WorkoutSortCategory
+    );
   };
 
+  // TODO: FIX BELOW
   // REPLACE IN setWorkouts IN WorkoutList PAGE IN THE FUTURE
   // IF ADDING ANY SORTABLE PROPS THAT CAN GET CHANGED IN WorkoutModal
-  // const sortWorkoutsByActiveCategory = (workoutList: Workout[]) => {
-  //   switch (sortCategory) {
-  //     case "date-desc":
-  //       sortWorkoutsByDate([...workoutList], false);
-  //       break;
-  //     case "date-asc":
-  //       sortWorkoutsByDate([...workoutList], true);
-  //       break;
-  //     case "num-sets-desc":
-  //       sortWorkoutsByNumSets([...workoutList], false);
-  //       break;
-  //     case "num-sets-asc":
-  //       sortWorkoutsByNumSets([...workoutList], true);
-  //       break;
-  //     case "num-exercises-desc":
-  //       sortWorkoutsByNumExercises([...workoutList], false);
-  //       break;
-  //     case "num-exercises-asc":
-  //       sortWorkoutsByNumExercises([...workoutList], true);
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
+  const sortWorkoutsByActiveCategory = async (
+    workoutList: Workout[],
+    newCategory?: WorkoutSortCategory
+  ) => {
+    if (store.current === null) return;
+
+    if (newCategory !== undefined) {
+      setSortCategory(newCategory);
+    }
+
+    const activeCategory = newCategory ?? sortCategory;
+
+    switch (activeCategory) {
+      case "date-desc":
+        sortWorkoutsByDate([...workoutList], false);
+        break;
+      case "date-asc":
+        sortWorkoutsByDate([...workoutList], true);
+        break;
+      case "num-sets-desc":
+        sortWorkoutsByNumSets([...workoutList], false);
+        break;
+      case "num-sets-asc":
+        sortWorkoutsByNumSets([...workoutList], true);
+        break;
+      case "num-exercises-desc":
+        sortWorkoutsByNumExercises([...workoutList], false);
+        break;
+      case "num-exercises-asc":
+        sortWorkoutsByNumExercises([...workoutList], true);
+        break;
+      default:
+        // Overwrite invalid categories
+        setSortCategory("date-desc");
+        await store.current.set("sort-category-workoutss", {
+          value: "date-desc",
+        });
+        sortWorkoutsByDate([...workoutList], false);
+        break;
+    }
+  };
 
   const handleOpenFilterButton = async () => {
     await loadWorkoutList();
