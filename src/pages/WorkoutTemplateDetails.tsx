@@ -100,7 +100,7 @@ export default function WorkoutTemplateDetails() {
   } = useWorkoutActions(true);
 
   const workoutTemplateList = useWorkoutTemplateList(
-    false,
+    store,
     exerciseList,
     true,
     Number(id)
