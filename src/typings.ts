@@ -428,7 +428,7 @@ export type UseDisclosureReturnType = ReturnType<typeof useDisclosure>;
 export type UseWorkoutListReturnType = {
   workouts: Workout[];
   setWorkouts: React.Dispatch<React.SetStateAction<Workout[]>>;
-  getWorkouts: () => void;
+  getWorkouts: (category: WorkoutSortCategory) => void;
   handleOpenWorkoutListModal: () => void;
   workoutListModal: UseDisclosureReturnType;
   filteredWorkouts: Workout[];

@@ -1,16 +1,19 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useRef, useMemo } from "react";
 import {
+  ExerciseSortCategory,
   StoreRef,
   UseExerciseListReturnType,
   UseWorkoutListReturnType,
   Workout,
   WorkoutSortCategory,
+  WorkoutTemplateSortCategory,
 } from "../typings";
 import Database from "@tauri-apps/plugin-sql";
 import {
   CreateExerciseSetIds,
   DoesListOrSetHaveCommonElement,
   FormatDateString,
+  GetSortCategory,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
 } from "../helpers";
@@ -133,7 +136,7 @@ export const useWorkoutList = (
     filterWorkoutTemplates,
   ]);
 
-  const getWorkouts = async () => {
+  const getWorkouts = async (category: WorkoutSortCategory) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -205,7 +208,7 @@ export const useWorkoutList = (
         workouts.push(workout);
       }
 
-      sortWorkoutsByDate(workouts, false);
+      await sortWorkoutsByActiveCategory(workouts, category);
       isWorkoutListLoaded.current = true;
     } catch (error) {
       console.log(error);
@@ -214,11 +217,23 @@ export const useWorkoutList = (
 
   const loadWorkoutList = async () => {
     if (!isExerciseListLoaded.current) {
-      await getExercises();
+      const exerciseSortCategory = await GetSortCategory(
+        store,
+        "favorite" as ExerciseSortCategory,
+        "exercises"
+      );
+
+      await getExercises(exerciseSortCategory);
     }
 
     if (!isWorkoutTemplateListLoaded.current) {
-      await getWorkoutTemplates();
+      const workoutTemplateSortCategory = await GetSortCategory(
+        store,
+        "name" as WorkoutTemplateSortCategory,
+        "workout-templates"
+      );
+
+      await getWorkoutTemplates(workoutTemplateSortCategory);
     }
 
     if (!isRoutineListLoaded.current) {
@@ -226,16 +241,15 @@ export const useWorkoutList = (
     }
 
     if (!isWorkoutListLoaded.current) {
-      await getWorkouts();
+      const workoutSortCategory = await GetSortCategory(
+        store,
+        "name" as WorkoutSortCategory,
+        "workouts"
+      );
+
+      await getWorkouts(workoutSortCategory);
     }
   };
-
-  useEffect(() => {
-    if (getWorkoutsOnLoad) {
-      loadWorkoutList();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const sortWorkoutsByDate = (workoutList: Workout[], isAscending: boolean) => {
     if (isAscending) {
@@ -337,7 +351,7 @@ export const useWorkoutList = (
       default:
         // Overwrite invalid categories
         setSortCategory("date-desc");
-        await store.current.set("sort-category-workoutss", {
+        await store.current.set("sort-category-workouts", {
           value: "date-desc",
         });
         sortWorkoutsByDate([...workoutList], false);
