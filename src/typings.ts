@@ -444,6 +444,7 @@ export type UseWorkoutListReturnType = {
   workoutTemplateList: UseWorkoutTemplateListReturnType;
   isWorkoutListLoaded: React.RefObject<boolean>;
   workoutListHasEmptyWorkouts: React.RefObject<boolean>;
+  loadWorkoutList: () => Promise<void>;
 };
 
 export type UseListFiltersReturnType = {

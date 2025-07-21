@@ -390,5 +390,6 @@ export const useWorkoutList = (
     workoutTemplateList,
     isWorkoutListLoaded,
     workoutListHasEmptyWorkouts,
+    loadWorkoutList,
   };
 };

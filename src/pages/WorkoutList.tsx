@@ -1,11 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import {
-  ExerciseSortCategory,
-  Routine,
-  UserSettings,
-  Workout,
-  WorkoutTemplate,
-} from "../typings";
+import { Routine, UserSettings, Workout, WorkoutTemplate } from "../typings";
 import { useNavigate } from "react-router-dom";
 import {
   LoadingSpinner,
@@ -30,7 +24,6 @@ import {
   CreateShownPropertiesSet,
   DeleteMultisetWithId,
   DeleteWorkoutWithId,
-  GetSortCategory,
   GetUniqueMultisetIds,
   GetUserSettings,
   LoadStore,
@@ -74,11 +67,9 @@ export default function WorkoutList() {
 
   const exerciseList = useExerciseList(store);
 
-  const { getExercises } = exerciseList;
-
   const { setIncludeSecondaryGroups } = exerciseList;
 
-  const workoutList = useWorkoutList(true, exerciseList);
+  const workoutList = useWorkoutList(store, exerciseList);
 
   const {
     workouts,
@@ -91,6 +82,7 @@ export default function WorkoutList() {
     routineList,
     isWorkoutListLoaded,
     workoutListHasEmptyWorkouts,
+    loadWorkoutList,
   } = workoutList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
@@ -121,13 +113,7 @@ export default function WorkoutList() {
 
       await LoadStore(store);
 
-      const sortCategory = await GetSortCategory(
-        store,
-        "favorite" as ExerciseSortCategory,
-        "exercises"
-      );
-
-      await getExercises(sortCategory);
+      await loadWorkoutList();
     };
 
     loadUserSettings();
