@@ -3,6 +3,7 @@ import {
   Routine,
   RoutineMap,
   RoutineSortCategory,
+  StoreRef,
   UseFilterMinAndMaxValueInputsArgs,
   UseRoutineListReturnType,
   UseWorkoutTemplateListReturnType,
@@ -22,7 +23,7 @@ import Database from "@tauri-apps/plugin-sql";
 import { useListFilters } from ".";
 
 export const useRoutineList = (
-  getRoutinesOnLoad: boolean,
+  store: StoreRef,
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType
 ): UseRoutineListReturnType => {
   const [routines, setRoutines] = useState<Routine[]>([]);
@@ -224,43 +225,52 @@ export const useRoutineList = (
     setRoutines(routineList);
   };
 
-  const handleSortOptionSelection = (key: string) => {
-    if (key === "name") {
-      setSortCategory(key);
-      sortRoutinesByName([...routines]);
-    } else if (key === "num-workouts-desc") {
-      setSortCategory(key);
-      sortRoutinesByNumWorkouts([...routines], false);
-    } else if (key === "num-workouts-asc") {
-      setSortCategory(key);
-      sortRoutinesByNumWorkouts([...routines], true);
-    } else if (key === "num-days-desc") {
-      setSortCategory(key);
-      sortRoutinesByNumDays([...routines], false);
-    } else if (key === "num-days-asc") {
-      setSortCategory(key);
-      sortRoutinesByNumDays([...routines], true);
-    }
+  const handleSortOptionSelection = async (key: string) => {
+    if (store.current === null) return;
+
+    await store.current.set("sort-category-routines", { value: key });
+
+    await sortRoutinesByActiveCategory(
+      [...routines],
+      key as RoutineSortCategory
+    );
   };
 
-  const sortRoutinesByActiveCategory = (routineList: Routine[]) => {
-    switch (sortCategory) {
+  const sortRoutinesByActiveCategory = async (
+    routineList: Routine[],
+    newCategory?: RoutineSortCategory
+  ) => {
+    if (store.current === null) return;
+
+    if (newCategory !== undefined) {
+      setSortCategory(newCategory);
+    }
+
+    const activeCategory = newCategory ?? sortCategory;
+
+    switch (activeCategory) {
       case "name":
-        sortRoutinesByName(routineList);
+        sortRoutinesByName([...routineList]);
         break;
       case "num-workouts-desc":
-        sortRoutinesByNumWorkouts([...routines], false);
+        sortRoutinesByNumWorkouts([...routineList], false);
         break;
       case "num-workouts-asc":
-        sortRoutinesByNumWorkouts([...routines], true);
+        sortRoutinesByNumWorkouts([...routineList], true);
         break;
       case "num-days-desc":
-        sortRoutinesByNumDays([...routines], false);
+        sortRoutinesByNumDays([...routineList], false);
         break;
       case "num-days-asc":
-        sortRoutinesByNumDays([...routines], true);
+        sortRoutinesByNumDays([...routineList], true);
         break;
       default:
+        // Overwrite invalid categories
+        setSortCategory("name");
+        await store.current.set("sort-category-routines", {
+          value: "name",
+        });
+        sortRoutinesByName([...routineList]);
         break;
     }
   };
