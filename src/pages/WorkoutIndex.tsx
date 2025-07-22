@@ -14,7 +14,7 @@ import {
   useFilterExerciseList,
   useWorkoutList,
 } from "../hooks";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   CopyWorkoutSetList,
   GetUserSettings,
@@ -23,19 +23,23 @@ import {
   UpdateWorkout,
   CreateSetsFromWorkoutTemplate,
   GenerateExerciseOrderString,
+  LoadStore,
 } from "../helpers";
 import { UserSettings, Workout, WorkoutTemplate } from "../typings";
+import { Store } from "@tauri-apps/plugin-store";
 
 export default function WorkoutIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const navigate = useNavigate();
 
-  const exerciseList = useExerciseList(false);
+  const store = useRef<Store>(null);
+
+  const exerciseList = useExerciseList(store);
 
   const { setIncludeSecondaryGroups } = exerciseList;
 
-  const workoutList = useWorkoutList(false, exerciseList, true);
+  const workoutList = useWorkoutList(store, exerciseList, true);
 
   const { workoutTemplateList, routineList, handleOpenWorkoutListModal } =
     workoutList;
@@ -55,6 +59,8 @@ export default function WorkoutIndex() {
       setIncludeSecondaryGroups(
         userSettings.show_secondary_exercise_groups === 1
       );
+
+      await LoadStore(store);
     };
 
     loadUserSettings();
