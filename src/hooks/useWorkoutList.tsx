@@ -314,9 +314,6 @@ export const useWorkoutList = (
     );
   };
 
-  // TODO: FIX BELOW
-  // REPLACE IN setWorkouts IN WorkoutList PAGE IN THE FUTURE
-  // IF ADDING ANY SORTABLE PROPS THAT CAN GET CHANGED IN WorkoutModal
   const sortWorkoutsByActiveCategory = async (
     workoutList: Workout[],
     newCategory?: WorkoutSortCategory
@@ -380,7 +377,7 @@ export const useWorkoutList = (
     filteredWorkouts,
     filterQuery,
     setFilterQuery,
-    sortWorkoutsByDate,
+    sortWorkoutsByActiveCategory,
     sortCategory,
     handleSortOptionSelection,
     filterWorkoutListModal,

@@ -434,7 +434,10 @@ export type UseWorkoutListReturnType = {
   filteredWorkouts: Workout[];
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
-  sortWorkoutsByDate: (workoutList: Workout[], isAscending: boolean) => void;
+  sortWorkoutsByActiveCategory: (
+    workoutList: Workout[],
+    newCategory?: WorkoutSortCategory
+  ) => void;
   sortCategory: WorkoutSortCategory;
   handleSortOptionSelection: (key: string) => void;
   filterWorkoutListModal: UseDisclosureReturnType;

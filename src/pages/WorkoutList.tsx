@@ -83,6 +83,7 @@ export default function WorkoutList() {
     isWorkoutListLoaded,
     workoutListHasEmptyWorkouts,
     loadWorkoutList,
+    sortWorkoutsByActiveCategory,
   } = workoutList;
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
@@ -218,7 +219,7 @@ export default function WorkoutList() {
 
     const updatedWorkouts = UpdateItemInList(workouts, updatedWorkout);
 
-    setWorkouts(updatedWorkouts);
+    sortWorkoutsByActiveCategory(updatedWorkouts);
 
     resetOperatingWorkout();
     toast.success("Workout Details Updated");
@@ -246,7 +247,7 @@ export default function WorkoutList() {
     }
 
     if (workouts.length !== updatedWorkouts.length) {
-      setWorkouts(updatedWorkouts);
+      sortWorkoutsByActiveCategory(updatedWorkouts);
       toast.success("Empty Workouts Deleted");
     } else {
       toast.error("No Empty Workouts In List");
@@ -291,7 +292,7 @@ export default function WorkoutList() {
           : item
       );
 
-      setWorkouts(updatedWorkouts);
+      sortWorkoutsByActiveCategory(updatedWorkouts);
 
       toast.success("Workout Template Reassigned");
     } catch (error) {
@@ -365,7 +366,7 @@ export default function WorkoutList() {
           : item
       );
 
-      setWorkouts(updatedWorkouts);
+      sortWorkoutsByActiveCategory(updatedWorkouts);
 
       toast.success("Routine Reassigned");
     } catch (error) {
