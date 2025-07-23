@@ -323,5 +323,6 @@ export const useRoutineList = (
     filterRoutineListModal,
     handleOpenFilterButton,
     sortRoutinesByActiveCategory,
+    loadRoutineList,
   };
 };

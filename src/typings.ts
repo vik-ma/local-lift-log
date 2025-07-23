@@ -774,6 +774,7 @@ export type UseRoutineListReturnType = {
   filterRoutineListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => Promise<void>;
   sortRoutinesByActiveCategory: (routineList: Routine[]) => void;
+  loadRoutineList: () => Promise<void>;
 };
 
 export type UseMeasurementListReturnType = {

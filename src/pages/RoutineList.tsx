@@ -75,7 +75,7 @@ export default function RoutineList() {
 
   const { workoutTemplateMap } = workoutTemplateList;
 
-  const routineList = useRoutineList(true, workoutTemplateList);
+  const routineList = useRoutineList(store, workoutTemplateList);
 
   const {
     routines,
@@ -86,6 +86,7 @@ export default function RoutineList() {
     isRoutineListLoaded,
     listFilters,
     sortRoutinesByActiveCategory,
+    loadRoutineList,
   } = routineList;
 
   const { filterMap } = listFilters;
@@ -107,6 +108,8 @@ export default function RoutineList() {
       );
 
       await getExercises(sortCategory);
+
+      await loadRoutineList();
     };
 
     loadUserSettings();
