@@ -7,12 +7,14 @@ import {
   UseFilterMinAndMaxValueInputsArgs,
   UseRoutineListReturnType,
   UseWorkoutTemplateListReturnType,
+  WorkoutTemplateSortCategory,
 } from "../typings";
 import { useDisclosure } from "@heroui/react";
 import {
   CreateRoutineWorkoutTemplateList,
   DoesListOrSetHaveCommonElement,
   FormatRoutineScheduleTypeString,
+  GetSortCategory,
   GetValidatedNumDaysInSchedule,
   GetValidatedRoutineScheduleType,
   GetValidatedStartDay,
@@ -272,11 +274,23 @@ export const useRoutineList = (
 
   const loadRoutineList = async () => {
     if (!isWorkoutTemplateListLoaded.current) {
-      await getWorkoutTemplates();
+      const workoutTemplateSortCategory = await GetSortCategory(
+        store,
+        "name" as WorkoutTemplateSortCategory,
+        "workout-templates"
+      );
+
+      await getWorkoutTemplates(workoutTemplateSortCategory);
     }
 
     if (!isRoutineListLoaded.current) {
-      await getRoutines();
+      const routineSortCategory = await GetSortCategory(
+        store,
+        "name" as RoutineSortCategory,
+        "routines"
+      );
+
+      await getRoutines(routineSortCategory);
     }
   };
 
