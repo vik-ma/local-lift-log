@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   Routine,
   RoutineMap,
@@ -114,7 +114,9 @@ export const useRoutineList = (
     includeNullInMaxValues,
   ]);
 
-  const getRoutines = async () => {
+  const getRoutines = async (category: RoutineSortCategory) => {
+    if (!isWorkoutTemplateListLoaded.current) return;
+
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -156,20 +158,13 @@ export const useRoutineList = (
         routines.push(routine);
       }
 
-      sortRoutinesByName(routines);
+      await sortRoutinesByActiveCategory(routines, category);
       routineMap.current = newRoutineMap;
       isRoutineListLoaded.current = true;
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    if (getRoutinesOnLoad && isWorkoutTemplateListLoaded.current) {
-      getRoutines();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isWorkoutTemplateListLoaded.current]);
 
   const sortRoutinesByName = (routineList: Routine[]) => {
     routineList.sort((a, b) => {

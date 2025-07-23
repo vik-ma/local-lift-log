@@ -769,7 +769,7 @@ export type UseRoutineListReturnType = {
   isRoutineListLoaded: React.RefObject<boolean>;
   sortCategory: RoutineSortCategory;
   handleSortOptionSelection: (key: string) => void;
-  getRoutines: () => Promise<void>;
+  getRoutines: (category: RoutineSortCategory) => Promise<void>;
   listFilters: UseListFiltersReturnType;
   filterRoutineListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => Promise<void>;
