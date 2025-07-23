@@ -1,6 +1,7 @@
 import { useState, useRef, useMemo } from "react";
 import {
   ExerciseSortCategory,
+  RoutineSortCategory,
   StoreRef,
   UseExerciseListReturnType,
   UseWorkoutListReturnType,
@@ -51,7 +52,7 @@ export const useWorkoutList = (
     workoutTemplateMap,
   } = workoutTemplateList;
 
-  const routineList = useRoutineList(true, workoutTemplateList);
+  const routineList = useRoutineList(store, workoutTemplateList);
 
   const { routineMap, isRoutineListLoaded, getRoutines } = routineList;
 
@@ -237,7 +238,13 @@ export const useWorkoutList = (
     }
 
     if (!isRoutineListLoaded.current) {
-      await getRoutines();
+      const routineSortCategory = await GetSortCategory(
+        store,
+        "name" as RoutineSortCategory,
+        "routines"
+      );
+
+      await getRoutines(routineSortCategory);
     }
 
     if (!isWorkoutListLoaded.current) {
