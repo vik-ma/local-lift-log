@@ -1,9 +1,11 @@
 import { useMemo, useRef, useState } from "react";
 import {
+  ExerciseSortCategory,
   Routine,
   RoutineMap,
   RoutineSortCategory,
   StoreRef,
+  UseExerciseListReturnType,
   UseFilterMinAndMaxValueInputsArgs,
   UseRoutineListReturnType,
   UseWorkoutTemplateListReturnType,
@@ -26,6 +28,7 @@ import { useListFilters } from ".";
 
 export const useRoutineList = (
   store: StoreRef,
+  useExerciseList: UseExerciseListReturnType,
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType
 ): UseRoutineListReturnType => {
   const [routines, setRoutines] = useState<Routine[]>([]);
@@ -37,6 +40,8 @@ export const useRoutineList = (
 
   const routineListModal = useDisclosure();
   const filterRoutineListModal = useDisclosure();
+
+  const { getExercises, isExerciseListLoaded } = useExerciseList;
 
   const {
     isWorkoutTemplateListLoaded,
@@ -273,6 +278,16 @@ export const useRoutineList = (
   };
 
   const loadRoutineList = async () => {
+    if (!isExerciseListLoaded.current) {
+      const exerciseSortCategory = await GetSortCategory(
+        store,
+        "favorite" as ExerciseSortCategory,
+        "exercises"
+      );
+
+      await getExercises(exerciseSortCategory);
+    }
+
     if (!isWorkoutTemplateListLoaded.current) {
       const workoutTemplateSortCategory = await GetSortCategory(
         store,

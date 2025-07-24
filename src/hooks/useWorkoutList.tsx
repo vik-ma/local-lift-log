@@ -52,7 +52,11 @@ export const useWorkoutList = (
     workoutTemplateMap,
   } = workoutTemplateList;
 
-  const routineList = useRoutineList(store, workoutTemplateList);
+  const routineList = useRoutineList(
+    store,
+    useExerciseList,
+    workoutTemplateList
+  );
 
   const { routineMap, isRoutineListLoaded, getRoutines } = routineList;
 

@@ -8,7 +8,7 @@ import {
 } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { ExerciseSortCategory, Routine, UserSettings } from "../typings";
+import { Routine, UserSettings } from "../typings";
 import toast from "react-hot-toast";
 import Database from "@tauri-apps/plugin-sql";
 import {
@@ -22,7 +22,6 @@ import {
   CreateRoutineWorkoutTemplateList,
   UpdateUserSetting,
   LoadStore,
-  GetSortCategory,
 } from "../helpers";
 import {
   LoadingSpinner,
@@ -67,15 +66,13 @@ export default function RoutineList() {
 
   const exerciseList = useExerciseList(store, true);
 
-  const { getExercises } = exerciseList;
-
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
   const workoutTemplateList = useWorkoutTemplateList(store, exerciseList, true);
 
   const { workoutTemplateMap } = workoutTemplateList;
 
-  const routineList = useRoutineList(store, workoutTemplateList);
+  const routineList = useRoutineList(store, exerciseList, workoutTemplateList);
 
   const {
     routines,
@@ -100,14 +97,6 @@ export default function RoutineList() {
       setUserSettings(userSettings);
 
       await LoadStore(store);
-
-      const sortCategory = await GetSortCategory(
-        store,
-        "favorite" as ExerciseSortCategory,
-        "exercises"
-      );
-
-      await getExercises(sortCategory);
 
       await loadRoutineList();
     };
