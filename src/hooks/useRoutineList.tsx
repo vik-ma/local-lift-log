@@ -56,6 +56,7 @@ export const useRoutineList = (
   };
 
   const listFilters = useListFilters({
+    useExerciseList: useExerciseList,
     workoutTemplateMap: workoutTemplateMap.current,
     useFilterMinAndMaxValueInputsArgs: filterMinAndMaxValueInputsArgs,
   });
