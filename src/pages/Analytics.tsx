@@ -192,7 +192,6 @@ export default function Analytics() {
   const exerciseList = useExerciseList(store, true, true);
 
   const {
-    isExerciseListLoaded,
     getExercises,
     exerciseGroupDictionary,
     includeSecondaryGroups,
@@ -347,16 +346,6 @@ export default function Analytics() {
     if (userSettings === undefined) return;
 
     setAnalyticsChartListModalPage(modalListType);
-
-    if (modalListType === "exercise-groups" && !isExerciseListLoaded.current) {
-      const sortCategoryExercise = await GetSortCategory(
-        store,
-        "favorite" as ExerciseSortCategory,
-        "exercises"
-      );
-
-      await getExercises(sortCategoryExercise);
-    }
 
     if (
       modalListType === "measurement-list" &&
@@ -2967,20 +2956,6 @@ export default function Analytics() {
     listModal.onClose();
   };
 
-  const handleOpenLoadExerciseOptionsModal = async () => {
-    if (!isExerciseListLoaded.current) {
-      const sortCategory = await GetSortCategory(
-        store,
-        "favorite" as ExerciseSortCategory,
-        "exercises"
-      );
-
-      await getExercises(sortCategory);
-    }
-
-    loadExerciseOptionsModal.onOpen();
-  };
-
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -3511,7 +3486,7 @@ export default function Analytics() {
                 className="font-medium"
                 variant="flat"
                 color="secondary"
-                onPress={handleOpenLoadExerciseOptionsModal}
+                onPress={() => loadExerciseOptionsModal.onOpen()}
               >
                 Load Exercise Stat
               </Button>
