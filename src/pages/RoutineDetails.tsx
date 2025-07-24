@@ -35,6 +35,7 @@ import {
   GetValidatedStartDay,
   GetValidatedRoutineScheduleType,
   GetValidatedRoutineScheduleItemDay,
+  LoadStore,
 } from "../helpers";
 import toast from "react-hot-toast";
 import {
@@ -45,6 +46,7 @@ import {
 } from "../hooks";
 import { Link } from "react-router-dom";
 import { Reorder } from "framer-motion";
+import { Store } from "@tauri-apps/plugin-store";
 
 export default function RoutineDetails() {
   const { id } = useParams();
@@ -69,20 +71,23 @@ export default function RoutineDetails() {
   const [isScheduleItemBeingDragged, setIsScheduleItemBeingDragged] =
     useState<boolean>(false);
 
+  const store = useRef<Store>(null);
+
   const weekdayMap = useWeekdayMap();
 
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
 
-  const exerciseList = useExerciseList(false);
+  const exerciseList = useExerciseList(store);
 
-  const workoutTemplateList = useWorkoutTemplateList(true, exerciseList);
+  const workoutTemplateList = useWorkoutTemplateList(store, exerciseList);
 
   const {
     handleOpenWorkoutTemplateListModal,
     workoutTemplateListModal,
     isWorkoutTemplateListLoaded,
     workoutTemplateMap,
+    loadWorkoutTemplateList,
   } = workoutTemplateList;
 
   const isRoutineLoaded = useRef(false);
@@ -200,7 +205,13 @@ export default function RoutineDetails() {
     const loadUserSettings = async () => {
       const userSettings = await GetUserSettings();
 
-      if (userSettings !== undefined) setUserSettings(userSettings);
+      if (userSettings === undefined) return;
+
+      setUserSettings(userSettings);
+
+      await LoadStore(store);
+
+      await loadWorkoutTemplateList();
     };
 
     if (isWorkoutTemplateListLoaded.current) {
