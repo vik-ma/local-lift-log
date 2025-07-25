@@ -1,4 +1,4 @@
-export const FormatSetsCompletedString = (num: number | undefined): string => {
+export const FormatSetsCompletedString = (num: number | undefined) => {
   if (num === 1) return "1 Set Completed";
 
   if (num && num > 0 && num !== Infinity) return `${num} Sets Completed`;

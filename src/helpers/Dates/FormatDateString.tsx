@@ -3,7 +3,7 @@ import { parseAbsoluteToLocal } from "@internationalized/date";
 export const FormatDateString = (
   dateISOString: string,
   doNotIncludeDay?: boolean
-): string => {
+) => {
   try {
     const formattedDate = parseAbsoluteToLocal(dateISOString)
       .toDate()

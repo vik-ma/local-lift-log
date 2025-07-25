@@ -1,7 +1,4 @@
-export const ConvertDistanceToMeter = (
-  distance: number,
-  unit: string
-): number => {
+export const ConvertDistanceToMeter = (distance: number, unit: string) => {
   switch (unit) {
     case "km":
       return distance * 1000;

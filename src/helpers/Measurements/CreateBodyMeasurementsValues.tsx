@@ -7,9 +7,7 @@ import {
   GetValidatedUnit,
 } from "..";
 
-export const CreateBodyMeasurementsValues = (
-  measurements: Measurement[]
-): string => {
+export const CreateBodyMeasurementsValues = (measurements: Measurement[]) => {
   const bodyMeasurementValues: BodyMeasurementsValues = {};
 
   for (let i = 0; i < measurements.length; i++) {

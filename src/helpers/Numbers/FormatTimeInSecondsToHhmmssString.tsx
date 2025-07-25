@@ -1,8 +1,6 @@
 import { IsNumberValidInteger } from "..";
 
-export const FormatTimeInSecondsToHhmmssString = (
-  time_in_seconds: number
-): string => {
+export const FormatTimeInSecondsToHhmmssString = (time_in_seconds: number) => {
   if (!IsNumberValidInteger(time_in_seconds)) return "00:00";
 
   const hours = Math.floor(time_in_seconds / 3600);

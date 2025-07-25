@@ -1,6 +1,4 @@
-export const GenerateMultisetSetOrderString = (
-  setListIdOrder: number[][]
-): string => {
+export const GenerateMultisetSetOrderString = (setListIdOrder: number[][]) => {
   const setListOrderStringList: string[] = [];
 
   for (const setList of setListIdOrder) {

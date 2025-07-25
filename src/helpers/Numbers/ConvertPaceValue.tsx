@@ -9,7 +9,7 @@ export const ConvertPaceValue = (
 
   if (currentUnit === newUnit) return value;
 
-  const toSecondsPerMeter = (val: number, unit: string): number => {
+  const toSecondsPerMeter = (val: number, unit: string) => {
     switch (unit) {
       case "min/km":
         return (val * 60) / 1000;
@@ -24,7 +24,7 @@ export const ConvertPaceValue = (
     }
   };
 
-  const fromSecondsPerMeter = (val: number, unit: string): number => {
+  const fromSecondsPerMeter = (val: number, unit: string) => {
     switch (unit) {
       case "min/km":
         return (val * 1000) / 60;

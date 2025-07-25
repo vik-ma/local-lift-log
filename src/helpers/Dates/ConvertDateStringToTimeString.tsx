@@ -3,7 +3,7 @@ import { parseAbsoluteToLocal } from "@internationalized/date";
 export const ConvertDateStringToTimeString = (
   dateISOString: string,
   is24hFormat: boolean
-): string => {
+) => {
   try {
     const locale: string = is24hFormat ? "en-GB" : "en-US";
 

@@ -69,7 +69,7 @@ export const TimeValueInput = ({
 
   const timeInputMap = useTimeInputMap();
 
-  const convertSecondsToMinutes = (seconds: number): string => {
+  const convertSecondsToMinutes = (seconds: number) => {
     if (seconds === 0) return "";
     const minutes = seconds / 60;
     const minutesTrimmed = ConvertNumberToTwoDecimals(minutes);
@@ -194,7 +194,7 @@ export const TimeValueInput = ({
     updateValue(seconds);
   };
 
-  const convertMinutesToSeconds = (minutes: number): number => {
+  const convertMinutesToSeconds = (minutes: number) => {
     return Math.floor(minutes * 60);
   };
 
@@ -202,12 +202,12 @@ export const TimeValueInput = ({
     hours: number,
     minutes: number,
     seconds: number
-  ): number => {
+  ) => {
     const timeInSeconds = hours * 3600 + minutes * 60 + seconds;
     return timeInSeconds;
   };
 
-  const convertMmssToSeconds = (minutes: number, seconds: number): number => {
+  const convertMmssToSeconds = (minutes: number, seconds: number) => {
     const timeInSeconds = minutes * 60 + seconds;
     return timeInSeconds;
   };
