@@ -64,7 +64,8 @@ export default function RoutineList() {
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
 
-  const exerciseList = useExerciseList(store, true);
+  const showTotalNumSets = true;
+  const exerciseList = useExerciseList(store, showTotalNumSets);
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 

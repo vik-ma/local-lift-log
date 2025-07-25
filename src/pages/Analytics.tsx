@@ -189,7 +189,13 @@ export default function Analytics() {
 
   const areAllTestLinesAndAreasRendered = useRef<boolean>(false);
 
-  const exerciseList = useExerciseList(store, true, true);
+  const showTotalNumSets = true;
+  const ignoreExercisesWithNoSets = true;
+  const exerciseList = useExerciseList(
+    store,
+    showTotalNumSets,
+    ignoreExercisesWithNoSets
+  );
 
   const {
     getExercises,
@@ -202,7 +208,13 @@ export default function Analytics() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
-  const measurementList = useMeasurementList(store, true, true);
+  const showNumberOfBodyMeasurementsEntries = true;
+  const ignoreMeasurementsWithNoEntries = true;
+  const measurementList = useMeasurementList(
+    store,
+    showNumberOfBodyMeasurementsEntries,
+    ignoreMeasurementsWithNoEntries
+  );
 
   const { isMeasurementListLoaded, getMeasurements } = measurementList;
 
