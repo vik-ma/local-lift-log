@@ -369,7 +369,7 @@ export default function ExerciseDetails() {
       setEditedExercise(currentExercise);
     };
 
-    const loadUserSettings = async () => {
+    const loadPage = async () => {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
@@ -411,7 +411,7 @@ export default function ExerciseDetails() {
     };
 
     getExercise();
-    loadUserSettings();
+    loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

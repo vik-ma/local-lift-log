@@ -202,7 +202,7 @@ export default function RoutineDetails() {
       }
     };
 
-    const loadUserSettings = async () => {
+    const loadPage = async () => {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
@@ -220,7 +220,7 @@ export default function RoutineDetails() {
 
     if (isRoutineLoaded.current) {
       getWorkoutRoutineSchedules();
-      loadUserSettings();
+      loadPage();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRoutineLoaded.current, isWorkoutTemplateListLoaded.current]);

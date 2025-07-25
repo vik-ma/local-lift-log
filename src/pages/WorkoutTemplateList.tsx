@@ -82,7 +82,7 @@ export default function WorkoutTemplateList() {
   const { filterMap, removeFilter, prefixMap } = listFilters;
 
   useEffect(() => {
-    const loadUserSettings = async () => {
+    const loadPage = async () => {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
@@ -98,7 +98,7 @@ export default function WorkoutTemplateList() {
       await loadWorkoutTemplateList();
     };
 
-    loadUserSettings();
+    loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

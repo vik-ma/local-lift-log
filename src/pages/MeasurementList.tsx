@@ -80,7 +80,7 @@ export default function MeasurementList() {
   const { filterMap, removeFilter, prefixMap } = listFilters;
 
   useEffect(() => {
-    const loadUserSettings = async () => {
+    const loadPage = async () => {
       try {
         const userSettings = await GetUserSettings();
 
@@ -120,7 +120,7 @@ export default function MeasurementList() {
       }
     };
 
-    loadUserSettings();
+    loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

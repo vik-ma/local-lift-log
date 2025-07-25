@@ -66,7 +66,7 @@ export default function TimePeriodList() {
   } = timePeriodList;
 
   useEffect(() => {
-    const loadUserSettings = async () => {
+    const loadPage = async () => {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
@@ -90,7 +90,7 @@ export default function TimePeriodList() {
       setSelectedTimePeriodProperties(timePeriodPropertySet);
     };
 
-    loadUserSettings();
+    loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

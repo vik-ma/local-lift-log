@@ -166,7 +166,7 @@ export default function Multisets() {
   });
 
   useEffect(() => {
-    const loadUserSettings = async () => {
+    const loadPage = async () => {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
@@ -214,7 +214,7 @@ export default function Multisets() {
       await getExercises(sortCategory);
     };
 
-    loadUserSettings();
+    loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

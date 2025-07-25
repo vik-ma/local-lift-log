@@ -176,7 +176,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     useState<boolean>(false);
 
   useEffect(() => {
-    const loadUserSettings = async () => {
+    const loadPage = async () => {
       try {
         const userSettings = await GetUserSettings();
 
@@ -228,7 +228,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
       }
     };
 
-    loadUserSettings();
+    loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

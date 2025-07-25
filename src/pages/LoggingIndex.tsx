@@ -105,7 +105,7 @@ export default function LoggingIndex() {
   });
 
   useEffect(() => {
-    const loadUserSettings = async () => {
+    const loadPage = async () => {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
@@ -132,7 +132,7 @@ export default function LoggingIndex() {
       setUserSettings(userSettings);
     };
 
-    loadUserSettings();
+    loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDietLogListLoaded.current]);
 

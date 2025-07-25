@@ -232,7 +232,7 @@ export default function BodyMeasurementsList() {
   };
 
   useEffect(() => {
-    const loadUserSettings = async () => {
+    const loadPage = async () => {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
@@ -263,7 +263,7 @@ export default function BodyMeasurementsList() {
       setUserSettings(userSettings);
     };
 
-    loadUserSettings();
+    loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

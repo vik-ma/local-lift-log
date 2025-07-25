@@ -22,7 +22,7 @@ export default function Settings() {
   } = settingsList;
 
   useEffect(() => {
-    const loadUserSettings = async () => {
+    const loadPage = async () => {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
@@ -90,7 +90,7 @@ export default function Settings() {
       setTimeInSeconds(userSettings.default_increment_time);
     };
 
-    loadUserSettings();
+    loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

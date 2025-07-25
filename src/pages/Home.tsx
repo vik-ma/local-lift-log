@@ -53,7 +53,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const loadUserSettings = async () => {
+    const loadPage = async () => {
       if (isUserSettingsLoaded.current) return;
 
       try {
@@ -70,7 +70,7 @@ export default function Home() {
       }
     };
 
-    loadUserSettings();
+    loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

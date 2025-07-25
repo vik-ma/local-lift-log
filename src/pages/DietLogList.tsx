@@ -68,7 +68,7 @@ export default function DietLogList() {
   const { filterMap, removeFilter, prefixMap } = dietLogListFilters;
 
   useEffect(() => {
-    const loadUserSettings = async () => {
+    const loadPage = async () => {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
@@ -86,7 +86,7 @@ export default function DietLogList() {
       await getDietLogs(sortCategory);
     };
 
-    loadUserSettings();
+    loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
