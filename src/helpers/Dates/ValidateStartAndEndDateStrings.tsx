@@ -5,7 +5,7 @@ export const ValidateStartAndEndDateStrings = (
   endDateString: string | null,
   mustBeISOStrings?: boolean,
   endDateCanNotBeNull?: boolean
-): boolean => {
+) => {
   if (startDateString === null) return false;
 
   if (endDateCanNotBeNull && endDateString === null) return false;
@@ -17,8 +17,7 @@ export const ValidateStartAndEndDateStrings = (
   if (isNaN(startDate)) return false;
 
   if (endDateString !== null) {
-    if (mustBeISOStrings && !ValidateISODateString(endDateString))
-      return false;
+    if (mustBeISOStrings && !ValidateISODateString(endDateString)) return false;
 
     const endDate = Date.parse(endDateString);
 

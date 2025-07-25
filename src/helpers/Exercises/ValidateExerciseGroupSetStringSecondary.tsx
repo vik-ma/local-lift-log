@@ -4,7 +4,7 @@ import { ExerciseGroupMap } from "../../typings";
 export const ValidateExerciseGroupSetStringSecondary = (
   exerciseGroupSetString: string | null,
   exerciseGroupDictionary: ExerciseGroupMap
-): boolean => {
+) => {
   if (exerciseGroupSetString === null) return true;
 
   const exerciseGroups = exerciseGroupSetString.split(",");

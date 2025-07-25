@@ -6,7 +6,7 @@ export const IsStringInvalidNumber = (
   doNotAllowMinValue?: boolean,
   maxValue?: number,
   allowEmptyString?: boolean
-): boolean => {
+) => {
   if (allowEmptyString && IsStringEmpty(inputString)) return false;
 
   const inputNumber = Number(inputString);

@@ -58,7 +58,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     return values;
   }, [setTrackingValuesInput]);
 
-  const isSetTrackingValuesInvalid = useMemo((): boolean => {
+  const isSetTrackingValuesInvalid = useMemo(() => {
     for (const value of Object.values(setInputsInvalidityMap)) {
       if (value === true) return true;
     }

@@ -26,7 +26,7 @@ export default function Home() {
     locale: string,
     clockStyle: string
   ) => {
-    const useMetricUnits: boolean = unitType === "metric" ? true : false;
+    const useMetricUnits = unitType === "metric" ? true : false;
 
     const defaultUserSettings: UserSettings | undefined =
       await CreateDefaultUserSettings(useMetricUnits, locale, clockStyle);

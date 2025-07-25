@@ -240,7 +240,7 @@ export const SettingsList = ({
   ) => {
     if (userSettings === undefined) return;
 
-    const useMetricUnits: boolean = unitType === "metric" ? true : false;
+    const useMetricUnits = unitType === "metric" ? true : false;
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);

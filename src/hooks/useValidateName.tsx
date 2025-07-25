@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { IsStringEmpty } from "../helpers";
 
-export const useValidateName = (name: string): boolean => {
+export const useValidateName = (name: string) => {
   const isNameValid = useMemo(() => {
     if (IsStringEmpty(name)) return false;
     return true;
@@ -9,5 +9,3 @@ export const useValidateName = (name: string): boolean => {
 
   return isNameValid;
 };
-
-export default useValidateName;

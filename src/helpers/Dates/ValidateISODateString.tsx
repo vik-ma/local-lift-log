@@ -1,6 +1,6 @@
 import { parseAbsoluteToLocal } from "@internationalized/date";
 
-export const ValidateISODateString = (dateISOString: string | null): boolean => {
+export const ValidateISODateString = (dateISOString: string | null) => {
   if (dateISOString === null) return false;
 
   try {
