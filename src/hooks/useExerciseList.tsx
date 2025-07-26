@@ -14,11 +14,17 @@ import {
 } from "../typings";
 import { useExerciseGroupDictionary, useExerciseGroupList } from ".";
 
-export const useExerciseList = (
-  store: StoreRef,
-  showTotalNumSets?: boolean,
-  ignoreExercisesWithNoSets?: boolean
-): UseExerciseListReturnType => {
+type UseExerciseListProps = {
+  store: StoreRef;
+  showTotalNumSets?: boolean;
+  ignoreExercisesWithNoSets?: boolean;
+};
+
+export const useExerciseList = ({
+  store,
+  showTotalNumSets,
+  ignoreExercisesWithNoSets,
+}: UseExerciseListProps): UseExerciseListReturnType => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [sortCategory, setSortCategory] =
     useState<ExerciseSortCategory>("favorite");

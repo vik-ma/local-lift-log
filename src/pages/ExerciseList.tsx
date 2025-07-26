@@ -49,8 +49,10 @@ export default function ExerciseList() {
 
   const store = useRef<Store>(null);
 
-  const showTotalNumSets = true;
-  const exerciseList = useExerciseList(store, showTotalNumSets);
+  const exerciseList = useExerciseList({
+    store: store,
+    showTotalNumSets: true,
+  });
 
   const {
     exercises,

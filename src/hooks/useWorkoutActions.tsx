@@ -146,7 +146,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
   const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
     presetsList.listFilters;
 
-  const exerciseList = useExerciseList(store);
+  const exerciseList = useExerciseList({ store: store });
 
   const {
     setIncludeSecondaryGroups,

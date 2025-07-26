@@ -77,7 +77,7 @@ export default function Multisets() {
     defaultSet.current
   );
 
-  const exerciseList = useExerciseList(store);
+  const exerciseList = useExerciseList({ store: store });
 
   const { setIncludeSecondaryGroups, getExercises } = exerciseList;
 

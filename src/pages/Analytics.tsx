@@ -189,13 +189,11 @@ export default function Analytics() {
 
   const areAllTestLinesAndAreasRendered = useRef<boolean>(false);
 
-  const showTotalNumSets = true;
-  const ignoreExercisesWithNoSets = true;
-  const exerciseList = useExerciseList(
-    store,
-    showTotalNumSets,
-    ignoreExercisesWithNoSets
-  );
+  const exerciseList = useExerciseList({
+    store: store,
+    showTotalNumSets: true,
+    ignoreExercisesWithNoSets: true,
+  });
 
   const {
     getExercises,

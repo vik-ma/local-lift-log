@@ -35,7 +35,7 @@ export default function WorkoutIndex() {
 
   const store = useRef<Store>(null);
 
-  const exerciseList = useExerciseList(store);
+  const exerciseList = useExerciseList({ store: store });
 
   const { setIncludeSecondaryGroups } = exerciseList;
 

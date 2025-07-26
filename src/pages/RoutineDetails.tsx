@@ -78,7 +78,7 @@ export default function RoutineDetails() {
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
 
-  const exerciseList = useExerciseList(store);
+  const exerciseList = useExerciseList({ store: store });
 
   const workoutTemplateList = useWorkoutTemplateList(store, exerciseList);
 
