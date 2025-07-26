@@ -103,7 +103,7 @@ export default function WorkoutTemplateDetails() {
     store: store,
     useExerciseList: exerciseList,
     ignoreEmptyWorkoutTemplates: true,
-    ignoreWorkoutTemplateId: Number(id),
+    workoutTemplateIdToIgnore: Number(id),
   });
 
   const { handleOpenWorkoutTemplateListModal, workoutTemplateListModal } =

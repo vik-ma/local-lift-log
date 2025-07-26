@@ -149,7 +149,7 @@ export default function WorkoutDetails() {
     store: store,
     useExerciseList: exerciseList,
     ignoreEmptyWorkouts: true,
-    ignoreWorkoutId: Number(id),
+    workoutIdToIgnore: Number(id),
   });
 
   const {

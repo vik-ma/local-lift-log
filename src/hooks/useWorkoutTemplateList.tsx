@@ -21,14 +21,14 @@ type UseWorkoutTemplateListProps = {
   store: StoreRef;
   useExerciseList: UseExerciseListReturnType;
   ignoreEmptyWorkoutTemplates?: boolean;
-  ignoreWorkoutTemplateId?: number;
+  workoutTemplateIdToIgnore?: number;
 };
 
 export const useWorkoutTemplateList = ({
   store,
   useExerciseList,
   ignoreEmptyWorkoutTemplates,
-  ignoreWorkoutTemplateId,
+  workoutTemplateIdToIgnore,
 }: UseWorkoutTemplateListProps): UseWorkoutTemplateListReturnType => {
   const [workoutTemplates, setWorkoutTemplates] = useState<WorkoutTemplate[]>(
     []
@@ -126,7 +126,7 @@ export const useWorkoutTemplateList = ({
 
       for (const row of result) {
         if (
-          row.id === ignoreWorkoutTemplateId ||
+          row.id === workoutTemplateIdToIgnore ||
           (ignoreEmptyWorkoutTemplates && row.numSets === 0)
         )
           continue;
