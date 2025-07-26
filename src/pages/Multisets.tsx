@@ -15,7 +15,7 @@ import {
   useCalculationModal,
   useDefaultMultiset,
   useExerciseList,
-  useFilterExerciseList,
+  useExerciseListFilters,
   useMultisetActions,
   usePresetsList,
 } from "../hooks";
@@ -81,7 +81,7 @@ export default function Multisets() {
 
   const { setIncludeSecondaryGroups, getExercises } = exerciseList;
 
-  const filterExerciseList = useFilterExerciseList(exerciseList);
+  const exerciseListFilters = useExerciseListFilters(exerciseList);
 
   const calculationModal = useCalculationModal();
 
@@ -612,11 +612,11 @@ export default function Multisets() {
         handleClickMultiset={() => {}}
         showWorkoutItems={false}
         openCalculationModal={openCalculationModal}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <FilterPresetsListModal
         usePresetsList={presetsList}
@@ -625,7 +625,7 @@ export default function Multisets() {
       <FilterMultisetListModal
         useMultisetActions={multisetActions}
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />

@@ -3,13 +3,13 @@ import {
   ListFilterMapKey,
   UseDisclosureReturnType,
   UseExerciseListReturnType,
-  UseFilterExerciseListReturnType,
+  UseExerciseListFiltersReturnType,
 } from "../typings";
 import { useMemo, useState } from "react";
 
-export const useFilterExerciseList = (
+export const useExerciseListFilters = (
   useExerciseList: UseExerciseListReturnType
-): UseFilterExerciseListReturnType => {
+): UseExerciseListFiltersReturnType => {
   const { exercises, includeSecondaryGroups } = useExerciseList;
 
   const [filterQuery, setFilterQuery] = useState<string>("");

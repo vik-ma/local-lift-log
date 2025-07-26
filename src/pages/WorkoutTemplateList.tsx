@@ -25,7 +25,7 @@ import toast from "react-hot-toast";
 import {
   useDefaultWorkoutTemplate,
   useExerciseList,
-  useFilterExerciseList,
+  useExerciseListFilters,
   useWorkoutTemplateList,
 } from "../hooks";
 import {
@@ -63,7 +63,7 @@ export default function WorkoutTemplateList() {
 
   const { setIncludeSecondaryGroups } = exerciseList;
 
-  const filterExerciseList = useFilterExerciseList(exerciseList);
+  const exerciseListFilters = useExerciseListFilters(exerciseList);
 
   const workoutTemplateList = useWorkoutTemplateList(store, exerciseList);
 
@@ -256,13 +256,13 @@ export default function WorkoutTemplateList() {
       <FilterWorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput

@@ -9,7 +9,7 @@ import {
 } from "@heroui/react";
 import {
   UseExerciseListReturnType,
-  UseFilterExerciseListReturnType,
+  UseExerciseListFiltersReturnType,
   UseMultisetActionsReturnType,
   UserSettings,
 } from "../../typings";
@@ -23,7 +23,7 @@ import { useMemo, useState } from "react";
 type FilterMultisetListModalProps = {
   useMultisetActions: UseMultisetActionsReturnType;
   useExerciseList: UseExerciseListReturnType;
-  useFilterExerciseList: UseFilterExerciseListReturnType;
+  useExerciseListFilters: UseExerciseListFiltersReturnType;
   userSettings: UserSettings;
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
@@ -35,7 +35,7 @@ type ModalPage = "base" | "exercise-list" | "exercise-groups";
 export const FilterMultisetListModal = ({
   useMultisetActions,
   useExerciseList,
-  useFilterExerciseList,
+  useExerciseListFilters,
   userSettings,
   setUserSettings,
 }: FilterMultisetListModalProps) => {
@@ -104,7 +104,7 @@ export const FilterMultisetListModal = ({
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   useExerciseList={useExerciseList}
-                  useFilterExerciseList={useFilterExerciseList}
+                  useExerciseListFilters={useExerciseListFilters}
                   userSettings={userSettings}
                   setUserSettings={setUserSettings}
                   selectedExercises={filterExercises}

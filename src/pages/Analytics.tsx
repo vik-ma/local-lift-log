@@ -37,7 +37,7 @@ import {
   useChartColorLists,
   useChartDateMap,
   useExerciseList,
-  useFilterExerciseList,
+  useExerciseListFilters,
   useMeasurementList,
   useChartTimePeriodIdSets,
   useDefaultChartMapsAndConfig,
@@ -204,7 +204,7 @@ export default function Analytics() {
     setExercises,
   } = exerciseList;
 
-  const filterExerciseList = useFilterExerciseList(exerciseList);
+  const exerciseListFilters = useExerciseListFilters(exerciseList);
 
   const measurementList = useMeasurementList({
     store: store,
@@ -3060,7 +3060,7 @@ export default function Analytics() {
         loadExerciseOptionsMap={loadExerciseOptionsMap}
         secondaryDataUnitCategory={secondaryDataUnitCategory}
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
         loadExerciseStats={loadExerciseStats}
@@ -3074,7 +3074,7 @@ export default function Analytics() {
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <DeleteModal
         deleteModal={deleteModal}

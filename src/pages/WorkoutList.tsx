@@ -33,7 +33,7 @@ import {
 import {
   useDefaultWorkout,
   useExerciseList,
-  useFilterExerciseList,
+  useExerciseListFilters,
   useWorkoutList,
 } from "../hooks";
 import { GoToArrowIcon } from "../assets";
@@ -86,7 +86,7 @@ export default function WorkoutList() {
     sortWorkoutsByActiveCategory,
   } = workoutList;
 
-  const filterExerciseList = useFilterExerciseList(exerciseList);
+  const exerciseListFilters = useExerciseListFilters(exerciseList);
 
   const { filterMap } = listFilters;
 
@@ -488,19 +488,19 @@ export default function WorkoutList() {
       <FilterWorkoutListModal
         useWorkoutList={workoutList}
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
         useWorkoutTemplateList={workoutTemplateList}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <FilterWorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />

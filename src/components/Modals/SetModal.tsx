@@ -16,7 +16,7 @@ import {
   UseSetTrackingInputsReturnType,
   UseExerciseListReturnType,
   UseDisclosureReturnType,
-  UseFilterExerciseListReturnType,
+  UseExerciseListFiltersReturnType,
 } from "../../typings";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -56,7 +56,7 @@ type SetModalProps = {
     setInputs: UseSetTrackingInputsReturnType,
     set: WorkoutSet
   ) => Promise<void>;
-  useFilterExerciseList: UseFilterExerciseListReturnType;
+  useExerciseListFilters: UseExerciseListFiltersReturnType;
 };
 
 export const SetModal = ({
@@ -73,7 +73,7 @@ export const SetModal = ({
   exerciseList,
   numMultisetSets,
   openCalculationModal,
-  useFilterExerciseList,
+  useExerciseListFilters,
 }: SetModalProps) => {
   const numSetsOptions = NumNewSetsOptionList();
 
@@ -174,7 +174,7 @@ export const SetModal = ({
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   useExerciseList={exerciseList}
-                  useFilterExerciseList={useFilterExerciseList}
+                  useExerciseListFilters={useExerciseListFilters}
                   userSettings={userSettings}
                   setUserSettings={setUserSettings}
                 />

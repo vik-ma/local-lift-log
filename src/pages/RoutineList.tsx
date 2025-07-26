@@ -38,7 +38,7 @@ import {
 import {
   useDefaultRoutine,
   useExerciseList,
-  useFilterExerciseList,
+  useExerciseListFilters,
   useRoutineList,
   useWorkoutTemplateList,
 } from "../hooks";
@@ -69,7 +69,7 @@ export default function RoutineList() {
     showTotalNumSets: true,
   });
 
-  const filterExerciseList = useFilterExerciseList(exerciseList);
+  const exerciseListFilters = useExerciseListFilters(exerciseList);
 
   const workoutTemplateList = useWorkoutTemplateList(store, exerciseList, true);
 
@@ -295,13 +295,13 @@ export default function RoutineList() {
       <FilterWorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput

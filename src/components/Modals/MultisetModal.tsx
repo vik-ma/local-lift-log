@@ -15,7 +15,7 @@ import {
   WorkoutSet,
   UserSettings,
   UseSetTrackingInputsReturnType,
-  UseFilterExerciseListReturnType,
+  UseExerciseListFiltersReturnType,
 } from "../../typings";
 import {
   ExerciseModalList,
@@ -59,7 +59,7 @@ type MultisetModalProps = {
     setInputs: UseSetTrackingInputsReturnType,
     set: WorkoutSet
   ) => Promise<void>;
-  useFilterExerciseList: UseFilterExerciseListReturnType;
+  useExerciseListFilters: UseExerciseListFiltersReturnType;
 };
 
 export const MultisetModal = ({
@@ -77,7 +77,7 @@ export const MultisetModal = ({
   handleClickMultiset,
   showWorkoutItems,
   openCalculationModal,
-  useFilterExerciseList,
+  useExerciseListFilters,
 }: MultisetModalProps) => {
   const [multisetNoteInput, setMultisetNoteInput] = useState<string>("");
 
@@ -246,7 +246,7 @@ export const MultisetModal = ({
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   useExerciseList={exerciseList}
-                  useFilterExerciseList={useFilterExerciseList}
+                  useExerciseListFilters={useExerciseListFilters}
                   userSettings={userSettings}
                   setUserSettings={setUserSettings}
                 />

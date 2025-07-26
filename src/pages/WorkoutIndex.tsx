@@ -11,7 +11,7 @@ import {
 } from "../components";
 import {
   useExerciseList,
-  useFilterExerciseList,
+  useExerciseListFilters,
   useWorkoutList,
 } from "../hooks";
 import { useEffect, useRef, useState } from "react";
@@ -46,7 +46,7 @@ export default function WorkoutIndex() {
 
   const { handleOpenWorkoutTemplateListModal } = workoutTemplateList;
 
-  const filterExerciseList = useFilterExerciseList(exerciseList);
+  const exerciseListFilters = useExerciseListFilters(exerciseList);
 
   useEffect(() => {
     const loadPage = async () => {
@@ -141,19 +141,19 @@ export default function WorkoutIndex() {
       <FilterWorkoutListModal
         useWorkoutList={workoutList}
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
         useWorkoutTemplateList={workoutTemplateList}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <FilterWorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />

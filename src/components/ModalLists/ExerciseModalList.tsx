@@ -2,7 +2,7 @@ import { Button, ScrollShadow } from "@heroui/react";
 import {
   Exercise,
   UseExerciseListReturnType,
-  UseFilterExerciseListReturnType,
+  UseExerciseListFiltersReturnType,
   UserSettings,
 } from "../../typings";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ import { useMemo } from "react";
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
   useExerciseList: UseExerciseListReturnType;
-  useFilterExerciseList: UseFilterExerciseListReturnType;
+  useExerciseListFilters: UseExerciseListFiltersReturnType;
   userSettings: UserSettings;
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
@@ -33,7 +33,7 @@ type ExerciseModalListProps = {
 export const ExerciseModalList = ({
   handleClickExercise,
   useExerciseList,
-  useFilterExerciseList,
+  useExerciseListFilters,
   userSettings,
   setUserSettings,
   customHeightString,
@@ -49,7 +49,7 @@ export const ExerciseModalList = ({
     filterMap,
     removeFilter,
     prefixMap,
-  } = useFilterExerciseList;
+  } = useExerciseListFilters;
 
   const height = useMemo(() => {
     return customHeightString !== undefined ? customHeightString : "h-[400px]";
@@ -79,7 +79,7 @@ export const ExerciseModalList = ({
           </Button>
           <ExerciseListOptions
             useExerciseList={useExerciseList}
-            useFilterExerciseList={useFilterExerciseList}
+            useExerciseListFilters={useExerciseListFilters}
             userSettings={userSettings}
             setUserSettings={setUserSettings}
           />

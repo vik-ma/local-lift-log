@@ -7,14 +7,14 @@ import {
 } from "@heroui/react";
 import {
   UseExerciseListReturnType,
-  UseFilterExerciseListReturnType,
+  UseExerciseListFiltersReturnType,
   UserSettings,
 } from "../../typings";
 import { UpdateUserSetting } from "../../helpers";
 
 type ExerciseListOptionsProps = {
   useExerciseList: UseExerciseListReturnType;
-  useFilterExerciseList: UseFilterExerciseListReturnType;
+  useExerciseListFilters: UseExerciseListFiltersReturnType;
   userSettings: UserSettings;
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
@@ -23,7 +23,7 @@ type ExerciseListOptionsProps = {
 
 export const ExerciseListOptions = ({
   useExerciseList,
-  useFilterExerciseList,
+  useExerciseListFilters,
   userSettings,
   setUserSettings,
 }: ExerciseListOptionsProps) => {
@@ -34,7 +34,7 @@ export const ExerciseListOptions = ({
     sortCategory,
   } = useExerciseList;
 
-  const { exerciseGroupModal, filterMap } = useFilterExerciseList;
+  const { exerciseGroupModal, filterMap } = useExerciseListFilters;
 
   const handleFilterExerciseGroupsButton = () => {
     exerciseGroupModal.onOpen();

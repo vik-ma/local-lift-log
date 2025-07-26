@@ -9,7 +9,7 @@ import {
 } from "@heroui/react";
 import {
   UseExerciseListReturnType,
-  UseFilterExerciseListReturnType,
+  UseExerciseListFiltersReturnType,
   UserSettings,
   UseWorkoutTemplateListReturnType,
 } from "../../typings";
@@ -19,7 +19,7 @@ import { ExerciseGroupCheckboxes, ExerciseModalList } from "..";
 type FilterWorkoutTemplateListModalProps = {
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
   useExerciseList: UseExerciseListReturnType;
-  useFilterExerciseList: UseFilterExerciseListReturnType;
+  useExerciseListFilters: UseExerciseListFiltersReturnType;
   userSettings: UserSettings;
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
@@ -31,7 +31,7 @@ type ModalPage = "base" | "exercise-list" | "exercise-groups";
 export const FilterWorkoutTemplateListModal = ({
   useWorkoutTemplateList,
   useExerciseList,
-  useFilterExerciseList,
+  useExerciseListFilters,
   userSettings,
   setUserSettings,
 }: FilterWorkoutTemplateListModalProps) => {
@@ -101,7 +101,7 @@ export const FilterWorkoutTemplateListModal = ({
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
                   useExerciseList={useExerciseList}
-                  useFilterExerciseList={useFilterExerciseList}
+                  useExerciseListFilters={useExerciseListFilters}
                   userSettings={userSettings}
                   setUserSettings={setUserSettings}
                   selectedExercises={filterExercises}

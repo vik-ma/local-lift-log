@@ -133,7 +133,7 @@ export default function WorkoutDetails() {
     calculationModal,
     addCalculationResult,
     openCalculationModal,
-    filterExerciseList,
+    exerciseListFilters,
     groupedWorkoutSetListModal,
     mergeGroupedSets,
     populateUserWeightValues,
@@ -514,7 +514,7 @@ export default function WorkoutDetails() {
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
         openCalculationModal={openCalculationModal}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <MultisetModal
         multiset={operatingMultiset}
@@ -531,7 +531,7 @@ export default function WorkoutDetails() {
         handleClickMultiset={handleClickMultiset}
         showWorkoutItems={true}
         openCalculationModal={openCalculationModal}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <TimeInputModal
         timeInputModal={timeInputModal}
@@ -558,19 +558,19 @@ export default function WorkoutDetails() {
       <FilterWorkoutListModal
         useWorkoutList={workoutList}
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
         useWorkoutTemplateList={workoutTemplateList}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <FilterWorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
@@ -586,7 +586,7 @@ export default function WorkoutDetails() {
       <FilterMultisetListModal
         useMultisetActions={multisetActions}
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />

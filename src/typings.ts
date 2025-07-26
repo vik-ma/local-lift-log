@@ -369,7 +369,7 @@ export type UseExerciseListReturnType = {
   exerciseGroupDictionary: ExerciseGroupMap;
 };
 
-export type UseFilterExerciseListReturnType = {
+export type UseExerciseListFiltersReturnType = {
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredExercises: Exercise[];

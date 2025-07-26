@@ -37,7 +37,7 @@ import { VerticalMenuIcon } from "../assets";
 import {
   useExerciseList,
   useDefaultExercise,
-  useFilterExerciseList,
+  useExerciseListFilters,
 } from "../hooks";
 import { Store } from "@tauri-apps/plugin-store";
 
@@ -66,7 +66,7 @@ export default function ExerciseList() {
     exerciseGroupDictionary,
   } = exerciseList;
 
-  const filterExerciseList = useFilterExerciseList(exerciseList);
+  const exerciseListFilters = useExerciseListFilters(exerciseList);
 
   const {
     filterQuery,
@@ -75,7 +75,7 @@ export default function ExerciseList() {
     filterMap,
     removeFilter,
     prefixMap,
-  } = filterExerciseList;
+  } = exerciseListFilters;
 
   const deleteModal = useDisclosure();
   const exerciseModal = useDisclosure();
@@ -271,7 +271,7 @@ export default function ExerciseList() {
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
@@ -294,7 +294,7 @@ export default function ExerciseList() {
                 </Button>
                 <ExerciseListOptions
                   useExerciseList={exerciseList}
-                  useFilterExerciseList={filterExerciseList}
+                  useExerciseListFilters={exerciseListFilters}
                   userSettings={userSettings}
                   setUserSettings={setUserSettings}
                 />

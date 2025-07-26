@@ -9,17 +9,17 @@ import {
 import { ExerciseGroupCheckboxes } from "..";
 import {
   UseExerciseListReturnType,
-  UseFilterExerciseListReturnType,
+  UseExerciseListFiltersReturnType,
 } from "../../typings";
 
 type ExerciseGroupModalProps = {
   useExerciseList: UseExerciseListReturnType;
-  useFilterExerciseList: UseFilterExerciseListReturnType;
+  useExerciseListFilters: UseExerciseListFiltersReturnType;
 };
 
 export const FilterExerciseGroupsModal = ({
   useExerciseList,
-  useFilterExerciseList,
+  useExerciseListFilters,
 }: ExerciseGroupModalProps) => {
   const {
     includeSecondaryGroups,
@@ -33,7 +33,7 @@ export const FilterExerciseGroupsModal = ({
     setFilterExerciseGroups,
     exerciseGroupModal,
     handleFilterSaveButton,
-  } = useFilterExerciseList;
+  } = useExerciseListFilters;
 
   const handleToggleAllButton = () => {
     if (filterExerciseGroups.length === 0) {

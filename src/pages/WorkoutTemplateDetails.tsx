@@ -91,7 +91,7 @@ export default function WorkoutTemplateDetails() {
     calculationModal,
     addCalculationResult,
     openCalculationModal,
-    filterExerciseList,
+    exerciseListFilters,
     setWorkoutNumbers,
     groupedWorkoutSetListModal,
     mergeGroupedSets,
@@ -300,7 +300,7 @@ export default function WorkoutTemplateDetails() {
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
         openCalculationModal={openCalculationModal}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <MultisetModal
         multiset={operatingMultiset}
@@ -317,7 +317,7 @@ export default function WorkoutTemplateDetails() {
         handleClickMultiset={handleClickMultiset}
         showWorkoutItems={true}
         openCalculationModal={openCalculationModal}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <SetNotesModal
         setNotesModal={setNotesModal}
@@ -335,7 +335,7 @@ export default function WorkoutTemplateDetails() {
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
@@ -347,7 +347,7 @@ export default function WorkoutTemplateDetails() {
         useExerciseList={exerciseList}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
       />
       <FilterPresetsListModal
         usePresetsList={presetsList}
@@ -356,7 +356,7 @@ export default function WorkoutTemplateDetails() {
       <FilterMultisetListModal
         useMultisetActions={multisetActions}
         useExerciseList={exerciseList}
-        useFilterExerciseList={filterExerciseList}
+        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
