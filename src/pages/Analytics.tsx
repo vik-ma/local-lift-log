@@ -267,7 +267,7 @@ export default function Analytics() {
     shownReferenceAreas
   );
 
-  const timePeriodList = useTimePeriodList(store);
+  const timePeriodList = useTimePeriodList({ store: store });
 
   const {
     getTimePeriods,

@@ -75,7 +75,11 @@ export default function RoutineList() {
 
   const { workoutTemplateMap } = workoutTemplateList;
 
-  const routineList = useRoutineList(store, exerciseList, workoutTemplateList);
+  const routineList = useRoutineList({
+    store: store,
+    useExerciseList: exerciseList,
+    useWorkoutTemplateList: workoutTemplateList,
+  });
 
   const {
     routines,

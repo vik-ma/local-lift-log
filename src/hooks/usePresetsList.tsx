@@ -23,7 +23,13 @@ import {
 import { useListFilters, usePresetsTypeString } from ".";
 import { useDisclosure } from "@heroui/react";
 
-export const usePresetsList = (store: StoreRef): UsePresetsListReturnType => {
+type UsePresetsListProps = {
+  store: StoreRef;
+};
+
+export const usePresetsList = ({
+  store,
+}: UsePresetsListProps): UsePresetsListReturnType => {
   const [equipmentWeights, setEquipmentWeights] = useState<EquipmentWeight[]>(
     []
   );

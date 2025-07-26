@@ -26,11 +26,17 @@ import {
 import Database from "@tauri-apps/plugin-sql";
 import { useListFilters } from ".";
 
-export const useRoutineList = (
-  store: StoreRef,
-  useExerciseList: UseExerciseListReturnType,
-  useWorkoutTemplateList: UseWorkoutTemplateListReturnType
-): UseRoutineListReturnType => {
+type UseRoutineListProps = {
+  store: StoreRef;
+  useExerciseList: UseExerciseListReturnType;
+  useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
+};
+
+export const useRoutineList = ({
+  store,
+  useExerciseList,
+  useWorkoutTemplateList,
+}: UseRoutineListProps): UseRoutineListReturnType => {
   const [routines, setRoutines] = useState<Routine[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] = useState<RoutineSortCategory>("name");

@@ -141,7 +141,7 @@ export const useWorkoutActions = (isTemplate: boolean) => {
 
   const store = useRef<Store>(null);
 
-  const presetsList = usePresetsList(store);
+  const presetsList = usePresetsList({ store: store });
 
   const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
     presetsList.listFilters;

@@ -49,7 +49,7 @@ export default function TimePeriodList() {
 
   const store = useRef<Store>(null);
 
-  const timePeriodList = useTimePeriodList(store);
+  const timePeriodList = useTimePeriodList({ store: store });
 
   const {
     timePeriods,

@@ -98,7 +98,7 @@ export default function Presets() {
 
   const store = useRef<Store>(null);
 
-  const presetsList = usePresetsList(store);
+  const presetsList = usePresetsList({ store: store });
 
   const {
     presetsType,

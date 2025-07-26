@@ -85,7 +85,7 @@ export default function LoggingIndex() {
     loadBodyFatCalculationSettingsString,
   } = activeMeasurements;
 
-  const dietLogList = useDietLogList(store);
+  const dietLogList = useDietLogList({ store: store });
 
   const {
     isDietLogListLoaded,

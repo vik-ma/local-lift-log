@@ -40,7 +40,7 @@ export default function DietLogList() {
 
   const store = useRef<Store>(null);
 
-  const dietLogList = useDietLogList(store);
+  const dietLogList = useDietLogList({ store: store });
 
   const {
     dietLogs,

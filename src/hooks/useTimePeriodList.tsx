@@ -18,9 +18,13 @@ import {
 import { useDisclosure } from "@heroui/react";
 import { useTimePeriodListFilters } from ".";
 
-export const useTimePeriodList = (
-  store: StoreRef
-): UseTimePeriodListReturnType => {
+type UseTimePeriodListProps = {
+  store: StoreRef;
+};
+
+export const useTimePeriodList = ({
+  store,
+}: UseTimePeriodListProps): UseTimePeriodListReturnType => {
   const [timePeriods, setTimePeriods] = useState<TimePeriod[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =

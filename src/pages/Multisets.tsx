@@ -85,7 +85,7 @@ export default function Multisets() {
 
   const calculationModal = useCalculationModal();
 
-  const presetsList = usePresetsList(store);
+  const presetsList = usePresetsList({ store: store });
 
   const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
     presetsList.listFilters;

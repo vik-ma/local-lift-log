@@ -42,7 +42,7 @@ export default function Test() {
   const calculationModal = useCalculationModal();
   const timeInputModal = useDisclosure();
 
-  const presetsList = usePresetsList(store);
+  const presetsList = usePresetsList({ store: store });
 
   const listFilters = useListFilters();
 

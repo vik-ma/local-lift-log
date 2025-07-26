@@ -24,7 +24,13 @@ import {
 import { useDisclosure } from "@heroui/react";
 import { useDietLogListFilters } from ".";
 
-export const useDietLogList = (store: StoreRef): UseDietLogListReturnType => {
+type UseDietLogListProps = {
+  store: StoreRef;
+};
+
+export const useDietLogList = ({
+  store,
+}: UseDietLogListProps): UseDietLogListReturnType => {
   const [dietLogs, setDietLogs] = useState<DietLog[]>([]);
   const [sortCategory, setSortCategory] =
     useState<DietLogSortCategory>("date-desc");
