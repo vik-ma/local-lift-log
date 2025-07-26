@@ -1,7 +1,13 @@
 import { useMemo } from "react";
 import { ValidTimeInputBehaviors } from "../helpers";
 
-export const useValidTimeInputBehaviors = (isHhmmss: boolean) => {
+type UseValidTimeInputBehaviorsProps = {
+  isHhmmss: boolean;
+};
+
+export const useValidTimeInputBehaviors = ({
+  isHhmmss,
+}: UseValidTimeInputBehaviorsProps) => {
   const validTimeInputBehaviors = useMemo(
     () => ValidTimeInputBehaviors(isHhmmss),
     [isHhmmss]

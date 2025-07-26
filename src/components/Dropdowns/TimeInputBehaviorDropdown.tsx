@@ -13,7 +13,9 @@ export const TimeInputBehaviorDropdown = ({
   isHhmmss,
   updateUserSetting,
 }: TimeInputBehaviorDropdownProps) => {
-  const validTimeInputBehaviors = useValidTimeInputBehaviors(isHhmmss);
+  const validTimeInputBehaviors = useValidTimeInputBehaviors({
+    isHhmmss: isHhmmss,
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (updateUserSetting !== undefined) {
