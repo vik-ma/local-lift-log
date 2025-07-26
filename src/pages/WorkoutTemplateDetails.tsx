@@ -99,12 +99,12 @@ export default function WorkoutTemplateDetails() {
     store,
   } = useWorkoutActions(true);
 
-  const workoutTemplateList = useWorkoutTemplateList(
-    store,
-    exerciseList,
-    true,
-    Number(id)
-  );
+  const workoutTemplateList = useWorkoutTemplateList({
+    store: store,
+    useExerciseList: exerciseList,
+    ignoreEmptyWorkoutTemplates: true,
+    ignoreWorkoutTemplateId: Number(id),
+  });
 
   const { handleOpenWorkoutTemplateListModal, workoutTemplateListModal } =
     workoutTemplateList;

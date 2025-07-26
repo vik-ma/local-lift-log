@@ -80,7 +80,10 @@ export default function RoutineDetails() {
 
   const exerciseList = useExerciseList({ store: store });
 
-  const workoutTemplateList = useWorkoutTemplateList(store, exerciseList);
+  const workoutTemplateList = useWorkoutTemplateList({
+    store: store,
+    useExerciseList: exerciseList,
+  });
 
   const {
     handleOpenWorkoutTemplateListModal,

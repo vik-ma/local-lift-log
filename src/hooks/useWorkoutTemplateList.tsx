@@ -17,12 +17,19 @@ import {
 } from "../helpers";
 import { useListFilters } from ".";
 
-export const useWorkoutTemplateList = (
-  store: StoreRef,
-  useExerciseList: UseExerciseListReturnType,
-  ignoreEmptyWorkoutTemplates?: boolean,
-  ignoreWorkoutTemplateId?: number
-): UseWorkoutTemplateListReturnType => {
+type UseWorkoutTemplateListProps = {
+  store: StoreRef;
+  useExerciseList: UseExerciseListReturnType;
+  ignoreEmptyWorkoutTemplates?: boolean;
+  ignoreWorkoutTemplateId?: number;
+};
+
+export const useWorkoutTemplateList = ({
+  store,
+  useExerciseList,
+  ignoreEmptyWorkoutTemplates,
+  ignoreWorkoutTemplateId,
+}: UseWorkoutTemplateListProps): UseWorkoutTemplateListReturnType => {
   const [workoutTemplates, setWorkoutTemplates] = useState<WorkoutTemplate[]>(
     []
   );
