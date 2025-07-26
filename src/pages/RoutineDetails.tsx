@@ -228,7 +228,9 @@ export default function RoutineDetails() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRoutineLoaded.current, isWorkoutTemplateListLoaded.current]);
 
-  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Routine");
+  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu({
+    detailsType: "Routine",
+  });
 
   const updateRoutine = async (updatedRoutine: Routine) => {
     // If switching schedule_type from Weekly/Custom to No Day Set

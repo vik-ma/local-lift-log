@@ -4,11 +4,17 @@ import {
   UseDetailsHeaderOptionsMenuReturnType,
 } from "../typings";
 
-export const useDetailsHeaderOptionsMenu = (
-  detailsType: string,
-  additionalMenuItems?: DetailHeaderOptionItem,
-  isNoteComment?: boolean
-): UseDetailsHeaderOptionsMenuReturnType => {
+type UseDetailsHeaderOptionsMenuProps = {
+  detailsType: string;
+  additionalMenuItems?: DetailHeaderOptionItem;
+  isNoteComment?: boolean;
+};
+
+export const useDetailsHeaderOptionsMenu = ({
+  detailsType,
+  additionalMenuItems,
+  isNoteComment,
+}: UseDetailsHeaderOptionsMenuProps): UseDetailsHeaderOptionsMenuReturnType => {
   const [showNote, setShowNote] = useState<boolean>(false);
 
   const menuItems = useMemo(() => {

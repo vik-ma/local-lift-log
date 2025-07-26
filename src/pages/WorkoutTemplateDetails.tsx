@@ -118,10 +118,10 @@ export default function WorkoutTemplateDetails() {
     };
   }, [handleOpenWorkoutTemplateListModal]);
 
-  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu(
-    "Workout Template",
-    additionalMenuItems
-  );
+  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu({
+    detailsType: "Workout Template",
+    additionalMenuItems: additionalMenuItems,
+  });
 
   const getWorkoutTemplateAndSetList = async () => {
     try {

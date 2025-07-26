@@ -415,7 +415,9 @@ export default function ExerciseDetails() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu("Exercise");
+  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu({
+    detailsType: "Exercise",
+  });
 
   const updateExercise = async (exercise: Exercise) => {
     const success = await UpdateExercise(exercise);

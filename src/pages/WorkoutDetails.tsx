@@ -186,11 +186,11 @@ export default function WorkoutDetails() {
     handleOpenWorkoutTemplateListModal,
   ]);
 
-  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu(
-    "Workout",
-    additionalMenuItems,
-    true
-  );
+  const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu({
+    detailsType: "Workout",
+    additionalMenuItems: additionalMenuItems,
+    isNoteComment: true,
+  });
 
   const getWorkoutTemplateComment = async (workoutTemplateId: number) => {
     try {
