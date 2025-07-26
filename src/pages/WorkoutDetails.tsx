@@ -145,7 +145,12 @@ export default function WorkoutDetails() {
     store,
   } = useWorkoutActions(false);
 
-  const workoutList = useWorkoutList(store, exerciseList, true, Number(id));
+  const workoutList = useWorkoutList({
+    store: store,
+    useExerciseList: exerciseList,
+    ignoreEmptyWorkouts: true,
+    ignoreWorkoutId: Number(id),
+  });
 
   const {
     workoutTemplateList,

@@ -21,12 +21,19 @@ import {
 import { useDisclosure } from "@heroui/react";
 import { useListFilters, useRoutineList, useWorkoutTemplateList } from ".";
 
-export const useWorkoutList = (
-  store: StoreRef,
-  useExerciseList: UseExerciseListReturnType,
-  ignoreEmptyWorkouts?: boolean,
-  ignoreWorkoutId?: number
-): UseWorkoutListReturnType => {
+type UseWorkoutListProps = {
+  store: StoreRef;
+  useExerciseList: UseExerciseListReturnType;
+  ignoreEmptyWorkouts?: boolean;
+  ignoreWorkoutId?: number;
+};
+
+export const useWorkoutList = ({
+  store,
+  useExerciseList,
+  ignoreEmptyWorkouts,
+  ignoreWorkoutId,
+}: UseWorkoutListProps): UseWorkoutListReturnType => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =

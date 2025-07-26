@@ -39,7 +39,11 @@ export default function WorkoutIndex() {
 
   const { setIncludeSecondaryGroups } = exerciseList;
 
-  const workoutList = useWorkoutList(store, exerciseList, true);
+  const workoutList = useWorkoutList({
+    store: store,
+    useExerciseList: exerciseList,
+    ignoreEmptyWorkouts: true,
+  });
 
   const { workoutTemplateList, routineList, handleOpenWorkoutListModal } =
     workoutList;

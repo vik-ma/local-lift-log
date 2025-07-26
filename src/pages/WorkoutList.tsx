@@ -69,7 +69,10 @@ export default function WorkoutList() {
 
   const { setIncludeSecondaryGroups } = exerciseList;
 
-  const workoutList = useWorkoutList(store, exerciseList);
+  const workoutList = useWorkoutList({
+    store: store,
+    useExerciseList: exerciseList,
+  });
 
   const {
     workouts,
