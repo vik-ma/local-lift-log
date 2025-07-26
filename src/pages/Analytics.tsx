@@ -206,13 +206,11 @@ export default function Analytics() {
 
   const filterExerciseList = useFilterExerciseList(exerciseList);
 
-  const showNumberOfBodyMeasurementsEntries = true;
-  const ignoreMeasurementsWithNoEntries = true;
-  const measurementList = useMeasurementList(
-    store,
-    showNumberOfBodyMeasurementsEntries,
-    ignoreMeasurementsWithNoEntries
-  );
+  const measurementList = useMeasurementList({
+    store: store,
+    showNumberOfBodyMeasurementsEntries: true,
+    ignoreMeasurementsWithNoEntries: true,
+  });
 
   const { isMeasurementListLoaded, getMeasurements } = measurementList;
 

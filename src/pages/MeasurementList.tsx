@@ -59,11 +59,10 @@ export default function MeasurementList() {
 
   const store = useRef<Store>(null);
 
-  const showNumberOfBodyMeasurementsEntries = true;
-  const measurementList = useMeasurementList(
-    store,
-    showNumberOfBodyMeasurementsEntries
-  );
+  const measurementList = useMeasurementList({
+    store: store,
+    showNumberOfBodyMeasurementsEntries: true,
+  });
 
   const {
     measurements,

@@ -76,7 +76,7 @@ export default function BodyMeasurementsList() {
 
   const defaultWeightUnit = useRef<string>("kg");
 
-  const measurementList = useMeasurementList(store);
+  const measurementList = useMeasurementList({ store: store });
 
   const { getMeasurements, measurementMap, isMeasurementListLoaded } =
     measurementList;

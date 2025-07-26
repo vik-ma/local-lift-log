@@ -64,7 +64,7 @@ export default function LoggingIndex() {
 
   const store = useRef<Store>(null);
 
-  const measurementList = useMeasurementList(store);
+  const measurementList = useMeasurementList({ store: store });
 
   const { getMeasurements, measurementMap, isMeasurementListLoaded } =
     measurementList;

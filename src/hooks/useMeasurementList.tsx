@@ -15,11 +15,17 @@ import {
 } from "../helpers";
 import { useListFilters } from ".";
 
-export const useMeasurementList = (
-  store: StoreRef,
-  showNumberOfBodyMeasurementsEntries?: boolean,
-  ignoreMeasurementsWithNoEntries?: boolean
-): UseMeasurementListReturnType => {
+type UseMeasurementListProps = {
+  store: StoreRef;
+  showNumberOfBodyMeasurementsEntries?: boolean;
+  ignoreMeasurementsWithNoEntries?: boolean;
+};
+
+export const useMeasurementList = ({
+  store,
+  showNumberOfBodyMeasurementsEntries,
+  ignoreMeasurementsWithNoEntries,
+}: UseMeasurementListProps): UseMeasurementListReturnType => {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
