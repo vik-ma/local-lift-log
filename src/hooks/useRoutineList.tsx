@@ -257,21 +257,23 @@ export const useRoutineList = ({
 
     const activeCategory = newCategory ?? sortCategory;
 
+    const isAscending = true;
+
     switch (activeCategory) {
       case "name":
         sortRoutinesByName([...routineList]);
         break;
-      case "num-workouts-desc":
-        sortRoutinesByNumWorkouts([...routineList], false);
-        break;
       case "num-workouts-asc":
-        sortRoutinesByNumWorkouts([...routineList], true);
+        sortRoutinesByNumWorkouts([...routineList], isAscending);
         break;
-      case "num-days-desc":
-        sortRoutinesByNumDays([...routineList], false);
+      case "num-workouts-desc":
+        sortRoutinesByNumWorkouts([...routineList], !isAscending);
         break;
       case "num-days-asc":
-        sortRoutinesByNumDays([...routineList], true);
+        sortRoutinesByNumDays([...routineList], isAscending);
+        break;
+      case "num-days-desc":
+        sortRoutinesByNumDays([...routineList], !isAscending);
         break;
       default:
         // Overwrite invalid categories

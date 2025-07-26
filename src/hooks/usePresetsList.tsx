@@ -432,6 +432,8 @@ export const usePresetsList = ({
 
     const activeCategory = newCategory ?? sortCategoryEquipment;
 
+    const isAscending = true;
+
     switch (activeCategory) {
       case "favorite":
         sortEquipmentWeightsByFavoritesFirst([...equipmentWeightList]);
@@ -440,10 +442,10 @@ export const usePresetsList = ({
         sortEquipmentWeightsByName([...equipmentWeightList]);
         break;
       case "weight-asc":
-        sortEquipmentWeightsByWeight([...equipmentWeightList], true);
+        sortEquipmentWeightsByWeight([...equipmentWeightList], isAscending);
         break;
       case "weight-desc":
-        sortEquipmentWeightsByWeight([...equipmentWeightList], false);
+        sortEquipmentWeightsByWeight([...equipmentWeightList], !isAscending);
         break;
       case "plate-col":
         sortEquipmentWeightsByPlateCalcFirst([...equipmentWeightList]);
@@ -471,6 +473,8 @@ export const usePresetsList = ({
 
     const activeCategory = newCategory ?? sortCategoryDistance;
 
+    const isAscending = true;
+
     switch (activeCategory) {
       case "favorite":
         sortDistancesByFavoritesFirst([...distanceList]);
@@ -479,10 +483,10 @@ export const usePresetsList = ({
         sortDistancesByName([...distanceList]);
         break;
       case "distance-asc":
-        sortDistancesByDistance([...distanceList], true);
+        sortDistancesByDistance([...distanceList], isAscending);
         break;
       case "distance-desc":
-        sortDistancesByDistance([...distanceList], false);
+        sortDistancesByDistance([...distanceList], !isAscending);
         break;
       default:
         // Overwrite invalid categories

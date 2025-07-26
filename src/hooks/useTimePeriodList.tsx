@@ -322,23 +322,23 @@ export const useTimePeriodList = ({
       case "name":
         sortTimePeriodsByName([...timePeriodList]);
         break;
-      case "start-date-desc":
-        sortTimePeriodsByStartDate([...timePeriodList], !isAscending);
-        break;
       case "start-date-asc":
         sortTimePeriodsByStartDate([...timePeriodList], isAscending);
         break;
-      case "end-date-desc":
-        sortTimePeriodsByEndDate([...timePeriodList], !isAscending);
+      case "start-date-desc":
+        sortTimePeriodsByStartDate([...timePeriodList], !isAscending);
         break;
       case "end-date-asc":
         sortTimePeriodsByEndDate([...timePeriodList], isAscending);
         break;
-      case "length-desc":
-        sortTimePeriodsByLength([...timePeriodList], !isAscending);
+      case "end-date-desc":
+        sortTimePeriodsByEndDate([...timePeriodList], !isAscending);
         break;
       case "length-asc":
         sortTimePeriodsByLength([...timePeriodList], isAscending);
+        break;
+      case "length-desc":
+        sortTimePeriodsByLength([...timePeriodList], !isAscending);
         break;
       default:
         // Overwrite invalid categories
