@@ -379,18 +379,20 @@ export const useDietLogList = ({
 
     const activeCategory = newCategory ?? sortCategory;
 
+    const isAscending = true;
+
     switch (activeCategory) {
-      case "date-desc":
-        sortDietLogsByDate([...dietLogList], false);
-        break;
       case "date-asc":
-        sortDietLogsByDate([...dietLogList], true);
+        sortDietLogsByDate([...dietLogList], isAscending);
         break;
-      case "calories-desc":
-        sortDietLogsByCalories([...dietLogList], false);
+      case "date-desc":
+        sortDietLogsByDate([...dietLogList], !isAscending);
         break;
       case "calories-asc":
-        sortDietLogsByCalories([...dietLogList], true);
+        sortDietLogsByCalories([...dietLogList], isAscending);
+        break;
+      case "calories-desc":
+        sortDietLogsByCalories([...dietLogList], !isAscending);
         break;
       default:
         // Overwrite invalid categories
@@ -398,7 +400,7 @@ export const useDietLogList = ({
         await store.current.set("sort-category-diet-logs", {
           value: "date-desc",
         });
-        sortDietLogsByDate([...dietLogList], false);
+        sortDietLogsByDate([...dietLogList], !isAscending);
         break;
     }
   };
