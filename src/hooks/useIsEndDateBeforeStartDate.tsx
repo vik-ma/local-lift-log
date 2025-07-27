@@ -1,10 +1,15 @@
 import { CalendarDate } from "@heroui/react";
 import { useMemo } from "react";
 
-export const useIsEndDateBeforeStartDate = (
-  startDate: CalendarDate | null,
-  endDate: CalendarDate | null
-) => {
+type UseIsEndDateBeforeStartDateProps = {
+  startDate: CalendarDate | null;
+  endDate: CalendarDate | null;
+};
+
+export const useIsEndDateBeforeStartDate = ({
+  startDate,
+  endDate,
+}: UseIsEndDateBeforeStartDateProps) => {
   const isEndDateBeforeStartDate = useMemo(() => {
     if (startDate === null || endDate === null) return false;
 

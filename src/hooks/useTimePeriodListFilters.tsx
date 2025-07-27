@@ -36,15 +36,15 @@ export const useTimePeriodListFilters =
     >(new Set());
     const [filterStatus, setFilterStatus] = useState<Set<string>>(new Set());
 
-    const isMaxDateBeforeMinDateStart = useIsEndDateBeforeStartDate(
-      filterMinStartDate,
-      filterMaxStartDate
-    );
+    const isMaxDateBeforeMinDateStart = useIsEndDateBeforeStartDate({
+      startDate: filterMinStartDate,
+      endDate: filterMaxStartDate,
+    });
 
-    const isMaxDateBeforeMinDateEnd = useIsEndDateBeforeStartDate(
-      filterMinEndDate,
-      filterMaxEndDate
-    );
+    const isMaxDateBeforeMinDateEnd = useIsEndDateBeforeStartDate({
+      startDate: filterMinEndDate,
+      endDate: filterMaxEndDate,
+    });
 
     const filterMinAndMaxValueInputsProps: UseFilterMinAndMaxValueInputsProps =
       {

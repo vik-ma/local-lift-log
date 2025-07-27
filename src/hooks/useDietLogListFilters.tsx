@@ -32,10 +32,10 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
   const [filterMinProtein, setFilterMinProtein] = useState<number | null>(null);
   const [filterMaxProtein, setFilterMaxProtein] = useState<number | null>(null);
 
-  const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate(
-    filterMinDate,
-    filterMaxDate
-  );
+  const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate({
+    startDate: filterMinDate,
+    endDate: filterMaxDate,
+  });
 
   const weekdayMap = useWeekdayMap();
 

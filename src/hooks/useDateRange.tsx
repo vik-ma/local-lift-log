@@ -7,10 +7,10 @@ export const useDateRange = (): UseDateRangeReturnType => {
   const [startDate, setStartDate] = useState<CalendarDate | null>(null);
   const [endDate, setEndDate] = useState<CalendarDate | null>(null);
 
-  const isEndDateBeforeStartDate = useIsEndDateBeforeStartDate(
+  const isEndDateBeforeStartDate = useIsEndDateBeforeStartDate({
     startDate,
-    endDate
-  );
+    endDate,
+  });
 
   const isStartDateBeforeEpoch = useIsDateBeforeEpochDate(startDate);
   const isEndDateBeforeEpoch = useIsDateBeforeEpochDate(endDate);

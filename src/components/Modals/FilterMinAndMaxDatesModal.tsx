@@ -32,10 +32,10 @@ export const FilterMinAndMaxDatesModal = ({
   const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(null);
   const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(null);
 
-  const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate(
-    filterMinDate,
-    filterMaxDate
-  );
+  const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate({
+    startDate: filterMinDate,
+    endDate: filterMaxDate,
+  });
 
   const handleFilterButton = () => {
     if (isMaxDateBeforeMinDate) return;

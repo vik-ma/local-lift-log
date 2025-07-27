@@ -99,10 +99,10 @@ export const useListFilters = ({
     new Set()
   );
 
-  const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate(
-    filterMinDate,
-    filterMaxDate
-  );
+  const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate({
+    startDate: filterMinDate,
+    endDate: filterMaxDate,
+  });
 
   const [filterMinNumScheduleDays, setFilterMinNumScheduleDays] = useState<
     number | null
