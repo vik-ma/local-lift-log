@@ -56,7 +56,7 @@ export const TimePeriodModal = ({
     ConvertDateStringToCalendarDate(timePeriod.end_date)
   );
 
-  const isNameValid = useValidateName(nameInput);
+  const isNameValid = useValidateName({ name: nameInput });
 
   const isStartDateBeforeEpoch = useIsDateBeforeEpochDate(startDate);
   const isEndDateBeforeEpoch = useIsDateBeforeEpochDate(endDate);

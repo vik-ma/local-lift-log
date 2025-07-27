@@ -39,7 +39,7 @@ export const RoutineModal = ({
   const [nameInput, setNameInput] = useState<string>("");
   const [noteInput, setNoteInput] = useState<string>("");
 
-  const isRoutineNameValid = useValidateName(nameInput);
+  const isRoutineNameValid = useValidateName({ name: nameInput });
 
   const numDaysInScheduleOptions: number[] = useMemo(() => {
     return NumDaysInScheduleOptions();

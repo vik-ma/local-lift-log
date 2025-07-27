@@ -58,7 +58,7 @@ export const ExerciseModal = ({
   const [isMultiplierAccordionExpanded, setIsMultiplierAccordionExpanded] =
     useState<boolean>(false);
 
-  const isExerciseNameValid = useValidateName(nameInput);
+  const isExerciseNameValid = useValidateName({ name: nameInput });
 
   const {
     multiplierInputMap,

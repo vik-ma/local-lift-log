@@ -24,7 +24,7 @@ export const NameInputModal = ({
 }: NameInputModalProps) => {
   const [nameInput, setNameInput] = useState<string>("");
 
-  const isNameValid = useValidateName(nameInput);
+  const isNameValid = useValidateName({ name: nameInput });
 
   const handleSaveButton = () => {
     if (!isNameValid) return;

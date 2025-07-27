@@ -1,7 +1,11 @@
 import { useMemo } from "react";
 import { IsStringEmpty } from "../helpers";
 
-export const useValidateName = (name: string) => {
+type UseValidateNameProps = {
+  name: string;
+};
+
+export const useValidateName = ({ name }: UseValidateNameProps) => {
   const isNameValid = useMemo(() => {
     if (IsStringEmpty(name)) return false;
     return true;

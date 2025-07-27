@@ -29,7 +29,7 @@ export const MeasurementModal = ({
 }: MeasurementModalProps) => {
   const [nameInput, setNameInput] = useState<string>("");
 
-  const isMeasurementNameValid = useValidateName(nameInput);
+  const isMeasurementNameValid = useValidateName({ name: nameInput });
 
   const measurementTypes = useMeasurementTypes();
 

@@ -31,7 +31,7 @@ export const WorkoutTemplateModal = ({
   const [nameInput, setNameInput] = useState<string>("");
   const [noteInput, setNoteInput] = useState<string>("");
 
-  const isNameValid = useValidateName(nameInput);
+  const isNameValid = useValidateName({ name: nameInput });
 
   useEffect(() => {
     setNameInput(workoutTemplate.name);

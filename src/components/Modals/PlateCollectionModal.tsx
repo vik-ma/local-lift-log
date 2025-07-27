@@ -46,7 +46,7 @@ export const PlateCollectionModal = ({
     useState<OperationType>("set-handle");
   const [nameInput, setNameInput] = useState<string>("");
 
-  const isNameInputValid = useValidateName(nameInput);
+  const isNameInputValid = useValidateName({ name: nameInput });
 
   const {
     sortCategoryEquipment,

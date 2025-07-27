@@ -52,7 +52,7 @@ export const PresetsModal = ({
   const [nameInput, setNameInput] = useState<string>("");
   const [valueInput, setValueInput] = useState<string>("");
 
-  const isNameInputValid = useValidateName(nameInput);
+  const isNameInputValid = useValidateName({ name: nameInput });
 
   const isValueInputInvalid = useMemo(() => {
     return IsStringInvalidNumber(valueInput, 0, true);
