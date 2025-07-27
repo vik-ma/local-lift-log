@@ -66,7 +66,9 @@ export default function ExerciseList() {
     exerciseGroupDictionary,
   } = exerciseList;
 
-  const exerciseListFilters = useExerciseListFilters(exerciseList);
+  const exerciseListFilters = useExerciseListFilters({
+    useExerciseList: exerciseList,
+  });
 
   const {
     filterQuery,

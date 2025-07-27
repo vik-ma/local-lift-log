@@ -81,7 +81,9 @@ export default function Multisets() {
 
   const { setIncludeSecondaryGroups, getExercises } = exerciseList;
 
-  const exerciseListFilters = useExerciseListFilters(exerciseList);
+  const exerciseListFilters = useExerciseListFilters({
+    useExerciseList: exerciseList,
+  });
 
   const calculationModal = useCalculationModal();
 

@@ -69,7 +69,9 @@ export default function RoutineList() {
     showTotalNumSets: true,
   });
 
-  const exerciseListFilters = useExerciseListFilters(exerciseList);
+  const exerciseListFilters = useExerciseListFilters({
+    useExerciseList: exerciseList,
+  });
 
   const workoutTemplateList = useWorkoutTemplateList({
     store: store,

@@ -50,7 +50,9 @@ export default function WorkoutIndex() {
 
   const { handleOpenWorkoutTemplateListModal } = workoutTemplateList;
 
-  const exerciseListFilters = useExerciseListFilters(exerciseList);
+  const exerciseListFilters = useExerciseListFilters({
+    useExerciseList: exerciseList,
+  });
 
   useEffect(() => {
     const loadPage = async () => {

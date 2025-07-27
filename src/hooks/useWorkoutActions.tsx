@@ -156,7 +156,9 @@ export const useWorkoutActions = (isTemplate: boolean) => {
     getExercises,
   } = exerciseList;
 
-  const exerciseListFilters = useExerciseListFilters(exerciseList);
+  const exerciseListFilters = useExerciseListFilters({
+    useExerciseList: exerciseList,
+  });
 
   const multisetActions = useMultisetActions({
     operatingMultiset,

@@ -204,7 +204,9 @@ export default function Analytics() {
     setExercises,
   } = exerciseList;
 
-  const exerciseListFilters = useExerciseListFilters(exerciseList);
+  const exerciseListFilters = useExerciseListFilters({
+    useExerciseList: exerciseList,
+  });
 
   const measurementList = useMeasurementList({
     store: store,

@@ -89,7 +89,9 @@ export default function WorkoutList() {
     sortWorkoutsByActiveCategory,
   } = workoutList;
 
-  const exerciseListFilters = useExerciseListFilters(exerciseList);
+  const exerciseListFilters = useExerciseListFilters({
+    useExerciseList: exerciseList,
+  });
 
   const { filterMap } = listFilters;
 

@@ -63,7 +63,9 @@ export default function WorkoutTemplateList() {
 
   const { setIncludeSecondaryGroups } = exerciseList;
 
-  const exerciseListFilters = useExerciseListFilters(exerciseList);
+  const exerciseListFilters = useExerciseListFilters({
+    useExerciseList: exerciseList,
+  });
 
   const workoutTemplateList = useWorkoutTemplateList({
     store: store,

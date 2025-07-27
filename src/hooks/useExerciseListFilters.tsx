@@ -7,9 +7,13 @@ import {
 } from "../typings";
 import { useMemo, useState } from "react";
 
-export const useExerciseListFilters = (
-  useExerciseList: UseExerciseListReturnType
-): UseExerciseListFiltersReturnType => {
+type UseExerciseListFiltersProps = {
+  useExerciseList: UseExerciseListReturnType;
+};
+
+export const useExerciseListFilters = ({
+  useExerciseList,
+}: UseExerciseListFiltersProps): UseExerciseListFiltersReturnType => {
   const { exercises, includeSecondaryGroups } = useExerciseList;
 
   const [filterQuery, setFilterQuery] = useState<string>("");
