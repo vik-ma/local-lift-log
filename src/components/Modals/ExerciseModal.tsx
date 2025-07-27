@@ -72,10 +72,10 @@ export const ExerciseModal = ({
   const hasPrimaryAccordionBeenClosed = useRef<boolean>(false);
 
   const isExerciseGroupSetPrimaryStringValid =
-    useValidateExerciseGroupStringPrimary(
-      exercise.exercise_group_set_string_primary,
-      exerciseGroupDictionary
-    );
+    useValidateExerciseGroupStringPrimary({
+      exerciseGroupString: exercise.exercise_group_set_string_primary,
+      exerciseGroupDictionary: exerciseGroupDictionary,
+    });
 
   const handleClickPrimaryAccordion = () => {
     setIsPrimaryAccordionExpanded(!isPrimaryAccordionExpanded);

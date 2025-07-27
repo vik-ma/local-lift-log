@@ -2,10 +2,15 @@ import { useMemo } from "react";
 import { ValidateExerciseGroupSetStringPrimary } from "../helpers";
 import { ExerciseGroupMap } from "../typings";
 
-export const useValidateExerciseGroupStringPrimary = (
-  exerciseGroupString: string,
-  exerciseGroupDictionary: ExerciseGroupMap
-) => {
+type UseValidateExerciseGroupStringPrimary = {
+  exerciseGroupString: string;
+  exerciseGroupDictionary: ExerciseGroupMap;
+};
+
+export const useValidateExerciseGroupStringPrimary = ({
+  exerciseGroupString,
+  exerciseGroupDictionary,
+}: UseValidateExerciseGroupStringPrimary) => {
   const isNewExerciseGroupSetStringValid = useMemo(() => {
     return ValidateExerciseGroupSetStringPrimary(
       exerciseGroupString,
