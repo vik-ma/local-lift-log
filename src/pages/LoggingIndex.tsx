@@ -70,7 +70,7 @@ export default function LoggingIndex() {
     measurementList;
 
   const { nameInputModal, handleReassignMeasurement, reassignMeasurement } =
-    useReassignMeasurement(measurementList);
+    useReassignMeasurement({ useMeasurementList: measurementList });
 
   const activeMeasurements = useBodyMeasurementsSettings({
     userSettings,

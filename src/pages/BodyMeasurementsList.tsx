@@ -115,7 +115,7 @@ export default function BodyMeasurementsList() {
   });
 
   const { nameInputModal, handleReassignMeasurement, reassignMeasurement } =
-    useReassignMeasurement(measurementList);
+    useReassignMeasurement({ useMeasurementList: measurementList });
 
   const {
     filterMap,

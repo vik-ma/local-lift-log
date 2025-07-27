@@ -8,9 +8,13 @@ import {
 import { useState } from "react";
 import { useDisclosure } from "@heroui/react";
 
-export const useReassignMeasurement = (
-  useMeasurementList: UseMeasurementListReturnType
-) => {
+type UseReassignMeasurementProps = {
+  useMeasurementList: UseMeasurementListReturnType;
+};
+
+export const useReassignMeasurement = ({
+  useMeasurementList,
+}: UseReassignMeasurementProps) => {
   const [measurementToReassign, setMeasurementToReassign] =
     useState<ReassignMeasurementsProps>();
 
