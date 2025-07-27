@@ -72,10 +72,10 @@ export default function LoggingIndex() {
   const { nameInputModal, handleReassignMeasurement, reassignMeasurement } =
     useReassignMeasurement(measurementList);
 
-  const activeMeasurements = useBodyMeasurementsSettings(
+  const activeMeasurements = useBodyMeasurementsSettings({
     userSettings,
-    setUserSettings
-  );
+    setUserSettings,
+  });
 
   const {
     setWeightUnit,

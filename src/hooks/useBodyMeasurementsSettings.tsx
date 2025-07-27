@@ -15,12 +15,17 @@ import {
 import toast from "react-hot-toast";
 import { useDisclosure } from "@heroui/react";
 
-export const useBodyMeasurementsSettings = (
-  userSettings: UserSettings | undefined,
+type UseBodyMeasurementsSettingsProps = {
+  userSettings: UserSettings | undefined;
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
-  >
-): UseBodyMeasurementsSettingsReturnType => {
+  >;
+};
+
+export const useBodyMeasurementsSettings = ({
+  userSettings,
+  setUserSettings,
+}: UseBodyMeasurementsSettingsProps): UseBodyMeasurementsSettingsReturnType => {
   const [activeMeasurements, setActiveMeasurements] = useState<Measurement[]>(
     []
   );

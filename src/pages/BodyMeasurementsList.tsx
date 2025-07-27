@@ -81,10 +81,10 @@ export default function BodyMeasurementsList() {
   const { getMeasurements, measurementMap, isMeasurementListLoaded } =
     measurementList;
 
-  const activeMeasurements = useBodyMeasurementsSettings(
+  const activeMeasurements = useBodyMeasurementsSettings({
     userSettings,
-    setUserSettings
-  );
+    setUserSettings,
+  });
 
   const deleteModal = useDisclosure();
   const bodyMeasurementsModal = useDisclosure();
