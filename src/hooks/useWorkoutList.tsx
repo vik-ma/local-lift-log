@@ -344,24 +344,26 @@ export const useWorkoutList = ({
 
     const activeCategory = newCategory ?? sortCategory;
 
+    const isAscending = true;
+
     switch (activeCategory) {
-      case "date-desc":
-        sortWorkoutsByDate([...workoutList], false);
-        break;
       case "date-asc":
-        sortWorkoutsByDate([...workoutList], true);
+        sortWorkoutsByDate([...workoutList], isAscending);
         break;
-      case "num-sets-desc":
-        sortWorkoutsByNumSets([...workoutList], false);
+      case "date-desc":
+        sortWorkoutsByDate([...workoutList], !isAscending);
         break;
       case "num-sets-asc":
-        sortWorkoutsByNumSets([...workoutList], true);
+        sortWorkoutsByNumSets([...workoutList], isAscending);
         break;
-      case "num-exercises-desc":
-        sortWorkoutsByNumExercises([...workoutList], false);
+      case "num-sets-desc":
+        sortWorkoutsByNumSets([...workoutList], !isAscending);
         break;
       case "num-exercises-asc":
-        sortWorkoutsByNumExercises([...workoutList], true);
+        sortWorkoutsByNumExercises([...workoutList], isAscending);
+        break;
+      case "num-exercises-desc":
+        sortWorkoutsByNumExercises([...workoutList], !isAscending);
         break;
       default:
         // Overwrite invalid categories
@@ -369,7 +371,7 @@ export const useWorkoutList = ({
         await store.current.set("sort-category-workouts", {
           value: "date-desc",
         });
-        sortWorkoutsByDate([...workoutList], false);
+        sortWorkoutsByDate([...workoutList], !isAscending);
         break;
     }
   };
