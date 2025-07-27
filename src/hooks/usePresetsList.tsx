@@ -557,7 +557,7 @@ export const usePresetsList = ({
     setOperatingPlateCollection(updatedPlateCollection);
   };
 
-  const presetsTypeString = usePresetsTypeString(presetsType);
+  const presetsTypeString = usePresetsTypeString({ presetsType });
 
   return {
     equipmentWeights,

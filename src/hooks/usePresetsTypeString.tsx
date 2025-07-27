@@ -2,7 +2,13 @@ import { useMemo } from "react";
 import { FormatPresetsTypeString } from "../helpers";
 import { PresetsType } from "../typings";
 
-export const usePresetsTypeString = (presetsType: PresetsType) => {
+type UsePresetsTypeStringProps = {
+  presetsType: PresetsType;
+};
+
+export const usePresetsTypeString = ({
+  presetsType,
+}: UsePresetsTypeStringProps) => {
   const presetsTypeString = useMemo(
     () => FormatPresetsTypeString(presetsType),
     [presetsType]
