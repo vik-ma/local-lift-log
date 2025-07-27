@@ -89,7 +89,11 @@ type WorkoutNumbers = {
   numSets: number;
 };
 
-export const useWorkoutActions = (isTemplate: boolean) => {
+type UseWorkoutActionsProps = {
+  isTemplate: boolean;
+};
+
+export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
   const [workoutTemplate, setWorkoutTemplate] = useState<WorkoutTemplate>(
     DefaultNewWorkoutTemplate()
   );

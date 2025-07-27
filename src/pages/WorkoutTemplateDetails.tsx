@@ -97,7 +97,7 @@ export default function WorkoutTemplateDetails() {
     mergeGroupedSets,
     setNotesModal,
     store,
-  } = useWorkoutActions(true);
+  } = useWorkoutActions({ isTemplate: true });
 
   const workoutTemplateList = useWorkoutTemplateList({
     store: store,

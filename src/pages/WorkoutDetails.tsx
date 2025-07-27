@@ -143,7 +143,7 @@ export default function WorkoutDetails() {
     userWeight,
     setNotesModal,
     store,
-  } = useWorkoutActions(false);
+  } = useWorkoutActions({ isTemplate: false });
 
   const workoutList = useWorkoutList({
     store: store,
