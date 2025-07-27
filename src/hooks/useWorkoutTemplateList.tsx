@@ -257,21 +257,29 @@ export const useWorkoutTemplateList = ({
 
     const activeCategory = newCategory ?? sortCategory;
 
+    const isAscending = true;
+
     switch (activeCategory) {
       case "name":
         sortWorkoutTemplatesByName([...workoutTemplateList]);
         break;
-      case "num-sets-desc":
-        sortWorkoutTemplatesByNumSets([...workoutTemplateList], false);
-        break;
       case "num-sets-asc":
-        sortWorkoutTemplatesByNumSets([...workoutTemplateList], true);
+        sortWorkoutTemplatesByNumSets([...workoutTemplateList], isAscending);
         break;
-      case "num-exercises-desc":
-        sortWorkoutTemplatesByNumExercises([...workoutTemplateList], false);
+      case "num-sets-desc":
+        sortWorkoutTemplatesByNumSets([...workoutTemplateList], !isAscending);
         break;
       case "num-exercises-asc":
-        sortWorkoutTemplatesByNumExercises([...workoutTemplateList], true);
+        sortWorkoutTemplatesByNumExercises(
+          [...workoutTemplateList],
+          isAscending
+        );
+        break;
+      case "num-exercises-desc":
+        sortWorkoutTemplatesByNumExercises(
+          [...workoutTemplateList],
+          !isAscending
+        );
         break;
       default:
         // Overwrite invalid categories
