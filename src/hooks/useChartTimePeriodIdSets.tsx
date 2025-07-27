@@ -1,10 +1,15 @@
 import { useMemo } from "react";
 import { ChartReferenceAreaItem } from "../typings";
 
-export const useChartTimePeriodIdSets = (
-  referenceAreas: ChartReferenceAreaItem[],
-  shownReferenceAreas: ChartReferenceAreaItem[]
-) => {
+type UseChartTimePeriodIdSetsProps = {
+  referenceAreas: ChartReferenceAreaItem[];
+  shownReferenceAreas: ChartReferenceAreaItem[];
+};
+
+export const useChartTimePeriodIdSets = ({
+  referenceAreas,
+  shownReferenceAreas,
+}: UseChartTimePeriodIdSetsProps) => {
   const timePeriodIdSet = useMemo(
     () =>
       new Set<string>(

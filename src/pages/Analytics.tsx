@@ -262,10 +262,10 @@ export default function Analytics() {
 
   const disabledExerciseGroups = useRef<string[]>([]);
 
-  const { timePeriodIdSet, shownTimePeriodIdSet } = useChartTimePeriodIdSets(
+  const { timePeriodIdSet, shownTimePeriodIdSet } = useChartTimePeriodIdSets({
     referenceAreas,
-    shownReferenceAreas
-  );
+    shownReferenceAreas,
+  });
 
   const timePeriodList = useTimePeriodList({ store: store });
 
