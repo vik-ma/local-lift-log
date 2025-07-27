@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import {
   TimePeriodListFilterMapKey,
   UseDisclosureReturnType,
-  UseFilterMinAndMaxValueInputsArgs,
+  UseFilterMinAndMaxValueInputsProps,
   UseTimePeriodListFiltersReturnType,
 } from "../typings";
 import { CalendarDate } from "@heroui/react";
@@ -46,14 +46,15 @@ export const useTimePeriodListFilters =
       filterMaxEndDate
     );
 
-    const filterMinAndMaxValueInputsArgs: UseFilterMinAndMaxValueInputsArgs = {
-      minValue: 1,
-      maxValue: undefined,
-      isIntegerOnly: true,
-    };
+    const filterMinAndMaxValueInputsProps: UseFilterMinAndMaxValueInputsProps =
+      {
+        minValue: 1,
+        maxValue: undefined,
+        isIntegerOnly: true,
+      };
 
     const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
-      filterMinAndMaxValueInputsArgs
+      filterMinAndMaxValueInputsProps
     );
 
     const handleFilterSaveButton = (

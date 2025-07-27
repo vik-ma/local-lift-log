@@ -6,7 +6,7 @@ import {
   RoutineSortCategory,
   StoreRef,
   UseExerciseListReturnType,
-  UseFilterMinAndMaxValueInputsArgs,
+  UseFilterMinAndMaxValueInputsProps,
   UseRoutineListReturnType,
   UseWorkoutTemplateListReturnType,
   WorkoutTemplateSortCategory,
@@ -55,7 +55,7 @@ export const useRoutineList = ({
     getWorkoutTemplates,
   } = useWorkoutTemplateList;
 
-  const filterMinAndMaxValueInputsArgs: UseFilterMinAndMaxValueInputsArgs = {
+  const filterMinAndMaxValueInputsProps: UseFilterMinAndMaxValueInputsProps = {
     minValue: 2,
     maxValue: 14,
     isIntegerOnly: true,
@@ -64,7 +64,7 @@ export const useRoutineList = ({
   const listFilters = useListFilters({
     useExerciseList: useExerciseList,
     workoutTemplateMap: workoutTemplateMap.current,
-    useFilterMinAndMaxValueInputsArgs: filterMinAndMaxValueInputsArgs,
+    UseFilterMinAndMaxValueInputsProps: filterMinAndMaxValueInputsProps,
   });
 
   const {

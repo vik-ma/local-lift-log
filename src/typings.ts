@@ -948,7 +948,7 @@ export type UseTimePeriodListFiltersReturnType = {
   filterMinAndMaxValueInputs: UseFilterMinAndMaxValueInputsReturnType;
 };
 
-export type UseFilterMinAndMaxValueInputsArgs = {
+export type UseFilterMinAndMaxValueInputsProps = {
   minValue?: number;
   maxValue?: number;
   isIntegerOnly?: boolean;

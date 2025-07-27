@@ -8,7 +8,7 @@ import {
   RoutineMap,
   UseDisclosureReturnType,
   UseExerciseListReturnType,
-  UseFilterMinAndMaxValueInputsArgs,
+  UseFilterMinAndMaxValueInputsProps,
   UseFilterMinAndMaxValueInputsReturnType,
   UseListFiltersReturnType,
   WorkoutTemplate,
@@ -28,7 +28,7 @@ type UseListFiltersProps = {
   routineMap?: RoutineMap;
   measurementMap?: MeasurementMap;
   workoutTemplateMap?: WorkoutTemplateMap;
-  useFilterMinAndMaxValueInputsArgs?: UseFilterMinAndMaxValueInputsArgs;
+  UseFilterMinAndMaxValueInputsProps?: UseFilterMinAndMaxValueInputsProps;
   filterMinAndMaxValueInputsSecondary?: UseFilterMinAndMaxValueInputsReturnType;
 };
 
@@ -37,7 +37,7 @@ export const useListFilters = ({
   routineMap,
   measurementMap,
   workoutTemplateMap,
-  useFilterMinAndMaxValueInputsArgs,
+  UseFilterMinAndMaxValueInputsProps,
   filterMinAndMaxValueInputsSecondary,
 }: UseListFiltersProps = {}): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
@@ -112,7 +112,7 @@ export const useListFilters = ({
   >(null);
 
   const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
-    useFilterMinAndMaxValueInputsArgs
+    UseFilterMinAndMaxValueInputsProps
   );
 
   const [includeNullInMaxValues, setIncludeNullInMaxValues] =

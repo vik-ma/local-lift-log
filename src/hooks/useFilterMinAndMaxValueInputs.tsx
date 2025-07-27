@@ -6,14 +6,14 @@ import {
 } from "../helpers";
 import {
   UseFilterMinAndMaxValueInputsReturnType,
-  UseFilterMinAndMaxValueInputsArgs,
+  UseFilterMinAndMaxValueInputsProps,
 } from "../typings";
 
 export const useFilterMinAndMaxValueInputs = ({
   minValue,
   maxValue,
   isIntegerOnly,
-}: UseFilterMinAndMaxValueInputsArgs = {}): UseFilterMinAndMaxValueInputsReturnType => {
+}: UseFilterMinAndMaxValueInputsProps = {}): UseFilterMinAndMaxValueInputsReturnType => {
   const [minInput, setMinInput] = useState<string>("");
   const [maxInput, setMaxInput] = useState<string>("");
 
