@@ -806,11 +806,14 @@ export default function Presets() {
                   className="text-lg font-medium"
                   size="lg"
                   color="primary"
-                  onPress={
-                    presetsType === "equipment"
-                      ? () => createDefaultEquipmentWeights(true)
-                      : () => createDefaultDistances(true)
-                  }
+                  onPress={() => {
+                    const useMetricUnits = true;
+                    if (presetsType === "equipment") {
+                      createDefaultEquipmentWeights(useMetricUnits);
+                    } else {
+                      createDefaultDistances(useMetricUnits);
+                    }
+                  }}
                 >
                   Metric
                 </Button>
@@ -818,11 +821,14 @@ export default function Presets() {
                   className="text-lg font-medium"
                   size="lg"
                   color="primary"
-                  onPress={
-                    presetsType === "equipment"
-                      ? () => createDefaultEquipmentWeights(false)
-                      : () => createDefaultDistances(false)
-                  }
+                  onPress={() => {
+                    const useMetricUnits = false;
+                    if (presetsType === "equipment") {
+                      createDefaultEquipmentWeights(useMetricUnits);
+                    } else {
+                      createDefaultDistances(useMetricUnits);
+                    }
+                  }}
                 >
                   Imperial
                 </Button>
