@@ -354,7 +354,8 @@ export default function MeasurementList() {
                   size="lg"
                   color="primary"
                   onPress={() => {
-                    restoreDefaultMeasurements(true);
+                    const useMetricUnits = true;
+                    restoreDefaultMeasurements(useMetricUnits);
                   }}
                 >
                   Metric
@@ -364,7 +365,8 @@ export default function MeasurementList() {
                   size="lg"
                   color="primary"
                   onPress={() => {
-                    restoreDefaultMeasurements(false);
+                    const useMetricUnits = false;
+                    restoreDefaultMeasurements(useMetricUnits);
                   }}
                 >
                   Imperial
