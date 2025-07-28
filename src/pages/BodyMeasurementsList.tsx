@@ -354,29 +354,31 @@ export default function BodyMeasurementsList() {
 
     const activeCategory = newCategory ?? sortCategory;
 
+    const isAscending = true;
+
     switch (activeCategory) {
-      case "date-desc":
-        sortBodyMeasurementsByDate([...bodyMeasurementsList], false);
-        break;
       case "date-asc":
-        sortBodyMeasurementsByDate([...bodyMeasurementsList], true);
+        sortBodyMeasurementsByDate([...bodyMeasurementsList], isAscending);
         break;
-      case "weight-desc":
-        sortBodyMeasurementsByWeight([...bodyMeasurementsList], false);
+      case "date-desc":
+        sortBodyMeasurementsByDate([...bodyMeasurementsList], !isAscending);
         break;
       case "weight-asc":
-        sortBodyMeasurementsByWeight([...bodyMeasurementsList], true);
+        sortBodyMeasurementsByWeight([...bodyMeasurementsList], isAscending);
         break;
-      case "bf-desc":
-        sortBodyMeasurementsByBodyFatPercentage(
-          [...bodyMeasurementsList],
-          false
-        );
+      case "weight-desc":
+        sortBodyMeasurementsByWeight([...bodyMeasurementsList], !isAscending);
         break;
       case "bf-asc":
         sortBodyMeasurementsByBodyFatPercentage(
           [...bodyMeasurementsList],
-          true
+          isAscending
+        );
+        break;
+      case "bf-desc":
+        sortBodyMeasurementsByBodyFatPercentage(
+          [...bodyMeasurementsList],
+          !isAscending
         );
         break;
       default:
@@ -385,7 +387,7 @@ export default function BodyMeasurementsList() {
         await store.current.set("sort-category-body-measurements", {
           value: "date-desc",
         });
-        sortBodyMeasurementsByDate([...bodyMeasurementsList], false);
+        sortBodyMeasurementsByDate([...bodyMeasurementsList], !isAscending);
         break;
     }
   };
