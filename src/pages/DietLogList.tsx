@@ -170,11 +170,11 @@ export default function DietLogList() {
     }
   };
 
-  const handleAddDietLogEntry = (isRange: boolean) => {
+  const handleAddDietLogEntry = (dietLogDateEntryType: "range" | "custom") => {
     if (operationType !== "add") {
       setOperationType("add");
       setOperatingDietLog(defaultDietLog);
-      setDateEntryType(isRange ? "range" : "custom");
+      setDateEntryType(dietLogDateEntryType);
     }
 
     dietLogModal.onOpen();
@@ -233,7 +233,7 @@ export default function DietLogList() {
                   <Button
                     color="secondary"
                     variant="flat"
-                    onPress={() => handleAddDietLogEntry(false)}
+                    onPress={() => handleAddDietLogEntry("custom")}
                     size="sm"
                   >
                     New Diet Log Entry
@@ -241,7 +241,7 @@ export default function DietLogList() {
                   <Button
                     color="secondary"
                     variant="flat"
-                    onPress={() => handleAddDietLogEntry(true)}
+                    onPress={() => handleAddDietLogEntry("range")}
                     size="sm"
                   >
                     Add Multiple
