@@ -624,9 +624,11 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     } else if (key === "reassign-exercise") {
       handleChangeExerciseMultiset(set, groupedSet, index, key);
     } else if (key === "unset-warmup") {
-      handleChangeWarmupForSet(set, index, groupedSet, false);
+      const newValueIsWarmup = false;
+      handleChangeWarmupForSet(set, index, groupedSet, newValueIsWarmup);
     } else if (key === "set-warmup") {
-      handleChangeWarmupForSet(set, index, groupedSet, true);
+      const newValueIsWarmup = true;
+      handleChangeWarmupForSet(set, index, groupedSet, newValueIsWarmup);
     } else if (key === "view-notes") {
       openSetNotesModal(set, index, groupedSet);
     }
