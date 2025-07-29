@@ -737,6 +737,14 @@ export default function Presets() {
     setSelectedTab(key);
   };
 
+  const handleSetUnitsModalChoice = (useMetricUnits: boolean) => {
+    if (presetsType === "equipment") {
+      createDefaultEquipmentWeights(useMetricUnits);
+    } else {
+      createDefaultDistances(useMetricUnits);
+    }
+  };
+
   if (userSettings === undefined) return <LoadingSpinner />;
 
   return (
@@ -808,11 +816,7 @@ export default function Presets() {
                   color="primary"
                   onPress={() => {
                     const useMetricUnits = true;
-                    if (presetsType === "equipment") {
-                      createDefaultEquipmentWeights(useMetricUnits);
-                    } else {
-                      createDefaultDistances(useMetricUnits);
-                    }
+                    handleSetUnitsModalChoice(useMetricUnits);
                   }}
                 >
                   Metric
@@ -823,11 +827,7 @@ export default function Presets() {
                   color="primary"
                   onPress={() => {
                     const useMetricUnits = false;
-                    if (presetsType === "equipment") {
-                      createDefaultEquipmentWeights(useMetricUnits);
-                    } else {
-                      createDefaultDistances(useMetricUnits);
-                    }
+                    handleSetUnitsModalChoice(useMetricUnits);
                   }}
                 >
                   Imperial
