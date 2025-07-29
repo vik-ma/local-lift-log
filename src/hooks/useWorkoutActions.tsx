@@ -1164,12 +1164,16 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
       set !== undefined
     ) {
       setOperatingGroupedSet(groupedSet);
+
+      const modalIsOpen = false;
+
       multisetActions.handleChangeExercise(
         set,
         groupedSet.multiset,
-        false,
+        modalIsOpen,
         "reassign-exercise"
       );
+
       return;
     }
 
