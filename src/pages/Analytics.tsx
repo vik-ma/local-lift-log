@@ -3513,49 +3513,73 @@ export default function Analytics() {
                 >
                   <DropdownItem
                     key="measurement"
-                    onPress={() => handleLoadMeasurementClick(true)}
+                    onPress={() => {
+                      const loadPrimary = true;
+                      handleLoadMeasurementClick(loadPrimary);
+                    }}
                   >
                     Measurement
                   </DropdownItem>
                   <DropdownItem
                     key="body_weight"
-                    onPress={() => loadBodyMeasurementsWeight(weightUnit, true)}
+                    onPress={() => {
+                      const loadPrimary = true;
+                      loadBodyMeasurementsWeight(weightUnit, loadPrimary);
+                    }}
                   >
                     Body Weights
                   </DropdownItem>
                   <DropdownItem
                     key="body_fat_percentage"
-                    onPress={() => loadBodyMeasurementsBodyFat(true)}
+                    onPress={() => {
+                      const loadPrimary = true;
+                      loadBodyMeasurementsBodyFat(loadPrimary);
+                    }}
                   >
                     Body Fat Percentages
                   </DropdownItem>
                   <DropdownItem
                     key="calories"
-                    onPress={() => loadDietLogsCalories(true)}
+                    onPress={() => {
+                      const loadPrimary = true;
+                      loadDietLogsCalories(loadPrimary);
+                    }}
                   >
                     Calories
                   </DropdownItem>
                   <DropdownItem
                     key="fat"
-                    onPress={() => loadDietLogsMacros(true, "fat")}
+                    onPress={() => {
+                      const loadPrimary = true;
+                      loadDietLogsMacros(loadPrimary, "fat");
+                    }}
                   >
                     Fat
                   </DropdownItem>
                   <DropdownItem
                     key="carbs"
-                    onPress={() => loadDietLogsMacros(true, "carbs")}
+                    onPress={() => {
+                      const loadPrimary = true;
+                      loadDietLogsMacros(loadPrimary, "carbs");
+                    }}
                   >
                     Carbs
                   </DropdownItem>
                   <DropdownItem
                     key="protein"
-                    onPress={() => loadDietLogsMacros(true, "protein")}
+                    onPress={() => {
+                      const loadPrimary = true;
+                      loadDietLogsMacros(loadPrimary, "protein");
+                    }}
                   >
                     Protein
                   </DropdownItem>
                   <DropdownItem
                     key="exercise-group"
-                    onPress={() => handleLoadNumSetsForExerciseGroupClick(true)}
+                    onPress={() => {
+                      const loadPrimary = true;
+                      handleLoadNumSetsForExerciseGroupClick(loadPrimary);
+                    }}
                   >
                     Sets Per Exercise Group
                   </DropdownItem>
@@ -3578,53 +3602,73 @@ export default function Analytics() {
                 >
                   <DropdownItem
                     key="measurement"
-                    onPress={() => handleLoadMeasurementClick(false)}
+                    onPress={() => {
+                      const loadPrimary = false;
+                      handleLoadMeasurementClick(loadPrimary);
+                    }}
                   >
                     Measurement
                   </DropdownItem>
                   <DropdownItem
                     key="body_weight"
-                    onPress={() =>
-                      loadBodyMeasurementsWeight(weightUnit, false)
-                    }
+                    onPress={() => {
+                      const loadPrimary = false;
+                      loadBodyMeasurementsWeight(weightUnit, loadPrimary);
+                    }}
                   >
                     Body Weights
                   </DropdownItem>
                   <DropdownItem
                     key="body_fat_percentage"
-                    onPress={() => loadBodyMeasurementsBodyFat(false)}
+                    onPress={() => {
+                      const loadPrimary = false;
+                      loadBodyMeasurementsBodyFat(loadPrimary);
+                    }}
                   >
                     Body Fat Percentages
                   </DropdownItem>
                   <DropdownItem
                     key="calories"
-                    onPress={() => loadDietLogsCalories(false)}
+                    onPress={() => {
+                      const loadPrimary = false;
+                      loadDietLogsCalories(loadPrimary);
+                    }}
                   >
                     Calories
                   </DropdownItem>
                   <DropdownItem
                     key="fat"
-                    onPress={() => loadDietLogsMacros(false, "fat")}
+                    onPress={() => {
+                      const loadPrimary = false;
+                      loadDietLogsMacros(loadPrimary, "fat");
+                    }}
                   >
                     Fat
                   </DropdownItem>
                   <DropdownItem
                     key="carbs"
-                    onPress={() => loadDietLogsMacros(false, "carbs")}
+                    onPress={() => {
+                      const loadPrimary = false;
+                      loadDietLogsMacros(loadPrimary, "carbs");
+                    }}
                   >
                     Carbs
                   </DropdownItem>
                   <DropdownItem
                     key="protein"
-                    onPress={() => loadDietLogsMacros(false, "protein")}
+                    onPress={() => {
+                      const loadPrimary = false;
+                      loadDietLogsMacros(loadPrimary, "protein");
+                    }}
                   >
                     Protein
                   </DropdownItem>
                   <DropdownItem
                     key="exercise-group"
-                    onPress={() =>
-                      handleLoadNumSetsForExerciseGroupClick(false)
-                    }
+                    onPress={() => {
+                      const loadPrimary = false;
+                      handleLoadNumSetsForExerciseGroupClick(loadPrimary);
+                    }}
                   >
                     Sets Per Exercise Group
                   </DropdownItem>
