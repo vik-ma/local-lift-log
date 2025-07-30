@@ -82,13 +82,19 @@ export const OldSetWarningModal = ({
               <div className="flex gap-2">
                 <Button
                   color="primary"
-                  onPress={() => handleChoiceButton(true)}
+                  onPress={() => {
+                    const saveOnToday = true;
+                    handleChoiceButton(saveOnToday);
+                  }}
                 >
                   Today
                 </Button>
                 <Button
                   color="primary"
-                  onPress={() => handleChoiceButton(false)}
+                  onPress={() => {
+                    const saveOnToday = false;
+                    handleChoiceButton(saveOnToday);
+                  }}
                 >
                   {workout.formattedDate}
                 </Button>
