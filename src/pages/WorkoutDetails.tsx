@@ -250,10 +250,12 @@ export default function WorkoutDetails() {
           );
 
         if (shouldUpdateExerciseOrder) {
+          const isTemplate = false;
+
           const { success, exerciseOrderString } = await UpdateExerciseOrder(
             groupedSetList,
             Number(id),
-            false
+            isTemplate
           );
 
           if (!success) return;
@@ -352,9 +354,11 @@ export default function WorkoutDetails() {
   ) => {
     if (workout.id === 0) return;
 
+    const isTemplate = false;
+
     let oldWorkoutExerciseOrder = await GetExerciseOrder(
       workoutToCopy.id,
-      false
+      isTemplate
     );
 
     if (oldWorkoutExerciseOrder === undefined) return;
