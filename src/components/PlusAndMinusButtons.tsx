@@ -33,9 +33,10 @@ export const PlusAndMinusButtons = ({
         isIconOnly
         variant="flat"
         size="sm"
-        onPress={() =>
-          updateValue(trackingValue, false, calculationItem, index)
-        }
+        onPress={() => {
+          const isIncrease = false;
+          updateValue(trackingValue, isIncrease, calculationItem, index);
+        }}
         isDisabled={isDecreaseDisabled}
       >
         <MinusIcon />
@@ -45,7 +46,10 @@ export const PlusAndMinusButtons = ({
         isIconOnly
         variant="flat"
         size="sm"
-        onPress={() => updateValue(trackingValue, true, calculationItem, index)}
+        onPress={() => {
+          const isIncrease = true;
+          updateValue(trackingValue, isIncrease, calculationItem, index);
+        }}
         isDisabled={isIncreaseDisabled}
       >
         <PlusIcon />
