@@ -136,7 +136,9 @@ export const useDietLogList = ({
   ]);
 
   const getDietLogs = async (category: DietLogSortCategory) => {
-    const result = await GetAllDietLogs(false);
+    const isAscending = false;
+
+    const result = await GetAllDietLogs(isAscending);
 
     const dietLogs: DietLog[] = [];
     const dietLogMap = new Map<string, DietLog>();

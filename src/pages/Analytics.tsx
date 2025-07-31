@@ -397,7 +397,9 @@ export default function Analytics() {
     if (loadedCharts.current.has("calories") || userSettings === undefined)
       return;
 
-    const dietLogs = await GetAllDietLogs(true);
+    const isAscending = true;
+
+    const dietLogs = await GetAllDietLogs(isAscending);
 
     if (dietLogs.length === 0) {
       loadedCharts.current.add("calories");
@@ -492,7 +494,9 @@ export default function Analytics() {
     if (loadedCharts.current.has(macroType) || userSettings === undefined)
       return;
 
-    const dietLogs = await GetAllDietLogs(true);
+    const isAscending = true;
+
+    const dietLogs = await GetAllDietLogs(isAscending);
 
     if (dietLogs.length === 0) {
       loadedCharts.current.add("calories");
