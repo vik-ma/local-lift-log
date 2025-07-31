@@ -6,9 +6,11 @@ export const ValidateAndModifyTimeInputBehavior = (
 ) => {
   const timeInputMap = TimeInputMap();
 
-  const validTimeInputBehaviorsHhmmss = ValidTimeInputBehaviors(true);
+  const isHhmmss = true;
 
-  const validTimeInputBehaviorsMmss = ValidTimeInputBehaviors(false);
+  const validTimeInputBehaviorsHhmmss = ValidTimeInputBehaviors(isHhmmss);
+
+  const validTimeInputBehaviorsMmss = ValidTimeInputBehaviors(!isHhmmss);
 
   if (!timeInputMap.has(userSettings.default_time_input))
     userSettings.default_time_input = timeInputMap.keys().next().value!;
