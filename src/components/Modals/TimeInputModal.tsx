@@ -50,7 +50,9 @@ export const TimeInputModal = ({
   useEffect(() => {
     if (value === null || !ValidateISODateString(value)) return;
 
-    const currentTimeString = ConvertDateStringToTimeString(value, true);
+    const is24hFormat = true;
+
+    const currentTimeString = ConvertDateStringToTimeString(value, is24hFormat);
     const parsedCurrentTime = parseTime(currentTimeString);
 
     const currentDateString = ConvertDateToYmdString(new Date(value));

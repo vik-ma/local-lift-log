@@ -24,7 +24,9 @@ export const GetLatestUserWeight = async () => {
 
     if (userWeight === undefined) return undefined;
 
-    userWeight.formattedDate = FormatDateString(userWeight.date, true);
+    const doNotIncludeDay = true;
+
+    userWeight.formattedDate = FormatDateString(userWeight.date, doNotIncludeDay);
 
     return userWeight;
   } catch (error) {
