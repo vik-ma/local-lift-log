@@ -245,8 +245,11 @@ export const SetValueInputs = ({
       case "rir": {
         if (setInputsInvalidityMap.rir) return;
 
+        const startAtMinusOne = true;
+
         const newValue =
-          ConvertInputStringToNumber(updatedSetInputs.rir, true) + modifier;
+          ConvertInputStringToNumber(updatedSetInputs.rir, startAtMinusOne) +
+          modifier;
 
         updatedSet.rir = newValue;
         updatedSetInputs.rir = newValue === -1 ? "" : newValue.toString();

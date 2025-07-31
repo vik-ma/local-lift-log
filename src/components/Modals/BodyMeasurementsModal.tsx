@@ -272,9 +272,11 @@ export const BodyMeasurementsModal = ({
       ? 0
       : ConvertNumberToTwoDecimals(Number(weightInput));
 
+    const convertToTwoDecimals = true;
+
     const bodyFatPercentage = ConvertInputStringToNumberOrNull(
       bodyFatPercentageInput,
-      true
+      convertToTwoDecimals
     );
 
     const comment = ConvertEmptyStringToNull(commentInput);
