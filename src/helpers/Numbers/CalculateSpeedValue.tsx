@@ -6,9 +6,12 @@ export const CalculateSpeedValue = (
   timeInSeconds: number,
   speedUnit: string
 ) => {
+  const minValue = 0;
+  const doNotAllowMinValue = true;
+
   if (
-    !IsNumberValid(distance, 0, true) ||
-    !IsNumberValid(timeInSeconds, 0, true)
+    !IsNumberValid(distance, minValue, doNotAllowMinValue) ||
+    !IsNumberValid(timeInSeconds, minValue, doNotAllowMinValue)
   )
     return 0;
 

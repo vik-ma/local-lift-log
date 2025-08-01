@@ -23,7 +23,10 @@ export const CalculateBodyFatPercentage = (
       .map((n) => Math.round(parseFloat(n) * 100))
       .reduce((a, b) => a + b, 0) / 100;
 
-  if (!IsNumberValid(sumOfMeasurements, 0, true)) return 0;
+  const minValue = 0;
+  const doNotAllowMinValue = true;
+
+  if (!IsNumberValid(sumOfMeasurements, minValue, doNotAllowMinValue)) return 0;
 
   const logSum = log10(sumOfMeasurements);
 

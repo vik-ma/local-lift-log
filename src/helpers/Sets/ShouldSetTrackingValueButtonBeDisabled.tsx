@@ -14,7 +14,16 @@ export const ShouldSetTrackingValueButtonBeDisabled = (
 
   const startAtMinusOne = minValue === -1;
 
-  const validatedIncrement = IsNumberValid(increment, 0, true) ? increment : 1;
+  const incrementMinValue = 0;
+  const doNotAllowMinValue = true;
+
+  const validatedIncrement = IsNumberValid(
+    increment,
+    incrementMinValue,
+    doNotAllowMinValue
+  )
+    ? increment
+    : 1;
 
   const value =
     ConvertInputStringToNumber(setTrackingString, startAtMinusOne) +

@@ -5,7 +5,10 @@ export const ConvertPaceValue = (
   currentUnit: string,
   newUnit: string
 ) => {
-  if (!IsNumberValid(value, 0, true)) return 0;
+  const minValue = 0;
+  const doNotAllowMinValue = true;
+
+  if (!IsNumberValid(value, minValue, doNotAllowMinValue)) return 0;
 
   if (currentUnit === newUnit) return value;
 

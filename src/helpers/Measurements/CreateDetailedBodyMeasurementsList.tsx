@@ -36,9 +36,18 @@ export const CreateDetailedBodyMeasurementsList = (
 
     if (formattedDate === "Invalid Date") continue;
 
+    const minValue = 0;
+    const doNotAllowMinValue = true;
+    const maxValue = 100;
+
     if (
       bodyMeasurements.body_fat_percentage !== null &&
-      !IsNumberValid(bodyMeasurements.body_fat_percentage, 0, true, 100)
+      !IsNumberValid(
+        bodyMeasurements.body_fat_percentage,
+        minValue,
+        doNotAllowMinValue,
+        maxValue
+      )
     ) {
       bodyMeasurements.body_fat_percentage = null;
     }
