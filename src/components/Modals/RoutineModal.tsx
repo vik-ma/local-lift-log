@@ -74,7 +74,12 @@ export const RoutineModal = ({
 
     const numDays = Number(e.target.value);
 
-    if (!IsNumberValidInteger(numDays, 2, false, 14)) return;
+    const minValue = 2;
+    const doNotAllowMinValue = false;
+    const maxValue = 14;
+
+    if (!IsNumberValidInteger(numDays, minValue, doNotAllowMinValue, maxValue))
+      return;
 
     setRoutine((prev) => ({ ...prev, num_days_in_schedule: numDays }));
   };

@@ -9,7 +9,9 @@ type ValidateExerciseOrderEntryReturnType = {
 export const ValidateExerciseOrderEntry = (
   entry: string
 ): ValidateExerciseOrderEntryReturnType => {
-  if (IsNumberValidInteger(Number(entry), 1)) {
+  const idMinValue = 1;
+
+  if (IsNumberValidInteger(Number(entry), idMinValue)) {
     return { isValid: true, isMultiset: false, id: Number(entry) };
   }
 
@@ -17,7 +19,7 @@ export const ValidateExerciseOrderEntry = (
 
   if (regex.test(entry)) {
     const id = Number(entry.slice(1));
-    if (IsNumberValidInteger(id, 1))
+    if (IsNumberValidInteger(id, idMinValue))
       return { isValid: true, isMultiset: true, id: id };
   }
 

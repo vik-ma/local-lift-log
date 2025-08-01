@@ -30,7 +30,9 @@ export const GetMeasurementListWithNumberOfBodyMeasurementsEntries = async (
       for (const measurementId of measurementIds) {
         const id = Number(measurementId);
 
-        if (!IsNumberValidInteger(id, 1)) continue;
+        const idMinValue = 1;
+
+        if (!IsNumberValidInteger(id, idMinValue)) continue;
 
         if (measurementCountMap.has(id)) {
           const newValue = measurementCountMap.get(id)! + 1;

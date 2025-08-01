@@ -280,14 +280,19 @@ export default function RoutineDetails() {
   };
 
   const addWorkoutTemplateToDay = async (workoutTemplate: WorkoutTemplate) => {
+    const idMinValue = 1;
+    const dayMinValue = 0;
+    const doNotAllowMinValue = false;
+    const dayMaxValue = routine.num_days_in_schedule - 1;
+
     if (
-      !IsNumberValidInteger(workoutTemplate.id, 1) ||
+      !IsNumberValidInteger(workoutTemplate.id, idMinValue) ||
       routine.schedule_type === 2 ||
       !IsNumberValidInteger(
         selectedDay,
-        0,
-        false,
-        routine.num_days_in_schedule - 1
+        dayMinValue,
+        doNotAllowMinValue,
+        dayMaxValue
       )
     )
       return;

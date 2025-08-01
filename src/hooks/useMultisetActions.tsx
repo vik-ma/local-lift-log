@@ -242,8 +242,10 @@ export const useMultisetActions = ({
   };
 
   const handleInsertSetCutoff = (multiset: Multiset, index: number) => {
+    const idMinValue = 1;
+
     if (
-      !IsNumberValidInteger(index, 1) ||
+      !IsNumberValidInteger(index, idMinValue) ||
       index >= multiset.setList.length ||
       multiset.setListIndexCutoffs === undefined ||
       multiset.setListIndexCutoffs.has(index)

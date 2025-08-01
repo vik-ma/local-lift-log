@@ -5,7 +5,9 @@ import { IsNumberValidInteger } from "..";
 export const GetMultisetWithId = async (
   multisetId: number
 ): Promise<Multiset | undefined> => {
-  if (!IsNumberValidInteger(multisetId, 1)) return undefined;
+  const idMinValue = 1;
+
+  if (!IsNumberValidInteger(multisetId, idMinValue)) return undefined;
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);

@@ -20,8 +20,10 @@ export const CreateValidBodyMeasurementsValues = (
   const doNotAllowMinValue = true;
 
   for (const [id, values] of Object.entries(bodyMeasurementsValues)) {
+    const idMinValue = 1;
+
     if (
-      !IsNumberValidInteger(Number(id), 1) ||
+      !IsNumberValidInteger(Number(id), idMinValue) ||
       !IsNumberValid(values.value, minValue, doNotAllowMinValue)
     )
       continue;

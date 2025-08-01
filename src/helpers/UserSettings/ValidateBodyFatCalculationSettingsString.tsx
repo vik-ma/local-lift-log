@@ -20,7 +20,12 @@ export const ValidateBodyFatCalculationSettingsString = (
   const seenMeasurementIds = new Set<string>();
 
   for (const id of measurementIds) {
-    if (!IsNumberValidInteger(Number(id), 1) || seenMeasurementIds.has(id))
+    const idMinValue = 1;
+
+    if (
+      !IsNumberValidInteger(Number(id), idMinValue) ||
+      seenMeasurementIds.has(id)
+    )
       return false;
     seenMeasurementIds.add(id);
   }

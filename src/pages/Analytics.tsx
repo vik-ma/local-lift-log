@@ -426,7 +426,11 @@ export default function Analytics() {
     const areCommentsAlreadyLoaded = areAnyDietLogsLoaded();
 
     for (const dietLog of dietLogs) {
-      if (!IsNumberValidInteger(dietLog.calories, 0, true)) continue;
+      const minValue = 0;
+      const doNotAllowMinValue = true;
+
+      if (!IsNumberValidInteger(dietLog.calories, minValue, doNotAllowMinValue))
+        continue;
 
       const date = FormatDateToShortString(
         new Date(dietLog.date),

@@ -1,7 +1,12 @@
 import { IsNumberValidInteger } from "..";
 
 export const GetValidatedRoutineScheduleItemDay = (day: number) => {
-  if (IsNumberValidInteger(day, 0, false, 13)) return day;
+  const minValue = 0;
+  const doNotAllowMinValue = false;
+  const maxValue = 13;
+
+  if (IsNumberValidInteger(day, minValue, doNotAllowMinValue, maxValue))
+    return day;
 
   return 0;
 };

@@ -15,7 +15,10 @@ export const CreateDefaultPlateCollections = async (
   handleId: number,
   isMetric: boolean
 ) => {
-  if (!IsNumberValidInteger(handleId, 1) || weightIdList.length < 1) return;
+  const idMinValue = 1;
+
+  if (!IsNumberValidInteger(handleId, idMinValue) || weightIdList.length < 1)
+    return;
 
   const defaultNumAvailable = 12;
   const defaultNumHandles = 1;
