@@ -40,24 +40,47 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
       return LocaleMap().has(value as string);
     case "clock_style":
       return ValidClockStyles().includes(value as string);
-    case "time_input_behavior_hhmmss":
-      return ValidTimeInputBehaviors(true).has(value as string);
-    case "time_input_behavior_mmss":
-      return ValidTimeInputBehaviors(false).has(value as string);
-    case "default_increment_weight":
-      return IsNumberValid(value as number, 0, true);
-    case "default_increment_distance":
-      return IsNumberValid(value as number, 0, true);
-    case "default_increment_time":
-      return IsNumberValidInteger(value as number, 0, true);
-    case "default_increment_resistance_level":
-      return IsNumberValid(value as number, 0, true);
+    case "time_input_behavior_hhmmss": {
+      const isHhmmss = true;
+      return ValidTimeInputBehaviors(isHhmmss).has(value as string);
+    }
+    case "time_input_behavior_mmss": {
+      const isHhmmss = false;
+      return ValidTimeInputBehaviors(isHhmmss).has(value as string);
+    }
+    case "default_increment_weight": {
+      const minValue = 0;
+      const doNotAllowMinValue = true;
+      return IsNumberValid(value as number, minValue, doNotAllowMinValue);
+    }
+    case "default_increment_distance": {
+      const minValue = 0;
+      const doNotAllowMinValue = true;
+      return IsNumberValid(value as number, minValue, doNotAllowMinValue);
+    }
+    case "default_increment_time": {
+      const minValue = 0;
+      const doNotAllowMinValue = true;
+      return IsNumberValidInteger(
+        value as number,
+        minValue,
+        doNotAllowMinValue
+      );
+    }
+    case "default_increment_resistance_level": {
+      const minValue = 0;
+      const doNotAllowMinValue = true;
+      return IsNumberValid(value as number, minValue, doNotAllowMinValue);
+    }
     case "save_calculation_string":
       return IsNumberValidBinary(value as number);
     case "show_calculation_buttons":
       return IsNumberValidBinary(value as number);
-    case "default_increment_calculation_multiplier":
-      return IsNumberValid(value as number, 0, true);
+    case "default_increment_calculation_multiplier": {
+      const minValue = 0;
+      const doNotAllowMinValue = true;
+      return IsNumberValid(value as number, minValue, doNotAllowMinValue);
+    }
     case "default_calculation_tab":
       return ValidCalculationModalTabs().includes(value as string);
     case "shown_workout_properties":
