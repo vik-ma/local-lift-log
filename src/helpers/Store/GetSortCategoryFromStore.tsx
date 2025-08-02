@@ -4,7 +4,7 @@ import {
   ListCategoryStoreKey,
 } from "../../typings";
 
-export const GetSortCategory = async <T extends ListSortCategory>(
+export const GetSortCategoryFromStore = async <T extends ListSortCategory>(
   store: StoreRef,
   defaultSortCategory: T,
   storeKey: ListCategoryStoreKey

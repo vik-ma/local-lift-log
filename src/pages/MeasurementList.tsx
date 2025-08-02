@@ -36,7 +36,7 @@ import {
   UpdateUserSetting,
   GetValidatedUnit,
   LoadStore,
-  GetSortCategory,
+  GetSortCategoryFromStore,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import { useDefaultMeasurement, useMeasurementList } from "../hooks";
@@ -111,7 +111,7 @@ export default function MeasurementList() {
 
         await LoadStore(store);
 
-        const sortCategory = await GetSortCategory(
+        const sortCategory = await GetSortCategoryFromStore(
           store,
           "favorite" as MeasurementSortCategory,
           "measurements"

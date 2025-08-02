@@ -10,7 +10,7 @@ import {
   FormatNumItemsString,
   UpdateExercise,
   LoadStore,
-  GetSortCategory,
+  GetSortCategoryFromStore,
 } from "../helpers";
 import {
   Button,
@@ -168,7 +168,7 @@ export default function ExerciseList() {
   const restoreDefaultExercises = async () => {
     await CreateDefaultExercises();
 
-    const sortCategory = await GetSortCategory(
+    const sortCategory = await GetSortCategoryFromStore(
       store,
       "favorite" as ExerciseSortCategory,
       "exercises"
@@ -222,7 +222,7 @@ export default function ExerciseList() {
 
       await LoadStore(store);
 
-      const sortCategory = await GetSortCategory(
+      const sortCategory = await GetSortCategoryFromStore(
         store,
         "favorite" as ExerciseSortCategory,
         "exercises"

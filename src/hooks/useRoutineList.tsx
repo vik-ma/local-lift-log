@@ -16,7 +16,7 @@ import {
   CreateRoutineWorkoutTemplateList,
   DoesListOrSetHaveCommonElement,
   FormatRoutineScheduleTypeString,
-  GetSortCategory,
+  GetSortCategoryFromStore,
   GetValidatedNumDaysInSchedule,
   GetValidatedRoutineScheduleType,
   GetValidatedStartDay,
@@ -288,7 +288,7 @@ export const useRoutineList = ({
 
   const loadRoutineList = async () => {
     if (!isExerciseListLoaded.current) {
-      const exerciseSortCategory = await GetSortCategory(
+      const exerciseSortCategory = await GetSortCategoryFromStore(
         store,
         "favorite" as ExerciseSortCategory,
         "exercises"
@@ -298,7 +298,7 @@ export const useRoutineList = ({
     }
 
     if (!isWorkoutTemplateListLoaded.current) {
-      const workoutTemplateSortCategory = await GetSortCategory(
+      const workoutTemplateSortCategory = await GetSortCategoryFromStore(
         store,
         "name" as WorkoutTemplateSortCategory,
         "workout-templates"
@@ -308,7 +308,7 @@ export const useRoutineList = ({
     }
 
     if (!isRoutineListLoaded.current) {
-      const routineSortCategory = await GetSortCategory(
+      const routineSortCategory = await GetSortCategoryFromStore(
         store,
         "name" as RoutineSortCategory,
         "routines"

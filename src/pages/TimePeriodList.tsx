@@ -26,7 +26,7 @@ import {
   UpdateItemInList,
   CreateShownPropertiesSet,
   LoadStore,
-  GetSortCategory,
+  GetSortCategoryFromStore,
 } from "../helpers";
 import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
@@ -75,7 +75,7 @@ export default function TimePeriodList() {
 
       await LoadStore(store);
 
-      const sortCategory = await GetSortCategory(
+      const sortCategory = await GetSortCategoryFromStore(
         store,
         "ongoing" as TimePeriodSortCategory,
         "time-periods"

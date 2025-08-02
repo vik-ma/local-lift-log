@@ -24,7 +24,11 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import toast from "react-hot-toast";
-import { GetSortCategory, GetUserSettings, LoadStore } from "../helpers";
+import {
+  GetSortCategoryFromStore,
+  GetUserSettings,
+  LoadStore,
+} from "../helpers";
 import { Store } from "@tauri-apps/plugin-store";
 
 type OperationType = "add" | "edit" | "delete";
@@ -77,7 +81,7 @@ export default function DietLogList() {
 
       await LoadStore(store);
 
-      const sortCategory = await GetSortCategory(
+      const sortCategory = await GetSortCategoryFromStore(
         store,
         "date-desc" as DietLogSortCategory,
         "diet-logs"

@@ -58,7 +58,7 @@ import {
   GetValidatedUnit,
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
-  GetSortCategory,
+  GetSortCategoryFromStore,
   LoadStore,
 } from "../helpers";
 import {
@@ -222,7 +222,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
         await LoadStore(store);
 
-        const sortCategory = await GetSortCategory(
+        const sortCategory = await GetSortCategoryFromStore(
           store,
           "favorite" as ExerciseSortCategory,
           "exercises"
@@ -2407,7 +2407,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
   ) => {
     if (userSettings === undefined) return;
 
-    const sortCategory = await GetSortCategory(
+    const sortCategory = await GetSortCategoryFromStore(
       store,
       "favorite" as EquipmentWeightSortCategory,
       "equipment-weights"

@@ -14,7 +14,7 @@ import {
   CreateExerciseSetIds,
   DoesListOrSetHaveCommonElement,
   FormatDateString,
-  GetSortCategory,
+  GetSortCategoryFromStore,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
 } from "../helpers";
@@ -229,7 +229,7 @@ export const useWorkoutList = ({
 
   const loadWorkoutList = async () => {
     if (!isExerciseListLoaded.current) {
-      const exerciseSortCategory = await GetSortCategory(
+      const exerciseSortCategory = await GetSortCategoryFromStore(
         store,
         "favorite" as ExerciseSortCategory,
         "exercises"
@@ -239,7 +239,7 @@ export const useWorkoutList = ({
     }
 
     if (!isWorkoutTemplateListLoaded.current) {
-      const workoutTemplateSortCategory = await GetSortCategory(
+      const workoutTemplateSortCategory = await GetSortCategoryFromStore(
         store,
         "name" as WorkoutTemplateSortCategory,
         "workout-templates"
@@ -249,7 +249,7 @@ export const useWorkoutList = ({
     }
 
     if (!isRoutineListLoaded.current) {
-      const routineSortCategory = await GetSortCategory(
+      const routineSortCategory = await GetSortCategoryFromStore(
         store,
         "name" as RoutineSortCategory,
         "routines"
@@ -259,7 +259,7 @@ export const useWorkoutList = ({
     }
 
     if (!isWorkoutListLoaded.current) {
-      const workoutSortCategory = await GetSortCategory(
+      const workoutSortCategory = await GetSortCategoryFromStore(
         store,
         "name" as WorkoutSortCategory,
         "workouts"

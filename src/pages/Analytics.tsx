@@ -110,7 +110,7 @@ import {
   GetValidatedUnit,
   GetValidatedMeasurementType,
   LoadStore,
-  GetSortCategory,
+  GetSortCategoryFromStore,
 } from "../helpers";
 import toast from "react-hot-toast";
 import { Store } from "@tauri-apps/plugin-store";
@@ -337,7 +337,7 @@ export default function Analytics() {
 
       await LoadStore(store);
 
-      const sortCategory = await GetSortCategory(
+      const sortCategory = await GetSortCategoryFromStore(
         store,
         "favorite" as ExerciseSortCategory,
         "exercises"
@@ -361,7 +361,7 @@ export default function Analytics() {
       modalListType === "measurement-list" &&
       !isMeasurementListLoaded.current
     ) {
-      const sortCategoryMeasurement = await GetSortCategory(
+      const sortCategoryMeasurement = await GetSortCategoryFromStore(
         store,
         "favorite" as MeasurementSortCategory,
         "measurements"
@@ -374,7 +374,7 @@ export default function Analytics() {
       modalListType === "time-period-list" &&
       !isTimePeriodListLoaded.current
     ) {
-      const sortCategoryTimePeriod = await GetSortCategory(
+      const sortCategoryTimePeriod = await GetSortCategoryFromStore(
         store,
         "ongoing" as TimePeriodSortCategory,
         "time-periods"

@@ -13,7 +13,7 @@ import Database from "@tauri-apps/plugin-sql";
 import {
   CreateExerciseSetIds,
   DoesListOrSetHaveCommonElement,
-  GetSortCategory,
+  GetSortCategoryFromStore,
 } from "../helpers";
 import { useListFilters } from ".";
 
@@ -162,7 +162,7 @@ export const useWorkoutTemplateList = ({
 
   const loadWorkoutTemplateList = async () => {
     if (!isExerciseListLoaded.current) {
-      const exerciseSortCategory = await GetSortCategory(
+      const exerciseSortCategory = await GetSortCategoryFromStore(
         store,
         "favorite" as ExerciseSortCategory,
         "exercises"
@@ -172,7 +172,7 @@ export const useWorkoutTemplateList = ({
     }
 
     if (!isWorkoutTemplateListLoaded.current) {
-      const workoutTemplateSortCategory = await GetSortCategory(
+      const workoutTemplateSortCategory = await GetSortCategoryFromStore(
         store,
         "name" as WorkoutTemplateSortCategory,
         "workout-templates"
