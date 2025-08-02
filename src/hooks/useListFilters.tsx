@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import {
   Exercise,
-  ListFilterMapKey,
+  ListFilterMap,
   Measurement,
   MeasurementMap,
   Routine,
@@ -40,9 +40,7 @@ export const useListFilters = ({
   UseFilterMinAndMaxValueInputsProps,
   filterMinAndMaxValueInputsSecondary,
 }: UseListFiltersProps = {}): UseListFiltersReturnType => {
-  const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
-    new Map()
-  );
+  const [filterMap, setFilterMap] = useState<ListFilterMap>(new Map());
   const [filterRoutines, setFilterRoutines] = useState<Set<number>>(new Set());
   const [filterExercises, setFilterExercises] = useState<Set<number>>(
     new Set()
@@ -129,7 +127,7 @@ export const useListFilters = ({
     locale: string,
     activeModal: UseDisclosureReturnType
   ) => {
-    const updatedFilterMap = new Map<ListFilterMapKey, string>();
+    const updatedFilterMap: ListFilterMap = new Map();
 
     if (filterMinDate !== null) {
       const filterMinDateString = ConvertCalendarDateToLocalizedString(
@@ -266,7 +264,7 @@ export const useListFilters = ({
   };
 
   const handleFilterMeasurementTypes = (key: string) => {
-    const updatedFilterMap = new Map<ListFilterMapKey, string>();
+    const updatedFilterMap: ListFilterMap = new Map();
 
     const updatedFilterMeasurementTypes = new Set<string>();
 
@@ -497,7 +495,7 @@ export const useListFilters = ({
   ]);
 
   const prefixMap = useMemo(() => {
-    const prefixMap = new Map<ListFilterMapKey, string>();
+    const prefixMap: ListFilterMap = new Map();
 
     prefixMap.set("min-date", `Min Date: `);
     prefixMap.set("max-date", `Max Date: `);

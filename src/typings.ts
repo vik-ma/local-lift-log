@@ -532,53 +532,6 @@ export type UseListFiltersReturnType = {
   >;
 };
 
-export type ListFilterMapKey =
-  | "min-date"
-  | "max-date"
-  | "weekdays"
-  | "routines"
-  | "exercises"
-  | "exercise-groups"
-  | "min-weight"
-  | "max-weight"
-  | "measurements"
-  | "measurement-types"
-  | "workout-templates"
-  | "schedule-type"
-  | "min-num-schedule-days"
-  | "max-num-schedule-days"
-  | "weight-units"
-  | "min-distance"
-  | "max-distance"
-  | "distance-units"
-  | "multiset-types"
-  | "min-bf"
-  | "max-bf";
-
-export type TimePeriodListFilterMapKey =
-  | "min-date-start"
-  | "max-date-start"
-  | "min-date-end"
-  | "max-date-end"
-  | "min-duration"
-  | "max-duration"
-  | "diet-phase"
-  | "injury"
-  | "status";
-
-export type DietLogListFilterMapKey =
-  | "min-date"
-  | "max-date"
-  | "weekdays"
-  | "min-calories"
-  | "max-calories"
-  | "min-fat"
-  | "max-fat"
-  | "min-carbs"
-  | "max-carbs"
-  | "min-protein"
-  | "max-protein";
-
 export type UseWorkoutTemplateListReturnType = {
   workoutTemplateListModal: UseDisclosureReturnType;
   workoutTemplates: WorkoutTemplate[];
@@ -1335,3 +1288,56 @@ export type ListCategoryStoreKey =
   | "body-measurements"
   | "time-periods"
   | "diet-logs";
+
+export type ListFilterMapKey =
+  | "min-date"
+  | "max-date"
+  | "weekdays"
+  | "routines"
+  | "exercises"
+  | "exercise-groups"
+  | "min-weight"
+  | "max-weight"
+  | "measurements"
+  | "measurement-types"
+  | "workout-templates"
+  | "schedule-type"
+  | "min-num-schedule-days"
+  | "max-num-schedule-days"
+  | "weight-units"
+  | "min-distance"
+  | "max-distance"
+  | "distance-units"
+  | "multiset-types"
+  | "min-bf"
+  | "max-bf";
+
+export type TimePeriodListFilterMapKey =
+  | "min-date-start"
+  | "max-date-start"
+  | "min-date-end"
+  | "max-date-end"
+  | "min-duration"
+  | "max-duration"
+  | "diet-phase"
+  | "injury"
+  | "status";
+
+export type DietLogListFilterMapKey =
+  | "min-date"
+  | "max-date"
+  | "weekdays"
+  | "min-calories"
+  | "max-calories"
+  | "min-fat"
+  | "max-fat"
+  | "min-carbs"
+  | "max-carbs"
+  | "min-protein"
+  | "max-protein";
+
+export type ListFilterMap = Map<ListFilterMapKey, string>;
+
+export type TimePeriodFilterMap = Map<TimePeriodListFilterMapKey, string>;
+
+export type DietLogFilterMap = Map<DietLogListFilterMapKey, string>;

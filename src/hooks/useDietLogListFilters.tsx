@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import {
-  DietLogListFilterMapKey,
+  DietLogFilterMap,
   UseDietLogListFiltersReturnType,
   UseDisclosureReturnType,
 } from "../typings";
@@ -13,9 +13,7 @@ import {
 import { ConvertCalendarDateToYmdString } from "../helpers";
 
 export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
-  const [filterMap, setFilterMap] = useState<
-    Map<DietLogListFilterMapKey, string>
-  >(new Map());
+  const [filterMap, setFilterMap] = useState<DietLogFilterMap>(new Map());
   const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(null);
   const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(null);
   const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(new Set());
@@ -52,7 +50,7 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
     useState<boolean>(false);
 
   const handleFilterSaveButton = (activeModal: UseDisclosureReturnType) => {
-    const updatedFilterMap = new Map<DietLogListFilterMapKey, string>();
+    const updatedFilterMap: DietLogFilterMap = new Map();
 
     if (filterMinDate !== null) {
       const filterMinDateString = ConvertCalendarDateToYmdString(filterMinDate);
@@ -250,7 +248,7 @@ export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
   ]);
 
   const prefixMap = useMemo(() => {
-    const prefixMap = new Map<DietLogListFilterMapKey, string>();
+    const prefixMap: DietLogFilterMap = new Map();
 
     prefixMap.set("min-date", `Min Date: `);
     prefixMap.set("max-date", `Max Date: `);

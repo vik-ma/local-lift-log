@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import {
   StoreRef,
-  TimePeriodListFilterMapKey,
+  TimePeriodFilterMap,
   UseDisclosureReturnType,
   UseFilterMinAndMaxValueInputsProps,
   UseTimePeriodListFiltersReturnType,
@@ -17,9 +17,7 @@ type UseTimePeriodListFiltersProps = {
 export const useTimePeriodListFilters = ({
   store,
 }: UseTimePeriodListFiltersProps): UseTimePeriodListFiltersReturnType => {
-  const [filterMap, setFilterMap] = useState<
-    Map<TimePeriodListFilterMapKey, string>
-  >(new Map());
+  const [filterMap, setFilterMap] = useState<TimePeriodFilterMap>(new Map());
   const [filterMinStartDate, setFilterMinStartDate] =
     useState<CalendarDate | null>(null);
   const [filterMaxStartDate, setFilterMaxStartDate] =
@@ -68,7 +66,7 @@ export const useTimePeriodListFilters = ({
     locale: string,
     activeModal: UseDisclosureReturnType
   ) => {
-    const updatedFilterMap = new Map<TimePeriodListFilterMapKey, string>();
+    const updatedFilterMap: TimePeriodFilterMap = new Map();
 
     if (filterMinStartDate !== null) {
       const filterMinStartDateString = ConvertCalendarDateToLocalizedString(
@@ -242,7 +240,7 @@ export const useTimePeriodListFilters = ({
   ]);
 
   const prefixMap = useMemo(() => {
-    const prefixMap = new Map<TimePeriodListFilterMapKey, string>();
+    const prefixMap: TimePeriodFilterMap = new Map();
 
     prefixMap.set("min-date-start", `Min Start Date: `);
     prefixMap.set("max-date-start", `Max Start Date: `);
@@ -261,7 +259,7 @@ export const useTimePeriodListFilters = ({
   }, [filterDietPhaseTypes]);
 
   const saveFilterMapToStore = async (
-    updatedFilterMap: Map<TimePeriodListFilterMapKey, string>
+    updatedFilterMap: TimePeriodFilterMap
   ) => {
     if (store.current === null) return;
 
