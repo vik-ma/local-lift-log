@@ -264,7 +264,7 @@ export const useTimePeriodListFilters = ({
     if (store.current === null) return;
 
     await store.current.set("filter-map-time-periods", {
-      value: JSON.stringify(updatedFilterMap),
+      value: JSON.stringify(Array.from(updatedFilterMap.entries())),
     });
   };
 
