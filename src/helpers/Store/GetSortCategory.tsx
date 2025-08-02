@@ -1,13 +1,13 @@
 import {
   ListSortCategory,
   StoreRef,
-  ListSortCategoryStoreKey,
+  ListCategoryStoreKey,
 } from "../../typings";
 
 export const GetSortCategory = async <T extends ListSortCategory>(
   store: StoreRef,
   defaultSortCategory: T,
-  storeKey: ListSortCategoryStoreKey
+  storeKey: ListCategoryStoreKey
 ) => {
   let sortCategory: T = defaultSortCategory;
 

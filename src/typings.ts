@@ -1324,7 +1324,7 @@ export type ListSortCategory =
   | TimePeriodSortCategory
   | DietLogSortCategory;
 
-export type ListSortCategoryStoreKey =
+export type ListCategoryStoreKey =
   | "exercises"
   | "workouts"
   | "workout-templates"
