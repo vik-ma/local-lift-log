@@ -36,7 +36,7 @@ export const useTimePeriodList = ({
 
   const filterTimePeriodListModal = useDisclosure();
 
-  const timePeriodListFilters = useTimePeriodListFilters();
+  const timePeriodListFilters = useTimePeriodListFilters({ store: store });
 
   const {
     filterMap,
