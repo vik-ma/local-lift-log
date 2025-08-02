@@ -264,3 +264,4 @@ export { GetAllDietLogs } from "./DietLogs/GetAllDietLogs";
 
 export { LoadStore } from "./Store/LoadStore";
 export { GetSortCategoryFromStore } from "./Store/GetSortCategoryFromStore";
+export { GetFilterMapFromStore } from "./Store/GetFilterMapFromStore";
