@@ -112,8 +112,6 @@ export const useTimePeriodListFilters = ({
       updatedFilterMap.set("min-duration", filterMinDurationString);
     }
 
-    setFilterMap(updatedFilterMap);
-
     if (filterMaxDuration !== null) {
       const filterMaxDurationString = `${filterMaxDuration} Days`;
 
@@ -140,6 +138,8 @@ export const useTimePeriodListFilters = ({
     }
 
     setFilterMap(updatedFilterMap);
+
+    saveFilterMapToStore(updatedFilterMap);
 
     activeModal.onClose();
   };
@@ -195,6 +195,8 @@ export const useTimePeriodListFilters = ({
     }
 
     setFilterMap(updatedFilterMap);
+
+    saveFilterMapToStore(updatedFilterMap);
   };
 
   const resetFilter = () => {
@@ -209,6 +211,8 @@ export const useTimePeriodListFilters = ({
     setFilterHasInjury(new Set());
     setFilterStatus(new Set());
     filterMinAndMaxValueInputs.resetInputs();
+
+    saveFilterMapToStore(new Map());
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -255,6 +259,16 @@ export const useTimePeriodListFilters = ({
 
     return prefixMap;
   }, [filterDietPhaseTypes]);
+
+  const saveFilterMapToStore = async (
+    updatedFilterMap: Map<TimePeriodListFilterMapKey, string>
+  ) => {
+    if (store.current === null) return;
+
+    await store.current.set("filter-map-time-periods", {
+      value: JSON.stringify(updatedFilterMap),
+    });
+  };
 
   return {
     filterMap,
