@@ -77,6 +77,7 @@ export { ValidateBodyFatCalculationSettingsString } from "./UserSettings/Validat
 export { GenerateBodyFatCalculationSettingsString } from "./UserSettings/GenerateBodyFatCalculationSettingsString";
 export { ValidateAndModifyIncrementMultipliers } from "./UserSettings/ValidateAndModifyIncrementMultipliers";
 export { ValidateAndModifyTimeInputBehavior } from "./UserSettings/ValidateAndModifyTimeInputBehavior";
+export { GetValidatedLocale } from "./UserSettings/GetValidatedLocale";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
