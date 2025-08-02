@@ -64,73 +64,99 @@ export const useTimePeriodListFilters = ({
 
   const handleFilterSaveButton = (
     locale: string,
-    activeModal: UseDisclosureReturnType
+    activeModal: UseDisclosureReturnType,
+    storeMinStartDate?: CalendarDate | null,
+    storeMaxStartDate?: CalendarDate | null,
+    storeMinEndDate?: CalendarDate | null,
+    storeMaxEndDate?: CalendarDate | null,
+    storeMinDuration?: string,
+    storeMaxDuration?: string,
+    storeDietPhaseTypes?: Set<string>,
+    storeHasInjury?: Set<string>,
+    storeStatus?: Set<string>
   ) => {
     const updatedFilterMap: TimePeriodFilterMap = new Map();
 
-    if (filterMinStartDate !== null) {
+    const minStartDate = storeMinStartDate ?? filterMinStartDate;
+
+    if (minStartDate !== null) {
       const filterMinStartDateString = ConvertCalendarDateToLocalizedString(
-        filterMinStartDate,
+        minStartDate,
         locale
       );
 
       updatedFilterMap.set("min-date-start", filterMinStartDateString);
     }
 
-    if (filterMaxStartDate !== null) {
+    const maxStartDate = storeMaxStartDate ?? filterMaxStartDate;
+
+    if (maxStartDate !== null) {
       const filterMaxStartDateString = ConvertCalendarDateToLocalizedString(
-        filterMaxStartDate,
+        maxStartDate,
         locale
       );
 
       updatedFilterMap.set("max-date-start", filterMaxStartDateString);
     }
 
-    if (filterMinEndDate !== null) {
+    const minEndDate = storeMinEndDate ?? filterMinEndDate;
+
+    if (minEndDate !== null) {
       const filterMinEndDateString = ConvertCalendarDateToLocalizedString(
-        filterMinEndDate,
+        minEndDate,
         locale
       );
 
       updatedFilterMap.set("min-date-end", filterMinEndDateString);
     }
 
-    if (filterMaxEndDate !== null) {
+    const maxEndDate = storeMaxEndDate ?? filterMaxEndDate;
+
+    if (maxEndDate !== null) {
       const filterMaxEndDateString = ConvertCalendarDateToLocalizedString(
-        filterMaxEndDate,
+        maxEndDate,
         locale
       );
 
       updatedFilterMap.set("max-date-end", filterMaxEndDateString);
     }
 
-    if (filterMinDuration !== null) {
-      const filterMinDurationString = `${filterMinDuration} Days`;
+    const minDuration = storeMinDuration ?? filterMinDuration;
+
+    if (minDuration !== null) {
+      const filterMinDurationString = `${minDuration} Days`;
 
       updatedFilterMap.set("min-duration", filterMinDurationString);
     }
 
-    if (filterMaxDuration !== null) {
-      const filterMaxDurationString = `${filterMaxDuration} Days`;
+    const maxDuration = storeMaxDuration ?? filterMaxDuration;
+
+    if (maxDuration !== null) {
+      const filterMaxDurationString = `${maxDuration} Days`;
 
       updatedFilterMap.set("max-duration", filterMaxDurationString);
     }
 
-    if (filterDietPhaseTypes.size > 0) {
-      const filterDietPhaseTypesString =
-        Array.from(filterDietPhaseTypes).join(", ");
+    const dietPhaseTypes = storeDietPhaseTypes ?? filterDietPhaseTypes;
+
+    if (dietPhaseTypes.size > 0) {
+      const filterDietPhaseTypesString = Array.from(dietPhaseTypes).join(", ");
 
       updatedFilterMap.set("diet-phase", filterDietPhaseTypesString);
     }
 
-    if (filterHasInjury.size > 0) {
-      const filterHasInjuryString = Array.from(filterHasInjury).join(", ");
+    const hasInjury = storeHasInjury ?? filterHasInjury;
+
+    if (hasInjury.size > 0) {
+      const filterHasInjuryString = Array.from(hasInjury).join(", ");
 
       updatedFilterMap.set("injury", filterHasInjuryString);
     }
 
-    if (filterStatus.size > 0) {
-      const filterStatusString = Array.from(filterStatus).join(", ");
+    const status = storeStatus ?? filterStatus;
+    
+    if (status.size > 0) {
+      const filterStatusString = Array.from(status).join(", ");
 
       updatedFilterMap.set("status", filterStatusString);
     }
