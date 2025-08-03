@@ -13,6 +13,7 @@ import {
   ConvertCalendarDateToLocalizedString,
   ConvertCalendarDateToYmdString,
   ConvertDateStringToCalendarDate,
+  IsEndDateBeforeStartDate,
 } from "../helpers";
 
 type UseTimePeriodListFiltersProps = {
@@ -356,7 +357,16 @@ export const useTimePeriodListFilters = ({
           case "max-date-start": {
             const maxStartDate = ConvertDateStringToCalendarDate(value);
 
-            if (maxStartDate !== null) {
+            let isMaxDateBeforeMinDate = false;
+
+            if (filterStoreValues.storeMinStartDate) {
+              isMaxDateBeforeMinDate = IsEndDateBeforeStartDate(
+                filterStoreValues.storeMinStartDate,
+                maxStartDate
+              );
+            }
+
+            if (maxStartDate !== null && !isMaxDateBeforeMinDate) {
               setFilterMaxStartDate(maxStartDate);
               filterStoreValues.storeMaxStartDate = maxStartDate;
             }
@@ -376,7 +386,16 @@ export const useTimePeriodListFilters = ({
           case "max-date-end": {
             const maxEndDate = ConvertDateStringToCalendarDate(value);
 
-            if (maxEndDate !== null) {
+            let isMaxDateBeforeMinDate = false;
+
+            if (filterStoreValues.storeMinEndDate) {
+              isMaxDateBeforeMinDate = IsEndDateBeforeStartDate(
+                filterStoreValues.storeMinEndDate,
+                maxEndDate
+              );
+            }
+
+            if (maxEndDate !== null && !isMaxDateBeforeMinDate) {
               setFilterMaxEndDate(maxEndDate);
               filterStoreValues.storeMaxEndDate = maxEndDate;
             }
