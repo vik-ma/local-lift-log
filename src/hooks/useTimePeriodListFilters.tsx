@@ -32,6 +32,11 @@ type FilterStoreValues = {
   storeStatus?: Set<string>;
 };
 
+type TimePeriodStoreFilterMap = Map<
+  TimePeriodListFilterMapKey,
+  string | number
+>;
+
 export const useTimePeriodListFilters = ({
   store,
 }: UseTimePeriodListFiltersProps): UseTimePeriodListFiltersReturnType => {
@@ -80,7 +85,7 @@ export const useTimePeriodListFilters = ({
     filterMinAndMaxValueInputsProps
   );
 
-  const storeFilters = useRef<TimePeriodFilterMap>(new Map());
+  const storeFilters = useRef<TimePeriodStoreFilterMap>(new Map());
 
   const handleFilterSaveButton = (
     locale: string,
@@ -88,7 +93,7 @@ export const useTimePeriodListFilters = ({
     filterStoreValues?: FilterStoreValues
   ) => {
     const updatedFilterMap: TimePeriodFilterMap = new Map();
-    const storeFilterMap: TimePeriodFilterMap = new Map();
+    const storeFilterMap: TimePeriodStoreFilterMap = new Map();
 
     const minStartDate =
       filterStoreValues?.storeMinStartDate ?? filterMinStartDate;
@@ -325,7 +330,9 @@ export const useTimePeriodListFilters = ({
     return prefixMap;
   }, [filterDietPhaseTypes]);
 
-  const saveFilterMapToStore = async (storeFilterMap: TimePeriodFilterMap) => {
+  const saveFilterMapToStore = async (
+    storeFilterMap: TimePeriodStoreFilterMap
+  ) => {
     if (store.current === null) return;
 
     await store.current.set("filter-map-time-periods", {
@@ -345,7 +352,7 @@ export const useTimePeriodListFilters = ({
     if (val === undefined) return;
 
     try {
-      const storeFilterList: [TimePeriodListFilterMapKey, string][] =
+      const storeFilterList: [TimePeriodListFilterMapKey, string | number][] =
         JSON.parse(val.value);
 
       if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
@@ -363,7 +370,9 @@ export const useTimePeriodListFilters = ({
 
         switch (key) {
           case "min-date-start": {
-            const minStartDate = ConvertDateStringToCalendarDate(value);
+            const minStartDate = ConvertDateStringToCalendarDate(
+              value as string
+            );
 
             if (minStartDate !== null) {
               setFilterMinStartDate(minStartDate);
@@ -373,7 +382,9 @@ export const useTimePeriodListFilters = ({
             break;
           }
           case "max-date-start": {
-            const maxStartDate = ConvertDateStringToCalendarDate(value);
+            const maxStartDate = ConvertDateStringToCalendarDate(
+              value as string
+            );
 
             let isMaxDateBeforeMinDate = false;
 
@@ -392,7 +403,7 @@ export const useTimePeriodListFilters = ({
             break;
           }
           case "min-date-end": {
-            const minEndDate = ConvertDateStringToCalendarDate(value);
+            const minEndDate = ConvertDateStringToCalendarDate(value as string);
 
             if (minEndDate !== null) {
               setFilterMinEndDate(minEndDate);
@@ -402,7 +413,7 @@ export const useTimePeriodListFilters = ({
             break;
           }
           case "max-date-end": {
-            const maxEndDate = ConvertDateStringToCalendarDate(value);
+            const maxEndDate = ConvertDateStringToCalendarDate(value as string);
 
             let isMaxDateBeforeMinDate = false;
 
