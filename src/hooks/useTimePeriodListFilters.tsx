@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import {
   StoreRef,
   TimePeriodFilterMap,
+  TimePeriodListFilterMapKey,
   UseDisclosureReturnType,
   UseFilterMinAndMaxValueInputsProps,
   UseTimePeriodListFiltersReturnType,
@@ -11,6 +12,7 @@ import { useFilterMinAndMaxValueInputs, useIsEndDateBeforeStartDate } from ".";
 import {
   ConvertCalendarDateToLocalizedString,
   ConvertCalendarDateToYmdString,
+  ConvertDateStringToCalendarDate,
 } from "../helpers";
 
 type UseTimePeriodListFiltersProps = {
@@ -85,7 +87,8 @@ export const useTimePeriodListFilters = ({
     const updatedFilterMap: TimePeriodFilterMap = new Map();
     const storeFilterMap: TimePeriodFilterMap = new Map();
 
-    const minStartDate = filterStoreValues?.storeMinStartDate ?? filterMinStartDate;
+    const minStartDate =
+      filterStoreValues?.storeMinStartDate ?? filterMinStartDate;
     if (minStartDate !== null) {
       const filterMinStartDateString = ConvertCalendarDateToLocalizedString(
         minStartDate,
@@ -100,7 +103,8 @@ export const useTimePeriodListFilters = ({
       storeFilterMap.set("min-date-start", storeMinStartDateString as string);
     }
 
-    const maxStartDate = filterStoreValues?.storeMaxStartDate ?? filterMaxStartDate;
+    const maxStartDate =
+      filterStoreValues?.storeMaxStartDate ?? filterMaxStartDate;
     if (maxStartDate !== null) {
       const filterMaxStartDateString = ConvertCalendarDateToLocalizedString(
         maxStartDate,
@@ -143,21 +147,24 @@ export const useTimePeriodListFilters = ({
       storeFilterMap.set("max-date-end", storeMaxEndDateString as string);
     }
 
-    const minDuration = filterStoreValues?.storeMinDuration ?? filterMinDuration;
+    const minDuration =
+      filterStoreValues?.storeMinDuration ?? filterMinDuration;
     if (minDuration !== null) {
       const filterMinDurationString = `${minDuration} Days`;
 
       updatedFilterMap.set("min-duration", filterMinDurationString);
     }
 
-    const maxDuration = filterStoreValues?.storeMaxDuration ?? filterMaxDuration;
+    const maxDuration =
+      filterStoreValues?.storeMaxDuration ?? filterMaxDuration;
     if (maxDuration !== null) {
       const filterMaxDurationString = `${maxDuration} Days`;
 
       updatedFilterMap.set("max-duration", filterMaxDurationString);
     }
 
-    const dietPhaseTypes = filterStoreValues?.storeDietPhaseTypes ?? filterDietPhaseTypes;
+    const dietPhaseTypes =
+      filterStoreValues?.storeDietPhaseTypes ?? filterDietPhaseTypes;
     if (dietPhaseTypes.size > 0) {
       const filterDietPhaseTypesString = Array.from(dietPhaseTypes).join(", ");
 
@@ -309,7 +316,7 @@ export const useTimePeriodListFilters = ({
     });
   };
 
-  const loadFilterMapFromStore = async () => {
+  const loadFilterMapFromStore = async (locale: string) => {
     if (store.current === null) return;
 
     const val = await store.current.get<{ value: string }>(
@@ -318,7 +325,73 @@ export const useTimePeriodListFilters = ({
 
     if (val === undefined) return;
 
-    console.log(val.value);
+    try {
+      const storeFilterList: [TimePeriodListFilterMapKey, string][] =
+        JSON.parse(val.value);
+
+      if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
+        handleFilterSaveButton(locale);
+        return;
+      }
+
+      const filterStoreValues: FilterStoreValues = {};
+
+      for (const filter of storeFilterList) {
+        const key = filter[0];
+        const value = filter[1];
+
+        if (key === undefined || value === undefined) continue;
+
+        switch (key) {
+          case "min-date-start": {
+            const minStartDate = ConvertDateStringToCalendarDate(value);
+
+            if (minStartDate !== null) {
+              setFilterMinStartDate(minStartDate);
+              filterStoreValues.storeMinStartDate = minStartDate;
+            }
+
+            break;
+          }
+          case "max-date-start": {
+            const maxStartDate = ConvertDateStringToCalendarDate(value);
+
+            if (maxStartDate !== null) {
+              setFilterMaxStartDate(maxStartDate);
+              filterStoreValues.storeMaxStartDate = maxStartDate;
+            }
+
+            break;
+          }
+          case "min-date-end": {
+            const minEndDate = ConvertDateStringToCalendarDate(value);
+
+            if (minEndDate !== null) {
+              setFilterMinEndDate(minEndDate);
+              filterStoreValues.storeMinEndDate = minEndDate;
+            }
+
+            break;
+          }
+          case "max-date-end": {
+            const maxEndDate = ConvertDateStringToCalendarDate(value);
+
+            if (maxEndDate !== null) {
+              setFilterMaxEndDate(maxEndDate);
+              filterStoreValues.storeMaxEndDate = maxEndDate;
+            }
+
+            break;
+          }
+          default:
+            break;
+        }
+      }
+
+      handleFilterSaveButton(locale, undefined, filterStoreValues);
+    } catch {
+      handleFilterSaveButton(locale);
+    }
   };
 
   return {

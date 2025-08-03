@@ -90,7 +90,7 @@ export default function TimePeriodList() {
       );
       setSelectedTimePeriodProperties(timePeriodPropertySet);
 
-      await loadFilterMapFromStore();
+      await loadFilterMapFromStore(userSettings.locale);
     };
 
     loadPage();
