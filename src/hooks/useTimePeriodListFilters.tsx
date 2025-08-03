@@ -17,6 +17,18 @@ type UseTimePeriodListFiltersProps = {
   store: StoreRef;
 };
 
+type FilterStoreValues = {
+  storeMinStartDate?: CalendarDate | null;
+  storeMaxStartDate?: CalendarDate | null;
+  storeMinEndDate?: CalendarDate | null;
+  storeMaxEndDate?: CalendarDate | null;
+  storeMinDuration?: string;
+  storeMaxDuration?: string;
+  storeDietPhaseTypes?: Set<string>;
+  storeHasInjury?: Set<string>;
+  storeStatus?: Set<string>;
+};
+
 export const useTimePeriodListFilters = ({
   store,
 }: UseTimePeriodListFiltersProps): UseTimePeriodListFiltersReturnType => {
@@ -68,20 +80,12 @@ export const useTimePeriodListFilters = ({
   const handleFilterSaveButton = (
     locale: string,
     activeModal?: UseDisclosureReturnType,
-    storeMinStartDate?: CalendarDate | null,
-    storeMaxStartDate?: CalendarDate | null,
-    storeMinEndDate?: CalendarDate | null,
-    storeMaxEndDate?: CalendarDate | null,
-    storeMinDuration?: string,
-    storeMaxDuration?: string,
-    storeDietPhaseTypes?: Set<string>,
-    storeHasInjury?: Set<string>,
-    storeStatus?: Set<string>
+    filterStoreValues?: FilterStoreValues
   ) => {
     const updatedFilterMap: TimePeriodFilterMap = new Map();
     const storeFilterMap: TimePeriodFilterMap = new Map();
 
-    const minStartDate = storeMinStartDate ?? filterMinStartDate;
+    const minStartDate = filterStoreValues?.storeMinStartDate ?? filterMinStartDate;
     if (minStartDate !== null) {
       const filterMinStartDateString = ConvertCalendarDateToLocalizedString(
         minStartDate,
@@ -96,7 +100,7 @@ export const useTimePeriodListFilters = ({
       storeFilterMap.set("min-date-start", storeMinStartDateString as string);
     }
 
-    const maxStartDate = storeMaxStartDate ?? filterMaxStartDate;
+    const maxStartDate = filterStoreValues?.storeMaxStartDate ?? filterMaxStartDate;
     if (maxStartDate !== null) {
       const filterMaxStartDateString = ConvertCalendarDateToLocalizedString(
         maxStartDate,
@@ -111,7 +115,7 @@ export const useTimePeriodListFilters = ({
       storeFilterMap.set("max-date-start", storeMaxStartDateString as string);
     }
 
-    const minEndDate = storeMinEndDate ?? filterMinEndDate;
+    const minEndDate = filterStoreValues?.storeMinEndDate ?? filterMinEndDate;
     if (minEndDate !== null) {
       const filterMinEndDateString = ConvertCalendarDateToLocalizedString(
         minEndDate,
@@ -125,7 +129,7 @@ export const useTimePeriodListFilters = ({
       storeFilterMap.set("min-date-end", storeMinEndDateString as string);
     }
 
-    const maxEndDate = storeMaxEndDate ?? filterMaxEndDate;
+    const maxEndDate = filterStoreValues?.storeMaxEndDate ?? filterMaxEndDate;
     if (maxEndDate !== null) {
       const filterMaxEndDateString = ConvertCalendarDateToLocalizedString(
         maxEndDate,
@@ -139,35 +143,35 @@ export const useTimePeriodListFilters = ({
       storeFilterMap.set("max-date-end", storeMaxEndDateString as string);
     }
 
-    const minDuration = storeMinDuration ?? filterMinDuration;
+    const minDuration = filterStoreValues?.storeMinDuration ?? filterMinDuration;
     if (minDuration !== null) {
       const filterMinDurationString = `${minDuration} Days`;
 
       updatedFilterMap.set("min-duration", filterMinDurationString);
     }
 
-    const maxDuration = storeMaxDuration ?? filterMaxDuration;
+    const maxDuration = filterStoreValues?.storeMaxDuration ?? filterMaxDuration;
     if (maxDuration !== null) {
       const filterMaxDurationString = `${maxDuration} Days`;
 
       updatedFilterMap.set("max-duration", filterMaxDurationString);
     }
 
-    const dietPhaseTypes = storeDietPhaseTypes ?? filterDietPhaseTypes;
+    const dietPhaseTypes = filterStoreValues?.storeDietPhaseTypes ?? filterDietPhaseTypes;
     if (dietPhaseTypes.size > 0) {
       const filterDietPhaseTypesString = Array.from(dietPhaseTypes).join(", ");
 
       updatedFilterMap.set("diet-phase", filterDietPhaseTypesString);
     }
 
-    const hasInjury = storeHasInjury ?? filterHasInjury;
+    const hasInjury = filterStoreValues?.storeHasInjury ?? filterHasInjury;
     if (hasInjury.size > 0) {
       const filterHasInjuryString = Array.from(hasInjury).join(", ");
 
       updatedFilterMap.set("injury", filterHasInjuryString);
     }
 
-    const status = storeStatus ?? filterStatus;
+    const status = filterStoreValues?.storeStatus ?? filterStatus;
     if (status.size > 0) {
       const filterStatusString = Array.from(status).join(", ");
 
