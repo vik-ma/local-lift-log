@@ -78,7 +78,6 @@ export const useTimePeriodListFilters = ({
     const updatedFilterMap: TimePeriodFilterMap = new Map();
 
     const minStartDate = storeMinStartDate ?? filterMinStartDate;
-
     if (minStartDate !== null) {
       const filterMinStartDateString = ConvertCalendarDateToLocalizedString(
         minStartDate,
@@ -89,7 +88,6 @@ export const useTimePeriodListFilters = ({
     }
 
     const maxStartDate = storeMaxStartDate ?? filterMaxStartDate;
-
     if (maxStartDate !== null) {
       const filterMaxStartDateString = ConvertCalendarDateToLocalizedString(
         maxStartDate,
@@ -100,7 +98,6 @@ export const useTimePeriodListFilters = ({
     }
 
     const minEndDate = storeMinEndDate ?? filterMinEndDate;
-
     if (minEndDate !== null) {
       const filterMinEndDateString = ConvertCalendarDateToLocalizedString(
         minEndDate,
@@ -111,7 +108,6 @@ export const useTimePeriodListFilters = ({
     }
 
     const maxEndDate = storeMaxEndDate ?? filterMaxEndDate;
-
     if (maxEndDate !== null) {
       const filterMaxEndDateString = ConvertCalendarDateToLocalizedString(
         maxEndDate,
@@ -122,7 +118,6 @@ export const useTimePeriodListFilters = ({
     }
 
     const minDuration = storeMinDuration ?? filterMinDuration;
-
     if (minDuration !== null) {
       const filterMinDurationString = `${minDuration} Days`;
 
@@ -130,7 +125,6 @@ export const useTimePeriodListFilters = ({
     }
 
     const maxDuration = storeMaxDuration ?? filterMaxDuration;
-
     if (maxDuration !== null) {
       const filterMaxDurationString = `${maxDuration} Days`;
 
@@ -138,7 +132,6 @@ export const useTimePeriodListFilters = ({
     }
 
     const dietPhaseTypes = storeDietPhaseTypes ?? filterDietPhaseTypes;
-
     if (dietPhaseTypes.size > 0) {
       const filterDietPhaseTypesString = Array.from(dietPhaseTypes).join(", ");
 
@@ -146,7 +139,6 @@ export const useTimePeriodListFilters = ({
     }
 
     const hasInjury = storeHasInjury ?? filterHasInjury;
-
     if (hasInjury.size > 0) {
       const filterHasInjuryString = Array.from(hasInjury).join(", ");
 
@@ -154,7 +146,6 @@ export const useTimePeriodListFilters = ({
     }
 
     const status = storeStatus ?? filterStatus;
-    
     if (status.size > 0) {
       const filterStatusString = Array.from(status).join(", ");
 
