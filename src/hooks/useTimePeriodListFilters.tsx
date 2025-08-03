@@ -25,8 +25,8 @@ type FilterStoreValues = {
   storeMaxStartDate?: CalendarDate | null;
   storeMinEndDate?: CalendarDate | null;
   storeMaxEndDate?: CalendarDate | null;
-  storeMinDuration?: string;
-  storeMaxDuration?: string;
+  storeMinDuration?: number;
+  storeMaxDuration?: number;
   storeDietPhaseTypes?: Set<string>;
   storeHasInjury?: Set<string>;
   storeStatus?: Set<string>;
@@ -156,6 +156,8 @@ export const useTimePeriodListFilters = ({
       const filterMinDurationString = `${minDuration} Days`;
 
       updatedFilterMap.set("min-duration", filterMinDurationString);
+
+      storeFilterMap.set("min-duration", minDuration);
     }
 
     const maxDuration =
@@ -164,6 +166,8 @@ export const useTimePeriodListFilters = ({
       const filterMaxDurationString = `${maxDuration} Days`;
 
       updatedFilterMap.set("max-duration", filterMaxDurationString);
+
+      storeFilterMap.set("max-duration", maxDuration);
     }
 
     const dietPhaseTypes =
