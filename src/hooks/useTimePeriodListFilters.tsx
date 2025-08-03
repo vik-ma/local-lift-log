@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   StoreRef,
   TimePeriodFilterMap,
@@ -79,6 +79,8 @@ export const useTimePeriodListFilters = ({
   const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
     filterMinAndMaxValueInputsProps
   );
+
+  const storeFilters = useRef<TimePeriodFilterMap>(new Map());
 
   const handleFilterSaveButton = (
     locale: string,
@@ -315,6 +317,8 @@ export const useTimePeriodListFilters = ({
     await store.current.set("filter-map-time-periods", {
       value: JSON.stringify(Array.from(storeFilterMap.entries())),
     });
+
+    storeFilters.current = storeFilterMap;
   };
 
   const loadFilterMapFromStore = async (locale: string) => {
