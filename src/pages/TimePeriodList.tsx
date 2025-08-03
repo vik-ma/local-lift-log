@@ -63,6 +63,7 @@ export default function TimePeriodList() {
     timePeriodListFilters,
     selectedTimePeriodProperties,
     setSelectedTimePeriodProperties,
+    loadFilterMapFromStore,
   } = timePeriodList;
 
   useEffect(() => {
@@ -88,6 +89,8 @@ export default function TimePeriodList() {
         "time-period"
       );
       setSelectedTimePeriodProperties(timePeriodPropertySet);
+
+      await loadFilterMapFromStore();
     };
 
     loadPage();

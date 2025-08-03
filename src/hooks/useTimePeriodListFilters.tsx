@@ -307,6 +307,18 @@ export const useTimePeriodListFilters = ({
     });
   };
 
+  const loadFilterMapFromStore = async () => {
+    if (store.current === null) return;
+
+    const val = await store.current.get<{ value: string }>(
+      "filter-map-time-periods"
+    );
+
+    if (val === undefined) return;
+
+    console.log(val.value);
+  };
+
   return {
     filterMap,
     filterMinStartDate,
@@ -335,5 +347,6 @@ export const useTimePeriodListFilters = ({
     filterStatus,
     setFilterStatus,
     filterMinAndMaxValueInputs,
+    loadFilterMapFromStore,
   };
 };
