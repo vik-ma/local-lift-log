@@ -8,7 +8,10 @@ import {
 } from "../typings";
 import { CalendarDate } from "@heroui/react";
 import { useFilterMinAndMaxValueInputs, useIsEndDateBeforeStartDate } from ".";
-import { ConvertCalendarDateToLocalizedString } from "../helpers";
+import {
+  ConvertCalendarDateToLocalizedString,
+  ConvertCalendarDateToYmdString,
+} from "../helpers";
 
 type UseTimePeriodListFiltersProps = {
   store: StoreRef;
@@ -76,6 +79,7 @@ export const useTimePeriodListFilters = ({
     storeStatus?: Set<string>
   ) => {
     const updatedFilterMap: TimePeriodFilterMap = new Map();
+    const storeFilterMap: TimePeriodFilterMap = new Map();
 
     const minStartDate = storeMinStartDate ?? filterMinStartDate;
     if (minStartDate !== null) {
@@ -85,6 +89,11 @@ export const useTimePeriodListFilters = ({
       );
 
       updatedFilterMap.set("min-date-start", filterMinStartDateString);
+
+      const storeMinStartDateString =
+        ConvertCalendarDateToYmdString(minStartDate);
+
+      storeFilterMap.set("min-date-start", storeMinStartDateString as string);
     }
 
     const maxStartDate = storeMaxStartDate ?? filterMaxStartDate;
@@ -95,6 +104,11 @@ export const useTimePeriodListFilters = ({
       );
 
       updatedFilterMap.set("max-date-start", filterMaxStartDateString);
+
+      const storeMaxStartDateString =
+        ConvertCalendarDateToYmdString(minStartDate);
+
+      storeFilterMap.set("max-date-start", storeMaxStartDateString as string);
     }
 
     const minEndDate = storeMinEndDate ?? filterMinEndDate;
@@ -105,6 +119,11 @@ export const useTimePeriodListFilters = ({
       );
 
       updatedFilterMap.set("min-date-end", filterMinEndDateString);
+
+      const storeMinEndDateString =
+        ConvertCalendarDateToYmdString(minStartDate);
+
+      storeFilterMap.set("min-date-end", storeMinEndDateString as string);
     }
 
     const maxEndDate = storeMaxEndDate ?? filterMaxEndDate;
@@ -115,6 +134,11 @@ export const useTimePeriodListFilters = ({
       );
 
       updatedFilterMap.set("max-date-end", filterMaxEndDateString);
+
+      const storeMaxEndDateString =
+        ConvertCalendarDateToYmdString(minStartDate);
+
+      storeFilterMap.set("max-date-end", storeMaxEndDateString as string);
     }
 
     const minDuration = storeMinDuration ?? filterMinDuration;
@@ -154,7 +178,7 @@ export const useTimePeriodListFilters = ({
 
     setFilterMap(updatedFilterMap);
 
-    saveFilterMapToStore(updatedFilterMap);
+    saveFilterMapToStore(storeFilterMap);
 
     activeModal.onClose();
   };
@@ -275,13 +299,11 @@ export const useTimePeriodListFilters = ({
     return prefixMap;
   }, [filterDietPhaseTypes]);
 
-  const saveFilterMapToStore = async (
-    updatedFilterMap: TimePeriodFilterMap
-  ) => {
+  const saveFilterMapToStore = async (storeFilterMap: TimePeriodFilterMap) => {
     if (store.current === null) return;
 
     await store.current.set("filter-map-time-periods", {
-      value: JSON.stringify(Array.from(updatedFilterMap.entries())),
+      value: JSON.stringify(Array.from(storeFilterMap.entries())),
     });
   };
 
