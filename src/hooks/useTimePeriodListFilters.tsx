@@ -67,7 +67,7 @@ export const useTimePeriodListFilters = ({
 
   const handleFilterSaveButton = (
     locale: string,
-    activeModal: UseDisclosureReturnType,
+    activeModal?: UseDisclosureReturnType,
     storeMinStartDate?: CalendarDate | null,
     storeMaxStartDate?: CalendarDate | null,
     storeMinEndDate?: CalendarDate | null,
@@ -178,7 +178,7 @@ export const useTimePeriodListFilters = ({
 
     saveFilterMapToStore(storeFilterMap);
 
-    activeModal.onClose();
+    if (activeModal !== undefined) activeModal.onClose();
   };
 
   const removeFilter = (key: string) => {
