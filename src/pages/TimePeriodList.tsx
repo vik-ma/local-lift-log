@@ -76,6 +76,8 @@ export default function TimePeriodList() {
 
       await LoadStore(store);
 
+      await loadFilterMapFromStore(userSettings.locale);
+
       const sortCategory = await GetSortCategoryFromStore(
         store,
         "ongoing" as TimePeriodSortCategory,
@@ -89,8 +91,6 @@ export default function TimePeriodList() {
         "time-period"
       );
       setSelectedTimePeriodProperties(timePeriodPropertySet);
-
-      await loadFilterMapFromStore(userSettings.locale);
     };
 
     loadPage();
