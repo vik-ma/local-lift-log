@@ -362,11 +362,16 @@ export const useTimePeriodListFilters = ({
 
       const filterStoreValues: FilterStoreValues = {};
 
+      const addedKeys = new Set<TimePeriodListFilterMapKey>();
+
       for (const filter of storeFilterList) {
         const key = filter[0];
         const value = filter[1];
 
-        if (key === undefined || value === undefined) continue;
+        if (key === undefined || value === undefined || addedKeys.has(key))
+          continue;
+
+        addedKeys.add(key);
 
         switch (key) {
           case "min-date-start": {
