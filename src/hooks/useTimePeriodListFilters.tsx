@@ -14,6 +14,7 @@ import {
   ConvertCalendarDateToYmdString,
   ConvertDateStringToCalendarDate,
   IsEndDateBeforeStartDate,
+  IsNumberValidInteger,
 } from "../helpers";
 
 type UseTimePeriodListFiltersProps = {
@@ -434,6 +435,34 @@ export const useTimePeriodListFilters = ({
               filterStoreValues.storeMaxEndDate = maxEndDate;
             }
 
+            break;
+          }
+          case "min-duration": {
+            const minDuration = value as number;
+
+            const minValue = 0;
+            const doNotAllowMinValue = true;
+
+            if (
+              IsNumberValidInteger(minDuration, minValue, doNotAllowMinValue)
+            ) {
+              setFilterMinDuration(minDuration);
+              filterStoreValues.storeMinDuration = minDuration;
+            }
+            break;
+          }
+          case "max-duration": {
+            const maxDuration = value as number;
+
+            const minValue = 0;
+            const doNotAllowMinValue = true;
+
+            if (
+              IsNumberValidInteger(maxDuration, minValue, doNotAllowMinValue)
+            ) {
+              setFilterMaxDuration(maxDuration);
+              filterStoreValues.storeMaxDuration = maxDuration;
+            }
             break;
           }
           default:
