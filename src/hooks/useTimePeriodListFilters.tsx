@@ -454,8 +454,8 @@ export const useTimePeriodListFilters = ({
           case "max-duration": {
             const maxDuration = value as number;
 
-            const minValue = 0;
-            const doNotAllowMinValue = true;
+            const minValue = filterStoreValues.storeMinDuration ?? 0;
+            const doNotAllowMinValue = minValue === 0;
 
             if (
               IsNumberValidInteger(maxDuration, minValue, doNotAllowMinValue)
