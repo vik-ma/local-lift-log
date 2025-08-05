@@ -182,6 +182,11 @@ export const useTimePeriodListFilters = ({
       const filterDietPhaseTypesString = Array.from(dietPhaseTypes).join(", ");
 
       updatedFilterMap.set("diet-phase", filterDietPhaseTypesString);
+
+      const filterDietPhaseTypesStoreString =
+        Array.from(dietPhaseTypes).join(",");
+
+      storeFilterMap.set("diet-phase", filterDietPhaseTypesStoreString);
     }
 
     const hasInjury = filterStoreValues?.storeHasInjury ?? filterHasInjury;
