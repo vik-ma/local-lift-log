@@ -13,6 +13,7 @@ import {
   ConvertCalendarDateToLocalizedString,
   ConvertCalendarDateToYmdString,
   ConvertDateStringToCalendarDate,
+  DietPhaseTypes,
   IsEndDateBeforeStartDate,
   IsNumberValidInteger,
 } from "../helpers";
@@ -454,6 +455,7 @@ export const useTimePeriodListFilters = ({
               setFilterMinDuration(minDuration);
               filterStoreValues.storeMinDuration = minDuration;
             }
+
             break;
           }
           case "max-duration": {
@@ -468,6 +470,25 @@ export const useTimePeriodListFilters = ({
               setFilterMaxDuration(maxDuration);
               filterStoreValues.storeMaxDuration = maxDuration;
             }
+
+            break;
+          }
+          case "diet-phase": {
+            const dietPhaseString = value as string;
+
+            const dietPhases = dietPhaseString.split(",");
+
+            const dietPhaseSet = new Set<string>();
+
+            for (const dietPhase of dietPhases) {
+              if (DietPhaseTypes().includes(dietPhase)) {
+                dietPhaseSet.add(dietPhase);
+              }
+            }
+
+            setFilterDietPhaseTypes(dietPhaseSet);
+            filterStoreValues.storeDietPhaseTypes = dietPhaseSet;
+
             break;
           }
           default:
