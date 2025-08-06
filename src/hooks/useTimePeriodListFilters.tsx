@@ -202,9 +202,13 @@ export const useTimePeriodListFilters = ({
 
     const status = filterStoreValues?.storeStatus ?? filterStatus;
     if (status.size > 0) {
-      const filterStatusString = Array.from(status).join(", ");
+      const statusArray = Array.from(status);
 
+      const filterStatusString = statusArray.join(", ");
       updatedFilterMap.set("status", filterStatusString);
+
+      const filterStatusStoreString = statusArray.join(",");
+      storeFilterMap.set("status", filterStatusStoreString);
     }
 
     setFilterMap(updatedFilterMap);
