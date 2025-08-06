@@ -519,6 +519,24 @@ export const useTimePeriodListFilters = ({
 
             break;
           }
+          case "status": {
+            const statusString = value as string;
+
+            const statusFilters = statusString.split(",");
+
+            const statusSet = new Set<string>();
+
+            for (const statusFilter of statusFilters) {
+              if (statusFilter === "Ongoing" || statusFilter === "Ended") {
+                statusSet.add(statusFilter);
+              }
+            }
+
+            setFilterStatus(statusSet);
+            filterStoreValues.storeStatus = statusSet;
+
+            break;
+          }
           default:
             break;
         }
