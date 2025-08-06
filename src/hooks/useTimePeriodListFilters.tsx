@@ -479,18 +479,39 @@ export const useTimePeriodListFilters = ({
           case "diet-phase": {
             const dietPhaseString = value as string;
 
-            const dietPhases = dietPhaseString.split(",");
+            const dietPhaseFilters = dietPhaseString.split(",");
 
             const dietPhaseSet = new Set<string>();
 
-            for (const dietPhase of dietPhases) {
-              if (DietPhaseTypes().includes(dietPhase)) {
-                dietPhaseSet.add(dietPhase);
+            for (const dietPhaseFilter of dietPhaseFilters) {
+              if (DietPhaseTypes().includes(dietPhaseFilter)) {
+                dietPhaseSet.add(dietPhaseFilter);
               }
             }
 
             setFilterDietPhaseTypes(dietPhaseSet);
             filterStoreValues.storeDietPhaseTypes = dietPhaseSet;
+
+            break;
+          }
+          case "injury": {
+            const injuryString = value as string;
+
+            const hasInjuryFilters = injuryString.split(",");
+
+            const hasInjurySet = new Set<string>();
+
+            for (const injuryFilter of hasInjuryFilters) {
+              if (
+                injuryFilter === "Has Injury" ||
+                injuryFilter === "No Injury"
+              ) {
+                hasInjurySet.add(injuryFilter);
+              }
+            }
+
+            setFilterHasInjury(hasInjurySet);
+            filterStoreValues.storeHasInjury = hasInjurySet;
 
             break;
           }
