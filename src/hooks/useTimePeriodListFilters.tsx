@@ -180,21 +180,24 @@ export const useTimePeriodListFilters = ({
     const dietPhaseTypes =
       filterStoreValues?.storeDietPhaseTypes ?? filterDietPhaseTypes;
     if (dietPhaseTypes.size > 0) {
-      const filterDietPhaseTypesString = Array.from(dietPhaseTypes).join(", ");
+      const dietPhaseTypesArray = Array.from(dietPhaseTypes);
 
+      const filterDietPhaseTypesString = dietPhaseTypesArray.join(", ");
       updatedFilterMap.set("diet-phase", filterDietPhaseTypesString);
 
-      const filterDietPhaseTypesStoreString =
-        Array.from(dietPhaseTypes).join(",");
-
+      const filterDietPhaseTypesStoreString = dietPhaseTypesArray.join(",");
       storeFilterMap.set("diet-phase", filterDietPhaseTypesStoreString);
     }
 
     const hasInjury = filterStoreValues?.storeHasInjury ?? filterHasInjury;
     if (hasInjury.size > 0) {
-      const filterHasInjuryString = Array.from(hasInjury).join(", ");
+      const hasInjuryArray = Array.from(hasInjury);
 
+      const filterHasInjuryString = hasInjuryArray.join(", ");
       updatedFilterMap.set("injury", filterHasInjuryString);
+
+      const filterHasInjuryStoreString = hasInjuryArray.join(",");
+      storeFilterMap.set("injury", filterHasInjuryStoreString);
     }
 
     const status = filterStoreValues?.storeStatus ?? filterStatus;
