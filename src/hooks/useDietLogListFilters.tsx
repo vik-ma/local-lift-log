@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import {
   DietLogFilterMap,
+  DietLogListFilterMapKey,
+  StoreRef,
   UseDietLogListFiltersReturnType,
   UseDisclosureReturnType,
 } from "../typings";
@@ -12,7 +14,15 @@ import {
 } from ".";
 import { ConvertCalendarDateToYmdString } from "../helpers";
 
-export const useDietLogListFilters = (): UseDietLogListFiltersReturnType => {
+type UseDietLogListFiltersProps = {
+  store: StoreRef;
+};
+
+type DietLogStoreFilterMap = Map<DietLogListFilterMapKey, string | number>;
+
+export const useDietLogListFilters = ({
+  store,
+}: UseDietLogListFiltersProps): UseDietLogListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<DietLogFilterMap>(new Map());
   const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(null);
   const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(null);

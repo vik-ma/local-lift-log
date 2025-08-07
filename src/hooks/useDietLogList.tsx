@@ -45,7 +45,7 @@ export const useDietLogList = ({
 
   const isDietLogListLoaded = useRef(false);
 
-  const dietLogListFilters = useDietLogListFilters();
+  const dietLogListFilters = useDietLogListFilters({ store: store });
 
   const {
     filterMap,
