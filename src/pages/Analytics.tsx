@@ -275,6 +275,7 @@ export default function Analytics() {
     getTimePeriods,
     isTimePeriodListLoaded,
     setSelectedTimePeriodProperties,
+    loadTimePeriodFilterMapFromStore,
   } = timePeriodList;
 
   const {
@@ -374,6 +375,8 @@ export default function Analytics() {
       modalListType === "time-period-list" &&
       !isTimePeriodListLoaded.current
     ) {
+      await loadTimePeriodFilterMapFromStore(userSettings.locale);
+
       const sortCategoryTimePeriod = await GetSortCategoryFromStore(
         store,
         "ongoing" as TimePeriodSortCategory,
