@@ -856,7 +856,7 @@ export type UseTimePeriodListReturnType = {
   setSelectedTimePeriodProperties: React.Dispatch<
     React.SetStateAction<Set<string>>
   >;
-  loadFilterMapFromStore: (locale: string) => Promise<void>;
+  loadTimePeriodFilterMapFromStore: (locale: string) => Promise<void>;
 };
 
 export type ShownPropertiesTargetType = "workout" | "time-period";
@@ -900,7 +900,7 @@ export type UseTimePeriodListFiltersReturnType = {
   filterStatus: Set<string>;
   setFilterStatus: React.Dispatch<React.SetStateAction<Set<string>>>;
   filterMinAndMaxValueInputs: UseFilterMinAndMaxValueInputsReturnType;
-  loadFilterMapFromStore: (locale: string) => Promise<void>;
+  loadTimePeriodFilterMapFromStore: (locale: string) => Promise<void>;
 };
 
 export type UseFilterMinAndMaxValueInputsProps = {

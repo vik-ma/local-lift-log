@@ -63,7 +63,7 @@ export default function TimePeriodList() {
     timePeriodListFilters,
     selectedTimePeriodProperties,
     setSelectedTimePeriodProperties,
-    loadFilterMapFromStore,
+    loadTimePeriodFilterMapFromStore,
   } = timePeriodList;
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export default function TimePeriodList() {
 
       await LoadStore(store);
 
-      await loadFilterMapFromStore(userSettings.locale);
+      await loadTimePeriodFilterMapFromStore(userSettings.locale);
 
       const sortCategory = await GetSortCategoryFromStore(
         store,

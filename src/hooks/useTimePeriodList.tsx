@@ -49,7 +49,7 @@ export const useTimePeriodList = ({
     filterDietPhaseTypes,
     filterHasInjury,
     filterStatus,
-    loadFilterMapFromStore,
+    loadTimePeriodFilterMapFromStore,
   } = timePeriodListFilters;
 
   const filteredTimePeriods = useMemo(() => {
@@ -367,6 +367,6 @@ export const useTimePeriodList = ({
     timePeriodListFilters,
     selectedTimePeriodProperties,
     setSelectedTimePeriodProperties,
-    loadFilterMapFromStore,
+    loadTimePeriodFilterMapFromStore,
   };
 };

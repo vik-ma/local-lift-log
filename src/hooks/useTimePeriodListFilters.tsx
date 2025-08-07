@@ -356,7 +356,7 @@ export const useTimePeriodListFilters = ({
     storeFilters.current = storeFilterMap;
   };
 
-  const loadFilterMapFromStore = async (locale: string) => {
+  const loadTimePeriodFilterMapFromStore = async (locale: string) => {
     if (store.current === null) return;
 
     const val = await store.current.get<{ value: string }>(
@@ -576,6 +576,6 @@ export const useTimePeriodListFilters = ({
     filterStatus,
     setFilterStatus,
     filterMinAndMaxValueInputs,
-    loadFilterMapFromStore,
+    loadTimePeriodFilterMapFromStore,
   };
 };
