@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   DietLogFilterMap,
   DietLogListFilterMapKey,
@@ -59,8 +59,11 @@ export const useDietLogListFilters = ({
   const [includeNullInMaxValuesProtein, setIncludeNullInMaxValuesProtein] =
     useState<boolean>(false);
 
+  const storeFilters = useRef<DietLogStoreFilterMap>(new Map());
+
   const handleFilterSaveButton = (activeModal: UseDisclosureReturnType) => {
     const updatedFilterMap: DietLogFilterMap = new Map();
+    const storeFilterMap: DietLogStoreFilterMap = new Map();
 
     if (filterMinDate !== null) {
       const filterMinDateString = ConvertCalendarDateToYmdString(filterMinDate);
@@ -135,6 +138,8 @@ export const useDietLogListFilters = ({
     }
 
     setFilterMap(updatedFilterMap);
+
+    saveFilterMapToStore(storeFilterMap);
 
     activeModal.onClose();
   };
@@ -225,6 +230,8 @@ export const useDietLogListFilters = ({
     filterMinAndMaxValueInputsFat.resetInputs();
     filterMinAndMaxValueInputsCarbs.resetInputs();
     filterMinAndMaxValueInputsProtein.resetInputs();
+
+    saveFilterMapToStore(new Map());
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -274,6 +281,18 @@ export const useDietLogListFilters = ({
 
     return prefixMap;
   }, [filterWeekdays]);
+
+  const saveFilterMapToStore = async (
+    storeFilterMap: DietLogStoreFilterMap
+  ) => {
+    if (store.current === null) return;
+
+    await store.current.set("filter-map-diet-logs", {
+      value: JSON.stringify(Array.from(storeFilterMap.entries())),
+    });
+
+    storeFilters.current = storeFilterMap;
+  };
 
   return {
     handleFilterSaveButton,
