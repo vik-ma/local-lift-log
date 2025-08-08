@@ -146,71 +146,72 @@ export const useDietLogListFilters = ({
 
   const removeFilter = (key: string) => {
     const updatedFilterMap = new Map(filterMap);
+    const updatedStoreFilterMap = new Map(storeFilters.current);
 
-    if (key === "min-date" && filterMap.has("min-date")) {
-      updatedFilterMap.delete("min-date");
-      setFilterMinDate(null);
+    switch (key) {
+      case "min-date": {
+        setFilterMinDate(null);
+        break;
+      }
+      case "max-date": {
+        setFilterMaxDate(null);
+        break;
+      }
+      case "weekdays": {
+        setFilterWeekdays(new Set());
+        break;
+      }
+      case "min-calories": {
+        setFilterMinCalories(null);
+        filterMinAndMaxValueInputsCalories.resetMinInput();
+        break;
+      }
+      case "max-calories": {
+        setFilterMaxCalories(null);
+        filterMinAndMaxValueInputsCalories.resetMaxInput();
+        break;
+      }
+      case "min-fat": {
+        setFilterMinFat(null);
+        filterMinAndMaxValueInputsFat.resetMinInput();
+        break;
+      }
+      case "max-fat": {
+        setFilterMaxFat(null);
+        filterMinAndMaxValueInputsFat.resetMaxInput();
+        break;
+      }
+      case "min-carbs": {
+        setFilterMinCarbs(null);
+        filterMinAndMaxValueInputsCarbs.resetMinInput();
+        break;
+      }
+      case "max-carbs": {
+        setFilterMaxCarbs(null);
+        filterMinAndMaxValueInputsCarbs.resetMaxInput();
+        break;
+      }
+      case "min-protein": {
+        setFilterMinProtein(null);
+        filterMinAndMaxValueInputsProtein.resetMinInput();
+        break;
+      }
+      case "max-protein": {
+        setFilterMaxProtein(null);
+        filterMinAndMaxValueInputsProtein.resetMinInput();
+        break;
+      }
+      default: {
+        return;
+      }
     }
 
-    if (key === "max-date" && filterMap.has("max-date")) {
-      updatedFilterMap.delete("max-date");
-      setFilterMaxDate(null);
-    }
-
-    if (key === "weekdays" && filterMap.has("weekdays")) {
-      updatedFilterMap.delete("weekdays");
-      setFilterWeekdays(new Set());
-    }
-
-    if (key === "min-calories" && filterMap.has("min-calories")) {
-      updatedFilterMap.delete("min-calories");
-      setFilterMinCalories(null);
-      filterMinAndMaxValueInputsCalories.resetMinInput();
-    }
-
-    if (key === "max-calories" && filterMap.has("max-calories")) {
-      updatedFilterMap.delete("max-calories");
-      setFilterMaxCalories(null);
-      filterMinAndMaxValueInputsCalories.resetMaxInput();
-    }
-
-    if (key === "min-fat" && filterMap.has("min-fat")) {
-      updatedFilterMap.delete("min-fat");
-      setFilterMinFat(null);
-      filterMinAndMaxValueInputsFat.resetMinInput();
-    }
-
-    if (key === "max-fat" && filterMap.has("max-fat")) {
-      updatedFilterMap.delete("max-fat");
-      setFilterMaxFat(null);
-      filterMinAndMaxValueInputsFat.resetMaxInput();
-    }
-
-    if (key === "min-carbs" && filterMap.has("min-carbs")) {
-      updatedFilterMap.delete("min-carbs");
-      setFilterMinCarbs(null);
-      filterMinAndMaxValueInputsCarbs.resetMinInput();
-    }
-
-    if (key === "max-carbs" && filterMap.has("max-carbs")) {
-      updatedFilterMap.delete("max-carbs");
-      setFilterMaxCarbs(null);
-      filterMinAndMaxValueInputsCarbs.resetMaxInput();
-    }
-
-    if (key === "min-protein" && filterMap.has("min-protein")) {
-      updatedFilterMap.delete("min-protein");
-      setFilterMinProtein(null);
-      filterMinAndMaxValueInputsProtein.resetMinInput();
-    }
-
-    if (key === "max-protein" && filterMap.has("max-protein")) {
-      updatedFilterMap.delete("max-protein");
-      setFilterMaxProtein(null);
-      filterMinAndMaxValueInputsProtein.resetMinInput();
-    }
+    updatedFilterMap.delete(key as DietLogListFilterMapKey);
+    updatedStoreFilterMap.delete(key as DietLogListFilterMapKey);
 
     setFilterMap(updatedFilterMap);
+
+    saveFilterMapToStore(updatedStoreFilterMap);
   };
 
   const resetFilter = () => {
