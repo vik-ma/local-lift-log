@@ -222,61 +222,52 @@ export const useTimePeriodListFilters = ({
     const updatedFilterMap = new Map(filterMap);
     const updatedStoreFilterMap = new Map(storeFilters.current);
 
-    if (key === "min-date-start" && filterMap.has("min-date-start")) {
-      updatedFilterMap.delete("min-date-start");
-      updatedStoreFilterMap.delete("min-date-start");
-      setFilterMinStartDate(null);
+    switch (key) {
+      case "min-date-start": {
+        setFilterMinStartDate(null);
+        break;
+      }
+      case "max-date-start": {
+        setFilterMaxStartDate(null);
+        break;
+      }
+      case "min-date-end": {
+        setFilterMinEndDate(null);
+        break;
+      }
+      case "max-date-end": {
+        setFilterMaxEndDate(null);
+        break;
+      }
+      case "min-duration": {
+        setFilterMinDuration(null);
+        filterMinAndMaxValueInputs.resetMinInput();
+        break;
+      }
+      case "max-duration": {
+        setFilterMaxDuration(null);
+        filterMinAndMaxValueInputs.resetMaxInput();
+        break;
+      }
+      case "diet-phase": {
+        setFilterDietPhaseTypes(new Set());
+        break;
+      }
+      case "injury": {
+        setFilterHasInjury(new Set());
+        break;
+      }
+      case "status": {
+        setFilterStatus(new Set());
+        break;
+      }
+      case "default": {
+        return;
+      }
     }
 
-    if (key === "max-date-start" && filterMap.has("max-date-start")) {
-      updatedFilterMap.delete("max-date-start");
-      updatedStoreFilterMap.delete("max-date-start");
-      setFilterMaxStartDate(null);
-    }
-
-    if (key === "min-date-end" && filterMap.has("min-date-end")) {
-      updatedFilterMap.delete("min-date-end");
-      updatedStoreFilterMap.delete("min-date-end");
-      setFilterMinEndDate(null);
-    }
-
-    if (key === "max-date-end" && filterMap.has("max-date-end")) {
-      updatedFilterMap.delete("max-date-end");
-      updatedStoreFilterMap.delete("max-date-end");
-      setFilterMaxEndDate(null);
-    }
-
-    if (key === "min-duration" && filterMap.has("min-duration")) {
-      updatedFilterMap.delete("min-duration");
-      updatedStoreFilterMap.delete("min-duration");
-      setFilterMinDuration(null);
-      filterMinAndMaxValueInputs.resetMinInput();
-    }
-
-    if (key === "max-duration" && filterMap.has("max-duration")) {
-      updatedFilterMap.delete("max-duration");
-      updatedStoreFilterMap.delete("max-duration");
-      setFilterMaxDuration(null);
-      filterMinAndMaxValueInputs.resetMaxInput();
-    }
-
-    if (key === "diet-phase" && filterMap.has("diet-phase")) {
-      updatedFilterMap.delete("diet-phase");
-      updatedStoreFilterMap.delete("diet-phase");
-      setFilterDietPhaseTypes(new Set());
-    }
-
-    if (key === "injury" && filterMap.has("injury")) {
-      updatedFilterMap.delete("injury");
-      updatedStoreFilterMap.delete("injury");
-      setFilterHasInjury(new Set());
-    }
-
-    if (key === "status" && filterMap.has("status")) {
-      updatedFilterMap.delete("status");
-      updatedStoreFilterMap.delete("status");
-      setFilterStatus(new Set());
-    }
+    updatedFilterMap.delete(key as TimePeriodListFilterMapKey);
+    updatedStoreFilterMap.delete(key as TimePeriodListFilterMapKey);
 
     setFilterMap(updatedFilterMap);
 
