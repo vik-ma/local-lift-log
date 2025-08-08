@@ -967,6 +967,7 @@ export type UseDietLogListReturnType = {
   latestDietLog: DietLog;
   setLatestDietLog: React.Dispatch<React.SetStateAction<DietLog>>;
   defaultDietLog: DietLog;
+  loadDietLogFilterMapFromStore: () => Promise<void>;
 };
 
 export type UseDietLogListFiltersReturnType = {
@@ -1012,6 +1013,7 @@ export type UseDietLogListFiltersReturnType = {
   setIncludeNullInMaxValuesProtein: React.Dispatch<
     React.SetStateAction<boolean>
   >;
+  loadDietLogFilterMapFromStore: () => Promise<void>;
 };
 
 export type FilterMinAndMaxValuesSetStateMap = Map<

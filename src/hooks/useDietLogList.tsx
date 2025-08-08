@@ -63,6 +63,7 @@ export const useDietLogList = ({
     includeNullInMaxValuesFat,
     includeNullInMaxValuesCarbs,
     includeNullInMaxValuesProtein,
+    loadDietLogFilterMapFromStore,
   } = dietLogListFilters;
 
   const filteredDietLogs = useMemo(() => {
@@ -428,5 +429,6 @@ export const useDietLogList = ({
     latestDietLog,
     setLatestDietLog,
     defaultDietLog,
+    loadDietLogFilterMapFromStore,
   };
 };

@@ -325,6 +325,49 @@ export const useDietLogListFilters = ({
     storeFilters.current = storeFilterMap;
   };
 
+  const loadDietLogFilterMapFromStore = async () => {
+    if (store.current === null) return;
+
+    const val = await store.current.get<{ value: string }>(
+      "filter-map-diet-logs"
+    );
+
+    if (val === undefined) return;
+
+    try {
+      const storeFilterList: [DietLogListFilterMapKey, string | number][] =
+        JSON.parse(val.value);
+
+      if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
+        handleFilterSaveButton();
+        return;
+      }
+
+      const filterStoreValues: FilterStoreValues = {};
+
+      const addedKeys = new Set<DietLogListFilterMapKey>();
+
+      for (const filter of storeFilterList) {
+        const key = filter[0];
+        const value = filter[1];
+
+        if (key === undefined || value === undefined || addedKeys.has(key))
+          continue;
+
+        addedKeys.add(key);
+
+        switch (key) {
+          default:
+            break;
+        }
+      }
+
+      handleFilterSaveButton(undefined, filterStoreValues);
+    } catch {
+      handleFilterSaveButton();
+    }
+  };
+
   return {
     handleFilterSaveButton,
     filterMap,
@@ -366,5 +409,6 @@ export const useDietLogListFilters = ({
     setIncludeNullInMaxValuesCarbs,
     includeNullInMaxValuesProtein,
     setIncludeNullInMaxValuesProtein,
+    loadDietLogFilterMapFromStore,
   };
 };
