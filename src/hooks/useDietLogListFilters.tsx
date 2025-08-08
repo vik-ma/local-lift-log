@@ -18,6 +18,20 @@ type UseDietLogListFiltersProps = {
   store: StoreRef;
 };
 
+type FilterStoreValues = {
+  storeMinDate?: CalendarDate | null;
+  storeMaxDate?: CalendarDate | null;
+  storeWeekdays?: Set<string>;
+  storeMinCalories?: number;
+  storeMaxCalories?: number;
+  storeMinFat?: number;
+  storeMaxFat?: number;
+  storeMinCarbs?: number;
+  storeMaxCarbs?: number;
+  storeMinProtein?: number;
+  storeMaxProtein?: number;
+};
+
 type DietLogStoreFilterMap = Map<DietLogListFilterMapKey, string | number>;
 
 export const useDietLogListFilters = ({
@@ -61,78 +75,94 @@ export const useDietLogListFilters = ({
 
   const storeFilters = useRef<DietLogStoreFilterMap>(new Map());
 
-  const handleFilterSaveButton = (activeModal: UseDisclosureReturnType) => {
+  const handleFilterSaveButton = (
+    activeModal?: UseDisclosureReturnType,
+    filterStoreValues?: FilterStoreValues
+  ) => {
     const updatedFilterMap: DietLogFilterMap = new Map();
     const storeFilterMap: DietLogStoreFilterMap = new Map();
 
-    if (filterMinDate !== null) {
-      const filterMinDateString = ConvertCalendarDateToYmdString(filterMinDate);
+    const minDate = filterStoreValues?.storeMinDate ?? filterMinDate;
+    if (minDate !== null) {
+      const filterMinDateString = ConvertCalendarDateToYmdString(minDate);
 
       if (filterMinDateString !== null) {
         updatedFilterMap.set("min-date", filterMinDateString);
       }
     }
 
-    if (filterMaxDate !== null) {
-      const filterMaxDateString = ConvertCalendarDateToYmdString(filterMaxDate);
+    const maxDate = filterStoreValues?.storeMaxDate ?? filterMaxDate;
+    if (maxDate !== null) {
+      const filterMaxDateString = ConvertCalendarDateToYmdString(maxDate);
 
       if (filterMaxDateString !== null) {
         updatedFilterMap.set("max-date", filterMaxDateString);
       }
     }
 
-    if (filterWeekdays.size > 0) {
-      const filterWeekdaysString = Array.from(filterWeekdays)
+    const weekdays = filterStoreValues?.storeWeekdays ?? filterWeekdays;
+    if (weekdays.size > 0) {
+      const filterWeekdaysString = Array.from(weekdays)
         .map((day) => (weekdayMap.get(day) ?? "").substring(0, 3))
         .join(", ");
 
       updatedFilterMap.set("weekdays", filterWeekdaysString);
     }
 
-    if (filterMinCalories !== null) {
-      const filterMinCaloriesString = `${filterMinCalories} kcal`;
+    const minCalories =
+      filterStoreValues?.storeMinCalories ?? filterMinCalories;
+    if (minCalories !== null) {
+      const filterMinCaloriesString = `${minCalories} kcal`;
 
       updatedFilterMap.set("min-calories", filterMinCaloriesString);
     }
 
-    if (filterMaxCalories !== null) {
-      const filterMaxCaloriesString = `${filterMaxCalories} kcal`;
+    const maxCalories =
+      filterStoreValues?.storeMaxCalories ?? filterMaxCalories;
+    if (maxCalories !== null) {
+      const filterMaxCaloriesString = `${maxCalories} kcal`;
 
       updatedFilterMap.set("max-calories", filterMaxCaloriesString);
     }
 
-    if (filterMinFat !== null) {
-      const filterMinFatString = `${filterMinFat} g`;
+    const minFat = filterStoreValues?.storeMinFat ?? filterMinFat;
+    if (minFat !== null) {
+      const filterMinFatString = `${minFat} g`;
 
       updatedFilterMap.set("min-fat", filterMinFatString);
     }
 
-    if (filterMaxFat !== null) {
-      const filterMaxFatString = `${filterMaxFat} g`;
+    const maxFat = filterStoreValues?.storeMaxFat ?? filterMaxFat;
+    if (maxFat !== null) {
+      const filterMaxFatString = `${maxFat} g`;
 
       updatedFilterMap.set("max-fat", filterMaxFatString);
     }
 
-    if (filterMinCarbs !== null) {
-      const filterMinCarbsString = `${filterMinCarbs} g`;
+    const minCarbs = filterStoreValues?.storeMinCarbs ?? filterMinCarbs;
+    if (minCarbs !== null) {
+      const filterMinCarbsString = `${minCarbs} g`;
 
       updatedFilterMap.set("min-carbs", filterMinCarbsString);
     }
 
-    if (filterMaxCarbs !== null) {
-      const filterMaxCarbsString = `${filterMaxCarbs} g`;
+    const maxCarbs = filterStoreValues?.storeMaxCarbs ?? filterMaxCarbs;
+    if (maxCarbs !== null) {
+      const filterMaxCarbsString = `${maxCarbs} g`;
 
       updatedFilterMap.set("max-carbs", filterMaxCarbsString);
     }
 
-    if (filterMinProtein !== null) {
-      const filterMinProteinString = `${filterMinProtein} g`;
+    const minProtein = filterStoreValues?.storeMinProtein ?? filterMinProtein;
+    if (minProtein !== null) {
+      const filterMinProteinString = `${minProtein} g`;
 
       updatedFilterMap.set("min-protein", filterMinProteinString);
     }
 
-    if (filterMaxProtein !== null) {
-      const filterMaxProteinString = `${filterMaxProtein} g`;
+    const maxProtein = filterStoreValues?.storeMaxProtein ?? filterMaxProtein;
+    if (maxProtein !== null) {
+      const filterMaxProteinString = `${maxProtein} g`;
 
       updatedFilterMap.set("max-protein", filterMaxProteinString);
     }
@@ -141,7 +171,7 @@ export const useDietLogListFilters = ({
 
     saveFilterMapToStore(storeFilterMap);
 
-    activeModal.onClose();
+    if (activeModal !== undefined) activeModal.onClose();
   };
 
   const removeFilter = (key: string) => {
