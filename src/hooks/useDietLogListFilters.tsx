@@ -398,6 +398,24 @@ export const useDietLogListFilters = ({
 
             break;
           }
+          case "weekdays": {
+            const weekdaysString = value as string;
+
+            const weekdays = weekdaysString.split(",").sort();
+
+            const weekdaysSet = new Set<string>();
+
+            for (const day of weekdays) {
+              if (weekdayMap.has(day)) {
+                weekdaysSet.add(day);
+              }
+            }
+
+            setFilterWeekdays(weekdaysSet);
+            filterStoreValues.storeWeekdays = weekdaysSet;
+
+            break;
+          }
           default:
             break;
         }
