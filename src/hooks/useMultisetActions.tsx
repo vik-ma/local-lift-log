@@ -8,6 +8,7 @@ import {
   MultisetOperationType,
   UseMultisetActionsReturnType,
   UserSettings,
+  StoreRef,
 } from "../typings";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useDefaultExercise, useListFilters, useMultisetTypeMap } from ".";
@@ -31,6 +32,7 @@ type UseMultisetActionsProps = {
   deleteModal: UseDisclosureReturnType;
   exerciseList: UseExerciseListReturnType;
   defaultMultiset: Multiset;
+  store: StoreRef;
   defaultPage?: MultisetModalPage;
   userSettings?: UserSettings | undefined;
   removeSetFromMultiset?: (
@@ -47,6 +49,7 @@ export const useMultisetActions = ({
   deleteModal,
   exerciseList,
   defaultMultiset,
+  store,
   defaultPage,
   userSettings,
   removeSetFromMultiset,
@@ -70,7 +73,10 @@ export const useMultisetActions = ({
   const multisetModal = useDisclosure();
   const filterMultisetsModal = useDisclosure();
 
-  const listFilters = useListFilters({ useExerciseList: exerciseList });
+  const listFilters = useListFilters({
+    store: store,
+    useExerciseList: exerciseList,
+  });
 
   const {
     filterMap,

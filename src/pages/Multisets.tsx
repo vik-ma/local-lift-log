@@ -163,6 +163,7 @@ export default function Multisets() {
     deleteModal,
     exerciseList,
     defaultMultiset,
+    store,
     userSettings,
     removeSetFromMultiset,
   });

@@ -172,6 +172,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     deleteModal,
     exerciseList,
     defaultMultiset,
+    store,
     defaultPage: "multiset-list",
   });
 
