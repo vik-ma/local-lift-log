@@ -64,6 +64,7 @@ export default function DietLogList() {
     addDietLogEntryRange,
     defaultDietLog,
     getDietLogs,
+    loadDietLogFilterMapFromStore,
   } = dietLogList;
 
   const [operatingDietLog, setOperatingDietLog] =
@@ -80,6 +81,8 @@ export default function DietLogList() {
       setUserSettings(userSettings);
 
       await LoadStore(store);
+
+      await loadDietLogFilterMapFromStore();
 
       const sortCategory = await GetSortCategoryFromStore(
         store,
