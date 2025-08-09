@@ -47,6 +47,7 @@ type FilterStoreValues = {
   storeMinDistance?: number;
   storeMaxDistance?: number;
   storeMeasurements?: Set<string>;
+  storeMeasurementTypes?: Set<string>;
   storeWorkoutTemplates?: Set<number>;
   storeScheduleTypes?: Set<string>;
   storeMinNumScheduleDays?: number;
@@ -59,9 +60,10 @@ type FilterStoreValues = {
   // TODO: REMOVE?
   storeWeightRangeUnit?: string;
   storeDistanceRangeUnit?: string;
+  storeIncludeNullInMaxValues?: boolean;
 };
 
-type StoreFilterMap = Map<ListFilterMapKey, string | number>;
+type StoreFilterMap = Map<ListFilterMapKey, string | number | boolean>;
 
 export const useListFilters = ({
   store,
@@ -73,6 +75,9 @@ export const useListFilters = ({
   filterMinAndMaxValueInputsSecondary,
 }: UseListFiltersProps): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<ListFilterMap>(new Map());
+  const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(null);
+  const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(null);
+  const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(new Set());
   const [filterRoutines, setFilterRoutines] = useState<Set<number>>(new Set());
   const [filterExercises, setFilterExercises] = useState<Set<number>>(
     new Set()
@@ -80,19 +85,6 @@ export const useListFilters = ({
   const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
     []
   );
-  const [filterMeasurements, setFilterMeasurements] = useState<Set<string>>(
-    new Set()
-  );
-  const [filterWorkoutTemplates, setFilterWorkoutTemplates] = useState<
-    Set<number>
-  >(new Set());
-  const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(null);
-  const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(null);
-
-  const weekdayMap = useWeekdayMap();
-
-  const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(new Set());
-
   const [filterMinWeight, setFilterMinWeight] = useState<number | null>(null);
   const [filterMaxWeight, setFilterMaxWeight] = useState<number | null>(null);
   const [filterMinDistance, setFilterMinDistance] = useState<number | null>(
@@ -101,45 +93,53 @@ export const useListFilters = ({
   const [filterMaxDistance, setFilterMaxDistance] = useState<number | null>(
     null
   );
-
-  const [filterWeightRangeUnit, setFilterWeightRangeUnit] =
-    useState<string>("kg");
-  const [filterDistanceRangeUnit, setFilterDistanceRangeUnit] =
-    useState<string>("km");
-
-  const [filterScheduleTypes, setFilterScheduleTypes] = useState<Set<string>>(
+  const [filterMeasurements, setFilterMeasurements] = useState<Set<string>>(
     new Set()
   );
-
   const [filterMeasurementTypes, setFilterMeasurementTypes] = useState<
     Set<string>
   >(new Set());
-
-  const [filterWeightUnits, setFilterWeightUnits] = useState<Set<string>>(
+  const [filterWorkoutTemplates, setFilterWorkoutTemplates] = useState<
+    Set<number>
+  >(new Set());
+  const [filterScheduleTypes, setFilterScheduleTypes] = useState<Set<string>>(
     new Set()
   );
-
-  const [filterDistanceUnits, setFilterDistanceUnits] = useState<Set<string>>(
-    new Set()
-  );
-
-  const multisetTypeMap = useMultisetTypeMap();
-
-  const [filterMultisetTypes, setFilterMultisetTypes] = useState<Set<string>>(
-    new Set()
-  );
-
-  const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate({
-    startDate: filterMinDate,
-    endDate: filterMaxDate,
-  });
-
   const [filterMinNumScheduleDays, setFilterMinNumScheduleDays] = useState<
     number | null
   >(null);
   const [filterMaxNumScheduleDays, setFilterMaxNumScheduleDays] = useState<
     number | null
   >(null);
+  const [filterWeightUnits, setFilterWeightUnits] = useState<Set<string>>(
+    new Set()
+  );
+  const [filterDistanceUnits, setFilterDistanceUnits] = useState<Set<string>>(
+    new Set()
+  );
+  const [filterMultisetTypes, setFilterMultisetTypes] = useState<Set<string>>(
+    new Set()
+  );
+  const [filterMinBodyFatPercentage, setFilterMinBodyFatPercentage] = useState<
+    number | null
+  >(null);
+  const [filterMaxBodyFatPercentage, setFilterMaxBodyFatPercentage] = useState<
+    number | null
+  >(null);
+
+  const [filterWeightRangeUnit, setFilterWeightRangeUnit] =
+    useState<string>("kg");
+  const [filterDistanceRangeUnit, setFilterDistanceRangeUnit] =
+    useState<string>("km");
+
+  const weekdayMap = useWeekdayMap();
+
+  const multisetTypeMap = useMultisetTypeMap();
+
+  const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate({
+    startDate: filterMinDate,
+    endDate: filterMaxDate,
+  });
 
   const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
     UseFilterMinAndMaxValueInputsProps
@@ -147,13 +147,6 @@ export const useListFilters = ({
 
   const [includeNullInMaxValues, setIncludeNullInMaxValues] =
     useState<boolean>(false);
-
-  const [filterMinBodyFatPercentage, setFilterMinBodyFatPercentage] = useState<
-    number | null
-  >(null);
-  const [filterMaxBodyFatPercentage, setFilterMaxBodyFatPercentage] = useState<
-    number | null
-  >(null);
 
   const handleFilterSaveButton = (
     locale: string,
