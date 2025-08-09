@@ -108,11 +108,17 @@ export const useDietLogListFilters = ({
 
     const weekdays = filterStoreValues?.storeWeekdays ?? filterWeekdays;
     if (weekdays.size > 0) {
-      const filterWeekdaysString = Array.from(weekdays)
+      const weekdaysArray = Array.from(weekdays);
+
+      const filterWeekdaysString = weekdaysArray
         .map((day) => (weekdayMap.get(day) ?? "").substring(0, 3))
         .join(", ");
 
       updatedFilterMap.set("weekdays", filterWeekdaysString);
+
+      const storeWeekdaysString = weekdaysArray.join(",");
+
+      storeFilterMap.set("weekdays", storeWeekdaysString);
     }
 
     const minCalories =
