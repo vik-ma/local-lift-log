@@ -16,6 +16,7 @@ import {
   ConvertCalendarDateToYmdString,
   ConvertDateStringToCalendarDate,
   IsEndDateBeforeStartDate,
+  IsNumberValidInteger,
 } from "../helpers";
 
 type UseDietLogListFiltersProps = {
@@ -421,6 +422,118 @@ export const useDietLogListFilters = ({
 
             setFilterWeekdays(weekdaysSet);
             filterStoreValues.storeWeekdays = weekdaysSet;
+
+            break;
+          }
+          case "min-calories": {
+            const minCalories = value as number;
+
+            const minValue = 0;
+            const doNotAllowMinValue = true;
+
+            if (
+              IsNumberValidInteger(minCalories, minValue, doNotAllowMinValue)
+            ) {
+              setFilterMinCalories(minCalories);
+              filterStoreValues.storeMinCalories = minCalories;
+            }
+
+            break;
+          }
+          case "max-calories": {
+            const maxCalories = value as number;
+
+            const minValue = filterStoreValues.storeMinCalories ?? 0;
+            const doNotAllowMinValue = minValue === 0;
+
+            if (
+              IsNumberValidInteger(maxCalories, minValue, doNotAllowMinValue)
+            ) {
+              setFilterMaxCalories(maxCalories);
+              filterStoreValues.storeMaxCalories = maxCalories;
+            }
+
+            break;
+          }
+          case "min-fat": {
+            const minFat = value as number;
+
+            const minValue = 0;
+            const doNotAllowMinValue = true;
+
+            if (IsNumberValidInteger(minFat, minValue, doNotAllowMinValue)) {
+              setFilterMinFat(minFat);
+              filterStoreValues.storeMinFat = minFat;
+            }
+
+            break;
+          }
+          case "max-fat": {
+            const maxFat = value as number;
+
+            const minValue = filterStoreValues.storeMinFat ?? 0;
+            const doNotAllowMinValue = minValue === 0;
+
+            if (IsNumberValidInteger(maxFat, minValue, doNotAllowMinValue)) {
+              setFilterMaxFat(maxFat);
+              filterStoreValues.storeMaxFat = maxFat;
+            }
+
+            break;
+          }
+          case "min-carbs": {
+            const minCarbs = value as number;
+
+            const minValue = 0;
+            const doNotAllowMinValue = true;
+
+            if (IsNumberValidInteger(minCarbs, minValue, doNotAllowMinValue)) {
+              setFilterMinCarbs(minCarbs);
+              filterStoreValues.storeMinCarbs = minCarbs;
+            }
+
+            break;
+          }
+          case "max-carbs": {
+            const maxCarbs = value as number;
+
+            const minValue = filterStoreValues.storeMinCarbs ?? 0;
+            const doNotAllowMinValue = minValue === 0;
+
+            if (IsNumberValidInteger(maxCarbs, minValue, doNotAllowMinValue)) {
+              setFilterMaxCarbs(maxCarbs);
+              filterStoreValues.storeMaxCarbs = maxCarbs;
+            }
+
+            break;
+          }
+          case "min-protein": {
+            const minProtein = value as number;
+
+            const minValue = 0;
+            const doNotAllowMinValue = true;
+
+            if (
+              IsNumberValidInteger(minProtein, minValue, doNotAllowMinValue)
+            ) {
+              setFilterMinProtein(minProtein);
+              filterStoreValues.storeMinProtein = minProtein;
+            }
+
+            break;
+          }
+          case "max-protein": {
+            const maxProtein = value as number;
+
+            const minValue = filterStoreValues.storeMinProtein ?? 0;
+            const doNotAllowMinValue = minValue === 0;
+
+            if (
+              IsNumberValidInteger(maxProtein, minValue, doNotAllowMinValue)
+            ) {
+              setFilterMaxProtein(maxProtein);
+              filterStoreValues.storeMaxProtein = maxProtein;
+            }
 
             break;
           }
