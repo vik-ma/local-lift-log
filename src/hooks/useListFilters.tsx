@@ -27,6 +27,7 @@ import { ConvertCalendarDateToLocalizedString } from "../helpers";
 
 type UseListFiltersProps = {
   store: StoreRef;
+  filterMapPrefix: string;
   useExerciseList?: UseExerciseListReturnType;
   routineMap?: RoutineMap;
   measurementMap?: MeasurementMap;
@@ -67,6 +68,7 @@ type StoreFilterMap = Map<ListFilterMapKey, string | number | boolean>;
 
 export const useListFilters = ({
   store,
+  filterMapPrefix,
   useExerciseList,
   routineMap,
   measurementMap,
@@ -464,6 +466,7 @@ export const useListFilters = ({
     setFilterMinBodyFatPercentage(null);
     setFilterMaxBodyFatPercentage(null);
     filterMinAndMaxValueInputs.resetInputs();
+
     if (filterMinAndMaxValueInputsSecondary !== undefined) {
       filterMinAndMaxValueInputsSecondary.resetInputs();
     }

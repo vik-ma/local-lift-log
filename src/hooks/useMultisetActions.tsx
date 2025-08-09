@@ -75,6 +75,7 @@ export const useMultisetActions = ({
 
   const listFilters = useListFilters({
     store: store,
+    filterMapPrefix: "multisets",
     useExerciseList: exerciseList,
   });
 

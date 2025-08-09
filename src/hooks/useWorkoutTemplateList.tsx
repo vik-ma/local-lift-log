@@ -50,7 +50,11 @@ export const useWorkoutTemplateList = ({
     exerciseMap,
   } = useExerciseList;
 
-  const listFilters = useListFilters({ store: store, useExerciseList });
+  const listFilters = useListFilters({
+    store: store,
+    filterMapPrefix: "workout-templates",
+    useExerciseList,
+  });
 
   const { filterMap, filterExercises, filterExerciseGroups } = listFilters;
 
