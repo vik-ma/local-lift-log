@@ -88,6 +88,7 @@ export const useDietLogListFilters = ({
 
       if (filterMinDateString !== null) {
         updatedFilterMap.set("min-date", filterMinDateString);
+        storeFilterMap.set("min-date", filterMinDateString);
       }
     }
 
@@ -97,6 +98,7 @@ export const useDietLogListFilters = ({
 
       if (filterMaxDateString !== null) {
         updatedFilterMap.set("max-date", filterMaxDateString);
+        storeFilterMap.set("max-date", filterMaxDateString);
       }
     }
 
