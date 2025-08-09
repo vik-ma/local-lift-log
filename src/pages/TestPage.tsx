@@ -44,7 +44,7 @@ export default function Test() {
 
   const presetsList = usePresetsList({ store: store });
 
-  const listFilters = useListFilters();
+  const listFilters = useListFilters({ store: store });
 
   const { setFilterWeightRangeUnit } = listFilters;
 

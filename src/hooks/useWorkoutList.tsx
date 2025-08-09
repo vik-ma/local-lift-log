@@ -68,6 +68,7 @@ export const useWorkoutList = ({
   const { routineMap, isRoutineListLoaded, getRoutines } = routineList;
 
   const listFilters = useListFilters({
+    store: store,
     useExerciseList,
     routineMap: routineMap.current,
     workoutTemplateMap: workoutTemplateMap.current,

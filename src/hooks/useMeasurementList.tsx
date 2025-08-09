@@ -37,7 +37,7 @@ export const useMeasurementList = ({
 
   const isMeasurementListLoaded = useRef(false);
 
-  const listFilters = useListFilters();
+  const listFilters = useListFilters({ store: store });
 
   const { filterMeasurementTypes, filterMap } = listFilters;
 

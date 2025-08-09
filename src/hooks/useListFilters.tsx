@@ -6,6 +6,7 @@ import {
   MeasurementMap,
   Routine,
   RoutineMap,
+  StoreRef,
   UseDisclosureReturnType,
   UseExerciseListReturnType,
   UseFilterMinAndMaxValueInputsProps,
@@ -24,6 +25,7 @@ import {
 import { ConvertCalendarDateToLocalizedString } from "../helpers";
 
 type UseListFiltersProps = {
+  store: StoreRef;
   useExerciseList?: UseExerciseListReturnType;
   routineMap?: RoutineMap;
   measurementMap?: MeasurementMap;
@@ -33,13 +35,14 @@ type UseListFiltersProps = {
 };
 
 export const useListFilters = ({
+  store,
   useExerciseList,
   routineMap,
   measurementMap,
   workoutTemplateMap,
   UseFilterMinAndMaxValueInputsProps,
   filterMinAndMaxValueInputsSecondary,
-}: UseListFiltersProps = {}): UseListFiltersReturnType => {
+}: UseListFiltersProps): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<ListFilterMap>(new Map());
   const [filterRoutines, setFilterRoutines] = useState<Set<number>>(new Set());
   const [filterExercises, setFilterExercises] = useState<Set<number>>(

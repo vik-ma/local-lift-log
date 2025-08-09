@@ -69,7 +69,7 @@ export const usePresetsList = ({
   const [otherUnitPlateCollection, setOtherUnitPlateCollection] =
     useState<PlateCollection>(defaultPlateCollection);
 
-  const listFilters = useListFilters();
+  const listFilters = useListFilters({ store: store });
 
   const {
     filterMap,
