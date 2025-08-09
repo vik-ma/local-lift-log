@@ -127,6 +127,7 @@ export const useDietLogListFilters = ({
       const filterMinCaloriesString = `${minCalories} kcal`;
 
       updatedFilterMap.set("min-calories", filterMinCaloriesString);
+      storeFilterMap.set("min-calories", minCalories);
     }
 
     const maxCalories =
@@ -135,6 +136,7 @@ export const useDietLogListFilters = ({
       const filterMaxCaloriesString = `${maxCalories} kcal`;
 
       updatedFilterMap.set("max-calories", filterMaxCaloriesString);
+      storeFilterMap.set("max-calories", maxCalories);
     }
 
     const minFat = filterStoreValues?.storeMinFat ?? filterMinFat;
@@ -142,6 +144,7 @@ export const useDietLogListFilters = ({
       const filterMinFatString = `${minFat} g`;
 
       updatedFilterMap.set("min-fat", filterMinFatString);
+      storeFilterMap.set("min-fat", minFat);
     }
 
     const maxFat = filterStoreValues?.storeMaxFat ?? filterMaxFat;
@@ -149,6 +152,7 @@ export const useDietLogListFilters = ({
       const filterMaxFatString = `${maxFat} g`;
 
       updatedFilterMap.set("max-fat", filterMaxFatString);
+      storeFilterMap.set("max-fat", maxFat);
     }
 
     const minCarbs = filterStoreValues?.storeMinCarbs ?? filterMinCarbs;
@@ -156,6 +160,7 @@ export const useDietLogListFilters = ({
       const filterMinCarbsString = `${minCarbs} g`;
 
       updatedFilterMap.set("min-carbs", filterMinCarbsString);
+      storeFilterMap.set("min-carbs", minCarbs);
     }
 
     const maxCarbs = filterStoreValues?.storeMaxCarbs ?? filterMaxCarbs;
@@ -163,6 +168,7 @@ export const useDietLogListFilters = ({
       const filterMaxCarbsString = `${maxCarbs} g`;
 
       updatedFilterMap.set("max-carbs", filterMaxCarbsString);
+      storeFilterMap.set("max-carbs", maxCarbs);
     }
 
     const minProtein = filterStoreValues?.storeMinProtein ?? filterMinProtein;
@@ -170,6 +176,7 @@ export const useDietLogListFilters = ({
       const filterMinProteinString = `${minProtein} g`;
 
       updatedFilterMap.set("min-protein", filterMinProteinString);
+      storeFilterMap.set("min-protein", minProtein);
     }
 
     const maxProtein = filterStoreValues?.storeMaxProtein ?? filterMaxProtein;
@@ -177,6 +184,7 @@ export const useDietLogListFilters = ({
       const filterMaxProteinString = `${maxProtein} g`;
 
       updatedFilterMap.set("max-protein", filterMaxProteinString);
+      storeFilterMap.set("max-protein", maxProtein);
     }
 
     setFilterMap(updatedFilterMap);
