@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import {
   Exercise,
   ListFilterMap,
+  ListFilterMapKey,
   Measurement,
   MeasurementMap,
   Routine,
@@ -33,6 +34,34 @@ type UseListFiltersProps = {
   UseFilterMinAndMaxValueInputsProps?: UseFilterMinAndMaxValueInputsProps;
   filterMinAndMaxValueInputsSecondary?: UseFilterMinAndMaxValueInputsReturnType;
 };
+
+type FilterStoreValues = {
+  storeMinDate?: CalendarDate | null;
+  storeMaxDate?: CalendarDate | null;
+  storeWeekdays?: Set<string>;
+  storeRoutines?: Set<number>;
+  storeExercises?: Set<number>;
+  storeExerciseGroups?: string[];
+  storeMinWeight?: number;
+  storeMaxWeight?: number;
+  storeMinDistance?: number;
+  storeMaxDistance?: number;
+  storeMeasurements?: Set<string>;
+  storeWorkoutTemplates?: Set<number>;
+  storeScheduleTypes?: Set<string>;
+  storeMinNumScheduleDays?: number;
+  storeMaxNumScheduleDays?: number;
+  storeWeightUnits?: Set<string>;
+  storeDistanceUnits?: Set<string>;
+  storeMultisetTypes?: Set<string>;
+  storeMinBodyFatPercentage?: number;
+  storeMaxBodyFatPercentage?: number;
+  // TODO: REMOVE?
+  storeWeightRangeUnit?: string;
+  storeDistanceRangeUnit?: string;
+};
+
+type StoreFilterMap = Map<ListFilterMapKey, string | number>;
 
 export const useListFilters = ({
   store,
@@ -128,7 +157,7 @@ export const useListFilters = ({
 
   const handleFilterSaveButton = (
     locale: string,
-    activeModal: UseDisclosureReturnType
+    activeModal?: UseDisclosureReturnType
   ) => {
     const updatedFilterMap: ListFilterMap = new Map();
 
@@ -263,7 +292,7 @@ export const useListFilters = ({
 
     setFilterMap(updatedFilterMap);
 
-    activeModal.onClose();
+    if (activeModal !== undefined) activeModal.onClose();
   };
 
   const handleFilterMeasurementTypes = (key: string) => {
