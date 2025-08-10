@@ -300,6 +300,8 @@ export const useListFilters = ({
 
     const updatedFilterMeasurementTypes = new Set<string>();
 
+    // TODO: UPDATE STORE
+
     if (filterMeasurementTypes.has(key)) {
       removeFilter("measurement-types");
     } else {
@@ -318,132 +320,107 @@ export const useListFilters = ({
     const updatedFilterMap = new Map(filterMap);
     const updatedStoreFilterMap = new Map(storeFilters.current);
 
-    if (key === "min-date" && filterMap.has("min-date")) {
-      updatedFilterMap.delete("min-date");
-      setFilterMinDate(null);
+    switch (key) {
+      case "min-date": {
+        setFilterMinDate(null);
+        break;
+      }
+      case "max-date": {
+        setFilterMaxDate(null);
+        break;
+      }
+      case "weekdays": {
+        setFilterWeekdays(new Set());
+        break;
+      }
+      case "routines": {
+        setFilterRoutines(new Set());
+        break;
+      }
+      case "exercises": {
+        setFilterExercises(new Set());
+        break;
+      }
+      case "exercise-groups": {
+        setFilterExerciseGroups([]);
+        break;
+      }
+      case "min-weight": {
+        setFilterMinWeight(null);
+        filterMinAndMaxValueInputs.resetMinInput();
+        break;
+      }
+      case "max-weight": {
+        setFilterMaxWeight(null);
+        filterMinAndMaxValueInputs.resetMaxInput();
+        break;
+      }
+      case "min-distance": {
+        setFilterMinDistance(null);
+        filterMinAndMaxValueInputs.resetMinInput();
+        break;
+      }
+      case "max-distance": {
+        setFilterMaxDistance(null);
+        filterMinAndMaxValueInputs.resetMaxInput();
+        break;
+      }
+      case "measurements": {
+        setFilterMeasurements(new Set());
+        break;
+      }
+      case "measurement-types": {
+        setFilterMeasurementTypes(new Set());
+        break;
+      }
+      case "workout-templates": {
+        setFilterWorkoutTemplates(new Set());
+        break;
+      }
+      case "schedule-type": {
+        setFilterScheduleTypes(new Set());
+        break;
+      }
+      case "min-num-schedule-days": {
+        setFilterMinNumScheduleDays(null);
+        filterMinAndMaxValueInputs.resetMinInput();
+        break;
+      }
+      case "max-num-schedule-days": {
+        setFilterMaxNumScheduleDays(null);
+        filterMinAndMaxValueInputs.resetMaxInput();
+        break;
+      }
+      case "weight-units": {
+        setFilterWeightUnits(new Set());
+        break;
+      }
+      case "distance-units": {
+        setFilterDistanceUnits(new Set());
+        break;
+      }
+      case "multiset-types": {
+        setFilterMultisetTypes(new Set());
+        break;
+      }
+      case "min-bf": {
+        setFilterMinBodyFatPercentage(null);
+        if (filterMinAndMaxValueInputsSecondary !== undefined) {
+          filterMinAndMaxValueInputsSecondary.resetMinInput();
+        }
+        break;
+      }
+      case "max-bf": {
+        setFilterMaxBodyFatPercentage(null);
+        if (filterMinAndMaxValueInputsSecondary !== undefined) {
+          filterMinAndMaxValueInputsSecondary.resetMaxInput();
+        }
+        break;
+      }
     }
 
-    if (key === "max-date" && filterMap.has("max-date")) {
-      updatedFilterMap.delete("max-date");
-      setFilterMaxDate(null);
-    }
-
-    if (key === "weekdays" && filterMap.has("weekdays")) {
-      updatedFilterMap.delete("weekdays");
-      setFilterWeekdays(new Set());
-    }
-
-    if (key === "routines" && filterMap.has("routines")) {
-      updatedFilterMap.delete("routines");
-      setFilterRoutines(new Set());
-    }
-
-    if (key === "exercises" && filterMap.has("exercises")) {
-      updatedFilterMap.delete("exercises");
-      setFilterExercises(new Set());
-    }
-
-    if (key === "exercise-groups" && filterMap.has("exercise-groups")) {
-      updatedFilterMap.delete("exercise-groups");
-      setFilterExerciseGroups([]);
-    }
-
-    if (key === "min-weight" && filterMap.has("min-weight")) {
-      updatedFilterMap.delete("min-weight");
-      setFilterMinWeight(null);
-      filterMinAndMaxValueInputs.resetMinInput();
-    }
-
-    if (key === "max-weight" && filterMap.has("max-weight")) {
-      updatedFilterMap.delete("max-weight");
-      setFilterMaxWeight(null);
-      filterMinAndMaxValueInputs.resetMaxInput();
-    }
-
-    if (key === "min-distance" && filterMap.has("min-distance")) {
-      updatedFilterMap.delete("min-distance");
-      setFilterMinDistance(null);
-      filterMinAndMaxValueInputs.resetMinInput();
-    }
-
-    if (key === "max-distance" && filterMap.has("max-distance")) {
-      updatedFilterMap.delete("max-distance");
-      setFilterMaxDistance(null);
-      filterMinAndMaxValueInputs.resetMaxInput();
-    }
-
-    if (key === "measurements" && filterMap.has("measurements")) {
-      updatedFilterMap.delete("measurements");
-      setFilterMeasurements(new Set());
-    }
-
-    if (key === "measurement-types" && filterMap.has("measurement-types")) {
-      updatedFilterMap.delete("measurement-types");
-      setFilterMeasurementTypes(new Set());
-    }
-
-    if (key === "workout-templates" && filterMap.has("workout-templates")) {
-      updatedFilterMap.delete("workout-templates");
-      setFilterWorkoutTemplates(new Set());
-    }
-
-    if (key === "schedule-type" && filterMap.has("schedule-type")) {
-      updatedFilterMap.delete("schedule-type");
-      setFilterScheduleTypes(new Set());
-    }
-
-    if (
-      key === "min-num-schedule-days" &&
-      filterMap.has("min-num-schedule-days")
-    ) {
-      updatedFilterMap.delete("min-num-schedule-days");
-      setFilterMinNumScheduleDays(null);
-      filterMinAndMaxValueInputs.resetMinInput();
-    }
-
-    if (
-      key === "max-num-schedule-days" &&
-      filterMap.has("max-num-schedule-days")
-    ) {
-      updatedFilterMap.delete("max-num-schedule-days");
-      setFilterMaxNumScheduleDays(null);
-      filterMinAndMaxValueInputs.resetMaxInput();
-    }
-
-    if (key === "weight-units" && filterMap.has("weight-units")) {
-      updatedFilterMap.delete("weight-units");
-      setFilterWeightUnits(new Set());
-    }
-
-    if (key === "distance-units" && filterMap.has("distance-units")) {
-      updatedFilterMap.delete("distance-units");
-      setFilterDistanceUnits(new Set());
-    }
-
-    if (key === "multiset-types" && filterMap.has("multiset-types")) {
-      updatedFilterMap.delete("multiset-types");
-      setFilterMultisetTypes(new Set());
-    }
-
-    if (
-      key === "min-bf" &&
-      filterMap.has("min-bf") &&
-      filterMinAndMaxValueInputsSecondary !== undefined
-    ) {
-      updatedFilterMap.delete("min-bf");
-      setFilterMinBodyFatPercentage(null);
-      filterMinAndMaxValueInputsSecondary.resetMinInput();
-    }
-
-    if (
-      key === "max-bf" &&
-      filterMap.has("max-bf") &&
-      filterMinAndMaxValueInputsSecondary !== undefined
-    ) {
-      updatedFilterMap.delete("max-bf");
-      setFilterMaxBodyFatPercentage(null);
-      filterMinAndMaxValueInputsSecondary.resetMaxInput();
-    }
+    updatedFilterMap.delete(key as ListFilterMapKey);
+    updatedStoreFilterMap.delete(key as ListFilterMapKey);
 
     setFilterMap(updatedFilterMap);
 
