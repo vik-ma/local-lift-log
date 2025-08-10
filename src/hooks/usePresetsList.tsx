@@ -71,7 +71,7 @@ export const usePresetsList = ({
 
   const listFilters = useListFilters({
     store: store,
-    filterMapPrefix: "presets",
+    filterMapSuffix: "presets",
   });
 
   const {

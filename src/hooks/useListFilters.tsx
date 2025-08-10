@@ -27,7 +27,7 @@ import { ConvertCalendarDateToLocalizedString } from "../helpers";
 
 type UseListFiltersProps = {
   store: StoreRef;
-  filterMapPrefix: string;
+  filterMapSuffix: string;
   useExerciseList?: UseExerciseListReturnType;
   routineMap?: RoutineMap;
   measurementMap?: MeasurementMap;
@@ -68,7 +68,7 @@ type StoreFilterMap = Map<ListFilterMapKey, string | number | boolean>;
 
 export const useListFilters = ({
   store,
-  filterMapPrefix,
+  filterMapSuffix,
   useExerciseList,
   routineMap,
   measurementMap,

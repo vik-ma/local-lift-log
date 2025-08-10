@@ -63,7 +63,7 @@ export const useRoutineList = ({
 
   const listFilters = useListFilters({
     store: store,
-    filterMapPrefix: "routines",
+    filterMapSuffix: "routines",
     useExerciseList: useExerciseList,
     workoutTemplateMap: workoutTemplateMap.current,
     UseFilterMinAndMaxValueInputsProps: filterMinAndMaxValueInputsProps,

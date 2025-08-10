@@ -39,7 +39,7 @@ export const useMeasurementList = ({
 
   const listFilters = useListFilters({
     store: store,
-    filterMapPrefix: "measurements",
+    filterMapSuffix: "measurements",
   });
 
   const { filterMeasurementTypes, filterMap } = listFilters;
