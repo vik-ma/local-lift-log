@@ -54,8 +54,8 @@ export const FilterWorkoutTemplateListModal = ({
     showResetFilterButton,
     resetFilter,
     handleFilterSaveButton,
-    filterExercisesString,
-    filterExerciseGroupsString,
+    getFilterExercisesString,
+    getFilterExerciseGroupsString,
     handleClickExercise,
   } = listFilters;
 
@@ -80,6 +80,14 @@ export const FilterWorkoutTemplateListModal = ({
       setFilterExerciseGroups([]);
     }
   };
+
+  const filterExercisesString = useMemo(() => {
+    return getFilterExercisesString(filterExercises);
+  }, [getFilterExercisesString, filterExercises]);
+
+  const filterExerciseGroupsString = useMemo(() => {
+    return getFilterExerciseGroupsString(filterExerciseGroups);
+  }, [getFilterExerciseGroupsString, filterExerciseGroups]);
 
   return (
     <Modal

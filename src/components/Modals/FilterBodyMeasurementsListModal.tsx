@@ -56,7 +56,7 @@ export const FilterBodyMeasurementsListModal = ({
     handleFilterSaveButton,
     filterMeasurements,
     setFilterMeasurements,
-    filterMeasurementsString,
+    getFilterMeasurementsString,
     handleClickMeasurement,
     isMaxDateBeforeMinDate,
     filterMinAndMaxValueInputs,
@@ -75,6 +75,10 @@ export const FilterBodyMeasurementsListModal = ({
 
     return false;
   }, [modalPage, filterMeasurements]);
+
+  const filterMeasurementsString = useMemo(() => {
+    return getFilterMeasurementsString(filterMeasurements);
+  }, [getFilterMeasurementsString, filterMeasurements]);
 
   return (
     <Modal

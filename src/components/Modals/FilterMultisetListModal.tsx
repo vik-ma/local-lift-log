@@ -57,8 +57,8 @@ export const FilterMultisetListModal = ({
     showResetFilterButton,
     resetFilter,
     handleFilterSaveButton,
-    filterExercisesString,
-    filterExerciseGroupsString,
+    getFilterExercisesString,
+    getFilterExerciseGroupsString,
     handleClickExercise,
   } = listFilters;
 
@@ -83,6 +83,14 @@ export const FilterMultisetListModal = ({
       setFilterExerciseGroups([]);
     }
   };
+
+  const filterExercisesString = useMemo(() => {
+    return getFilterExercisesString(filterExercises);
+  }, [getFilterExercisesString, filterExercises]);
+
+  const filterExerciseGroupsString = useMemo(() => {
+    return getFilterExerciseGroupsString(filterExerciseGroups);
+  }, [getFilterExerciseGroupsString, filterExerciseGroups]);
 
   return (
     <Modal

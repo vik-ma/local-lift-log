@@ -45,7 +45,7 @@ export const FilterRoutineListModal = ({
     showResetFilterButton,
     resetFilter,
     handleFilterSaveButton,
-    filterWorkoutTemplatesString,
+    getFilterWorkoutTemplatesString,
     filterScheduleTypes,
     setFilterScheduleTypes,
     setFilterMinNumScheduleDays,
@@ -71,6 +71,10 @@ export const FilterRoutineListModal = ({
       setFilterWorkoutTemplates(new Set());
     }
   };
+
+  const filterWorkoutTemplatesString = useMemo(() => {
+    return getFilterWorkoutTemplatesString(filterWorkoutTemplates);
+  }, [getFilterWorkoutTemplatesString, filterWorkoutTemplates]);
 
   return (
     <Modal

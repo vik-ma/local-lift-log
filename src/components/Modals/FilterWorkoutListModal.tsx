@@ -63,14 +63,14 @@ export const FilterWorkoutListModal = ({
     setFilterExercises,
     filterExerciseGroups,
     setFilterExerciseGroups,
-    filterRoutinesString,
-    filterExercisesString,
-    filterExerciseGroupsString,
+    getFilterRoutinesString,
+    getFilterExercisesString,
+    getFilterExerciseGroupsString,
+    getFilterWorkoutTemplatesString,
     handleClickRoutine,
     handleClickExercise,
     filterWorkoutTemplates,
     setFilterWorkoutTemplates,
-    filterWorkoutTemplatesString,
     handleClickWorkoutTemplate,
     isMaxDateBeforeMinDate,
   } = listFilters;
@@ -127,6 +127,22 @@ export const FilterWorkoutListModal = ({
       setFilterWorkoutTemplates(new Set());
     }
   };
+
+  const filterRoutinesString = useMemo(() => {
+    return getFilterRoutinesString(filterRoutines);
+  }, [getFilterRoutinesString, filterRoutines]);
+
+  const filterExercisesString = useMemo(() => {
+    return getFilterExercisesString(filterExercises);
+  }, [getFilterExercisesString, filterExercises]);
+
+  const filterExerciseGroupsString = useMemo(() => {
+    return getFilterExerciseGroupsString(filterExerciseGroups);
+  }, [getFilterExerciseGroupsString, filterExerciseGroups]);
+
+  const filterWorkoutTemplatesString = useMemo(() => {
+    return getFilterWorkoutTemplatesString(filterWorkoutTemplates);
+  }, [getFilterWorkoutTemplatesString, filterWorkoutTemplates]);
 
   return (
     <Modal
