@@ -134,7 +134,7 @@ export const FilterRoutineListModal = ({
                     <div className="flex flex-col pt-4">
                       <h3 className="text-lg font-semibold px-0.5">
                         Number Of Days In Schedule{" "}
-                        <span className="text-default-500 text-base">
+                        <span className="text-default-500 text-sm">
                           (2 – 14)
                         </span>
                       </h3>
