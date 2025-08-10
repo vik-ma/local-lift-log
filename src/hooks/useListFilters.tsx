@@ -58,9 +58,9 @@ type FilterStoreValues = {
   storeMultisetTypes?: Set<string>;
   storeMinBodyFatPercentage?: number;
   storeMaxBodyFatPercentage?: number;
-  // TODO: REMOVE?
   storeWeightRangeUnit?: string;
   storeDistanceRangeUnit?: string;
+  // TODO: LOAD FROM STORE
   storeIncludeNullInMaxValues?: boolean;
 };
 
@@ -210,26 +210,38 @@ export const useListFilters = ({
       );
     }
 
-    if (filterMinWeight !== null) {
-      const filterMinWeightString = `${filterMinWeight} ${filterWeightRangeUnit}`;
+    const weightRangeUnit =
+      filterStoreValues?.storeWeightRangeUnit ?? filterWeightRangeUnit;
+
+    const minWeight = filterStoreValues?.storeMinWeight ?? filterMinWeight;
+    if (minWeight !== null) {
+      const filterMinWeightString = `${minWeight} ${weightRangeUnit}`;
 
       updatedFilterMap.set("min-weight", filterMinWeightString);
     }
 
-    if (filterMaxWeight !== null) {
-      const filterMaxWeightString = `${filterMaxWeight} ${filterWeightRangeUnit}`;
+    const maxWeight = filterStoreValues?.storeMaxWeight ?? filterMaxWeight;
+    if (maxWeight !== null) {
+      const filterMaxWeightString = `${maxWeight} ${weightRangeUnit}`;
 
       updatedFilterMap.set("max-weight", filterMaxWeightString);
     }
 
-    if (filterMinDistance !== null) {
-      const filterMinDistanceString = `${filterMinDistance} ${filterDistanceRangeUnit}`;
+    const distanceRangeUnit =
+      filterStoreValues?.storeDistanceRangeUnit ?? filterDistanceRangeUnit;
+
+    const minDistance =
+      filterStoreValues?.storeMinDistance ?? filterMinDistance;
+    if (minDistance !== null) {
+      const filterMinDistanceString = `${minDistance} ${distanceRangeUnit}`;
 
       updatedFilterMap.set("min-distance", filterMinDistanceString);
     }
 
-    if (filterMaxDistance !== null) {
-      const filterMaxDistanceString = `${filterMaxDistance} ${filterDistanceRangeUnit}`;
+    const maxDistance =
+      filterStoreValues?.storeMaxDistance ?? filterMaxDistance;
+    if (maxDistance !== null) {
+      const filterMaxDistanceString = `${maxDistance} ${distanceRangeUnit}`;
 
       updatedFilterMap.set("max-distance", filterMaxDistanceString);
     }
@@ -252,15 +264,21 @@ export const useListFilters = ({
       );
     }
 
-    if (filterScheduleTypes.size > 0) {
-      const filterScheduleTypesString = Array.from(filterScheduleTypes)
+    const scheduleTypes =
+      filterStoreValues?.storeScheduleTypes ?? filterScheduleTypes;
+    if (scheduleTypes.size > 0) {
+      const scheduleTypesArray = Array.from(scheduleTypes);
+
+      const filterScheduleTypesString = scheduleTypesArray
         .map((item) => item)
         .join(", ");
       updatedFilterMap.set("schedule-type", filterScheduleTypesString);
     }
 
-    if (filterMinNumScheduleDays !== null) {
-      const filterMinNumScheduleDaysString = `${filterMinNumScheduleDays} Days`;
+    const minNumScheduleDays =
+      filterStoreValues?.storeMinNumScheduleDays ?? filterMinNumScheduleDays;
+    if (minNumScheduleDays !== null) {
+      const filterMinNumScheduleDaysString = `${minNumScheduleDays} Days`;
 
       updatedFilterMap.set(
         "min-num-schedule-days",
@@ -268,8 +286,10 @@ export const useListFilters = ({
       );
     }
 
-    if (filterMaxNumScheduleDays !== null) {
-      const filterMaxNumScheduleDaysString = `${filterMaxNumScheduleDays} Days`;
+    const maxNumScheduleDays =
+      filterStoreValues?.storeMaxNumScheduleDays ?? filterMaxNumScheduleDays;
+    if (maxNumScheduleDays !== null) {
+      const filterMaxNumScheduleDaysString = `${maxNumScheduleDays} Days`;
 
       updatedFilterMap.set(
         "max-num-schedule-days",
@@ -277,36 +297,54 @@ export const useListFilters = ({
       );
     }
 
-    if (filterWeightUnits.size > 0) {
-      const filterWeightUnitString = Array.from(filterWeightUnits)
+    const weightUnits =
+      filterStoreValues?.storeWeightUnits ?? filterWeightUnits;
+    if (weightUnits.size > 0) {
+      const weightUnitsArray = Array.from(weightUnits);
+
+      const filterWeightUnitString = weightUnitsArray
         .map((item) => item)
         .join(", ");
       updatedFilterMap.set("weight-units", filterWeightUnitString);
     }
 
-    if (filterDistanceUnits.size > 0) {
-      const filterDistanceUnitString = Array.from(filterDistanceUnits)
+    const distanceUnits =
+      filterStoreValues?.storeDistanceUnits ?? filterDistanceUnits;
+    if (distanceUnits.size > 0) {
+      const distanceUnitsArray = Array.from(distanceUnits);
+
+      const filterDistanceUnitString = Array.from(distanceUnitsArray)
         .map((item) => item)
         .join(", ");
       updatedFilterMap.set("distance-units", filterDistanceUnitString);
     }
 
-    if (filterMultisetTypes.size > 0) {
-      const filterMultisetTypesString = Array.from(filterMultisetTypes)
+    const multisetTypes =
+      filterStoreValues?.storeMultisetTypes ?? filterMultisetTypes;
+    if (multisetTypes.size > 0) {
+      const multisetTypesArray = Array.from(multisetTypes);
+
+      const filterMultisetTypesString = multisetTypesArray
         .map((type) => multisetTypeMap.get(Number(type)) ?? "")
         .join(", ");
 
       updatedFilterMap.set("multiset-types", filterMultisetTypesString);
     }
 
-    if (filterMinBodyFatPercentage !== null) {
-      const filterMinBodyFatPercentageString = `${filterMinBodyFatPercentage}%`;
+    const minBodyFatPercentage =
+      filterStoreValues?.storeMinBodyFatPercentage ??
+      filterMinBodyFatPercentage;
+    if (minBodyFatPercentage !== null) {
+      const filterMinBodyFatPercentageString = `${minBodyFatPercentage}%`;
 
       updatedFilterMap.set("min-bf", filterMinBodyFatPercentageString);
     }
 
-    if (filterMaxBodyFatPercentage !== null) {
-      const filterMaxBodyFatPercentageString = `${filterMaxBodyFatPercentage}%`;
+    const maxBodyFatPercentage =
+      filterStoreValues?.storeMaxBodyFatPercentage ??
+      filterMaxBodyFatPercentage;
+    if (maxBodyFatPercentage !== null) {
+      const filterMaxBodyFatPercentageString = `${maxBodyFatPercentage}%`;
 
       updatedFilterMap.set("max-bf", filterMaxBodyFatPercentageString);
     }
