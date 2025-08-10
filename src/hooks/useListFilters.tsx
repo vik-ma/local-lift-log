@@ -297,10 +297,9 @@ export const useListFilters = ({
 
   const handleFilterMeasurementTypes = (key: string) => {
     const updatedFilterMap: ListFilterMap = new Map();
+    const updatedStoreFilterMap: StoreFilterMap = new Map();
 
     const updatedFilterMeasurementTypes = new Set<string>();
-
-    // TODO: UPDATE STORE
 
     if (filterMeasurementTypes.has(key)) {
       removeFilter("measurement-types");
@@ -310,6 +309,9 @@ export const useListFilters = ({
 
     if (updatedFilterMeasurementTypes.size > 0) {
       updatedFilterMap.set("measurement-types", key);
+      updatedStoreFilterMap.set("measurement-types", key);
+
+      saveFilterMapToStore(updatedStoreFilterMap);
     }
 
     setFilterMeasurementTypes(updatedFilterMeasurementTypes);
