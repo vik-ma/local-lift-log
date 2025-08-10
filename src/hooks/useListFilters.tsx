@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   Exercise,
   ListFilterMap,
@@ -150,11 +150,14 @@ export const useListFilters = ({
   const [includeNullInMaxValues, setIncludeNullInMaxValues] =
     useState<boolean>(false);
 
+  const storeFilters = useRef<StoreFilterMap>(new Map());
+
   const handleFilterSaveButton = (
     locale: string,
     activeModal?: UseDisclosureReturnType
   ) => {
     const updatedFilterMap: ListFilterMap = new Map();
+    const storeFilterMap: StoreFilterMap = new Map();
 
     if (filterMinDate !== null) {
       const filterMinDateString = ConvertCalendarDateToLocalizedString(
@@ -287,6 +290,8 @@ export const useListFilters = ({
 
     setFilterMap(updatedFilterMap);
 
+    saveFilterMapToStore(storeFilterMap);
+
     if (activeModal !== undefined) activeModal.onClose();
   };
 
@@ -311,6 +316,7 @@ export const useListFilters = ({
 
   const removeFilter = (key: string) => {
     const updatedFilterMap = new Map(filterMap);
+    const updatedStoreFilterMap = new Map(storeFilters.current);
 
     if (key === "min-date" && filterMap.has("min-date")) {
       updatedFilterMap.delete("min-date");
@@ -440,6 +446,8 @@ export const useListFilters = ({
     }
 
     setFilterMap(updatedFilterMap);
+
+    saveFilterMapToStore(updatedStoreFilterMap);
   };
 
   const resetFilter = () => {
@@ -470,6 +478,8 @@ export const useListFilters = ({
     if (filterMinAndMaxValueInputsSecondary !== undefined) {
       filterMinAndMaxValueInputsSecondary.resetInputs();
     }
+
+    saveFilterMapToStore(new Map());
   };
 
   const showResetFilterButton = useMemo(() => {
@@ -705,6 +715,16 @@ export const useListFilters = ({
     }
 
     setFilterWorkoutTemplates(updatedWorkoutTemplateSet);
+  };
+
+  const saveFilterMapToStore = async (storeFilterMap: StoreFilterMap) => {
+    if (store.current === null) return;
+
+    await store.current.set(`filter-map-${filterMapSuffix}`, {
+      value: JSON.stringify(Array.from(storeFilterMap.entries())),
+    });
+
+    storeFilters.current = storeFilterMap;
   };
 
   return {
