@@ -486,11 +486,13 @@ export type UseListFiltersReturnType = {
   handleFilterMeasurementTypes: (key: string) => void;
   filterWorkoutTemplates: Set<number>;
   setFilterWorkoutTemplates: React.Dispatch<React.SetStateAction<Set<number>>>;
-  filterRoutinesString: string;
-  filterExercisesString: string;
-  filterExerciseGroupsString: string;
-  filterMeasurementsString: string;
-  filterWorkoutTemplatesString: string;
+  getFilterRoutinesString: (routineIdSet: Set<number>) => string;
+  getFilterExercisesString: (exerciseIdSet: Set<number>) => string;
+  getFilterExerciseGroupsString: (exerciseGroupList: string[]) => string;
+  getFilterMeasurementsString: (measurementIdSet: Set<string>) => string;
+  getFilterWorkoutTemplatesString: (
+    workoutTemplateIdSet: Set<number>
+  ) => string;
   handleClickRoutine: (routine: Routine) => void;
   handleClickExercise: (exercise: Exercise) => void;
   handleClickMeasurement: (measurement: Measurement) => void;

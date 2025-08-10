@@ -192,15 +192,15 @@ export const useListFilters = ({
     }
 
     if (filterRoutines.size > 0 && routineMap !== undefined) {
-      updatedFilterMap.set("routines", filterRoutinesString);
+      updatedFilterMap.set("routines", getFilterRoutinesString);
     }
 
     if (filterExercises.size > 0 && useExerciseList !== undefined) {
-      updatedFilterMap.set("exercises", filterExercisesString);
+      updatedFilterMap.set("exercises", getFilterExercisesString);
     }
 
     if (filterExerciseGroups.length > 0 && useExerciseList !== undefined) {
-      updatedFilterMap.set("exercise-groups", filterExerciseGroupsString);
+      updatedFilterMap.set("exercise-groups", getFilterExerciseGroupsString);
     }
 
     if (filterMinWeight !== null) {
@@ -228,11 +228,11 @@ export const useListFilters = ({
     }
 
     if (filterMeasurements.size > 0) {
-      updatedFilterMap.set("measurements", filterMeasurementsString);
+      updatedFilterMap.set("measurements", getFilterMeasurementsString);
     }
 
     if (filterWorkoutTemplates.size > 0 && workoutTemplateMap !== undefined) {
-      updatedFilterMap.set("workout-templates", filterWorkoutTemplatesString);
+      updatedFilterMap.set("workout-templates", getFilterWorkoutTemplatesString);
     }
 
     if (filterScheduleTypes.size > 0) {
@@ -577,13 +577,13 @@ export const useListFilters = ({
     filterMultisetTypes,
   ]);
 
-  const filterRoutinesString = useMemo(() => {
-    if (filterRoutines.size === 0 || routineMap === undefined)
+  const getFilterRoutinesString = (routineIdSet: Set<number>) => {
+    if (routineIdSet.size === 0 || routineMap === undefined)
       return "No Routines Selected";
 
     const routineNames: string[] = [];
 
-    for (const routineId of filterRoutines) {
+    for (const routineId of routineIdSet) {
       if (routineMap.has(routineId)) {
         const routine = routineMap.get(routineId);
         routineNames.push(routine!.name);
@@ -591,15 +591,15 @@ export const useListFilters = ({
     }
 
     return routineNames.join(", ");
-  }, [filterRoutines, routineMap]);
+  };
 
-  const filterExercisesString = useMemo(() => {
-    if (filterExercises.size === 0 || useExerciseList === undefined)
+  const getFilterExercisesString = (exerciseIdSet: Set<number>) => {
+    if (exerciseIdSet.size === 0 || useExerciseList === undefined)
       return "No Exercises Selected";
 
     const exerciseNames: string[] = [];
 
-    for (const exerciseId of filterExercises) {
+    for (const exerciseId of exerciseIdSet) {
       if (useExerciseList.exerciseMap.current.has(exerciseId)) {
         const exercise = useExerciseList.exerciseMap.current.get(exerciseId);
         exerciseNames.push(exercise!.name);
@@ -607,15 +607,15 @@ export const useListFilters = ({
     }
 
     return exerciseNames.join(", ");
-  }, [filterExercises, useExerciseList]);
+  };
 
-  const filterExerciseGroupsString = useMemo(() => {
-    if (filterExerciseGroups.length === 0 || useExerciseList === undefined)
+  const getFilterExerciseGroupsString = (exerciseGroupList: string[]) => {
+    if (exerciseGroupList.length === 0 || useExerciseList === undefined)
       return "No Exercise Groups Selected";
 
     const exerciseGroupNames: string[] = [];
 
-    for (const group of filterExerciseGroups) {
+    for (const group of exerciseGroupList) {
       if (useExerciseList.exerciseGroupDictionary.has(group)) {
         const groupName = useExerciseList.exerciseGroupDictionary.get(group);
         exerciseGroupNames.push(groupName!);
@@ -623,15 +623,15 @@ export const useListFilters = ({
     }
 
     return exerciseGroupNames.join(", ");
-  }, [filterExerciseGroups, useExerciseList]);
+  };
 
-  const filterMeasurementsString = useMemo(() => {
-    if (filterMeasurements.size === 0 || measurementMap === undefined)
+  const getFilterMeasurementsString = (measurementIdSet: Set<string>) => {
+    if (measurementIdSet.size === 0 || measurementMap === undefined)
       return "No Measurements Selected";
 
     const measurementNames: string[] = [];
 
-    for (const measurementId of filterMeasurements) {
+    for (const measurementId of measurementIdSet) {
       if (measurementMap.has(measurementId.toString())) {
         const measurement = measurementMap.get(measurementId.toString());
         measurementNames.push(measurement!.name);
@@ -639,15 +639,15 @@ export const useListFilters = ({
     }
 
     return measurementNames.join(", ");
-  }, [filterMeasurements, measurementMap]);
+  };
 
-  const filterWorkoutTemplatesString = useMemo(() => {
-    if (filterWorkoutTemplates.size === 0 || workoutTemplateMap === undefined)
+  const getFilterWorkoutTemplatesString = (workoutTemplateIdSet: Set<number>) => {
+    if (workoutTemplateIdSet.size === 0 || workoutTemplateMap === undefined)
       return "No Workout Templates Selected";
 
     const workoutTemplateNames: string[] = [];
 
-    for (const workoutTemplateId of filterWorkoutTemplates) {
+    for (const workoutTemplateId of workoutTemplateIdSet) {
       if (workoutTemplateMap.has(workoutTemplateId)) {
         const workoutTemplate = workoutTemplateMap.get(workoutTemplateId);
         workoutTemplateNames.push(workoutTemplate!.name);
@@ -655,7 +655,7 @@ export const useListFilters = ({
     }
 
     return workoutTemplateNames.join(", ");
-  }, [filterWorkoutTemplates, workoutTemplateMap]);
+  };
 
   const handleClickRoutine = (routine: Routine) => {
     const updatedRoutineSet = new Set(filterRoutines);
@@ -748,11 +748,11 @@ export const useListFilters = ({
     handleFilterMeasurementTypes,
     filterWorkoutTemplates,
     setFilterWorkoutTemplates,
-    filterRoutinesString,
-    filterExercisesString,
-    filterExerciseGroupsString,
-    filterMeasurementsString,
-    filterWorkoutTemplatesString,
+    getFilterRoutinesString,
+    getFilterExercisesString,
+    getFilterExerciseGroupsString,
+    getFilterMeasurementsString,
+    getFilterWorkoutTemplatesString,
     handleClickRoutine,
     handleClickExercise,
     handleClickMeasurement,
