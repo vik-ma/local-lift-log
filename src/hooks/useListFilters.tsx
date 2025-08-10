@@ -191,16 +191,23 @@ export const useListFilters = ({
       updatedFilterMap.set("weekdays", filterWeekdaysString);
     }
 
-    if (filterRoutines.size > 0 && routineMap !== undefined) {
-      updatedFilterMap.set("routines", getFilterRoutinesString);
+    const routines = filterStoreValues?.storeRoutines ?? filterRoutines;
+    if (routines.size > 0 && routineMap !== undefined) {
+      updatedFilterMap.set("routines", getFilterRoutinesString(routines));
     }
 
-    if (filterExercises.size > 0 && useExerciseList !== undefined) {
-      updatedFilterMap.set("exercises", getFilterExercisesString);
+    const exercises = filterStoreValues?.storeExercises ?? filterExercises;
+    if (exercises.size > 0 && useExerciseList !== undefined) {
+      updatedFilterMap.set("exercises", getFilterExercisesString(exercises));
     }
 
-    if (filterExerciseGroups.length > 0 && useExerciseList !== undefined) {
-      updatedFilterMap.set("exercise-groups", getFilterExerciseGroupsString);
+    const exerciseGroups =
+      filterStoreValues?.storeExerciseGroups ?? filterExerciseGroups;
+    if (exerciseGroups.length > 0 && useExerciseList !== undefined) {
+      updatedFilterMap.set(
+        "exercise-groups",
+        getFilterExerciseGroupsString(exerciseGroups)
+      );
     }
 
     if (filterMinWeight !== null) {
@@ -227,12 +234,22 @@ export const useListFilters = ({
       updatedFilterMap.set("max-distance", filterMaxDistanceString);
     }
 
-    if (filterMeasurements.size > 0) {
-      updatedFilterMap.set("measurements", getFilterMeasurementsString);
+    const measurements =
+      filterStoreValues?.storeMeasurements ?? filterMeasurements;
+    if (measurements.size > 0) {
+      updatedFilterMap.set(
+        "measurements",
+        getFilterMeasurementsString(measurements)
+      );
     }
 
-    if (filterWorkoutTemplates.size > 0 && workoutTemplateMap !== undefined) {
-      updatedFilterMap.set("workout-templates", getFilterWorkoutTemplatesString);
+    const workoutTemplates =
+      filterStoreValues?.storeWorkoutTemplates ?? filterWorkoutTemplates;
+    if (workoutTemplates.size > 0 && workoutTemplateMap !== undefined) {
+      updatedFilterMap.set(
+        "workout-templates",
+        getFilterWorkoutTemplatesString(workoutTemplates)
+      );
     }
 
     if (filterScheduleTypes.size > 0) {
@@ -641,7 +658,9 @@ export const useListFilters = ({
     return measurementNames.join(", ");
   };
 
-  const getFilterWorkoutTemplatesString = (workoutTemplateIdSet: Set<number>) => {
+  const getFilterWorkoutTemplatesString = (
+    workoutTemplateIdSet: Set<number>
+  ) => {
     if (workoutTemplateIdSet.size === 0 || workoutTemplateMap === undefined)
       return "No Workout Templates Selected";
 
