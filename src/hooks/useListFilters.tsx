@@ -154,31 +154,37 @@ export const useListFilters = ({
 
   const handleFilterSaveButton = (
     locale: string,
-    activeModal?: UseDisclosureReturnType
+    activeModal?: UseDisclosureReturnType,
+    filterStoreValues?: FilterStoreValues
   ) => {
     const updatedFilterMap: ListFilterMap = new Map();
     const storeFilterMap: StoreFilterMap = new Map();
 
-    if (filterMinDate !== null) {
+    const minDate = filterStoreValues?.storeMinDate ?? filterMinDate;
+    if (minDate !== null) {
       const filterMinDateString = ConvertCalendarDateToLocalizedString(
-        filterMinDate,
+        minDate,
         locale
       );
 
       updatedFilterMap.set("min-date", filterMinDateString);
     }
 
-    if (filterMaxDate !== null) {
+    const maxDate = filterStoreValues?.storeMaxDate ?? filterMaxDate;
+    if (maxDate !== null) {
       const filterMaxDateString = ConvertCalendarDateToLocalizedString(
-        filterMaxDate,
+        maxDate,
         locale
       );
 
       updatedFilterMap.set("max-date", filterMaxDateString);
     }
 
-    if (filterWeekdays.size > 0) {
-      const filterWeekdaysString = Array.from(filterWeekdays)
+    const weekdays = filterStoreValues?.storeWeekdays ?? filterWeekdays;
+    if (weekdays.size > 0) {
+      const weekdaysArray = Array.from(weekdays);
+
+      const filterWeekdaysString = weekdaysArray
         .map((day) => (weekdayMap.get(day) ?? "").substring(0, 3))
         .join(", ");
 
