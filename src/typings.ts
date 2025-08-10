@@ -532,6 +532,10 @@ export type UseListFiltersReturnType = {
   setFilterMaxBodyFatPercentage: React.Dispatch<
     React.SetStateAction<number | null>
   >;
+  loadFilterMapFromStore: (
+    locale: string,
+    validFilterKeys: Set<ListFilterMapKey>
+  ) => Promise<void>;
 };
 
 export type UseWorkoutTemplateListReturnType = {
