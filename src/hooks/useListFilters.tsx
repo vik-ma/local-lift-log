@@ -419,6 +419,9 @@ export const useListFilters = ({
         }
         break;
       }
+      case "default": {
+        return;
+      }
     }
 
     updatedFilterMap.delete(key as ListFilterMapKey);
