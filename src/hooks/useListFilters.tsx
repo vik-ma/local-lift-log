@@ -820,13 +820,11 @@ export const useListFilters = ({
             const measurementType = value as string;
 
             if (MeasurementTypes().includes(measurementType)) {
-              const measurementTypes = new Set<string>([measurementType]);
-
-              setFilterMeasurementTypes(measurementTypes);
-              filterStoreValues.storeMeasurementTypes = measurementTypes;
+              handleFilterMeasurementTypes(measurementType);
             }
 
-            break;
+            // RETURN, NOT BREAK
+            return;
           }
           default:
             break;
