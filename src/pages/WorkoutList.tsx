@@ -1,5 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { Routine, UserSettings, Workout, WorkoutTemplate } from "../typings";
+import {
+  ListFilterMapKey,
+  Routine,
+  UserSettings,
+  Workout,
+  WorkoutTemplate,
+} from "../typings";
 import { useNavigate } from "react-router-dom";
 import {
   LoadingSpinner,
@@ -93,7 +99,7 @@ export default function WorkoutList() {
     useExerciseList: exerciseList,
   });
 
-  const { filterMap } = listFilters;
+  const { filterMap, loadFilterMapFromStore } = listFilters;
 
   const { handleOpenWorkoutTemplateListModal, workoutTemplateListModal } =
     workoutTemplateList;
@@ -118,6 +124,18 @@ export default function WorkoutList() {
       );
 
       await LoadStore(store);
+
+      const validFilterKeys = new Set<ListFilterMapKey>([
+        "min-date",
+        "max-date",
+        "weekdays",
+        "routines",
+        "exercises",
+        "exercise-groups",
+        "workout-templates",
+      ]);
+
+      await loadFilterMapFromStore(userSettings.locale, validFilterKeys);
 
       await loadWorkoutList();
     };

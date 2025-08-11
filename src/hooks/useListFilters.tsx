@@ -25,6 +25,8 @@ import {
 } from ".";
 import {
   ConvertCalendarDateToLocalizedString,
+  ConvertDateStringToCalendarDate,
+  IsEndDateBeforeStartDate,
   MeasurementTypes,
 } from "../helpers";
 
@@ -822,6 +824,53 @@ export const useListFilters = ({
         addedKeys.add(key);
 
         switch (key) {
+          case "min-date": {
+            const minDate = ConvertDateStringToCalendarDate(value as string);
+
+            if (minDate !== null) {
+              setFilterMinDate(minDate);
+              filterStoreValues.storeMinDate = minDate;
+            }
+
+            break;
+          }
+          case "max-date": {
+            const maxDate = ConvertDateStringToCalendarDate(value as string);
+
+            let isMaxDateBeforeMinDate = false;
+
+            if (filterStoreValues.storeMinDate) {
+              isMaxDateBeforeMinDate = IsEndDateBeforeStartDate(
+                filterStoreValues.storeMinDate,
+                maxDate
+              );
+            }
+
+            if (maxDate !== null && !isMaxDateBeforeMinDate) {
+              setFilterMaxDate(maxDate);
+              filterStoreValues.storeMaxDate = maxDate;
+            }
+
+            break;
+          }
+          case "weekdays": {
+            const weekdaysString = value as string;
+
+            const weekdays = weekdaysString.split(",").sort();
+
+            const weekdaysSet = new Set<string>();
+
+            for (const day of weekdays) {
+              if (weekdayMap.has(day)) {
+                weekdaysSet.add(day);
+              }
+            }
+
+            setFilterWeekdays(weekdaysSet);
+            filterStoreValues.storeWeekdays = weekdaysSet;
+
+            break;
+          }
           case "measurement-types": {
             const measurementType = value as string;
 
