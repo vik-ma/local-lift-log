@@ -171,6 +171,7 @@ export const useListFilters = ({
       );
 
       updatedFilterMap.set("min-date", filterMinDateString);
+      storeFilterMap.set("min-date", filterMinDateString);
     }
 
     const maxDate = filterStoreValues?.storeMaxDate ?? filterMaxDate;
@@ -181,6 +182,7 @@ export const useListFilters = ({
       );
 
       updatedFilterMap.set("max-date", filterMaxDateString);
+      storeFilterMap.set("max-date", filterMaxDateString);
     }
 
     const weekdays = filterStoreValues?.storeWeekdays ?? filterWeekdays;
@@ -192,6 +194,10 @@ export const useListFilters = ({
         .join(", ");
 
       updatedFilterMap.set("weekdays", filterWeekdaysString);
+
+      const storeWeekdaysString = weekdaysArray.join(",");
+
+      storeFilterMap.set("weekdays", storeWeekdaysString);
     }
 
     const routines = filterStoreValues?.storeRoutines ?? filterRoutines;
