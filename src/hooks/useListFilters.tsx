@@ -23,7 +23,10 @@ import {
   useIsEndDateBeforeStartDate,
   useFilterMinAndMaxValueInputs,
 } from ".";
-import { ConvertCalendarDateToLocalizedString } from "../helpers";
+import {
+  ConvertCalendarDateToLocalizedString,
+  MeasurementTypes,
+} from "../helpers";
 
 type UseListFiltersProps = {
   store: StoreRef;
@@ -813,6 +816,18 @@ export const useListFilters = ({
         addedKeys.add(key);
 
         switch (key) {
+          case "measurement-types": {
+            const measurementType = value as string;
+
+            if (MeasurementTypes().includes(measurementType)) {
+              const measurementTypes = new Set<string>([measurementType]);
+
+              setFilterMeasurementTypes(measurementTypes);
+              filterStoreValues.storeMeasurementTypes = measurementTypes;
+            }
+
+            break;
+          }
           default:
             break;
         }

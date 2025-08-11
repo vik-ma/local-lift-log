@@ -9,7 +9,12 @@ import {
   ListFilters,
   MeasurementListOptions,
 } from "../components";
-import { Measurement, MeasurementSortCategory, UserSettings } from "../typings";
+import {
+  ListFilterMapKey,
+  Measurement,
+  MeasurementSortCategory,
+  UserSettings,
+} from "../typings";
 import Database from "@tauri-apps/plugin-sql";
 import {
   Button,
@@ -80,7 +85,8 @@ export default function MeasurementList() {
     getMeasurements,
   } = measurementList;
 
-  const { filterMap, removeFilter, prefixMap } = listFilters;
+  const { filterMap, removeFilter, prefixMap, loadFilterMapFromStore } =
+    listFilters;
 
   useEffect(() => {
     const loadPage = async () => {
@@ -110,6 +116,12 @@ export default function MeasurementList() {
         setActiveMeasurementSet(activeMeasurementSet);
 
         await LoadStore(store);
+
+        const validFilterKeys = new Set<ListFilterMapKey>([
+          "measurement-types",
+        ]);
+
+        await loadFilterMapFromStore(userSettings.locale, validFilterKeys);
 
         const sortCategory = await GetSortCategoryFromStore(
           store,
