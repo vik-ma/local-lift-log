@@ -380,8 +380,10 @@ export const useDietLogListFilters = ({
     if (val === undefined) return;
 
     try {
-      const storeFilterList: [DietLogListFilterMapKey, string | number][] =
-        JSON.parse(val.value);
+      const storeFilterList: [
+        DietLogListFilterMapKey | IncludeNullInMaxValuesKey,
+        string | number | boolean
+      ][] = JSON.parse(val.value);
 
       if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
         handleFilterSaveButton();
@@ -390,7 +392,9 @@ export const useDietLogListFilters = ({
 
       const filterStoreValues: FilterStoreValues = {};
 
-      const addedKeys = new Set<DietLogListFilterMapKey>();
+      const addedKeys = new Set<
+        DietLogListFilterMapKey | IncludeNullInMaxValuesKey
+      >();
 
       for (const filter of storeFilterList) {
         const key = filter[0];
@@ -557,6 +561,27 @@ export const useDietLogListFilters = ({
             ) {
               setFilterMaxProtein(maxProtein);
               filterStoreValues.storeMaxProtein = maxProtein;
+            }
+
+            break;
+          }
+          case "include-null-in-max-values-fat": {
+            if (value === true || value === false) {
+              setIncludeNullInMaxValuesFat(value);
+            }
+
+            break;
+          }
+          case "include-null-in-max-values-carbs": {
+            if (value === true || value === false) {
+              setIncludeNullInMaxValuesCarbs(value);
+            }
+
+            break;
+          }
+          case "include-null-in-max-values-protein": {
+            if (value === true || value === false) {
+              setIncludeNullInMaxValuesProtein(value);
             }
 
             break;
