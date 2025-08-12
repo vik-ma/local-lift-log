@@ -352,7 +352,7 @@ export const useDietLogListFilters = ({
 
     storeFilterMap.set(
       "include-null-in-max-values-fat",
-      includeNullInMaxValuesProtein
+      includeNullInMaxValuesFat
     );
     storeFilterMap.set(
       "include-null-in-max-values-carbs",
