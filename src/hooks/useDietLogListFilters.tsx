@@ -350,18 +350,26 @@ export const useDietLogListFilters = ({
   ) => {
     if (store.current === null) return;
 
-    storeFilterMap.set(
-      "include-null-in-max-values-fat",
-      includeNullInMaxValuesFat
-    );
-    storeFilterMap.set(
-      "include-null-in-max-values-carbs",
-      includeNullInMaxValuesCarbs
-    );
-    storeFilterMap.set(
-      "include-null-in-max-values-protein",
-      includeNullInMaxValuesProtein
-    );
+    if (includeNullInMaxValuesFat) {
+      storeFilterMap.set(
+        "include-null-in-max-values-fat",
+        includeNullInMaxValuesFat
+      );
+    }
+
+    if (includeNullInMaxValuesCarbs) {
+      storeFilterMap.set(
+        "include-null-in-max-values-carbs",
+        includeNullInMaxValuesCarbs
+      );
+    }
+
+    if (includeNullInMaxValuesProtein) {
+      storeFilterMap.set(
+        "include-null-in-max-values-protein",
+        includeNullInMaxValuesProtein
+      );
+    }
 
     await store.current.set("filter-map-diet-logs", {
       value: JSON.stringify(Array.from(storeFilterMap.entries())),
@@ -566,22 +574,22 @@ export const useDietLogListFilters = ({
             break;
           }
           case "include-null-in-max-values-fat": {
-            if (value === true || value === false) {
-              setIncludeNullInMaxValuesFat(value);
+            if (value === true) {
+              setIncludeNullInMaxValuesFat(true);
             }
 
             break;
           }
           case "include-null-in-max-values-carbs": {
-            if (value === true || value === false) {
-              setIncludeNullInMaxValuesCarbs(value);
+            if (value === true) {
+              setIncludeNullInMaxValuesCarbs(true);
             }
 
             break;
           }
           case "include-null-in-max-values-protein": {
-            if (value === true || value === false) {
-              setIncludeNullInMaxValuesProtein(value);
+            if (value === true) {
+              setIncludeNullInMaxValuesProtein(true);
             }
 
             break;
