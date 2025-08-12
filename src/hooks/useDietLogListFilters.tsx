@@ -35,9 +35,20 @@ type FilterStoreValues = {
   storeMaxCarbs?: number;
   storeMinProtein?: number;
   storeMaxProtein?: number;
+  storeIncludeNullInMaxValuesFat?: boolean;
+  storeIncludeNullInMaxValuesCarbs?: boolean;
+  storeIncludeNullInMaxValuesProtein?: boolean;
 };
 
-type DietLogStoreFilterMap = Map<DietLogListFilterMapKey, string | number>;
+type IncludeNullInMaxValuesKey =
+  | "include-null-in-max-values-fat"
+  | "include-null-in-max-values-carbs"
+  | "include-null-in-max-values-protein";
+
+type DietLogStoreFilterMap = Map<
+  DietLogListFilterMapKey | IncludeNullInMaxValuesKey,
+  string | number | boolean
+>;
 
 export const useDietLogListFilters = ({
   store,
@@ -338,6 +349,19 @@ export const useDietLogListFilters = ({
     storeFilterMap: DietLogStoreFilterMap
   ) => {
     if (store.current === null) return;
+
+    storeFilterMap.set(
+      "include-null-in-max-values-fat",
+      includeNullInMaxValuesProtein
+    );
+    storeFilterMap.set(
+      "include-null-in-max-values-carbs",
+      includeNullInMaxValuesCarbs
+    );
+    storeFilterMap.set(
+      "include-null-in-max-values-protein",
+      includeNullInMaxValuesProtein
+    );
 
     await store.current.set("filter-map-diet-logs", {
       value: JSON.stringify(Array.from(storeFilterMap.entries())),
