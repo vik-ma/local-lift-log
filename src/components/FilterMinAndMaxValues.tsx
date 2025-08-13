@@ -1,11 +1,7 @@
-import { useEffect } from "react";
 import { UseFilterMinAndMaxValueInputsReturnType } from "../typings";
-import { IsStringEmpty } from "../helpers";
 import { Checkbox, Input } from "@heroui/react";
 
 type FilterMinAndMaxValuesProps = {
-  setFilterMinValue: React.Dispatch<React.SetStateAction<number | null>>;
-  setFilterMaxValue: React.Dispatch<React.SetStateAction<number | null>>;
   label: string;
   useFilterMinAndMaxValueInputs: UseFilterMinAndMaxValueInputsReturnType;
   isSmall?: boolean;
@@ -15,8 +11,6 @@ type FilterMinAndMaxValuesProps = {
 };
 
 export const FilterMinAndMaxValues = ({
-  setFilterMinValue,
-  setFilterMaxValue,
   label,
   useFilterMinAndMaxValueInputs,
   isSmall,
@@ -33,28 +27,6 @@ export const FilterMinAndMaxValues = ({
     isMaxInputInvalid,
     isMaxValueBelowMinValue,
   } = useFilterMinAndMaxValueInputs;
-
-  useEffect(() => {
-    if (isMinInputInvalid) return;
-
-    if (IsStringEmpty(minInput)) {
-      setFilterMinValue(null);
-    } else {
-      setFilterMinValue(Number(minInput));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [minInput, isMinInputInvalid]);
-
-  useEffect(() => {
-    if (isMaxInputInvalid) return;
-
-    if (IsStringEmpty(maxInput)) {
-      setFilterMaxValue(null);
-    } else {
-      setFilterMaxValue(Number(maxInput));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [maxInput, isMaxInputInvalid]);
 
   return (
     <div className="flex flex-col relative">

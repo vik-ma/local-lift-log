@@ -1007,10 +1007,6 @@ export type UseDietLogListFiltersReturnType = {
   filterMaxProtein: number | null;
   setFilterMaxProtein: React.Dispatch<React.SetStateAction<number | null>>;
   weekdayMap: Map<string, string>;
-  filterMinAndMaxValueInputsCalories: UseFilterMinAndMaxValueInputsReturnType;
-  filterMinAndMaxValueInputsFat: UseFilterMinAndMaxValueInputsReturnType;
-  filterMinAndMaxValueInputsCarbs: UseFilterMinAndMaxValueInputsReturnType;
-  filterMinAndMaxValueInputsProtein: UseFilterMinAndMaxValueInputsReturnType;
   includeNullInMaxValuesFat: boolean;
   setIncludeNullInMaxValuesFat: React.Dispatch<React.SetStateAction<boolean>>;
   includeNullInMaxValuesCarbs: boolean;

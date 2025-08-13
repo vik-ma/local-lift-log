@@ -10,8 +10,9 @@ import {
 } from "@heroui/react";
 import { FilterDateRangeAndWeekdays, FilterMinAndMaxValues } from "..";
 import { useMemo } from "react";
+import { useFilterMinAndMaxValueInputs } from "../../hooks";
 
-type FilterDietLogListModal = {
+type FilterDietLogListModalProps = {
   useDietLogList: UseDietLogListReturnType;
   userSettings: UserSettings;
 };
@@ -19,26 +20,19 @@ type FilterDietLogListModal = {
 export const FilterDietLogListModal = ({
   useDietLogList,
   userSettings,
-}: FilterDietLogListModal) => {
+}: FilterDietLogListModalProps) => {
   const { filterDietLogListModal, dietLogListFilters } = useDietLogList;
 
+  const filterMinAndMaxValueInputsCalories = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsFat = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsCarbs = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsProtein = useFilterMinAndMaxValueInputs();
+
   const {
-    setFilterMinCalories,
-    setFilterMaxCalories,
-    setFilterMinFat,
-    setFilterMaxFat,
-    setFilterMinCarbs,
-    setFilterMaxCarbs,
-    setFilterMinProtein,
-    setFilterMaxProtein,
     showResetFilterButton,
     handleFilterSaveButton,
     resetFilter,
     isMaxDateBeforeMinDate,
-    filterMinAndMaxValueInputsCalories,
-    filterMinAndMaxValueInputsFat,
-    filterMinAndMaxValueInputsCarbs,
-    filterMinAndMaxValueInputsProtein,
     includeNullInMaxValuesFat,
     setIncludeNullInMaxValuesFat,
     includeNullInMaxValuesCarbs,
@@ -83,8 +77,6 @@ export const FilterDietLogListModal = ({
                     <div className="flex flex-col gap-px">
                       <h3 className="text-lg font-semibold px-0.5">Calories</h3>
                       <FilterMinAndMaxValues
-                        setFilterMinValue={setFilterMinCalories}
-                        setFilterMaxValue={setFilterMaxCalories}
                         label="Calories"
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsCalories
@@ -94,8 +86,6 @@ export const FilterDietLogListModal = ({
                     <div className="flex flex-col">
                       <h3 className="text-lg font-semibold px-0.5">Fat</h3>
                       <FilterMinAndMaxValues
-                        setFilterMinValue={setFilterMinFat}
-                        setFilterMaxValue={setFilterMaxFat}
                         label="Grams"
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsFat
@@ -107,8 +97,6 @@ export const FilterDietLogListModal = ({
                     <div className="flex flex-col">
                       <h3 className="text-lg font-semibold px-0.5">Carbs</h3>
                       <FilterMinAndMaxValues
-                        setFilterMinValue={setFilterMinCarbs}
-                        setFilterMaxValue={setFilterMaxCarbs}
                         label="Grams"
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsCarbs
@@ -122,8 +110,6 @@ export const FilterDietLogListModal = ({
                     <div className="flex flex-col">
                       <h3 className="text-lg font-semibold px-0.5">Protein</h3>
                       <FilterMinAndMaxValues
-                        setFilterMinValue={setFilterMinProtein}
-                        setFilterMaxValue={setFilterMaxProtein}
                         label="Grams"
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsProtein

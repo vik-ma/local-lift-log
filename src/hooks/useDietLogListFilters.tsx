@@ -8,11 +8,7 @@ import {
   UseDisclosureReturnType,
 } from "../typings";
 import { CalendarDate } from "@heroui/react";
-import {
-  useFilterMinAndMaxValueInputs,
-  useIsEndDateBeforeStartDate,
-  useWeekdayMap,
-} from ".";
+import { useIsEndDateBeforeStartDate, useWeekdayMap } from ".";
 import {
   ConvertCalendarDateToYmdString,
   ConvertDateStringToCalendarDate,
@@ -60,11 +56,6 @@ export const useDietLogListFilters = ({
   });
 
   const weekdayMap = useWeekdayMap();
-
-  const filterMinAndMaxValueInputsCalories = useFilterMinAndMaxValueInputs();
-  const filterMinAndMaxValueInputsFat = useFilterMinAndMaxValueInputs();
-  const filterMinAndMaxValueInputsCarbs = useFilterMinAndMaxValueInputs();
-  const filterMinAndMaxValueInputsProtein = useFilterMinAndMaxValueInputs();
 
   const [includeNullInMaxValuesFat, setIncludeNullInMaxValuesFat] =
     useState<boolean>(false);
@@ -622,10 +613,6 @@ export const useDietLogListFilters = ({
     filterMaxProtein,
     setFilterMaxProtein,
     weekdayMap,
-    filterMinAndMaxValueInputsCalories,
-    filterMinAndMaxValueInputsFat,
-    filterMinAndMaxValueInputsCarbs,
-    filterMinAndMaxValueInputsProtein,
     includeNullInMaxValuesFat,
     setIncludeNullInMaxValuesFat,
     includeNullInMaxValuesCarbs,

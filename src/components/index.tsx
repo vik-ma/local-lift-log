@@ -85,7 +85,7 @@ export { TimePeriodModal } from "./Modals/TimePeriodModal";
 export { FilterTimePeriodListModal } from "./Modals/FilterTimePeriodListModal";
 export { DietLogModal } from "./Modals/DietLogModal";
 export { GroupedWorkoutSetListModal } from "./Modals/GroupedWorkoutSetListModal";
-export { FilterDietLogListModal } from "./Modals/FilterDietLogListModal";
+export { FilterDietLogListModalProps as FilterDietLogListModal } from "./Modals/FilterDietLogListModal";
 export { FilterMinAndMaxDatesModal } from "./Modals/FilterMinAndMaxDatesModal";
 export { LoadExerciseOptionsModal } from "./Modals/LoadExerciseOptionsModal";
 export { BodyFatCalculationModal } from "./Modals/BodyFatCalculationModal";
