@@ -9,8 +9,9 @@ import {
   ScrollShadow,
 } from "@heroui/react";
 import { FilterDateRangeAndWeekdays, FilterMinAndMaxValues } from "..";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useFilterMinAndMaxValueInputs } from "../../hooks";
+import { ConvertNumberToInputString } from "../../helpers";
 
 type FilterDietLogListModalProps = {
   useDietLogList: UseDietLogListReturnType;
@@ -39,6 +40,14 @@ export const FilterDietLogListModal = ({
     setIncludeNullInMaxValuesCarbs,
     includeNullInMaxValuesProtein,
     setIncludeNullInMaxValuesProtein,
+    filterMinCalories,
+    filterMaxCalories,
+    filterMinFat,
+    filterMaxFat,
+    filterMinCarbs,
+    filterMaxCarbs,
+    filterMinProtein,
+    filterMaxProtein,
   } = dietLogListFilters;
 
   const isFilterButtonDisabled = useMemo(() => {
@@ -56,6 +65,62 @@ export const FilterDietLogListModal = ({
     filterMinAndMaxValueInputsCarbs.isFilterInvalid,
     filterMinAndMaxValueInputsProtein.isFilterInvalid,
   ]);
+
+  useEffect(() => {
+    filterMinAndMaxValueInputsCalories.setMinInput(
+      ConvertNumberToInputString(filterMinCalories)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterMinCalories]);
+
+  useEffect(() => {
+    filterMinAndMaxValueInputsCalories.setMaxInput(
+      ConvertNumberToInputString(filterMaxCalories)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterMaxCalories]);
+
+  useEffect(() => {
+    filterMinAndMaxValueInputsFat.setMinInput(
+      ConvertNumberToInputString(filterMinFat)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterMinFat]);
+
+  useEffect(() => {
+    filterMinAndMaxValueInputsFat.setMaxInput(
+      ConvertNumberToInputString(filterMaxFat)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterMaxFat]);
+
+  useEffect(() => {
+    filterMinAndMaxValueInputsCarbs.setMinInput(
+      ConvertNumberToInputString(filterMinCarbs)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterMinCarbs]);
+
+  useEffect(() => {
+    filterMinAndMaxValueInputsCarbs.setMaxInput(
+      ConvertNumberToInputString(filterMaxCarbs)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterMaxCarbs]);
+
+  useEffect(() => {
+    filterMinAndMaxValueInputsProtein.setMinInput(
+      ConvertNumberToInputString(filterMinProtein)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterMinProtein]);
+
+  useEffect(() => {
+    filterMinAndMaxValueInputsProtein.setMaxInput(
+      ConvertNumberToInputString(filterMaxProtein)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterMaxProtein]);
 
   return (
     <Modal
