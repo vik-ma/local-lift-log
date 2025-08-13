@@ -1351,3 +1351,20 @@ export type ListFilterMap = Map<ListFilterMapKey, string>;
 export type TimePeriodFilterMap = Map<TimePeriodListFilterMapKey, string>;
 
 export type DietLogFilterMap = Map<DietLogListFilterMapKey, string>;
+
+export type DietLogFilterValues = {
+  filterValueMinDate?: CalendarDate | null;
+  filterValueMaxDate?: CalendarDate | null;
+  filterValueWeekdays?: Set<string>;
+  filterValueMinCalories?: number;
+  filterValueMaxCalories?: number;
+  filterValueMinFat?: number;
+  filterValueMaxFat?: number;
+  filterValueMinCarbs?: number;
+  filterValueMaxCarbs?: number;
+  filterValueMinProtein?: number;
+  filterValueMaxProtein?: number;
+  filterValueIncludeNullInMaxValuesFat?: boolean;
+  filterValueIncludeNullInMaxValuesCarbs?: boolean;
+  filterValueIncludeNullInMaxValuesProtein?: boolean;
+};
