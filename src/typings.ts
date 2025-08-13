@@ -1364,7 +1364,4 @@ export type DietLogFilterValues = {
   filterValueMaxCarbs?: number;
   filterValueMinProtein?: number;
   filterValueMaxProtein?: number;
-  filterValueIncludeNullInMaxValuesFat?: boolean;
-  filterValueIncludeNullInMaxValuesCarbs?: boolean;
-  filterValueIncludeNullInMaxValuesProtein?: boolean;
 };

@@ -65,8 +65,6 @@ type FilterStoreValues = {
   storeMaxBodyFatPercentage?: number;
   storeWeightRangeUnit?: string;
   storeDistanceRangeUnit?: string;
-  // TODO: LOAD FROM STORE
-  storeIncludeNullInMaxValues?: boolean;
 };
 
 type StoreFilterMap = Map<ListFilterMapKey, string | number | boolean>;
