@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import {
+  TimePeriodFilterValues,
   StoreRef,
   TimePeriodFilterMap,
   TimePeriodListFilterMapKey,
@@ -20,18 +21,6 @@ import {
 
 type UseTimePeriodListFiltersProps = {
   store: StoreRef;
-};
-
-type FilterStoreValues = {
-  storeMinStartDate?: CalendarDate | null;
-  storeMaxStartDate?: CalendarDate | null;
-  storeMinEndDate?: CalendarDate | null;
-  storeMaxEndDate?: CalendarDate | null;
-  storeMinDuration?: number;
-  storeMaxDuration?: number;
-  storeDietPhaseTypes?: Set<string>;
-  storeHasInjury?: Set<string>;
-  storeStatus?: Set<string>;
 };
 
 type TimePeriodStoreFilterMap = Map<
@@ -92,7 +81,7 @@ export const useTimePeriodListFilters = ({
   const handleFilterSaveButton = (
     locale: string,
     activeModal?: UseDisclosureReturnType,
-    filterStoreValues?: FilterStoreValues
+    filterStoreValues?: TimePeriodFilterValues
   ) => {
     const updatedFilterMap: TimePeriodFilterMap = new Map();
     const storeFilterMap: TimePeriodStoreFilterMap = new Map();
@@ -365,7 +354,7 @@ export const useTimePeriodListFilters = ({
         return;
       }
 
-      const filterStoreValues: FilterStoreValues = {};
+      const filterStoreValues: TimePeriodFilterValues = {};
 
       const addedKeys = new Set<TimePeriodListFilterMapKey>();
 

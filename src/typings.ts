@@ -453,7 +453,8 @@ export type UseWorkoutListReturnType = {
 export type UseListFiltersReturnType = {
   handleFilterSaveButton: (
     locale: string,
-    activeModal: UseDisclosureReturnType
+    activeModal?: UseDisclosureReturnType,
+    filterValues?: FilterValues
   ) => void;
   filterMap: Map<ListFilterMapKey, string>;
   removeFilter: (key: string) => void;
@@ -891,7 +892,8 @@ export type UseTimePeriodListFiltersReturnType = {
   setFilterDietPhaseTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
   handleFilterSaveButton: (
     locale: string,
-    activeModal: UseDisclosureReturnType
+    activeModal?: UseDisclosureReturnType,
+    filterValues?: TimePeriodFilterValues
   ) => void;
   removeFilter: (key: string) => void;
   resetFilter: () => void;
@@ -977,7 +979,10 @@ export type UseDietLogListReturnType = {
 };
 
 export type UseDietLogListFiltersReturnType = {
-  handleFilterSaveButton: (activeModal: UseDisclosureReturnType) => void;
+  handleFilterSaveButton: (
+    activeModal?: UseDisclosureReturnType,
+    filterValues?: DietLogFilterValues
+  ) => void;
   filterMap: Map<DietLogListFilterMapKey, string>;
   removeFilter: (key: string) => void;
   resetFilter: () => void;
@@ -1347,6 +1352,44 @@ export type ListFilterMap = Map<ListFilterMapKey, string>;
 export type TimePeriodFilterMap = Map<TimePeriodListFilterMapKey, string>;
 
 export type DietLogFilterMap = Map<DietLogListFilterMapKey, string>;
+
+export type FilterValues = {
+  storeMinDate?: CalendarDate | null;
+  storeMaxDate?: CalendarDate | null;
+  storeWeekdays?: Set<string>;
+  storeRoutines?: Set<number>;
+  storeExercises?: Set<number>;
+  storeExerciseGroups?: string[];
+  storeMinWeight?: number;
+  storeMaxWeight?: number;
+  storeMinDistance?: number;
+  storeMaxDistance?: number;
+  storeMeasurements?: Set<string>;
+  storeMeasurementTypes?: Set<string>;
+  storeWorkoutTemplates?: Set<number>;
+  storeScheduleTypes?: Set<string>;
+  storeMinNumScheduleDays?: number;
+  storeMaxNumScheduleDays?: number;
+  storeWeightUnits?: Set<string>;
+  storeDistanceUnits?: Set<string>;
+  storeMultisetTypes?: Set<string>;
+  storeMinBodyFatPercentage?: number;
+  storeMaxBodyFatPercentage?: number;
+  storeWeightRangeUnit?: string;
+  storeDistanceRangeUnit?: string;
+};
+
+export type TimePeriodFilterValues = {
+  storeMinStartDate?: CalendarDate | null;
+  storeMaxStartDate?: CalendarDate | null;
+  storeMinEndDate?: CalendarDate | null;
+  storeMaxEndDate?: CalendarDate | null;
+  storeMinDuration?: number;
+  storeMaxDuration?: number;
+  storeDietPhaseTypes?: Set<string>;
+  storeHasInjury?: Set<string>;
+  storeStatus?: Set<string>;
+};
 
 export type DietLogFilterValues = {
   filterValueMinDate?: CalendarDate | null;
