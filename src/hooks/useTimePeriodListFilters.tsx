@@ -87,7 +87,7 @@ export const useTimePeriodListFilters = ({
     const storeFilterMap: TimePeriodStoreFilterMap = new Map();
 
     const minStartDate =
-      filterStoreValues?.storeMinStartDate ?? filterMinStartDate;
+      filterStoreValues?.filterValueMinStartDate ?? filterMinStartDate;
     if (minStartDate !== null) {
       const filterMinStartDateString = ConvertCalendarDateToLocalizedString(
         minStartDate,
@@ -96,14 +96,17 @@ export const useTimePeriodListFilters = ({
 
       updatedFilterMap.set("min-date-start", filterMinStartDateString);
 
-      const storeMinStartDateString =
+      const filterValueMinStartDateString =
         ConvertCalendarDateToYmdString(minStartDate);
 
-      storeFilterMap.set("min-date-start", storeMinStartDateString as string);
+      storeFilterMap.set(
+        "min-date-start",
+        filterValueMinStartDateString as string
+      );
     }
 
     const maxStartDate =
-      filterStoreValues?.storeMaxStartDate ?? filterMaxStartDate;
+      filterStoreValues?.filterValueMaxStartDate ?? filterMaxStartDate;
     if (maxStartDate !== null) {
       const filterMaxStartDateString = ConvertCalendarDateToLocalizedString(
         maxStartDate,
@@ -112,13 +115,17 @@ export const useTimePeriodListFilters = ({
 
       updatedFilterMap.set("max-date-start", filterMaxStartDateString);
 
-      const storeMaxStartDateString =
+      const filterValueMaxStartDateString =
         ConvertCalendarDateToYmdString(maxStartDate);
 
-      storeFilterMap.set("max-date-start", storeMaxStartDateString as string);
+      storeFilterMap.set(
+        "max-date-start",
+        filterValueMaxStartDateString as string
+      );
     }
 
-    const minEndDate = filterStoreValues?.storeMinEndDate ?? filterMinEndDate;
+    const minEndDate =
+      filterStoreValues?.filterValueMinEndDate ?? filterMinEndDate;
     if (minEndDate !== null) {
       const filterMinEndDateString = ConvertCalendarDateToLocalizedString(
         minEndDate,
@@ -127,12 +134,14 @@ export const useTimePeriodListFilters = ({
 
       updatedFilterMap.set("min-date-end", filterMinEndDateString);
 
-      const storeMinEndDateString = ConvertCalendarDateToYmdString(minEndDate);
+      const filterValueMinEndDateString =
+        ConvertCalendarDateToYmdString(minEndDate);
 
-      storeFilterMap.set("min-date-end", storeMinEndDateString as string);
+      storeFilterMap.set("min-date-end", filterValueMinEndDateString as string);
     }
 
-    const maxEndDate = filterStoreValues?.storeMaxEndDate ?? filterMaxEndDate;
+    const maxEndDate =
+      filterStoreValues?.filterValueMaxEndDate ?? filterMaxEndDate;
     if (maxEndDate !== null) {
       const filterMaxEndDateString = ConvertCalendarDateToLocalizedString(
         maxEndDate,
@@ -141,13 +150,14 @@ export const useTimePeriodListFilters = ({
 
       updatedFilterMap.set("max-date-end", filterMaxEndDateString);
 
-      const storeMaxEndDateString = ConvertCalendarDateToYmdString(maxEndDate);
+      const filterValueMaxEndDateString =
+        ConvertCalendarDateToYmdString(maxEndDate);
 
-      storeFilterMap.set("max-date-end", storeMaxEndDateString as string);
+      storeFilterMap.set("max-date-end", filterValueMaxEndDateString as string);
     }
 
     const minDuration =
-      filterStoreValues?.storeMinDuration ?? filterMinDuration;
+      filterStoreValues?.filterValueMinDuration ?? filterMinDuration;
     if (minDuration !== null) {
       const filterMinDurationString = `${minDuration} Days`;
 
@@ -157,7 +167,7 @@ export const useTimePeriodListFilters = ({
     }
 
     const maxDuration =
-      filterStoreValues?.storeMaxDuration ?? filterMaxDuration;
+      filterStoreValues?.filterValueMaxDuration ?? filterMaxDuration;
     if (maxDuration !== null) {
       const filterMaxDurationString = `${maxDuration} Days`;
 
@@ -167,7 +177,7 @@ export const useTimePeriodListFilters = ({
     }
 
     const dietPhaseTypes =
-      filterStoreValues?.storeDietPhaseTypes ?? filterDietPhaseTypes;
+      filterStoreValues?.filterValueDietPhaseTypes ?? filterDietPhaseTypes;
     if (dietPhaseTypes.size > 0) {
       const dietPhaseTypesArray = Array.from(dietPhaseTypes);
 
@@ -178,7 +188,8 @@ export const useTimePeriodListFilters = ({
       storeFilterMap.set("diet-phase", filterDietPhaseTypesStoreString);
     }
 
-    const hasInjury = filterStoreValues?.storeHasInjury ?? filterHasInjury;
+    const hasInjury =
+      filterStoreValues?.filterValueHasInjury ?? filterHasInjury;
     if (hasInjury.size > 0) {
       const hasInjuryArray = Array.from(hasInjury);
 
@@ -189,7 +200,7 @@ export const useTimePeriodListFilters = ({
       storeFilterMap.set("injury", filterHasInjuryStoreString);
     }
 
-    const status = filterStoreValues?.storeStatus ?? filterStatus;
+    const status = filterStoreValues?.filterValueStatus ?? filterStatus;
     if (status.size > 0) {
       const statusArray = Array.from(status);
 
@@ -375,7 +386,7 @@ export const useTimePeriodListFilters = ({
 
             if (minStartDate !== null) {
               setFilterMinStartDate(minStartDate);
-              filterStoreValues.storeMinStartDate = minStartDate;
+              filterStoreValues.filterValueMinStartDate = minStartDate;
             }
 
             break;
@@ -387,16 +398,16 @@ export const useTimePeriodListFilters = ({
 
             let isMaxDateBeforeMinDate = false;
 
-            if (filterStoreValues.storeMinStartDate) {
+            if (filterStoreValues.filterValueMinStartDate) {
               isMaxDateBeforeMinDate = IsEndDateBeforeStartDate(
-                filterStoreValues.storeMinStartDate,
+                filterStoreValues.filterValueMinStartDate,
                 maxStartDate
               );
             }
 
             if (maxStartDate !== null && !isMaxDateBeforeMinDate) {
               setFilterMaxStartDate(maxStartDate);
-              filterStoreValues.storeMaxStartDate = maxStartDate;
+              filterStoreValues.filterValueMaxStartDate = maxStartDate;
             }
 
             break;
@@ -406,7 +417,7 @@ export const useTimePeriodListFilters = ({
 
             if (minEndDate !== null) {
               setFilterMinEndDate(minEndDate);
-              filterStoreValues.storeMinEndDate = minEndDate;
+              filterStoreValues.filterValueMinEndDate = minEndDate;
             }
 
             break;
@@ -416,16 +427,16 @@ export const useTimePeriodListFilters = ({
 
             let isMaxDateBeforeMinDate = false;
 
-            if (filterStoreValues.storeMinEndDate) {
+            if (filterStoreValues.filterValueMinEndDate) {
               isMaxDateBeforeMinDate = IsEndDateBeforeStartDate(
-                filterStoreValues.storeMinEndDate,
+                filterStoreValues.filterValueMinEndDate,
                 maxEndDate
               );
             }
 
             if (maxEndDate !== null && !isMaxDateBeforeMinDate) {
               setFilterMaxEndDate(maxEndDate);
-              filterStoreValues.storeMaxEndDate = maxEndDate;
+              filterStoreValues.filterValueMaxEndDate = maxEndDate;
             }
 
             break;
@@ -440,7 +451,7 @@ export const useTimePeriodListFilters = ({
               IsNumberValidInteger(minDuration, minValue, doNotAllowMinValue)
             ) {
               setFilterMinDuration(minDuration);
-              filterStoreValues.storeMinDuration = minDuration;
+              filterStoreValues.filterValueMinDuration = minDuration;
             }
 
             break;
@@ -448,14 +459,14 @@ export const useTimePeriodListFilters = ({
           case "max-duration": {
             const maxDuration = value as number;
 
-            const minValue = filterStoreValues.storeMinDuration ?? 0;
+            const minValue = filterStoreValues.filterValueMinDuration ?? 0;
             const doNotAllowMinValue = minValue === 0;
 
             if (
               IsNumberValidInteger(maxDuration, minValue, doNotAllowMinValue)
             ) {
               setFilterMaxDuration(maxDuration);
-              filterStoreValues.storeMaxDuration = maxDuration;
+              filterStoreValues.filterValueMaxDuration = maxDuration;
             }
 
             break;
@@ -474,7 +485,7 @@ export const useTimePeriodListFilters = ({
             }
 
             setFilterDietPhaseTypes(dietPhaseSet);
-            filterStoreValues.storeDietPhaseTypes = dietPhaseSet;
+            filterStoreValues.filterValueDietPhaseTypes = dietPhaseSet;
 
             break;
           }
@@ -495,7 +506,7 @@ export const useTimePeriodListFilters = ({
             }
 
             setFilterHasInjury(hasInjurySet);
-            filterStoreValues.storeHasInjury = hasInjurySet;
+            filterStoreValues.filterValueHasInjury = hasInjurySet;
 
             break;
           }
@@ -513,7 +524,7 @@ export const useTimePeriodListFilters = ({
             }
 
             setFilterStatus(statusSet);
-            filterStoreValues.storeStatus = statusSet;
+            filterStoreValues.filterValueStatus = statusSet;
 
             break;
           }

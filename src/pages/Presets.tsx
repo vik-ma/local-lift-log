@@ -678,7 +678,7 @@ export default function Presets() {
     setUnitsModal.onOpen();
   };
 
-  const handleRestoreDistanceButton = async () => {
+  const handleRefilterValueDistanceButton = async () => {
     setPresetsType("distance");
     setUnitsModal.onOpen();
   };
@@ -1096,7 +1096,7 @@ export default function Presets() {
                     <Button
                       size="sm"
                       variant="flat"
-                      onPress={handleRestoreDistanceButton}
+                      onPress={handleRefilterValueDistanceButton}
                     >
                       Restore Default Distances
                     </Button>

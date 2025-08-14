@@ -138,7 +138,7 @@ export const useListFilters = ({
     const updatedFilterMap: ListFilterMap = new Map();
     const storeFilterMap: StoreFilterMap = new Map();
 
-    const minDate = filterValues?.storeMinDate ?? filterMinDate;
+    const minDate = filterValues?.filterValueMinDate ?? filterMinDate;
     if (minDate !== null) {
       const filterMinDateString = ConvertCalendarDateToLocalizedString(
         minDate,
@@ -149,7 +149,7 @@ export const useListFilters = ({
       storeFilterMap.set("min-date", filterMinDateString);
     }
 
-    const maxDate = filterValues?.storeMaxDate ?? filterMaxDate;
+    const maxDate = filterValues?.filterValueMaxDate ?? filterMaxDate;
     if (maxDate !== null) {
       const filterMaxDateString = ConvertCalendarDateToLocalizedString(
         maxDate,
@@ -160,7 +160,7 @@ export const useListFilters = ({
       storeFilterMap.set("max-date", filterMaxDateString);
     }
 
-    const weekdays = filterValues?.storeWeekdays ?? filterWeekdays;
+    const weekdays = filterValues?.filterValueWeekdays ?? filterWeekdays;
     if (weekdays.size > 0) {
       const weekdaysArray = Array.from(weekdays);
 
@@ -170,23 +170,23 @@ export const useListFilters = ({
 
       updatedFilterMap.set("weekdays", filterWeekdaysString);
 
-      const storeWeekdaysString = weekdaysArray.join(",");
+      const filterValueWeekdaysString = weekdaysArray.join(",");
 
-      storeFilterMap.set("weekdays", storeWeekdaysString);
+      storeFilterMap.set("weekdays", filterValueWeekdaysString);
     }
 
-    const routines = filterValues?.storeRoutines ?? filterRoutines;
+    const routines = filterValues?.filterValueRoutines ?? filterRoutines;
     if (routines.size > 0 && routineMap !== undefined) {
       updatedFilterMap.set("routines", getFilterRoutinesString(routines));
     }
 
-    const exercises = filterValues?.storeExercises ?? filterExercises;
+    const exercises = filterValues?.filterValueExercises ?? filterExercises;
     if (exercises.size > 0 && useExerciseList !== undefined) {
       updatedFilterMap.set("exercises", getFilterExercisesString(exercises));
     }
 
     const exerciseGroups =
-      filterValues?.storeExerciseGroups ?? filterExerciseGroups;
+      filterValues?.filterValueExerciseGroups ?? filterExerciseGroups;
     if (exerciseGroups.length > 0 && useExerciseList !== undefined) {
       updatedFilterMap.set(
         "exercise-groups",
@@ -195,16 +195,16 @@ export const useListFilters = ({
     }
 
     const weightRangeUnit =
-      filterValues?.storeWeightRangeUnit ?? filterWeightRangeUnit;
+      filterValues?.filterValueWeightRangeUnit ?? filterWeightRangeUnit;
 
-    const minWeight = filterValues?.storeMinWeight ?? filterMinWeight;
+    const minWeight = filterValues?.filterValueMinWeight ?? filterMinWeight;
     if (minWeight !== null) {
       const filterMinWeightString = `${minWeight} ${weightRangeUnit}`;
 
       updatedFilterMap.set("min-weight", filterMinWeightString);
     }
 
-    const maxWeight = filterValues?.storeMaxWeight ?? filterMaxWeight;
+    const maxWeight = filterValues?.filterValueMaxWeight ?? filterMaxWeight;
     if (maxWeight !== null) {
       const filterMaxWeightString = `${maxWeight} ${weightRangeUnit}`;
 
@@ -212,23 +212,26 @@ export const useListFilters = ({
     }
 
     const distanceRangeUnit =
-      filterValues?.storeDistanceRangeUnit ?? filterDistanceRangeUnit;
+      filterValues?.filterValueDistanceRangeUnit ?? filterDistanceRangeUnit;
 
-    const minDistance = filterValues?.storeMinDistance ?? filterMinDistance;
+    const minDistance =
+      filterValues?.filterValueMinDistance ?? filterMinDistance;
     if (minDistance !== null) {
       const filterMinDistanceString = `${minDistance} ${distanceRangeUnit}`;
 
       updatedFilterMap.set("min-distance", filterMinDistanceString);
     }
 
-    const maxDistance = filterValues?.storeMaxDistance ?? filterMaxDistance;
+    const maxDistance =
+      filterValues?.filterValueMaxDistance ?? filterMaxDistance;
     if (maxDistance !== null) {
       const filterMaxDistanceString = `${maxDistance} ${distanceRangeUnit}`;
 
       updatedFilterMap.set("max-distance", filterMaxDistanceString);
     }
 
-    const measurements = filterValues?.storeMeasurements ?? filterMeasurements;
+    const measurements =
+      filterValues?.filterValueMeasurements ?? filterMeasurements;
     if (measurements.size > 0) {
       updatedFilterMap.set(
         "measurements",
@@ -237,7 +240,7 @@ export const useListFilters = ({
     }
 
     const workoutTemplates =
-      filterValues?.storeWorkoutTemplates ?? filterWorkoutTemplates;
+      filterValues?.filterValueWorkoutTemplates ?? filterWorkoutTemplates;
     if (workoutTemplates.size > 0 && workoutTemplateMap !== undefined) {
       updatedFilterMap.set(
         "workout-templates",
@@ -246,7 +249,7 @@ export const useListFilters = ({
     }
 
     const scheduleTypes =
-      filterValues?.storeScheduleTypes ?? filterScheduleTypes;
+      filterValues?.filterValueScheduleTypes ?? filterScheduleTypes;
     if (scheduleTypes.size > 0) {
       const scheduleTypesArray = Array.from(scheduleTypes);
 
@@ -257,7 +260,7 @@ export const useListFilters = ({
     }
 
     const minNumScheduleDays =
-      filterValues?.storeMinNumScheduleDays ?? filterMinNumScheduleDays;
+      filterValues?.filterValueMinNumScheduleDays ?? filterMinNumScheduleDays;
     if (minNumScheduleDays !== null) {
       const filterMinNumScheduleDaysString = `${minNumScheduleDays} Days`;
 
@@ -268,7 +271,7 @@ export const useListFilters = ({
     }
 
     const maxNumScheduleDays =
-      filterValues?.storeMaxNumScheduleDays ?? filterMaxNumScheduleDays;
+      filterValues?.filterValueMaxNumScheduleDays ?? filterMaxNumScheduleDays;
     if (maxNumScheduleDays !== null) {
       const filterMaxNumScheduleDaysString = `${maxNumScheduleDays} Days`;
 
@@ -278,7 +281,8 @@ export const useListFilters = ({
       );
     }
 
-    const weightUnits = filterValues?.storeWeightUnits ?? filterWeightUnits;
+    const weightUnits =
+      filterValues?.filterValueWeightUnits ?? filterWeightUnits;
     if (weightUnits.size > 0) {
       const weightUnitsArray = Array.from(weightUnits);
 
@@ -289,7 +293,7 @@ export const useListFilters = ({
     }
 
     const distanceUnits =
-      filterValues?.storeDistanceUnits ?? filterDistanceUnits;
+      filterValues?.filterValueDistanceUnits ?? filterDistanceUnits;
     if (distanceUnits.size > 0) {
       const distanceUnitsArray = Array.from(distanceUnits);
 
@@ -300,7 +304,7 @@ export const useListFilters = ({
     }
 
     const multisetTypes =
-      filterValues?.storeMultisetTypes ?? filterMultisetTypes;
+      filterValues?.filterValueMultisetTypes ?? filterMultisetTypes;
     if (multisetTypes.size > 0) {
       const multisetTypesArray = Array.from(multisetTypes);
 
@@ -312,7 +316,8 @@ export const useListFilters = ({
     }
 
     const minBodyFatPercentage =
-      filterValues?.storeMinBodyFatPercentage ?? filterMinBodyFatPercentage;
+      filterValues?.filterValueMinBodyFatPercentage ??
+      filterMinBodyFatPercentage;
     if (minBodyFatPercentage !== null) {
       const filterMinBodyFatPercentageString = `${minBodyFatPercentage}%`;
 
@@ -320,7 +325,8 @@ export const useListFilters = ({
     }
 
     const maxBodyFatPercentage =
-      filterValues?.storeMaxBodyFatPercentage ?? filterMaxBodyFatPercentage;
+      filterValues?.filterValueMaxBodyFatPercentage ??
+      filterMaxBodyFatPercentage;
     if (maxBodyFatPercentage !== null) {
       const filterMaxBodyFatPercentageString = `${maxBodyFatPercentage}%`;
 
@@ -796,7 +802,7 @@ export const useListFilters = ({
 
             if (minDate !== null) {
               setFilterMinDate(minDate);
-              filterStoreValues.storeMinDate = minDate;
+              filterStoreValues.filterValueMinDate = minDate;
             }
 
             break;
@@ -806,16 +812,16 @@ export const useListFilters = ({
 
             let isMaxDateBeforeMinDate = false;
 
-            if (filterStoreValues.storeMinDate) {
+            if (filterStoreValues.filterValueMinDate) {
               isMaxDateBeforeMinDate = IsEndDateBeforeStartDate(
-                filterStoreValues.storeMinDate,
+                filterStoreValues.filterValueMinDate,
                 maxDate
               );
             }
 
             if (maxDate !== null && !isMaxDateBeforeMinDate) {
               setFilterMaxDate(maxDate);
-              filterStoreValues.storeMaxDate = maxDate;
+              filterStoreValues.filterValueMaxDate = maxDate;
             }
 
             break;
@@ -834,7 +840,7 @@ export const useListFilters = ({
             }
 
             setFilterWeekdays(weekdaysSet);
-            filterStoreValues.storeWeekdays = weekdaysSet;
+            filterStoreValues.filterValueWeekdays = weekdaysSet;
 
             break;
           }
