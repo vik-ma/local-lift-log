@@ -74,60 +74,39 @@ export const FilterDietLogListModal = ({
   ]);
 
   useEffect(() => {
+    if (!filterDietLogListModal.isOpen) return;
+
     filterMinAndMaxValueInputsCalories.setMinInput(
       ConvertNumberToInputString(filterMinCalories)
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterMinCalories]);
-
-  useEffect(() => {
     filterMinAndMaxValueInputsCalories.setMaxInput(
       ConvertNumberToInputString(filterMaxCalories)
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterMaxCalories]);
 
-  useEffect(() => {
     filterMinAndMaxValueInputsFat.setMinInput(
       ConvertNumberToInputString(filterMinFat)
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterMinFat]);
-
-  useEffect(() => {
     filterMinAndMaxValueInputsFat.setMaxInput(
       ConvertNumberToInputString(filterMaxFat)
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterMaxFat]);
 
-  useEffect(() => {
     filterMinAndMaxValueInputsCarbs.setMinInput(
       ConvertNumberToInputString(filterMinCarbs)
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterMinCarbs]);
-
-  useEffect(() => {
     filterMinAndMaxValueInputsCarbs.setMaxInput(
       ConvertNumberToInputString(filterMaxCarbs)
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterMaxCarbs]);
 
-  useEffect(() => {
     filterMinAndMaxValueInputsProtein.setMinInput(
       ConvertNumberToInputString(filterMinProtein)
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterMinProtein]);
 
-  useEffect(() => {
     filterMinAndMaxValueInputsProtein.setMaxInput(
       ConvertNumberToInputString(filterMaxProtein)
     );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterMaxProtein]);
+  }, [filterDietLogListModal.isOpen]);
 
   const handleSaveButton = () => {
     if (isFilterButtonDisabled) return;
