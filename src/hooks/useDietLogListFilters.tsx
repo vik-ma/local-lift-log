@@ -158,8 +158,7 @@ export const useDietLogListFilters = ({
       storeFilterMap.set("max-carbs", maxCarbs);
     }
 
-    const minProtein =
-      filterValues?.filterValueMinProtein ?? filterMinProtein;
+    const minProtein = filterValues?.filterValueMinProtein ?? filterMinProtein;
     if (minProtein !== null) {
       const filterMinProteinString = `${minProtein} g`;
 
@@ -167,8 +166,7 @@ export const useDietLogListFilters = ({
       storeFilterMap.set("min-protein", minProtein);
     }
 
-    const maxProtein =
-      filterValues?.filterValueMaxProtein ?? filterMaxProtein;
+    const maxProtein = filterValues?.filterValueMaxProtein ?? filterMaxProtein;
     if (maxProtein !== null) {
       const filterMaxProteinString = `${maxProtein} g`;
 
@@ -202,42 +200,34 @@ export const useDietLogListFilters = ({
       }
       case "min-calories": {
         setFilterMinCalories(null);
-        filterMinAndMaxValueInputsCalories.resetMinInput();
         break;
       }
       case "max-calories": {
         setFilterMaxCalories(null);
-        filterMinAndMaxValueInputsCalories.resetMaxInput();
         break;
       }
       case "min-fat": {
         setFilterMinFat(null);
-        filterMinAndMaxValueInputsFat.resetMinInput();
         break;
       }
       case "max-fat": {
         setFilterMaxFat(null);
-        filterMinAndMaxValueInputsFat.resetMaxInput();
         break;
       }
       case "min-carbs": {
         setFilterMinCarbs(null);
-        filterMinAndMaxValueInputsCarbs.resetMinInput();
         break;
       }
       case "max-carbs": {
         setFilterMaxCarbs(null);
-        filterMinAndMaxValueInputsCarbs.resetMaxInput();
         break;
       }
       case "min-protein": {
         setFilterMinProtein(null);
-        filterMinAndMaxValueInputsProtein.resetMinInput();
         break;
       }
       case "max-protein": {
         setFilterMaxProtein(null);
-        filterMinAndMaxValueInputsProtein.resetMinInput();
         break;
       }
       default: {
@@ -266,10 +256,6 @@ export const useDietLogListFilters = ({
     setFilterMaxCarbs(null);
     setFilterMinProtein(null);
     setFilterMaxProtein(null);
-    filterMinAndMaxValueInputsCalories.resetInputs();
-    filterMinAndMaxValueInputsFat.resetInputs();
-    filterMinAndMaxValueInputsCarbs.resetInputs();
-    filterMinAndMaxValueInputsProtein.resetInputs();
 
     saveFilterMapToStore(new Map());
   };
