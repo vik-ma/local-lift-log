@@ -1,4 +1,8 @@
-import { UseDietLogListReturnType, UserSettings } from "../../typings";
+import {
+  DietLogFilterValues,
+  UseDietLogListReturnType,
+  UserSettings,
+} from "../../typings";
 import {
   Button,
   Modal,
@@ -11,7 +15,10 @@ import {
 import { FilterDateRangeAndWeekdays, FilterMinAndMaxValues } from "..";
 import { useEffect, useMemo } from "react";
 import { useFilterMinAndMaxValueInputs } from "../../hooks";
-import { ConvertNumberToInputString } from "../../helpers";
+import {
+  ConvertInputStringToNumberOrNull,
+  ConvertNumberToInputString,
+} from "../../helpers";
 
 type FilterDietLogListModalProps = {
   useDietLogList: UseDietLogListReturnType;
@@ -122,6 +129,39 @@ export const FilterDietLogListModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterMaxProtein]);
 
+  const handleSaveButton = () => {
+    if (isFilterButtonDisabled) return;
+
+    const filterValues: DietLogFilterValues = {
+      filterValueMinCalories: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsCalories.minInput
+      ),
+      filterValueMaxCalories: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsCalories.maxInput
+      ),
+      filterValueMinFat: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsFat.minInput
+      ),
+      filterValueMaxFat: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsFat.maxInput
+      ),
+      filterValueMinCarbs: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsCarbs.minInput
+      ),
+      filterValueMaxCarbs: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsCarbs.maxInput
+      ),
+      filterValueMinProtein: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsProtein.minInput
+      ),
+      filterValueMaxProtein: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsProtein.maxInput
+      ),
+    };
+
+    handleFilterSaveButton(filterDietLogListModal, filterValues);
+  };
+
   return (
     <Modal
       isOpen={filterDietLogListModal.isOpen}
@@ -203,7 +243,7 @@ export const FilterDietLogListModal = ({
                 </Button>
                 <Button
                   color="primary"
-                  onPress={() => handleFilterSaveButton(filterDietLogListModal)}
+                  onPress={handleSaveButton}
                   isDisabled={isFilterButtonDisabled}
                 >
                   Filter
