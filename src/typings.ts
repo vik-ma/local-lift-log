@@ -925,10 +925,9 @@ export type UseFilterMinAndMaxValueInputsReturnType = {
   isMinInputInvalid: boolean;
   isMaxInputInvalid: boolean;
   isMaxValueBelowMinValue: boolean;
-  resetInputs: () => void;
-  resetMinInput: () => void;
-  resetMaxInput: () => void;
   isFilterInvalid: boolean;
+  includeNullInMaxValues: boolean;
+  setIncludeNullInMaxValues: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type DietLog = {
