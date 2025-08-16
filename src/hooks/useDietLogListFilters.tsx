@@ -252,50 +252,26 @@ export const useDietLogListFilters = ({
 
   const resetFilter = () => {
     setFilterMap(new Map());
-    setFilterMinDate(null);
-    setFilterMaxDate(null);
-    setFilterWeekdays(new Set());
-    setFilterMinCalories(null);
-    setFilterMaxCalories(null);
-    setFilterMinFat(null);
-    setFilterMaxFat(null);
-    setFilterMinCarbs(null);
-    setFilterMaxCarbs(null);
-    setFilterMinProtein(null);
-    setFilterMaxProtein(null);
-
+    setDietLogFilterValues({ ...defaultDietLogFilterValues });
     saveFilterMapToStore(new Map());
   };
 
   const showResetFilterButton = useMemo(() => {
     if (filterMap.size > 0) return true;
-    if (filterMinDate !== null) return true;
-    if (filterMaxDate !== null) return true;
-    if (filterWeekdays.size > 0) return true;
-    if (filterMinCalories !== null) return true;
-    if (filterMaxCalories !== null) return true;
-    if (filterMinFat !== null) return true;
-    if (filterMaxFat !== null) return true;
-    if (filterMinCarbs !== null) return true;
-    if (filterMaxCarbs !== null) return true;
-    if (filterMinProtein !== null) return true;
-    if (filterMaxProtein !== null) return true;
+    if (dietLogFilterValues.filterMinDate !== null) return true;
+    if (dietLogFilterValues.filterMaxDate !== null) return true;
+    if (dietLogFilterValues.filterWeekdays.size > 0) return true;
+    if (dietLogFilterValues.filterMinCalories !== null) return true;
+    if (dietLogFilterValues.filterMaxCalories !== null) return true;
+    if (dietLogFilterValues.filterMinFat !== null) return true;
+    if (dietLogFilterValues.filterMaxFat !== null) return true;
+    if (dietLogFilterValues.filterMinCarbs !== null) return true;
+    if (dietLogFilterValues.filterMaxCarbs !== null) return true;
+    if (dietLogFilterValues.filterMinProtein !== null) return true;
+    if (dietLogFilterValues.filterMaxProtein !== null) return true;
 
     return false;
-  }, [
-    filterMap,
-    filterMinDate,
-    filterMaxDate,
-    filterWeekdays,
-    filterMinCalories,
-    filterMaxCalories,
-    filterMinFat,
-    filterMaxFat,
-    filterMinCarbs,
-    filterMaxCarbs,
-    filterMinProtein,
-    filterMaxProtein,
-  ]);
+  }, [filterMap, dietLogFilterValues]);
 
   const prefixMap = useMemo(() => {
     const prefixMap: DietLogFilterMap = new Map();
