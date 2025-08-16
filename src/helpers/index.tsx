@@ -227,6 +227,7 @@ export { ValidSpeedUnits } from "./Constants/ValidSpeedUnits";
 export { ValidLoadExerciseOptionsCategories } from "./Constants/ValidLoadExerciseOptionsCategories";
 export { ValidPaceUnits } from "./Constants/ValidPaceUnits";
 export { BodyFatCalculationAgeGroups } from "./Constants/BodyFatCalculationAgeGroups";
+export { DefaultDietLogFilterValues } from "./Constants/DefaultDietLogFilterValues";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
