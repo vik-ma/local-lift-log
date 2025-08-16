@@ -159,6 +159,27 @@ export const useDietLogListFilters = ({
       storeFilterMap.set("max-protein", filterMaxProtein);
     }
 
+    if (includeNullInMaxValuesFat) {
+      storeFilterMap.set(
+        "include-null-in-max-values-fat",
+        includeNullInMaxValuesFat
+      );
+    }
+
+    if (includeNullInMaxValuesCarbs) {
+      storeFilterMap.set(
+        "include-null-in-max-values-carbs",
+        includeNullInMaxValuesCarbs
+      );
+    }
+
+    if (includeNullInMaxValuesProtein) {
+      storeFilterMap.set(
+        "include-null-in-max-values-protein",
+        includeNullInMaxValuesProtein
+      );
+    }
+
     setFilterMap(updatedFilterMap);
     setDietLogFilterValues(filterValues);
     saveFilterMapToStore(storeFilterMap);
@@ -280,7 +301,10 @@ export const useDietLogListFilters = ({
 
     prefixMap.set("min-date", `Min Date: `);
     prefixMap.set("max-date", `Max Date: `);
-    prefixMap.set("weekdays", `Days (${filterWeekdays.size}): `);
+    prefixMap.set(
+      "weekdays",
+      `Days (${dietLogFilterValues.filterWeekdays.size}): `
+    );
     prefixMap.set("min-calories", `Min Calories: `);
     prefixMap.set("max-calories", `Max Calories: `);
     prefixMap.set("min-fat", `Min Fat: `);
@@ -291,33 +315,12 @@ export const useDietLogListFilters = ({
     prefixMap.set("max-protein", `Max Protein: `);
 
     return prefixMap;
-  }, [filterWeekdays]);
+  }, [dietLogFilterValues.filterWeekdays]);
 
   const saveFilterMapToStore = async (
     storeFilterMap: DietLogStoreFilterMap
   ) => {
     if (store.current === null) return;
-
-    if (includeNullInMaxValuesFat) {
-      storeFilterMap.set(
-        "include-null-in-max-values-fat",
-        includeNullInMaxValuesFat
-      );
-    }
-
-    if (includeNullInMaxValuesCarbs) {
-      storeFilterMap.set(
-        "include-null-in-max-values-carbs",
-        includeNullInMaxValuesCarbs
-      );
-    }
-
-    if (includeNullInMaxValuesProtein) {
-      storeFilterMap.set(
-        "include-null-in-max-values-protein",
-        includeNullInMaxValuesProtein
-      );
-    }
 
     await store.current.set("filter-map-diet-logs", {
       value: JSON.stringify(Array.from(storeFilterMap.entries())),
