@@ -52,15 +52,8 @@ export const FilterDietLogListModal = ({
     showResetFilterButton,
     handleFilterSaveButton,
     resetFilter,
-    filterMinCalories,
-    filterMaxCalories,
-    filterMinFat,
-    filterMaxFat,
-    filterMinCarbs,
-    filterMaxCarbs,
-    filterMinProtein,
-    filterMaxProtein,
     weekdayMap,
+    dietLogFilterValues,
   } = dietLogListFilters;
 
   const isFilterButtonDisabled = useMemo(() => {
@@ -83,32 +76,32 @@ export const FilterDietLogListModal = ({
     if (!filterDietLogListModal.isOpen) return;
 
     filterMinAndMaxValueInputsCalories.setMinInput(
-      ConvertNumberToInputString(filterMinCalories)
+      ConvertNumberToInputString(dietLogFilterValues.filterMinCalories)
     );
     filterMinAndMaxValueInputsCalories.setMaxInput(
-      ConvertNumberToInputString(filterMaxCalories)
+      ConvertNumberToInputString(dietLogFilterValues.filterMaxCalories)
     );
 
     filterMinAndMaxValueInputsFat.setMinInput(
-      ConvertNumberToInputString(filterMinFat)
+      ConvertNumberToInputString(dietLogFilterValues.filterMinFat)
     );
     filterMinAndMaxValueInputsFat.setMaxInput(
-      ConvertNumberToInputString(filterMaxFat)
+      ConvertNumberToInputString(dietLogFilterValues.filterMaxFat)
     );
 
     filterMinAndMaxValueInputsCarbs.setMinInput(
-      ConvertNumberToInputString(filterMinCarbs)
+      ConvertNumberToInputString(dietLogFilterValues.filterMinCarbs)
     );
     filterMinAndMaxValueInputsCarbs.setMaxInput(
-      ConvertNumberToInputString(filterMaxCarbs)
+      ConvertNumberToInputString(dietLogFilterValues.filterMaxCarbs)
     );
 
     filterMinAndMaxValueInputsProtein.setMinInput(
-      ConvertNumberToInputString(filterMinProtein)
+      ConvertNumberToInputString(dietLogFilterValues.filterMinProtein)
     );
 
     filterMinAndMaxValueInputsProtein.setMaxInput(
-      ConvertNumberToInputString(filterMaxProtein)
+      ConvertNumberToInputString(dietLogFilterValues.filterMaxProtein)
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

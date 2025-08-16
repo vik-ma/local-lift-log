@@ -47,8 +47,10 @@ export const useDietLogList = ({
 
   const dietLogListFilters = useDietLogListFilters({ store: store });
 
+  const { filterMap, dietLogFilterValues, loadDietLogFilterMapFromStore } =
+    dietLogListFilters;
+
   const {
-    filterMap,
     filterMinDate,
     filterMaxDate,
     filterWeekdays,
@@ -63,8 +65,7 @@ export const useDietLogList = ({
     includeNullInMaxValuesFat,
     includeNullInMaxValuesCarbs,
     includeNullInMaxValuesProtein,
-    loadDietLogFilterMapFromStore,
-  } = dietLogListFilters;
+  } = dietLogFilterValues;
 
   const filteredDietLogs = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
