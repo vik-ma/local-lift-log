@@ -41,12 +41,6 @@ export const FilterDietLogListModal = ({
     handleFilterSaveButton,
     resetFilter,
     isMaxDateBeforeMinDate,
-    includeNullInMaxValuesFat,
-    setIncludeNullInMaxValuesFat,
-    includeNullInMaxValuesCarbs,
-    setIncludeNullInMaxValuesCarbs,
-    includeNullInMaxValuesProtein,
-    setIncludeNullInMaxValuesProtein,
     filterMinCalories,
     filterMaxCalories,
     filterMinFat,
@@ -174,8 +168,12 @@ export const FilterDietLogListModal = ({
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsFat
                         }
-                        includeNullInMaxValues={includeNullInMaxValuesFat}
-                        setIncludeNullInMaxValues={setIncludeNullInMaxValuesFat}
+                        includeNullInMaxValues={
+                          filterMinAndMaxValueInputsFat.includeNullInMaxValues
+                        }
+                        setIncludeNullInMaxValues={
+                          filterMinAndMaxValueInputsFat.setIncludeNullInMaxValues
+                        }
                       />
                     </div>
                     <div className="flex flex-col">
@@ -185,9 +183,11 @@ export const FilterDietLogListModal = ({
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsCarbs
                         }
-                        includeNullInMaxValues={includeNullInMaxValuesCarbs}
+                        includeNullInMaxValues={
+                          filterMinAndMaxValueInputsCarbs.includeNullInMaxValues
+                        }
                         setIncludeNullInMaxValues={
-                          setIncludeNullInMaxValuesCarbs
+                          filterMinAndMaxValueInputsCarbs.setIncludeNullInMaxValues
                         }
                       />
                     </div>
@@ -198,9 +198,11 @@ export const FilterDietLogListModal = ({
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsProtein
                         }
-                        includeNullInMaxValues={includeNullInMaxValuesProtein}
+                        includeNullInMaxValues={
+                          filterMinAndMaxValueInputsProtein.includeNullInMaxValues
+                        }
                         setIncludeNullInMaxValues={
-                          setIncludeNullInMaxValuesProtein
+                          filterMinAndMaxValueInputsProtein.setIncludeNullInMaxValues
                         }
                       />
                     </div>

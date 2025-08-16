@@ -57,12 +57,7 @@ export const useDietLogListFilters = ({
 
   const weekdayMap = useWeekdayMap();
 
-  const [includeNullInMaxValuesFat, setIncludeNullInMaxValuesFat] =
-    useState<boolean>(false);
-  const [includeNullInMaxValuesCarbs, setIncludeNullInMaxValuesCarbs] =
-    useState<boolean>(false);
-  const [includeNullInMaxValuesProtein, setIncludeNullInMaxValuesProtein] =
-    useState<boolean>(false);
+
 
   const storeFilters = useRef<DietLogStoreFilterMap>(new Map());
 
@@ -599,12 +594,6 @@ export const useDietLogListFilters = ({
     filterMaxProtein,
     setFilterMaxProtein,
     weekdayMap,
-    includeNullInMaxValuesFat,
-    setIncludeNullInMaxValuesFat,
-    includeNullInMaxValuesCarbs,
-    setIncludeNullInMaxValuesCarbs,
-    includeNullInMaxValuesProtein,
-    setIncludeNullInMaxValuesProtein,
     loadDietLogFilterMapFromStore,
   };
 };

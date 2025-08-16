@@ -1011,14 +1011,6 @@ export type UseDietLogListFiltersReturnType = {
   filterMaxProtein: number | null;
   setFilterMaxProtein: React.Dispatch<React.SetStateAction<number | null>>;
   weekdayMap: Map<string, string>;
-  includeNullInMaxValuesFat: boolean;
-  setIncludeNullInMaxValuesFat: React.Dispatch<React.SetStateAction<boolean>>;
-  includeNullInMaxValuesCarbs: boolean;
-  setIncludeNullInMaxValuesCarbs: React.Dispatch<React.SetStateAction<boolean>>;
-  includeNullInMaxValuesProtein: boolean;
-  setIncludeNullInMaxValuesProtein: React.Dispatch<
-    React.SetStateAction<boolean>
-  >;
   loadDietLogFilterMapFromStore: () => Promise<void>;
 };
 
