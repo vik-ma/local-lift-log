@@ -14,7 +14,10 @@ import {
 } from "@heroui/react";
 import { FilterDateRangeAndWeekdays, FilterMinAndMaxValues } from "..";
 import { useEffect, useMemo } from "react";
-import { useFilterMinAndMaxValueInputs } from "../../hooks";
+import {
+  useFilterDateRangeAndWeekdays,
+  useFilterMinAndMaxValueInputs,
+} from "../../hooks";
 import {
   ConvertInputStringToNumberOrNull,
   ConvertNumberToInputString,
@@ -36,11 +39,12 @@ export const FilterDietLogListModal = ({
   const filterMinAndMaxValueInputsCarbs = useFilterMinAndMaxValueInputs();
   const filterMinAndMaxValueInputsProtein = useFilterMinAndMaxValueInputs();
 
+  const filterDateRangeAndWeekdays = useFilterDateRangeAndWeekdays();
+
   const {
     showResetFilterButton,
     handleFilterSaveButton,
     resetFilter,
-    isMaxDateBeforeMinDate,
     filterMinCalories,
     filterMaxCalories,
     filterMinFat,
@@ -49,10 +53,11 @@ export const FilterDietLogListModal = ({
     filterMaxCarbs,
     filterMinProtein,
     filterMaxProtein,
+    weekdayMap,
   } = dietLogListFilters;
 
   const isFilterButtonDisabled = useMemo(() => {
-    if (isMaxDateBeforeMinDate) return true;
+    if (filterDateRangeAndWeekdays.isMaxDateBeforeMinDate) return true;
     if (filterMinAndMaxValueInputsCalories.isFilterInvalid) return true;
     if (filterMinAndMaxValueInputsFat.isFilterInvalid) return true;
     if (filterMinAndMaxValueInputsCarbs.isFilterInvalid) return true;
@@ -60,7 +65,7 @@ export const FilterDietLogListModal = ({
 
     return false;
   }, [
-    isMaxDateBeforeMinDate,
+    filterDateRangeAndWeekdays.isMaxDateBeforeMinDate,
     filterMinAndMaxValueInputsCalories.isFilterInvalid,
     filterMinAndMaxValueInputsFat.isFilterInvalid,
     filterMinAndMaxValueInputsCarbs.isFilterInvalid,
@@ -106,30 +111,36 @@ export const FilterDietLogListModal = ({
     if (isFilterButtonDisabled) return;
 
     const filterValues: DietLogFilterValues = {
-      filterValueMinCalories: ConvertInputStringToNumberOrNull(
+      filterMinCalories: ConvertInputStringToNumberOrNull(
         filterMinAndMaxValueInputsCalories.minInput
       ),
-      filterValueMaxCalories: ConvertInputStringToNumberOrNull(
+      filterMaxCalories: ConvertInputStringToNumberOrNull(
         filterMinAndMaxValueInputsCalories.maxInput
       ),
-      filterValueMinFat: ConvertInputStringToNumberOrNull(
+      filterMinFat: ConvertInputStringToNumberOrNull(
         filterMinAndMaxValueInputsFat.minInput
       ),
-      filterValueMaxFat: ConvertInputStringToNumberOrNull(
+      filterMaxFat: ConvertInputStringToNumberOrNull(
         filterMinAndMaxValueInputsFat.maxInput
       ),
-      filterValueMinCarbs: ConvertInputStringToNumberOrNull(
+      filterMinCarbs: ConvertInputStringToNumberOrNull(
         filterMinAndMaxValueInputsCarbs.minInput
       ),
-      filterValueMaxCarbs: ConvertInputStringToNumberOrNull(
+      filterMaxCarbs: ConvertInputStringToNumberOrNull(
         filterMinAndMaxValueInputsCarbs.maxInput
       ),
-      filterValueMinProtein: ConvertInputStringToNumberOrNull(
+      filterMinProtein: ConvertInputStringToNumberOrNull(
         filterMinAndMaxValueInputsProtein.minInput
       ),
-      filterValueMaxProtein: ConvertInputStringToNumberOrNull(
+      filterMaxProtein: ConvertInputStringToNumberOrNull(
         filterMinAndMaxValueInputsProtein.maxInput
       ),
+      includeNullInMaxValuesFat:
+        filterMinAndMaxValueInputsFat.includeNullInMaxValues,
+      includeNullInMaxValuesCarbs:
+        filterMinAndMaxValueInputsCarbs.includeNullInMaxValues,
+      includeNullInMaxValuesProtein:
+        filterMinAndMaxValueInputsProtein.includeNullInMaxValues,
     };
 
     handleFilterSaveButton(filterDietLogListModal, filterValues);
@@ -148,8 +159,9 @@ export const FilterDietLogListModal = ({
               <ScrollShadow className="h-[400px]">
                 <div className="flex flex-col gap-4 w-[24rem]">
                   <FilterDateRangeAndWeekdays
-                    useListFilters={dietLogListFilters}
+                    useFilterDateRangeAndWeekdays={filterDateRangeAndWeekdays}
                     locale={userSettings.locale}
+                    weekdayMap={weekdayMap}
                   />
                   <div className="flex flex-col">
                     <div className="flex flex-col gap-px">

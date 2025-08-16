@@ -11,6 +11,9 @@ export const useFilterDateRangeAndWeekdays =
     const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(
       null
     );
+    const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(
+      new Set()
+    );
 
     const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate({
       startDate: filterMinDate,
@@ -23,5 +26,7 @@ export const useFilterDateRangeAndWeekdays =
       filterMaxDate,
       setFilterMaxDate,
       isMaxDateBeforeMinDate,
+      filterWeekdays,
+      setFilterWeekdays,
     };
   };

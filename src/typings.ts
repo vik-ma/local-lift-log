@@ -930,6 +930,16 @@ export type UseFilterMinAndMaxValueInputsReturnType = {
   setIncludeNullInMaxValues: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+export type UseFilterDateRangeAndWeekdaysReturnType = {
+  filterMinDate: CalendarDate | null;
+  setFilterMinDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  filterMaxDate: CalendarDate | null;
+  setFilterMaxDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  isMaxDateBeforeMinDate: boolean;
+  filterWeekdays: Set<string>;
+  setFilterWeekdays: React.Dispatch<React.SetStateAction<Set<string>>>;
+};
+
 export type DietLog = {
   id: number;
   date: string;
@@ -1383,15 +1393,18 @@ export type TimePeriodFilterValues = {
 };
 
 export type DietLogFilterValues = {
-  filterValueMinDate?: CalendarDate | null;
-  filterValueMaxDate?: CalendarDate | null;
-  filterValueWeekdays?: Set<string>;
-  filterValueMinCalories?: number | null;
-  filterValueMaxCalories?: number | null;
-  filterValueMinFat?: number | null;
-  filterValueMaxFat?: number | null;
-  filterValueMinCarbs?: number | null;
-  filterValueMaxCarbs?: number | null;
-  filterValueMinProtein?: number | null;
-  filterValueMaxProtein?: number | null;
+  filterMinDate: CalendarDate | null;
+  filterMaxDate: CalendarDate | null;
+  filterWeekdays: Set<string>;
+  filterMinCalories: number | null;
+  filterMaxCalories: number | null;
+  filterMinFat: number | null;
+  filterMaxFat: number | null;
+  filterMinCarbs: number | null;
+  filterMaxCarbs: number | null;
+  filterMinProtein: number | null;
+  filterMaxProtein: number | null;
+  includeNullInMaxValuesFat: boolean;
+  includeNullInMaxValuesCarbs: boolean;
+  includeNullInMaxValuesProtein: boolean;
 };

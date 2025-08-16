@@ -1,28 +1,26 @@
 import { FilterMinAndMaxDates, MultipleChoiceWeekdayDropdown } from ".";
-import {
-  UseDietLogListFiltersReturnType,
-  UseListFiltersReturnType,
-} from "../typings";
+import { UseFilterDateRangeAndWeekdaysReturnType } from "../typings";
 
 type FilterDateRangeAndWeekdaysProps = {
-  useListFilters: UseListFiltersReturnType | UseDietLogListFiltersReturnType;
+  useFilterDateRangeAndWeekdays: UseFilterDateRangeAndWeekdaysReturnType;
   locale: string;
+  weekdayMap: Map<string, string>;
 };
 
 export const FilterDateRangeAndWeekdays = ({
-  useListFilters,
+  useFilterDateRangeAndWeekdays,
   locale,
+  weekdayMap,
 }: FilterDateRangeAndWeekdaysProps) => {
   const {
     filterMinDate,
     setFilterMinDate,
     filterMaxDate,
     setFilterMaxDate,
+    isMaxDateBeforeMinDate,
     filterWeekdays,
     setFilterWeekdays,
-    weekdayMap,
-    isMaxDateBeforeMinDate,
-  } = useListFilters;
+  } = useFilterDateRangeAndWeekdays;
 
   return (
     <div className="flex flex-col">
