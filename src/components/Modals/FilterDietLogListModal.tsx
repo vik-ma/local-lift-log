@@ -153,7 +153,7 @@ export const FilterDietLogListModal = ({
         filterMinAndMaxValueInputsProtein.includeNullInMaxValues,
     };
 
-    handleFilterSaveButton(filterDietLogListModal, filterValues);
+    handleFilterSaveButton(filterValues, filterDietLogListModal);
   };
 
   return (
