@@ -42,6 +42,13 @@ export const FilterDietLogListModal = ({
   const filterDateRangeAndWeekdays = useFilterDateRangeAndWeekdays();
 
   const {
+    filterMinDate,
+    filterMaxDate,
+    isMaxDateBeforeMinDate,
+    filterWeekdays,
+  } = filterDateRangeAndWeekdays;
+
+  const {
     showResetFilterButton,
     handleFilterSaveButton,
     resetFilter,
@@ -57,7 +64,7 @@ export const FilterDietLogListModal = ({
   } = dietLogListFilters;
 
   const isFilterButtonDisabled = useMemo(() => {
-    if (filterDateRangeAndWeekdays.isMaxDateBeforeMinDate) return true;
+    if (isMaxDateBeforeMinDate) return true;
     if (filterMinAndMaxValueInputsCalories.isFilterInvalid) return true;
     if (filterMinAndMaxValueInputsFat.isFilterInvalid) return true;
     if (filterMinAndMaxValueInputsCarbs.isFilterInvalid) return true;
@@ -65,7 +72,7 @@ export const FilterDietLogListModal = ({
 
     return false;
   }, [
-    filterDateRangeAndWeekdays.isMaxDateBeforeMinDate,
+    isMaxDateBeforeMinDate,
     filterMinAndMaxValueInputsCalories.isFilterInvalid,
     filterMinAndMaxValueInputsFat.isFilterInvalid,
     filterMinAndMaxValueInputsCarbs.isFilterInvalid,
@@ -111,6 +118,9 @@ export const FilterDietLogListModal = ({
     if (isFilterButtonDisabled) return;
 
     const filterValues: DietLogFilterValues = {
+      filterMinDate: filterMinDate,
+      filterMaxDate: filterMaxDate,
+      filterWeekdays: filterWeekdays,
       filterMinCalories: ConvertInputStringToNumberOrNull(
         filterMinAndMaxValueInputsCalories.minInput
       ),
