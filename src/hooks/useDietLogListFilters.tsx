@@ -190,50 +190,51 @@ export const useDietLogListFilters = ({
   const removeFilter = (key: string) => {
     const updatedFilterMap = new Map(filterMap);
     const updatedStoreFilterMap = new Map(storeFilters.current);
+    const updatedDietLogFilterValues = { ...dietLogFilterValues };
 
     switch (key) {
       case "min-date": {
-        setFilterMinDate(null);
+        updatedDietLogFilterValues.filterMinDate = null;
         break;
       }
       case "max-date": {
-        setFilterMaxDate(null);
+        updatedDietLogFilterValues.filterMaxDate = null;
         break;
       }
       case "weekdays": {
-        setFilterWeekdays(new Set());
+        updatedDietLogFilterValues.filterWeekdays = new Set();
         break;
       }
       case "min-calories": {
-        setFilterMinCalories(null);
+        updatedDietLogFilterValues.filterMinCalories = null;
         break;
       }
       case "max-calories": {
-        setFilterMaxCalories(null);
+        updatedDietLogFilterValues.filterMaxCalories = null;
         break;
       }
       case "min-fat": {
-        setFilterMinFat(null);
+        updatedDietLogFilterValues.filterMinFat = null;
         break;
       }
       case "max-fat": {
-        setFilterMaxFat(null);
+        updatedDietLogFilterValues.filterMaxFat = null;
         break;
       }
       case "min-carbs": {
-        setFilterMinCarbs(null);
+        updatedDietLogFilterValues.filterMinCarbs = null;
         break;
       }
       case "max-carbs": {
-        setFilterMaxCarbs(null);
+        updatedDietLogFilterValues.filterMaxCarbs = null;
         break;
       }
       case "min-protein": {
-        setFilterMinProtein(null);
+        updatedDietLogFilterValues.filterMinProtein = null;
         break;
       }
       case "max-protein": {
-        setFilterMaxProtein(null);
+        updatedDietLogFilterValues.filterMaxProtein = null;
         break;
       }
       default: {
@@ -245,7 +246,7 @@ export const useDietLogListFilters = ({
     updatedStoreFilterMap.delete(key as DietLogListFilterMapKey);
 
     setFilterMap(updatedFilterMap);
-
+    setDietLogFilterValues(updatedDietLogFilterValues);
     saveFilterMapToStore(updatedStoreFilterMap);
   };
 
