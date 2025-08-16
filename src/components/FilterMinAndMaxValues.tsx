@@ -5,18 +5,16 @@ type FilterMinAndMaxValuesProps = {
   label: string;
   useFilterMinAndMaxValueInputs: UseFilterMinAndMaxValueInputsReturnType;
   isSmall?: boolean;
-  includeNullInMaxValues?: boolean;
-  setIncludeNullInMaxValues?: React.Dispatch<React.SetStateAction<boolean>>;
   customIncludeNullCheckboxLabel?: string;
+  showIncludeNullInMaxValuesCheckbox?: boolean;
 };
 
 export const FilterMinAndMaxValues = ({
   label,
   useFilterMinAndMaxValueInputs,
   isSmall,
-  includeNullInMaxValues,
-  setIncludeNullInMaxValues,
   customIncludeNullCheckboxLabel,
+  showIncludeNullInMaxValuesCheckbox,
 }: FilterMinAndMaxValuesProps) => {
   const {
     minInput,
@@ -26,31 +24,31 @@ export const FilterMinAndMaxValues = ({
     isMinInputInvalid,
     isMaxInputInvalid,
     isMaxValueBelowMinValue,
+    includeNullInMaxValues,
+    setIncludeNullInMaxValues,
   } = useFilterMinAndMaxValueInputs;
 
   return (
     <div className="flex flex-col relative">
-      {includeNullInMaxValues !== undefined &&
-        setIncludeNullInMaxValues !== undefined && (
-          <div className="px-px absolute -top-[3px] w-[24rem]">
-            <Checkbox
-              className="hover:underline"
-              classNames={{ label: "text-sm" }}
-              size="sm"
-              color="primary"
-              isSelected={includeNullInMaxValues}
-              onValueChange={setIncludeNullInMaxValues}
-            >
-              {customIncludeNullCheckboxLabel !== undefined
-                ? customIncludeNullCheckboxLabel
-                : "Include entries with no values (Max only)"}
-            </Checkbox>
-          </div>
-        )}
+      {showIncludeNullInMaxValuesCheckbox && (
+        <div className="px-px absolute -top-[3px] w-[24rem]">
+          <Checkbox
+            className="hover:underline"
+            classNames={{ label: "text-sm" }}
+            size="sm"
+            color="primary"
+            isSelected={includeNullInMaxValues}
+            onValueChange={setIncludeNullInMaxValues}
+          >
+            {customIncludeNullCheckboxLabel !== undefined
+              ? customIncludeNullCheckboxLabel
+              : "Include entries with no values (Max only)"}
+          </Checkbox>
+        </div>
+      )}
       <div
         className={
-          includeNullInMaxValues !== undefined &&
-          setIncludeNullInMaxValues !== undefined
+          showIncludeNullInMaxValuesCheckbox
             ? "flex items-center gap-5 pt-6"
             : "flex items-center gap-5"
         }

@@ -168,12 +168,7 @@ export const FilterDietLogListModal = ({
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsFat
                         }
-                        includeNullInMaxValues={
-                          filterMinAndMaxValueInputsFat.includeNullInMaxValues
-                        }
-                        setIncludeNullInMaxValues={
-                          filterMinAndMaxValueInputsFat.setIncludeNullInMaxValues
-                        }
+                        showIncludeNullInMaxValuesCheckbox
                       />
                     </div>
                     <div className="flex flex-col">
@@ -183,12 +178,7 @@ export const FilterDietLogListModal = ({
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsCarbs
                         }
-                        includeNullInMaxValues={
-                          filterMinAndMaxValueInputsCarbs.includeNullInMaxValues
-                        }
-                        setIncludeNullInMaxValues={
-                          filterMinAndMaxValueInputsCarbs.setIncludeNullInMaxValues
-                        }
+                        showIncludeNullInMaxValuesCheckbox
                       />
                     </div>
                     <div className="flex flex-col">
@@ -198,12 +188,7 @@ export const FilterDietLogListModal = ({
                         useFilterMinAndMaxValueInputs={
                           filterMinAndMaxValueInputsProtein
                         }
-                        includeNullInMaxValues={
-                          filterMinAndMaxValueInputsProtein.includeNullInMaxValues
-                        }
-                        setIncludeNullInMaxValues={
-                          filterMinAndMaxValueInputsProtein.setIncludeNullInMaxValues
-                        }
+                        showIncludeNullInMaxValuesCheckbox
                       />
                     </div>
                   </div>
