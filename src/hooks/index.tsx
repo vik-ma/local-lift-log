@@ -53,3 +53,4 @@ export { useBodyMeasurementsSettings } from "./useBodyMeasurementsSettings";
 export { useIsDateBeforeEpochDate } from "./useIsDateBeforeEpochDate";
 export { useSettingsList } from "./useSettingsList";
 export { useFilterDateRangeAndWeekdays } from "./useFilterDateRangeAndWeekdays";
+export { useFilterDateRange } from "./useFilterDateRange";

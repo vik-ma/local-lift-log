@@ -931,6 +931,15 @@ export type UseFilterMinAndMaxValueInputsReturnType = {
   areInputsEmpty: boolean;
 };
 
+export type UseFilterDateRangeReturnType = {
+  filterMinDate: CalendarDate | null;
+  setFilterMinDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  filterMaxDate: CalendarDate | null;
+  setFilterMaxDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  isMaxDateBeforeMinDate: boolean;
+  areDateFiltersEmpty: boolean;
+};
+
 export type UseFilterDateRangeAndWeekdaysReturnType = {
   filterMinDate: CalendarDate | null;
   setFilterMinDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;

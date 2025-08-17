@@ -1,31 +1,27 @@
 import { useMemo, useState } from "react";
-import { useIsEndDateBeforeStartDate } from ".";
-import { CalendarDate } from "@internationalized/date";
+import { useFilterDateRange } from ".";
 import { UseFilterDateRangeAndWeekdaysReturnType } from "../typings";
 
 export const useFilterDateRangeAndWeekdays =
   (): UseFilterDateRangeAndWeekdaysReturnType => {
-    const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(
-      null
-    );
-    const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(
-      null
-    );
     const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(
       new Set()
     );
 
-    const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate({
-      startDate: filterMinDate,
-      endDate: filterMaxDate,
-    });
+    const {
+      filterMinDate,
+      setFilterMinDate,
+      filterMaxDate,
+      setFilterMaxDate,
+      isMaxDateBeforeMinDate,
+      areDateFiltersEmpty,
+    } = useFilterDateRange();
 
     const areDateRangeAndWeekdaysFiltersEmpty = useMemo(() => {
-      if (filterMinDate !== null) return false;
-      if (filterMaxDate !== null) return false;
+      if (!areDateFiltersEmpty) return false;
       if (filterWeekdays.size > 0) return false;
       return true;
-    }, [filterMinDate, filterMaxDate, filterWeekdays]);
+    }, [filterWeekdays, areDateFiltersEmpty]);
 
     return {
       filterMinDate,
