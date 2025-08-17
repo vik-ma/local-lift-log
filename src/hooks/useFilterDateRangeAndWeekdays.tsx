@@ -8,14 +8,9 @@ export const useFilterDateRangeAndWeekdays =
       new Set()
     );
 
-    const {
-      filterMinDate,
-      setFilterMinDate,
-      filterMaxDate,
-      setFilterMaxDate,
-      isMaxDateBeforeMinDate,
-      areDateFiltersEmpty,
-    } = useFilterDateRange();
+    const filterDateRange = useFilterDateRange();
+
+    const { areDateFiltersEmpty } = filterDateRange;
 
     const areDateRangeAndWeekdaysFiltersEmpty = useMemo(() => {
       if (!areDateFiltersEmpty) return false;
@@ -24,11 +19,7 @@ export const useFilterDateRangeAndWeekdays =
     }, [filterWeekdays, areDateFiltersEmpty]);
 
     return {
-      filterMinDate,
-      setFilterMinDate,
-      filterMaxDate,
-      setFilterMaxDate,
-      isMaxDateBeforeMinDate,
+      filterDateRange,
       filterWeekdays,
       setFilterWeekdays,
       areDateRangeAndWeekdaysFiltersEmpty,
