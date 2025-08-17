@@ -43,9 +43,12 @@ export const FilterDietLogListModal = ({
 
   const {
     filterMinDate,
+    setFilterMinDate,
     filterMaxDate,
+    setFilterMaxDate,
     isMaxDateBeforeMinDate,
     filterWeekdays,
+    setFilterWeekdays,
   } = filterDateRangeAndWeekdays;
 
   const {
@@ -75,6 +78,11 @@ export const FilterDietLogListModal = ({
   useEffect(() => {
     if (!filterDietLogListModal.isOpen) return;
 
+    setFilterMinDate(dietLogFilterValues.filterMinDate);
+    setFilterMaxDate(dietLogFilterValues.filterMaxDate);
+
+    setFilterWeekdays(dietLogFilterValues.filterWeekdays);
+
     filterMinAndMaxValueInputsCalories.setMinInput(
       ConvertNumberToInputString(dietLogFilterValues.filterMinCalories)
     );
@@ -88,6 +96,9 @@ export const FilterDietLogListModal = ({
     filterMinAndMaxValueInputsFat.setMaxInput(
       ConvertNumberToInputString(dietLogFilterValues.filterMaxFat)
     );
+    filterMinAndMaxValueInputsFat.setIncludeNullInMaxValues(
+      dietLogFilterValues.includeNullInMaxValuesFat
+    );
 
     filterMinAndMaxValueInputsCarbs.setMinInput(
       ConvertNumberToInputString(dietLogFilterValues.filterMinCarbs)
@@ -95,13 +106,18 @@ export const FilterDietLogListModal = ({
     filterMinAndMaxValueInputsCarbs.setMaxInput(
       ConvertNumberToInputString(dietLogFilterValues.filterMaxCarbs)
     );
+    filterMinAndMaxValueInputsCarbs.setIncludeNullInMaxValues(
+      dietLogFilterValues.includeNullInMaxValuesCarbs
+    );
 
     filterMinAndMaxValueInputsProtein.setMinInput(
       ConvertNumberToInputString(dietLogFilterValues.filterMinProtein)
     );
-
     filterMinAndMaxValueInputsProtein.setMaxInput(
       ConvertNumberToInputString(dietLogFilterValues.filterMaxProtein)
+    );
+    filterMinAndMaxValueInputsProtein.setIncludeNullInMaxValues(
+      dietLogFilterValues.includeNullInMaxValuesProtein
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
