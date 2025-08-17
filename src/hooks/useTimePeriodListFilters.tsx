@@ -5,11 +5,8 @@ import {
   TimePeriodFilterMap,
   TimePeriodListFilterMapKey,
   UseDisclosureReturnType,
-  UseFilterMinAndMaxValueInputsProps,
   UseTimePeriodListFiltersReturnType,
 } from "../typings";
-import { CalendarDate } from "@heroui/react";
-import { useFilterMinAndMaxValueInputs, useIsEndDateBeforeStartDate } from ".";
 import {
   ConvertCalendarDateToLocalizedString,
   ConvertCalendarDateToYmdString,
@@ -32,49 +29,6 @@ export const useTimePeriodListFilters = ({
   store,
 }: UseTimePeriodListFiltersProps): UseTimePeriodListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<TimePeriodFilterMap>(new Map());
-  const [filterMinStartDate, setFilterMinStartDate] =
-    useState<CalendarDate | null>(null);
-  const [filterMaxStartDate, setFilterMaxStartDate] =
-    useState<CalendarDate | null>(null);
-  const [filterMinEndDate, setFilterMinEndDate] = useState<CalendarDate | null>(
-    null
-  );
-  const [filterMaxEndDate, setFilterMaxEndDate] = useState<CalendarDate | null>(
-    null
-  );
-  const [filterHasInjury, setFilterHasInjury] = useState<Set<string>>(
-    new Set()
-  );
-  const [filterMinDuration, setFilterMinDuration] = useState<number | null>(
-    null
-  );
-  const [filterMaxDuration, setFilterMaxDuration] = useState<number | null>(
-    null
-  );
-  const [filterDietPhaseTypes, setFilterDietPhaseTypes] = useState<Set<string>>(
-    new Set()
-  );
-  const [filterStatus, setFilterStatus] = useState<Set<string>>(new Set());
-
-  const isMaxDateBeforeMinDateStart = useIsEndDateBeforeStartDate({
-    startDate: filterMinStartDate,
-    endDate: filterMaxStartDate,
-  });
-
-  const isMaxDateBeforeMinDateEnd = useIsEndDateBeforeStartDate({
-    startDate: filterMinEndDate,
-    endDate: filterMaxEndDate,
-  });
-
-  const filterMinAndMaxValueInputsProps: UseFilterMinAndMaxValueInputsProps = {
-    minValue: 1,
-    maxValue: undefined,
-    isIntegerOnly: true,
-  };
-
-  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
-    filterMinAndMaxValueInputsProps
-  );
 
   const storeFilters = useRef<TimePeriodStoreFilterMap>(new Map());
 
@@ -541,32 +495,11 @@ export const useTimePeriodListFilters = ({
 
   return {
     filterMap,
-    filterMinStartDate,
-    setFilterMinStartDate,
-    filterMaxStartDate,
-    setFilterMaxStartDate,
-    filterMinEndDate,
-    setFilterMinEndDate,
-    filterMaxEndDate,
-    setFilterMaxEndDate,
-    filterHasInjury,
-    setFilterHasInjury,
-    filterDietPhaseTypes,
-    setFilterDietPhaseTypes,
     handleFilterSaveButton,
     removeFilter,
     resetFilter,
-    showResetFilterButton,
     prefixMap,
-    filterMinDuration,
-    setFilterMinDuration,
-    filterMaxDuration,
-    setFilterMaxDuration,
-    isMaxDateBeforeMinDateStart,
-    isMaxDateBeforeMinDateEnd,
-    filterStatus,
-    setFilterStatus,
-    filterMinAndMaxValueInputs,
     loadTimePeriodFilterMapFromStore,
+    timePeriodFilterValues,
   };
 };

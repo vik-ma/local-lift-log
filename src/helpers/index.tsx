@@ -227,7 +227,6 @@ export { ValidSpeedUnits } from "./Constants/ValidSpeedUnits";
 export { ValidLoadExerciseOptionsCategories } from "./Constants/ValidLoadExerciseOptionsCategories";
 export { ValidPaceUnits } from "./Constants/ValidPaceUnits";
 export { BodyFatCalculationAgeGroups } from "./Constants/BodyFatCalculationAgeGroups";
-export { DefaultDietLogFilterValues } from "./Constants/DefaultDietLogFilterValues";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
@@ -257,12 +256,14 @@ export { LoadCalculationString } from "./CalculationItems/LoadCalculationString"
 
 export { DefaultNewTimePeriod } from "./TimePeriods/DefaultNewTimePeriod";
 export { GetValidatedDietPhase } from "./TimePeriods/GetValidatedDietPhase";
+export { DefaultTimePeriodFilterValues } from "./TimePeriods/DefaultTimePeriodFilterValues";
 
 export { DefaultNewDietLog } from "./DietLogs/DefaultNewDietLog";
 export { ShouldDietLogDisableExpansion } from "./DietLogs/ShouldDietLogDisableExpansion";
 export { InsertDietLogIntoDatabase } from "./DietLogs/InsertDietLogIntoDatabase";
 export { DeleteDietLogWithId } from "./DietLogs/DeleteDietLogWithId";
 export { GetAllDietLogs } from "./DietLogs/GetAllDietLogs";
+export { DefaultDietLogFilterValues } from "./DietLogs/DefaultDietLogFilterValues";
 
 export { LoadStore } from "./Store/LoadStore";
 export { GetSortCategoryFromStore } from "./Store/GetSortCategoryFromStore";
