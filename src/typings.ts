@@ -928,6 +928,7 @@ export type UseFilterMinAndMaxValueInputsReturnType = {
   isFilterInvalid: boolean;
   includeNullInMaxValues: boolean;
   setIncludeNullInMaxValues: React.Dispatch<React.SetStateAction<boolean>>;
+  isFilterEmpty: boolean;
 };
 
 export type UseFilterDateRangeAndWeekdaysReturnType = {
@@ -995,7 +996,6 @@ export type UseDietLogListFiltersReturnType = {
   filterMap: Map<DietLogListFilterMapKey, string>;
   removeFilter: (key: string) => void;
   resetFilter: () => void;
-  showResetFilterButton: boolean;
   prefixMap: Map<DietLogListFilterMapKey, string>;
   weekdayMap: Map<string, string>;
   loadDietLogFilterMapFromStore: () => Promise<void>;

@@ -48,6 +48,10 @@ export const useFilterMinAndMaxValueInputs = ({
     return isMinInputInvalid || isMaxInputInvalid || isMaxValueBelowMinValue;
   }, [isMinInputInvalid, isMaxInputInvalid, isMaxValueBelowMinValue]);
 
+  const areInputsEmpty = useMemo(() => {
+    return IsStringEmpty(minInput) && IsStringEmpty(maxInput);
+  }, [minInput, maxInput]);
+
   return {
     minInput,
     setMinInput,
@@ -59,5 +63,6 @@ export const useFilterMinAndMaxValueInputs = ({
     isFilterInvalid,
     includeNullInMaxValues,
     setIncludeNullInMaxValues,
+    areInputsEmpty,
   };
 };
