@@ -77,8 +77,6 @@ export const FilterDietLogListModal = ({
   ]);
 
   useEffect(() => {
-    if (!filterDietLogListModal.isOpen) return;
-
     setFilterMinDate(dietLogFilterValues.filterMinDate);
     setFilterMaxDate(dietLogFilterValues.filterMaxDate);
 
@@ -122,7 +120,7 @@ export const FilterDietLogListModal = ({
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterDietLogListModal.isOpen]);
+  }, [dietLogFilterValues]);
 
   const showResetFilterButton = useMemo(() => {
     if (filterMap.size > 0) return true;
