@@ -870,26 +870,6 @@ export type ShownPropertiesTargetType = "workout" | "time-period";
 
 export type UseTimePeriodListFiltersReturnType = {
   filterMap: Map<TimePeriodListFilterMapKey, string>;
-  filterMinStartDate: CalendarDate | null;
-  setFilterMinStartDate: React.Dispatch<
-    React.SetStateAction<CalendarDate | null>
-  >;
-  filterMaxStartDate: CalendarDate | null;
-  setFilterMaxStartDate: React.Dispatch<
-    React.SetStateAction<CalendarDate | null>
-  >;
-  filterMinEndDate: CalendarDate | null;
-  setFilterMinEndDate: React.Dispatch<
-    React.SetStateAction<CalendarDate | null>
-  >;
-  filterMaxEndDate: CalendarDate | null;
-  setFilterMaxEndDate: React.Dispatch<
-    React.SetStateAction<CalendarDate | null>
-  >;
-  filterHasInjury: Set<string>;
-  setFilterHasInjury: React.Dispatch<React.SetStateAction<Set<string>>>;
-  filterDietPhaseTypes: Set<string>;
-  setFilterDietPhaseTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
   handleFilterSaveButton: (
     locale: string,
     filterValues: TimePeriodFilterValues,
@@ -897,18 +877,9 @@ export type UseTimePeriodListFiltersReturnType = {
   ) => void;
   removeFilter: (key: string) => void;
   resetFilter: () => void;
-  showResetFilterButton: boolean;
   prefixMap: Map<TimePeriodListFilterMapKey, string>;
-  filterMinDuration: number | null;
-  setFilterMinDuration: React.Dispatch<React.SetStateAction<number | null>>;
-  filterMaxDuration: number | null;
-  setFilterMaxDuration: React.Dispatch<React.SetStateAction<number | null>>;
-  isMaxDateBeforeMinDateStart: boolean;
-  isMaxDateBeforeMinDateEnd: boolean;
-  filterStatus: Set<string>;
-  setFilterStatus: React.Dispatch<React.SetStateAction<Set<string>>>;
-  filterMinAndMaxValueInputs: UseFilterMinAndMaxValueInputsReturnType;
   loadTimePeriodFilterMapFromStore: (locale: string) => Promise<void>;
+  timePeriodFilterValues: TimePeriodFilterValues;
 };
 
 export type UseFilterMinAndMaxValueInputsProps = {
@@ -995,11 +966,11 @@ export type UseDietLogListReturnType = {
 };
 
 export type UseDietLogListFiltersReturnType = {
+  filterMap: Map<DietLogListFilterMapKey, string>;
   handleFilterSaveButton: (
     filterValues: DietLogFilterValues,
     activeModal?: UseDisclosureReturnType
   ) => void;
-  filterMap: Map<DietLogListFilterMapKey, string>;
   removeFilter: (key: string) => void;
   resetFilter: () => void;
   prefixMap: Map<DietLogListFilterMapKey, string>;

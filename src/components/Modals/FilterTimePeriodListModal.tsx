@@ -10,13 +10,22 @@ import {
   SelectItem,
   ScrollShadow,
 } from "@heroui/react";
-import { UseTimePeriodListReturnType } from "../../typings";
+import {
+  TimePeriodFilterValues,
+  UseFilterMinAndMaxValueInputsProps,
+  UseTimePeriodListReturnType,
+} from "../../typings";
 import {
   MultipleChoiceDietPhaseDropdown,
   FilterMinAndMaxDates,
   FilterMinAndMaxValues,
 } from "..";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useFilterDateRange, useFilterMinAndMaxValueInputs } from "../../hooks";
+import {
+  ConvertInputStringToNumberOrNull,
+  ConvertNumberToInputString,
+} from "../../helpers";
 
 type FilterTimePeriodListModalProps = {
   useTimePeriodList: UseTimePeriodListReturnType;
@@ -27,48 +36,119 @@ export const FilterTimePeriodListModal = ({
   useTimePeriodList,
   locale,
 }: FilterTimePeriodListModalProps) => {
+  const [filterHasInjury, setFilterHasInjury] = useState<Set<string>>(
+    new Set()
+  );
+  const [filterDietPhaseTypes, setFilterDietPhaseTypes] = useState<Set<string>>(
+    new Set()
+  );
+  const [filterStatus, setFilterStatus] = useState<Set<string>>(new Set());
+
   const { filterTimePeriodListModal, timePeriodListFilters } =
     useTimePeriodList;
 
+  const filterStartDateRange = useFilterDateRange();
+  const filterEndDateRange = useFilterDateRange();
+
+  const filterMinAndMaxValueInputsProps: UseFilterMinAndMaxValueInputsProps = {
+    minValue: 1,
+    maxValue: undefined,
+    isIntegerOnly: true,
+  };
+
+  const filterMinAndMaxValueInputsDuration = useFilterMinAndMaxValueInputs(
+    filterMinAndMaxValueInputsProps
+  );
+
   const {
-    filterMinStartDate,
-    setFilterMinStartDate,
-    filterMaxStartDate,
-    setFilterMaxStartDate,
-    filterMinEndDate,
-    setFilterMinEndDate,
-    filterMaxEndDate,
-    setFilterMaxEndDate,
-    handleFilterSaveButton,
-    setFilterMinDuration,
-    setFilterMaxDuration,
-    isMaxDateBeforeMinDateStart,
-    isMaxDateBeforeMinDateEnd,
-    filterDietPhaseTypes,
-    setFilterDietPhaseTypes,
-    filterHasInjury,
-    setFilterHasInjury,
-    filterStatus,
-    setFilterStatus,
+    filterMap,
     resetFilter,
-    showResetFilterButton,
-    filterMinAndMaxValueInputs,
+    handleFilterSaveButton,
+    timePeriodFilterValues,
   } = timePeriodListFilters;
 
   const isFilterButtonDisabled = useMemo(() => {
-    if (
-      filterMinAndMaxValueInputs.isFilterInvalid ||
-      isMaxDateBeforeMinDateStart ||
-      isMaxDateBeforeMinDateEnd
-    )
-      return true;
+    if (filterStartDateRange.isMaxDateBeforeMinDate) return true;
+    if (filterEndDateRange.isMaxDateBeforeMinDate) return true;
+    if (filterMinAndMaxValueInputsDuration.isFilterInvalid) return true;
 
     return false;
   }, [
-    filterMinAndMaxValueInputs.isFilterInvalid,
-    isMaxDateBeforeMinDateStart,
-    isMaxDateBeforeMinDateEnd,
+    filterStartDateRange.isMaxDateBeforeMinDate,
+    filterEndDateRange.isMaxDateBeforeMinDate,
+    filterMinAndMaxValueInputsDuration.isFilterInvalid,
   ]);
+
+  useEffect(() => {
+    filterStartDateRange.setFilterMinDate(
+      timePeriodFilterValues.filterMinStartDate
+    );
+    filterStartDateRange.setFilterMaxDate(
+      timePeriodFilterValues.filterMaxStartDate
+    );
+
+    filterEndDateRange.setFilterMinDate(
+      timePeriodFilterValues.filterMinEndDate
+    );
+    filterEndDateRange.setFilterMaxDate(
+      timePeriodFilterValues.filterMaxEndDate
+    );
+
+    filterMinAndMaxValueInputsDuration.setMinInput(
+      ConvertNumberToInputString(timePeriodFilterValues.filterMinDuration)
+    );
+    filterMinAndMaxValueInputsDuration.setMaxInput(
+      ConvertNumberToInputString(timePeriodFilterValues.filterMaxDuration)
+    );
+
+    setFilterHasInjury(timePeriodFilterValues.filterHasInjury);
+    setFilterDietPhaseTypes(timePeriodFilterValues.filterDietPhaseTypes);
+    setFilterStatus(timePeriodFilterValues.filterStatus);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timePeriodFilterValues]);
+
+  const showResetFilterButton = useMemo(() => {
+    if (filterMap.size > 0) return true;
+    if (!filterStartDateRange.areDateFiltersEmpty) return true;
+    if (!filterEndDateRange.areDateFiltersEmpty) return true;
+    if (!filterMinAndMaxValueInputsDuration.areInputsEmpty) return true;
+    if (filterDietPhaseTypes.size > 0) return true;
+    if (filterHasInjury.size > 0) return true;
+    if (filterStatus.size > 0) return true;
+
+    return false;
+  }, [
+    filterMap,
+    filterStartDateRange.areDateFiltersEmpty,
+    filterEndDateRange.areDateFiltersEmpty,
+    filterMinAndMaxValueInputsDuration.areInputsEmpty,
+    filterDietPhaseTypes,
+    filterHasInjury,
+    filterStatus,
+  ]);
+
+  const handleSaveButton = () => {
+    if (isFilterButtonDisabled) return;
+
+    const filterValues: TimePeriodFilterValues = {
+      filterMinStartDate: filterStartDateRange.filterMinDate,
+      filterMaxStartDate: filterStartDateRange.filterMaxDate,
+      filterMinEndDate: filterEndDateRange.filterMinDate,
+      filterMaxEndDate: filterEndDateRange.filterMaxDate,
+      filterMinDuration: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsDuration.minInput
+      ),
+      filterMaxDuration: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsDuration.maxInput
+      ),
+      filterDietPhaseTypes: filterDietPhaseTypes,
+      filterHasInjury: filterHasInjury,
+      filterStatus: filterStatus,
+    };
+
+    handleFilterSaveButton(locale, filterValues, filterTimePeriodListModal);
+  };
 
   return (
     <Modal
@@ -84,22 +164,14 @@ export const FilterTimePeriodListModal = ({
                 <div className="flex flex-col w-[24rem]">
                   <div className="flex flex-col gap-2 pt-2">
                     <FilterMinAndMaxDates
-                      filterMinDate={filterMinStartDate}
-                      setFilterMinDate={setFilterMinStartDate}
-                      filterMaxDate={filterMaxStartDate}
-                      setFilterMaxDate={setFilterMaxStartDate}
+                      useFilterDateRange={filterStartDateRange}
                       locale={locale}
-                      isMaxDateBeforeMinDate={isMaxDateBeforeMinDateStart}
                       customLabel="Start Date"
                       isSmallLabel
                     />
                     <FilterMinAndMaxDates
-                      filterMinDate={filterMinEndDate}
-                      setFilterMinDate={setFilterMinEndDate}
-                      filterMaxDate={filterMaxEndDate}
-                      setFilterMaxDate={setFilterMaxEndDate}
+                      useFilterDateRange={filterEndDateRange}
                       locale={locale}
-                      isMaxDateBeforeMinDate={isMaxDateBeforeMinDateEnd}
                       customLabel="End Date"
                       isSmallLabel
                     />
@@ -107,10 +179,10 @@ export const FilterTimePeriodListModal = ({
                   <div className="flex flex-col gap-px">
                     <h3 className="text-lg font-semibold px-0.5">Duration</h3>
                     <FilterMinAndMaxValues
-                      setFilterMinValue={setFilterMinDuration}
-                      setFilterMaxValue={setFilterMaxDuration}
                       label="Days"
-                      useFilterMinAndMaxValueInputs={filterMinAndMaxValueInputs}
+                      useFilterMinAndMaxValueInputs={
+                        filterMinAndMaxValueInputsDuration
+                      }
                       isSmall
                     />
                   </div>
@@ -208,9 +280,7 @@ export const FilterTimePeriodListModal = ({
                 </Button>
                 <Button
                   color="primary"
-                  onPress={() =>
-                    handleFilterSaveButton(locale, filterTimePeriodListModal)
-                  }
+                  onPress={handleSaveButton}
                   isDisabled={isFilterButtonDisabled}
                 >
                   Filter
