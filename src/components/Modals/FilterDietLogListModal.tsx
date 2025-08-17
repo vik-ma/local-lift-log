@@ -42,15 +42,19 @@ export const FilterDietLogListModal = ({
   const filterDateRangeAndWeekdays = useFilterDateRangeAndWeekdays();
 
   const {
+    filterDateRange,
+    filterWeekdays,
+    setFilterWeekdays,
+    areDateRangeAndWeekdaysFiltersEmpty,
+  } = filterDateRangeAndWeekdays;
+
+  const {
     filterMinDate,
     setFilterMinDate,
     filterMaxDate,
     setFilterMaxDate,
     isMaxDateBeforeMinDate,
-    filterWeekdays,
-    setFilterWeekdays,
-    areDateRangeAndWeekdaysFiltersEmpty,
-  } = filterDateRangeAndWeekdays;
+  } = filterDateRange;
 
   const {
     filterMap,

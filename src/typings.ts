@@ -941,11 +941,7 @@ export type UseFilterDateRangeReturnType = {
 };
 
 export type UseFilterDateRangeAndWeekdaysReturnType = {
-  filterMinDate: CalendarDate | null;
-  setFilterMinDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
-  filterMaxDate: CalendarDate | null;
-  setFilterMaxDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
-  isMaxDateBeforeMinDate: boolean;
+  filterDateRange: UseFilterDateRangeReturnType;
   filterWeekdays: Set<string>;
   setFilterWeekdays: React.Dispatch<React.SetStateAction<Set<string>>>;
   areDateRangeAndWeekdaysFiltersEmpty: boolean;

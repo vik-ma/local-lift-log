@@ -5,13 +5,11 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  CalendarDate,
   DateValue,
 } from "@heroui/react";
 import { UseDisclosureReturnType } from "../../typings";
-import { useIsEndDateBeforeStartDate } from "../../hooks";
+import { useFilterDateRange } from "../../hooks";
 import { FilterMinAndMaxDates } from "..";
-import { useState } from "react";
 import { getLocalTimeZone } from "@internationalized/date";
 
 type FilterMinAndMaxDatesModalProps = {
@@ -29,13 +27,10 @@ export const FilterMinAndMaxDatesModal = ({
   validEndDate,
   doneButtonAction,
 }: FilterMinAndMaxDatesModalProps) => {
-  const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(null);
-  const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(null);
+  const filterDateRange = useFilterDateRange();
 
-  const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate({
-    startDate: filterMinDate,
-    endDate: filterMaxDate,
-  });
+  const { filterMinDate, filterMaxDate, isMaxDateBeforeMinDate } =
+    filterDateRange;
 
   const handleFilterButton = () => {
     if (isMaxDateBeforeMinDate) return;
@@ -68,12 +63,8 @@ export const FilterMinAndMaxDatesModal = ({
             <ModalHeader>Filter Dates</ModalHeader>
             <ModalBody>
               <FilterMinAndMaxDates
-                filterMinDate={filterMinDate}
-                setFilterMinDate={setFilterMinDate}
-                filterMaxDate={filterMaxDate}
-                setFilterMaxDate={setFilterMaxDate}
+                useFilterDateRange={filterDateRange}
                 locale={locale}
-                isMaxDateBeforeMinDate={isMaxDateBeforeMinDate}
                 isDateUnavailable={isDateUnavailable}
               />
             </ModalBody>

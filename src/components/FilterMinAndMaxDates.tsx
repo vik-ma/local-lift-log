@@ -1,29 +1,30 @@
-import { Button, CalendarDate, DatePicker, DateValue } from "@heroui/react";
+import { Button, DatePicker, DateValue } from "@heroui/react";
 import { I18nProvider } from "@react-aria/i18n";
+import { UseFilterDateRangeReturnType } from "../typings";
 
 type FilterMinAndMaxDatesProps = {
-  filterMinDate: CalendarDate | null;
-  setFilterMinDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
-  filterMaxDate: CalendarDate | null;
-  setFilterMaxDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
+  useFilterDateRange: UseFilterDateRangeReturnType;
   locale: string;
-  isMaxDateBeforeMinDate: boolean;
   customLabel?: string;
   isSmallLabel?: boolean;
   isDateUnavailable?: (date: DateValue) => boolean;
 };
 
 export const FilterMinAndMaxDates = ({
-  filterMinDate,
-  setFilterMinDate,
-  filterMaxDate,
-  setFilterMaxDate,
+  useFilterDateRange,
   locale,
-  isMaxDateBeforeMinDate,
   customLabel,
   isSmallLabel,
   isDateUnavailable,
 }: FilterMinAndMaxDatesProps) => {
+  const {
+    filterMinDate,
+    setFilterMinDate,
+    filterMaxDate,
+    setFilterMaxDate,
+    isMaxDateBeforeMinDate,
+  } = useFilterDateRange;
+
   return (
     <div
       className={
@@ -86,7 +87,7 @@ export const FilterMinAndMaxDates = ({
               inputWrapper: "!bg-default-100",
               helperWrapper: "px-0.5",
               label: "text-neutral-700",
-              segment: "data-[invalid=true]:focus:bg-danger-600/15"
+              segment: "data-[invalid=true]:focus:bg-danger-600/15",
             }}
             label={
               <span
