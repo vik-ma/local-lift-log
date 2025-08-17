@@ -607,8 +607,7 @@ export const DietLogModal = ({
                   dateEntryType !== "range" && (
                     <Button
                       className="w-[12.5rem]"
-                      variant="light"
-                      color="primary"
+                      variant="flat"
                       onPress={() =>
                         setDateEntryType(
                           dateEntryType === "custom" ? "recent" : "custom"
