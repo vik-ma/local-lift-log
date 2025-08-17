@@ -928,7 +928,7 @@ export type UseFilterMinAndMaxValueInputsReturnType = {
   isFilterInvalid: boolean;
   includeNullInMaxValues: boolean;
   setIncludeNullInMaxValues: React.Dispatch<React.SetStateAction<boolean>>;
-  isFilterEmpty: boolean;
+  areInputsEmpty: boolean;
 };
 
 export type UseFilterDateRangeAndWeekdaysReturnType = {
@@ -939,6 +939,7 @@ export type UseFilterDateRangeAndWeekdaysReturnType = {
   isMaxDateBeforeMinDate: boolean;
   filterWeekdays: Set<string>;
   setFilterWeekdays: React.Dispatch<React.SetStateAction<Set<string>>>;
+  areDateRangeAndWeekdaysFiltersEmpty: boolean;
 };
 
 export type DietLog = {
