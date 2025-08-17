@@ -49,10 +49,11 @@ export const FilterDietLogListModal = ({
     isMaxDateBeforeMinDate,
     filterWeekdays,
     setFilterWeekdays,
+    areDateRangeAndWeekdaysFiltersEmpty,
   } = filterDateRangeAndWeekdays;
 
   const {
-    showResetFilterButton,
+    filterMap,
     handleFilterSaveButton,
     resetFilter,
     weekdayMap,
@@ -122,6 +123,24 @@ export const FilterDietLogListModal = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterDietLogListModal.isOpen]);
+
+  const showResetFilterButton = useMemo(() => {
+    if (filterMap.size > 0) return true;
+    if (!areDateRangeAndWeekdaysFiltersEmpty) return true;
+    if (!filterMinAndMaxValueInputsCalories.areInputsEmpty) return true;
+    if (!filterMinAndMaxValueInputsFat.areInputsEmpty) return true;
+    if (!filterMinAndMaxValueInputsCarbs.areInputsEmpty) return true;
+    if (!filterMinAndMaxValueInputsProtein.areInputsEmpty) return true;
+
+    return false;
+  }, [
+    filterMap,
+    areDateRangeAndWeekdaysFiltersEmpty,
+    filterMinAndMaxValueInputsCalories.areInputsEmpty,
+    filterMinAndMaxValueInputsFat,
+    filterMinAndMaxValueInputsCarbs,
+    filterMinAndMaxValueInputsProtein,
+  ]);
 
   const handleSaveButton = () => {
     if (isFilterButtonDisabled) return;

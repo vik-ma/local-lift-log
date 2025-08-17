@@ -256,23 +256,6 @@ export const useDietLogListFilters = ({
     saveFilterMapToStore(new Map());
   };
 
-  const showResetFilterButton = useMemo(() => {
-    if (filterMap.size > 0) return true;
-    if (dietLogFilterValues.filterMinDate !== null) return true;
-    if (dietLogFilterValues.filterMaxDate !== null) return true;
-    if (dietLogFilterValues.filterWeekdays.size > 0) return true;
-    if (dietLogFilterValues.filterMinCalories !== null) return true;
-    if (dietLogFilterValues.filterMaxCalories !== null) return true;
-    if (dietLogFilterValues.filterMinFat !== null) return true;
-    if (dietLogFilterValues.filterMaxFat !== null) return true;
-    if (dietLogFilterValues.filterMinCarbs !== null) return true;
-    if (dietLogFilterValues.filterMaxCarbs !== null) return true;
-    if (dietLogFilterValues.filterMinProtein !== null) return true;
-    if (dietLogFilterValues.filterMaxProtein !== null) return true;
-
-    return false;
-  }, [filterMap, dietLogFilterValues]);
-
   const prefixMap = useMemo(() => {
     const prefixMap: DietLogFilterMap = new Map();
 
@@ -529,7 +512,6 @@ export const useDietLogListFilters = ({
     filterMap,
     removeFilter,
     resetFilter,
-    showResetFilterButton,
     prefixMap,
     weekdayMap,
     loadDietLogFilterMapFromStore,
