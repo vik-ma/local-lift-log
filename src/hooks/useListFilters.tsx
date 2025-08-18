@@ -29,8 +29,10 @@ type UseListFiltersProps = {
   workoutTemplateMap?: WorkoutTemplateMap;
 };
 
+type IncludeNullInMaxValuesKey = "include-null-in-max-values";
+
 type StoreFilterMap = Map<
-  ListFilterMapKey | "include-null-in-max-values",
+  ListFilterMapKey | IncludeNullInMaxValuesKey,
   string | number | boolean
 >;
 
@@ -657,7 +659,7 @@ export const useListFilters = ({
 
   const loadFilterMapFromStore = async (
     locale: string,
-    validFilterKeys: Set<ListFilterMapKey>
+    validFilterKeys: Set<ListFilterMapKey | IncludeNullInMaxValuesKey>
   ) => {
     if (store.current === null) return;
 
@@ -668,18 +670,21 @@ export const useListFilters = ({
     if (val === undefined) return;
 
     try {
-      const storeFilterList: [ListFilterMapKey, string | number][] = JSON.parse(
-        val.value
-      );
+      const storeFilterList: [
+        ListFilterMapKey | IncludeNullInMaxValuesKey,
+        string | number | boolean
+      ][] = JSON.parse(val.value);
 
       if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
-        handleFilterSaveButton(locale);
+        handleFilterSaveButton(locale, defaultListFilterValues);
         return;
       }
 
-      const filterStoreValues: FilterValues = {};
+      const filterStoreValues: ListFilterValues = {
+        ...defaultListFilterValues,
+      };
 
-      const addedKeys = new Set<ListFilterMapKey>();
+      const addedKeys = new Set<ListFilterMapKey | IncludeNullInMaxValuesKey>();
 
       for (const filter of storeFilterList) {
         const key = filter[0];
@@ -700,8 +705,7 @@ export const useListFilters = ({
             const minDate = ConvertDateStringToCalendarDate(value as string);
 
             if (minDate !== null) {
-              setFilterMinDate(minDate);
-              filterStoreValues.filterValueMinDate = minDate;
+              filterStoreValues.filterMinDate = minDate;
             }
 
             break;
@@ -711,16 +715,15 @@ export const useListFilters = ({
 
             let isMaxDateBeforeMinDate = false;
 
-            if (filterStoreValues.filterValueMinDate) {
+            if (filterStoreValues.filterMinDate) {
               isMaxDateBeforeMinDate = IsEndDateBeforeStartDate(
-                filterStoreValues.filterValueMinDate,
+                filterStoreValues.filterMinDate,
                 maxDate
               );
             }
 
             if (maxDate !== null && !isMaxDateBeforeMinDate) {
-              setFilterMaxDate(maxDate);
-              filterStoreValues.filterValueMaxDate = maxDate;
+              filterStoreValues.filterMaxDate = maxDate;
             }
 
             break;
@@ -738,8 +741,7 @@ export const useListFilters = ({
               }
             }
 
-            setFilterWeekdays(weekdaysSet);
-            filterStoreValues.filterValueWeekdays = weekdaysSet;
+            filterStoreValues.filterWeekdays = weekdaysSet;
 
             break;
           }
@@ -753,14 +755,21 @@ export const useListFilters = ({
             // RETURN, NOT BREAK
             return;
           }
+          case "include-null-in-max-values": {
+            if (value === true) {
+              filterStoreValues.includeNullInMaxValues = true;
+            }
+
+            break;
+          }
           default:
             break;
         }
       }
 
-      handleFilterSaveButton(locale, undefined, filterStoreValues);
+      handleFilterSaveButton(locale, filterStoreValues);
     } catch {
-      handleFilterSaveButton(locale);
+      handleFilterSaveButton(locale, defaultListFilterValues);
     }
   };
 
