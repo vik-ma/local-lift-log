@@ -40,6 +40,11 @@ export const useTimePeriodList = ({
 
   const {
     filterMap,
+    loadTimePeriodFilterMapFromStore,
+    timePeriodFilterValues,
+  } = timePeriodListFilters;
+
+  const {
     filterMinStartDate,
     filterMaxStartDate,
     filterMinEndDate,
@@ -49,8 +54,7 @@ export const useTimePeriodList = ({
     filterDietPhaseTypes,
     filterHasInjury,
     filterStatus,
-    loadTimePeriodFilterMapFromStore,
-  } = timePeriodListFilters;
+  } = timePeriodFilterValues;
 
   const filteredTimePeriods = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
