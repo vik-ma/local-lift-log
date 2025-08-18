@@ -176,13 +176,17 @@ export const useListFilters = ({
 
       updatedFilterMap.set("weekdays", filterWeekdaysString);
 
-      const filterValueWeekdaysString = weekdaysArray.join(",");
+      const filterWeekdaysStoreString = weekdaysArray.join(",");
 
-      storeFilterMap.set("weekdays", filterValueWeekdaysString);
+      storeFilterMap.set("weekdays", filterWeekdaysStoreString);
     }
 
     if (filterRoutines.size > 0 && routineMap !== undefined) {
       updatedFilterMap.set("routines", getFilterRoutinesString(filterRoutines));
+
+      const filterRoutineIdsString = Array.from(filterRoutines).join(",");
+
+      storeFilterMap.set("routines", filterRoutineIdsString);
     }
 
     if (filterExercises.size > 0 && useExerciseList !== undefined) {
@@ -190,6 +194,10 @@ export const useListFilters = ({
         "exercises",
         getFilterExercisesString(filterExercises)
       );
+
+      const filterExerciseIdsString = Array.from(filterExercises).join(",");
+
+      storeFilterMap.set("exercises", filterExerciseIdsString);
     }
 
     if (filterExerciseGroups.length > 0 && useExerciseList !== undefined) {
@@ -197,30 +205,38 @@ export const useListFilters = ({
         "exercise-groups",
         getFilterExerciseGroupsString(filterExerciseGroups)
       );
+
+      const filterExerciseGroupKeysString = filterExerciseGroups.join(",");
+
+      storeFilterMap.set("exercise-groups", filterExerciseGroupKeysString);
     }
 
     if (filterMinWeight !== null) {
       const filterMinWeightString = `${filterMinWeight} ${filterWeightRangeUnit}`;
 
       updatedFilterMap.set("min-weight", filterMinWeightString);
+      storeFilterMap.set("min-weight", filterMinWeight);
     }
 
     if (filterMaxWeight !== null) {
       const filterMaxWeightString = `${filterMaxWeight} ${filterWeightRangeUnit}`;
 
       updatedFilterMap.set("max-weight", filterMaxWeightString);
+      storeFilterMap.set("max-weight", filterMaxWeight);
     }
 
     if (filterMinDistance !== null) {
       const filterMinDistanceString = `${filterMinDistance} ${filterDistanceRangeUnit}`;
 
       updatedFilterMap.set("min-distance", filterMinDistanceString);
+      storeFilterMap.set("min-distance", filterMinDistance);
     }
 
     if (filterMaxDistance !== null) {
       const filterMaxDistanceString = `${filterMaxDistance} ${filterDistanceRangeUnit}`;
 
       updatedFilterMap.set("max-distance", filterMaxDistanceString);
+      storeFilterMap.set("max-distance", filterMaxDistance);
     }
 
     if (filterMeasurements.size > 0) {
@@ -228,6 +244,11 @@ export const useListFilters = ({
         "measurements",
         getFilterMeasurementsString(filterMeasurements)
       );
+
+      const filterMeasurementIdsString =
+        Array.from(filterMeasurements).join(",");
+
+      storeFilterMap.set("measurements", filterMeasurementIdsString);
     }
 
     if (filterWorkoutTemplates.size > 0 && workoutTemplateMap !== undefined) {
@@ -235,6 +256,12 @@ export const useListFilters = ({
         "workout-templates",
         getFilterWorkoutTemplatesString(filterWorkoutTemplates)
       );
+
+      const filterWorkoutTemplateIdsString = Array.from(
+        filterWorkoutTemplates
+      ).join(",");
+
+      storeFilterMap.set("workout-templates", filterWorkoutTemplateIdsString);
     }
 
     if (filterScheduleTypes.size > 0) {
@@ -243,7 +270,12 @@ export const useListFilters = ({
       const filterScheduleTypesString = scheduleTypesArray
         .map((item) => item)
         .join(", ");
+
       updatedFilterMap.set("schedule-type", filterScheduleTypesString);
+
+      const filterScheduleTypesStoreString = scheduleTypesArray.join(",");
+
+      storeFilterMap.set("schedule-type", filterScheduleTypesStoreString);
     }
 
     if (filterMinNumScheduleDays !== null) {
@@ -253,6 +285,7 @@ export const useListFilters = ({
         "min-num-schedule-days",
         filterMinNumScheduleDaysString
       );
+      storeFilterMap.set("min-num-schedule-days", filterMinNumScheduleDays);
     }
 
     if (filterMaxNumScheduleDays !== null) {
@@ -262,6 +295,7 @@ export const useListFilters = ({
         "max-num-schedule-days",
         filterMaxNumScheduleDaysString
       );
+      storeFilterMap.set("max-num-schedule-days", filterMaxNumScheduleDays);
     }
 
     if (filterWeightUnits.size > 0) {
@@ -270,7 +304,12 @@ export const useListFilters = ({
       const filterWeightUnitString = weightUnitsArray
         .map((item) => item)
         .join(", ");
+
       updatedFilterMap.set("weight-units", filterWeightUnitString);
+
+      const filterWeightUnitsStoreString = weightUnitsArray.join(",");
+
+      storeFilterMap.set("weight-units", filterWeightUnitsStoreString);
     }
 
     if (filterDistanceUnits.size > 0) {
@@ -279,29 +318,40 @@ export const useListFilters = ({
       const filterDistanceUnitString = Array.from(distanceUnitsArray)
         .map((item) => item)
         .join(", ");
+
       updatedFilterMap.set("distance-units", filterDistanceUnitString);
+
+      const filterDistanceUnitsStoreString = distanceUnitsArray.join(",");
+
+      storeFilterMap.set("distance-units", filterDistanceUnitsStoreString);
     }
 
     if (filterMultisetTypes.size > 0) {
-      const multisetTypesArray = Array.from(filterMultisetTypes);
+      const multisetTypesArray = Array.from(filterMultisetTypes, Number);
 
       const filterMultisetTypesString = multisetTypesArray
-        .map((type) => multisetTypeMap.get(Number(type)) ?? "")
+        .map((type) => multisetTypeMap.get(type) ?? "")
         .join(", ");
 
       updatedFilterMap.set("multiset-types", filterMultisetTypesString);
+
+      const filterMultisetTypesStoreString = multisetTypesArray.join(",");
+
+      storeFilterMap.set("multiset-types", filterMultisetTypesStoreString);
     }
 
     if (filterMinBodyFatPercentage !== null) {
       const filterMinBodyFatPercentageString = `${filterMinBodyFatPercentage}%`;
 
       updatedFilterMap.set("min-bf", filterMinBodyFatPercentageString);
+      storeFilterMap.set("min-bf", filterMinBodyFatPercentage);
     }
 
     if (filterMaxBodyFatPercentage !== null) {
       const filterMaxBodyFatPercentageString = `${filterMaxBodyFatPercentage}%`;
 
       updatedFilterMap.set("max-bf", filterMaxBodyFatPercentageString);
+      storeFilterMap.set("max-bf", filterMaxBodyFatPercentage);
     }
 
     if (includeNullInMaxValues) {

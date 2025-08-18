@@ -98,9 +98,9 @@ export const useDietLogListFilters = ({
 
       updatedFilterMap.set("weekdays", filterWeekdaysString);
 
-      const filterValueWeekdaysString = weekdaysArray.join(",");
+      const filterWeekdaysStoreString = weekdaysArray.join(",");
 
-      storeFilterMap.set("weekdays", filterValueWeekdaysString);
+      storeFilterMap.set("weekdays", filterWeekdaysStoreString);
     }
 
     if (filterMinCalories !== null) {
