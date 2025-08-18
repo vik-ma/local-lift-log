@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import {
-  FilterValues,
+  ListFilterValues,
   ListFilterMap,
   ListFilterMapKey,
   MeasurementMap,
@@ -15,6 +15,7 @@ import { useWeekdayMap, useMultisetTypeMap } from ".";
 import {
   ConvertCalendarDateToLocalizedString,
   ConvertDateStringToCalendarDate,
+  DefaultListFilterValues,
   IsEndDateBeforeStartDate,
   MeasurementTypes,
 } from "../helpers";
@@ -28,7 +29,10 @@ type UseListFiltersProps = {
   workoutTemplateMap?: WorkoutTemplateMap;
 };
 
-type StoreFilterMap = Map<ListFilterMapKey, string | number | boolean>;
+type StoreFilterMap = Map<
+  ListFilterMapKey | "include-null-in-max-values",
+  string | number | boolean
+>;
 
 export const useListFilters = ({
   store,
@@ -95,6 +99,12 @@ export const useListFilters = ({
   // const [filterDistanceRangeUnit, setFilterDistanceRangeUnit] =
   //   useState<string>("km");
 
+  const defaultListFilterValues = useMemo(() => DefaultListFilterValues(), []);
+
+  const [listFilterValues, setListFilterValues] = useState<ListFilterValues>(
+    defaultListFilterValues
+  );
+
   const weekdayMap = useWeekdayMap();
 
   const multisetTypeMap = useMultisetTypeMap();
@@ -103,16 +113,42 @@ export const useListFilters = ({
 
   const handleFilterSaveButton = (
     locale: string,
-    filterValues: FilterValues,
+    filterValues: ListFilterValues,
     activeModal?: UseDisclosureReturnType
   ) => {
     const updatedFilterMap: ListFilterMap = new Map();
     const storeFilterMap: StoreFilterMap = new Map();
 
-    const minDate = filterValues?.filterValueMinDate ?? filterMinDate;
-    if (minDate !== null) {
+    const {
+      filterMinDate,
+      filterMaxDate,
+      filterWeekdays,
+      filterRoutines,
+      filterExercises,
+      filterExerciseGroups,
+      filterMinWeight,
+      filterMaxWeight,
+      filterMinDistance,
+      filterMaxDistance,
+      filterMeasurements,
+      filterMeasurementTypes,
+      filterWorkoutTemplates,
+      filterScheduleTypes,
+      filterMinNumScheduleDays,
+      filterMaxNumScheduleDays,
+      filterWeightUnits,
+      filterDistanceUnits,
+      filterMultisetTypes,
+      filterMinBodyFatPercentage,
+      filterMaxBodyFatPercentage,
+      filterWeightRangeUnit,
+      filterDistanceRangeUnit,
+      includeNullInMaxValues,
+    } = filterValues;
+
+    if (filterMinDate !== null) {
       const filterMinDateString = ConvertCalendarDateToLocalizedString(
-        minDate,
+        filterMinDate,
         locale
       );
 
@@ -120,10 +156,9 @@ export const useListFilters = ({
       storeFilterMap.set("min-date", filterMinDateString);
     }
 
-    const maxDate = filterValues?.filterValueMaxDate ?? filterMaxDate;
-    if (maxDate !== null) {
+    if (filterMaxDate !== null) {
       const filterMaxDateString = ConvertCalendarDateToLocalizedString(
-        maxDate,
+        filterMaxDate,
         locale
       );
 
@@ -131,9 +166,8 @@ export const useListFilters = ({
       storeFilterMap.set("max-date", filterMaxDateString);
     }
 
-    const weekdays = filterValues?.filterValueWeekdays ?? filterWeekdays;
-    if (weekdays.size > 0) {
-      const weekdaysArray = Array.from(weekdays);
+    if (filterWeekdays.size > 0) {
+      const weekdaysArray = Array.from(filterWeekdays);
 
       const filterWeekdaysString = weekdaysArray
         .map((day) => (weekdayMap.get(day) ?? "").substring(0, 3))
@@ -146,83 +180,64 @@ export const useListFilters = ({
       storeFilterMap.set("weekdays", filterValueWeekdaysString);
     }
 
-    const routines = filterValues?.filterValueRoutines ?? filterRoutines;
-    if (routines.size > 0 && routineMap !== undefined) {
-      updatedFilterMap.set("routines", getFilterRoutinesString(routines));
+    if (filterRoutines.size > 0 && routineMap !== undefined) {
+      updatedFilterMap.set("routines", getFilterRoutinesString(filterRoutines));
     }
 
-    const exercises = filterValues?.filterValueExercises ?? filterExercises;
-    if (exercises.size > 0 && useExerciseList !== undefined) {
-      updatedFilterMap.set("exercises", getFilterExercisesString(exercises));
-    }
-
-    const exerciseGroups =
-      filterValues?.filterValueExerciseGroups ?? filterExerciseGroups;
-    if (exerciseGroups.length > 0 && useExerciseList !== undefined) {
+    if (filterExercises.size > 0 && useExerciseList !== undefined) {
       updatedFilterMap.set(
-        "exercise-groups",
-        getFilterExerciseGroupsString(exerciseGroups)
+        "exercises",
+        getFilterExercisesString(filterExercises)
       );
     }
 
-    const weightRangeUnit =
-      filterValues?.filterValueWeightRangeUnit ?? filterWeightRangeUnit;
+    if (filterExerciseGroups.length > 0 && useExerciseList !== undefined) {
+      updatedFilterMap.set(
+        "exercise-groups",
+        getFilterExerciseGroupsString(filterExerciseGroups)
+      );
+    }
 
-    const minWeight = filterValues?.filterValueMinWeight ?? filterMinWeight;
-    if (minWeight !== null) {
-      const filterMinWeightString = `${minWeight} ${weightRangeUnit}`;
+    if (filterMinWeight !== null) {
+      const filterMinWeightString = `${filterMinWeight} ${filterWeightRangeUnit}`;
 
       updatedFilterMap.set("min-weight", filterMinWeightString);
     }
 
-    const maxWeight = filterValues?.filterValueMaxWeight ?? filterMaxWeight;
-    if (maxWeight !== null) {
-      const filterMaxWeightString = `${maxWeight} ${weightRangeUnit}`;
+    if (filterMaxWeight !== null) {
+      const filterMaxWeightString = `${filterMaxWeight} ${filterWeightRangeUnit}`;
 
       updatedFilterMap.set("max-weight", filterMaxWeightString);
     }
 
-    const distanceRangeUnit =
-      filterValues?.filterValueDistanceRangeUnit ?? filterDistanceRangeUnit;
-
-    const minDistance =
-      filterValues?.filterValueMinDistance ?? filterMinDistance;
-    if (minDistance !== null) {
-      const filterMinDistanceString = `${minDistance} ${distanceRangeUnit}`;
+    if (filterMinDistance !== null) {
+      const filterMinDistanceString = `${filterMinDistance} ${filterDistanceRangeUnit}`;
 
       updatedFilterMap.set("min-distance", filterMinDistanceString);
     }
 
-    const maxDistance =
-      filterValues?.filterValueMaxDistance ?? filterMaxDistance;
-    if (maxDistance !== null) {
-      const filterMaxDistanceString = `${maxDistance} ${distanceRangeUnit}`;
+    if (filterMaxDistance !== null) {
+      const filterMaxDistanceString = `${filterMaxDistance} ${filterDistanceRangeUnit}`;
 
       updatedFilterMap.set("max-distance", filterMaxDistanceString);
     }
 
-    const measurements =
-      filterValues?.filterValueMeasurements ?? filterMeasurements;
-    if (measurements.size > 0) {
+    if (filterMeasurements.size > 0) {
       updatedFilterMap.set(
         "measurements",
-        getFilterMeasurementsString(measurements)
+        getFilterMeasurementsString(filterMeasurements)
       );
     }
 
-    const workoutTemplates =
-      filterValues?.filterValueWorkoutTemplates ?? filterWorkoutTemplates;
-    if (workoutTemplates.size > 0 && workoutTemplateMap !== undefined) {
+    if (filterWorkoutTemplates.size > 0 && workoutTemplateMap !== undefined) {
       updatedFilterMap.set(
         "workout-templates",
-        getFilterWorkoutTemplatesString(workoutTemplates)
+        getFilterWorkoutTemplatesString(filterWorkoutTemplates)
       );
     }
 
-    const scheduleTypes =
-      filterValues?.filterValueScheduleTypes ?? filterScheduleTypes;
-    if (scheduleTypes.size > 0) {
-      const scheduleTypesArray = Array.from(scheduleTypes);
+    if (filterScheduleTypes.size > 0) {
+      const scheduleTypesArray = Array.from(filterScheduleTypes);
 
       const filterScheduleTypesString = scheduleTypesArray
         .map((item) => item)
@@ -230,10 +245,8 @@ export const useListFilters = ({
       updatedFilterMap.set("schedule-type", filterScheduleTypesString);
     }
 
-    const minNumScheduleDays =
-      filterValues?.filterValueMinNumScheduleDays ?? filterMinNumScheduleDays;
-    if (minNumScheduleDays !== null) {
-      const filterMinNumScheduleDaysString = `${minNumScheduleDays} Days`;
+    if (filterMinNumScheduleDays !== null) {
+      const filterMinNumScheduleDaysString = `${filterMinNumScheduleDays} Days`;
 
       updatedFilterMap.set(
         "min-num-schedule-days",
@@ -241,10 +254,8 @@ export const useListFilters = ({
       );
     }
 
-    const maxNumScheduleDays =
-      filterValues?.filterValueMaxNumScheduleDays ?? filterMaxNumScheduleDays;
-    if (maxNumScheduleDays !== null) {
-      const filterMaxNumScheduleDaysString = `${maxNumScheduleDays} Days`;
+    if (filterMaxNumScheduleDays !== null) {
+      const filterMaxNumScheduleDaysString = `${filterMaxNumScheduleDays} Days`;
 
       updatedFilterMap.set(
         "max-num-schedule-days",
@@ -252,10 +263,8 @@ export const useListFilters = ({
       );
     }
 
-    const weightUnits =
-      filterValues?.filterValueWeightUnits ?? filterWeightUnits;
-    if (weightUnits.size > 0) {
-      const weightUnitsArray = Array.from(weightUnits);
+    if (filterWeightUnits.size > 0) {
+      const weightUnitsArray = Array.from(filterWeightUnits);
 
       const filterWeightUnitString = weightUnitsArray
         .map((item) => item)
@@ -263,10 +272,8 @@ export const useListFilters = ({
       updatedFilterMap.set("weight-units", filterWeightUnitString);
     }
 
-    const distanceUnits =
-      filterValues?.filterValueDistanceUnits ?? filterDistanceUnits;
-    if (distanceUnits.size > 0) {
-      const distanceUnitsArray = Array.from(distanceUnits);
+    if (filterDistanceUnits.size > 0) {
+      const distanceUnitsArray = Array.from(filterDistanceUnits);
 
       const filterDistanceUnitString = Array.from(distanceUnitsArray)
         .map((item) => item)
@@ -274,10 +281,8 @@ export const useListFilters = ({
       updatedFilterMap.set("distance-units", filterDistanceUnitString);
     }
 
-    const multisetTypes =
-      filterValues?.filterValueMultisetTypes ?? filterMultisetTypes;
-    if (multisetTypes.size > 0) {
-      const multisetTypesArray = Array.from(multisetTypes);
+    if (filterMultisetTypes.size > 0) {
+      const multisetTypesArray = Array.from(filterMultisetTypes);
 
       const filterMultisetTypesString = multisetTypesArray
         .map((type) => multisetTypeMap.get(Number(type)) ?? "")
@@ -286,26 +291,24 @@ export const useListFilters = ({
       updatedFilterMap.set("multiset-types", filterMultisetTypesString);
     }
 
-    const minBodyFatPercentage =
-      filterValues?.filterValueMinBodyFatPercentage ??
-      filterMinBodyFatPercentage;
-    if (minBodyFatPercentage !== null) {
-      const filterMinBodyFatPercentageString = `${minBodyFatPercentage}%`;
+    if (filterMinBodyFatPercentage !== null) {
+      const filterMinBodyFatPercentageString = `${filterMinBodyFatPercentage}%`;
 
       updatedFilterMap.set("min-bf", filterMinBodyFatPercentageString);
     }
 
-    const maxBodyFatPercentage =
-      filterValues?.filterValueMaxBodyFatPercentage ??
-      filterMaxBodyFatPercentage;
-    if (maxBodyFatPercentage !== null) {
-      const filterMaxBodyFatPercentageString = `${maxBodyFatPercentage}%`;
+    if (filterMaxBodyFatPercentage !== null) {
+      const filterMaxBodyFatPercentageString = `${filterMaxBodyFatPercentage}%`;
 
       updatedFilterMap.set("max-bf", filterMaxBodyFatPercentageString);
     }
 
-    setFilterMap(updatedFilterMap);
+    if (includeNullInMaxValues) {
+      storeFilterMap.set("include-null-in-max-values", includeNullInMaxValues);
+    }
 
+    setFilterMap(updatedFilterMap);
+    setListFilterValues(filterValues);
     saveFilterMapToStore(storeFilterMap);
 
     if (activeModal !== undefined) activeModal.onClose();

@@ -453,13 +453,13 @@ export type UseWorkoutListReturnType = {
 export type UseListFiltersReturnType = {
   handleFilterSaveButton: (
     locale: string,
-    filterValues: FilterValues,
+    filterValues: ListFilterValues,
     activeModal?: UseDisclosureReturnType
   ) => void;
   filterMap: Map<ListFilterMapKey, string>;
   weekdayMap: Map<string, string>;
   prefixMap: Map<ListFilterMapKey, string>;
-    multisetTypeMap: MultisetTypeMap;
+  multisetTypeMap: MultisetTypeMap;
   handleFilterMeasurementTypes: (key: string) => void;
   getFilterRoutinesString: (routineIdSet: Set<number>) => string;
   getFilterExercisesString: (exerciseIdSet: Set<number>) => string;
@@ -1244,7 +1244,7 @@ export type TimePeriodFilterMap = Map<TimePeriodListFilterMapKey, string>;
 
 export type DietLogFilterMap = Map<DietLogListFilterMapKey, string>;
 
-export type FilterValues = {
+export type ListFilterValues = {
   filterMinDate: CalendarDate | null;
   filterMaxDate: CalendarDate | null;
   filterWeekdays: Set<string>;
