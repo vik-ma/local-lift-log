@@ -179,44 +179,43 @@ export const useTimePeriodListFilters = ({
   const removeFilter = (key: string) => {
     const updatedFilterMap = new Map(filterMap);
     const updatedStoreFilterMap = new Map(storeFilters.current);
+    const updatedTimePeriodFilterValues = { ...timePeriodFilterValues };
 
     switch (key) {
       case "min-date-start": {
-        setFilterMinStartDate(null);
+        updatedTimePeriodFilterValues.filterMinStartDate = null;
         break;
       }
       case "max-date-start": {
-        setFilterMaxStartDate(null);
+        updatedTimePeriodFilterValues.filterMaxStartDate = null;
         break;
       }
       case "min-date-end": {
-        setFilterMinEndDate(null);
+        updatedTimePeriodFilterValues.filterMinEndDate = null;
         break;
       }
       case "max-date-end": {
-        setFilterMaxEndDate(null);
+        updatedTimePeriodFilterValues.filterMaxEndDate = null;
         break;
       }
       case "min-duration": {
-        setFilterMinDuration(null);
-        filterMinAndMaxValueInputs.resetMinInput();
+        updatedTimePeriodFilterValues.filterMinDuration = null;
         break;
       }
       case "max-duration": {
-        setFilterMaxDuration(null);
-        filterMinAndMaxValueInputs.resetMaxInput();
+        updatedTimePeriodFilterValues.filterMaxDuration = null;
         break;
       }
       case "diet-phase": {
-        setFilterDietPhaseTypes(new Set());
+        updatedTimePeriodFilterValues.filterDietPhaseTypes = new Set();
         break;
       }
       case "injury": {
-        setFilterHasInjury(new Set());
+        updatedTimePeriodFilterValues.filterHasInjury = new Set();
         break;
       }
       case "status": {
-        setFilterStatus(new Set());
+        updatedTimePeriodFilterValues.filterStatus = new Set();
         break;
       }
       case "default": {
@@ -228,23 +227,13 @@ export const useTimePeriodListFilters = ({
     updatedStoreFilterMap.delete(key as TimePeriodListFilterMapKey);
 
     setFilterMap(updatedFilterMap);
-
+    setTimePeriodFilterValues(updatedTimePeriodFilterValues);
     saveFilterMapToStore(updatedStoreFilterMap);
   };
 
   const resetFilter = () => {
     setFilterMap(new Map());
-    setFilterMinStartDate(null);
-    setFilterMaxStartDate(null);
-    setFilterMinEndDate(null);
-    setFilterMaxEndDate(null);
-    setFilterMinDuration(null);
-    setFilterMaxDuration(null);
-    setFilterDietPhaseTypes(new Set());
-    setFilterHasInjury(new Set());
-    setFilterStatus(new Set());
-    filterMinAndMaxValueInputs.resetInputs();
-
+    setTimePeriodFilterValues({ ...defaultTimePeriodFilterValues });
     saveFilterMapToStore(new Map());
   };
 
@@ -259,13 +248,13 @@ export const useTimePeriodListFilters = ({
     prefixMap.set("max-duration", `Max Duration: `);
     prefixMap.set(
       "diet-phase",
-      `Diet Phase Types (${filterDietPhaseTypes.size}): `
+      `Diet Phase Types (${timePeriodFilterValues.filterDietPhaseTypes.size}): `
     );
     prefixMap.set("injury", `Injury: `);
     prefixMap.set("status", `Status: `);
 
     return prefixMap;
-  }, [filterDietPhaseTypes]);
+  }, [timePeriodFilterValues.filterDietPhaseTypes]);
 
   const saveFilterMapToStore = async (
     storeFilterMap: TimePeriodStoreFilterMap
