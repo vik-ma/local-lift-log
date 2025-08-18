@@ -248,6 +248,7 @@ export { DeleteIdFromList } from "./Lists/DeleteIdFromList";
 export { FindIndexInList } from "./Lists/FindIndexInList";
 export { ReplaceNumberIn2DList } from "./Lists/ReplaceNumberIn2DList";
 export { DoesListOrSetHaveCommonElement } from "./Lists/DoesListOrSetHaveCommonElement";
+export { DefaultListFilterValues } from "./Lists/DefaultListFilterValues";
 
 export { CreateCalculationString } from "./CalculationItems/CreateCalculationString";
 export { UpdateCalculationString } from "./CalculationItems/UpdateCalculationString";

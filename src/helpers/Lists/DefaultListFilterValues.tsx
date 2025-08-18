@@ -1,0 +1,32 @@
+import { ListFilterValues } from "../../typings";
+
+export const DefaultListFilterValues = () => {
+  const DEFAULT_LIST_FILTER_VALUES: ListFilterValues = {
+    filterMinDate: null,
+    filterMaxDate: null,
+    filterWeekdays: new Set(),
+    filterRoutines: new Set(),
+    filterExercises: new Set(),
+    filterExerciseGroups: [],
+    filterMinWeight: null,
+    filterMaxWeight: null,
+    filterMinDistance: null,
+    filterMaxDistance: null,
+    filterMeasurements: new Set(),
+    filterMeasurementTypes: new Set(),
+    filterWorkoutTemplates: new Set(),
+    filterScheduleTypes: new Set(),
+    filterMinNumScheduleDays: null,
+    filterMaxNumScheduleDays: null,
+    filterWeightUnits: new Set(),
+    filterDistanceUnits: new Set(),
+    filterMultisetTypes: new Set(),
+    filterMinBodyFatPercentage: null,
+    filterMaxBodyFatPercentage: null,
+    filterWeightRangeUnit: "kg",
+    filterDistanceRangeUnit: "km",
+    includeNullInMaxValues: false,
+  };
+
+  return DEFAULT_LIST_FILTER_VALUES;
+};

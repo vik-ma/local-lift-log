@@ -18,7 +18,5 @@ export const DefaultDietLogFilterValues = () => {
     includeNullInMaxValuesProtein: false,
   };
 
-  Object.freeze(DEFAULT_DIET_LOG_FILTER_VALUES);
-
   return DEFAULT_DIET_LOG_FILTER_VALUES;
 };

@@ -13,7 +13,5 @@ export const DefaultTimePeriodFilterValues = () => {
     filterStatus: new Set(),
   };
 
-  Object.freeze(DEFAULT_TIME_PERIOD_FILTER_VALUES);
-
   return DEFAULT_TIME_PERIOD_FILTER_VALUES;
 };
