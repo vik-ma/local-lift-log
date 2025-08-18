@@ -20,15 +20,13 @@ type UseDietLogListFiltersProps = {
   store: StoreRef;
 };
 
-type IncludeNullInMaxValuesKey =
+type StoreFilterMapKey =
+  | DietLogListFilterMapKey
   | "include-null-in-max-values-fat"
   | "include-null-in-max-values-carbs"
   | "include-null-in-max-values-protein";
 
-type DietLogStoreFilterMap = Map<
-  DietLogListFilterMapKey | IncludeNullInMaxValuesKey,
-  string | number | boolean
->;
+type DietLogStoreFilterMap = Map<StoreFilterMapKey, string | number | boolean>;
 
 export const useDietLogListFilters = ({
   store,
@@ -299,10 +297,8 @@ export const useDietLogListFilters = ({
     if (val === undefined) return;
 
     try {
-      const storeFilterList: [
-        DietLogListFilterMapKey | IncludeNullInMaxValuesKey,
-        string | number | boolean
-      ][] = JSON.parse(val.value);
+      const storeFilterList: [StoreFilterMapKey, string | number | boolean][] =
+        JSON.parse(val.value);
 
       if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
         handleFilterSaveButton(defaultDietLogFilterValues);
@@ -313,9 +309,7 @@ export const useDietLogListFilters = ({
         ...defaultDietLogFilterValues,
       };
 
-      const addedKeys = new Set<
-        DietLogListFilterMapKey | IncludeNullInMaxValuesKey
-      >();
+      const addedKeys = new Set<StoreFilterMapKey>();
 
       for (const filter of storeFilterList) {
         const key = filter[0];

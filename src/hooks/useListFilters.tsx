@@ -29,12 +29,13 @@ type UseListFiltersProps = {
   workoutTemplateMap?: WorkoutTemplateMap;
 };
 
-type IncludeNullInMaxValuesKey = "include-null-in-max-values";
+type StoreFilterMapKey =
+  | ListFilterMapKey
+  | "include-null-in-max-values"
+  | "weight-range-unit"
+  | "distance-range-unit";
 
-type StoreFilterMap = Map<
-  ListFilterMapKey | IncludeNullInMaxValuesKey,
-  string | number | boolean
->;
+type StoreFilterMap = Map<StoreFilterMapKey, string | number | boolean>;
 
 export const useListFilters = ({
   store,
@@ -708,7 +709,7 @@ export const useListFilters = ({
 
   const loadFilterMapFromStore = async (
     locale: string,
-    validFilterKeys: Set<ListFilterMapKey | IncludeNullInMaxValuesKey>
+    validFilterKeys: Set<StoreFilterMapKey>
   ) => {
     if (store.current === null) return;
 
@@ -719,10 +720,8 @@ export const useListFilters = ({
     if (val === undefined) return;
 
     try {
-      const storeFilterList: [
-        ListFilterMapKey | IncludeNullInMaxValuesKey,
-        string | number | boolean
-      ][] = JSON.parse(val.value);
+      const storeFilterList: [StoreFilterMapKey, string | number | boolean][] =
+        JSON.parse(val.value);
 
       if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
         handleFilterSaveButton(locale, defaultListFilterValues);
@@ -733,7 +732,7 @@ export const useListFilters = ({
         ...defaultListFilterValues,
       };
 
-      const addedKeys = new Set<ListFilterMapKey | IncludeNullInMaxValuesKey>();
+      const addedKeys = new Set<StoreFilterMapKey>();
 
       for (const filter of storeFilterList) {
         const key = filter[0];
