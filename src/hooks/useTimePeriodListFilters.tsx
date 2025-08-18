@@ -282,11 +282,13 @@ export const useTimePeriodListFilters = ({
         JSON.parse(val.value);
 
       if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
-        handleFilterSaveButton(locale);
+        handleFilterSaveButton(locale, defaultTimePeriodFilterValues);
         return;
       }
 
-      const filterStoreValues: TimePeriodFilterValues = {};
+      const filterStoreValues: TimePeriodFilterValues = {
+        ...defaultTimePeriodFilterValues,
+      };
 
       const addedKeys = new Set<TimePeriodListFilterMapKey>();
 
@@ -306,8 +308,7 @@ export const useTimePeriodListFilters = ({
             );
 
             if (minStartDate !== null) {
-              setFilterMinStartDate(minStartDate);
-              filterStoreValues.filterValueMinStartDate = minStartDate;
+              filterStoreValues.filterMinStartDate = minStartDate;
             }
 
             break;
@@ -319,16 +320,15 @@ export const useTimePeriodListFilters = ({
 
             let isMaxDateBeforeMinDate = false;
 
-            if (filterStoreValues.filterValueMinStartDate) {
+            if (filterStoreValues.filterMinStartDate) {
               isMaxDateBeforeMinDate = IsEndDateBeforeStartDate(
-                filterStoreValues.filterValueMinStartDate,
+                filterStoreValues.filterMinStartDate,
                 maxStartDate
               );
             }
 
             if (maxStartDate !== null && !isMaxDateBeforeMinDate) {
-              setFilterMaxStartDate(maxStartDate);
-              filterStoreValues.filterValueMaxStartDate = maxStartDate;
+              filterStoreValues.filterMaxStartDate = maxStartDate;
             }
 
             break;
@@ -337,8 +337,7 @@ export const useTimePeriodListFilters = ({
             const minEndDate = ConvertDateStringToCalendarDate(value as string);
 
             if (minEndDate !== null) {
-              setFilterMinEndDate(minEndDate);
-              filterStoreValues.filterValueMinEndDate = minEndDate;
+              filterStoreValues.filterMinEndDate = minEndDate;
             }
 
             break;
@@ -348,16 +347,15 @@ export const useTimePeriodListFilters = ({
 
             let isMaxDateBeforeMinDate = false;
 
-            if (filterStoreValues.filterValueMinEndDate) {
+            if (filterStoreValues.filterMinEndDate) {
               isMaxDateBeforeMinDate = IsEndDateBeforeStartDate(
-                filterStoreValues.filterValueMinEndDate,
+                filterStoreValues.filterMinEndDate,
                 maxEndDate
               );
             }
 
             if (maxEndDate !== null && !isMaxDateBeforeMinDate) {
-              setFilterMaxEndDate(maxEndDate);
-              filterStoreValues.filterValueMaxEndDate = maxEndDate;
+              filterStoreValues.filterMaxEndDate = maxEndDate;
             }
 
             break;
@@ -371,8 +369,7 @@ export const useTimePeriodListFilters = ({
             if (
               IsNumberValidInteger(minDuration, minValue, doNotAllowMinValue)
             ) {
-              setFilterMinDuration(minDuration);
-              filterStoreValues.filterValueMinDuration = minDuration;
+              filterStoreValues.filterMinDuration = minDuration;
             }
 
             break;
@@ -380,14 +377,13 @@ export const useTimePeriodListFilters = ({
           case "max-duration": {
             const maxDuration = value as number;
 
-            const minValue = filterStoreValues.filterValueMinDuration ?? 0;
+            const minValue = filterStoreValues.filterMinDuration ?? 0;
             const doNotAllowMinValue = minValue === 0;
 
             if (
               IsNumberValidInteger(maxDuration, minValue, doNotAllowMinValue)
             ) {
-              setFilterMaxDuration(maxDuration);
-              filterStoreValues.filterValueMaxDuration = maxDuration;
+              filterStoreValues.filterMaxDuration = maxDuration;
             }
 
             break;
@@ -405,8 +401,7 @@ export const useTimePeriodListFilters = ({
               }
             }
 
-            setFilterDietPhaseTypes(dietPhaseSet);
-            filterStoreValues.filterValueDietPhaseTypes = dietPhaseSet;
+            filterStoreValues.filterDietPhaseTypes = dietPhaseSet;
 
             break;
           }
@@ -426,8 +421,7 @@ export const useTimePeriodListFilters = ({
               }
             }
 
-            setFilterHasInjury(hasInjurySet);
-            filterStoreValues.filterValueHasInjury = hasInjurySet;
+            filterStoreValues.filterHasInjury = hasInjurySet;
 
             break;
           }
@@ -444,8 +438,7 @@ export const useTimePeriodListFilters = ({
               }
             }
 
-            setFilterStatus(statusSet);
-            filterStoreValues.filterValueStatus = statusSet;
+            filterStoreValues.filterStatus = statusSet;
 
             break;
           }
@@ -454,9 +447,9 @@ export const useTimePeriodListFilters = ({
         }
       }
 
-      handleFilterSaveButton(locale, undefined, filterStoreValues);
+      handleFilterSaveButton(locale, filterStoreValues);
     } catch {
-      handleFilterSaveButton(locale);
+      handleFilterSaveButton(locale, defaultTimePeriodFilterValues);
     }
   };
 
