@@ -11,6 +11,7 @@ import {
   ConvertCalendarDateToLocalizedString,
   ConvertCalendarDateToYmdString,
   ConvertDateStringToCalendarDate,
+  DefaultTimePeriodFilterValues,
   DietPhaseTypes,
   IsEndDateBeforeStartDate,
   IsNumberValidInteger,
@@ -30,28 +31,46 @@ export const useTimePeriodListFilters = ({
 }: UseTimePeriodListFiltersProps): UseTimePeriodListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<TimePeriodFilterMap>(new Map());
 
+  const defaultTimePeriodFilterValues = useMemo(
+    () => DefaultTimePeriodFilterValues(),
+    []
+  );
+
+  const [timePeriodFilterValues, setTimePeriodFilterValues] =
+    useState<TimePeriodFilterValues>(defaultTimePeriodFilterValues);
+
   const storeFilters = useRef<TimePeriodStoreFilterMap>(new Map());
 
   const handleFilterSaveButton = (
     locale: string,
-    activeModal?: UseDisclosureReturnType,
-    filterStoreValues?: TimePeriodFilterValues
+    filterValues: TimePeriodFilterValues,
+    activeModal?: UseDisclosureReturnType
   ) => {
     const updatedFilterMap: TimePeriodFilterMap = new Map();
     const storeFilterMap: TimePeriodStoreFilterMap = new Map();
 
-    const minStartDate =
-      filterStoreValues?.filterValueMinStartDate ?? filterMinStartDate;
-    if (minStartDate !== null) {
+    const {
+      filterMinStartDate,
+      filterMaxStartDate,
+      filterMinEndDate,
+      filterMaxEndDate,
+      filterMinDuration,
+      filterMaxDuration,
+      filterDietPhaseTypes,
+      filterHasInjury,
+      filterStatus,
+    } = filterValues;
+
+    if (filterMinStartDate !== null) {
       const filterMinStartDateString = ConvertCalendarDateToLocalizedString(
-        minStartDate,
+        filterMinStartDate,
         locale
       );
 
       updatedFilterMap.set("min-date-start", filterMinStartDateString);
 
       const filterValueMinStartDateString =
-        ConvertCalendarDateToYmdString(minStartDate);
+        ConvertCalendarDateToYmdString(filterMinStartDate);
 
       storeFilterMap.set(
         "min-date-start",
@@ -59,18 +78,16 @@ export const useTimePeriodListFilters = ({
       );
     }
 
-    const maxStartDate =
-      filterStoreValues?.filterValueMaxStartDate ?? filterMaxStartDate;
-    if (maxStartDate !== null) {
+    if (filterMaxStartDate !== null) {
       const filterMaxStartDateString = ConvertCalendarDateToLocalizedString(
-        maxStartDate,
+        filterMaxStartDate,
         locale
       );
 
       updatedFilterMap.set("max-date-start", filterMaxStartDateString);
 
       const filterValueMaxStartDateString =
-        ConvertCalendarDateToYmdString(maxStartDate);
+        ConvertCalendarDateToYmdString(filterMaxStartDate);
 
       storeFilterMap.set(
         "max-date-start",
@@ -78,62 +95,52 @@ export const useTimePeriodListFilters = ({
       );
     }
 
-    const minEndDate =
-      filterStoreValues?.filterValueMinEndDate ?? filterMinEndDate;
-    if (minEndDate !== null) {
+    if (filterMinEndDate !== null) {
       const filterMinEndDateString = ConvertCalendarDateToLocalizedString(
-        minEndDate,
+        filterMinEndDate,
         locale
       );
 
       updatedFilterMap.set("min-date-end", filterMinEndDateString);
 
       const filterValueMinEndDateString =
-        ConvertCalendarDateToYmdString(minEndDate);
+        ConvertCalendarDateToYmdString(filterMinEndDate);
 
       storeFilterMap.set("min-date-end", filterValueMinEndDateString as string);
     }
 
-    const maxEndDate =
-      filterStoreValues?.filterValueMaxEndDate ?? filterMaxEndDate;
-    if (maxEndDate !== null) {
+    if (filterMaxEndDate !== null) {
       const filterMaxEndDateString = ConvertCalendarDateToLocalizedString(
-        maxEndDate,
+        filterMaxEndDate,
         locale
       );
 
       updatedFilterMap.set("max-date-end", filterMaxEndDateString);
 
       const filterValueMaxEndDateString =
-        ConvertCalendarDateToYmdString(maxEndDate);
+        ConvertCalendarDateToYmdString(filterMaxEndDate);
 
       storeFilterMap.set("max-date-end", filterValueMaxEndDateString as string);
     }
 
-    const minDuration =
-      filterStoreValues?.filterValueMinDuration ?? filterMinDuration;
-    if (minDuration !== null) {
-      const filterMinDurationString = `${minDuration} Days`;
+    if (filterMinDuration !== null) {
+      const filterMinDurationString = `${filterMinDuration} Days`;
 
       updatedFilterMap.set("min-duration", filterMinDurationString);
 
-      storeFilterMap.set("min-duration", minDuration);
+      storeFilterMap.set("min-duration", filterMinDuration);
     }
 
-    const maxDuration =
-      filterStoreValues?.filterValueMaxDuration ?? filterMaxDuration;
-    if (maxDuration !== null) {
-      const filterMaxDurationString = `${maxDuration} Days`;
+    if (filterMaxDuration !== null) {
+      const filterMaxDurationString = `${filterMaxDuration} Days`;
 
       updatedFilterMap.set("max-duration", filterMaxDurationString);
 
-      storeFilterMap.set("max-duration", maxDuration);
+      storeFilterMap.set("max-duration", filterMaxDuration);
     }
 
-    const dietPhaseTypes =
-      filterStoreValues?.filterValueDietPhaseTypes ?? filterDietPhaseTypes;
-    if (dietPhaseTypes.size > 0) {
-      const dietPhaseTypesArray = Array.from(dietPhaseTypes);
+    if (filterDietPhaseTypes.size > 0) {
+      const dietPhaseTypesArray = Array.from(filterDietPhaseTypes);
 
       const filterDietPhaseTypesString = dietPhaseTypesArray.join(", ");
       updatedFilterMap.set("diet-phase", filterDietPhaseTypesString);
@@ -142,10 +149,8 @@ export const useTimePeriodListFilters = ({
       storeFilterMap.set("diet-phase", filterDietPhaseTypesStoreString);
     }
 
-    const hasInjury =
-      filterStoreValues?.filterValueHasInjury ?? filterHasInjury;
-    if (hasInjury.size > 0) {
-      const hasInjuryArray = Array.from(hasInjury);
+    if (filterHasInjury.size > 0) {
+      const hasInjuryArray = Array.from(filterHasInjury);
 
       const filterHasInjuryString = hasInjuryArray.join(", ");
       updatedFilterMap.set("injury", filterHasInjuryString);
@@ -154,9 +159,8 @@ export const useTimePeriodListFilters = ({
       storeFilterMap.set("injury", filterHasInjuryStoreString);
     }
 
-    const status = filterStoreValues?.filterValueStatus ?? filterStatus;
-    if (status.size > 0) {
-      const statusArray = Array.from(status);
+    if (filterStatus.size > 0) {
+      const statusArray = Array.from(filterStatus);
 
       const filterStatusString = statusArray.join(", ");
       updatedFilterMap.set("status", filterStatusString);
@@ -166,7 +170,7 @@ export const useTimePeriodListFilters = ({
     }
 
     setFilterMap(updatedFilterMap);
-
+    setTimePeriodFilterValues(filterValues);
     saveFilterMapToStore(storeFilterMap);
 
     if (activeModal !== undefined) activeModal.onClose();
@@ -243,32 +247,6 @@ export const useTimePeriodListFilters = ({
 
     saveFilterMapToStore(new Map());
   };
-
-  const showResetFilterButton = useMemo(() => {
-    if (filterMap.size > 0) return true;
-    if (filterMinStartDate !== null) return true;
-    if (filterMaxStartDate !== null) return true;
-    if (filterMinEndDate !== null) return true;
-    if (filterMaxEndDate !== null) return true;
-    if (filterMinDuration !== null) return true;
-    if (filterMaxDuration !== null) return true;
-    if (filterDietPhaseTypes.size > 0) return true;
-    if (filterHasInjury.size > 0) return true;
-    if (filterStatus.size > 0) return true;
-
-    return false;
-  }, [
-    filterMap,
-    filterMinStartDate,
-    filterMaxStartDate,
-    filterMinEndDate,
-    filterMaxEndDate,
-    filterMinDuration,
-    filterMaxDuration,
-    filterDietPhaseTypes,
-    filterHasInjury,
-    filterStatus,
-  ]);
 
   const prefixMap = useMemo(() => {
     const prefixMap: TimePeriodFilterMap = new Map();
