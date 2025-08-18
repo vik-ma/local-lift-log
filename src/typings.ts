@@ -457,6 +457,8 @@ export type UseListFiltersReturnType = {
     activeModal?: UseDisclosureReturnType
   ) => void;
   filterMap: Map<ListFilterMapKey, string>;
+  removeFilter: (key: string) => void;
+  resetFilter: () => void;
   weekdayMap: Map<string, string>;
   prefixMap: Map<ListFilterMapKey, string>;
   multisetTypeMap: MultisetTypeMap;
@@ -472,6 +474,7 @@ export type UseListFiltersReturnType = {
     locale: string,
     validFilterKeys: Set<ListFilterMapKey>
   ) => Promise<void>;
+  listFilterValues: ListFilterValues;
 };
 
 export type UseWorkoutTemplateListReturnType = {

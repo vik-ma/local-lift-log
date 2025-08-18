@@ -340,102 +340,91 @@ export const useListFilters = ({
   const removeFilter = (key: string) => {
     const updatedFilterMap = new Map(filterMap);
     const updatedStoreFilterMap = new Map(storeFilters.current);
+    const updatedListFilterValues = { ...listFilterValues };
 
     switch (key) {
       case "min-date": {
-        setFilterMinDate(null);
+        updatedListFilterValues.filterMinDate = null;
         break;
       }
       case "max-date": {
-        setFilterMaxDate(null);
+        updatedListFilterValues.filterMaxDate = null;
         break;
       }
       case "weekdays": {
-        setFilterWeekdays(new Set());
+        updatedListFilterValues.filterWeekdays = new Set();
         break;
       }
       case "routines": {
-        setFilterRoutines(new Set());
+        updatedListFilterValues.filterRoutines = new Set();
         break;
       }
       case "exercises": {
-        setFilterExercises(new Set());
+        updatedListFilterValues.filterExercises = new Set();
         break;
       }
       case "exercise-groups": {
-        setFilterExerciseGroups([]);
+        updatedListFilterValues.filterExerciseGroups = [];
         break;
       }
       case "min-weight": {
-        setFilterMinWeight(null);
-        filterMinAndMaxValueInputs.resetMinInput();
+        updatedListFilterValues.filterMinWeight = null;
         break;
       }
       case "max-weight": {
-        setFilterMaxWeight(null);
-        filterMinAndMaxValueInputs.resetMaxInput();
+        updatedListFilterValues.filterMaxWeight = null;
         break;
       }
       case "min-distance": {
-        setFilterMinDistance(null);
-        filterMinAndMaxValueInputs.resetMinInput();
+        updatedListFilterValues.filterMinDistance = null;
         break;
       }
       case "max-distance": {
-        setFilterMaxDistance(null);
-        filterMinAndMaxValueInputs.resetMaxInput();
+        updatedListFilterValues.filterMaxDistance = null;
         break;
       }
       case "measurements": {
-        setFilterMeasurements(new Set());
+        updatedListFilterValues.filterMeasurements = new Set();
         break;
       }
       case "measurement-types": {
-        setFilterMeasurementTypes(new Set());
+        updatedListFilterValues.filterMeasurementTypes = new Set();
         break;
       }
       case "workout-templates": {
-        setFilterWorkoutTemplates(new Set());
+        updatedListFilterValues.filterWorkoutTemplates = new Set();
         break;
       }
       case "schedule-type": {
-        setFilterScheduleTypes(new Set());
+        updatedListFilterValues.filterScheduleTypes = new Set();
         break;
       }
       case "min-num-schedule-days": {
-        setFilterMinNumScheduleDays(null);
-        filterMinAndMaxValueInputs.resetMinInput();
+        updatedListFilterValues.filterMinNumScheduleDays = null;
         break;
       }
       case "max-num-schedule-days": {
-        setFilterMaxNumScheduleDays(null);
-        filterMinAndMaxValueInputs.resetMaxInput();
+        updatedListFilterValues.filterMaxNumScheduleDays = null;
         break;
       }
       case "weight-units": {
-        setFilterWeightUnits(new Set());
+        updatedListFilterValues.filterWeightUnits = new Set();
         break;
       }
       case "distance-units": {
-        setFilterDistanceUnits(new Set());
+        updatedListFilterValues.filterDistanceUnits = new Set();
         break;
       }
       case "multiset-types": {
-        setFilterMultisetTypes(new Set());
+        updatedListFilterValues.filterMultisetTypes = new Set();
         break;
       }
       case "min-bf": {
-        setFilterMinBodyFatPercentage(null);
-        if (filterMinAndMaxValueInputsSecondary !== undefined) {
-          filterMinAndMaxValueInputsSecondary.resetMinInput();
-        }
+        updatedListFilterValues.filterMinBodyFatPercentage = null;
         break;
       }
       case "max-bf": {
-        setFilterMaxBodyFatPercentage(null);
-        if (filterMinAndMaxValueInputsSecondary !== undefined) {
-          filterMinAndMaxValueInputsSecondary.resetMaxInput();
-        }
+        updatedListFilterValues.filterMaxBodyFatPercentage = null;
         break;
       }
       case "default": {
@@ -447,103 +436,36 @@ export const useListFilters = ({
     updatedStoreFilterMap.delete(key as ListFilterMapKey);
 
     setFilterMap(updatedFilterMap);
-
+    setListFilterValues(updatedListFilterValues);
     saveFilterMapToStore(updatedStoreFilterMap);
   };
 
   const resetFilter = () => {
     setFilterMap(new Map());
-    setFilterMinDate(null);
-    setFilterMaxDate(null);
-    setFilterWeekdays(new Set());
-    setFilterRoutines(new Set());
-    setFilterExercises(new Set());
-    setFilterExerciseGroups([]);
-    setFilterMinWeight(null);
-    setFilterMaxWeight(null);
-    setFilterMinDistance(null);
-    setFilterMaxDistance(null);
-    setFilterMeasurements(new Set());
-    setFilterMeasurementTypes(new Set());
-    setFilterWorkoutTemplates(new Set());
-    setFilterScheduleTypes(new Set());
-    setFilterMinNumScheduleDays(null);
-    setFilterMaxNumScheduleDays(null);
-    setFilterWeightUnits(new Set());
-    setFilterDistanceUnits(new Set());
-    setFilterMultisetTypes(new Set());
-    setFilterMinBodyFatPercentage(null);
-    setFilterMaxBodyFatPercentage(null);
-    filterMinAndMaxValueInputs.resetInputs();
-
-    if (filterMinAndMaxValueInputsSecondary !== undefined) {
-      filterMinAndMaxValueInputsSecondary.resetInputs();
-    }
-
+    setListFilterValues({ ...defaultListFilterValues });
     saveFilterMapToStore(new Map());
   };
-
-  const showResetFilterButton = useMemo(() => {
-    if (filterMap.size > 0) return true;
-    if (filterMinDate !== null) return true;
-    if (filterMaxDate !== null) return true;
-    if (filterWeekdays.size > 0) return true;
-    if (filterRoutines.size > 0) return true;
-    if (filterExercises.size > 0) return true;
-    if (filterExerciseGroups.length > 0) return true;
-    if (filterMinWeight !== null) return true;
-    if (filterMaxWeight !== null) return true;
-    if (filterMinDistance !== null) return true;
-    if (filterMaxDistance !== null) return true;
-    if (filterMeasurements.size > 0) return true;
-    if (filterMeasurementTypes.size > 0) return true;
-    if (filterWorkoutTemplates.size > 0) return true;
-    if (filterScheduleTypes.size > 0) return true;
-    if (filterMinNumScheduleDays !== null) return true;
-    if (filterMaxNumScheduleDays !== null) return true;
-    if (filterWeightUnits.size > 0) return true;
-    if (filterDistanceUnits.size > 0) return true;
-    if (filterMultisetTypes.size > 0) return true;
-    if (filterMinBodyFatPercentage !== null) return true;
-    if (filterMaxBodyFatPercentage !== null) return true;
-
-    return false;
-  }, [
-    filterMap,
-    filterMinDate,
-    filterMaxDate,
-    filterWeekdays,
-    filterRoutines,
-    filterExercises,
-    filterExerciseGroups,
-    filterMinWeight,
-    filterMaxWeight,
-    filterMinDistance,
-    filterMaxDistance,
-    filterMeasurements,
-    filterMeasurementTypes,
-    filterWorkoutTemplates,
-    filterScheduleTypes,
-    filterMinNumScheduleDays,
-    filterMaxNumScheduleDays,
-    filterWeightUnits,
-    filterDistanceUnits,
-    filterMultisetTypes,
-    filterMinBodyFatPercentage,
-    filterMaxBodyFatPercentage,
-  ]);
 
   const prefixMap = useMemo(() => {
     const prefixMap: ListFilterMap = new Map();
 
     prefixMap.set("min-date", `Min Date: `);
     prefixMap.set("max-date", `Max Date: `);
-    prefixMap.set("weekdays", `Days (${filterWeekdays.size}): `);
-    prefixMap.set("routines", `Routines (${filterRoutines.size}): `);
-    prefixMap.set("exercises", `Exercises (${filterExercises.size}): `);
+    prefixMap.set(
+      "weekdays",
+      `Days (${listFilterValues.filterWeekdays.size}): `
+    );
+    prefixMap.set(
+      "routines",
+      `Routines (${listFilterValues.filterRoutines.size}): `
+    );
+    prefixMap.set(
+      "exercises",
+      `Exercises (${listFilterValues.filterExercises.size}): `
+    );
     prefixMap.set(
       "exercise-groups",
-      `Exercise Groups (${filterExerciseGroups.length}): `
+      `Exercise Groups (${listFilterValues.filterExerciseGroups.length}): `
     );
     prefixMap.set("min-weight", `Min Weight: `);
     prefixMap.set("max-weight", `Max Weight: `);
@@ -551,43 +473,46 @@ export const useListFilters = ({
     prefixMap.set("max-distance", `Max Distance: `);
     prefixMap.set(
       "measurements",
-      `Measurements (${filterMeasurements.size}): `
+      `Measurements (${listFilterValues.filterMeasurements.size}): `
     );
     prefixMap.set("measurement-types", `Measurement Type: `);
     prefixMap.set(
       "workout-templates",
-      `Templates (${filterWorkoutTemplates.size}): `
+      `Templates (${listFilterValues.filterWorkoutTemplates.size}): `
     );
     prefixMap.set(
       "schedule-type",
-      `Schedule Type (${filterScheduleTypes.size}): `
+      `Schedule Type (${listFilterValues.filterScheduleTypes.size}): `
     );
     prefixMap.set("min-num-schedule-days", `Min Number Of Days In Schedule: `);
     prefixMap.set("max-num-schedule-days", `Max Number Of Days In Schedule: `);
-    prefixMap.set("weight-units", `Weight Unit (${filterWeightUnits.size}): `);
+    prefixMap.set(
+      "weight-units",
+      `Weight Unit (${listFilterValues.filterWeightUnits.size}): `
+    );
     prefixMap.set(
       "distance-units",
-      `Distance Units (${filterDistanceUnits.size}): `
+      `Distance Units (${listFilterValues.filterDistanceUnits.size}): `
     );
     prefixMap.set(
       "multiset-types",
-      `Multiset Types (${filterMultisetTypes.size}): `
+      `Multiset Types (${listFilterValues.filterMultisetTypes.size}): `
     );
     prefixMap.set("min-bf", `Min Body Fat Percentage: `);
     prefixMap.set("max-bf", `Max Body Fat Percentage: `);
 
     return prefixMap;
   }, [
-    filterWeekdays,
-    filterRoutines,
-    filterExercises,
-    filterExerciseGroups,
-    filterMeasurements,
-    filterWorkoutTemplates,
-    filterScheduleTypes,
-    filterWeightUnits,
-    filterDistanceUnits,
-    filterMultisetTypes,
+    listFilterValues.filterWeekdays,
+    listFilterValues.filterRoutines,
+    listFilterValues.filterExercises,
+    listFilterValues.filterExerciseGroups,
+    listFilterValues.filterMeasurements,
+    listFilterValues.filterWorkoutTemplates,
+    listFilterValues.filterScheduleTypes,
+    listFilterValues.filterWeightUnits,
+    listFilterValues.filterDistanceUnits,
+    listFilterValues.filterMultisetTypes,
   ]);
 
   const getFilterRoutinesString = (routineIdSet: Set<number>) => {
@@ -842,6 +767,8 @@ export const useListFilters = ({
   return {
     handleFilterSaveButton,
     filterMap,
+    resetFilter,
+    removeFilter,
     weekdayMap,
     prefixMap,
     multisetTypeMap,
@@ -852,5 +779,6 @@ export const useListFilters = ({
     getFilterMeasurementsString,
     getFilterWorkoutTemplatesString,
     loadFilterMapFromStore,
+    listFilterValues,
   };
 };
