@@ -453,40 +453,14 @@ export type UseWorkoutListReturnType = {
 export type UseListFiltersReturnType = {
   handleFilterSaveButton: (
     locale: string,
-    filterValues?: FilterValues,
+    filterValues: FilterValues,
     activeModal?: UseDisclosureReturnType
   ) => void;
   filterMap: Map<ListFilterMapKey, string>;
-  removeFilter: (key: string) => void;
-  resetFilter: () => void;
-  showResetFilterButton: boolean;
-  filterWeekdays: Set<string>;
-  setFilterWeekdays: React.Dispatch<React.SetStateAction<Set<string>>>;
   weekdayMap: Map<string, string>;
-  filterRoutines: Set<number>;
-  setFilterRoutines: React.Dispatch<React.SetStateAction<Set<number>>>;
-  filterExercises: Set<number>;
-  setFilterExercises: React.Dispatch<React.SetStateAction<Set<number>>>;
-  filterExerciseGroups: string[];
-  setFilterExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
   prefixMap: Map<ListFilterMapKey, string>;
-  filterMinWeight: number | null;
-  setFilterMinWeight: React.Dispatch<React.SetStateAction<number | null>>;
-  filterMaxWeight: number | null;
-  setFilterMaxWeight: React.Dispatch<React.SetStateAction<number | null>>;
-  filterMinDistance: number | null;
-  setFilterMinDistance: React.Dispatch<React.SetStateAction<number | null>>;
-  filterMaxDistance: number | null;
-  setFilterMaxDistance: React.Dispatch<React.SetStateAction<number | null>>;
-  filterWeightRangeUnit: string;
-  setFilterWeightRangeUnit: React.Dispatch<React.SetStateAction<string>>;
-  filterMeasurements: Set<string>;
-  setFilterMeasurements: React.Dispatch<React.SetStateAction<Set<string>>>;
-  filterMeasurementTypes: Set<string>;
-  setFilterMeasurementTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
+    multisetTypeMap: MultisetTypeMap;
   handleFilterMeasurementTypes: (key: string) => void;
-  filterWorkoutTemplates: Set<number>;
-  setFilterWorkoutTemplates: React.Dispatch<React.SetStateAction<Set<number>>>;
   getFilterRoutinesString: (routineIdSet: Set<number>) => string;
   getFilterExercisesString: (exerciseIdSet: Set<number>) => string;
   getFilterExerciseGroupsString: (exerciseGroupList: string[]) => string;
@@ -494,45 +468,6 @@ export type UseListFiltersReturnType = {
   getFilterWorkoutTemplatesString: (
     workoutTemplateIdSet: Set<number>
   ) => string;
-  handleClickRoutine: (routine: Routine) => void;
-  handleClickExercise: (exercise: Exercise) => void;
-  handleClickMeasurement: (measurement: Measurement) => void;
-  handleClickWorkoutTemplate: (workoutTemplate: WorkoutTemplate) => void;
-  filterScheduleTypes: Set<string>;
-  setFilterScheduleTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
-  filterMinNumScheduleDays: number | null;
-  setFilterMinNumScheduleDays: React.Dispatch<
-    React.SetStateAction<number | null>
-  >;
-  filterMaxNumScheduleDays: number | null;
-  setFilterMaxNumScheduleDays: React.Dispatch<
-    React.SetStateAction<number | null>
-  >;
-  filterWeightUnits: Set<string>;
-  setFilterWeightUnits: React.Dispatch<React.SetStateAction<Set<string>>>;
-  filterDistanceRangeUnit: string;
-  setFilterDistanceRangeUnit: React.Dispatch<React.SetStateAction<string>>;
-  filterDistanceUnits: Set<string>;
-  setFilterDistanceUnits: React.Dispatch<React.SetStateAction<Set<string>>>;
-  multisetTypeMap: MultisetTypeMap;
-  filterMultisetTypes: Set<string>;
-  setFilterMultisetTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
-  filterMinDate: CalendarDate | null;
-  setFilterMinDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
-  filterMaxDate: CalendarDate | null;
-  setFilterMaxDate: React.Dispatch<React.SetStateAction<CalendarDate | null>>;
-  isMaxDateBeforeMinDate: boolean;
-  filterMinAndMaxValueInputs: UseFilterMinAndMaxValueInputsReturnType;
-  includeNullInMaxValues: boolean;
-  setIncludeNullInMaxValues: React.Dispatch<React.SetStateAction<boolean>>;
-  filterMinBodyFatPercentage: number | null;
-  setFilterMinBodyFatPercentage: React.Dispatch<
-    React.SetStateAction<number | null>
-  >;
-  filterMaxBodyFatPercentage: number | null;
-  setFilterMaxBodyFatPercentage: React.Dispatch<
-    React.SetStateAction<number | null>
-  >;
   loadFilterMapFromStore: (
     locale: string,
     validFilterKeys: Set<ListFilterMapKey>
@@ -1333,6 +1268,7 @@ export type FilterValues = {
   filterMaxBodyFatPercentage: number | null;
   filterWeightRangeUnit: string;
   filterDistanceRangeUnit: string;
+  includeNullInMaxValues: boolean;
 };
 
 export type TimePeriodFilterValues = {

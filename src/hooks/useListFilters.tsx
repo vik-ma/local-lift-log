@@ -1,29 +1,17 @@
 import { useMemo, useRef, useState } from "react";
 import {
-  Exercise,
   FilterValues,
   ListFilterMap,
   ListFilterMapKey,
-  Measurement,
   MeasurementMap,
-  Routine,
   RoutineMap,
   StoreRef,
   UseDisclosureReturnType,
   UseExerciseListReturnType,
-  UseFilterMinAndMaxValueInputsProps,
-  UseFilterMinAndMaxValueInputsReturnType,
   UseListFiltersReturnType,
-  WorkoutTemplate,
   WorkoutTemplateMap,
 } from "../typings";
-import { CalendarDate } from "@heroui/react";
-import {
-  useWeekdayMap,
-  useMultisetTypeMap,
-  useIsEndDateBeforeStartDate,
-  useFilterMinAndMaxValueInputs,
-} from ".";
+import { useWeekdayMap, useMultisetTypeMap } from ".";
 import {
   ConvertCalendarDateToLocalizedString,
   ConvertDateStringToCalendarDate,
@@ -38,8 +26,6 @@ type UseListFiltersProps = {
   routineMap?: RoutineMap;
   measurementMap?: MeasurementMap;
   workoutTemplateMap?: WorkoutTemplateMap;
-  UseFilterMinAndMaxValueInputsProps?: UseFilterMinAndMaxValueInputsProps;
-  filterMinAndMaxValueInputsSecondary?: UseFilterMinAndMaxValueInputsReturnType;
 };
 
 type StoreFilterMap = Map<ListFilterMapKey, string | number | boolean>;
@@ -51,89 +37,74 @@ export const useListFilters = ({
   routineMap,
   measurementMap,
   workoutTemplateMap,
-  UseFilterMinAndMaxValueInputsProps,
-  filterMinAndMaxValueInputsSecondary,
 }: UseListFiltersProps): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<ListFilterMap>(new Map());
-  const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(null);
-  const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(null);
-  const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(new Set());
-  const [filterRoutines, setFilterRoutines] = useState<Set<number>>(new Set());
-  const [filterExercises, setFilterExercises] = useState<Set<number>>(
-    new Set()
-  );
-  const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
-    []
-  );
-  const [filterMinWeight, setFilterMinWeight] = useState<number | null>(null);
-  const [filterMaxWeight, setFilterMaxWeight] = useState<number | null>(null);
-  const [filterMinDistance, setFilterMinDistance] = useState<number | null>(
-    null
-  );
-  const [filterMaxDistance, setFilterMaxDistance] = useState<number | null>(
-    null
-  );
-  const [filterMeasurements, setFilterMeasurements] = useState<Set<string>>(
-    new Set()
-  );
-  const [filterMeasurementTypes, setFilterMeasurementTypes] = useState<
-    Set<string>
-  >(new Set());
-  const [filterWorkoutTemplates, setFilterWorkoutTemplates] = useState<
-    Set<number>
-  >(new Set());
-  const [filterScheduleTypes, setFilterScheduleTypes] = useState<Set<string>>(
-    new Set()
-  );
-  const [filterMinNumScheduleDays, setFilterMinNumScheduleDays] = useState<
-    number | null
-  >(null);
-  const [filterMaxNumScheduleDays, setFilterMaxNumScheduleDays] = useState<
-    number | null
-  >(null);
-  const [filterWeightUnits, setFilterWeightUnits] = useState<Set<string>>(
-    new Set()
-  );
-  const [filterDistanceUnits, setFilterDistanceUnits] = useState<Set<string>>(
-    new Set()
-  );
-  const [filterMultisetTypes, setFilterMultisetTypes] = useState<Set<string>>(
-    new Set()
-  );
-  const [filterMinBodyFatPercentage, setFilterMinBodyFatPercentage] = useState<
-    number | null
-  >(null);
-  const [filterMaxBodyFatPercentage, setFilterMaxBodyFatPercentage] = useState<
-    number | null
-  >(null);
-
-  const [filterWeightRangeUnit, setFilterWeightRangeUnit] =
-    useState<string>("kg");
-  const [filterDistanceRangeUnit, setFilterDistanceRangeUnit] =
-    useState<string>("km");
+  // const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(null);
+  // const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(null);
+  // const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(new Set());
+  // const [filterRoutines, setFilterRoutines] = useState<Set<number>>(new Set());
+  // const [filterExercises, setFilterExercises] = useState<Set<number>>(
+  //   new Set()
+  // );
+  // const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
+  //   []
+  // );
+  // const [filterMinWeight, setFilterMinWeight] = useState<number | null>(null);
+  // const [filterMaxWeight, setFilterMaxWeight] = useState<number | null>(null);
+  // const [filterMinDistance, setFilterMinDistance] = useState<number | null>(
+  //   null
+  // );
+  // const [filterMaxDistance, setFilterMaxDistance] = useState<number | null>(
+  //   null
+  // );
+  // const [filterMeasurements, setFilterMeasurements] = useState<Set<string>>(
+  //   new Set()
+  // );
+  // const [filterMeasurementTypes, setFilterMeasurementTypes] = useState<
+  //   Set<string>
+  // >(new Set());
+  // const [filterWorkoutTemplates, setFilterWorkoutTemplates] = useState<
+  //   Set<number>
+  // >(new Set());
+  // const [filterScheduleTypes, setFilterScheduleTypes] = useState<Set<string>>(
+  //   new Set()
+  // );
+  // const [filterMinNumScheduleDays, setFilterMinNumScheduleDays] = useState<
+  //   number | null
+  // >(null);
+  // const [filterMaxNumScheduleDays, setFilterMaxNumScheduleDays] = useState<
+  //   number | null
+  // >(null);
+  // const [filterWeightUnits, setFilterWeightUnits] = useState<Set<string>>(
+  //   new Set()
+  // );
+  // const [filterDistanceUnits, setFilterDistanceUnits] = useState<Set<string>>(
+  //   new Set()
+  // );
+  // const [filterMultisetTypes, setFilterMultisetTypes] = useState<Set<string>>(
+  //   new Set()
+  // );
+  // const [filterMinBodyFatPercentage, setFilterMinBodyFatPercentage] = useState<
+  //   number | null
+  // >(null);
+  // const [filterMaxBodyFatPercentage, setFilterMaxBodyFatPercentage] = useState<
+  //   number | null
+  // >(null);
+  // const [filterWeightRangeUnit, setFilterWeightRangeUnit] =
+  //   useState<string>("kg");
+  // const [filterDistanceRangeUnit, setFilterDistanceRangeUnit] =
+  //   useState<string>("km");
 
   const weekdayMap = useWeekdayMap();
 
   const multisetTypeMap = useMultisetTypeMap();
 
-  const isMaxDateBeforeMinDate = useIsEndDateBeforeStartDate({
-    startDate: filterMinDate,
-    endDate: filterMaxDate,
-  });
-
-  const filterMinAndMaxValueInputs = useFilterMinAndMaxValueInputs(
-    UseFilterMinAndMaxValueInputsProps
-  );
-
-  const [includeNullInMaxValues, setIncludeNullInMaxValues] =
-    useState<boolean>(false);
-
   const storeFilters = useRef<StoreFilterMap>(new Map());
 
   const handleFilterSaveButton = (
     locale: string,
-    activeModal?: UseDisclosureReturnType,
-    filterValues?: FilterValues
+    filterValues: FilterValues,
+    activeModal?: UseDisclosureReturnType
   ) => {
     const updatedFilterMap: ListFilterMap = new Map();
     const storeFilterMap: StoreFilterMap = new Map();
@@ -698,53 +669,53 @@ export const useListFilters = ({
     return workoutTemplateNames.join(", ");
   };
 
-  const handleClickRoutine = (routine: Routine) => {
-    const updatedRoutineSet = new Set(filterRoutines);
+  // const handleClickRoutine = (routine: Routine) => {
+  //   const updatedRoutineSet = new Set(filterRoutines);
 
-    if (updatedRoutineSet.has(routine.id)) {
-      updatedRoutineSet.delete(routine.id);
-    } else {
-      updatedRoutineSet.add(routine.id);
-    }
+  //   if (updatedRoutineSet.has(routine.id)) {
+  //     updatedRoutineSet.delete(routine.id);
+  //   } else {
+  //     updatedRoutineSet.add(routine.id);
+  //   }
 
-    setFilterRoutines(updatedRoutineSet);
-  };
+  //   setFilterRoutines(updatedRoutineSet);
+  // };
 
-  const handleClickExercise = (exercise: Exercise) => {
-    const updatedExerciseSet = new Set(filterExercises);
+  // const handleClickExercise = (exercise: Exercise) => {
+  //   const updatedExerciseSet = new Set(filterExercises);
 
-    if (updatedExerciseSet.has(exercise.id)) {
-      updatedExerciseSet.delete(exercise.id);
-    } else {
-      updatedExerciseSet.add(exercise.id);
-    }
+  //   if (updatedExerciseSet.has(exercise.id)) {
+  //     updatedExerciseSet.delete(exercise.id);
+  //   } else {
+  //     updatedExerciseSet.add(exercise.id);
+  //   }
 
-    setFilterExercises(updatedExerciseSet);
-  };
+  //   setFilterExercises(updatedExerciseSet);
+  // };
 
-  const handleClickMeasurement = (measurement: Measurement) => {
-    const updatedMeasurementSet = new Set(filterMeasurements);
+  // const handleClickMeasurement = (measurement: Measurement) => {
+  //   const updatedMeasurementSet = new Set(filterMeasurements);
 
-    if (updatedMeasurementSet.has(measurement.id.toString())) {
-      updatedMeasurementSet.delete(measurement.id.toString());
-    } else {
-      updatedMeasurementSet.add(measurement.id.toString());
-    }
+  //   if (updatedMeasurementSet.has(measurement.id.toString())) {
+  //     updatedMeasurementSet.delete(measurement.id.toString());
+  //   } else {
+  //     updatedMeasurementSet.add(measurement.id.toString());
+  //   }
 
-    setFilterMeasurements(updatedMeasurementSet);
-  };
+  //   setFilterMeasurements(updatedMeasurementSet);
+  // };
 
-  const handleClickWorkoutTemplate = (workoutTemplate: WorkoutTemplate) => {
-    const updatedWorkoutTemplateSet = new Set(filterWorkoutTemplates);
+  // const handleClickWorkoutTemplate = (workoutTemplate: WorkoutTemplate) => {
+  //   const updatedWorkoutTemplateSet = new Set(filterWorkoutTemplates);
 
-    if (updatedWorkoutTemplateSet.has(workoutTemplate.id)) {
-      updatedWorkoutTemplateSet.delete(workoutTemplate.id);
-    } else {
-      updatedWorkoutTemplateSet.add(workoutTemplate.id);
-    }
+  //   if (updatedWorkoutTemplateSet.has(workoutTemplate.id)) {
+  //     updatedWorkoutTemplateSet.delete(workoutTemplate.id);
+  //   } else {
+  //     updatedWorkoutTemplateSet.add(workoutTemplate.id);
+  //   }
 
-    setFilterWorkoutTemplates(updatedWorkoutTemplateSet);
-  };
+  //   setFilterWorkoutTemplates(updatedWorkoutTemplateSet);
+  // };
 
   const saveFilterMapToStore = async (storeFilterMap: StoreFilterMap) => {
     if (store.current === null) return;
@@ -868,72 +839,15 @@ export const useListFilters = ({
   return {
     handleFilterSaveButton,
     filterMap,
-    removeFilter,
-    resetFilter,
-    showResetFilterButton,
-    filterWeekdays,
-    setFilterWeekdays,
     weekdayMap,
-    filterRoutines,
-    setFilterRoutines,
-    filterExercises,
-    setFilterExercises,
-    filterExerciseGroups,
-    setFilterExerciseGroups,
     prefixMap,
-    filterMinWeight,
-    setFilterMinWeight,
-    filterMaxWeight,
-    setFilterMaxWeight,
-    filterMinDistance,
-    setFilterMinDistance,
-    filterMaxDistance,
-    setFilterMaxDistance,
-    filterWeightRangeUnit,
-    setFilterWeightRangeUnit,
-    filterMeasurements,
-    setFilterMeasurements,
-    filterMeasurementTypes,
-    setFilterMeasurementTypes,
+    multisetTypeMap,
     handleFilterMeasurementTypes,
-    filterWorkoutTemplates,
-    setFilterWorkoutTemplates,
     getFilterRoutinesString,
     getFilterExercisesString,
     getFilterExerciseGroupsString,
     getFilterMeasurementsString,
     getFilterWorkoutTemplatesString,
-    handleClickRoutine,
-    handleClickExercise,
-    handleClickMeasurement,
-    handleClickWorkoutTemplate,
-    filterScheduleTypes,
-    setFilterScheduleTypes,
-    filterMinNumScheduleDays,
-    setFilterMinNumScheduleDays,
-    filterMaxNumScheduleDays,
-    setFilterMaxNumScheduleDays,
-    filterWeightUnits,
-    setFilterWeightUnits,
-    filterDistanceRangeUnit,
-    setFilterDistanceRangeUnit,
-    filterDistanceUnits,
-    setFilterDistanceUnits,
-    multisetTypeMap,
-    filterMultisetTypes,
-    setFilterMultisetTypes,
-    filterMinDate,
-    setFilterMinDate,
-    filterMaxDate,
-    setFilterMaxDate,
-    isMaxDateBeforeMinDate,
-    filterMinAndMaxValueInputs,
-    includeNullInMaxValues,
-    setIncludeNullInMaxValues,
-    filterMinBodyFatPercentage,
-    setFilterMinBodyFatPercentage,
-    filterMaxBodyFatPercentage,
-    setFilterMaxBodyFatPercentage,
     loadFilterMapFromStore,
   };
 };
