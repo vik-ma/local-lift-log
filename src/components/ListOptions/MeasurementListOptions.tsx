@@ -18,7 +18,9 @@ export const MeasurementListOptions = ({
   const { sortCategory, handleSortOptionSelection, listFilters } =
     useMeasurementList;
 
-  const { filterMeasurementTypes, handleFilterMeasurementTypes } = listFilters;
+  const { handleFilterMeasurementTypes, listFilterValues } = listFilters;
+
+  const { filterMeasurementTypes } = listFilterValues;
 
   const measurementTypes = useMeasurementTypes();
 

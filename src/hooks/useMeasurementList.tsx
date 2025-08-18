@@ -42,7 +42,9 @@ export const useMeasurementList = ({
     filterMapSuffix: "measurements",
   });
 
-  const { filterMeasurementTypes, filterMap } = listFilters;
+  const { listFilterValues, filterMap } = listFilters;
+
+  const { filterMeasurementTypes } = listFilterValues;
 
   const filteredMeasurements = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {

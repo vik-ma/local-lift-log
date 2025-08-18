@@ -133,7 +133,6 @@ export const useListFilters = ({
       filterMinDistance,
       filterMaxDistance,
       filterMeasurements,
-      filterMeasurementTypes,
       filterWorkoutTemplates,
       filterScheduleTypes,
       filterMinNumScheduleDays,
@@ -319,24 +318,24 @@ export const useListFilters = ({
   const handleFilterMeasurementTypes = (key: string) => {
     const updatedFilterMap: ListFilterMap = new Map();
     const updatedStoreFilterMap: StoreFilterMap = new Map();
+    const updatedListFilterValues = { ...listFilterValues };
 
-    const updatedFilterMeasurementTypes = new Set<string>();
-
-    if (filterMeasurementTypes.has(key)) {
+    if (listFilterValues.filterMeasurementTypes.has(key)) {
       removeFilter("measurement-types");
-    } else {
-      updatedFilterMeasurementTypes.add(key);
+      return;
     }
 
-    if (updatedFilterMeasurementTypes.size > 0) {
-      updatedFilterMap.set("measurement-types", key);
-      updatedStoreFilterMap.set("measurement-types", key);
+    const updatedFilterMeasurementTypes = new Set<string>([key]);
 
-      saveFilterMapToStore(updatedStoreFilterMap);
-    }
+    updatedListFilterValues.filterMeasurementTypes =
+      updatedFilterMeasurementTypes;
 
-    setFilterMeasurementTypes(updatedFilterMeasurementTypes);
+    updatedFilterMap.set("measurement-types", key);
+    updatedStoreFilterMap.set("measurement-types", key);
+
     setFilterMap(updatedFilterMap);
+    setListFilterValues(updatedListFilterValues);
+    saveFilterMapToStore(updatedStoreFilterMap);
   };
 
   const removeFilter = (key: string) => {
