@@ -851,6 +851,46 @@ export const useListFilters = ({
 
             break;
           }
+          case "min-num-schedule-days": {
+            const minNumScheduleDays = value as number;
+
+            const minValue = 2;
+            const doNotAllowMinValue = false;
+            const maxValue = 14;
+
+            if (
+              IsNumberValidInteger(
+                minNumScheduleDays,
+                minValue,
+                doNotAllowMinValue,
+                maxValue
+              )
+            ) {
+              filterStoreValues.filterMinNumScheduleDays = minNumScheduleDays;
+            }
+
+            break;
+          }
+          case "max-num-schedule-days": {
+            const maxNumScheduleDays = value as number;
+
+            const minValue = filterStoreValues.filterMinNumScheduleDays ?? 2;
+            const doNotAllowMinValue = false;
+            const maxValue = 14;
+
+            if (
+              IsNumberValidInteger(
+                maxNumScheduleDays,
+                minValue,
+                doNotAllowMinValue,
+                maxValue
+              )
+            ) {
+              filterStoreValues.filterMaxNumScheduleDays = maxNumScheduleDays;
+            }
+
+            break;
+          }
           case "measurement-types": {
             const measurementType = value as string;
 
