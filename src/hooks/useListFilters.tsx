@@ -15,8 +15,10 @@ import { useWeekdayMap, useMultisetTypeMap } from ".";
 import {
   ConvertCalendarDateToLocalizedString,
   ConvertDateStringToCalendarDate,
+  ConvertNumberToTwoDecimals,
   DefaultListFilterValues,
   IsEndDateBeforeStartDate,
+  IsNumberValid,
   IsNumberValidInteger,
   MeasurementTypes,
   ValidDistanceUnits,
@@ -805,8 +807,9 @@ export const useListFilters = ({
             const minValue = 0;
             const doNotAllowMinValue = true;
 
-            if (IsNumberValidInteger(minWeight, minValue, doNotAllowMinValue)) {
-              filterStoreValues.filterMinWeight = minWeight;
+            if (IsNumberValid(minWeight, minValue, doNotAllowMinValue)) {
+              filterStoreValues.filterMinWeight =
+                ConvertNumberToTwoDecimals(minWeight);
             }
 
             break;
@@ -817,8 +820,9 @@ export const useListFilters = ({
             const minValue = filterStoreValues.filterMinWeight ?? 0;
             const doNotAllowMinValue = minValue === 0;
 
-            if (IsNumberValidInteger(maxWeight, minValue, doNotAllowMinValue)) {
-              filterStoreValues.filterMaxWeight = maxWeight;
+            if (IsNumberValid(maxWeight, minValue, doNotAllowMinValue)) {
+              filterStoreValues.filterMaxWeight =
+                ConvertNumberToTwoDecimals(maxWeight);
             }
 
             break;
@@ -829,10 +833,9 @@ export const useListFilters = ({
             const minValue = 0;
             const doNotAllowMinValue = true;
 
-            if (
-              IsNumberValidInteger(minDistance, minValue, doNotAllowMinValue)
-            ) {
-              filterStoreValues.filterMinDistance = minDistance;
+            if (IsNumberValid(minDistance, minValue, doNotAllowMinValue)) {
+              filterStoreValues.filterMinDistance =
+                ConvertNumberToTwoDecimals(minDistance);
             }
 
             break;
@@ -843,10 +846,9 @@ export const useListFilters = ({
             const minValue = filterStoreValues.filterMinDistance ?? 0;
             const doNotAllowMinValue = minValue === 0;
 
-            if (
-              IsNumberValidInteger(maxDistance, minValue, doNotAllowMinValue)
-            ) {
-              filterStoreValues.filterMaxDistance = maxDistance;
+            if (IsNumberValid(maxDistance, minValue, doNotAllowMinValue)) {
+              filterStoreValues.filterMaxDistance =
+                ConvertNumberToTwoDecimals(maxDistance);
             }
 
             break;
