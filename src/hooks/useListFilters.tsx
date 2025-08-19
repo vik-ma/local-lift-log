@@ -18,6 +18,8 @@ import {
   DefaultListFilterValues,
   IsEndDateBeforeStartDate,
   MeasurementTypes,
+  ValidDistanceUnits,
+  ValidWeightUnits,
 } from "../helpers";
 
 type UseListFiltersProps = {
@@ -358,6 +360,12 @@ export const useListFilters = ({
     if (includeNullInMaxValues) {
       storeFilterMap.set("include-null-in-max-values", includeNullInMaxValues);
     }
+
+    storeFilterMap.set("weight-range-unit", filterValues.filterWeightRangeUnit);
+    storeFilterMap.set(
+      "distance-range-unit",
+      filterValues.filterDistanceRangeUnit
+    );
 
     setFilterMap(updatedFilterMap);
     setListFilterValues(filterValues);
@@ -808,6 +816,23 @@ export const useListFilters = ({
               filterStoreValues.includeNullInMaxValues = true;
             }
 
+            break;
+          }
+          case "weight-range-unit": {
+            const weightUnit = value as string;
+
+            if (ValidWeightUnits().includes(weightUnit)) {
+              filterStoreValues.filterWeightRangeUnit = weightUnit;
+            }
+
+            break;
+          }
+          case "distance-range-unit": {
+            const distanceUnit = value as string;
+
+            if (ValidDistanceUnits().includes(distanceUnit)) {
+              filterStoreValues.filterDistanceRangeUnit = distanceUnit;
+            }
             break;
           }
           default:
