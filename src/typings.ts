@@ -367,6 +367,7 @@ export type UseExerciseListReturnType = {
   isExerciseListLoaded: React.RefObject<boolean>;
   exerciseMap: React.RefObject<ExerciseMap>;
   exerciseGroupDictionary: ExerciseGroupMap;
+  loadExerciseGroupsString: (exerciseGroupsString: string) => string[];
 };
 
 export type UseExerciseListFiltersReturnType = {

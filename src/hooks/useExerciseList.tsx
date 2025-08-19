@@ -148,6 +148,20 @@ export const useExerciseList = ({
     isExerciseListLoaded.current = true;
   };
 
+  const loadExerciseGroupsString = (exerciseGroupsString: string) => {
+    const exerciseGroupList: string[] = [];
+
+    const exerciseGroups = exerciseGroupsString.split(",");
+
+    for (const group of exerciseGroups) {
+      if (exerciseGroupDictionary.has(group)) {
+        exerciseGroupList.push(group);
+      }
+    }
+
+    return exerciseGroupList;
+  };
+
   return {
     exercises,
     setExercises,
@@ -162,5 +176,6 @@ export const useExerciseList = ({
     isExerciseListLoaded,
     exerciseMap,
     exerciseGroupDictionary,
+    loadExerciseGroupsString,
   };
 };
