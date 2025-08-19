@@ -13,6 +13,7 @@ import {
   UserSettings,
   UseWorkoutTemplateListReturnType,
   Exercise,
+  ListFilterValues,
 } from "../../typings";
 import { useMemo, useState } from "react";
 import { ExerciseGroupCheckboxes, ExerciseModalList } from "..";
@@ -59,6 +60,7 @@ export const FilterWorkoutTemplateListModal = ({
     handleFilterSaveButton,
     getFilterExercisesString,
     getFilterExerciseGroupsString,
+    listFilterValues,
   } = listFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -109,6 +111,20 @@ export const FilterWorkoutTemplateListModal = ({
     }
 
     setFilterExercises(updatedExerciseSet);
+  };
+
+  const handleSaveButton = () => {
+    const filterValues: ListFilterValues = {
+      ...listFilterValues,
+      filterExercises: filterExercises,
+      filterExerciseGroups: filterExerciseGroups,
+    };
+
+    handleFilterSaveButton(
+      userSettings.locale,
+      filterValues,
+      filterWorkoutTemplateListModal
+    );
   };
 
   return (
@@ -252,11 +268,7 @@ export const FilterWorkoutTemplateListModal = ({
                   color="primary"
                   onPress={
                     modalPage === "base"
-                      ? () =>
-                          handleFilterSaveButton(
-                            userSettings.locale,
-                            filterWorkoutTemplateListModal
-                          )
+                      ? handleSaveButton
                       : () => setModalPage("base")
                   }
                 >
