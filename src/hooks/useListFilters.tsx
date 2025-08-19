@@ -801,6 +801,18 @@ export const useListFilters = ({
 
             break;
           }
+          case "exercise-groups": {
+            const exerciseGroupsString = value as string;
+
+            if (useExerciseList !== undefined) {
+              const exerciseGroups =
+                useExerciseList.loadExerciseGroupsString(exerciseGroupsString);
+
+              filterStoreValues.filterExerciseGroups = exerciseGroups;
+            }
+
+            break;
+          }
           case "min-weight": {
             const minWeight = value as number;
 
