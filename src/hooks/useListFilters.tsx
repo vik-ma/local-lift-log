@@ -853,6 +853,16 @@ export const useListFilters = ({
 
             break;
           }
+          case "measurement-types": {
+            const measurementType = value as string;
+
+            if (MeasurementTypes().includes(measurementType)) {
+              handleFilterMeasurementTypes(measurementType);
+            }
+
+            // RETURN, NOT BREAK
+            return;
+          }
           case "min-num-schedule-days": {
             const minNumScheduleDays = value as number;
 
@@ -893,15 +903,47 @@ export const useListFilters = ({
 
             break;
           }
-          case "measurement-types": {
-            const measurementType = value as string;
+          case "min-bf": {
+            const minBodyFatPercentage = value as number;
 
-            if (MeasurementTypes().includes(measurementType)) {
-              handleFilterMeasurementTypes(measurementType);
+            const minValue = 0;
+            const doNotAllowMinValue = true;
+            const maxValue = 100;
+
+            if (
+              IsNumberValid(
+                minBodyFatPercentage,
+                minValue,
+                doNotAllowMinValue,
+                maxValue
+              )
+            ) {
+              filterStoreValues.filterMinBodyFatPercentage =
+                ConvertNumberToTwoDecimals(minBodyFatPercentage);
             }
 
-            // RETURN, NOT BREAK
-            return;
+            break;
+          }
+          case "max-bf": {
+            const maxBodyFatPercentage = value as number;
+
+            const minValue = filterStoreValues.filterMinBodyFatPercentage ?? 0;
+            const doNotAllowMinValue = minValue === 0;
+            const maxValue = 100;
+
+            if (
+              IsNumberValidInteger(
+                maxBodyFatPercentage,
+                minValue,
+                doNotAllowMinValue,
+                maxValue
+              )
+            ) {
+              filterStoreValues.filterMaxBodyFatPercentage =
+                ConvertNumberToTwoDecimals(maxBodyFatPercentage);
+            }
+
+            break;
           }
           case "include-null-in-max-values": {
             if (value === true) {
