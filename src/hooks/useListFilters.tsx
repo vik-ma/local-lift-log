@@ -357,10 +357,7 @@ export const useListFilters = ({
       storeFilterMap.set("max-bf", filterMaxBodyFatPercentage);
     }
 
-    if (includeNullInMaxValues) {
-      storeFilterMap.set("include-null-in-max-values", includeNullInMaxValues);
-    }
-
+    storeFilterMap.set("include-null-in-max-values", includeNullInMaxValues);
     storeFilterMap.set("weight-range-unit", filterValues.filterWeightRangeUnit);
     storeFilterMap.set(
       "distance-range-unit",

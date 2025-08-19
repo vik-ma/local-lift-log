@@ -157,26 +157,18 @@ export const useDietLogListFilters = ({
       storeFilterMap.set("max-protein", filterMaxProtein);
     }
 
-    if (includeNullInMaxValuesFat) {
-      storeFilterMap.set(
-        "include-null-in-max-values-fat",
-        includeNullInMaxValuesFat
-      );
-    }
-
-    if (includeNullInMaxValuesCarbs) {
-      storeFilterMap.set(
-        "include-null-in-max-values-carbs",
-        includeNullInMaxValuesCarbs
-      );
-    }
-
-    if (includeNullInMaxValuesProtein) {
-      storeFilterMap.set(
-        "include-null-in-max-values-protein",
-        includeNullInMaxValuesProtein
-      );
-    }
+    storeFilterMap.set(
+      "include-null-in-max-values-fat",
+      includeNullInMaxValuesFat
+    );
+    storeFilterMap.set(
+      "include-null-in-max-values-carbs",
+      includeNullInMaxValuesCarbs
+    );
+    storeFilterMap.set(
+      "include-null-in-max-values-protein",
+      includeNullInMaxValuesProtein
+    );
 
     setFilterMap(updatedFilterMap);
     setDietLogFilterValues(filterValues);
