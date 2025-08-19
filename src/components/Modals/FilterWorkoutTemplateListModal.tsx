@@ -12,6 +12,7 @@ import {
   UseExerciseListFiltersReturnType,
   UserSettings,
   UseWorkoutTemplateListReturnType,
+  Exercise,
 } from "../../typings";
 import { useMemo, useState } from "react";
 import { ExerciseGroupCheckboxes, ExerciseModalList } from "..";
@@ -36,6 +37,12 @@ export const FilterWorkoutTemplateListModal = ({
   setUserSettings,
 }: FilterWorkoutTemplateListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
+  const [filterExercises, setFilterExercises] = useState<Set<number>>(
+    new Set()
+  );
+  const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
+    []
+  );
 
   const { listFilters, filterWorkoutTemplateListModal } =
     useWorkoutTemplateList;
@@ -47,16 +54,11 @@ export const FilterWorkoutTemplateListModal = ({
   } = useExerciseList;
 
   const {
-    filterExercises,
-    setFilterExercises,
-    filterExerciseGroups,
-    setFilterExerciseGroups,
-    showResetFilterButton,
+    filterMap,
     resetFilter,
     handleFilterSaveButton,
     getFilterExercisesString,
     getFilterExerciseGroupsString,
-    handleClickExercise,
   } = listFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -70,6 +72,14 @@ export const FilterWorkoutTemplateListModal = ({
 
     return false;
   }, [filterExercises, filterExerciseGroups, modalPage]);
+
+  const showResetFilterButton = useMemo(() => {
+    if (filterMap.size > 0) return true;
+    if (filterExercises.size > 0) return true;
+    if (filterExerciseGroups.length > 0) return true;
+
+    return false;
+  }, [filterMap, filterExercises, filterExerciseGroups]);
 
   const handleClearAllButton = () => {
     if (modalPage === "exercise-list") {
@@ -88,6 +98,18 @@ export const FilterWorkoutTemplateListModal = ({
   const filterExerciseGroupsString = useMemo(() => {
     return getFilterExerciseGroupsString(filterExerciseGroups);
   }, [getFilterExerciseGroupsString, filterExerciseGroups]);
+
+  const handleClickExercise = (exercise: Exercise) => {
+    const updatedExerciseSet = new Set(filterExercises);
+
+    if (updatedExerciseSet.has(exercise.id)) {
+      updatedExerciseSet.delete(exercise.id);
+    } else {
+      updatedExerciseSet.add(exercise.id);
+    }
+
+    setFilterExercises(updatedExerciseSet);
+  };
 
   return (
     <Modal
