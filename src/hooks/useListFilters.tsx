@@ -17,6 +17,7 @@ import {
   ConvertDateStringToCalendarDate,
   DefaultListFilterValues,
   IsEndDateBeforeStartDate,
+  IsNumberValidInteger,
   MeasurementTypes,
   ValidDistanceUnits,
   ValidWeightUnits,
@@ -795,6 +796,58 @@ export const useListFilters = ({
             }
 
             filterStoreValues.filterWeekdays = weekdaysSet;
+
+            break;
+          }
+          case "min-weight": {
+            const minWeight = value as number;
+
+            const minValue = 0;
+            const doNotAllowMinValue = true;
+
+            if (IsNumberValidInteger(minWeight, minValue, doNotAllowMinValue)) {
+              filterStoreValues.filterMinWeight = minWeight;
+            }
+
+            break;
+          }
+          case "max-weight": {
+            const maxWeight = value as number;
+
+            const minValue = filterStoreValues.filterMinWeight ?? 0;
+            const doNotAllowMinValue = minValue === 0;
+
+            if (IsNumberValidInteger(maxWeight, minValue, doNotAllowMinValue)) {
+              filterStoreValues.filterMaxWeight = maxWeight;
+            }
+
+            break;
+          }
+          case "min-distance": {
+            const minDistance = value as number;
+
+            const minValue = 0;
+            const doNotAllowMinValue = true;
+
+            if (
+              IsNumberValidInteger(minDistance, minValue, doNotAllowMinValue)
+            ) {
+              filterStoreValues.filterMinDistance = minDistance;
+            }
+
+            break;
+          }
+          case "max-distance": {
+            const maxDistance = value as number;
+
+            const minValue = filterStoreValues.filterMinDistance ?? 0;
+            const doNotAllowMinValue = minValue === 0;
+
+            if (
+              IsNumberValidInteger(maxDistance, minValue, doNotAllowMinValue)
+            ) {
+              filterStoreValues.filterMaxDistance = maxDistance;
+            }
 
             break;
           }
