@@ -56,7 +56,9 @@ export const useWorkoutTemplateList = ({
     useExerciseList,
   });
 
-  const { filterMap, filterExercises, filterExerciseGroups } = listFilters;
+  const { filterMap, listFilterValues } = listFilters;
+
+  const { filterExercises, filterExerciseGroups } = listFilterValues;
 
   const filterWorkoutTemplateListModal = useDisclosure();
 
