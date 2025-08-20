@@ -79,35 +79,6 @@ export const FilterTimePeriodListModal = ({
     filterMinAndMaxValueInputsDuration.isFilterInvalid,
   ]);
 
-  useEffect(() => {
-    filterStartDateRange.setFilterMinDate(
-      timePeriodFilterValues.filterMinStartDate
-    );
-    filterStartDateRange.setFilterMaxDate(
-      timePeriodFilterValues.filterMaxStartDate
-    );
-
-    filterEndDateRange.setFilterMinDate(
-      timePeriodFilterValues.filterMinEndDate
-    );
-    filterEndDateRange.setFilterMaxDate(
-      timePeriodFilterValues.filterMaxEndDate
-    );
-
-    filterMinAndMaxValueInputsDuration.setMinInput(
-      ConvertNumberToInputString(timePeriodFilterValues.filterMinDuration)
-    );
-    filterMinAndMaxValueInputsDuration.setMaxInput(
-      ConvertNumberToInputString(timePeriodFilterValues.filterMaxDuration)
-    );
-
-    setFilterHasInjury(timePeriodFilterValues.filterHasInjury);
-    setFilterDietPhaseTypes(timePeriodFilterValues.filterDietPhaseTypes);
-    setFilterStatus(timePeriodFilterValues.filterStatus);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timePeriodFilterValues]);
-
   const showResetFilterButton = useMemo(() => {
     if (filterMap.size > 0) return true;
     if (!filterStartDateRange.areDateFiltersEmpty) return true;
@@ -149,6 +120,35 @@ export const FilterTimePeriodListModal = ({
 
     handleFilterSaveButton(locale, filterValues, filterTimePeriodListModal);
   };
+
+  useEffect(() => {
+    filterStartDateRange.setFilterMinDate(
+      timePeriodFilterValues.filterMinStartDate
+    );
+    filterStartDateRange.setFilterMaxDate(
+      timePeriodFilterValues.filterMaxStartDate
+    );
+
+    filterEndDateRange.setFilterMinDate(
+      timePeriodFilterValues.filterMinEndDate
+    );
+    filterEndDateRange.setFilterMaxDate(
+      timePeriodFilterValues.filterMaxEndDate
+    );
+
+    filterMinAndMaxValueInputsDuration.setMinInput(
+      ConvertNumberToInputString(timePeriodFilterValues.filterMinDuration)
+    );
+    filterMinAndMaxValueInputsDuration.setMaxInput(
+      ConvertNumberToInputString(timePeriodFilterValues.filterMaxDuration)
+    );
+
+    setFilterHasInjury(timePeriodFilterValues.filterHasInjury);
+    setFilterDietPhaseTypes(timePeriodFilterValues.filterDietPhaseTypes);
+    setFilterStatus(timePeriodFilterValues.filterStatus);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timePeriodFilterValues]);
 
   return (
     <Modal

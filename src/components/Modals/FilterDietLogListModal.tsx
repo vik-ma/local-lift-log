@@ -80,52 +80,6 @@ export const FilterDietLogListModal = ({
     filterMinAndMaxValueInputsProtein.isFilterInvalid,
   ]);
 
-  useEffect(() => {
-    setFilterMinDate(dietLogFilterValues.filterMinDate);
-    setFilterMaxDate(dietLogFilterValues.filterMaxDate);
-
-    setFilterWeekdays(dietLogFilterValues.filterWeekdays);
-
-    filterMinAndMaxValueInputsCalories.setMinInput(
-      ConvertNumberToInputString(dietLogFilterValues.filterMinCalories)
-    );
-    filterMinAndMaxValueInputsCalories.setMaxInput(
-      ConvertNumberToInputString(dietLogFilterValues.filterMaxCalories)
-    );
-
-    filterMinAndMaxValueInputsFat.setMinInput(
-      ConvertNumberToInputString(dietLogFilterValues.filterMinFat)
-    );
-    filterMinAndMaxValueInputsFat.setMaxInput(
-      ConvertNumberToInputString(dietLogFilterValues.filterMaxFat)
-    );
-    filterMinAndMaxValueInputsFat.setIncludeNullInMaxValues(
-      dietLogFilterValues.includeNullInMaxValuesFat
-    );
-
-    filterMinAndMaxValueInputsCarbs.setMinInput(
-      ConvertNumberToInputString(dietLogFilterValues.filterMinCarbs)
-    );
-    filterMinAndMaxValueInputsCarbs.setMaxInput(
-      ConvertNumberToInputString(dietLogFilterValues.filterMaxCarbs)
-    );
-    filterMinAndMaxValueInputsCarbs.setIncludeNullInMaxValues(
-      dietLogFilterValues.includeNullInMaxValuesCarbs
-    );
-
-    filterMinAndMaxValueInputsProtein.setMinInput(
-      ConvertNumberToInputString(dietLogFilterValues.filterMinProtein)
-    );
-    filterMinAndMaxValueInputsProtein.setMaxInput(
-      ConvertNumberToInputString(dietLogFilterValues.filterMaxProtein)
-    );
-    filterMinAndMaxValueInputsProtein.setIncludeNullInMaxValues(
-      dietLogFilterValues.includeNullInMaxValuesProtein
-    );
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dietLogFilterValues]);
-
   const showResetFilterButton = useMemo(() => {
     if (filterMap.size > 0) return true;
     if (!areDateRangeAndWeekdaysFiltersEmpty) return true;
@@ -185,6 +139,52 @@ export const FilterDietLogListModal = ({
 
     handleFilterSaveButton(filterValues, filterDietLogListModal);
   };
+
+  useEffect(() => {
+    setFilterMinDate(dietLogFilterValues.filterMinDate);
+    setFilterMaxDate(dietLogFilterValues.filterMaxDate);
+
+    setFilterWeekdays(dietLogFilterValues.filterWeekdays);
+
+    filterMinAndMaxValueInputsCalories.setMinInput(
+      ConvertNumberToInputString(dietLogFilterValues.filterMinCalories)
+    );
+    filterMinAndMaxValueInputsCalories.setMaxInput(
+      ConvertNumberToInputString(dietLogFilterValues.filterMaxCalories)
+    );
+
+    filterMinAndMaxValueInputsFat.setMinInput(
+      ConvertNumberToInputString(dietLogFilterValues.filterMinFat)
+    );
+    filterMinAndMaxValueInputsFat.setMaxInput(
+      ConvertNumberToInputString(dietLogFilterValues.filterMaxFat)
+    );
+    filterMinAndMaxValueInputsFat.setIncludeNullInMaxValues(
+      dietLogFilterValues.includeNullInMaxValuesFat
+    );
+
+    filterMinAndMaxValueInputsCarbs.setMinInput(
+      ConvertNumberToInputString(dietLogFilterValues.filterMinCarbs)
+    );
+    filterMinAndMaxValueInputsCarbs.setMaxInput(
+      ConvertNumberToInputString(dietLogFilterValues.filterMaxCarbs)
+    );
+    filterMinAndMaxValueInputsCarbs.setIncludeNullInMaxValues(
+      dietLogFilterValues.includeNullInMaxValuesCarbs
+    );
+
+    filterMinAndMaxValueInputsProtein.setMinInput(
+      ConvertNumberToInputString(dietLogFilterValues.filterMinProtein)
+    );
+    filterMinAndMaxValueInputsProtein.setMaxInput(
+      ConvertNumberToInputString(dietLogFilterValues.filterMaxProtein)
+    );
+    filterMinAndMaxValueInputsProtein.setIncludeNullInMaxValues(
+      dietLogFilterValues.includeNullInMaxValuesProtein
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dietLogFilterValues]);
 
   return (
     <Modal
