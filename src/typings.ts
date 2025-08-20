@@ -499,6 +499,9 @@ export type UseWorkoutTemplateListReturnType = {
     workoutTemplateList: WorkoutTemplate[]
   ) => void;
   loadWorkoutTemplateList: () => Promise<void>;
+  loadWorkoutTemplatesString: (
+    workoutTemplatesString: string
+  ) => Promise<Set<number>>;
 };
 
 export type PresetsType = "equipment" | "distance";

@@ -310,6 +310,23 @@ export const useWorkoutTemplateList = ({
     workoutTemplateListModal.onOpen();
   };
 
+  const loadWorkoutTemplatesString = async (workoutTemplatesString: string) => {
+    await loadWorkoutTemplateList();
+
+    const workoutTemplateIdSet = new Set<number>();
+
+    const workoutTemplateIds = workoutTemplatesString.split(",");
+
+    for (const workoutTemplateId of workoutTemplateIds) {
+      const id = Number(workoutTemplateId);
+      if (workoutTemplateMap.current.has(id)) {
+        workoutTemplateIdSet.add(id);
+      }
+    }
+
+    return workoutTemplateIdSet;
+  };
+
   return {
     workoutTemplateListModal,
     workoutTemplates,
@@ -328,5 +345,6 @@ export const useWorkoutTemplateList = ({
     getWorkoutTemplates,
     sortWorkoutTemplatesByActiveCategory,
     loadWorkoutTemplateList,
+    loadWorkoutTemplatesString,
   };
 };
