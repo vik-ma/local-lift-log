@@ -367,11 +367,8 @@ export type UseExerciseListReturnType = {
   isExerciseListLoaded: React.RefObject<boolean>;
   exerciseMap: React.RefObject<ExerciseMap>;
   exerciseGroupDictionary: ExerciseGroupMap;
+  loadExercisesString: (exercisesString: string) => Promise<Set<number>>;
   loadExerciseGroupsString: (exerciseGroupsString: string) => string[];
-  loadExercisesString: (
-    exercisesString: string,
-    exerciseSortCategory: ExerciseSortCategory
-  ) => Promise<Set<number>>;
 };
 
 export type UseExerciseListFiltersReturnType = {

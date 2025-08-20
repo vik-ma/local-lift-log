@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import {
   GetExerciseListWithGroupStrings,
   GetExerciseListWithGroupStringsAndTotalSets,
+  GetSortCategoryFromStore,
   UpdateIsFavorite,
   UpdateItemInList,
 } from "../helpers";
@@ -162,11 +163,14 @@ export const useExerciseList = ({
     return exerciseGroupList;
   };
 
-  const loadExercisesString = async (
-    exercisesString: string,
-    exerciseSortCategory: ExerciseSortCategory
-  ) => {
+  const loadExercisesString = async (exercisesString: string) => {
     if (!isExerciseListLoaded.current) {
+      const exerciseSortCategory = await GetSortCategoryFromStore(
+        store,
+        "favorite" as ExerciseSortCategory,
+        "exercises"
+      );
+
       await getExercises(exerciseSortCategory);
     }
 
@@ -198,7 +202,7 @@ export const useExerciseList = ({
     isExerciseListLoaded,
     exerciseMap,
     exerciseGroupDictionary,
-    loadExerciseGroupsString,
     loadExercisesString,
+    loadExerciseGroupsString,
   };
 };
