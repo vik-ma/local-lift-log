@@ -26,6 +26,7 @@ export const DefaultListFilterValues = () => {
     filterWeightRangeUnit: "kg",
     filterDistanceRangeUnit: "km",
     includeNullInMaxValues: false,
+    includeSecondaryExerciseGroups: false,
   };
 
   return DEFAULT_LIST_FILTER_VALUES;

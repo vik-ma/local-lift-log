@@ -1277,6 +1277,7 @@ export type ListFilterValues = {
   filterWeightRangeUnit: string;
   filterDistanceRangeUnit: string;
   includeNullInMaxValues: boolean;
+  includeSecondaryExerciseGroups: boolean;
 };
 
 export type TimePeriodFilterValues = {

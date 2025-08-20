@@ -38,9 +38,10 @@ type UseListFiltersProps = {
 
 type StoreFilterMapKey =
   | ListFilterMapKey
-  | "include-null-in-max-values"
   | "weight-range-unit"
-  | "distance-range-unit";
+  | "distance-range-unit"
+  | "include-null-in-max-values"
+  | "include-secondary-exercise-groups";
 
 type StoreFilterMap = Map<StoreFilterMapKey, string | number | boolean>;
 
@@ -153,6 +154,7 @@ export const useListFilters = ({
       filterWeightRangeUnit,
       filterDistanceRangeUnit,
       includeNullInMaxValues,
+      includeSecondaryExerciseGroups,
     } = filterValues;
 
     if (filterMinDate !== null) {
@@ -362,11 +364,15 @@ export const useListFilters = ({
       storeFilterMap.set("max-bf", filterMaxBodyFatPercentage);
     }
 
-    storeFilterMap.set("include-null-in-max-values", includeNullInMaxValues);
     storeFilterMap.set("weight-range-unit", filterValues.filterWeightRangeUnit);
     storeFilterMap.set(
       "distance-range-unit",
       filterValues.filterDistanceRangeUnit
+    );
+    storeFilterMap.set("include-null-in-max-values", includeNullInMaxValues);
+    storeFilterMap.set(
+      "include-secondary-exercise-groups",
+      includeSecondaryExerciseGroups
     );
 
     setFilterMap(updatedFilterMap);
@@ -979,13 +985,6 @@ export const useListFilters = ({
 
             break;
           }
-          case "include-null-in-max-values": {
-            if (value === true) {
-              filterStoreValues.includeNullInMaxValues = true;
-            }
-
-            break;
-          }
           case "weight-range-unit": {
             const weightUnit = value as string;
 
@@ -1001,6 +1000,20 @@ export const useListFilters = ({
             if (ValidDistanceUnits().includes(distanceUnit)) {
               filterStoreValues.filterDistanceRangeUnit = distanceUnit;
             }
+            break;
+          }
+          case "include-null-in-max-values": {
+            if (value === true) {
+              filterStoreValues.includeNullInMaxValues = true;
+            }
+
+            break;
+          }
+          case "include-secondary-exercise-groups": {
+            if (value === true) {
+              filterStoreValues.includeSecondaryExerciseGroups = true;
+            }
+
             break;
           }
           default:
