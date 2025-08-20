@@ -43,16 +43,11 @@ export const GetExerciseWithId = async (
     exercise.formattedGroupStringPrimary =
       convertedValuesPrimary.formattedString;
 
-    if (exercise.exercise_group_map_string_secondary !== null) {
-      const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
-        exercise.exercise_group_map_string_secondary,
-        exerciseGroupDictionary,
-        convertedValuesPrimary.set
-      );
-      exercise.exerciseGroupStringMapSecondary = convertedValuesSecondary.map;
-      exercise.formattedGroupStringSecondary =
-        convertedValuesSecondary.formattedString;
-    }
+    ConvertExerciseGroupSetStringSecondary(
+      exercise,
+      exerciseGroupDictionary,
+      convertedValuesPrimary.set
+    );
 
     return exercise;
   } catch (error) {

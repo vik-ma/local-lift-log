@@ -1,12 +1,17 @@
 import { IsStringInvalidNumber } from "..";
-import { ExerciseGroupMap } from "../../typings";
+import { Exercise, ExerciseGroupMap } from "../../typings";
 
 export const ConvertExerciseGroupSetStringSecondary = (
-  exerciseGroupMapStringSecondary: string,
+  exercise: Exercise,
   exerciseGroupDictionary: ExerciseGroupMap,
   exerciseGroupSetPrimary: Set<string>
 ) => {
-  const exerciseGroups = exerciseGroupMapStringSecondary.split(",");
+  if (exercise.exercise_group_map_string_secondary === null) {
+    return exercise;
+  }
+
+  const exerciseGroups =
+    exercise.exercise_group_map_string_secondary.split(",");
 
   const exerciseGroupNameList: string[] = [];
   const exerciseGroupMultiplierMap: Map<string, string> = new Map();
@@ -30,7 +35,15 @@ export const ConvertExerciseGroupSetStringSecondary = (
     }
   }
 
+  if (exerciseGroupMultiplierMap.size === 0) {
+    exercise.exercise_group_map_string_secondary = null;
+    return exercise;
+  }
+
   const formattedString: string = [...exerciseGroupNameList].join(", ");
 
-  return { map: exerciseGroupMultiplierMap, formattedString: formattedString };
+  exercise.exerciseGroupStringMapSecondary = exerciseGroupMultiplierMap;
+  exercise.formattedGroupStringSecondary = formattedString;
+
+  return exercise;
 };

@@ -32,18 +32,11 @@ export const UpdateExerciseGroupStrings = async (
     updatedExercise.exercise_group_map_string_secondary =
       exerciseGroupSetString;
 
-    if (exerciseGroupSetString !== null) {
-      const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
-        exerciseGroupSetString,
-        exerciseGroupDictionary,
-        convertedValuesPrimary.set
-      );
-
-      updatedExercise.exerciseGroupStringMapSecondary =
-        convertedValuesSecondary.map;
-      updatedExercise.formattedGroupStringSecondary =
-        convertedValuesSecondary.formattedString;
-    }
+    ConvertExerciseGroupSetStringSecondary(
+      updatedExercise,
+      exerciseGroupDictionary,
+      convertedValuesPrimary.set
+    );
   }
 
   return updatedExercise;
