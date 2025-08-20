@@ -10,6 +10,7 @@ import {
   UseExerciseListReturnType,
   UseListFiltersReturnType,
   WorkoutTemplateMap,
+  ExerciseSortCategory,
 } from "../typings";
 import { useWeekdayMap, useMultisetTypeMap } from ".";
 import {
@@ -17,6 +18,7 @@ import {
   ConvertDateStringToCalendarDate,
   ConvertNumberToTwoDecimals,
   DefaultListFilterValues,
+  GetSortCategoryFromStore,
   IsEndDateBeforeStartDate,
   IsNumberValid,
   IsNumberValidInteger,
@@ -798,6 +800,26 @@ export const useListFilters = ({
             }
 
             filterStoreValues.filterWeekdays = weekdaysSet;
+
+            break;
+          }
+          case "exercises": {
+            const exercisesString = value as string;
+
+            if (useExerciseList !== undefined) {
+              const exerciseSortCategory = await GetSortCategoryFromStore(
+                store,
+                "favorite" as ExerciseSortCategory,
+                "exercises"
+              );
+
+              const exercises = await useExerciseList.loadExercisesString(
+                exercisesString,
+                exerciseSortCategory
+              );
+
+              filterStoreValues.filterExercises = exercises;
+            }
 
             break;
           }
