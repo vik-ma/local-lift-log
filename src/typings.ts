@@ -678,6 +678,7 @@ export type UseRoutineListReturnType = {
   handleOpenFilterButton: () => Promise<void>;
   sortRoutinesByActiveCategory: (routineList: Routine[]) => void;
   loadRoutineList: () => Promise<void>;
+  loadRoutinesString: (routinesString: string) => Promise<Set<number>>;
 };
 
 export type UseMeasurementListReturnType = {

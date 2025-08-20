@@ -6,7 +6,6 @@ import {
   RoutineSortCategory,
   StoreRef,
   UseExerciseListReturnType,
-  UseFilterMinAndMaxValueInputsProps,
   UseRoutineListReturnType,
   UseWorkoutTemplateListReturnType,
   WorkoutTemplateSortCategory,
@@ -40,6 +39,7 @@ export const useRoutineList = ({
   const [routines, setRoutines] = useState<Routine[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] = useState<RoutineSortCategory>("name");
+  
   const routineMap = useRef<RoutineMap>(new Map());
 
   const isRoutineListLoaded = useRef(false);
@@ -55,28 +55,22 @@ export const useRoutineList = ({
     getWorkoutTemplates,
   } = useWorkoutTemplateList;
 
-  const filterMinAndMaxValueInputsProps: UseFilterMinAndMaxValueInputsProps = {
-    minValue: 2,
-    maxValue: 14,
-    isIntegerOnly: true,
-  };
-
   const listFilters = useListFilters({
     store: store,
     filterMapSuffix: "routines",
     useExerciseList: useExerciseList,
     workoutTemplateMap: workoutTemplateMap.current,
-    UseFilterMinAndMaxValueInputsProps: filterMinAndMaxValueInputsProps,
   });
 
+  const { filterMap, listFilterValues } = listFilters;
+
   const {
-    filterMap,
     filterWorkoutTemplates,
     filterScheduleTypes,
     filterMinNumScheduleDays,
     filterMaxNumScheduleDays,
     includeNullInMaxValues,
-  } = listFilters;
+  } = listFilterValues;
 
   const filteredRoutines = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
@@ -332,6 +326,23 @@ export const useRoutineList = ({
     filterRoutineListModal.onOpen();
   };
 
+  const loadRoutinesString = async (routinesString: string) => {
+    await loadRoutineList();
+
+    const routineIdSet = new Set<number>();
+
+    const routineIds = routinesString.split(",");
+
+    for (const routineId of routineIds) {
+      const id = Number(routineId);
+      if (routineMap.current.has(id)) {
+        routineIdSet.add(id);
+      }
+    }
+
+    return routineIdSet;
+  };
+
   return {
     routines,
     setRoutines,
@@ -350,5 +361,6 @@ export const useRoutineList = ({
     handleOpenFilterButton,
     sortRoutinesByActiveCategory,
     loadRoutineList,
+    loadRoutinesString,
   };
 };
