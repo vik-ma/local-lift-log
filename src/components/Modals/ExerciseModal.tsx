@@ -139,15 +139,15 @@ export const ExerciseModal = ({
   const handleExerciseGroupStringSecondaryChange = (
     exerciseGroupStringListSecondary: string[]
   ) => {
+    const updatedExercise = { ...exercise };
+
     if (exerciseGroupStringListSecondary.length === 0) {
       // If no Secondary Exercise Groups are selected
-      setExercise((prev) => ({
-        ...prev,
-        exercise_group_map_string_secondary: null,
-        exerciseGroupStringMapSecondary: undefined,
-        formattedGroupStringSecondary: undefined,
-      }));
+      updatedExercise.exercise_group_map_string_secondary = null;
+      updatedExercise.exerciseGroupStringMapSecondary = undefined;
+      updatedExercise.formattedGroupStringSecondary = undefined;
 
+      setExercise(updatedExercise);
       return;
     }
 
@@ -160,18 +160,16 @@ export const ExerciseModal = ({
       exerciseGroupMapSecondary
     );
 
-    const convertedValuesSecondary = ConvertExerciseGroupSetStringSecondary(
-      exerciseGroupSetString,
+    updatedExercise.exercise_group_map_string_secondary =
+      exerciseGroupSetString;
+
+    ConvertExerciseGroupSetStringSecondary(
+      updatedExercise,
       exerciseGroupDictionary,
       exercise.exerciseGroupStringSetPrimary!
     );
 
-    setExercise((prev) => ({
-      ...prev,
-      exercise_group_map_string_secondary: exerciseGroupSetString,
-      exerciseGroupStringMapSecondary: convertedValuesSecondary.map,
-      formattedGroupStringSecondary: convertedValuesSecondary.formattedString,
-    }));
+    setExercise(updatedExercise);
   };
 
   const handleMultiplierChange = (value: string, key: string) => {
