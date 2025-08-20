@@ -15,7 +15,7 @@ import {
   Exercise,
   ListFilterValues,
 } from "../../typings";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ExerciseGroupCheckboxes, ExerciseModalList } from "..";
 
 type FilterWorkoutTemplateListModalProps = {
@@ -118,6 +118,7 @@ export const FilterWorkoutTemplateListModal = ({
       ...listFilterValues,
       filterExercises: filterExercises,
       filterExerciseGroups: filterExerciseGroups,
+      includeSecondaryExerciseGroups: includeSecondaryGroups,
     };
 
     handleFilterSaveButton(
@@ -126,6 +127,14 @@ export const FilterWorkoutTemplateListModal = ({
       filterWorkoutTemplateListModal
     );
   };
+
+  useEffect(() => {
+    setFilterExercises(listFilterValues.filterExercises);
+    setFilterExerciseGroups(listFilterValues.filterExerciseGroups);
+    setIncludeSecondaryGroups(listFilterValues.includeSecondaryExerciseGroups);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listFilterValues]);
 
   return (
     <Modal
