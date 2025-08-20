@@ -1,6 +1,6 @@
 import {
   ConvertExerciseGroupSetStringPrimary,
-  ConvertExerciseGroupSetStringSecondary,
+  LoadExerciseGroupSetStringSecondary,
   ConvertExerciseGroupStringMapSecondaryToString,
 } from "..";
 import { Exercise, ExerciseGroupMap } from "../../typings";
@@ -32,7 +32,7 @@ export const UpdateExerciseGroupStrings = async (
     updatedExercise.exercise_group_map_string_secondary =
       exerciseGroupSetString;
 
-    ConvertExerciseGroupSetStringSecondary(
+    LoadExerciseGroupSetStringSecondary(
       updatedExercise,
       exerciseGroupDictionary,
       convertedValuesPrimary.set

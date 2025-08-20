@@ -39,7 +39,7 @@ export { DefaultNewExercise } from "./Exercises/DefaultNewExercise";
 export { GetExerciseListWithGroupStringsAndTotalSets } from "./Exercises/GetExerciseListWithGroupStringsAndTotalSets";
 export { GetNumberOfUniqueExercisesInGroupedSets } from "./Exercises/GetNumberOfUniqueExercisesInGroupedSets";
 export { ValidateExerciseGroupSetStringSecondary } from "./Exercises/ValidateExerciseGroupSetStringSecondary";
-export { ConvertExerciseGroupSetStringSecondary } from "./Exercises/ConvertExerciseGroupSetStringSecondary";
+export { LoadExerciseGroupSetStringSecondary } from "./Exercises/LoadExerciseGroupSetStringSecondary";
 export { GenerateNewExerciseGroupSetStringSecondary } from "./Exercises/GenerateNewExerciseGroupSetStringSecondary";
 export { ConvertExerciseGroupStringMapSecondaryToString } from "./Exercises/ConvertExerciseGroupStringMapSecondaryToString";
 export { UpdateExerciseGroupStrings } from "./Exercises/UpdateExerciseGroupStrings";

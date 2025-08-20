@@ -16,7 +16,7 @@ import {
 import {
   ConvertExerciseGroupStringSetPrimaryToString,
   ConvertExerciseGroupSetStringPrimary,
-  ConvertExerciseGroupSetStringSecondary,
+  LoadExerciseGroupSetStringSecondary,
   GenerateNewExerciseGroupSetStringSecondary,
   ConvertEmptyStringToNull,
   UpdateExerciseGroupStrings,
@@ -163,7 +163,7 @@ export const ExerciseModal = ({
     updatedExercise.exercise_group_map_string_secondary =
       exerciseGroupSetString;
 
-    ConvertExerciseGroupSetStringSecondary(
+    LoadExerciseGroupSetStringSecondary(
       updatedExercise,
       exerciseGroupDictionary,
       exercise.exerciseGroupStringSetPrimary!

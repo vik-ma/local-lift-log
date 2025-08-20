@@ -2,7 +2,7 @@ import Database from "@tauri-apps/plugin-sql";
 import { Exercise, ExerciseGroupMap } from "../../typings";
 import {
   ConvertExerciseGroupSetStringPrimary,
-  ConvertExerciseGroupSetStringSecondary,
+  LoadExerciseGroupSetStringSecondary,
 } from "..";
 
 export const GetExerciseWithId = async (
@@ -43,7 +43,7 @@ export const GetExerciseWithId = async (
     exercise.formattedGroupStringPrimary =
       convertedValuesPrimary.formattedString;
 
-    ConvertExerciseGroupSetStringSecondary(
+    LoadExerciseGroupSetStringSecondary(
       exercise,
       exerciseGroupDictionary,
       convertedValuesPrimary.set

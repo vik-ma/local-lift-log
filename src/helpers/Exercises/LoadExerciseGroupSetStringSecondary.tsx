@@ -1,7 +1,7 @@
 import { IsStringInvalidNumber } from "..";
 import { Exercise, ExerciseGroupMap } from "../../typings";
 
-export const ConvertExerciseGroupSetStringSecondary = (
+export const LoadExerciseGroupSetStringSecondary = (
   exercise: Exercise,
   exerciseGroupDictionary: ExerciseGroupMap,
   exerciseGroupSetPrimary: Set<string>
