@@ -162,6 +162,28 @@ export const useExerciseList = ({
     return exerciseGroupList;
   };
 
+  const loadExercisesString = async (
+    exercisesString: string,
+    exerciseSortCategory: ExerciseSortCategory
+  ) => {
+    if (!isExerciseListLoaded.current) {
+      await getExercises(exerciseSortCategory);
+    }
+
+    const exerciseIdSet = new Set<number>();
+
+    const exerciseIds = exercisesString.split(",");
+
+    for (const exerciseId of exerciseIds) {
+      const id = Number(exerciseId);
+      if (exerciseMap.current.has(id)) {
+        exerciseIdSet.add(id);
+      }
+    }
+
+    return exerciseIdSet;
+  };
+
   return {
     exercises,
     setExercises,
@@ -177,5 +199,6 @@ export const useExerciseList = ({
     exerciseMap,
     exerciseGroupDictionary,
     loadExerciseGroupsString,
+    loadExercisesString,
   };
 };
