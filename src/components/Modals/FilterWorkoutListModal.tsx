@@ -13,6 +13,9 @@ import {
   UserSettings,
   UseWorkoutListReturnType,
   UseWorkoutTemplateListReturnType,
+  Routine,
+  Exercise,
+  WorkoutTemplate,
 } from "../../typings";
 import { useMemo, useState } from "react";
 import {
@@ -22,6 +25,8 @@ import {
   FilterDateRangeAndWeekdays,
   WorkoutTemplateModalList,
 } from "..";
+import { HandleFilterListObjectClick } from "../../helpers";
+import { useFilterDateRangeAndWeekdays } from "../../hooks";
 
 type FilterWorkoutListModalProps = {
   useWorkoutList: UseWorkoutListReturnType;
@@ -50,29 +55,28 @@ export const FilterWorkoutListModal = ({
   setUserSettings,
 }: FilterWorkoutListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
+  const [filterRoutines, setFilterRoutines] = useState<Set<number>>(new Set());
+  const [filterExercises, setFilterExercises] = useState<Set<number>>(
+    new Set()
+  );
+  const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
+    []
+  );
+  const [filterWorkoutTemplates, setFilterWorkoutTemplates] = useState<
+    Set<number>
+  >(new Set());
 
   const { filterWorkoutListModal, routineList, listFilters } = useWorkoutList;
 
   const {
     handleFilterSaveButton,
     resetFilter,
-    showResetFilterButton,
-    filterRoutines,
-    setFilterRoutines,
-    filterExercises,
-    setFilterExercises,
-    filterExerciseGroups,
-    setFilterExerciseGroups,
     getFilterRoutinesString,
     getFilterExercisesString,
     getFilterExerciseGroupsString,
     getFilterWorkoutTemplatesString,
-    handleClickRoutine,
-    handleClickExercise,
-    filterWorkoutTemplates,
-    setFilterWorkoutTemplates,
-    handleClickWorkoutTemplate,
-    isMaxDateBeforeMinDate,
+    filterMap,
+    weekdayMap,
   } = listFilters;
 
   const {
@@ -80,6 +84,15 @@ export const FilterWorkoutListModal = ({
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
   } = useExerciseList;
+
+  const filterDateRangeAndWeekdays = useFilterDateRangeAndWeekdays();
+
+  const {
+    filterDateRange,
+    filterWeekdays,
+    setFilterWeekdays,
+    areDateRangeAndWeekdaysFiltersEmpty,
+  } = filterDateRangeAndWeekdays;
 
   const showClearAllButton = useMemo(() => {
     if (modalPage === "routine-list" && filterRoutines.size > 0) {
@@ -128,6 +141,24 @@ export const FilterWorkoutListModal = ({
     }
   };
 
+  const showResetFilterButton = useMemo(() => {
+    if (filterMap.size > 0) return true;
+    if (!areDateRangeAndWeekdaysFiltersEmpty) return true;
+    if (filterRoutines.size > 0) return true;
+    if (filterExercises.size > 0) return true;
+    if (filterExerciseGroups.length > 0) return true;
+    if (filterWorkoutTemplates.size > 0) return true;
+
+    return false;
+  }, [
+    filterMap,
+    areDateRangeAndWeekdaysFiltersEmpty,
+    filterRoutines,
+    filterExercises,
+    filterExerciseGroups,
+    filterWorkoutTemplates,
+  ]);
+
   const filterRoutinesString = useMemo(() => {
     return getFilterRoutinesString(filterRoutines);
   }, [getFilterRoutinesString, filterRoutines]);
@@ -143,6 +174,22 @@ export const FilterWorkoutListModal = ({
   const filterWorkoutTemplatesString = useMemo(() => {
     return getFilterWorkoutTemplatesString(filterWorkoutTemplates);
   }, [getFilterWorkoutTemplatesString, filterWorkoutTemplates]);
+
+  const handleClickRoutine = (routine: Routine) => {
+    HandleFilterListObjectClick(routine, filterRoutines, setFilterRoutines);
+  };
+
+  const handleClickExercise = (exercise: Exercise) => {
+    HandleFilterListObjectClick(exercise, filterExercises, setFilterExercises);
+  };
+
+  const handleClickWorkoutTemplate = (workoutTemplate: WorkoutTemplate) => {
+    HandleFilterListObjectClick(
+      workoutTemplate,
+      filterWorkoutTemplates,
+      setFilterWorkoutTemplates
+    );
+  };
 
   return (
     <Modal
@@ -202,8 +249,9 @@ export const FilterWorkoutListModal = ({
                 <ScrollShadow className="h-[400px]">
                   <div className="flex flex-col gap-3.5 w-[24rem]">
                     <FilterDateRangeAndWeekdays
-                      useListFilters={listFilters}
+                      useFilterDateRangeAndWeekdays={filterDateRangeAndWeekdays}
                       locale={userSettings.locale}
+                      weekdayMap={weekdayMap}
                     />
                     <div className="flex flex-col gap-2.5">
                       <div className="flex flex-col">
