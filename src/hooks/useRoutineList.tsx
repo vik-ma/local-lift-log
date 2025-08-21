@@ -39,7 +39,7 @@ export const useRoutineList = ({
   const [routines, setRoutines] = useState<Routine[]>([]);
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] = useState<RoutineSortCategory>("name");
-  
+
   const routineMap = useRef<RoutineMap>(new Map());
 
   const isRoutineListLoaded = useRef(false);
@@ -59,7 +59,7 @@ export const useRoutineList = ({
     store: store,
     filterMapSuffix: "routines",
     useExerciseList: useExerciseList,
-    workoutTemplateMap: workoutTemplateMap.current,
+    useWorkoutTemplateList: useWorkoutTemplateList,
   });
 
   const { filterMap, listFilterValues } = listFilters;

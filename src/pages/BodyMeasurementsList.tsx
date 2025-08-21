@@ -112,8 +112,7 @@ export default function BodyMeasurementsList() {
   const listFilters = useListFilters({
     store: store,
     filterMapSuffix: "body-measurements",
-    measurementMap: measurementMap.current,
-    filterMinAndMaxValueInputsSecondary: filterMinAndMaxValueInputsBodyFat,
+    useMeasurementList: measurementList,
   });
 
   const { nameInputModal, handleReassignMeasurement, reassignMeasurement } =

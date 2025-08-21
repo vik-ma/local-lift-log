@@ -71,8 +71,8 @@ export const useWorkoutList = ({
     store: store,
     filterMapSuffix: "workouts",
     useExerciseList,
-    routineMap: routineMap.current,
-    workoutTemplateMap: workoutTemplateMap.current,
+    useRoutineList: routineList,
+    useWorkoutTemplateList: workoutTemplateList,
   });
 
   const {
