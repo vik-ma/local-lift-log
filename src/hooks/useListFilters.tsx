@@ -818,6 +818,19 @@ export const useListFilters = ({
 
             break;
           }
+          case "routines": {
+            const routinesString = value as string;
+
+            if (useRoutineList !== undefined) {
+              const routines = await useRoutineList.loadRoutinesString(
+                routinesString
+              );
+
+              filterStoreValues.filterRoutines = routines;
+            }
+
+            break;
+          }
           case "exercises": {
             const exercisesString = value as string;
 
@@ -904,6 +917,20 @@ export const useListFilters = ({
 
             // RETURN, NOT BREAK
             return;
+          }
+          case "workout-templates": {
+            const workoutTemplatesString = value as string;
+
+            if (useWorkoutTemplateList !== undefined) {
+              const workoutTemplates =
+                await useWorkoutTemplateList.loadWorkoutTemplatesString(
+                  workoutTemplatesString
+                );
+
+              filterStoreValues.filterWorkoutTemplates = workoutTemplates;
+            }
+
+            break;
           }
           case "min-num-schedule-days": {
             const minNumScheduleDays = value as number;
