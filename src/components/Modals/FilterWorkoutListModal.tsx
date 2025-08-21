@@ -16,6 +16,7 @@ import {
   Routine,
   Exercise,
   WorkoutTemplate,
+  ListFilterValues,
 } from "../../typings";
 import { useMemo, useState } from "react";
 import {
@@ -77,6 +78,7 @@ export const FilterWorkoutListModal = ({
     getFilterWorkoutTemplatesString,
     filterMap,
     weekdayMap,
+    listFilterValues,
   } = listFilters;
 
   const {
@@ -93,6 +95,14 @@ export const FilterWorkoutListModal = ({
     setFilterWeekdays,
     areDateRangeAndWeekdaysFiltersEmpty,
   } = filterDateRangeAndWeekdays;
+
+  const {
+    filterMinDate,
+    setFilterMinDate,
+    filterMaxDate,
+    setFilterMaxDate,
+    isMaxDateBeforeMinDate,
+  } = filterDateRange;
 
   const showClearAllButton = useMemo(() => {
     if (modalPage === "routine-list" && filterRoutines.size > 0) {
@@ -141,6 +151,10 @@ export const FilterWorkoutListModal = ({
     }
   };
 
+  const isFilterButtonDisabled = useMemo(() => {
+    return modalPage === "base" && isMaxDateBeforeMinDate;
+  }, [modalPage, isMaxDateBeforeMinDate]);
+
   const showResetFilterButton = useMemo(() => {
     if (filterMap.size > 0) return true;
     if (!areDateRangeAndWeekdaysFiltersEmpty) return true;
@@ -188,6 +202,27 @@ export const FilterWorkoutListModal = ({
       workoutTemplate,
       filterWorkoutTemplates,
       setFilterWorkoutTemplates
+    );
+  };
+
+  const handleSaveButton = () => {
+    if (isFilterButtonDisabled) return;
+
+    const filterValues: ListFilterValues = {
+      ...listFilterValues,
+      filterMinDate: filterMinDate,
+      filterMaxDate: filterMaxDate,
+      filterWeekdays: filterWeekdays,
+      filterRoutines: filterRoutines,
+      filterExercises: filterExercises,
+      filterExerciseGroups: filterExerciseGroups,
+      includeSecondaryExerciseGroups: includeSecondaryGroups,
+    };
+
+    handleFilterSaveButton(
+      userSettings.locale,
+      filterValues,
+      filterWorkoutListModal
     );
   };
 
@@ -409,14 +444,10 @@ export const FilterWorkoutListModal = ({
                   color="primary"
                   onPress={
                     modalPage === "base"
-                      ? () =>
-                          handleFilterSaveButton(
-                            userSettings.locale,
-                            filterWorkoutListModal
-                          )
+                      ? handleSaveButton
                       : () => setModalPage("base")
                   }
-                  isDisabled={modalPage === "base" && isMaxDateBeforeMinDate}
+                  isDisabled={isFilterButtonDisabled}
                 >
                   {modalPage === "base" ? "Filter" : "Done"}
                 </Button>
