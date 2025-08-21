@@ -18,7 +18,7 @@ import {
   WorkoutTemplate,
   ListFilterValues,
 } from "../../typings";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   RoutineModalList,
   ExerciseModalList,
@@ -216,6 +216,7 @@ export const FilterWorkoutListModal = ({
       filterRoutines: filterRoutines,
       filterExercises: filterExercises,
       filterExerciseGroups: filterExerciseGroups,
+      filterWorkoutTemplates: filterWorkoutTemplates,
       includeSecondaryExerciseGroups: includeSecondaryGroups,
     };
 
@@ -225,6 +226,19 @@ export const FilterWorkoutListModal = ({
       filterWorkoutListModal
     );
   };
+
+  useEffect(() => {
+    setFilterMinDate(listFilterValues.filterMinDate);
+    setFilterMaxDate(listFilterValues.filterMaxDate);
+    setFilterWeekdays(listFilterValues.filterWeekdays);
+    setFilterRoutines(listFilterValues.filterRoutines);
+    setFilterExercises(listFilterValues.filterExercises);
+    setFilterExerciseGroups(listFilterValues.filterExerciseGroups);
+    setFilterWorkoutTemplates(listFilterValues.filterWorkoutTemplates);
+    setIncludeSecondaryGroups(listFilterValues.includeSecondaryExerciseGroups);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listFilterValues]);
 
   return (
     <Modal
