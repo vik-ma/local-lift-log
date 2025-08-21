@@ -76,14 +76,6 @@ export const FilterWorkoutTemplateListModal = ({
     return false;
   }, [filterExercises, filterExerciseGroups, modalPage]);
 
-  const showResetFilterButton = useMemo(() => {
-    if (filterMap.size > 0) return true;
-    if (filterExercises.size > 0) return true;
-    if (filterExerciseGroups.length > 0) return true;
-
-    return false;
-  }, [filterMap, filterExercises, filterExerciseGroups]);
-
   const handleClearAllButton = () => {
     if (modalPage === "exercise-list") {
       setFilterExercises(new Set());
@@ -93,6 +85,14 @@ export const FilterWorkoutTemplateListModal = ({
       setFilterExerciseGroups([]);
     }
   };
+
+  const showResetFilterButton = useMemo(() => {
+    if (filterMap.size > 0) return true;
+    if (filterExercises.size > 0) return true;
+    if (filterExerciseGroups.length > 0) return true;
+
+    return false;
+  }, [filterMap, filterExercises, filterExerciseGroups]);
 
   const filterExercisesString = useMemo(() => {
     return getFilterExercisesString(filterExercises);

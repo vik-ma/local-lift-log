@@ -75,16 +75,17 @@ export const useWorkoutList = ({
     useWorkoutTemplateList: workoutTemplateList,
   });
 
+  const { filterMap, listFilterValues } = listFilters;
+
   const {
     filterMinDate,
     filterMaxDate,
-    filterMap,
     filterWeekdays,
     filterRoutines,
     filterExercises,
     filterExerciseGroups,
     filterWorkoutTemplates,
-  } = listFilters;
+  } = listFilterValues;
 
   const isWorkoutListLoaded = useRef(false);
   const workoutListHasEmptyWorkouts = useRef(false);
