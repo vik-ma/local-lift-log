@@ -307,7 +307,18 @@ export const useTimePeriodListFilters = ({
               value as string
             );
 
-            if (minStartDate !== null) {
+            if (minStartDate === null) break;
+
+            let isMaxDateBeforeMinDate = false;
+
+            if (filterStoreValues.filterMaxStartDate) {
+              isMaxDateBeforeMinDate = IsEndDateBeforeStartDate(
+                minStartDate,
+                filterStoreValues.filterMaxStartDate
+              );
+            }
+
+            if (!isMaxDateBeforeMinDate) {
               filterStoreValues.filterMinStartDate = minStartDate;
             }
 
@@ -336,7 +347,18 @@ export const useTimePeriodListFilters = ({
           case "min-date-end": {
             const minEndDate = ConvertDateStringToCalendarDate(value as string);
 
-            if (minEndDate !== null) {
+            if (minEndDate === null) break;
+
+            let isMaxDateBeforeMinDate = false;
+
+            if (filterStoreValues.filterMaxEndDate) {
+              isMaxDateBeforeMinDate = IsEndDateBeforeStartDate(
+                minEndDate,
+                filterStoreValues.filterMaxEndDate
+              );
+            }
+
+            if (!isMaxDateBeforeMinDate) {
               filterStoreValues.filterMinEndDate = minEndDate;
             }
 

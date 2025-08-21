@@ -750,7 +750,18 @@ export const useListFilters = ({
           case "min-date": {
             const minDate = ConvertDateStringToCalendarDate(value as string);
 
-            if (minDate !== null) {
+            if (minDate === null) break;
+
+            let isMaxDateBeforeMinDate = false;
+
+            if (filterStoreValues.filterMaxDate) {
+              isMaxDateBeforeMinDate = IsEndDateBeforeStartDate(
+                minDate,
+                filterStoreValues.filterMaxDate
+              );
+            }
+
+            if (!isMaxDateBeforeMinDate) {
               filterStoreValues.filterMinDate = minDate;
             }
 
