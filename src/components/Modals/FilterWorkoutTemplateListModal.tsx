@@ -17,6 +17,7 @@ import {
 } from "../../typings";
 import { useEffect, useMemo, useState } from "react";
 import { ExerciseGroupCheckboxes, ExerciseModalList } from "..";
+import { HandleFilterListObjectClick } from "../../helpers";
 
 type FilterWorkoutTemplateListModalProps = {
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
@@ -102,15 +103,7 @@ export const FilterWorkoutTemplateListModal = ({
   }, [getFilterExerciseGroupsString, filterExerciseGroups]);
 
   const handleClickExercise = (exercise: Exercise) => {
-    const updatedExerciseSet = new Set(filterExercises);
-
-    if (updatedExerciseSet.has(exercise.id)) {
-      updatedExerciseSet.delete(exercise.id);
-    } else {
-      updatedExerciseSet.add(exercise.id);
-    }
-
-    setFilterExercises(updatedExerciseSet);
+    HandleFilterListObjectClick(exercise, filterExercises, setFilterExercises);
   };
 
   const handleSaveButton = () => {
