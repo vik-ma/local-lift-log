@@ -14,6 +14,7 @@ import {
 import { useWeekdayMap, useMultisetTypeMap } from ".";
 import {
   ConvertCalendarDateToLocalizedString,
+  ConvertCalendarDateToYmdString,
   ConvertDateStringToCalendarDate,
   ConvertNumberToTwoDecimals,
   DefaultListFilterValues,
@@ -162,7 +163,11 @@ export const useListFilters = ({
       );
 
       updatedFilterMap.set("min-date", filterMinDateString);
-      storeFilterMap.set("min-date", filterMinDateString);
+
+      const filterValueMinDateString =
+        ConvertCalendarDateToYmdString(filterMinDate);
+
+      storeFilterMap.set("min-date", filterValueMinDateString as string);
     }
 
     if (filterMaxDate !== null) {
@@ -172,7 +177,11 @@ export const useListFilters = ({
       );
 
       updatedFilterMap.set("max-date", filterMaxDateString);
-      storeFilterMap.set("max-date", filterMaxDateString);
+
+      const filterValueMaxDateString =
+        ConvertCalendarDateToYmdString(filterMaxDate);
+
+      storeFilterMap.set("max-date", filterValueMaxDateString as string);
     }
 
     if (filterWeekdays.size > 0) {
@@ -674,30 +683,6 @@ export const useListFilters = ({
     return workoutTemplateNames.join(", ");
   };
 
-  // const handleClickRoutine = (routine: Routine) => {
-  //   const updatedRoutineSet = new Set(filterRoutines);
-
-  //   if (updatedRoutineSet.has(routine.id)) {
-  //     updatedRoutineSet.delete(routine.id);
-  //   } else {
-  //     updatedRoutineSet.add(routine.id);
-  //   }
-
-  //   setFilterRoutines(updatedRoutineSet);
-  // };
-
-  // const handleClickExercise = (exercise: Exercise) => {
-  //   const updatedExerciseSet = new Set(filterExercises);
-
-  //   if (updatedExerciseSet.has(exercise.id)) {
-  //     updatedExerciseSet.delete(exercise.id);
-  //   } else {
-  //     updatedExerciseSet.add(exercise.id);
-  //   }
-
-  //   setFilterExercises(updatedExerciseSet);
-  // };
-
   // const handleClickMeasurement = (measurement: Measurement) => {
   //   const updatedMeasurementSet = new Set(filterMeasurements);
 
@@ -708,18 +693,6 @@ export const useListFilters = ({
   //   }
 
   //   setFilterMeasurements(updatedMeasurementSet);
-  // };
-
-  // const handleClickWorkoutTemplate = (workoutTemplate: WorkoutTemplate) => {
-  //   const updatedWorkoutTemplateSet = new Set(filterWorkoutTemplates);
-
-  //   if (updatedWorkoutTemplateSet.has(workoutTemplate.id)) {
-  //     updatedWorkoutTemplateSet.delete(workoutTemplate.id);
-  //   } else {
-  //     updatedWorkoutTemplateSet.add(workoutTemplate.id);
-  //   }
-
-  //   setFilterWorkoutTemplates(updatedWorkoutTemplateSet);
   // };
 
   const saveFilterMapToStore = async (storeFilterMap: StoreFilterMap) => {
