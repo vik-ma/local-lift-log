@@ -8,6 +8,7 @@ import {
   UseDisclosureReturnType,
 } from "../typings";
 import {
+  ConvertCalendarDateToLocalizedString,
   ConvertCalendarDateToYmdString,
   ConvertDateStringToCalendarDate,
   DefaultDietLogFilterValues,
@@ -71,21 +72,31 @@ export const useDietLogListFilters = ({
     } = filterValues;
 
     if (filterMinDate !== null) {
-      const filterMinDateString = ConvertCalendarDateToYmdString(filterMinDate);
+      const filterMinDateString = ConvertCalendarDateToLocalizedString(
+        filterMinDate,
+        locale
+      );
 
-      if (filterMinDateString !== null) {
-        updatedFilterMap.set("min-date", filterMinDateString);
-        storeFilterMap.set("min-date", filterMinDateString);
-      }
+      updatedFilterMap.set("min-date", filterMinDateString);
+
+      const filterMinDateStoreString =
+        ConvertCalendarDateToYmdString(filterMinDate);
+
+      storeFilterMap.set("min-date", filterMinDateStoreString as string);
     }
 
     if (filterMaxDate !== null) {
-      const filterMaxDateString = ConvertCalendarDateToYmdString(filterMaxDate);
+      const filterMaxDateString = ConvertCalendarDateToLocalizedString(
+        filterMaxDate,
+        locale
+      );
 
-      if (filterMaxDateString !== null) {
-        updatedFilterMap.set("max-date", filterMaxDateString);
-        storeFilterMap.set("max-date", filterMaxDateString);
-      }
+      updatedFilterMap.set("max-date", filterMaxDateString);
+
+      const filterMaxDateStoreString =
+        ConvertCalendarDateToYmdString(filterMaxDate);
+
+      storeFilterMap.set("max-date", filterMaxDateStoreString as string);
     }
 
     if (filterWeekdays.size > 0) {

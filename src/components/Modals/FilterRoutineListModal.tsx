@@ -72,9 +72,9 @@ export const FilterRoutineListModal = ({
     }
   };
 
-  const filterWorkoutTemplatesString = useMemo(() => {
-    return getFilterWorkoutTemplatesString(filterWorkoutTemplates);
-  }, [getFilterWorkoutTemplatesString, filterWorkoutTemplates]);
+  // const filterWorkoutTemplatesString = useMemo(() => {
+  //   return getFilterWorkoutTemplatesString(filterWorkoutTemplates);
+  // }, [getFilterWorkoutTemplatesString, filterWorkoutTemplates]);
 
   return (
     <Modal
@@ -142,7 +142,7 @@ export const FilterRoutineListModal = ({
                           (2 – 14)
                         </span>
                       </h3>
-                      <FilterMinAndMaxValues
+                      {/* <FilterMinAndMaxValues
                         setFilterMinValue={setFilterMinNumScheduleDays}
                         setFilterMaxValue={setFilterMaxNumScheduleDays}
                         label="Days"
@@ -155,7 +155,7 @@ export const FilterRoutineListModal = ({
                         customIncludeNullCheckboxLabel={
                           "Include routines with no set days (Max only)"
                         }
-                      />
+                      /> */}
                     </div>
                     <div className="flex flex-col gap-2">
                       <div className="flex flex-col">
@@ -225,7 +225,7 @@ export const FilterRoutineListModal = ({
                 >
                   {modalPage === "base" ? "Close" : "Back"}
                 </Button>
-                <Button
+                {/* <Button
                   color="primary"
                   onPress={
                     modalPage === "base"
@@ -242,7 +242,7 @@ export const FilterRoutineListModal = ({
                   }
                 >
                   {modalPage === "base" ? "Filter" : "Done"}
-                </Button>
+                </Button> */}
               </div>
             </ModalFooter>
           </>
