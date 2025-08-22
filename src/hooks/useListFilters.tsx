@@ -939,6 +939,26 @@ export const useListFilters = ({
 
             break;
           }
+          case "schedule-types": {
+            const scheduleTypesString = value as string;
+
+            const scheduleTypes = scheduleTypesString.split(",");
+
+            const scheduleTypesSet = new Set<string>();
+
+            for (const scheduleType of scheduleTypes) {
+              const scheduleTypeNum = Number(scheduleType);
+
+              if (scheduleTypeMap.has(scheduleTypeNum)) {
+                const type = scheduleTypeMap.get(scheduleTypeNum);
+                scheduleTypesSet.add(type!);
+              }
+            }
+
+            filterStoreValues.filterScheduleTypes = scheduleTypesSet;
+
+            break;
+          }
           case "min-num-schedule-days": {
             const minNumScheduleDays = value as number;
 

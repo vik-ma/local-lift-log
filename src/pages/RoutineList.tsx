@@ -8,7 +8,7 @@ import {
 } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { Routine, UserSettings } from "../typings";
+import { ListFilterMapKey, Routine, UserSettings } from "../typings";
 import toast from "react-hot-toast";
 import Database from "@tauri-apps/plugin-sql";
 import {
@@ -99,7 +99,7 @@ export default function RoutineList() {
     loadRoutineList,
   } = routineList;
 
-  const { filterMap } = listFilters;
+  const { filterMap, loadFilterMapFromStore } = listFilters;
 
   useEffect(() => {
     const loadPage = async () => {
@@ -110,6 +110,15 @@ export default function RoutineList() {
       setUserSettings(userSettings);
 
       await LoadStore(store);
+
+      const validFilterKeys = new Set<ListFilterMapKey>([
+        "workout-templates",
+        "schedule-types",
+        "min-num-schedule-days",
+        "max-num-schedule-days",
+      ]);
+
+      await loadFilterMapFromStore(userSettings.locale, validFilterKeys);
 
       await loadRoutineList();
     };
