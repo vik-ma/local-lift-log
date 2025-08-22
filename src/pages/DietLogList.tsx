@@ -82,7 +82,7 @@ export default function DietLogList() {
 
       await LoadStore(store);
 
-      await loadDietLogFilterMapFromStore();
+      await loadDietLogFilterMapFromStore(userSettings.locale);
 
       const sortCategory = await GetSortCategoryFromStore(
         store,

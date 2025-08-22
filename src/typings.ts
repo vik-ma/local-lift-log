@@ -906,12 +906,13 @@ export type UseDietLogListReturnType = {
   latestDietLog: DietLog;
   setLatestDietLog: React.Dispatch<React.SetStateAction<DietLog>>;
   defaultDietLog: DietLog;
-  loadDietLogFilterMapFromStore: () => Promise<void>;
+  loadDietLogFilterMapFromStore: (locale: string) => Promise<void>;
 };
 
 export type UseDietLogListFiltersReturnType = {
   filterMap: Map<DietLogListFilterMapKey, string>;
   handleFilterSaveButton: (
+    locale: string,
     filterValues: DietLogFilterValues,
     activeModal?: UseDisclosureReturnType
   ) => void;
@@ -919,7 +920,7 @@ export type UseDietLogListFiltersReturnType = {
   resetFilter: () => void;
   prefixMap: Map<DietLogListFilterMapKey, string>;
   weekdayMap: Map<string, string>;
-  loadDietLogFilterMapFromStore: () => Promise<void>;
+  loadDietLogFilterMapFromStore: (locale: string) => Promise<void>;
   dietLogFilterValues: DietLogFilterValues;
 };
 

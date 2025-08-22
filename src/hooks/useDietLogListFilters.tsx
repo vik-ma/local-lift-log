@@ -46,6 +46,7 @@ export const useDietLogListFilters = ({
   const storeFilters = useRef<DietLogStoreFilterMap>(new Map());
 
   const handleFilterSaveButton = (
+    locale: string,
     filterValues: DietLogFilterValues,
     activeModal?: UseDisclosureReturnType
   ) => {
@@ -279,7 +280,7 @@ export const useDietLogListFilters = ({
     storeFilters.current = storeFilterMap;
   };
 
-  const loadDietLogFilterMapFromStore = async () => {
+  const loadDietLogFilterMapFromStore = async (locale: string) => {
     if (store.current === null) return;
 
     const val = await store.current.get<{ value: string }>(
@@ -293,7 +294,7 @@ export const useDietLogListFilters = ({
         JSON.parse(val.value);
 
       if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
-        handleFilterSaveButton(defaultDietLogFilterValues);
+        handleFilterSaveButton(locale, defaultDietLogFilterValues);
         return;
       }
 
@@ -498,9 +499,9 @@ export const useDietLogListFilters = ({
         }
       }
 
-      handleFilterSaveButton(filterStoreValues, undefined);
+      handleFilterSaveButton(locale, filterStoreValues, undefined);
     } catch {
-      handleFilterSaveButton(defaultDietLogFilterValues);
+      handleFilterSaveButton(locale, defaultDietLogFilterValues);
     }
   };
 

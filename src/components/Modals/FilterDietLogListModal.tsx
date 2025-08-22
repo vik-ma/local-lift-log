@@ -137,7 +137,11 @@ export const FilterDietLogListModal = ({
         filterMinAndMaxValueInputsProtein.includeNullInMaxValues,
     };
 
-    handleFilterSaveButton(filterValues, filterDietLogListModal);
+    handleFilterSaveButton(
+      userSettings.locale,
+      filterValues,
+      filterDietLogListModal
+    );
   };
 
   useEffect(() => {
