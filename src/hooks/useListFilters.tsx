@@ -164,10 +164,10 @@ export const useListFilters = ({
 
       updatedFilterMap.set("min-date", filterMinDateString);
 
-      const filterValueMinDateString =
+      const filterMinDateStoreString =
         ConvertCalendarDateToYmdString(filterMinDate);
 
-      storeFilterMap.set("min-date", filterValueMinDateString as string);
+      storeFilterMap.set("min-date", filterMinDateStoreString as string);
     }
 
     if (filterMaxDate !== null) {
@@ -178,10 +178,10 @@ export const useListFilters = ({
 
       updatedFilterMap.set("max-date", filterMaxDateString);
 
-      const filterValueMaxDateString =
+      const filterMaxDateStoreString =
         ConvertCalendarDateToYmdString(filterMaxDate);
 
-      storeFilterMap.set("max-date", filterValueMaxDateString as string);
+      storeFilterMap.set("max-date", filterMaxDateStoreString as string);
     }
 
     if (filterWeekdays.size > 0) {
@@ -201,9 +201,9 @@ export const useListFilters = ({
     if (filterRoutines.size > 0) {
       updatedFilterMap.set("routines", getFilterRoutinesString(filterRoutines));
 
-      const filterRoutineIdsString = Array.from(filterRoutines).join(",");
+      const filterRoutinesStoreString = Array.from(filterRoutines).join(",");
 
-      storeFilterMap.set("routines", filterRoutineIdsString);
+      storeFilterMap.set("routines", filterRoutinesStoreString);
     }
 
     if (filterExercises.size > 0 && useExerciseList !== undefined) {
@@ -212,9 +212,9 @@ export const useListFilters = ({
         getFilterExercisesString(filterExercises)
       );
 
-      const filterExerciseIdsString = Array.from(filterExercises).join(",");
+      const filterExercisesStoreString = Array.from(filterExercises).join(",");
 
-      storeFilterMap.set("exercises", filterExerciseIdsString);
+      storeFilterMap.set("exercises", filterExercisesStoreString);
     }
 
     if (filterExerciseGroups.length > 0) {
@@ -223,9 +223,9 @@ export const useListFilters = ({
         getFilterExerciseGroupsString(filterExerciseGroups)
       );
 
-      const filterExerciseGroupKeysString = filterExerciseGroups.join(",");
+      const filterExerciseGroupsStoreString = filterExerciseGroups.join(",");
 
-      storeFilterMap.set("exercise-groups", filterExerciseGroupKeysString);
+      storeFilterMap.set("exercise-groups", filterExerciseGroupsStoreString);
     }
 
     if (filterMinWeight !== null) {
@@ -262,10 +262,10 @@ export const useListFilters = ({
         getFilterMeasurementsString(filterMeasurements)
       );
 
-      const filterMeasurementIdsString =
+      const filterMeasurementsStoreString =
         Array.from(filterMeasurements).join(",");
 
-      storeFilterMap.set("measurements", filterMeasurementIdsString);
+      storeFilterMap.set("measurements", filterMeasurementsStoreString);
     }
 
     if (filterWorkoutTemplates.size > 0) {
@@ -274,11 +274,14 @@ export const useListFilters = ({
         getFilterWorkoutTemplatesString(filterWorkoutTemplates)
       );
 
-      const filterWorkoutTemplateIdsString = Array.from(
+      const filterWorkoutTemplatesStoreString = Array.from(
         filterWorkoutTemplates
       ).join(",");
 
-      storeFilterMap.set("workout-templates", filterWorkoutTemplateIdsString);
+      storeFilterMap.set(
+        "workout-templates",
+        filterWorkoutTemplatesStoreString
+      );
     }
 
     if (filterScheduleTypes.size > 0) {
