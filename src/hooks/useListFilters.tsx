@@ -11,7 +11,11 @@ import {
   UseMeasurementListReturnType,
   UseWorkoutTemplateListReturnType,
 } from "../typings";
-import { useWeekdayMap, useMultisetTypeMap } from ".";
+import {
+  useWeekdayMap,
+  useMultisetTypeMap,
+  useRoutineScheduleTypeMap,
+} from ".";
 import {
   ConvertCalendarDateToLocalizedString,
   ConvertCalendarDateToYmdString,
@@ -116,6 +120,8 @@ export const useListFilters = ({
   );
 
   const weekdayMap = useWeekdayMap();
+
+  const scheduleTypeMap = useRoutineScheduleTypeMap();
 
   const multisetTypeMap = useMultisetTypeMap();
 
@@ -293,7 +299,15 @@ export const useListFilters = ({
 
       updatedFilterMap.set("schedule-types", filterScheduleTypesString);
 
-      const filterScheduleTypesStoreString = scheduleTypesArray.join(",");
+      const scheduleTypesStoreArray: number[] = [];
+
+      for (const [key, value] of scheduleTypeMap) {
+        if (filterScheduleTypes.has(value)) {
+          scheduleTypesStoreArray.push(key);
+        }
+      }
+
+      const filterScheduleTypesStoreString = scheduleTypesStoreArray.join(",");
 
       storeFilterMap.set("schedule-types", filterScheduleTypesStoreString);
     }
