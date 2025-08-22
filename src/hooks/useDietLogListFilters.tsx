@@ -385,9 +385,15 @@ export const useDietLogListFilters = ({
 
             const minValue = 0;
             const doNotAllowMinValue = true;
+            const maxValue = filterStoreValues.filterMaxCalories ?? undefined;
 
             if (
-              IsNumberValidInteger(minCalories, minValue, doNotAllowMinValue)
+              IsNumberValidInteger(
+                minCalories,
+                minValue,
+                doNotAllowMinValue,
+                maxValue
+              )
             ) {
               filterStoreValues.filterMinCalories = minCalories;
             }
@@ -413,8 +419,16 @@ export const useDietLogListFilters = ({
 
             const minValue = 0;
             const doNotAllowMinValue = true;
+            const maxValue = filterStoreValues.filterMaxFat ?? undefined;
 
-            if (IsNumberValidInteger(minFat, minValue, doNotAllowMinValue)) {
+            if (
+              IsNumberValidInteger(
+                minFat,
+                minValue,
+                doNotAllowMinValue,
+                maxValue
+              )
+            ) {
               filterStoreValues.filterMinFat = minFat;
             }
 
@@ -437,8 +451,16 @@ export const useDietLogListFilters = ({
 
             const minValue = 0;
             const doNotAllowMinValue = true;
+            const maxValue = filterStoreValues.filterMaxCarbs ?? undefined;
 
-            if (IsNumberValidInteger(minCarbs, minValue, doNotAllowMinValue)) {
+            if (
+              IsNumberValidInteger(
+                minCarbs,
+                minValue,
+                doNotAllowMinValue,
+                maxValue
+              )
+            ) {
               filterStoreValues.filterMinCarbs = minCarbs;
             }
 
@@ -461,9 +483,15 @@ export const useDietLogListFilters = ({
 
             const minValue = 0;
             const doNotAllowMinValue = true;
+            const maxValue = filterStoreValues.filterMaxProtein ?? undefined;
 
             if (
-              IsNumberValidInteger(minProtein, minValue, doNotAllowMinValue)
+              IsNumberValidInteger(
+                minProtein,
+                minValue,
+                doNotAllowMinValue,
+                maxValue
+              )
             ) {
               filterStoreValues.filterMinProtein = minProtein;
             }
