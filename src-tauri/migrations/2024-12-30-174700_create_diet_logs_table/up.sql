@@ -1,4 +1,4 @@
--- Your SQL goes here
+i-- Your SQL goes here
 CREATE TABLE "diet_logs"(
     "id" INTEGER,
     "date" TEXT NOT NULL,

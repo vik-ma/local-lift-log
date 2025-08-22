@@ -11,6 +11,7 @@ import {
   SharedSelection,
 } from "@heroui/react";
 import {
+  ListFilterValues,
   UseFilterMinAndMaxValueInputsProps,
   UseRoutineListReturnType,
   UserSettings,
@@ -23,7 +24,10 @@ import {
   useFilterMinAndMaxValueInputs,
   useRoutineScheduleTypeMap,
 } from "../../hooks";
-import { HandleFilterListObjectClick } from "../../helpers";
+import {
+  ConvertInputStringToNumberOrNull,
+  HandleFilterListObjectClick,
+} from "../../helpers";
 
 type FilterRoutineListModalProps = {
   useRoutineList: UseRoutineListReturnType;
@@ -64,6 +68,7 @@ export const FilterRoutineListModal = ({
     filterMap,
     handleFilterSaveButton,
     getFilterWorkoutTemplatesString,
+    listFilterValues,
   } = listFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -83,13 +88,26 @@ export const FilterRoutineListModal = ({
     }
   };
 
+  const isFilterButtonDisabled = useMemo(() => {
+    return (
+      modalPage === "base" &&
+      filterMinAndMaxValueInputsNumScheduleDays.isFilterInvalid
+    );
+  }, [modalPage, filterMinAndMaxValueInputsNumScheduleDays.isFilterInvalid]);
+
   const showResetFilterButton = useMemo(() => {
     if (filterMap.size > 0) return true;
     if (filterWorkoutTemplates.size > 0) return true;
     if (filterScheduleTypes.size > 0) return true;
+    if (!filterMinAndMaxValueInputsNumScheduleDays.areInputsEmpty) return true;
 
     return false;
-  }, [filterMap, filterWorkoutTemplates, filterScheduleTypes]);
+  }, [
+    filterMap,
+    filterWorkoutTemplates,
+    filterScheduleTypes,
+    filterMinAndMaxValueInputsNumScheduleDays.areInputsEmpty,
+  ]);
 
   const filterWorkoutTemplatesString = useMemo(() => {
     return getFilterWorkoutTemplatesString(filterWorkoutTemplates);
@@ -100,6 +118,30 @@ export const FilterRoutineListModal = ({
       workoutTemplate,
       filterWorkoutTemplates,
       setFilterWorkoutTemplates
+    );
+  };
+
+  const handleSaveButton = () => {
+    if (isFilterButtonDisabled) return;
+
+    const filterValues: ListFilterValues = {
+      ...listFilterValues,
+      filterWorkoutTemplates: filterWorkoutTemplates,
+      filterScheduleTypes: filterScheduleTypes,
+      filterMinNumScheduleDays: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsNumScheduleDays.minInput
+      ),
+      filterMaxNumScheduleDays: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsNumScheduleDays.maxInput
+      ),
+      includeNullInMaxValues:
+        filterMinAndMaxValueInputsNumScheduleDays.includeNullInMaxValues,
+    };
+
+    handleFilterSaveButton(
+      userSettings.locale,
+      filterValues,
+      filterRoutineListModal
     );
   };
 
@@ -248,24 +290,17 @@ export const FilterRoutineListModal = ({
                 >
                   {modalPage === "base" ? "Close" : "Back"}
                 </Button>
-                {/* <Button
+                <Button
                   color="primary"
                   onPress={
                     modalPage === "base"
-                      ? () =>
-                          handleFilterSaveButton(
-                            userSettings.locale,
-                            filterRoutineListModal
-                          )
+                      ? handleSaveButton
                       : () => setModalPage("base")
                   }
-                  isDisabled={
-                    modalPage === "base" &&
-                    filterMinAndMaxValueInputs.isFilterInvalid
-                  }
+                  isDisabled={isFilterButtonDisabled}
                 >
                   {modalPage === "base" ? "Filter" : "Done"}
-                </Button> */}
+                </Button>
               </div>
             </ModalFooter>
           </>
