@@ -11,13 +11,19 @@ import {
   SharedSelection,
 } from "@heroui/react";
 import {
+  UseFilterMinAndMaxValueInputsProps,
   UseRoutineListReturnType,
   UserSettings,
   UseWorkoutTemplateListReturnType,
+  WorkoutTemplate,
 } from "../../typings";
 import { useMemo, useState } from "react";
 import { FilterMinAndMaxValues, WorkoutTemplateModalList } from "..";
-import { useRoutineScheduleTypeMap } from "../../hooks";
+import {
+  useFilterMinAndMaxValueInputs,
+  useRoutineScheduleTypeMap,
+} from "../../hooks";
+import { HandleFilterListObjectClick } from "../../helpers";
 
 type FilterRoutineListModalProps = {
   useRoutineList: UseRoutineListReturnType;
@@ -33,26 +39,31 @@ export const FilterRoutineListModal = ({
   userSettings,
 }: FilterRoutineListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
+  const [filterWorkoutTemplates, setFilterWorkoutTemplates] = useState<
+    Set<number>
+  >(new Set());
+  const [filterScheduleTypes, setFilterScheduleTypes] = useState<Set<string>>(
+    new Set()
+  );
 
   const { listFilters, filterRoutineListModal } = useRoutineList;
 
   const routineScheduleTypeMap = useRoutineScheduleTypeMap();
 
+  const filterMinAndMaxValueInputsProps: UseFilterMinAndMaxValueInputsProps = {
+    minValue: 2,
+    maxValue: 14,
+    isIntegerOnly: true,
+  };
+
+  const filterMinAndMaxValueInputsNumScheduleDays =
+    useFilterMinAndMaxValueInputs(filterMinAndMaxValueInputsProps);
+
   const {
-    filterWorkoutTemplates,
-    setFilterWorkoutTemplates,
-    handleClickWorkoutTemplate,
-    showResetFilterButton,
     resetFilter,
+    filterMap,
     handleFilterSaveButton,
     getFilterWorkoutTemplatesString,
-    filterScheduleTypes,
-    setFilterScheduleTypes,
-    setFilterMinNumScheduleDays,
-    setFilterMaxNumScheduleDays,
-    filterMinAndMaxValueInputs,
-    includeNullInMaxValues,
-    setIncludeNullInMaxValues,
   } = listFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -72,9 +83,25 @@ export const FilterRoutineListModal = ({
     }
   };
 
-  // const filterWorkoutTemplatesString = useMemo(() => {
-  //   return getFilterWorkoutTemplatesString(filterWorkoutTemplates);
-  // }, [getFilterWorkoutTemplatesString, filterWorkoutTemplates]);
+  const showResetFilterButton = useMemo(() => {
+    if (filterMap.size > 0) return true;
+    if (filterWorkoutTemplates.size > 0) return true;
+    if (filterScheduleTypes.size > 0) return true;
+
+    return false;
+  }, [filterMap, filterWorkoutTemplates, filterScheduleTypes]);
+
+  const filterWorkoutTemplatesString = useMemo(() => {
+    return getFilterWorkoutTemplatesString(filterWorkoutTemplates);
+  }, [getFilterWorkoutTemplatesString, filterWorkoutTemplates]);
+
+  const handleClickWorkoutTemplate = (workoutTemplate: WorkoutTemplate) => {
+    HandleFilterListObjectClick(
+      workoutTemplate,
+      filterWorkoutTemplates,
+      setFilterWorkoutTemplates
+    );
+  };
 
   return (
     <Modal
@@ -142,20 +169,16 @@ export const FilterRoutineListModal = ({
                           (2 – 14)
                         </span>
                       </h3>
-                      {/* <FilterMinAndMaxValues
-                        setFilterMinValue={setFilterMinNumScheduleDays}
-                        setFilterMaxValue={setFilterMaxNumScheduleDays}
+                      <FilterMinAndMaxValues
                         label="Days"
                         useFilterMinAndMaxValueInputs={
-                          filterMinAndMaxValueInputs
+                          filterMinAndMaxValueInputsNumScheduleDays
                         }
                         isSmall
-                        includeNullInMaxValues={includeNullInMaxValues}
-                        setIncludeNullInMaxValues={setIncludeNullInMaxValues}
                         customIncludeNullCheckboxLabel={
                           "Include routines with no set days (Max only)"
                         }
-                      /> */}
+                      />
                     </div>
                     <div className="flex flex-col gap-2">
                       <div className="flex flex-col">
