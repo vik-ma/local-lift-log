@@ -69,12 +69,12 @@ export const useTimePeriodListFilters = ({
 
       updatedFilterMap.set("min-date-start", filterMinStartDateString);
 
-      const filterValueMinStartDateString =
+      const filterMinStartDateStoreString =
         ConvertCalendarDateToYmdString(filterMinStartDate);
 
       storeFilterMap.set(
         "min-date-start",
-        filterValueMinStartDateString as string
+        filterMinStartDateStoreString as string
       );
     }
 
@@ -86,12 +86,12 @@ export const useTimePeriodListFilters = ({
 
       updatedFilterMap.set("max-date-start", filterMaxStartDateString);
 
-      const filterValueMaxStartDateString =
+      const filterMaxStartDateStoreString =
         ConvertCalendarDateToYmdString(filterMaxStartDate);
 
       storeFilterMap.set(
         "max-date-start",
-        filterValueMaxStartDateString as string
+        filterMaxStartDateStoreString as string
       );
     }
 
@@ -103,10 +103,10 @@ export const useTimePeriodListFilters = ({
 
       updatedFilterMap.set("min-date-end", filterMinEndDateString);
 
-      const filterValueMinEndDateString =
+      const filterMinEndDateStoreString =
         ConvertCalendarDateToYmdString(filterMinEndDate);
 
-      storeFilterMap.set("min-date-end", filterValueMinEndDateString as string);
+      storeFilterMap.set("min-date-end", filterMinEndDateStoreString as string);
     }
 
     if (filterMaxEndDate !== null) {
@@ -117,10 +117,10 @@ export const useTimePeriodListFilters = ({
 
       updatedFilterMap.set("max-date-end", filterMaxEndDateString);
 
-      const filterValueMaxEndDateString =
+      const filterMaxEndDateStoreString =
         ConvertCalendarDateToYmdString(filterMaxEndDate);
 
-      storeFilterMap.set("max-date-end", filterValueMaxEndDateString as string);
+      storeFilterMap.set("max-date-end", filterMaxEndDateStoreString as string);
     }
 
     if (filterMinDuration !== null) {
