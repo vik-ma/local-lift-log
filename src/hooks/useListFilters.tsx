@@ -848,8 +848,11 @@ export const useListFilters = ({
 
             const minValue = 0;
             const doNotAllowMinValue = true;
+            const maxValue = filterStoreValues.filterMaxWeight ?? undefined;
 
-            if (IsNumberValid(minWeight, minValue, doNotAllowMinValue)) {
+            if (
+              IsNumberValid(minWeight, minValue, doNotAllowMinValue, maxValue)
+            ) {
               filterStoreValues.filterMinWeight =
                 ConvertNumberToTwoDecimals(minWeight);
             }
@@ -874,8 +877,11 @@ export const useListFilters = ({
 
             const minValue = 0;
             const doNotAllowMinValue = true;
+            const maxValue = filterStoreValues.filterMaxDistance ?? undefined;
 
-            if (IsNumberValid(minDistance, minValue, doNotAllowMinValue)) {
+            if (
+              IsNumberValid(minDistance, minValue, doNotAllowMinValue, maxValue)
+            ) {
               filterStoreValues.filterMinDistance =
                 ConvertNumberToTwoDecimals(minDistance);
             }
@@ -924,7 +930,7 @@ export const useListFilters = ({
 
             const minValue = 2;
             const doNotAllowMinValue = false;
-            const maxValue = 14;
+            const maxValue = filterStoreValues.filterMaxNumScheduleDays ?? 14;
 
             if (
               IsNumberValidInteger(
@@ -964,7 +970,8 @@ export const useListFilters = ({
 
             const minValue = 0;
             const doNotAllowMinValue = true;
-            const maxValue = 100;
+            const maxValue =
+              filterStoreValues.filterMaxBodyFatPercentage ?? 100;
 
             if (
               IsNumberValid(
