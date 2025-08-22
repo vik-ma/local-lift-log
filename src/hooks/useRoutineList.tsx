@@ -90,7 +90,7 @@ export const useRoutineList = ({
               filterWorkoutTemplates,
               item.workoutTemplateIdSet
             )) &&
-          (!filterMap.has("schedule-type") ||
+          (!filterMap.has("schedule-types") ||
             IsRoutineScheduleTypeFiltered(
               item.schedule_type,
               filterScheduleTypes

@@ -1213,7 +1213,7 @@ export type ListFilterMapKey =
   | "measurements"
   | "measurement-types"
   | "workout-templates"
-  | "schedule-type"
+  | "schedule-types"
   | "min-num-schedule-days"
   | "max-num-schedule-days"
   | "weight-units"

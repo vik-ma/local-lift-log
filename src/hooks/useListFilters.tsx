@@ -291,11 +291,11 @@ export const useListFilters = ({
         .map((item) => item)
         .join(", ");
 
-      updatedFilterMap.set("schedule-type", filterScheduleTypesString);
+      updatedFilterMap.set("schedule-types", filterScheduleTypesString);
 
       const filterScheduleTypesStoreString = scheduleTypesArray.join(",");
 
-      storeFilterMap.set("schedule-type", filterScheduleTypesStoreString);
+      storeFilterMap.set("schedule-types", filterScheduleTypesStoreString);
     }
 
     if (filterMinNumScheduleDays !== null) {
@@ -473,7 +473,7 @@ export const useListFilters = ({
         updatedListFilterValues.filterWorkoutTemplates = new Set();
         break;
       }
-      case "schedule-type": {
+      case "schedule-types": {
         updatedListFilterValues.filterScheduleTypes = new Set();
         break;
       }
@@ -559,7 +559,7 @@ export const useListFilters = ({
       `Templates (${listFilterValues.filterWorkoutTemplates.size}): `
     );
     prefixMap.set(
-      "schedule-type",
+      "schedule-types",
       `Schedule Type (${listFilterValues.filterScheduleTypes.size}): `
     );
     prefixMap.set("min-num-schedule-days", `Min Number Of Days In Schedule: `);
