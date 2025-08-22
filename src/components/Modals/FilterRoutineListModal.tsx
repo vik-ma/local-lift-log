@@ -18,7 +18,7 @@ import {
   UseWorkoutTemplateListReturnType,
   WorkoutTemplate,
 } from "../../typings";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FilterMinAndMaxValues, WorkoutTemplateModalList } from "..";
 import {
   useFilterMinAndMaxValueInputs,
@@ -26,6 +26,7 @@ import {
 } from "../../hooks";
 import {
   ConvertInputStringToNumberOrNull,
+  ConvertNumberToInputString,
   HandleFilterListObjectClick,
 } from "../../helpers";
 
@@ -144,6 +145,22 @@ export const FilterRoutineListModal = ({
       filterRoutineListModal
     );
   };
+
+  useEffect(() => {
+    setFilterWorkoutTemplates(listFilterValues.filterWorkoutTemplates);
+    setFilterScheduleTypes(listFilterValues.filterScheduleTypes);
+    filterMinAndMaxValueInputsNumScheduleDays.setIncludeNullInMaxValues(
+      listFilterValues.includeNullInMaxValues
+    );
+    filterMinAndMaxValueInputsNumScheduleDays.setMinInput(
+      ConvertNumberToInputString(listFilterValues.filterMinNumScheduleDays)
+    );
+    filterMinAndMaxValueInputsNumScheduleDays.setMaxInput(
+      ConvertNumberToInputString(listFilterValues.filterMaxNumScheduleDays)
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listFilterValues]);
 
   return (
     <Modal
