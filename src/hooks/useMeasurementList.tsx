@@ -284,7 +284,6 @@ export const useMeasurementList = ({
     measurementMap,
     createMeasurement,
     measurementListFilters,
-    getMeasurements,
     loadMeasurementList,
   };
 };

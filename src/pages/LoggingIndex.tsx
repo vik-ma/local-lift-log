@@ -98,7 +98,7 @@ export default function LoggingIndex() {
     latestDietLog,
     setLatestDietLog,
     defaultDietLog,
-    getDietLogs,
+    loadDietLogList,
   } = dietLogList;
 
   const [operatingDietLog, setOperatingDietLog] = useState<DietLog>({
@@ -124,7 +124,7 @@ export default function LoggingIndex() {
         loadMeasurementList(userSettings),
         getActiveMeasurements(userSettings.active_tracking_measurements),
         getLatestBodyMeasurements(userSettings.clock_style),
-        getDietLogs("date-desc"),
+        loadDietLogList(userSettings),
       ]);
 
       loadBodyFatCalculationSettingsString(

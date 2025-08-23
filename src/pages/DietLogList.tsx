@@ -9,12 +9,7 @@ import {
   LoadingSpinner,
 } from "../components";
 import { useDietLogList } from "../hooks";
-import {
-  DietLog,
-  DietLogDateEntryType,
-  DietLogSortCategory,
-  UserSettings,
-} from "../typings";
+import { DietLog, DietLogDateEntryType, UserSettings } from "../typings";
 import {
   Button,
   Dropdown,
@@ -24,11 +19,7 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import toast from "react-hot-toast";
-import {
-  GetSortCategoryFromStore,
-  GetUserSettings,
-  LoadStore,
-} from "../helpers";
+import { GetUserSettings, LoadStore } from "../helpers";
 import { Store } from "@tauri-apps/plugin-store";
 
 type OperationType = "add" | "edit" | "delete";
@@ -63,8 +54,7 @@ export default function DietLogList() {
     dietLogListFilters,
     addDietLogEntryRange,
     defaultDietLog,
-    getDietLogs,
-    loadDietLogFilterMapFromStore,
+    loadDietLogList,
   } = dietLogList;
 
   const [operatingDietLog, setOperatingDietLog] =
@@ -82,15 +72,7 @@ export default function DietLogList() {
 
       await LoadStore(store);
 
-      await loadDietLogFilterMapFromStore(userSettings.locale);
-
-      const sortCategory = await GetSortCategoryFromStore(
-        store,
-        "date-desc" as DietLogSortCategory,
-        "diet-logs"
-      );
-
-      await getDietLogs(sortCategory);
+      await loadDietLogList(userSettings);
     };
 
     loadPage();

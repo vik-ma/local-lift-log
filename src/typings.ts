@@ -898,11 +898,11 @@ export type UseDietLogListReturnType = {
     dietLog: DietLog,
     latestDate?: number
   ) => Promise<DietLog | undefined>;
-  getDietLogs: (category: DietLogSortCategory) => Promise<void>;
   latestDietLog: DietLog;
   setLatestDietLog: React.Dispatch<React.SetStateAction<DietLog>>;
   defaultDietLog: DietLog;
   loadDietLogFilterMapFromStore: (locale: string) => Promise<void>;
+  loadDietLogList: (userSettings: UserSettings) => Promise<void>;
 };
 
 export type UseDietLogListFiltersReturnType = {

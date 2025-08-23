@@ -5,6 +5,7 @@ import {
   UseDietLogListReturnType,
   DietLogSortCategory,
   StoreRef,
+  UserSettings,
 } from "../typings";
 import Database from "@tauri-apps/plugin-sql";
 import {
@@ -14,6 +15,7 @@ import {
   DeleteItemFromList,
   FormatYmdDateString,
   GetAllDietLogs,
+  GetSortCategoryFromStore,
   InsertDietLogIntoDatabase,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
@@ -409,6 +411,20 @@ export const useDietLogList = ({
     }
   };
 
+  const loadDietLogList = async (userSettings: UserSettings) => {
+    if (isDietLogListLoaded.current) return;
+
+    await loadDietLogFilterMapFromStore(userSettings.locale);
+
+    const sortCategory = await GetSortCategoryFromStore(
+      store,
+      "date-desc" as DietLogSortCategory,
+      "diet-logs"
+    );
+
+    await getDietLogs(sortCategory);
+  };
+
   return {
     dietLogs,
     setDietLogs,
@@ -426,10 +442,10 @@ export const useDietLogList = ({
     filterDietLogListModal,
     dietLogListFilters,
     addDietLogEntryRange,
-    getDietLogs,
     latestDietLog,
     setLatestDietLog,
     defaultDietLog,
     loadDietLogFilterMapFromStore,
+    loadDietLogList,
   };
 };
