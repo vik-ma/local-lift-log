@@ -247,6 +247,8 @@ export const useMeasurementList = ({
   };
 
   const loadMeasurementList = async (userSettings: UserSettings) => {
+    if (isMeasurementListLoaded.current) return;
+
     const activeMeasurementList = GenerateActiveMeasurementList(
       userSettings.active_tracking_measurements
     );
