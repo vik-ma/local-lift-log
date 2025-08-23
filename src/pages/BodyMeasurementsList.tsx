@@ -78,7 +78,7 @@ export default function BodyMeasurementsList() {
 
   const measurementList = useMeasurementList({ store: store });
 
-  const { getMeasurements, measurementMap, isMeasurementListLoaded } =
+  const { loadMeasurementList, measurementMap, isMeasurementListLoaded } =
     measurementList;
 
   const activeMeasurements = useBodyMeasurementsSettings({
@@ -256,7 +256,7 @@ export default function BodyMeasurementsList() {
       await LoadStore(store);
 
       await Promise.all([
-        getMeasurements("favorite"),
+        loadMeasurementList(userSettings),
         getActiveMeasurements(userSettings.active_tracking_measurements),
         getBodyMeasurements(userSettings.clock_style),
       ]);

@@ -77,7 +77,6 @@ import {
   UnitCategory,
   UserSettings,
   TimePeriodSortCategory,
-  MeasurementSortCategory,
   ExerciseSortCategory,
 } from "../typings";
 import {
@@ -214,7 +213,7 @@ export default function Analytics() {
     ignoreMeasurementsWithNoEntries: true,
   });
 
-  const { isMeasurementListLoaded, getMeasurements } = measurementList;
+  const { isMeasurementListLoaded, loadMeasurementList } = measurementList;
 
   const listModal = useDisclosure();
   const filterMinAndMaxDatesModal = useDisclosure();
@@ -362,13 +361,7 @@ export default function Analytics() {
       modalListType === "measurement-list" &&
       !isMeasurementListLoaded.current
     ) {
-      const sortCategoryMeasurement = await GetSortCategoryFromStore(
-        store,
-        "favorite" as MeasurementSortCategory,
-        "measurements"
-      );
-
-      await getMeasurements(sortCategoryMeasurement);
+      await loadMeasurementList(userSettings);
     }
 
     if (

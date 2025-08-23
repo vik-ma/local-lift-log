@@ -696,10 +696,6 @@ export type UseMeasurementListReturnType = {
   measurementMap: React.RefObject<MeasurementMap>;
   createMeasurement: (newMeasurement: Measurement) => Promise<number>;
   measurementListFilters: UseMeasurementListFiltersReturnType;
-  getMeasurements: (
-    category: MeasurementSortCategory,
-    activeMeasurements?: Set<number>
-  ) => Promise<void>;
   loadMeasurementList: (userSettings: UserSettings) => Promise<void>;
 };
 
