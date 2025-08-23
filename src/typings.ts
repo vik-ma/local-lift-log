@@ -790,10 +790,6 @@ export type UseTimePeriodListReturnType = {
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   isTimePeriodListLoaded: React.RefObject<boolean>;
-  getTimePeriods: (
-    locale: string,
-    category: TimePeriodSortCategory
-  ) => Promise<void>;
   sortCategory: TimePeriodSortCategory;
   handleSortOptionSelection: (key: string) => void;
   sortTimePeriodsByActiveCategory: (timePeriodList: TimePeriod[]) => void;
@@ -804,6 +800,7 @@ export type UseTimePeriodListReturnType = {
     React.SetStateAction<Set<string>>
   >;
   loadTimePeriodFilterMapFromStore: (locale: string) => Promise<void>;
+  loadTimePeriodList: (userSettings: UserSettings) => Promise<void>;
 };
 
 export type ShownPropertiesTargetType = "workout" | "time-period";

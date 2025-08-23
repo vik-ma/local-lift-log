@@ -19,14 +19,12 @@ import {
 } from "../components";
 import { useDefaultTimePeriod, useTimePeriodList } from "../hooks";
 import { useEffect, useRef, useState } from "react";
-import { TimePeriod, TimePeriodSortCategory, UserSettings } from "../typings";
+import { TimePeriod, UserSettings } from "../typings";
 import {
   DeleteItemFromList,
   GetUserSettings,
   UpdateItemInList,
-  CreateShownPropertiesSet,
   LoadStore,
-  GetSortCategoryFromStore,
 } from "../helpers";
 import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
@@ -58,12 +56,10 @@ export default function TimePeriodList() {
     filterQuery,
     setFilterQuery,
     isTimePeriodListLoaded,
-    getTimePeriods,
     sortTimePeriodsByActiveCategory,
     timePeriodListFilters,
     selectedTimePeriodProperties,
-    setSelectedTimePeriodProperties,
-    loadTimePeriodFilterMapFromStore,
+    loadTimePeriodList,
   } = timePeriodList;
 
   useEffect(() => {
@@ -76,21 +72,7 @@ export default function TimePeriodList() {
 
       await LoadStore(store);
 
-      await loadTimePeriodFilterMapFromStore(userSettings.locale);
-
-      const sortCategory = await GetSortCategoryFromStore(
-        store,
-        "ongoing" as TimePeriodSortCategory,
-        "time-periods"
-      );
-
-      await getTimePeriods(userSettings.locale, sortCategory);
-
-      const timePeriodPropertySet = CreateShownPropertiesSet(
-        userSettings.shown_time_period_properties,
-        "time-period"
-      );
-      setSelectedTimePeriodProperties(timePeriodPropertySet);
+      await loadTimePeriodList(userSettings);
     };
 
     loadPage();

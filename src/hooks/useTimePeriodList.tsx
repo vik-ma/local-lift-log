@@ -3,12 +3,15 @@ import {
   StoreRef,
   TimePeriod,
   TimePeriodSortCategory,
+  UserSettings,
   UseTimePeriodListReturnType,
 } from "../typings";
 import Database from "@tauri-apps/plugin-sql";
 import {
+  CreateShownPropertiesSet,
   FormatISODateString,
   GetNumberOfDaysBetweenDates,
+  GetSortCategoryFromStore,
   GetValidatedDietPhase,
   IsDatePassed,
   IsDateWithinLimit,
@@ -356,6 +359,27 @@ export const useTimePeriodList = ({
     }
   };
 
+  const loadTimePeriodList = async (userSettings: UserSettings) => {
+    if (isTimePeriodListLoaded.current) return;
+
+    await loadTimePeriodFilterMapFromStore(userSettings.locale);
+
+    const sortCategory = await GetSortCategoryFromStore(
+      store,
+      "ongoing" as TimePeriodSortCategory,
+      "time-periods"
+    );
+
+    await getTimePeriods(userSettings.locale, sortCategory);
+
+    const timePeriodPropertySet = CreateShownPropertiesSet(
+      userSettings.shown_time_period_properties,
+      "time-period"
+    );
+
+    setSelectedTimePeriodProperties(timePeriodPropertySet);
+  };
+
   return {
     timePeriods,
     setTimePeriods,
@@ -363,7 +387,6 @@ export const useTimePeriodList = ({
     filterQuery,
     setFilterQuery,
     isTimePeriodListLoaded,
-    getTimePeriods,
     sortCategory,
     handleSortOptionSelection,
     sortTimePeriodsByActiveCategory,
@@ -372,5 +395,6 @@ export const useTimePeriodList = ({
     selectedTimePeriodProperties,
     setSelectedTimePeriodProperties,
     loadTimePeriodFilterMapFromStore,
+    loadTimePeriodList,
   };
 };

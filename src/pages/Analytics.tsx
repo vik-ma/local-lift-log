@@ -76,7 +76,6 @@ import {
   TimePeriod,
   UnitCategory,
   UserSettings,
-  TimePeriodSortCategory,
   ExerciseSortCategory,
 } from "../typings";
 import {
@@ -96,7 +95,6 @@ import {
   ConvertISODateStringToYmdDateString,
   ConvertPaceValue,
   ConvertSpeedValue,
-  CreateShownPropertiesSet,
   GetAnalyticsValuesForSetList,
   GetCurrentYmdDateString,
   GetPaceUnitFromDistanceUnit,
@@ -213,7 +211,7 @@ export default function Analytics() {
     ignoreMeasurementsWithNoEntries: true,
   });
 
-  const { isMeasurementListLoaded, loadMeasurementList } = measurementList;
+  const { loadMeasurementList } = measurementList;
 
   const listModal = useDisclosure();
   const filterMinAndMaxDatesModal = useDisclosure();
@@ -270,12 +268,7 @@ export default function Analytics() {
 
   const timePeriodList = useTimePeriodList({ store: store });
 
-  const {
-    getTimePeriods,
-    isTimePeriodListLoaded,
-    setSelectedTimePeriodProperties,
-    loadTimePeriodFilterMapFromStore,
-  } = timePeriodList;
+  const { loadTimePeriodList } = timePeriodList;
 
   const {
     weightCharts,
@@ -357,33 +350,12 @@ export default function Analytics() {
 
     setAnalyticsChartListModalPage(modalListType);
 
-    if (
-      modalListType === "measurement-list" &&
-      !isMeasurementListLoaded.current
-    ) {
+    if (modalListType === "measurement-list") {
       await loadMeasurementList(userSettings);
     }
 
-    if (
-      modalListType === "time-period-list" &&
-      !isTimePeriodListLoaded.current
-    ) {
-      await loadTimePeriodFilterMapFromStore(userSettings.locale);
-
-      const sortCategoryTimePeriod = await GetSortCategoryFromStore(
-        store,
-        "ongoing" as TimePeriodSortCategory,
-        "time-periods"
-      );
-
-      await getTimePeriods(userSettings.locale, sortCategoryTimePeriod);
-
-      const timePeriodPropertySet = CreateShownPropertiesSet(
-        userSettings.shown_time_period_properties,
-        "time-period"
-      );
-
-      setSelectedTimePeriodProperties(timePeriodPropertySet);
+    if (modalListType === "time-period-list") {
+      await loadTimePeriodList(userSettings);
     }
 
     listModal.onOpen();
