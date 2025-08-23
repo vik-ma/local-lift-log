@@ -24,7 +24,6 @@ import {
   IsEndDateBeforeStartDate,
   IsNumberValid,
   IsNumberValidInteger,
-  MeasurementTypes,
   ValidDistanceUnits,
   ValidWeightUnits,
 } from "../helpers";
@@ -407,29 +406,6 @@ export const useListFilters = ({
     if (activeModal !== undefined) activeModal.onClose();
   };
 
-  const handleFilterMeasurementTypes = (key: string) => {
-    const updatedFilterMap: ListFilterMap = new Map();
-    const updatedStoreFilterMap: StoreFilterMap = new Map();
-    const updatedListFilterValues = { ...listFilterValues };
-
-    if (listFilterValues.filterMeasurementTypes.has(key)) {
-      removeFilter("measurement-types");
-      return;
-    }
-
-    const updatedFilterMeasurementTypes = new Set<string>([key]);
-
-    updatedListFilterValues.filterMeasurementTypes =
-      updatedFilterMeasurementTypes;
-
-    updatedFilterMap.set("measurement-types", key);
-    updatedStoreFilterMap.set("measurement-types", key);
-
-    setFilterMap(updatedFilterMap);
-    setListFilterValues(updatedListFilterValues);
-    saveFilterMapToStore(updatedStoreFilterMap);
-  };
-
   const removeFilter = (key: string) => {
     const updatedFilterMap = new Map(filterMap);
     const updatedStoreFilterMap = new Map(storeFilters.current);
@@ -568,7 +544,6 @@ export const useListFilters = ({
       "measurements",
       `Measurements (${listFilterValues.filterMeasurements.size}): `
     );
-    prefixMap.set("measurement-types", `Measurement Type: `);
     prefixMap.set(
       "workout-templates",
       `Templates (${listFilterValues.filterWorkoutTemplates.size}): `
@@ -916,16 +891,6 @@ export const useListFilters = ({
 
             break;
           }
-          case "measurement-types": {
-            const measurementType = value as string;
-
-            if (MeasurementTypes().includes(measurementType)) {
-              handleFilterMeasurementTypes(measurementType);
-            }
-
-            // RETURN, NOT BREAK
-            return;
-          }
           case "workout-templates": {
             const workoutTemplatesString = value as string;
 
@@ -1093,7 +1058,6 @@ export const useListFilters = ({
     weekdayMap,
     prefixMap,
     multisetTypeMap,
-    handleFilterMeasurementTypes,
     getFilterRoutinesString,
     getFilterExercisesString,
     getFilterExerciseGroupsString,

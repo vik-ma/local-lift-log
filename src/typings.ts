@@ -464,7 +464,6 @@ export type UseListFiltersReturnType = {
   weekdayMap: Map<string, string>;
   prefixMap: ListFilterMap;
   multisetTypeMap: MultisetTypeMap;
-  handleFilterMeasurementTypes: (key: string) => void;
   getFilterRoutinesString: (routineIdSet: Set<number>) => string;
   getFilterExercisesString: (exerciseIdSet: Set<number>) => string;
   getFilterExerciseGroupsString: (exerciseGroupList: string[]) => string;
@@ -1212,7 +1211,6 @@ export type ListFilterMapKey =
   | "min-weight"
   | "max-weight"
   | "measurements"
-  | "measurement-types"
   | "workout-templates"
   | "schedule-types"
   | "min-num-schedule-days"
