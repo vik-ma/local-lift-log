@@ -1,14 +1,18 @@
 import { useMemo, useRef, useState } from "react";
 import {
+  ListFilterMapKey,
   Measurement,
   MeasurementMap,
   MeasurementSortCategory,
   StoreRef,
   UseMeasurementListReturnType,
+  UserSettings,
 } from "../typings";
 import {
+  GenerateActiveMeasurementList,
   GetMeasurementList,
   GetMeasurementListWithNumberOfBodyMeasurementsEntries,
+  GetSortCategoryFromStore,
   InsertMeasurementIntoDatabase,
   UpdateIsFavorite,
   UpdateItemInList,
@@ -42,7 +46,7 @@ export const useMeasurementList = ({
     filterMapSuffix: "measurements",
   });
 
-  const { listFilterValues, filterMap } = listFilters;
+  const { listFilterValues, filterMap, loadFilterMapFromStore } = listFilters;
 
   const { filterMeasurementTypes } = listFilterValues;
 
@@ -247,6 +251,28 @@ export const useMeasurementList = ({
     }
   };
 
+  const loadMeasurementList = async (userSettings: UserSettings) => {
+    const activeMeasurementList = GenerateActiveMeasurementList(
+      userSettings.active_tracking_measurements
+    );
+
+    const activeMeasurementSet = new Set(activeMeasurementList);
+
+    setActiveMeasurementSet(activeMeasurementSet);
+
+    const validFilterKeys = new Set<ListFilterMapKey>(["measurement-types"]);
+
+    await loadFilterMapFromStore(userSettings.locale, validFilterKeys);
+
+    const sortCategory = await GetSortCategoryFromStore(
+      store,
+      "favorite" as MeasurementSortCategory,
+      "measurements"
+    );
+
+    await getMeasurements(sortCategory, activeMeasurementSet);
+  };
+
   return {
     measurements,
     setMeasurements,
@@ -264,5 +290,6 @@ export const useMeasurementList = ({
     createMeasurement,
     listFilters,
     getMeasurements,
+    loadMeasurementList,
   };
 };

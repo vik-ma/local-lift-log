@@ -701,6 +701,7 @@ export type UseMeasurementListReturnType = {
     category: MeasurementSortCategory,
     activeMeasurements?: Set<number>
   ) => Promise<void>;
+  loadMeasurementList: (userSettings: UserSettings) => Promise<void>;
 };
 
 export type WorkoutTemplateMap = Map<number, WorkoutTemplate>;

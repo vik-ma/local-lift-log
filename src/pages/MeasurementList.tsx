@@ -9,12 +9,7 @@ import {
   ListFilters,
   MeasurementListOptions,
 } from "../components";
-import {
-  ListFilterMapKey,
-  Measurement,
-  MeasurementSortCategory,
-  UserSettings,
-} from "../typings";
+import { Measurement, UserSettings } from "../typings";
 import Database from "@tauri-apps/plugin-sql";
 import {
   Button,
@@ -32,7 +27,6 @@ import {
 import toast from "react-hot-toast";
 import {
   CreateDefaultMeasurements,
-  GenerateActiveMeasurementList,
   GetUserSettings,
   GenerateActiveMeasurementString,
   UpdateItemInList,
@@ -41,7 +35,6 @@ import {
   UpdateUserSetting,
   GetValidatedUnit,
   LoadStore,
-  GetSortCategoryFromStore,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import { useDefaultMeasurement, useMeasurementList } from "../hooks";
@@ -82,11 +75,10 @@ export default function MeasurementList() {
     setActiveMeasurementSet,
     createMeasurement,
     listFilters,
-    getMeasurements,
+    loadMeasurementList,
   } = measurementList;
 
-  const { filterMap, removeFilter, prefixMap, loadFilterMapFromStore } =
-    listFilters;
+  const { filterMap, removeFilter, prefixMap } = listFilters;
 
   useEffect(() => {
     const loadPage = async () => {
@@ -107,29 +99,9 @@ export default function MeasurementList() {
           default_unit: measurementUnit,
         }));
 
-        const activeMeasurementList = GenerateActiveMeasurementList(
-          userSettings.active_tracking_measurements
-        );
-
-        const activeMeasurementSet = new Set(activeMeasurementList);
-
-        setActiveMeasurementSet(activeMeasurementSet);
-
         await LoadStore(store);
 
-        const validFilterKeys = new Set<ListFilterMapKey>([
-          "measurement-types",
-        ]);
-
-        await loadFilterMapFromStore(userSettings.locale, validFilterKeys);
-
-        const sortCategory = await GetSortCategoryFromStore(
-          store,
-          "favorite" as MeasurementSortCategory,
-          "measurements"
-        );
-
-        await getMeasurements(sortCategory, activeMeasurementSet);
+        await loadMeasurementList(userSettings);
       } catch (error) {
         console.log(error);
       }
