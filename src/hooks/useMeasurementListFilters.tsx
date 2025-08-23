@@ -21,9 +21,7 @@ export const useMeasurementListFilters = ({
 
   const handleFilterMeasurementTypes = (key: string) => {
     if (filterMeasurementTypes.has(key)) {
-      setFilterMap(new Map());
-      setFilterMeasurementTypes(new Set());
-      saveFilterMapToStore(null);
+      removeFilter();
       return;
     }
 
@@ -36,6 +34,12 @@ export const useMeasurementListFilters = ({
     setFilterMap(updatedFilterMap);
     setFilterMeasurementTypes(updatedFilterMeasurementTypes);
     saveFilterMapToStore(key);
+  };
+
+  const removeFilter = () => {
+    setFilterMap(new Map());
+    setFilterMeasurementTypes(new Set());
+    saveFilterMapToStore(null);
   };
 
   const saveFilterMapToStore = async (key: string | null) => {
@@ -53,10 +57,14 @@ export const useMeasurementListFilters = ({
     return prefixMap;
   }, []);
 
+  const loadFilterFromStore = async () => {};
+
   return {
     filterMap,
     filterMeasurementTypes,
     handleFilterMeasurementTypes,
     prefixMap,
+    removeFilter,
+    loadFilterFromStore,
   };
 };

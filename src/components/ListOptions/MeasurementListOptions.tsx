@@ -15,12 +15,11 @@ type MeasurementListOptionsProps = {
 export const MeasurementListOptions = ({
   useMeasurementList,
 }: MeasurementListOptionsProps) => {
-  const { sortCategory, handleSortOptionSelection, listFilters } =
+  const { sortCategory, handleSortOptionSelection, measurementListFilters } =
     useMeasurementList;
 
-  const { handleFilterMeasurementTypes, listFilterValues } = listFilters;
-
-  const { filterMeasurementTypes } = listFilterValues;
+  const { handleFilterMeasurementTypes, filterMeasurementTypes } =
+    measurementListFilters;
 
   const measurementTypes = useMeasurementTypes();
 

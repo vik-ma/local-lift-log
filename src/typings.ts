@@ -696,7 +696,7 @@ export type UseMeasurementListReturnType = {
   setActiveMeasurementSet: React.Dispatch<React.SetStateAction<Set<number>>>;
   measurementMap: React.RefObject<MeasurementMap>;
   createMeasurement: (newMeasurement: Measurement) => Promise<number>;
-  listFilters: UseListFiltersReturnType;
+  measurementListFilters: UseMeasurementListFiltersReturnType;
   getMeasurements: (
     category: MeasurementSortCategory,
     activeMeasurements?: Set<number>
@@ -1321,4 +1321,6 @@ export type UseMeasurementListFiltersReturnType = {
   filterMeasurementTypes: Set<string>;
   handleFilterMeasurementTypes: (key: string) => void;
   prefixMap: MeasurementFilterMap;
+  removeFilter: () => void;
+  loadFilterFromStore: () => Promise<void>;
 };

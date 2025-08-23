@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState } from "react";
 import {
-  ListFilterMapKey,
   Measurement,
   MeasurementMap,
   MeasurementSortCategory,
@@ -17,7 +16,7 @@ import {
   UpdateIsFavorite,
   UpdateItemInList,
 } from "../helpers";
-import { useListFilters } from ".";
+import { useMeasurementListFilters } from ".";
 
 type UseMeasurementListProps = {
   store: StoreRef;
@@ -41,14 +40,10 @@ export const useMeasurementList = ({
 
   const isMeasurementListLoaded = useRef(false);
 
-  const listFilters = useListFilters({
-    store: store,
-    filterMapSuffix: "measurements",
-  });
+  const measurementListFilters = useMeasurementListFilters({ store: store });
 
-  const { listFilterValues, filterMap, loadFilterMapFromStore } = listFilters;
-
-  const { filterMeasurementTypes } = listFilterValues;
+  const { filterMeasurementTypes, filterMap, loadFilterFromStore } =
+    measurementListFilters;
 
   const filteredMeasurements = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
@@ -260,9 +255,7 @@ export const useMeasurementList = ({
 
     setActiveMeasurementSet(activeMeasurementSet);
 
-    const validFilterKeys = new Set<ListFilterMapKey>(["measurement-types"]);
-
-    await loadFilterMapFromStore(userSettings.locale, validFilterKeys);
+    await loadFilterFromStore();
 
     const sortCategory = await GetSortCategoryFromStore(
       store,
@@ -288,7 +281,7 @@ export const useMeasurementList = ({
     setActiveMeasurementSet,
     measurementMap,
     createMeasurement,
-    listFilters,
+    measurementListFilters,
     getMeasurements,
     loadMeasurementList,
   };

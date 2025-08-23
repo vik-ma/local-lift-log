@@ -74,11 +74,11 @@ export default function MeasurementList() {
     activeMeasurementSet,
     setActiveMeasurementSet,
     createMeasurement,
-    listFilters,
+    measurementListFilters,
     loadMeasurementList,
   } = measurementList;
 
-  const { filterMap, removeFilter, prefixMap } = listFilters;
+  const { filterMap, removeFilter, prefixMap } = measurementListFilters;
 
   useEffect(() => {
     const loadPage = async () => {

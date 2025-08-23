@@ -39,10 +39,10 @@ export const MeasurementModalList = ({
     setFilterQuery,
     filteredMeasurements,
     toggleFavorite,
-    listFilters,
+    measurementListFilters,
   } = useMeasurementList;
 
-  const { filterMap, removeFilter, prefixMap } = listFilters;
+  const { filterMap, removeFilter, prefixMap } = measurementListFilters;
 
   const height = useMemo(() => {
     return customHeightString !== undefined ? customHeightString : "h-[400px]";
