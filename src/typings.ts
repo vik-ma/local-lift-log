@@ -458,11 +458,11 @@ export type UseListFiltersReturnType = {
     filterValues: ListFilterValues,
     activeModal?: UseDisclosureReturnType
   ) => void;
-  filterMap: Map<ListFilterMapKey, string>;
+  filterMap: ListFilterMap;
   removeFilter: (key: string) => void;
   resetFilter: () => void;
   weekdayMap: Map<string, string>;
-  prefixMap: Map<ListFilterMapKey, string>;
+  prefixMap: ListFilterMap;
   multisetTypeMap: MultisetTypeMap;
   handleFilterMeasurementTypes: (key: string) => void;
   getFilterRoutinesString: (routineIdSet: Set<number>) => string;
@@ -814,7 +814,7 @@ export type UseTimePeriodListReturnType = {
 export type ShownPropertiesTargetType = "workout" | "time-period";
 
 export type UseTimePeriodListFiltersReturnType = {
-  filterMap: Map<TimePeriodListFilterMapKey, string>;
+  filterMap: TimePeriodFilterMap;
   handleFilterSaveButton: (
     locale: string,
     filterValues: TimePeriodFilterValues,
@@ -822,7 +822,7 @@ export type UseTimePeriodListFiltersReturnType = {
   ) => void;
   removeFilter: (key: string) => void;
   resetFilter: () => void;
-  prefixMap: Map<TimePeriodListFilterMapKey, string>;
+  prefixMap: TimePeriodFilterMap;
   loadTimePeriodFilterMapFromStore: (locale: string) => Promise<void>;
   timePeriodFilterValues: TimePeriodFilterValues;
 };
@@ -911,7 +911,7 @@ export type UseDietLogListReturnType = {
 };
 
 export type UseDietLogListFiltersReturnType = {
-  filterMap: Map<DietLogListFilterMapKey, string>;
+  filterMap: DietLogFilterMap;
   handleFilterSaveButton: (
     locale: string,
     filterValues: DietLogFilterValues,
@@ -919,7 +919,7 @@ export type UseDietLogListFiltersReturnType = {
   ) => void;
   removeFilter: (key: string) => void;
   resetFilter: () => void;
-  prefixMap: Map<DietLogListFilterMapKey, string>;
+  prefixMap: DietLogFilterMap;
   weekdayMap: Map<string, string>;
   loadDietLogFilterMapFromStore: (locale: string) => Promise<void>;
   dietLogFilterValues: DietLogFilterValues;
@@ -1249,11 +1249,15 @@ export type DietLogListFilterMapKey =
   | "min-protein"
   | "max-protein";
 
+export type MeasurementFilterMapKey = "measurement-types";
+
 export type ListFilterMap = Map<ListFilterMapKey, string>;
 
 export type TimePeriodFilterMap = Map<TimePeriodListFilterMapKey, string>;
 
 export type DietLogFilterMap = Map<DietLogListFilterMapKey, string>;
+
+export type MeasurementFilterMap = Map<MeasurementFilterMapKey, string>;
 
 export type ListFilterValues = {
   filterMinDate: CalendarDate | null;

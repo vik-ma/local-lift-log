@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState } from "react";
 import {
-  DietLogFilterMap,
   DietLogFilterValues,
   DietLogListFilterMapKey,
   StoreRef,
@@ -20,6 +19,8 @@ import { useWeekdayMap } from "./useWeekdayMap";
 type UseDietLogListFiltersProps = {
   store: StoreRef;
 };
+
+export type DietLogFilterMap = Map<DietLogListFilterMapKey, string>;
 
 type StoreFilterMapKey =
   | DietLogListFilterMapKey

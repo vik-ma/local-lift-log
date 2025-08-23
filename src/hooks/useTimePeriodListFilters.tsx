@@ -2,7 +2,6 @@ import { useMemo, useRef, useState } from "react";
 import {
   TimePeriodFilterValues,
   StoreRef,
-  TimePeriodFilterMap,
   TimePeriodListFilterMapKey,
   UseDisclosureReturnType,
   UseTimePeriodListFiltersReturnType,
@@ -20,6 +19,8 @@ import {
 type UseTimePeriodListFiltersProps = {
   store: StoreRef;
 };
+
+export type TimePeriodFilterMap = Map<TimePeriodListFilterMapKey, string>;
 
 type TimePeriodStoreFilterMap = Map<
   TimePeriodListFilterMapKey,

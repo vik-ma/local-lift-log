@@ -1,7 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import {
   ListFilterValues,
-  ListFilterMap,
   ListFilterMapKey,
   StoreRef,
   UseDisclosureReturnType,
@@ -38,6 +37,8 @@ type UseListFiltersProps = {
   useMeasurementList?: UseMeasurementListReturnType;
   useWorkoutTemplateList?: UseWorkoutTemplateListReturnType;
 };
+
+export type ListFilterMap = Map<ListFilterMapKey, string>;
 
 type StoreFilterMapKey =
   | ListFilterMapKey
