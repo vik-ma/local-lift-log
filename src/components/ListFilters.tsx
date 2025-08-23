@@ -2,6 +2,7 @@ import { Chip } from "@heroui/react";
 import {
   DietLogListFilterMapKey,
   ListFilterMapKey,
+  MeasurementListFilterMapKey,
   TimePeriodListFilterMapKey,
 } from "../typings";
 import { useMemo, useState } from "react";
@@ -9,12 +10,18 @@ import { ChevronIcon } from "../assets";
 
 type ListFiltersProps = {
   filterMap: Map<
-    ListFilterMapKey | TimePeriodListFilterMapKey | DietLogListFilterMapKey,
+    | ListFilterMapKey
+    | TimePeriodListFilterMapKey
+    | DietLogListFilterMapKey
+    | MeasurementListFilterMapKey,
     string
   >;
   removeFilter: (key: string) => void;
   prefixMap: Map<
-    ListFilterMapKey | TimePeriodListFilterMapKey | DietLogListFilterMapKey,
+    | ListFilterMapKey
+    | TimePeriodListFilterMapKey
+    | DietLogListFilterMapKey
+    | MeasurementListFilterMapKey,
     string
   >;
   isInModal?: boolean;

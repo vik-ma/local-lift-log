@@ -1249,7 +1249,7 @@ export type DietLogListFilterMapKey =
   | "min-protein"
   | "max-protein";
 
-export type MeasurementFilterMapKey = "measurement-types";
+export type MeasurementListFilterMapKey = "measurement-types";
 
 export type ListFilterMap = Map<ListFilterMapKey, string>;
 
@@ -1257,7 +1257,7 @@ export type TimePeriodFilterMap = Map<TimePeriodListFilterMapKey, string>;
 
 export type DietLogFilterMap = Map<DietLogListFilterMapKey, string>;
 
-export type MeasurementFilterMap = Map<MeasurementFilterMapKey, string>;
+export type MeasurementFilterMap = Map<MeasurementListFilterMapKey, string>;
 
 export type ListFilterValues = {
   filterMinDate: CalendarDate | null;
@@ -1314,4 +1314,11 @@ export type DietLogFilterValues = {
   includeNullInMaxValuesFat: boolean;
   includeNullInMaxValuesCarbs: boolean;
   includeNullInMaxValuesProtein: boolean;
+};
+
+export type UseMeasurementListFiltersReturnType = {
+  filterMap: MeasurementFilterMap;
+  filterMeasurementTypes: Set<string>;
+  handleFilterMeasurementTypes: (key: string) => void;
+  prefixMap: MeasurementFilterMap;
 };
