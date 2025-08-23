@@ -165,7 +165,7 @@ export const MeasurementModalList = ({
             extraContent={
               measurements.length > 0 ? undefined : (
                 <Link to={"/measurements/measurement-list"}>
-                  Create Or Restore Default Measurements Here
+                  Create Or Restore Default Measurements
                 </Link>
               )
             }
