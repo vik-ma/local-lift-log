@@ -28,6 +28,7 @@ import {
   GetAllBodyMeasurements,
   UpdateBodyMeasurementsTimestamp,
   GetValidatedUnit,
+  LoadStore,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -66,7 +67,7 @@ export default function LoggingIndex() {
 
   const measurementList = useMeasurementList({ store: store });
 
-  const { getMeasurements, measurementMap, isMeasurementListLoaded } =
+  const { loadMeasurementList, measurementMap, isMeasurementListLoaded } =
     measurementList;
 
   const { nameInputModal, handleReassignMeasurement, reassignMeasurement } =
@@ -117,17 +118,19 @@ export default function LoggingIndex() {
 
       setWeightUnit(weightUnit);
 
-      loadBodyFatCalculationSettingsString(
-        userSettings.body_fat_calculation_settings,
-        measurementMap.current
-      );
+      await LoadStore(store);
 
       await Promise.all([
-        getMeasurements("favorite"),
+        loadMeasurementList(userSettings),
         getActiveMeasurements(userSettings.active_tracking_measurements),
         getLatestBodyMeasurements(userSettings.clock_style),
         getDietLogs("date-desc"),
       ]);
+
+      loadBodyFatCalculationSettingsString(
+        userSettings.body_fat_calculation_settings,
+        measurementMap.current
+      );
 
       setUserSettings(userSettings);
     };
