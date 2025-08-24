@@ -450,6 +450,10 @@ export type UseWorkoutListReturnType = {
   isWorkoutListLoaded: React.RefObject<boolean>;
   workoutListHasEmptyWorkouts: React.RefObject<boolean>;
   loadWorkoutList: () => Promise<void>;
+  selectedWorkoutProperties: Set<string>;
+  setSelectedWorkoutProperties: React.Dispatch<
+    React.SetStateAction<Set<string>>
+  >;
 };
 
 export type UseListFiltersReturnType = {

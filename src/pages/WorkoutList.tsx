@@ -55,9 +55,6 @@ type OperationType =
 export default function WorkoutList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("edit");
-  const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
-    Set<string>
-  >(new Set());
 
   const store = useRef<Store>(null);
 
@@ -93,6 +90,8 @@ export default function WorkoutList() {
     workoutListHasEmptyWorkouts,
     loadWorkoutList,
     sortWorkoutsByActiveCategory,
+    selectedWorkoutProperties,
+    setSelectedWorkoutProperties,
   } = workoutList;
 
   const exerciseListFilters = useExerciseListFilters({

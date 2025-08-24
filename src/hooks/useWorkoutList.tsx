@@ -38,6 +38,9 @@ export const useWorkoutList = ({
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<WorkoutSortCategory>("date-desc");
+  const [selectedWorkoutProperties, setSelectedWorkoutProperties] = useState<
+    Set<string>
+  >(new Set());
 
   const {
     exerciseGroupDictionary,
@@ -411,5 +414,7 @@ export const useWorkoutList = ({
     isWorkoutListLoaded,
     workoutListHasEmptyWorkouts,
     loadWorkoutList,
+    selectedWorkoutProperties,
+    setSelectedWorkoutProperties,
   };
 };
