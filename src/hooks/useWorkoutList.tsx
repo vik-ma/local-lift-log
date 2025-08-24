@@ -1,9 +1,11 @@
 import { useState, useRef, useMemo } from "react";
 import {
   ExerciseSortCategory,
+  ListFilterMapKey,
   RoutineSortCategory,
   StoreRef,
   UseExerciseListReturnType,
+  UserSettings,
   UseWorkoutListReturnType,
   Workout,
   WorkoutSortCategory,
@@ -12,6 +14,7 @@ import {
 import Database from "@tauri-apps/plugin-sql";
 import {
   CreateExerciseSetIds,
+  CreateShownPropertiesSet,
   DoesListOrSetHaveCommonElement,
   FormatDateString,
   GetSortCategoryFromStore,
@@ -45,6 +48,7 @@ export const useWorkoutList = ({
   const {
     exerciseGroupDictionary,
     includeSecondaryGroups,
+    setIncludeSecondaryGroups,
     isExerciseListLoaded,
     getExercises,
     exerciseMap,
@@ -78,7 +82,7 @@ export const useWorkoutList = ({
     useWorkoutTemplateList: workoutTemplateList,
   });
 
-  const { filterMap, listFilterValues } = listFilters;
+  const { filterMap, listFilterValues, loadFilterMapFromStore } = listFilters;
 
   const {
     filterMinDate,
@@ -233,7 +237,7 @@ export const useWorkoutList = ({
     }
   };
 
-  const loadWorkoutList = async () => {
+  const loadWorkoutList = async (userSettings: UserSettings) => {
     if (!isExerciseListLoaded.current) {
       const exerciseSortCategory = await GetSortCategoryFromStore(
         store,
@@ -265,6 +269,29 @@ export const useWorkoutList = ({
     }
 
     if (!isWorkoutListLoaded.current) {
+      const workoutPropertySet = CreateShownPropertiesSet(
+        userSettings.shown_workout_properties,
+        "workout"
+      );
+
+      setSelectedWorkoutProperties(workoutPropertySet);
+
+      setIncludeSecondaryGroups(
+        userSettings.show_secondary_exercise_groups === 1
+      );
+
+      const validFilterKeys = new Set<ListFilterMapKey>([
+        "min-date",
+        "max-date",
+        "weekdays",
+        "routines",
+        "exercises",
+        "exercise-groups",
+        "workout-templates",
+      ]);
+
+      await loadFilterMapFromStore(userSettings.locale, validFilterKeys);
+
       const workoutSortCategory = await GetSortCategoryFromStore(
         store,
         "name" as WorkoutSortCategory,

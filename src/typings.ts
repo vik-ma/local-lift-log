@@ -449,7 +449,7 @@ export type UseWorkoutListReturnType = {
   workoutTemplateList: UseWorkoutTemplateListReturnType;
   isWorkoutListLoaded: React.RefObject<boolean>;
   workoutListHasEmptyWorkouts: React.RefObject<boolean>;
-  loadWorkoutList: () => Promise<void>;
+  loadWorkoutList: (userSettings: UserSettings) => Promise<void>;
   selectedWorkoutProperties: Set<string>;
   setSelectedWorkoutProperties: React.Dispatch<
     React.SetStateAction<Set<string>>

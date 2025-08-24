@@ -1,11 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import {
-  ListFilterMapKey,
-  Routine,
-  UserSettings,
-  Workout,
-  WorkoutTemplate,
-} from "../typings";
+import { Routine, UserSettings, Workout, WorkoutTemplate } from "../typings";
 import { useNavigate } from "react-router-dom";
 import {
   LoadingSpinner,
@@ -27,7 +21,6 @@ import Database from "@tauri-apps/plugin-sql";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
 import {
-  CreateShownPropertiesSet,
   DeleteMultisetWithId,
   DeleteWorkoutWithId,
   GetUniqueMultisetIds,
@@ -70,8 +63,6 @@ export default function WorkoutList() {
 
   const exerciseList = useExerciseList({ store: store });
 
-  const { setIncludeSecondaryGroups } = exerciseList;
-
   const workoutList = useWorkoutList({
     store: store,
     useExerciseList: exerciseList,
@@ -98,7 +89,7 @@ export default function WorkoutList() {
     useExerciseList: exerciseList,
   });
 
-  const { filterMap, loadFilterMapFromStore } = listFilters;
+  const { filterMap } = listFilters;
 
   const { handleOpenWorkoutTemplateListModal, workoutTemplateListModal } =
     workoutTemplateList;
@@ -111,32 +102,9 @@ export default function WorkoutList() {
 
       setUserSettings(userSettings);
 
-      const workoutPropertySet = CreateShownPropertiesSet(
-        userSettings.shown_workout_properties,
-        "workout"
-      );
-
-      setSelectedWorkoutProperties(workoutPropertySet);
-
-      setIncludeSecondaryGroups(
-        userSettings.show_secondary_exercise_groups === 1
-      );
-
       await LoadStore(store);
 
-      const validFilterKeys = new Set<ListFilterMapKey>([
-        "min-date",
-        "max-date",
-        "weekdays",
-        "routines",
-        "exercises",
-        "exercise-groups",
-        "workout-templates",
-      ]);
-
-      await loadFilterMapFromStore(userSettings.locale, validFilterKeys);
-
-      await loadWorkoutList();
+      await loadWorkoutList(userSettings);
     };
 
     loadPage();
