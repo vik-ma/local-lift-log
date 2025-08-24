@@ -328,8 +328,11 @@ export const useWorkoutTemplateList = ({
     workoutTemplateListModal.onOpen();
   };
 
-  const loadWorkoutTemplatesString = async (workoutTemplatesString: string) => {
-    await loadWorkoutTemplateList();
+  const loadWorkoutTemplatesString = async (
+    userSettings: UserSettings,
+    workoutTemplatesString: string
+  ) => {
+    await loadWorkoutTemplateList(userSettings);
 
     const workoutTemplateIdSet = new Set<number>();
 

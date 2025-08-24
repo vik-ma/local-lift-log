@@ -275,8 +275,10 @@ export default function RoutineDetails() {
   };
 
   const handleAddWorkoutToDayButton = (day: number) => {
+    if (userSettings === undefined) return;
+
     setSelectedDay(day);
-    handleOpenWorkoutTemplateListModal();
+    handleOpenWorkoutTemplateListModal(userSettings);
   };
 
   const addWorkoutTemplateToDay = async (workoutTemplate: WorkoutTemplate) => {
@@ -578,6 +580,7 @@ export default function RoutineDetails() {
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
+        userSettings={userSettings}
         onClickAction={
           routine.schedule_type == 2
             ? addWorkoutTemplateToNoDaySchedule

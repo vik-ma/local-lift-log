@@ -172,7 +172,7 @@ export default function WorkoutDetails() {
       },
       "load-workout-template": {
         text: "Load Workout Template",
-        function: () => handleOpenWorkoutTemplateListModal(),
+        function: () => handleOpenWorkoutTemplateListModal(userSettings),
       },
       "copy-workout": {
         text: "Copy Previous Workout",
@@ -462,6 +462,7 @@ export default function WorkoutDetails() {
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
+        userSettings={userSettings}
         onClickAction={handleClickWorkoutTemplate}
         header={<span>Load Workout Template</span>}
       />

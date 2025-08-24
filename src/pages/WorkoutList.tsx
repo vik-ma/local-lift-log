@@ -186,7 +186,7 @@ export default function WorkoutList() {
     } else if (key === "reassign-workout-template") {
       setOperationType("reassign-workout-template");
       setOperatingWorkout(workout);
-      handleOpenWorkoutTemplateListModal();
+      handleOpenWorkoutTemplateListModal(userSettings);
     } else if (key === "reassign-routine") {
       setOperationType("reassign-routine");
       setOperatingWorkout(workout);
@@ -329,8 +329,10 @@ export default function WorkoutList() {
   };
 
   const handleReassignWorkoutTemplateButton = () => {
+    if (userSettings === undefined) return;
+
     setOperationType("reassign-workout-template");
-    handleOpenWorkoutTemplateListModal();
+    handleOpenWorkoutTemplateListModal(userSettings);
   };
 
   const reassignRoutine = async (routine: Routine) => {
@@ -444,7 +446,9 @@ export default function WorkoutList() {
         workoutTemplateNote={null}
         buttonAction={updateWorkout}
         header={operatingWorkout.formattedDate}
-        handleChangeWorkoutTemplateButton={handleOpenWorkoutTemplateListModal}
+        handleChangeWorkoutTemplateButton={() =>
+          handleOpenWorkoutTemplateListModal(userSettings)
+        }
         handleRemoveWorkoutTemplateButton={removeWorkoutTemplate}
         handleReassignWorkoutTemplateButton={
           handleReassignWorkoutTemplateButton
@@ -455,6 +459,7 @@ export default function WorkoutList() {
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
+        userSettings={userSettings}
         onClickAction={
           operationType === "reassign-workout-template"
             ? reassignWorkoutTemplate

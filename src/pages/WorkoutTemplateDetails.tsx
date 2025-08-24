@@ -113,10 +113,10 @@ export default function WorkoutTemplateDetails() {
     return {
       "copy-workout-template": {
         text: "Copy Workout Template",
-        function: () => handleOpenWorkoutTemplateListModal(),
+        function: () => handleOpenWorkoutTemplateListModal(userSettings),
       },
     };
-  }, [handleOpenWorkoutTemplateListModal]);
+  }, [handleOpenWorkoutTemplateListModal, userSettings]);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu({
     detailsType: "Workout Template",
@@ -339,6 +339,7 @@ export default function WorkoutTemplateDetails() {
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
+        userSettings={userSettings}
         onClickAction={handleClickWorkoutTemplate}
         header="Select Workout Template To Copy"
       />

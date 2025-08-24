@@ -136,6 +136,7 @@ export default function WorkoutIndex() {
     <>
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
+        userSettings={userSettings}
         onClickAction={handleClickWorkoutTemplate}
         header={<span>Load Workout Template</span>}
       />
@@ -188,7 +189,7 @@ export default function WorkoutIndex() {
             <Button
               className="font-medium text-base"
               color="primary"
-              onPress={handleOpenWorkoutTemplateListModal}
+              onPress={() => handleOpenWorkoutTemplateListModal(userSettings)}
             >
               New Workout From Template
             </Button>

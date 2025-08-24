@@ -486,14 +486,16 @@ export type UseWorkoutTemplateListReturnType = {
   workoutTemplateListModal: UseDisclosureReturnType;
   workoutTemplates: WorkoutTemplate[];
   setWorkoutTemplates: React.Dispatch<React.SetStateAction<WorkoutTemplate[]>>;
-  handleOpenWorkoutTemplateListModal: () => void;
+  handleOpenWorkoutTemplateListModal: (
+    userSettings: UserSettings | undefined
+  ) => void;
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredWorkoutTemplates: WorkoutTemplate[];
   handleSortOptionSelection: (key: string) => void;
   sortCategory: WorkoutTemplateSortCategory;
   filterWorkoutTemplateListModal: UseDisclosureReturnType;
-  handleOpenFilterButton: () => void;
+  handleOpenFilterButton: (userSettings: UserSettings) => void;
   listFilters: UseListFiltersReturnType;
   workoutTemplateMap: React.RefObject<WorkoutTemplateMap>;
   isWorkoutTemplateListLoaded: React.RefObject<boolean>;
@@ -503,6 +505,7 @@ export type UseWorkoutTemplateListReturnType = {
   ) => void;
   loadWorkoutTemplateList: (userSettings: UserSettings) => Promise<void>;
   loadWorkoutTemplatesString: (
+    userSettings: UserSettings,
     workoutTemplatesString: string
   ) => Promise<Set<number>>;
 };

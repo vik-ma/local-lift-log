@@ -1,5 +1,6 @@
 import { Button, ScrollShadow } from "@heroui/react";
 import {
+  UserSettings,
   UseWorkoutTemplateListReturnType,
   WorkoutTemplate,
 } from "../../typings";
@@ -16,12 +17,14 @@ import { FormatNumItemsString } from "../../helpers";
 type WorkoutTemplateModalListProps = {
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
   onClickAction: (workoutTemplate: WorkoutTemplate) => void;
+  userSettings: UserSettings;
   filterWorkoutTemplates?: Set<number>;
 };
 
 export const WorkoutTemplateModalList = ({
   useWorkoutTemplateList,
   onClickAction,
+  userSettings,
   filterWorkoutTemplates,
 }: WorkoutTemplateModalListProps) => {
   const {
@@ -58,6 +61,7 @@ export const WorkoutTemplateModalList = ({
           </Button>
           <WorkoutTemplateListOptions
             useWorkoutTemplateList={useWorkoutTemplateList}
+            userSettings={userSettings}
           />
         </div>
         {filterMap.size > 0 && (

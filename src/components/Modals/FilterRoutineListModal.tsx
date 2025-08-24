@@ -180,6 +180,7 @@ export const FilterRoutineListModal = ({
                 <WorkoutTemplateModalList
                   useWorkoutTemplateList={useWorkoutTemplateList}
                   onClickAction={handleClickWorkoutTemplate}
+                  userSettings={userSettings}
                   filterWorkoutTemplates={filterWorkoutTemplates}
                 />
               ) : (

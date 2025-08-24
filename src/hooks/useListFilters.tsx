@@ -898,6 +898,7 @@ export const useListFilters = ({
             if (useWorkoutTemplateList !== undefined) {
               const workoutTemplates =
                 await useWorkoutTemplateList.loadWorkoutTemplatesString(
+                  userSettings,
                   workoutTemplatesString
                 );
 
