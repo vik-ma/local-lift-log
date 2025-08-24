@@ -430,7 +430,6 @@ export type UseDisclosureReturnType = ReturnType<typeof useDisclosure>;
 export type UseWorkoutListReturnType = {
   workouts: Workout[];
   setWorkouts: React.Dispatch<React.SetStateAction<Workout[]>>;
-  getWorkouts: (category: WorkoutSortCategory) => void;
   handleOpenWorkoutListModal: (userSettings: UserSettings | undefined) => void;
   workoutListModal: UseDisclosureReturnType;
   filteredWorkouts: Workout[];
@@ -499,7 +498,6 @@ export type UseWorkoutTemplateListReturnType = {
   listFilters: UseListFiltersReturnType;
   workoutTemplateMap: React.RefObject<WorkoutTemplateMap>;
   isWorkoutTemplateListLoaded: React.RefObject<boolean>;
-  getWorkoutTemplates: (category: WorkoutTemplateSortCategory) => Promise<void>;
   sortWorkoutTemplatesByActiveCategory: (
     workoutTemplateList: WorkoutTemplate[]
   ) => void;

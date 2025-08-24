@@ -7,8 +7,8 @@ import {
   StoreRef,
   UseExerciseListReturnType,
   UseRoutineListReturnType,
+  UserSettings,
   UseWorkoutTemplateListReturnType,
-  WorkoutTemplateSortCategory,
 } from "../typings";
 import { useDisclosure } from "@heroui/react";
 import {
@@ -52,7 +52,7 @@ export const useRoutineList = ({
   const {
     isWorkoutTemplateListLoaded,
     workoutTemplateMap,
-    getWorkoutTemplates,
+    loadWorkoutTemplateList,
   } = useWorkoutTemplateList;
 
   const listFilters = useListFilters({
@@ -282,7 +282,7 @@ export const useRoutineList = ({
     }
   };
 
-  const loadRoutineList = async () => {
+  const loadRoutineList = async (userSettings: UserSettings) => {
     if (!isExerciseListLoaded.current) {
       const exerciseSortCategory = await GetSortCategoryFromStore(
         store,
@@ -294,13 +294,7 @@ export const useRoutineList = ({
     }
 
     if (!isWorkoutTemplateListLoaded.current) {
-      const workoutTemplateSortCategory = await GetSortCategoryFromStore(
-        store,
-        "name" as WorkoutTemplateSortCategory,
-        "workout-templates"
-      );
-
-      await getWorkoutTemplates(workoutTemplateSortCategory);
+      await loadWorkoutTemplateList(userSettings)
     }
 
     if (!isRoutineListLoaded.current) {

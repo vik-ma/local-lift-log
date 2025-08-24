@@ -363,7 +363,6 @@ export const useWorkoutTemplateList = ({
     listFilters,
     workoutTemplateMap,
     isWorkoutTemplateListLoaded,
-    getWorkoutTemplates,
     sortWorkoutTemplatesByActiveCategory,
     loadWorkoutTemplateList,
     loadWorkoutTemplatesString,

@@ -9,7 +9,6 @@ import {
   UseWorkoutListReturnType,
   Workout,
   WorkoutSortCategory,
-  WorkoutTemplateSortCategory,
 } from "../typings";
 import Database from "@tauri-apps/plugin-sql";
 import {
@@ -62,7 +61,7 @@ export const useWorkoutList = ({
 
   const {
     isWorkoutTemplateListLoaded,
-    getWorkoutTemplates,
+    loadWorkoutTemplateList,
     workoutTemplateMap,
   } = workoutTemplateList;
 
@@ -249,13 +248,7 @@ export const useWorkoutList = ({
     }
 
     if (!isWorkoutTemplateListLoaded.current) {
-      const workoutTemplateSortCategory = await GetSortCategoryFromStore(
-        store,
-        "name" as WorkoutTemplateSortCategory,
-        "workout-templates"
-      );
-
-      await getWorkoutTemplates(workoutTemplateSortCategory);
+      await loadWorkoutTemplateList(userSettings);
     }
 
     if (!isRoutineListLoaded.current) {
@@ -427,7 +420,6 @@ export const useWorkoutList = ({
   return {
     workouts,
     setWorkouts,
-    getWorkouts,
     handleOpenWorkoutListModal,
     workoutListModal,
     filteredWorkouts,
