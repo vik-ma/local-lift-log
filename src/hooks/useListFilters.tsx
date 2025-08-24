@@ -677,18 +677,6 @@ export const useListFilters = ({
     return workoutTemplateNames.join(", ");
   };
 
-  // const handleClickMeasurement = (measurement: Measurement) => {
-  //   const updatedMeasurementSet = new Set(filterMeasurements);
-
-  //   if (updatedMeasurementSet.has(measurement.id.toString())) {
-  //     updatedMeasurementSet.delete(measurement.id.toString());
-  //   } else {
-  //     updatedMeasurementSet.add(measurement.id.toString());
-  //   }
-
-  //   setFilterMeasurements(updatedMeasurementSet);
-  // };
-
   const saveFilterMapToStore = async (storeFilterMap: StoreFilterMap) => {
     if (store.current === null) return;
 
