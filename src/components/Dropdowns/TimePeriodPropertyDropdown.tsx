@@ -8,18 +8,16 @@ import {
 import { UserSettings } from "../../typings";
 import { UpdateUserSetting, ValidTimePeriodPropertiesMap } from "../../helpers";
 import { useMemo } from "react";
-import toast from "react-hot-toast";
 
 type TimePeriodPropertyDropdownProps = {
   selectedTimePeriodProperties: Set<string>;
   setSelectedTimePeriodProperties: React.Dispatch<
     React.SetStateAction<Set<string>>
   >;
-  userSettings?: UserSettings;
-  setUserSettings?: React.Dispatch<
+  userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
-  isInSettingsPage?: boolean;
 };
 
 export const TimePeriodPropertyDropdown = ({
@@ -27,7 +25,6 @@ export const TimePeriodPropertyDropdown = ({
   setSelectedTimePeriodProperties,
   userSettings,
   setUserSettings,
-  isInSettingsPage,
 }: TimePeriodPropertyDropdownProps) => {
   const timePeriodProperties = useMemo(() => {
     return ValidTimePeriodPropertiesMap();
@@ -36,20 +33,14 @@ export const TimePeriodPropertyDropdown = ({
   const handleChange = async (keys: Set<string>) => {
     setSelectedTimePeriodProperties(keys);
 
-    if (userSettings !== undefined && setUserSettings !== undefined) {
-      const timePeriodPropertyString = Array.from(keys).join(",");
+    const timePeriodPropertyString = Array.from(keys).join(",");
 
-      const success = await UpdateUserSetting(
-        "shown_time_period_properties",
-        timePeriodPropertyString,
-        userSettings,
-        setUserSettings
-      );
-
-      if (success && isInSettingsPage) {
-        toast.success("Setting Updated");
-      }
-    }
+    await UpdateUserSetting(
+      "shown_time_period_properties",
+      timePeriodPropertyString,
+      userSettings,
+      setUserSettings
+    );
   };
 
   return (
@@ -58,11 +49,10 @@ export const TimePeriodPropertyDropdown = ({
         <Button
           aria-label="Toggle Display Time Period Properties Options Menu"
           className="z-1"
-          variant={isInSettingsPage ? "solid" : "flat"}
-          color={isInSettingsPage ? "primary" : "default"}
+          variant="flat"
           size="sm"
         >
-          {isInSettingsPage ? "Select" : "Display"}
+          Display
         </Button>
       </DropdownTrigger>
       <DropdownMenu

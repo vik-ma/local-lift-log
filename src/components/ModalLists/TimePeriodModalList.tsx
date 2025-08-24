@@ -18,8 +18,8 @@ import { Link, useNavigate } from "react-router-dom";
 type TimePeriodModalListProps = {
   useTimePeriodList: UseTimePeriodListReturnType;
   handleTimePeriodClick: (timePeriod: TimePeriod) => void;
-  userSettings?: UserSettings;
-  setUserSettings?: React.Dispatch<
+  userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
   customHeightString?: string;

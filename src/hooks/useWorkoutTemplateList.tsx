@@ -312,14 +312,18 @@ export const useWorkoutTemplateList = ({
     }
   };
 
-  const handleOpenFilterButton = async () => {
-    await loadWorkoutTemplateList();
+  const handleOpenFilterButton = async (userSettings: UserSettings) => {
+    await loadWorkoutTemplateList(userSettings);
 
     filterWorkoutTemplateListModal.onOpen();
   };
 
-  const handleOpenWorkoutTemplateListModal = async () => {
-    await loadWorkoutTemplateList();
+  const handleOpenWorkoutTemplateListModal = async (
+    userSettings: UserSettings | undefined
+  ) => {
+    if (userSettings === undefined) return;
+
+    await loadWorkoutTemplateList(userSettings);
 
     workoutTemplateListModal.onOpen();
   };

@@ -10,8 +10,8 @@ import {
 
 type TimePeriodListOptionsProps = {
   useTimePeriodList: UseTimePeriodListReturnType;
-  userSettings?: UserSettings;
-  setUserSettings?: React.Dispatch<
+  userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
 };
