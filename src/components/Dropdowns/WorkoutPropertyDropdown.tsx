@@ -8,7 +8,6 @@ import {
 import { UserSettings } from "../../typings";
 import { useMemo } from "react";
 import { UpdateUserSetting, ValidWorkoutPropertiesMap } from "../../helpers";
-import toast from "react-hot-toast";
 
 type WorkoutPropertyDropdownProps = {
   selectedWorkoutProperties: Set<string>;
@@ -19,7 +18,6 @@ type WorkoutPropertyDropdownProps = {
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
-  isInSettingsPage?: boolean;
 };
 
 export const WorkoutPropertyDropdown = ({
@@ -27,23 +25,18 @@ export const WorkoutPropertyDropdown = ({
   setSelectedWorkoutProperties,
   userSettings,
   setUserSettings,
-  isInSettingsPage,
 }: WorkoutPropertyDropdownProps) => {
   const handleChange = async (keys: Set<string>) => {
     setSelectedWorkoutProperties(keys);
 
     const workoutPropertyString = Array.from(keys).join(",");
 
-    const success = await UpdateUserSetting(
+    await UpdateUserSetting(
       "shown_workout_properties",
       workoutPropertyString,
       userSettings,
       setUserSettings
     );
-
-    if (success && isInSettingsPage) {
-      toast.success("Setting Updated");
-    }
   };
 
   const workoutProperties = useMemo(() => ValidWorkoutPropertiesMap(), []);
@@ -54,11 +47,10 @@ export const WorkoutPropertyDropdown = ({
         <Button
           aria-label="Toggle Display Workout Properties Options Menu"
           className="z-1"
-          variant={isInSettingsPage ? "solid" : "flat"}
-          color={isInSettingsPage ? "primary" : "default"}
+          variant="flat"
           size="sm"
         >
-          {isInSettingsPage ? "Select" : "Display"}
+          Display
         </Button>
       </DropdownTrigger>
       <DropdownMenu
