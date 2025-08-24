@@ -214,7 +214,7 @@ export default function RoutineDetails() {
 
       await LoadStore(store);
 
-      await loadWorkoutTemplateList();
+      await loadWorkoutTemplateList(userSettings);
     };
 
     if (isWorkoutTemplateListLoaded.current) {

@@ -501,7 +501,7 @@ export type UseWorkoutTemplateListReturnType = {
   sortWorkoutTemplatesByActiveCategory: (
     workoutTemplateList: WorkoutTemplate[]
   ) => void;
-  loadWorkoutTemplateList: () => Promise<void>;
+  loadWorkoutTemplateList: (userSettings: UserSettings) => Promise<void>;
   loadWorkoutTemplatesString: (
     workoutTemplatesString: string
   ) => Promise<Set<number>>;

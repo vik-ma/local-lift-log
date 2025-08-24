@@ -6,6 +6,8 @@ import {
   WorkoutTemplateMap,
   StoreRef,
   ExerciseSortCategory,
+  UserSettings,
+  ListFilterMapKey,
 } from "../typings";
 import { useState, useRef, useMemo } from "react";
 import { useDisclosure } from "@heroui/react";
@@ -47,6 +49,7 @@ export const useWorkoutTemplateList = ({
     isExerciseListLoaded,
     getExercises,
     includeSecondaryGroups,
+    setIncludeSecondaryGroups,
     exerciseMap,
   } = useExerciseList;
 
@@ -56,7 +59,7 @@ export const useWorkoutTemplateList = ({
     useExerciseList,
   });
 
-  const { filterMap, listFilterValues } = listFilters;
+  const { filterMap, listFilterValues, loadFilterMapFromStore } = listFilters;
 
   const { filterExercises, filterExerciseGroups } = listFilterValues;
 
@@ -166,7 +169,7 @@ export const useWorkoutTemplateList = ({
     }
   };
 
-  const loadWorkoutTemplateList = async () => {
+  const loadWorkoutTemplateList = async (userSettings: UserSettings) => {
     if (!isExerciseListLoaded.current) {
       const exerciseSortCategory = await GetSortCategoryFromStore(
         store,
@@ -178,6 +181,17 @@ export const useWorkoutTemplateList = ({
     }
 
     if (!isWorkoutTemplateListLoaded.current) {
+      setIncludeSecondaryGroups(
+        userSettings.show_secondary_exercise_groups === 1
+      );
+
+      const validFilterKeys = new Set<ListFilterMapKey>([
+        "exercises",
+        "exercise-groups",
+      ]);
+
+      await loadFilterMapFromStore(userSettings.locale, validFilterKeys);
+
       const workoutTemplateSortCategory = await GetSortCategoryFromStore(
         store,
         "name" as WorkoutTemplateSortCategory,

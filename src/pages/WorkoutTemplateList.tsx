@@ -1,5 +1,5 @@
 import Database from "@tauri-apps/plugin-sql";
-import { ListFilterMapKey, UserSettings, WorkoutTemplate } from "../typings";
+import { UserSettings, WorkoutTemplate } from "../typings";
 import {
   Button,
   useDisclosure,
@@ -61,8 +61,6 @@ export default function WorkoutTemplateList() {
 
   const exerciseList = useExerciseList({ store: store });
 
-  const { setIncludeSecondaryGroups } = exerciseList;
-
   const exerciseListFilters = useExerciseListFilters({
     useExerciseList: exerciseList,
   });
@@ -84,8 +82,7 @@ export default function WorkoutTemplateList() {
     loadWorkoutTemplateList,
   } = workoutTemplateList;
 
-  const { filterMap, removeFilter, prefixMap, loadFilterMapFromStore } =
-    listFilters;
+  const { filterMap, removeFilter, prefixMap } = listFilters;
 
   useEffect(() => {
     const loadPage = async () => {
@@ -95,20 +92,9 @@ export default function WorkoutTemplateList() {
 
       setUserSettings(userSettings);
 
-      setIncludeSecondaryGroups(
-        userSettings.show_secondary_exercise_groups === 1
-      );
-
       await LoadStore(store);
 
-      const validFilterKeys = new Set<ListFilterMapKey>([
-        "exercises",
-        "exercise-groups",
-      ]);
-
-      await loadFilterMapFromStore(userSettings.locale, validFilterKeys);
-
-      await loadWorkoutTemplateList();
+      await loadWorkoutTemplateList(userSettings);
     };
 
     loadPage();
