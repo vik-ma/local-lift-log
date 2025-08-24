@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import {
   ExerciseSortCategory,
+  ListFilterMapKey,
   Routine,
   RoutineMap,
   RoutineSortCategory,
@@ -62,7 +63,7 @@ export const useRoutineList = ({
     useWorkoutTemplateList: useWorkoutTemplateList,
   });
 
-  const { filterMap, listFilterValues } = listFilters;
+  const { filterMap, listFilterValues, loadFilterMapFromStore } = listFilters;
 
   const {
     filterWorkoutTemplates,
@@ -294,10 +295,19 @@ export const useRoutineList = ({
     }
 
     if (!isWorkoutTemplateListLoaded.current) {
-      await loadWorkoutTemplateList(userSettings)
+      await loadWorkoutTemplateList(userSettings);
     }
 
     if (!isRoutineListLoaded.current) {
+      const validFilterKeys = new Set<ListFilterMapKey>([
+        "workout-templates",
+        "schedule-types",
+        "min-num-schedule-days",
+        "max-num-schedule-days",
+      ]);
+
+      await loadFilterMapFromStore(userSettings, validFilterKeys);
+
       const routineSortCategory = await GetSortCategoryFromStore(
         store,
         "name" as RoutineSortCategory,

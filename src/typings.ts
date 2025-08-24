@@ -681,7 +681,7 @@ export type UseRoutineListReturnType = {
   filterRoutineListModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => Promise<void>;
   sortRoutinesByActiveCategory: (routineList: Routine[]) => void;
-  loadRoutineList: () => Promise<void>;
+  loadRoutineList: (userSettings: UserSettings) => Promise<void>;
   loadRoutinesString: (routinesString: string) => Promise<Set<number>>;
 };
 
