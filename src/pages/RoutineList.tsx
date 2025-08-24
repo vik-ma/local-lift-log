@@ -118,7 +118,7 @@ export default function RoutineList() {
         "max-num-schedule-days",
       ]);
 
-      await loadFilterMapFromStore(userSettings.locale, validFilterKeys);
+      await loadFilterMapFromStore(userSettings, validFilterKeys);
 
       await loadRoutineList();
     };

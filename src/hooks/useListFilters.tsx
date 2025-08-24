@@ -9,6 +9,7 @@ import {
   UseRoutineListReturnType,
   UseMeasurementListReturnType,
   UseWorkoutTemplateListReturnType,
+  UserSettings,
 } from "../typings";
 import {
   useWeekdayMap,
@@ -699,7 +700,7 @@ export const useListFilters = ({
   };
 
   const loadFilterMapFromStore = async (
-    locale: string,
+    userSettings: UserSettings,
     validFilterKeys: Set<StoreFilterMapKey>
   ) => {
     if (store.current === null) return;
@@ -715,7 +716,7 @@ export const useListFilters = ({
         JSON.parse(val.value);
 
       if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
-        handleFilterSaveButton(locale, defaultListFilterValues);
+        handleFilterSaveButton(userSettings.locale, defaultListFilterValues);
         return;
       }
 
@@ -1044,9 +1045,9 @@ export const useListFilters = ({
         }
       }
 
-      handleFilterSaveButton(locale, filterStoreValues);
+      handleFilterSaveButton(userSettings.locale, filterStoreValues);
     } catch {
-      handleFilterSaveButton(locale, defaultListFilterValues);
+      handleFilterSaveButton(userSettings.locale, defaultListFilterValues);
     }
   };
 

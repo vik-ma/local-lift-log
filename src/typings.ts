@@ -476,7 +476,7 @@ export type UseListFiltersReturnType = {
     workoutTemplateIdSet: Set<number>
   ) => string;
   loadFilterMapFromStore: (
-    locale: string,
+    userSettings: UserSettings,
     validFilterKeys: Set<ListFilterMapKey>
   ) => Promise<void>;
   listFilterValues: ListFilterValues;

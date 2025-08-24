@@ -190,7 +190,7 @@ export const useWorkoutTemplateList = ({
         "exercise-groups",
       ]);
 
-      await loadFilterMapFromStore(userSettings.locale, validFilterKeys);
+      await loadFilterMapFromStore(userSettings, validFilterKeys);
 
       const workoutTemplateSortCategory = await GetSortCategoryFromStore(
         store,

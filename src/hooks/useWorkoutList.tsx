@@ -290,7 +290,7 @@ export const useWorkoutList = ({
         "workout-templates",
       ]);
 
-      await loadFilterMapFromStore(userSettings.locale, validFilterKeys);
+      await loadFilterMapFromStore(userSettings, validFilterKeys);
 
       const workoutSortCategory = await GetSortCategoryFromStore(
         store,
