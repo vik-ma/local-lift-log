@@ -176,7 +176,7 @@ export default function WorkoutDetails() {
       },
       "copy-workout": {
         text: "Copy Previous Workout",
-        function: () => handleOpenWorkoutListModal(),
+        function: () => handleOpenWorkoutListModal(userSettings),
       },
     };
   }, [
@@ -184,6 +184,7 @@ export default function WorkoutDetails() {
     showWorkoutTemplateComment,
     handleOpenWorkoutListModal,
     handleOpenWorkoutTemplateListModal,
+    userSettings,
   ]);
 
   const useDetailsHeaderOptions = useDetailsHeaderOptionsMenu({

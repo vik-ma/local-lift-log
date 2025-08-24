@@ -431,7 +431,7 @@ export type UseWorkoutListReturnType = {
   workouts: Workout[];
   setWorkouts: React.Dispatch<React.SetStateAction<Workout[]>>;
   getWorkouts: (category: WorkoutSortCategory) => void;
-  handleOpenWorkoutListModal: () => void;
+  handleOpenWorkoutListModal: (userSettings: UserSettings | undefined) => void;
   workoutListModal: UseDisclosureReturnType;
   filteredWorkouts: Workout[];
   filterQuery: string;
@@ -443,7 +443,7 @@ export type UseWorkoutListReturnType = {
   sortCategory: WorkoutSortCategory;
   handleSortOptionSelection: (key: string) => void;
   filterWorkoutListModal: UseDisclosureReturnType;
-  handleOpenFilterButton: () => void;
+  handleOpenFilterButton: (userSettings: UserSettings) => void;
   routineList: UseRoutineListReturnType;
   listFilters: UseListFiltersReturnType;
   workoutTemplateList: UseWorkoutTemplateListReturnType;

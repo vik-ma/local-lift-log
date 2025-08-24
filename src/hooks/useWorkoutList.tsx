@@ -408,15 +408,18 @@ export const useWorkoutList = ({
         break;
     }
   };
-
-  const handleOpenFilterButton = async () => {
-    await loadWorkoutList();
+  const handleOpenFilterButton = async (userSettings: UserSettings) => {
+    await loadWorkoutList(userSettings);
 
     filterWorkoutListModal.onOpen();
   };
 
-  const handleOpenWorkoutListModal = async () => {
-    await loadWorkoutList();
+  const handleOpenWorkoutListModal = async (
+    userSettings: UserSettings | undefined
+  ) => {
+    if (userSettings === undefined) return;
+
+    await loadWorkoutList(userSettings);
 
     workoutListModal.onOpen();
   };
