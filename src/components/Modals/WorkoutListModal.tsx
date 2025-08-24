@@ -8,7 +8,7 @@ import {
   ScrollShadow,
   Checkbox,
 } from "@heroui/react";
-import { UseWorkoutListReturnType, Workout } from "../../typings";
+import { UserSettings, UseWorkoutListReturnType, Workout } from "../../typings";
 import { CreateShownPropertiesSet } from "../../helpers";
 import { useState } from "react";
 import {
@@ -22,12 +22,18 @@ import {
 type WorkoutListModalProps = {
   workoutList: UseWorkoutListReturnType;
   shownWorkoutProperties: string;
+  userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
   onClickAction: (workoutToCopy: Workout, keepSetValues: boolean) => void;
 };
 
 export const WorkoutListModal = ({
   workoutList,
   shownWorkoutProperties,
+  userSettings,
+  setUserSettings,
   onClickAction,
 }: WorkoutListModalProps) => {
   const [keepSetValues, setKeepSetValues] = useState<boolean>(false);
@@ -82,6 +88,8 @@ export const WorkoutListModal = ({
                       setSelectedWorkoutProperties={
                         setSelectedWorkoutProperties
                       }
+                      userSettings={userSettings}
+                      setUserSettings={setUserSettings}
                     />
                   </div>
                   {filterMap.size > 0 && (

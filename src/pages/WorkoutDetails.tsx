@@ -469,6 +469,8 @@ export default function WorkoutDetails() {
         workoutList={workoutList}
         shownWorkoutProperties={userSettings.shown_workout_properties}
         onClickAction={handleClickWorkout}
+        userSettings={userSettings}
+        setUserSettings={setUserSettings}
       />
       <DeleteModal
         deleteModal={deleteModal}

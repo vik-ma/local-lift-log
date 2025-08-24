@@ -15,8 +15,8 @@ type WorkoutListOptionsProps = {
   setSelectedWorkoutProperties: React.Dispatch<
     React.SetStateAction<Set<string>>
   >;
-  userSettings?: UserSettings;
-  setUserSettings?: React.Dispatch<
+  userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
   handleOptionMenuSelection?: (key: string) => void;
@@ -53,7 +53,7 @@ export const WorkoutListOptions = ({
         variant="flat"
         color={filterMap.size > 0 ? "secondary" : "default"}
         size="sm"
-        onPress={handleOpenFilterButton}
+        onPress={() => handleOpenFilterButton(userSettings)}
       >
         Filter
       </Button>

@@ -143,6 +143,8 @@ export default function WorkoutIndex() {
         workoutList={workoutList}
         shownWorkoutProperties={userSettings.shown_workout_properties}
         onClickAction={handleClickWorkout}
+        userSettings={userSettings}
+        setUserSettings={setUserSettings}
       />
       <FilterWorkoutListModal
         useWorkoutList={workoutList}
@@ -193,7 +195,7 @@ export default function WorkoutIndex() {
             <Button
               className="font-medium text-base"
               color="primary"
-              onPress={handleOpenWorkoutListModal}
+              onPress={() => handleOpenWorkoutListModal(userSettings)}
             >
               Copy Previous Workout
             </Button>
