@@ -46,6 +46,7 @@ export { UpdateExerciseGroupStrings } from "./Exercises/UpdateExerciseGroupStrin
 export { CreateExerciseGroupSetPrimary } from "./Exercises/CreateExerciseGroupSetPrimary";
 export { CreateExerciseGroupSetSecondary } from "./Exercises/CreateExerciseGroupSetSecondary";
 export { CreateExerciseSetIds } from "./Exercises/CreateExerciseSetIds";
+export { DefaultExerciseFilterValues } from "./Exercises/DefaultExerciseFilterValues";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleDayValues";
