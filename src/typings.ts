@@ -369,6 +369,7 @@ export type UseExerciseListReturnType = {
   exerciseGroupDictionary: ExerciseGroupMap;
   loadExercisesString: (exercisesString: string) => Promise<Set<number>>;
   loadExerciseGroupsString: (exerciseGroupsString: string) => string[];
+  loadExerciseList: (userSettings: UserSettings) => Promise<void>;
 };
 
 export type UseExerciseListFiltersReturnType = {

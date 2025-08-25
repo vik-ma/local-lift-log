@@ -61,9 +61,9 @@ export default function ExerciseList() {
     toggleFavorite,
     sortExercisesByActiveCategory,
     includeSecondaryGroups,
-    setIncludeSecondaryGroups,
     isExerciseListLoaded,
     exerciseGroupDictionary,
+    loadExerciseList,
   } = exerciseList;
 
   const exerciseListFilters = useExerciseListFilters({
@@ -216,19 +216,9 @@ export default function ExerciseList() {
 
       setUserSettings(userSettings);
 
-      setIncludeSecondaryGroups(
-        userSettings.show_secondary_exercise_groups === 1
-      );
-
       await LoadStore(store);
 
-      const sortCategory = await GetSortCategoryFromStore(
-        store,
-        "favorite" as ExerciseSortCategory,
-        "exercises"
-      );
-
-      await getExercises(sortCategory);
+      await loadExerciseList(userSettings);
     };
 
     loadPage();

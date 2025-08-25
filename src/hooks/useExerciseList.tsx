@@ -12,6 +12,7 @@ import {
   ExerciseSortCategory,
   ExerciseMap,
   StoreRef,
+  UserSettings,
 } from "../typings";
 import { useExerciseGroupDictionary, useExerciseGroupList } from ".";
 
@@ -188,6 +189,22 @@ export const useExerciseList = ({
     return exerciseIdSet;
   };
 
+  const loadExerciseList = async (userSettings: UserSettings) => {
+    if (isExerciseListLoaded.current) return;
+
+    setIncludeSecondaryGroups(
+      userSettings.show_secondary_exercise_groups === 1
+    );
+
+    const sortCategory = await GetSortCategoryFromStore(
+      store,
+      "favorite" as ExerciseSortCategory,
+      "exercises"
+    );
+
+    await getExercises(sortCategory);
+  };
+
   return {
     exercises,
     setExercises,
@@ -204,5 +221,6 @@ export const useExerciseList = ({
     exerciseGroupDictionary,
     loadExercisesString,
     loadExerciseGroupsString,
+    loadExerciseList,
   };
 };
