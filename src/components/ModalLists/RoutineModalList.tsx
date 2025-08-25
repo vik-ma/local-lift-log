@@ -9,13 +9,14 @@ import {
   FormatNumItemsString,
   FormatRoutineScheduleTypeString,
 } from "../../helpers";
-import { Routine, UseRoutineListReturnType } from "../../typings";
+import { Routine, UseRoutineListReturnType, UserSettings } from "../../typings";
 import { GoToArrowIcon } from "../../assets";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 
 type RoutineModalListProps = {
   useRoutineList: UseRoutineListReturnType;
+  userSettings: UserSettings;
   onClickAction: (routine: Routine) => void;
   activeRoutineId?: number;
   highlightedRoutines?: Set<number>;
@@ -24,6 +25,7 @@ type RoutineModalListProps = {
 
 export const RoutineModalList = ({
   useRoutineList,
+  userSettings,
   onClickAction,
   activeRoutineId,
   highlightedRoutines,
@@ -65,7 +67,10 @@ export const RoutineModalList = ({
           >
             Edit Routines
           </Button>
-          <RoutineListOptions useRoutineList={useRoutineList} />
+          <RoutineListOptions
+            useRoutineList={useRoutineList}
+            userSettings={userSettings}
+          />
         </div>
         {filterMap.size > 0 && (
           <ListFilters

@@ -6,18 +6,20 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/react";
-import { Routine, UseRoutineListReturnType } from "../../typings";
+import { Routine, UseRoutineListReturnType, UserSettings } from "../../typings";
 import { RoutineModalList } from "..";
 
 type RoutineListModal = {
   useRoutineList: UseRoutineListReturnType;
   activeRoutineId: number;
+  userSettings: UserSettings;
   onClickAction: (routine: Routine) => void;
 };
 
 export const RoutineListModal = ({
   useRoutineList,
   activeRoutineId,
+  userSettings,
   onClickAction,
 }: RoutineListModal) => {
   const { routineListModal } = useRoutineList;
@@ -36,6 +38,7 @@ export const RoutineListModal = ({
                 useRoutineList={useRoutineList}
                 onClickAction={onClickAction}
                 activeRoutineId={activeRoutineId}
+                userSettings={userSettings}
               />
             </ModalBody>
             <ModalFooter>

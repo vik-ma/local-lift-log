@@ -789,6 +789,7 @@ export const useListFilters = ({
 
             if (useRoutineList !== undefined) {
               const routines = await useRoutineList.loadRoutinesString(
+                userSettings,
                 routinesString
               );
 

@@ -267,6 +267,7 @@ export const FilterWorkoutListModal = ({
                   activeRoutineId={userSettings.active_routine_id}
                   highlightedRoutines={filterRoutines}
                   customHeightString="h-[400px]"
+                  userSettings={userSettings}
                 />
               ) : modalPage === "exercise-list" ? (
                 <ExerciseModalList
