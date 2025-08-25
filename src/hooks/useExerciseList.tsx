@@ -151,15 +151,17 @@ export const useExerciseList = ({
   };
 
   const loadExerciseGroupsString = (exerciseGroupsString: string) => {
-    const exerciseGroupList: string[] = [];
+    const exerciseGroupSet = new Set<string>();
 
     const exerciseGroups = exerciseGroupsString.split(",");
 
     for (const group of exerciseGroups) {
       if (exerciseGroupDictionary.has(group)) {
-        exerciseGroupList.push(group);
+        exerciseGroupSet.add(group);
       }
     }
+
+    const exerciseGroupList = Array.from(exerciseGroupSet);
 
     return exerciseGroupList;
   };
