@@ -190,7 +190,7 @@ export default function WorkoutList() {
     } else if (key === "reassign-routine") {
       setOperationType("reassign-routine");
       setOperatingWorkout(workout);
-      routineList.handleOpenRoutineListModal();
+      routineList.handleOpenRoutineListModal(userSettings);
     }
   };
 
@@ -405,8 +405,10 @@ export default function WorkoutList() {
   };
 
   const handleReassignRoutineButton = () => {
+    if (userSettings === undefined) return;
+
     setOperationType("reassign-routine");
-    routineList.handleOpenRoutineListModal();
+    routineList.handleOpenRoutineListModal(userSettings);
   };
 
   if (userSettings === undefined || !isWorkoutListLoaded.current)
@@ -456,6 +458,7 @@ export default function WorkoutList() {
         handleChangeRoutineButton={routineList.handleOpenRoutineListModal}
         handleRemoveRoutineButton={removeRoutine}
         handleReassignRoutineButton={handleReassignRoutineButton}
+        userSettings={userSettings}
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}

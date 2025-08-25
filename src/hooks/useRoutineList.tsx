@@ -318,20 +318,27 @@ export const useRoutineList = ({
     }
   };
 
-  const handleOpenRoutineListModal = async () => {
-    await loadRoutineList();
+  const handleOpenRoutineListModal = async (userSettings: UserSettings) => {
+    await loadRoutineList(userSettings);
 
     routineListModal.onOpen();
   };
 
-  const handleOpenFilterButton = async () => {
-    await loadRoutineList();
+  const handleOpenFilterButton = async (
+    userSettings: UserSettings | undefined
+  ) => {
+    if (userSettings === undefined) return;
+
+    await loadRoutineList(userSettings);
 
     filterRoutineListModal.onOpen();
   };
 
-  const loadRoutinesString = async (routinesString: string) => {
-    await loadRoutineList();
+  const loadRoutinesString = async (
+    userSettings: UserSettings,
+    routinesString: string
+  ) => {
+    await loadRoutineList(userSettings);
 
     const routineIdSet = new Set<number>();
 
@@ -359,7 +366,6 @@ export const useRoutineList = ({
     isRoutineListLoaded,
     sortCategory,
     handleSortOptionSelection,
-    getRoutines,
     listFilters,
     filterRoutineListModal,
     handleOpenFilterButton,

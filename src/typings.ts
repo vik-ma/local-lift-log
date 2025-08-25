@@ -671,18 +671,22 @@ export type UseRoutineListReturnType = {
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   routineListModal: UseDisclosureReturnType;
-  handleOpenRoutineListModal: () => void;
+  handleOpenRoutineListModal: (userSettings: UserSettings) => void;
   routineMap: React.RefObject<RoutineMap>;
   isRoutineListLoaded: React.RefObject<boolean>;
   sortCategory: RoutineSortCategory;
   handleSortOptionSelection: (key: string) => void;
-  getRoutines: (category: RoutineSortCategory) => Promise<void>;
   listFilters: UseListFiltersReturnType;
   filterRoutineListModal: UseDisclosureReturnType;
-  handleOpenFilterButton: () => Promise<void>;
+  handleOpenFilterButton: (
+    userSettings: UserSettings | undefined
+  ) => Promise<void>;
   sortRoutinesByActiveCategory: (routineList: Routine[]) => void;
   loadRoutineList: (userSettings: UserSettings) => Promise<void>;
-  loadRoutinesString: (routinesString: string) => Promise<Set<number>>;
+  loadRoutinesString: (
+    userSettings: UserSettings,
+    routinesString: string
+  ) => Promise<Set<number>>;
 };
 
 export type UseMeasurementListReturnType = {

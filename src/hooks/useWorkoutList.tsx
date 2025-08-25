@@ -2,7 +2,6 @@ import { useState, useRef, useMemo } from "react";
 import {
   ExerciseSortCategory,
   ListFilterMapKey,
-  RoutineSortCategory,
   StoreRef,
   UseExerciseListReturnType,
   UserSettings,
@@ -71,7 +70,7 @@ export const useWorkoutList = ({
     useWorkoutTemplateList: workoutTemplateList,
   });
 
-  const { routineMap, isRoutineListLoaded, getRoutines } = routineList;
+  const { routineMap, loadRoutineList } = routineList;
 
   const listFilters = useListFilters({
     store: store,
@@ -251,15 +250,7 @@ export const useWorkoutList = ({
       await loadWorkoutTemplateList(userSettings);
     }
 
-    if (!isRoutineListLoaded.current) {
-      const routineSortCategory = await GetSortCategoryFromStore(
-        store,
-        "name" as RoutineSortCategory,
-        "routines"
-      );
-
-      await getRoutines(routineSortCategory);
-    }
+    await loadRoutineList(userSettings);
 
     if (!isWorkoutListLoaded.current) {
       const workoutPropertySet = CreateShownPropertiesSet(

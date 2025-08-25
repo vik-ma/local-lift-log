@@ -10,7 +10,7 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@heroui/react";
-import { UseDisclosureReturnType, Workout } from "../../typings";
+import { UseDisclosureReturnType, UserSettings, Workout } from "../../typings";
 import {
   ConvertEmptyStringToNull,
   ConvertNullToEmptyInputString,
@@ -27,9 +27,10 @@ type WorkoutModalProps = {
   handleChangeWorkoutTemplateButton?: () => void;
   handleRemoveWorkoutTemplateButton?: () => void;
   handleReassignWorkoutTemplateButton?: () => void;
-  handleChangeRoutineButton?: () => void;
+  handleChangeRoutineButton?: (userSettings: UserSettings) => void;
   handleRemoveRoutineButton?: () => void;
   handleReassignRoutineButton?: () => void;
+  userSettings?: UserSettings;
   resetInputsAfterSaving?: boolean;
 };
 
@@ -45,6 +46,7 @@ export const WorkoutModal = ({
   handleChangeRoutineButton,
   handleRemoveRoutineButton,
   handleReassignRoutineButton,
+  userSettings,
   resetInputsAfterSaving,
 }: WorkoutModalProps) => {
   const [commentInput, setCommentInput] = useState<string>("");
@@ -181,7 +183,8 @@ export const WorkoutModal = ({
                       </div>
                     )}
                   {handleChangeRoutineButton !== undefined &&
-                    handleRemoveRoutineButton !== undefined && (
+                    handleRemoveRoutineButton !== undefined &&
+                    userSettings !== undefined && (
                       <div className="flex flex-col px-0.5">
                         <div className="flex items-center gap-px">
                           <h3 className="font-medium">Routine</h3>
@@ -212,7 +215,9 @@ export const WorkoutModal = ({
                                 <Button
                                   variant="flat"
                                   size="sm"
-                                  onPress={handleChangeRoutineButton}
+                                  onPress={() =>
+                                    handleChangeRoutineButton(userSettings)
+                                  }
                                 >
                                   Change
                                 </Button>
@@ -249,7 +254,9 @@ export const WorkoutModal = ({
                               <Button
                                 variant="flat"
                                 size="sm"
-                                onPress={handleChangeRoutineButton}
+                                onPress={() =>
+                                  handleChangeRoutineButton(userSettings)
+                                }
                               >
                                 Add
                               </Button>
