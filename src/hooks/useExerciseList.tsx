@@ -35,7 +35,7 @@ export const useExerciseList = ({
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<ExerciseSortCategory>("favorite");
-  const [includeSecondaryGroups, setIncludeSecondaryGroups] =
+  const [showSecondaryGroups, setShowSecondaryGroups] =
     useState<boolean>(false);
   const exerciseMap = useRef<ExerciseMap>(new Map());
 
@@ -48,7 +48,7 @@ export const useExerciseList = ({
 
   const { filterMap, exerciseFilterValues } = exerciseListFilters;
 
-  const { filterExerciseGroups } = exerciseFilterValues;
+  const { filterExerciseGroups, includeSecondaryGroups } = exerciseFilterValues;
 
   const filteredExercises = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
@@ -62,7 +62,7 @@ export const useExerciseList = ({
             item
               .formattedGroupStringPrimary!.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase()) ||
-            (includeSecondaryGroups &&
+            (showSecondaryGroups &&
               item.formattedGroupStringSecondary
                 ?.toLocaleLowerCase()
                 .includes(filterQuery.toLocaleLowerCase()))) &&
@@ -82,6 +82,7 @@ export const useExerciseList = ({
     exercises,
     filterQuery,
     filterExerciseGroups,
+    showSecondaryGroups,
     includeSecondaryGroups,
     filterMap,
   ]);
@@ -236,7 +237,7 @@ export const useExerciseList = ({
   const loadExerciseList = async (userSettings: UserSettings) => {
     if (isExerciseListLoaded.current) return;
 
-    setIncludeSecondaryGroups(!!userSettings.show_secondary_exercise_groups);
+    setShowSecondaryGroups(!!userSettings.show_secondary_exercise_groups);
 
     const sortCategory = await GetSortCategoryFromStore(
       store,
@@ -259,13 +260,14 @@ export const useExerciseList = ({
     sortCategory,
     exerciseGroupList,
     sortExercisesByActiveCategory,
-    includeSecondaryGroups,
-    setIncludeSecondaryGroups,
+    showSecondaryGroups,
+    setShowSecondaryGroups,
     isExerciseListLoaded,
     exerciseMap,
     exerciseGroupDictionary,
     loadExercisesString,
     loadExerciseGroupsString,
     loadExerciseList,
+    exerciseListFilters,
   };
 };

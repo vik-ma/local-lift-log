@@ -365,8 +365,8 @@ export type UseExerciseListReturnType = {
   sortCategory: ExerciseSortCategory;
   exerciseGroupList: string[];
   sortExercisesByActiveCategory: (exerciseList: Exercise[]) => void;
-  includeSecondaryGroups: boolean;
-  setIncludeSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
+  showSecondaryGroups: boolean;
+  setShowSecondaryGroups: React.Dispatch<React.SetStateAction<boolean>>;
   isExerciseListLoaded: React.RefObject<boolean>;
   exerciseMap: React.RefObject<ExerciseMap>;
   exerciseGroupDictionary: ExerciseGroupMap;
@@ -376,6 +376,7 @@ export type UseExerciseListReturnType = {
   ) => Promise<Set<number>>;
   loadExerciseGroupsString: (exerciseGroupsString: string) => string[];
   loadExerciseList: (userSettings: UserSettings) => Promise<void>;
+  exerciseListFilters: UseExerciseListFiltersReturnType;
 };
 
 export type UseExerciseListFiltersReturnType = {

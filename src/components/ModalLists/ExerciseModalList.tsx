@@ -40,16 +40,16 @@ export const ExerciseModalList = ({
   selectedExercises,
   isInAnalyticsPage,
 }: ExerciseModalListProps) => {
-  const { toggleFavorite, exercises, includeSecondaryGroups } = useExerciseList;
-
   const {
+    toggleFavorite,
+    exercises,
+    showSecondaryGroups,
+    filteredExercises,
     filterQuery,
     setFilterQuery,
-    filteredExercises,
-    filterMap,
-    removeFilter,
-    prefixMap,
-  } = useExerciseListFilters;
+  } = useExerciseList;
+
+  const { filterMap, removeFilter, prefixMap } = useExerciseListFilters;
 
   const height = useMemo(() => {
     return customHeightString !== undefined ? customHeightString : "h-[400px]";
@@ -79,7 +79,6 @@ export const ExerciseModalList = ({
           </Button>
           <ExerciseListOptions
             useExerciseList={useExerciseList}
-            useExerciseListFilters={useExerciseListFilters}
             userSettings={userSettings}
             setUserSettings={setUserSettings}
           />
@@ -113,7 +112,7 @@ export const ExerciseModalList = ({
                   {FormatSetsCompletedString(exercise.set_count)}
                 </span>
               )}
-              {!includeSecondaryGroups ? (
+              {!showSecondaryGroups ? (
                 <span className="text-xs text-stone-400 text-left">
                   {exercise.formattedGroupStringPrimary}
                 </span>

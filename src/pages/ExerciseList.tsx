@@ -34,11 +34,7 @@ import {
   LoadingSpinner,
 } from "../components";
 import { VerticalMenuIcon } from "../assets";
-import {
-  useExerciseList,
-  useDefaultExercise,
-  useExerciseListFilters,
-} from "../hooks";
+import { useExerciseList, useDefaultExercise } from "../hooks";
 import { Store } from "@tauri-apps/plugin-store";
 
 type OperationType = "add" | "edit" | "delete";
@@ -60,24 +56,17 @@ export default function ExerciseList() {
     getExercises,
     toggleFavorite,
     sortExercisesByActiveCategory,
-    includeSecondaryGroups,
     isExerciseListLoaded,
     exerciseGroupDictionary,
     loadExerciseList,
-  } = exerciseList;
-
-  const exerciseListFilters = useExerciseListFilters({
-    useExerciseList: exerciseList,
-  });
-
-  const {
     filterQuery,
     setFilterQuery,
     filteredExercises,
-    filterMap,
-    removeFilter,
-    prefixMap,
-  } = exerciseListFilters;
+    exerciseListFilters,
+    showSecondaryGroups,
+  } = exerciseList;
+
+  const { filterMap, removeFilter, prefixMap } = exerciseListFilters;
 
   const deleteModal = useDisclosure();
   const exerciseModal = useDisclosure();
@@ -286,7 +275,6 @@ export default function ExerciseList() {
                 </Button>
                 <ExerciseListOptions
                   useExerciseList={exerciseList}
-                  useExerciseListFilters={exerciseListFilters}
                   userSettings={userSettings}
                   setUserSettings={setUserSettings}
                 />
@@ -319,7 +307,7 @@ export default function ExerciseList() {
                     {FormatSetsCompletedString(exercise.set_count)}
                   </span>
                 )}
-                {!includeSecondaryGroups ? (
+                {!showSecondaryGroups ? (
                   <span className="text-xs text-stone-400 text-left">
                     {exercise.formattedGroupStringPrimary}
                   </span>

@@ -5,16 +5,11 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@heroui/react";
-import {
-  UseExerciseListReturnType,
-  UseExerciseListFiltersReturnType,
-  UserSettings,
-} from "../../typings";
+import { UseExerciseListReturnType, UserSettings } from "../../typings";
 import { UpdateUserSetting } from "../../helpers";
 
 type ExerciseListOptionsProps = {
   useExerciseList: UseExerciseListReturnType;
-  useExerciseListFilters: UseExerciseListFiltersReturnType;
   userSettings: UserSettings;
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
@@ -23,28 +18,28 @@ type ExerciseListOptionsProps = {
 
 export const ExerciseListOptions = ({
   useExerciseList,
-  useExerciseListFilters,
   userSettings,
   setUserSettings,
 }: ExerciseListOptionsProps) => {
   const {
-    includeSecondaryGroups,
-    setIncludeSecondaryGroups,
     handleSortOptionSelection,
     sortCategory,
+    exerciseListFilters,
+    showSecondaryGroups,
+    setShowSecondaryGroups,
   } = useExerciseList;
 
-  const { exerciseGroupModal, filterMap } = useExerciseListFilters;
+  const { filterExerciseGroupModal, filterMap } = exerciseListFilters;
 
   const handleFilterExerciseGroupsButton = () => {
-    exerciseGroupModal.onOpen();
+    filterExerciseGroupModal.onOpen();
   };
 
   const handleShowSecondaryButton = async () => {
-    const newValue = !includeSecondaryGroups;
+    const newValue = !showSecondaryGroups;
     const newValueNum = newValue ? 1 : 0;
 
-    setIncludeSecondaryGroups(newValue);
+    setShowSecondaryGroups(newValue);
 
     await UpdateUserSetting(
       "show_secondary_exercise_groups",
@@ -59,7 +54,7 @@ export const ExerciseListOptions = ({
       <Button
         className="z-1"
         variant="flat"
-        color={includeSecondaryGroups ? "secondary" : "default"}
+        color={showSecondaryGroups ? "secondary" : "default"}
         size="sm"
         onPress={handleShowSecondaryButton}
       >

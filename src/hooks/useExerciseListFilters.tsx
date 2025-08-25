@@ -2,7 +2,6 @@ import { useDisclosure } from "@heroui/react";
 import {
   ListFilterMapKey,
   UseDisclosureReturnType,
-  UseExerciseListReturnType,
   UseExerciseListFiltersReturnType,
   ExerciseFilterValues,
   StoreRef,
@@ -29,7 +28,7 @@ export const useExerciseListFilters = ({
   const [exerciseFilterValues, setExerciseFilterValues] =
     useState<ExerciseFilterValues>(defaultExerciseFilterValues);
 
-  const exerciseGroupModal = useDisclosure();
+  const filterExerciseGroupModal = useDisclosure();
 
   const prefixMap = useMemo(() => {
     const prefixMap = new Map<ListFilterMapKey, string>();
@@ -62,20 +61,18 @@ export const useExerciseListFilters = ({
     }
 
     setFilterMap(updatedFilterMap);
+    setExerciseFilterValues(filterValues);
     // TODO: SAVE TO STORE
 
     if (activeModal !== undefined) activeModal.onClose();
   };
 
   return {
-    filterQuery,
-    setFilterQuery,
-    filteredExercises,
-    filterExerciseGroups,
-    exerciseGroupModal,
+    filterExerciseGroupModal,
     filterMap,
     removeFilter,
     prefixMap,
     handleFilterSaveButton,
+    exerciseFilterValues,
   };
 };
