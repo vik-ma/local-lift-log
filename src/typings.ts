@@ -367,7 +367,10 @@ export type UseExerciseListReturnType = {
   isExerciseListLoaded: React.RefObject<boolean>;
   exerciseMap: React.RefObject<ExerciseMap>;
   exerciseGroupDictionary: ExerciseGroupMap;
-  loadExercisesString: (exercisesString: string) => Promise<Set<number>>;
+  loadExercisesString: (
+    userSettings: UserSettings,
+    exercisesString: string
+  ) => Promise<Set<number>>;
   loadExerciseGroupsString: (exerciseGroupsString: string) => string[];
   loadExerciseList: (userSettings: UserSettings) => Promise<void>;
 };

@@ -164,16 +164,11 @@ export const useExerciseList = ({
     return exerciseGroupList;
   };
 
-  const loadExercisesString = async (exercisesString: string) => {
-    if (!isExerciseListLoaded.current) {
-      const exerciseSortCategory = await GetSortCategoryFromStore(
-        store,
-        "favorite" as ExerciseSortCategory,
-        "exercises"
-      );
-
-      await getExercises(exerciseSortCategory);
-    }
+  const loadExercisesString = async (
+    userSettings: UserSettings,
+    exercisesString: string
+  ) => {
+    await loadExerciseList(userSettings);
 
     const exerciseIdSet = new Set<number>();
 

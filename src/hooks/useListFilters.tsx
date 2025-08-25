@@ -803,6 +803,7 @@ export const useListFilters = ({
 
             if (useExerciseList !== undefined) {
               const exercises = await useExerciseList.loadExercisesString(
+                userSettings,
                 exercisesString
               );
 
