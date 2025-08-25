@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState } from "react";
 import {
-  ExerciseSortCategory,
   ListFilterMapKey,
   Routine,
   RoutineMap,
@@ -48,7 +47,7 @@ export const useRoutineList = ({
   const routineListModal = useDisclosure();
   const filterRoutineListModal = useDisclosure();
 
-  const { getExercises, isExerciseListLoaded } = useExerciseList;
+  const { loadExerciseList } = useExerciseList;
 
   const {
     isWorkoutTemplateListLoaded,
@@ -284,19 +283,9 @@ export const useRoutineList = ({
   };
 
   const loadRoutineList = async (userSettings: UserSettings) => {
-    if (!isExerciseListLoaded.current) {
-      const exerciseSortCategory = await GetSortCategoryFromStore(
-        store,
-        "favorite" as ExerciseSortCategory,
-        "exercises"
-      );
+    await loadExerciseList(userSettings);
 
-      await getExercises(exerciseSortCategory);
-    }
-
-    if (!isWorkoutTemplateListLoaded.current) {
-      await loadWorkoutTemplateList(userSettings);
-    }
+    await loadWorkoutTemplateList(userSettings);
 
     if (!isRoutineListLoaded.current) {
       const validFilterKeys = new Set<ListFilterMapKey>([

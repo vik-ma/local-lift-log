@@ -1,6 +1,5 @@
 import { useState, useRef, useMemo } from "react";
 import {
-  ExerciseSortCategory,
   ListFilterMapKey,
   StoreRef,
   UseExerciseListReturnType,
@@ -46,8 +45,7 @@ export const useWorkoutList = ({
   const {
     exerciseGroupDictionary,
     includeSecondaryGroups,
-    isExerciseListLoaded,
-    getExercises,
+    loadExerciseList,
     exerciseMap,
   } = useExerciseList;
 
@@ -57,11 +55,7 @@ export const useWorkoutList = ({
     ignoreEmptyWorkoutTemplates: true,
   });
 
-  const {
-    isWorkoutTemplateListLoaded,
-    loadWorkoutTemplateList,
-    workoutTemplateMap,
-  } = workoutTemplateList;
+  const { loadWorkoutTemplateList, workoutTemplateMap } = workoutTemplateList;
 
   const routineList = useRoutineList({
     store: store,
@@ -235,19 +229,9 @@ export const useWorkoutList = ({
   };
 
   const loadWorkoutList = async (userSettings: UserSettings) => {
-    if (!isExerciseListLoaded.current) {
-      const exerciseSortCategory = await GetSortCategoryFromStore(
-        store,
-        "favorite" as ExerciseSortCategory,
-        "exercises"
-      );
+    await loadExerciseList(userSettings);
 
-      await getExercises(exerciseSortCategory);
-    }
-
-    if (!isWorkoutTemplateListLoaded.current) {
-      await loadWorkoutTemplateList(userSettings);
-    }
+    await loadWorkoutTemplateList(userSettings);
 
     await loadRoutineList(userSettings);
 

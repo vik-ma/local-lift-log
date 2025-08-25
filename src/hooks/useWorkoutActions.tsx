@@ -13,7 +13,6 @@ import {
   UserWeight,
   EquipmentWeightSortCategory,
   DistanceSortCategory,
-  ExerciseSortCategory,
 } from "../typings";
 import { useState, useEffect, useRef } from "react";
 import { useDisclosure } from "@heroui/react";
@@ -152,12 +151,8 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
   const exerciseList = useExerciseList({ store: store });
 
-  const {
-    exerciseGroupDictionary,
-    exercises,
-    setExercises,
-    getExercises,
-  } = exerciseList;
+  const { exerciseGroupDictionary, exercises, setExercises, loadExerciseList } =
+    exerciseList;
 
   const exerciseListFilters = useExerciseListFilters({
     useExerciseList: exerciseList,
@@ -218,13 +213,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
         await LoadStore(store);
 
-        const sortCategory = await GetSortCategoryFromStore(
-          store,
-          "favorite" as ExerciseSortCategory,
-          "exercises"
-        );
-
-        await getExercises(sortCategory);
+        await loadExerciseList(userSettings);
       } catch (error) {
         console.log(error);
       }

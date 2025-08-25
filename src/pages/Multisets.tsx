@@ -9,7 +9,6 @@ import {
   UseSetTrackingInputsReturnType,
   EquipmentWeightSortCategory,
   DistanceSortCategory,
-  ExerciseSortCategory,
 } from "../typings";
 import {
   useCalculationModal,
@@ -79,7 +78,7 @@ export default function Multisets() {
 
   const exerciseList = useExerciseList({ store: store });
 
-  const { getExercises } = exerciseList;
+  const { loadExerciseList } = exerciseList;
 
   const exerciseListFilters = useExerciseListFilters({
     useExerciseList: exerciseList,
@@ -204,13 +203,7 @@ export default function Multisets() {
 
       await LoadStore(store);
 
-      const sortCategory = await GetSortCategoryFromStore(
-        store,
-        "favorite" as ExerciseSortCategory,
-        "exercises"
-      );
-
-      await getExercises(sortCategory);
+      await loadExerciseList(userSettings);
     };
 
     loadPage();

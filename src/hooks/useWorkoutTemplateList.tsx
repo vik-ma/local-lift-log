@@ -5,7 +5,6 @@ import {
   UseExerciseListReturnType,
   WorkoutTemplateMap,
   StoreRef,
-  ExerciseSortCategory,
   UserSettings,
   ListFilterMapKey,
 } from "../typings";
@@ -47,7 +46,7 @@ export const useWorkoutTemplateList = ({
   const {
     exerciseGroupDictionary,
     isExerciseListLoaded,
-    getExercises,
+    loadExerciseList,
     includeSecondaryGroups,
     exerciseMap,
   } = useExerciseList;
@@ -169,15 +168,7 @@ export const useWorkoutTemplateList = ({
   };
 
   const loadWorkoutTemplateList = async (userSettings: UserSettings) => {
-    if (!isExerciseListLoaded.current) {
-      const exerciseSortCategory = await GetSortCategoryFromStore(
-        store,
-        "favorite" as ExerciseSortCategory,
-        "exercises"
-      );
-
-      await getExercises(exerciseSortCategory);
-    }
+    await loadExerciseList(userSettings);
 
     if (!isWorkoutTemplateListLoaded.current) {
       const validFilterKeys = new Set<ListFilterMapKey>([

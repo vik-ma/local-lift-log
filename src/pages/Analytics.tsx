@@ -76,7 +76,6 @@ import {
   TimePeriod,
   UnitCategory,
   UserSettings,
-  ExerciseSortCategory,
 } from "../typings";
 import {
   ConvertMeasurementValue,
@@ -107,7 +106,6 @@ import {
   GetValidatedUnit,
   GetValidatedMeasurementType,
   LoadStore,
-  GetSortCategoryFromStore,
 } from "../helpers";
 import toast from "react-hot-toast";
 import { Store } from "@tauri-apps/plugin-store";
@@ -193,7 +191,7 @@ export default function Analytics() {
   });
 
   const {
-    getExercises,
+    loadExerciseList,
     exerciseGroupDictionary,
     includeSecondaryGroups,
     setIncludeSecondaryGroups,
@@ -330,13 +328,7 @@ export default function Analytics() {
 
       await LoadStore(store);
 
-      const sortCategory = await GetSortCategoryFromStore(
-        store,
-        "favorite" as ExerciseSortCategory,
-        "exercises"
-      );
-
-      await getExercises(sortCategory);
+      await loadExerciseList(userSettings);
     };
 
     loadPage();
