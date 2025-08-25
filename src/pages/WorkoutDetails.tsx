@@ -133,7 +133,6 @@ export default function WorkoutDetails() {
     calculationModal,
     addCalculationResult,
     openCalculationModal,
-    exerciseListFilters,
     groupedWorkoutSetListModal,
     mergeGroupedSets,
     populateUserWeightValues,
@@ -527,7 +526,6 @@ export default function WorkoutDetails() {
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
         openCalculationModal={openCalculationModal}
-        useExerciseListFilters={exerciseListFilters}
       />
       <MultisetModal
         multiset={operatingMultiset}
@@ -544,7 +542,6 @@ export default function WorkoutDetails() {
         handleClickMultiset={handleClickMultiset}
         showWorkoutItems={true}
         openCalculationModal={openCalculationModal}
-        useExerciseListFilters={exerciseListFilters}
       />
       <TimeInputModal
         timeInputModal={timeInputModal}
@@ -571,19 +568,14 @@ export default function WorkoutDetails() {
       <FilterWorkoutListModal
         useWorkoutList={workoutList}
         useExerciseList={exerciseList}
-        useExerciseListFilters={exerciseListFilters}
         useWorkoutTemplateList={workoutTemplateList}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
-      <FilterExerciseGroupsModal
-        useExerciseList={exerciseList}
-        useExerciseListFilters={exerciseListFilters}
-      />
+      <FilterExerciseGroupsModal useExerciseList={exerciseList} />
       <FilterWorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
         useExerciseList={exerciseList}
-        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
@@ -599,7 +591,6 @@ export default function WorkoutDetails() {
       <FilterMultisetListModal
         useMultisetActions={multisetActions}
         useExerciseList={exerciseList}
-        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />

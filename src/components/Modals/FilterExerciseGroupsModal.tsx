@@ -7,21 +7,15 @@ import {
   ModalFooter,
 } from "@heroui/react";
 import { ExerciseGroupCheckboxes } from "..";
-import {
-  UseExerciseListReturnType,
-  UseExerciseListFiltersReturnType,
-  ExerciseFilterValues,
-} from "../../typings";
+import { UseExerciseListReturnType, ExerciseFilterValues } from "../../typings";
 import { useState } from "react";
 
 type ExerciseGroupModalProps = {
   useExerciseList: UseExerciseListReturnType;
-  useExerciseListFilters: UseExerciseListFiltersReturnType;
 };
 
 export const FilterExerciseGroupsModal = ({
   useExerciseList,
-  useExerciseListFilters,
 }: ExerciseGroupModalProps) => {
   const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
     []
@@ -29,10 +23,11 @@ export const FilterExerciseGroupsModal = ({
   const [includeSecondaryGroups, setIncludeSecondaryGroups] =
     useState<boolean>(false);
 
-  const { exerciseGroupList, exerciseGroupDictionary } = useExerciseList;
+  const { exerciseGroupList, exerciseGroupDictionary, exerciseListFilters } =
+    useExerciseList;
 
   const { filterExerciseGroupModal, handleFilterSaveButton } =
-    useExerciseListFilters;
+    exerciseListFilters;
 
   const handleToggleAllButton = () => {
     if (filterExerciseGroups.length === 0) {

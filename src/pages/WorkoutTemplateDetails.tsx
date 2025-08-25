@@ -91,7 +91,6 @@ export default function WorkoutTemplateDetails() {
     calculationModal,
     addCalculationResult,
     openCalculationModal,
-    exerciseListFilters,
     setWorkoutNumbers,
     groupedWorkoutSetListModal,
     mergeGroupedSets,
@@ -300,7 +299,6 @@ export default function WorkoutTemplateDetails() {
         exerciseList={exerciseList}
         numMultisetSets={numMultisetSets}
         openCalculationModal={openCalculationModal}
-        useExerciseListFilters={exerciseListFilters}
       />
       <MultisetModal
         multiset={operatingMultiset}
@@ -317,7 +315,6 @@ export default function WorkoutTemplateDetails() {
         handleClickMultiset={handleClickMultiset}
         showWorkoutItems={true}
         openCalculationModal={openCalculationModal}
-        useExerciseListFilters={exerciseListFilters}
       />
       <SetNotesModal
         setNotesModal={setNotesModal}
@@ -335,7 +332,6 @@ export default function WorkoutTemplateDetails() {
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
-        useExerciseListFilters={exerciseListFilters}
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
@@ -348,7 +344,6 @@ export default function WorkoutTemplateDetails() {
         useExerciseList={exerciseList}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
-        useExerciseListFilters={exerciseListFilters}
       />
       <FilterPresetsListModal
         usePresetsList={presetsList}
@@ -357,7 +352,6 @@ export default function WorkoutTemplateDetails() {
       <FilterMultisetListModal
         useMultisetActions={multisetActions}
         useExerciseList={exerciseList}
-        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />

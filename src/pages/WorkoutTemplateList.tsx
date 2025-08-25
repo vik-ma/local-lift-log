@@ -25,7 +25,6 @@ import toast from "react-hot-toast";
 import {
   useDefaultWorkoutTemplate,
   useExerciseList,
-  useExerciseListFilters,
   useWorkoutTemplateList,
 } from "../hooks";
 import {
@@ -60,10 +59,6 @@ export default function WorkoutTemplateList() {
   const workoutTemplateModal = useDisclosure();
 
   const exerciseList = useExerciseList({ store: store });
-
-  const exerciseListFilters = useExerciseListFilters({
-    useExerciseList: exerciseList,
-  });
 
   const workoutTemplateList = useWorkoutTemplateList({
     store: store,
@@ -255,13 +250,11 @@ export default function WorkoutTemplateList() {
       <FilterWorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
         useExerciseList={exerciseList}
-        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
       <FilterExerciseGroupsModal
         useExerciseList={exerciseList}
-        useExerciseListFilters={exerciseListFilters}
       />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput

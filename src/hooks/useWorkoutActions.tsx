@@ -66,7 +66,6 @@ import {
   useExerciseList,
   useCalculationModal,
   usePresetsList,
-  useExerciseListFilters,
 } from "../hooks";
 import { Store } from "@tauri-apps/plugin-store";
 
@@ -153,10 +152,6 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
   const { exerciseGroupDictionary, exercises, setExercises, loadExerciseList } =
     exerciseList;
-
-  const exerciseListFilters = useExerciseListFilters({
-    useExerciseList: exerciseList,
-  });
 
   const multisetActions = useMultisetActions({
     operatingMultiset,
@@ -2869,7 +2864,6 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     calculationModal,
     addCalculationResult,
     openCalculationModal,
-    exerciseListFilters,
     groupedWorkoutSetListModal,
     mergeGroupedSets,
     userWeight,

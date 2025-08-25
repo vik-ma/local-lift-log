@@ -37,7 +37,6 @@ import {
   useChartColorLists,
   useChartDateMap,
   useExerciseList,
-  useExerciseListFilters,
   useMeasurementList,
   useChartTimePeriodIdSets,
   useDefaultChartMapsAndConfig,
@@ -161,6 +160,8 @@ export default function Analytics() {
   const [listModalPage, setAnalyticsChartListModalPage] =
     useState<AnalyticsChartListModalPage>("measurement-list");
   const [loadChartAsArea, setLoadChartAsArea] = useState<boolean>(true);
+  const [includeSecondaryExerciseGroups, setIncludeSecondaryExerciseGroups] =
+    useState<boolean>(false);
   const [selectedExerciseGroups, setSelectedExerciseGroups] = useState<
     string[]
   >([]);
@@ -190,18 +191,8 @@ export default function Analytics() {
     ignoreExercisesWithNoSets: true,
   });
 
-  const {
-    loadExerciseList,
-    exerciseGroupDictionary,
-    includeSecondaryGroups,
-    setIncludeSecondaryGroups,
-    exercises,
-    setExercises,
-  } = exerciseList;
-
-  const exerciseListFilters = useExerciseListFilters({
-    useExerciseList: exerciseList,
-  });
+  const { loadExerciseList, exerciseGroupDictionary, exercises, setExercises } =
+    exerciseList;
 
   const measurementList = useMeasurementList({
     store: store,
@@ -1796,7 +1787,7 @@ export default function Analytics() {
         }
 
         if (
-          includeSecondaryGroups &&
+          includeSecondaryExerciseGroups &&
           exercise.exerciseGroupStringMapSecondary &&
           exercise.exerciseGroupStringMapSecondary.has(group)
         ) {
@@ -2992,11 +2983,13 @@ export default function Analytics() {
                       value={selectedExerciseGroups}
                       handleChange={setSelectedExerciseGroups}
                       exerciseGroupDictionary={exerciseGroupDictionary}
-                      includeSecondaryGroups={includeSecondaryGroups}
-                      setIncludeSecondaryGroups={setIncludeSecondaryGroups}
+                      includeSecondaryGroups={includeSecondaryExerciseGroups}
+                      setIncludeSecondaryGroups={
+                        setIncludeSecondaryExerciseGroups
+                      }
                       disabledKeys={disabledExerciseGroups.current}
                     />
-                    {includeSecondaryGroups && (
+                    {includeSecondaryExerciseGroups && (
                       <RadioGroup
                         label="Handle Secondary Exercise Groups"
                         classNames={{ base: "gap-1", wrapper: "gap-1" }}
@@ -3048,7 +3041,6 @@ export default function Analytics() {
         loadExerciseOptionsMap={loadExerciseOptionsMap}
         secondaryDataUnitCategory={secondaryDataUnitCategory}
         useExerciseList={exerciseList}
-        useExerciseListFilters={exerciseListFilters}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
         loadExerciseStats={loadExerciseStats}
@@ -3060,10 +3052,7 @@ export default function Analytics() {
         validEndDate={chartEndDate}
         doneButtonAction={updateCustomMinAndMaxDatesFilter}
       />
-      <FilterExerciseGroupsModal
-        useExerciseList={exerciseList}
-        useExerciseListFilters={exerciseListFilters}
-      />
+      <FilterExerciseGroupsModal useExerciseList={exerciseList} />
       <DeleteModal
         deleteModal={deleteModal}
         header="Reset Chart"

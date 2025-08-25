@@ -250,10 +250,7 @@ export default function ExerciseList() {
         buttonAction={operationType === "edit" ? updateExercise : addExercise}
         resetInputsAfterSaving
       />
-      <FilterExerciseGroupsModal
-        useExerciseList={exerciseList}
-        useExerciseListFilters={exerciseListFilters}
-      />
+      <FilterExerciseGroupsModal useExerciseList={exerciseList} />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
           header="Exercise List"
