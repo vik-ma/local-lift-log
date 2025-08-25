@@ -4,26 +4,30 @@ import {
   UseDisclosureReturnType,
   UseExerciseListReturnType,
   UseExerciseListFiltersReturnType,
+  ExerciseFilterValues,
+  StoreRef,
 } from "../typings";
 import { useMemo, useState } from "react";
+import { DefaultExerciseFilterValues } from "../helpers";
 
 type UseExerciseListFiltersProps = {
-  useExerciseList: UseExerciseListReturnType;
+  store: StoreRef;
 };
 
 export const useExerciseListFilters = ({
-  useExerciseList,
+  store,
 }: UseExerciseListFiltersProps): UseExerciseListFiltersReturnType => {
-  const { exercises, includeSecondaryGroups } = useExerciseList;
-
-  const [filterQuery, setFilterQuery] = useState<string>("");
   const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
     new Map()
   );
 
-  const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
+  const defaultExerciseFilterValues = useMemo(
+    () => DefaultExerciseFilterValues(),
     []
   );
+
+  const [exerciseFilterValues, setExerciseFilterValues] =
+    useState<ExerciseFilterValues>(defaultExerciseFilterValues);
 
   const exerciseGroupModal = useDisclosure();
 
@@ -31,18 +35,24 @@ export const useExerciseListFilters = ({
     const prefixMap = new Map<ListFilterMapKey, string>();
     prefixMap.set(
       "exercise-groups",
-      `Exercise Groups (${filterExerciseGroups.length}): `
+      `Exercise Groups (${exerciseFilterValues.filterExerciseGroups.length}): `
     );
     return prefixMap;
-  }, [filterExerciseGroups]);
+  }, [exerciseFilterValues.filterExerciseGroups]);
 
   const removeFilter = () => {
-    setFilterExerciseGroups([]);
     setFilterMap(new Map());
+    setExerciseFilterValues({ ...defaultExerciseFilterValues });
+    // TODO: SAVE TO STORE
   };
 
-  const handleFilterSaveButton = (activeModal: UseDisclosureReturnType) => {
+  const handleFilterSaveButton = (
+    filterValues: ExerciseFilterValues,
+    activeModal?: UseDisclosureReturnType
+  ) => {
     const updatedFilterMap = new Map<ListFilterMapKey, string>();
+
+    const { filterExerciseGroups, includeSecondaryGroups } = filterValues;
 
     if (filterExerciseGroups.length > 0) {
       const filterExerciseGroupsString =
@@ -52,52 +62,16 @@ export const useExerciseListFilters = ({
     }
 
     setFilterMap(updatedFilterMap);
+    // TODO: SAVE TO STORE
 
-    activeModal.onClose();
+    if (activeModal !== undefined) activeModal.onClose();
   };
-
-  const filteredExercises = useMemo(() => {
-    if (filterQuery !== "" || filterMap.size > 0) {
-      // Only show exercises whose name or Exercise Group is included in the filterQuery
-      // and whose Exercise Group is included in filterExerciseGroups
-      return exercises.filter(
-        (item) =>
-          (item.name
-            .toLocaleLowerCase()
-            .includes(filterQuery.toLocaleLowerCase()) ||
-            item
-              .formattedGroupStringPrimary!.toLocaleLowerCase()
-              .includes(filterQuery.toLocaleLowerCase()) ||
-            (includeSecondaryGroups &&
-              item.formattedGroupStringSecondary
-                ?.toLocaleLowerCase()
-                .includes(filterQuery.toLocaleLowerCase()))) &&
-          (filterExerciseGroups.length === 0 ||
-            filterExerciseGroups.some(
-              (group) =>
-                item.formattedGroupStringPrimary!.includes(group) ||
-                // Only include Secondary Exercise Groups if includeSecondaryGroups is true
-                (includeSecondaryGroups &&
-                  item.formattedGroupStringSecondary !== undefined &&
-                  item.formattedGroupStringSecondary.includes(group))
-            ))
-      );
-    }
-    return exercises;
-  }, [
-    exercises,
-    filterQuery,
-    filterExerciseGroups,
-    includeSecondaryGroups,
-    filterMap,
-  ]);
 
   return {
     filterQuery,
     setFilterQuery,
     filteredExercises,
     filterExerciseGroups,
-    setFilterExerciseGroups,
     exerciseGroupModal,
     filterMap,
     removeFilter,

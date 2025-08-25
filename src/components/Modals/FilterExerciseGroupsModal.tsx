@@ -10,7 +10,9 @@ import { ExerciseGroupCheckboxes } from "..";
 import {
   UseExerciseListReturnType,
   UseExerciseListFiltersReturnType,
+  ExerciseFilterValues,
 } from "../../typings";
+import { useState } from "react";
 
 type ExerciseGroupModalProps = {
   useExerciseList: UseExerciseListReturnType;
@@ -21,19 +23,16 @@ export const FilterExerciseGroupsModal = ({
   useExerciseList,
   useExerciseListFilters,
 }: ExerciseGroupModalProps) => {
-  const {
-    includeSecondaryGroups,
-    setIncludeSecondaryGroups,
-    exerciseGroupList,
-    exerciseGroupDictionary,
-  } = useExerciseList;
+  const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
+    []
+  );
+  const [includeSecondaryGroups, setIncludeSecondaryGroups] =
+    useState<boolean>(false);
 
-  const {
-    filterExerciseGroups,
-    setFilterExerciseGroups,
-    exerciseGroupModal,
-    handleFilterSaveButton,
-  } = useExerciseListFilters;
+  const { exerciseGroupList, exerciseGroupDictionary } = useExerciseList;
+
+  const { filterExerciseGroupModal, handleFilterSaveButton } =
+    useExerciseListFilters;
 
   const handleToggleAllButton = () => {
     if (filterExerciseGroups.length === 0) {
@@ -43,10 +42,19 @@ export const FilterExerciseGroupsModal = ({
     }
   };
 
+  const handleSaveButton = () => {
+    const filterValues: ExerciseFilterValues = {
+      filterExerciseGroups: filterExerciseGroups,
+      includeSecondaryGroups: includeSecondaryGroups,
+    };
+
+    handleFilterSaveButton(filterValues, filterExerciseGroupModal);
+  };
+
   return (
     <Modal
-      isOpen={exerciseGroupModal.isOpen}
-      onOpenChange={exerciseGroupModal.onOpenChange}
+      isOpen={filterExerciseGroupModal.isOpen}
+      onOpenChange={filterExerciseGroupModal.onOpenChange}
     >
       <ModalContent>
         {(onClose) => (
@@ -77,10 +85,7 @@ export const FilterExerciseGroupsModal = ({
                 <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button
-                  color="primary"
-                  onPress={() => handleFilterSaveButton(exerciseGroupModal)}
-                >
+                <Button color="primary" onPress={handleSaveButton}>
                   Filter
                 </Button>
               </div>

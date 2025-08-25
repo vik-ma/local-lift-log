@@ -356,6 +356,9 @@ export type ExerciseMap = Map<number, Exercise>;
 export type UseExerciseListReturnType = {
   exercises: Exercise[];
   setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
+  filterQuery: string;
+  setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
+  filteredExercises: Exercise[];
   getExercises: (category: ExerciseSortCategory) => Promise<void>;
   toggleFavorite: (exercises: Exercise) => void;
   handleSortOptionSelection: (key: string) => void;
@@ -376,16 +379,15 @@ export type UseExerciseListReturnType = {
 };
 
 export type UseExerciseListFiltersReturnType = {
-  filterQuery: string;
-  setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
-  filteredExercises: Exercise[];
-  filterExerciseGroups: string[];
-  setFilterExerciseGroups: React.Dispatch<React.SetStateAction<string[]>>;
-  exerciseGroupModal: UseDisclosureReturnType;
+  filterExerciseGroupModal: UseDisclosureReturnType;
   filterMap: Map<ListFilterMapKey, string>;
   removeFilter: (key: string) => void;
   prefixMap: Map<ListFilterMapKey, string>;
-  handleFilterSaveButton: (activeModal: UseDisclosureReturnType) => void;
+  handleFilterSaveButton: (
+    filterValues: ExerciseFilterValues,
+    activeModal?: UseDisclosureReturnType
+  ) => void;
+  exerciseFilterValues: ExerciseFilterValues;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (
@@ -1318,6 +1320,11 @@ export type DietLogFilterValues = {
   includeNullInMaxValuesFat: boolean;
   includeNullInMaxValuesCarbs: boolean;
   includeNullInMaxValuesProtein: boolean;
+};
+
+export type ExerciseFilterValues = {
+  filterExerciseGroups: string[];
+  includeSecondaryGroups: boolean;
 };
 
 export type UseMeasurementListFiltersReturnType = {

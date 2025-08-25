@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import {
   GetExerciseListWithGroupStrings,
   GetExerciseListWithGroupStringsAndTotalSets,
@@ -14,7 +14,11 @@ import {
   StoreRef,
   UserSettings,
 } from "../typings";
-import { useExerciseGroupDictionary, useExerciseGroupList } from ".";
+import {
+  useExerciseGroupDictionary,
+  useExerciseGroupList,
+  useExerciseListFilters,
+} from ".";
 
 type UseExerciseListProps = {
   store: StoreRef;
@@ -28,6 +32,7 @@ export const useExerciseList = ({
   ignoreExercisesWithNoSets,
 }: UseExerciseListProps): UseExerciseListReturnType => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<ExerciseSortCategory>("favorite");
   const [includeSecondaryGroups, setIncludeSecondaryGroups] =
@@ -38,6 +43,48 @@ export const useExerciseList = ({
   const exerciseGroupDictionary = useExerciseGroupDictionary();
 
   const isExerciseListLoaded = useRef(false);
+
+  const exerciseListFilters = useExerciseListFilters({ store: store });
+
+  const { filterMap, exerciseFilterValues } = exerciseListFilters;
+
+  const { filterExerciseGroups } = exerciseFilterValues;
+
+  const filteredExercises = useMemo(() => {
+    if (filterQuery !== "" || filterMap.size > 0) {
+      // Only show exercises whose name or Exercise Group is included in the filterQuery
+      // and whose Exercise Group is included in filterExerciseGroups
+      return exercises.filter(
+        (item) =>
+          (item.name
+            .toLocaleLowerCase()
+            .includes(filterQuery.toLocaleLowerCase()) ||
+            item
+              .formattedGroupStringPrimary!.toLocaleLowerCase()
+              .includes(filterQuery.toLocaleLowerCase()) ||
+            (includeSecondaryGroups &&
+              item.formattedGroupStringSecondary
+                ?.toLocaleLowerCase()
+                .includes(filterQuery.toLocaleLowerCase()))) &&
+          (filterExerciseGroups.length === 0 ||
+            filterExerciseGroups.some(
+              (group) =>
+                item.formattedGroupStringPrimary!.includes(group) ||
+                // Only include Secondary Exercise Groups if includeSecondaryGroups is true
+                (includeSecondaryGroups &&
+                  item.formattedGroupStringSecondary !== undefined &&
+                  item.formattedGroupStringSecondary.includes(group))
+            ))
+      );
+    }
+    return exercises;
+  }, [
+    exercises,
+    filterQuery,
+    filterExerciseGroups,
+    includeSecondaryGroups,
+    filterMap,
+  ]);
 
   const sortExercisesByName = (exerciseList: Exercise[]) => {
     exerciseList.sort((a, b) => {
@@ -204,6 +251,9 @@ export const useExerciseList = ({
     exercises,
     setExercises,
     getExercises,
+    filterQuery,
+    setFilterQuery,
+    filteredExercises,
     toggleFavorite,
     handleSortOptionSelection,
     sortCategory,
