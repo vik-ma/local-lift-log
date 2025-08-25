@@ -47,7 +47,6 @@ export const useWorkoutTemplateList = ({
     exerciseGroupDictionary,
     isExerciseListLoaded,
     loadExerciseList,
-    includeSecondaryGroups,
     exerciseMap,
   } = useExerciseList;
 
@@ -59,7 +58,11 @@ export const useWorkoutTemplateList = ({
 
   const { filterMap, listFilterValues, loadFilterMapFromStore } = listFilters;
 
-  const { filterExercises, filterExerciseGroups } = listFilterValues;
+  const {
+    filterExercises,
+    filterExerciseGroups,
+    includeSecondaryExerciseGroups,
+  } = listFilterValues;
 
   const filterWorkoutTemplateListModal = useDisclosure();
 
@@ -80,12 +83,11 @@ export const useWorkoutTemplateList = ({
               item.exerciseIdSet
             )) &&
           (!filterMap.has("exercise-groups") ||
-            (!includeSecondaryGroups &&
-              DoesListOrSetHaveCommonElement(
-                filterExerciseGroups,
-                item.exerciseGroupSetPrimary
-              )) ||
-            (includeSecondaryGroups &&
+            DoesListOrSetHaveCommonElement(
+              filterExerciseGroups,
+              item.exerciseGroupSetPrimary
+            ) ||
+            (includeSecondaryExerciseGroups &&
               DoesListOrSetHaveCommonElement(
                 filterExerciseGroups,
                 item.exerciseGroupSetSecondary
@@ -99,7 +101,7 @@ export const useWorkoutTemplateList = ({
     filterMap,
     filterExercises,
     filterExerciseGroups,
-    includeSecondaryGroups,
+    includeSecondaryExerciseGroups,
   ]);
 
   const getWorkoutTemplates = async (category: WorkoutTemplateSortCategory) => {

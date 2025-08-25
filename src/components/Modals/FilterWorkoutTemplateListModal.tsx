@@ -42,15 +42,13 @@ export const FilterWorkoutTemplateListModal = ({
   const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
     []
   );
+  const [includeSecondaryExerciseGroups, setIncludeSecondaryExerciseGroups] =
+    useState<boolean>(false);
 
   const { listFilters, filterWorkoutTemplateListModal } =
     useWorkoutTemplateList;
 
-  const {
-    exerciseGroupDictionary,
-    includeSecondaryGroups,
-    setIncludeSecondaryGroups,
-  } = useExerciseList;
+  const { exerciseGroupDictionary } = useExerciseList;
 
   const {
     filterMap,
@@ -108,7 +106,7 @@ export const FilterWorkoutTemplateListModal = ({
       ...listFilterValues,
       filterExercises: filterExercises,
       filterExerciseGroups: filterExerciseGroups,
-      includeSecondaryExerciseGroups: includeSecondaryGroups,
+      includeSecondaryExerciseGroups: includeSecondaryExerciseGroups,
     };
 
     handleFilterSaveButton(
@@ -121,9 +119,7 @@ export const FilterWorkoutTemplateListModal = ({
   useEffect(() => {
     setFilterExercises(listFilterValues.filterExercises);
     setFilterExerciseGroups(listFilterValues.filterExerciseGroups);
-    setIncludeSecondaryGroups(listFilterValues.includeSecondaryExerciseGroups);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setIncludeSecondaryExerciseGroups(listFilterValues.includeSecondaryExerciseGroups);
   }, [listFilterValues]);
 
   return (
@@ -157,8 +153,8 @@ export const FilterWorkoutTemplateListModal = ({
                     value={filterExerciseGroups}
                     handleChange={setFilterExerciseGroups}
                     exerciseGroupDictionary={exerciseGroupDictionary}
-                    includeSecondaryGroups={includeSecondaryGroups}
-                    setIncludeSecondaryGroups={setIncludeSecondaryGroups}
+                    includeSecondaryGroups={includeSecondaryExerciseGroups}
+                    setIncludeSecondaryGroups={setIncludeSecondaryExerciseGroups}
                   />
                 </div>
               ) : (
@@ -207,7 +203,7 @@ export const FilterWorkoutTemplateListModal = ({
                           >
                             <span>{filterExerciseGroupsString}</span>
                             {filterExerciseGroups.length > 0 &&
-                              includeSecondaryGroups && (
+                              includeSecondaryExerciseGroups && (
                                 <span className="text-stone-600 font-medium text-xs">
                                   Including Secondary Exercise Groups
                                 </span>

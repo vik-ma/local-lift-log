@@ -79,19 +79,20 @@ export const useMultisetActions = ({
     useExerciseList: exerciseList,
   });
 
+  const { filterMap, listFilterValues } = listFilters;
+
   const {
-    filterMap,
     filterMultisetTypes,
     filterExercises,
     filterExerciseGroups,
-  } = listFilters;
+    includeSecondaryExerciseGroups,
+  } = listFilterValues;
 
   const {
     exercises,
     exerciseGroupDictionary,
     exerciseMap,
     isExerciseListLoaded,
-    includeSecondaryGroups,
   } = exerciseList;
 
   const isMultisetListLoaded = useRef(false);
@@ -115,12 +116,11 @@ export const useMultisetActions = ({
               item.exerciseIdSet
             )) &&
           (!filterMap.has("exercise-groups") ||
-            (!includeSecondaryGroups &&
-              DoesListOrSetHaveCommonElement(
-                filterExerciseGroups,
-                item.exerciseGroupSetPrimary
-              )) ||
-            (includeSecondaryGroups &&
+            DoesListOrSetHaveCommonElement(
+              filterExerciseGroups,
+              item.exerciseGroupSetPrimary
+            ) ||
+            (includeSecondaryExerciseGroups &&
               DoesListOrSetHaveCommonElement(
                 filterExerciseGroups,
                 item.exerciseGroupSetSecondary
@@ -136,7 +136,7 @@ export const useMultisetActions = ({
     filterMultisetTypes,
     filterExercises,
     filterExerciseGroups,
-    includeSecondaryGroups,
+    includeSecondaryExerciseGroups,
   ]);
 
   const defaultExercise = useDefaultExercise();

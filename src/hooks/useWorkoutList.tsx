@@ -42,12 +42,8 @@ export const useWorkoutList = ({
     Set<string>
   >(new Set());
 
-  const {
-    exerciseGroupDictionary,
-    includeSecondaryGroups,
-    loadExerciseList,
-    exerciseMap,
-  } = useExerciseList;
+  const { exerciseGroupDictionary, loadExerciseList, exerciseMap } =
+    useExerciseList;
 
   const workoutTemplateList = useWorkoutTemplateList({
     store: store,
@@ -83,6 +79,7 @@ export const useWorkoutList = ({
     filterExercises,
     filterExerciseGroups,
     filterWorkoutTemplates,
+    includeSecondaryExerciseGroups,
   } = listFilterValues;
 
   const isWorkoutListLoaded = useRef(false);
@@ -120,12 +117,11 @@ export const useWorkoutList = ({
               item.exerciseIdSet
             )) &&
           (!filterMap.has("exercise-groups") ||
-            (!includeSecondaryGroups &&
-              DoesListOrSetHaveCommonElement(
-                filterExerciseGroups,
-                item.exerciseGroupSetPrimary
-              )) ||
-            (includeSecondaryGroups &&
+            DoesListOrSetHaveCommonElement(
+              filterExerciseGroups,
+              item.exerciseGroupSetPrimary
+            ) ||
+            (includeSecondaryExerciseGroups &&
               DoesListOrSetHaveCommonElement(
                 filterExerciseGroups,
                 item.exerciseGroupSetSecondary
@@ -145,7 +141,7 @@ export const useWorkoutList = ({
     filterRoutines,
     filterExercises,
     filterExerciseGroups,
-    includeSecondaryGroups,
+    includeSecondaryExerciseGroups,
     filterWorkoutTemplates,
   ]);
 

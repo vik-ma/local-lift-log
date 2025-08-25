@@ -24,7 +24,7 @@ export const useExerciseListFilters = ({
     () => DefaultExerciseFilterValues(),
     []
   );
-
+  
   const [exerciseFilterValues, setExerciseFilterValues] =
     useState<ExerciseFilterValues>(defaultExerciseFilterValues);
 

@@ -37,14 +37,12 @@ export const FilterMultisetListModal = ({
   setUserSettings,
 }: FilterMultisetListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
+  const [includeSecondaryExerciseGroups, setIncludeSecondaryExerciseGroups] =
+    useState<boolean>(false);
 
   const { filterMultisetsModal, listFilters } = useMultisetActions;
 
-  const {
-    exerciseGroupDictionary,
-    includeSecondaryGroups,
-    setIncludeSecondaryGroups,
-  } = useExerciseList;
+  const { exerciseGroupDictionary } = useExerciseList;
 
   const {
     filterExercises,
@@ -120,8 +118,10 @@ export const FilterMultisetListModal = ({
                     value={filterExerciseGroups}
                     handleChange={setFilterExerciseGroups}
                     exerciseGroupDictionary={exerciseGroupDictionary}
-                    includeSecondaryGroups={includeSecondaryGroups}
-                    setIncludeSecondaryGroups={setIncludeSecondaryGroups}
+                    includeSecondaryGroups={includeSecondaryExerciseGroups}
+                    setIncludeSecondaryGroups={
+                      setIncludeSecondaryExerciseGroups
+                    }
                   />
                 </div>
               ) : (
@@ -178,7 +178,7 @@ export const FilterMultisetListModal = ({
                           >
                             <span>{filterExerciseGroupsString}</span>
                             {filterExerciseGroups.length > 0 &&
-                              includeSecondaryGroups && (
+                              includeSecondaryExerciseGroups && (
                                 <span className="text-stone-600 font-medium text-xs">
                                   Including Secondary Exercise Groups
                                 </span>

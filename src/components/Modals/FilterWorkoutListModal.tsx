@@ -63,6 +63,8 @@ export const FilterWorkoutListModal = ({
   const [filterWorkoutTemplates, setFilterWorkoutTemplates] = useState<
     Set<number>
   >(new Set());
+  const [includeSecondaryExerciseGroups, setIncludeSecondaryExerciseGroups] =
+    useState<boolean>(false);
 
   const { filterWorkoutListModal, routineList, listFilters } = useWorkoutList;
 
@@ -78,11 +80,7 @@ export const FilterWorkoutListModal = ({
     listFilterValues,
   } = listFilters;
 
-  const {
-    exerciseGroupDictionary,
-    includeSecondaryGroups,
-    setIncludeSecondaryGroups,
-  } = useExerciseList;
+  const { exerciseGroupDictionary } = useExerciseList;
 
   const filterDateRangeAndWeekdays = useFilterDateRangeAndWeekdays();
 
@@ -214,7 +212,7 @@ export const FilterWorkoutListModal = ({
       filterExercises: filterExercises,
       filterExerciseGroups: filterExerciseGroups,
       filterWorkoutTemplates: filterWorkoutTemplates,
-      includeSecondaryExerciseGroups: includeSecondaryGroups,
+      includeSecondaryExerciseGroups: includeSecondaryExerciseGroups,
     };
 
     handleFilterSaveButton(
@@ -232,7 +230,9 @@ export const FilterWorkoutListModal = ({
     setFilterExercises(listFilterValues.filterExercises);
     setFilterExerciseGroups(listFilterValues.filterExerciseGroups);
     setFilterWorkoutTemplates(listFilterValues.filterWorkoutTemplates);
-    setIncludeSecondaryGroups(listFilterValues.includeSecondaryExerciseGroups);
+    setIncludeSecondaryExerciseGroups(
+      listFilterValues.includeSecondaryExerciseGroups
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listFilterValues]);
@@ -281,8 +281,10 @@ export const FilterWorkoutListModal = ({
                     value={filterExerciseGroups}
                     handleChange={setFilterExerciseGroups}
                     exerciseGroupDictionary={exerciseGroupDictionary}
-                    includeSecondaryGroups={includeSecondaryGroups}
-                    setIncludeSecondaryGroups={setIncludeSecondaryGroups}
+                    includeSecondaryGroups={includeSecondaryExerciseGroups}
+                    setIncludeSecondaryGroups={
+                      setIncludeSecondaryExerciseGroups
+                    }
                   />
                 </div>
               ) : modalPage === "workout-template-list" ? (
@@ -397,7 +399,7 @@ export const FilterWorkoutListModal = ({
                           >
                             <span>{filterExerciseGroupsString}</span>
                             {filterExerciseGroups.length > 0 &&
-                              includeSecondaryGroups && (
+                              includeSecondaryExerciseGroups && (
                                 <span className="text-stone-600 font-medium text-xs">
                                   Including Secondary Exercise Groups
                                 </span>
