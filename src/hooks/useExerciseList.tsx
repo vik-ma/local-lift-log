@@ -187,9 +187,7 @@ export const useExerciseList = ({
   const loadExerciseList = async (userSettings: UserSettings) => {
     if (isExerciseListLoaded.current) return;
 
-    setIncludeSecondaryGroups(
-      userSettings.show_secondary_exercise_groups === 1
-    );
+    setIncludeSecondaryGroups(!!userSettings.show_secondary_exercise_groups);
 
     const sortCategory = await GetSortCategoryFromStore(
       store,

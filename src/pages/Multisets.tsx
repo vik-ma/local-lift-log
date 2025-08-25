@@ -79,7 +79,7 @@ export default function Multisets() {
 
   const exerciseList = useExerciseList({ store: store });
 
-  const { setIncludeSecondaryGroups, getExercises } = exerciseList;
+  const { getExercises } = exerciseList;
 
   const exerciseListFilters = useExerciseListFilters({
     useExerciseList: exerciseList,
@@ -198,10 +198,6 @@ export default function Multisets() {
       defaultSet.current = emptySet;
 
       setOperatingSet({ ...emptySet });
-
-      setIncludeSecondaryGroups(
-        userSettings.show_secondary_exercise_groups === 1
-      );
 
       setFilterWeightRangeUnit(weightUnit);
       setFilterDistanceRangeUnit(distanceUnit);

@@ -37,8 +37,6 @@ export default function WorkoutIndex() {
 
   const exerciseList = useExerciseList({ store: store });
 
-  const { setIncludeSecondaryGroups } = exerciseList;
-
   const workoutList = useWorkoutList({
     store: store,
     useExerciseList: exerciseList,
@@ -62,15 +60,10 @@ export default function WorkoutIndex() {
 
       setUserSettings(userSettings);
 
-      setIncludeSecondaryGroups(
-        userSettings.show_secondary_exercise_groups === 1
-      );
-
       await LoadStore(store);
     };
 
     loadPage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCreateEmptyWorkout = async () => {

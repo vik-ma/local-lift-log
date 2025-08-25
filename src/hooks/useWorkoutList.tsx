@@ -46,7 +46,6 @@ export const useWorkoutList = ({
   const {
     exerciseGroupDictionary,
     includeSecondaryGroups,
-    setIncludeSecondaryGroups,
     isExerciseListLoaded,
     getExercises,
     exerciseMap,
@@ -259,10 +258,6 @@ export const useWorkoutList = ({
       );
 
       setSelectedWorkoutProperties(workoutPropertySet);
-
-      setIncludeSecondaryGroups(
-        userSettings.show_secondary_exercise_groups === 1
-      );
 
       const validFilterKeys = new Set<ListFilterMapKey>([
         "min-date",

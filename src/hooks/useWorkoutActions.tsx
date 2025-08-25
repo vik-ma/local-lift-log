@@ -153,7 +153,6 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
   const exerciseList = useExerciseList({ store: store });
 
   const {
-    setIncludeSecondaryGroups,
     exerciseGroupDictionary,
     exercises,
     setExercises,
@@ -213,10 +212,6 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
         defaultSet.current = emptySet;
 
         setOperatingSet({ ...emptySet });
-
-        setIncludeSecondaryGroups(
-          userSettings.show_secondary_exercise_groups === 1
-        );
 
         setFilterWeightRangeUnit(weightUnit);
         setFilterDistanceRangeUnit(distanceUnit);

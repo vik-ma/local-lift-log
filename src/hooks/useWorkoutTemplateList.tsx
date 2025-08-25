@@ -49,7 +49,6 @@ export const useWorkoutTemplateList = ({
     isExerciseListLoaded,
     getExercises,
     includeSecondaryGroups,
-    setIncludeSecondaryGroups,
     exerciseMap,
   } = useExerciseList;
 
@@ -181,10 +180,6 @@ export const useWorkoutTemplateList = ({
     }
 
     if (!isWorkoutTemplateListLoaded.current) {
-      setIncludeSecondaryGroups(
-        userSettings.show_secondary_exercise_groups === 1
-      );
-
       const validFilterKeys = new Set<ListFilterMapKey>([
         "exercises",
         "exercise-groups",
