@@ -21,12 +21,15 @@ import {
   MeasurementModalList,
   WeightUnitDropdown,
 } from "..";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   useFilterDateRangeAndWeekdays,
   useFilterMinAndMaxValueInputs,
 } from "../../hooks";
-import { ConvertInputStringToNumberOrNull } from "../../helpers";
+import {
+  ConvertInputStringToNumberOrNull,
+  ConvertNumberToInputString,
+} from "../../helpers";
 
 type FilterBodyMeasurementsListModalProps = {
   filterBodyMeasurementsListModal: UseDisclosureReturnType;
@@ -170,6 +173,37 @@ export const FilterBodyMeasurementsListModal = ({
       filterBodyMeasurementsListModal
     );
   };
+
+  useEffect(() => {
+    setFilterMinDate(listFilterValues.filterMinDate);
+    setFilterMaxDate(listFilterValues.filterMaxDate);
+    setFilterWeekdays(listFilterValues.filterWeekdays);
+    setFilterMeasurements(listFilterValues.filterMeasurements);
+
+    filterMinAndMaxValueInputsWeight.setMinInput(
+      ConvertNumberToInputString(listFilterValues.filterMinWeight)
+    );
+    filterMinAndMaxValueInputsWeight.setMaxInput(
+      ConvertNumberToInputString(listFilterValues.filterMaxWeight)
+    );
+    filterMinAndMaxValueInputsWeight.setIncludeNullInMaxValues(
+      listFilterValues.includeNullInMaxValues
+    );
+
+    setFilterWeightRangeUnit(listFilterValues.filterWeightRangeUnit);
+
+    filterMinAndMaxValueInputsBodyFatPercentage.setMinInput(
+      ConvertNumberToInputString(listFilterValues.filterMinBodyFatPercentage)
+    );
+    filterMinAndMaxValueInputsBodyFatPercentage.setMaxInput(
+      ConvertNumberToInputString(listFilterValues.filterMaxBodyFatPercentage)
+    );
+    filterMinAndMaxValueInputsBodyFatPercentage.setIncludeNullInMaxValues(
+      listFilterValues.includeNullInMaxValuesSecondary
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listFilterValues]);
 
   return (
     <Modal
