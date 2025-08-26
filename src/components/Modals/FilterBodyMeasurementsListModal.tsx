@@ -8,6 +8,7 @@ import {
   ScrollShadow,
 } from "@heroui/react";
 import {
+  Measurement,
   UseDisclosureReturnType,
   UseListFiltersReturnType,
   UseMeasurementListReturnType,
@@ -54,6 +55,22 @@ export const FilterBodyMeasurementsListModal = ({
   const filterDateRangeAndWeekdays = useFilterDateRangeAndWeekdays();
 
   const {
+    filterDateRange,
+    filterWeekdays,
+    setFilterWeekdays,
+    areDateRangeAndWeekdaysFiltersEmpty,
+  } = filterDateRangeAndWeekdays;
+
+  const {
+    filterMinDate,
+    setFilterMinDate,
+    filterMaxDate,
+    setFilterMaxDate,
+    isMaxDateBeforeMinDate,
+  } = filterDateRange;
+
+  const {
+    filterMap,
     resetFilter,
     handleFilterSaveButton,
     getFilterMeasurementsString,
@@ -68,9 +85,53 @@ export const FilterBodyMeasurementsListModal = ({
     return false;
   }, [modalPage, filterMeasurements]);
 
+  const isFilterButtonDisabled = useMemo(() => {
+    if (modalPage !== "base") return false;
+    if (isMaxDateBeforeMinDate) return true;
+    if (filterMinAndMaxValueInputsWeight.isFilterInvalid) return true;
+    if (filterMinAndMaxValueInputsBodyFatPercentage.isFilterInvalid)
+      return true;
+
+    return false;
+  }, [
+    modalPage,
+    isMaxDateBeforeMinDate,
+    filterMinAndMaxValueInputsWeight.isFilterInvalid,
+    filterMinAndMaxValueInputsBodyFatPercentage.isFilterInvalid,
+  ]);
+
+  const showResetFilterButton = useMemo(() => {
+    if (filterMap.size > 0) return true;
+    if (!areDateRangeAndWeekdaysFiltersEmpty) return true;
+    if (filterMeasurements.size > 0) return true;
+    if (!filterMinAndMaxValueInputsWeight.areInputsEmpty) return true;
+    if (!filterMinAndMaxValueInputsBodyFatPercentage.areInputsEmpty)
+      return true;
+
+    return false;
+  }, [
+    filterMap,
+    areDateRangeAndWeekdaysFiltersEmpty,
+    filterMeasurements,
+    filterMinAndMaxValueInputsWeight.areInputsEmpty,
+    filterMinAndMaxValueInputsBodyFatPercentage.areInputsEmpty,
+  ]);
+
   const filterMeasurementsString = useMemo(() => {
     return getFilterMeasurementsString(filterMeasurements);
   }, [getFilterMeasurementsString, filterMeasurements]);
+
+  const handleClickMeasurement = (measurement: Measurement) => {
+    const updatedMeasurementSet = new Set(filterMeasurements);
+
+    if (updatedMeasurementSet.has(measurement.id.toString())) {
+      updatedMeasurementSet.delete(measurement.id.toString());
+    } else {
+      updatedMeasurementSet.add(measurement.id.toString());
+    }
+
+    setFilterMeasurements(updatedMeasurementSet);
+  };
 
   return (
     <Modal
@@ -209,12 +270,7 @@ export const FilterBodyMeasurementsListModal = ({
                           )
                       : () => setModalPage("base")
                   }
-                  isDisabled={
-                    modalPage === "base" &&
-                    (isMaxDateBeforeMinDate ||
-                      filterMinAndMaxValueInputs.isFilterInvalid ||
-                      filterMinAndMaxValueInputsBodyFat.isFilterInvalid)
-                  }
+                  isDisabled={isFilterButtonDisabled}
                 >
                   {modalPage === "base" ? "Filter" : "Done"}
                 </Button>

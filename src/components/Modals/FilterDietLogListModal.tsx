@@ -93,9 +93,9 @@ export const FilterDietLogListModal = ({
     filterMap,
     areDateRangeAndWeekdaysFiltersEmpty,
     filterMinAndMaxValueInputsCalories.areInputsEmpty,
-    filterMinAndMaxValueInputsFat,
-    filterMinAndMaxValueInputsCarbs,
-    filterMinAndMaxValueInputsProtein,
+    filterMinAndMaxValueInputsFat.areInputsEmpty,
+    filterMinAndMaxValueInputsCarbs.areInputsEmpty,
+    filterMinAndMaxValueInputsProtein.areInputsEmpty,
   ]);
 
   const handleSaveButton = () => {
