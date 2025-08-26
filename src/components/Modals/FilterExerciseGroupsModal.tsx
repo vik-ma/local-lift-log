@@ -31,6 +31,7 @@ export const FilterExerciseGroupsModal = ({
 
   const handleToggleAllButton = () => {
     if (filterExerciseGroups.length === 0) {
+      // TODO: FIX
       setFilterExerciseGroups([...exerciseGroupList]);
     } else {
       setFilterExerciseGroups([]);
@@ -43,7 +44,11 @@ export const FilterExerciseGroupsModal = ({
       includeSecondaryGroups: includeSecondaryGroups,
     };
 
-    handleFilterSaveButton(filterValues, filterExerciseGroupModal);
+    handleFilterSaveButton(
+      filterValues,
+      exerciseGroupDictionary,
+      filterExerciseGroupModal
+    );
   };
 
   return (
@@ -61,7 +66,6 @@ export const FilterExerciseGroupsModal = ({
                 value={filterExerciseGroups}
                 handleChange={setFilterExerciseGroups}
                 exerciseGroupDictionary={exerciseGroupDictionary}
-                useValueAsValue
                 includeSecondaryGroups={includeSecondaryGroups}
                 setIncludeSecondaryGroups={setIncludeSecondaryGroups}
               />

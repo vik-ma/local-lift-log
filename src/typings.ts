@@ -386,10 +386,12 @@ export type UseExerciseListFiltersReturnType = {
   prefixMap: Map<ListFilterMapKey, string>;
   handleFilterSaveButton: (
     filterValues: ExerciseFilterValues,
+    exerciseGroupDictionary: ExerciseGroupMap,
     activeModal?: UseDisclosureReturnType
   ) => void;
   exerciseFilterValues: ExerciseFilterValues;
   loadFilterMapFromStore: (
+    exerciseGroupDictionary: ExerciseGroupMap,
     loadExerciseGroupsString: (exerciseGroupsString: string) => string[]
   ) => Promise<void>;
 };

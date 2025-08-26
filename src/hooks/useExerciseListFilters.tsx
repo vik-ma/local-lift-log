@@ -5,9 +5,13 @@ import {
   UseExerciseListFiltersReturnType,
   ExerciseFilterValues,
   StoreRef,
+  ExerciseGroupMap,
 } from "../typings";
 import { useMemo, useState } from "react";
-import { DefaultExerciseFilterValues } from "../helpers";
+import {
+  DefaultExerciseFilterValues,
+  GetFilterExerciseGroupsString,
+} from "../helpers";
 
 type UseExerciseListFiltersProps = {
   store: StoreRef;
@@ -53,6 +57,7 @@ export const useExerciseListFilters = ({
 
   const handleFilterSaveButton = (
     filterValues: ExerciseFilterValues,
+    exerciseGroupDictionary: ExerciseGroupMap,
     activeModal?: UseDisclosureReturnType
   ) => {
     const updatedFilterMap = new Map<ListFilterMapKey, string>();
@@ -61,9 +66,13 @@ export const useExerciseListFilters = ({
     const { filterExerciseGroups, includeSecondaryGroups } = filterValues;
 
     if (filterExerciseGroups.length > 0) {
-      const filterExerciseGroupsString = filterExerciseGroups.join(", ");
-
-      updatedFilterMap.set("exercise-groups", filterExerciseGroupsString);
+      updatedFilterMap.set(
+        "exercise-groups",
+        GetFilterExerciseGroupsString(
+          filterExerciseGroups,
+          exerciseGroupDictionary
+        )
+      );
 
       const filterExerciseGroupsStoreString = filterExerciseGroups.join(",");
 
@@ -93,6 +102,7 @@ export const useExerciseListFilters = ({
   };
 
   const loadFilterMapFromStore = async (
+    exerciseGroupDictionary: ExerciseGroupMap,
     loadExerciseGroupsString: (exerciseGroupsString: string) => string[]
   ) => {
     if (store.current === null) return;
@@ -108,7 +118,10 @@ export const useExerciseListFilters = ({
         JSON.parse(val.value);
 
       if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
-        handleFilterSaveButton(defaultExerciseFilterValues);
+        handleFilterSaveButton(
+          defaultExerciseFilterValues,
+          exerciseGroupDictionary
+        );
         return;
       }
 
@@ -148,9 +161,12 @@ export const useExerciseListFilters = ({
         }
       }
 
-      handleFilterSaveButton(filterStoreValues);
+      handleFilterSaveButton(filterStoreValues, exerciseGroupDictionary);
     } catch {
-      handleFilterSaveButton(defaultExerciseFilterValues);
+      handleFilterSaveButton(
+        defaultExerciseFilterValues,
+        exerciseGroupDictionary
+      );
     }
   };
 

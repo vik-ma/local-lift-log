@@ -1,5 +1,6 @@
 import { useState, useRef, useMemo } from "react";
 import {
+  DoesListOrSetHaveCommonElement,
   GetExerciseListWithGroupStrings,
   GetExerciseListWithGroupStringsAndTotalSets,
   GetSortCategoryFromStore,
@@ -67,25 +68,26 @@ export const useExerciseList = ({
               item.formattedGroupStringSecondary
                 ?.toLocaleLowerCase()
                 .includes(filterQuery.toLocaleLowerCase()))) &&
-          (filterExerciseGroups.length === 0 ||
-            filterExerciseGroups.some(
-              (group) =>
-                item.formattedGroupStringPrimary!.includes(group) ||
-                // Only include Secondary Exercise Groups if includeSecondaryGroups is true
-                (includeSecondaryGroups &&
-                  item.formattedGroupStringSecondary !== undefined &&
-                  item.formattedGroupStringSecondary.includes(group))
-            ))
+          (!filterMap.has("exercise-groups") ||
+            DoesListOrSetHaveCommonElement(
+              filterExerciseGroups,
+              item.exerciseGroupStringSetPrimary
+            ) ||
+            (includeSecondaryGroups &&
+              DoesListOrSetHaveCommonElement(
+                filterExerciseGroups,
+                item.exerciseGroupStringMapSecondary
+              )))
       );
     }
     return exercises;
   }, [
     exercises,
     filterQuery,
+    filterMap,
     filterExerciseGroups,
     showSecondaryGroups,
     includeSecondaryGroups,
-    filterMap,
   ]);
 
   const sortExercisesByName = (exerciseList: Exercise[]) => {
@@ -240,7 +242,10 @@ export const useExerciseList = ({
 
     setShowSecondaryGroups(!!userSettings.show_secondary_exercise_groups);
 
-    await loadFilterMapFromStore(loadExerciseGroupsString);
+    await loadFilterMapFromStore(
+      exerciseGroupDictionary,
+      loadExerciseGroupsString
+    );
 
     const sortCategory = await GetSortCategoryFromStore(
       store,
