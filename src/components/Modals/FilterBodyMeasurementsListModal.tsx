@@ -9,9 +9,9 @@ import {
 } from "@heroui/react";
 import {
   UseDisclosureReturnType,
-  UseFilterMinAndMaxValueInputsReturnType,
   UseListFiltersReturnType,
   UseMeasurementListReturnType,
+  UserSettings,
 } from "../../typings";
 import {
   FilterDateRangeAndWeekdays,
@@ -20,19 +20,16 @@ import {
   WeightUnitDropdown,
 } from "..";
 import { useMemo, useState } from "react";
+import {
+  useFilterDateRangeAndWeekdays,
+  useFilterMinAndMaxValueInputs,
+} from "../../hooks";
 
 type FilterBodyMeasurementsListModalProps = {
   filterBodyMeasurementsListModal: UseDisclosureReturnType;
   useListFilters: UseListFiltersReturnType;
-  locale: string;
+  userSettings: UserSettings;
   useMeasurementList: UseMeasurementListReturnType;
-  include0InMaxValuesWeight: boolean;
-  setInclude0InMaxValuesWeight: React.Dispatch<React.SetStateAction<boolean>>;
-  filterMinAndMaxValueInputsBodyFat: UseFilterMinAndMaxValueInputsReturnType;
-  includeNullInMaxValuesBodyFat: boolean;
-  setIncludeNullInMaxValuesBodyFat: React.Dispatch<
-    React.SetStateAction<boolean>
-  >;
 };
 
 type ModalPage = "base" | "measurement-list";
@@ -40,32 +37,27 @@ type ModalPage = "base" | "measurement-list";
 export const FilterBodyMeasurementsListModal = ({
   filterBodyMeasurementsListModal,
   useListFilters,
-  locale,
+  userSettings,
   useMeasurementList,
-  include0InMaxValuesWeight,
-  setInclude0InMaxValuesWeight,
-  filterMinAndMaxValueInputsBodyFat,
-  includeNullInMaxValuesBodyFat,
-  setIncludeNullInMaxValuesBodyFat,
 }: FilterBodyMeasurementsListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
+  const [filterMeasurements, setFilterMeasurements] = useState<Set<string>>(
+    new Set()
+  );
+  const [filterWeightRangeUnit, setFilterWeightRangeUnit] =
+    useState<string>("kg");
+
+  const filterMinAndMaxValueInputsWeight = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsBodyFatPercentage =
+    useFilterMinAndMaxValueInputs();
+
+  const filterDateRangeAndWeekdays = useFilterDateRangeAndWeekdays();
 
   const {
-    showResetFilterButton,
     resetFilter,
     handleFilterSaveButton,
-    filterMeasurements,
-    setFilterMeasurements,
     getFilterMeasurementsString,
-    handleClickMeasurement,
-    isMaxDateBeforeMinDate,
-    filterMinAndMaxValueInputs,
-    setFilterMinWeight,
-    setFilterMaxWeight,
-    filterWeightRangeUnit,
-    setFilterWeightRangeUnit,
-    setFilterMinBodyFatPercentage,
-    setFilterMaxBodyFatPercentage,
+    weekdayMap,
   } = useListFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -104,24 +96,20 @@ export const FilterBodyMeasurementsListModal = ({
                 <ScrollShadow className="h-[400px]">
                   <div className="flex flex-col gap-4 w-[24rem]">
                     <FilterDateRangeAndWeekdays
-                      useListFilters={useListFilters}
-                      locale={locale}
+                      useFilterDateRangeAndWeekdays={filterDateRangeAndWeekdays}
+                      locale={userSettings.locale}
+                      weekdayMap={weekdayMap}
                     />
                     <div className="flex flex-col gap-0.5">
                       <div className="flex flex-col gap-px">
                         <h3 className="text-lg font-semibold px-0.5">Weight</h3>
                         <div className="flex gap-5 items-end">
                           <FilterMinAndMaxValues
-                            setFilterMinValue={setFilterMinWeight}
-                            setFilterMaxValue={setFilterMaxWeight}
                             label="Weight"
                             useFilterMinAndMaxValueInputs={
-                              filterMinAndMaxValueInputs
+                              filterMinAndMaxValueInputsWeight
                             }
-                            includeNullInMaxValues={include0InMaxValuesWeight}
-                            setIncludeNullInMaxValues={
-                              setInclude0InMaxValuesWeight
-                            }
+                            showIncludeNullInMaxValuesCheckbox
                           />
                           <div className="pb-4">
                             <WeightUnitDropdown
@@ -137,18 +125,11 @@ export const FilterBodyMeasurementsListModal = ({
                             Body Fat Percentage
                           </h3>
                           <FilterMinAndMaxValues
-                            setFilterMinValue={setFilterMinBodyFatPercentage}
-                            setFilterMaxValue={setFilterMaxBodyFatPercentage}
                             label="%"
                             useFilterMinAndMaxValueInputs={
-                              filterMinAndMaxValueInputsBodyFat
+                              filterMinAndMaxValueInputsBodyFatPercentage
                             }
-                            includeNullInMaxValues={
-                              includeNullInMaxValuesBodyFat
-                            }
-                            setIncludeNullInMaxValues={
-                              setIncludeNullInMaxValuesBodyFat
-                            }
+                            showIncludeNullInMaxValuesCheckbox
                           />
                         </div>
                       </div>
