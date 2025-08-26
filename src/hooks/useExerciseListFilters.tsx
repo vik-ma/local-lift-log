@@ -6,12 +6,18 @@ import {
   ExerciseFilterValues,
   StoreRef,
 } from "../typings";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { DefaultExerciseFilterValues } from "../helpers";
 
 type UseExerciseListFiltersProps = {
   store: StoreRef;
 };
+
+type StoreFilterMapKey =
+  | "exercise-groups"
+  | "include-secondary-exercise-groups";
+
+type ExerciseStoreFilterMap = Map<StoreFilterMapKey, string | boolean>;
 
 export const useExerciseListFilters = ({
   store,
@@ -24,11 +30,13 @@ export const useExerciseListFilters = ({
     () => DefaultExerciseFilterValues(),
     []
   );
-  
+
   const [exerciseFilterValues, setExerciseFilterValues] =
     useState<ExerciseFilterValues>(defaultExerciseFilterValues);
 
   const filterExerciseGroupModal = useDisclosure();
+
+  const storeFilters = useRef<ExerciseStoreFilterMap>(new Map());
 
   const prefixMap = useMemo(() => {
     const prefixMap = new Map<ListFilterMapKey, string>();
@@ -42,7 +50,7 @@ export const useExerciseListFilters = ({
   const removeFilter = () => {
     setFilterMap(new Map());
     setExerciseFilterValues({ ...defaultExerciseFilterValues });
-    // TODO: SAVE TO STORE
+    saveFilterMapToStore(new Map());
   };
 
   const handleFilterSaveButton = (
@@ -50,21 +58,42 @@ export const useExerciseListFilters = ({
     activeModal?: UseDisclosureReturnType
   ) => {
     const updatedFilterMap = new Map<ListFilterMapKey, string>();
+    const storeFilterMap: ExerciseStoreFilterMap = new Map();
 
     const { filterExerciseGroups, includeSecondaryGroups } = filterValues;
 
     if (filterExerciseGroups.length > 0) {
-      const filterExerciseGroupsString =
-        Array.from(filterExerciseGroups).join(", ");
+      const filterExerciseGroupsString = filterExerciseGroups.join(", ");
 
       updatedFilterMap.set("exercise-groups", filterExerciseGroupsString);
+
+      const filterExerciseGroupsStoreString = filterExerciseGroups.join(",");
+
+      storeFilterMap.set("exercise-groups", filterExerciseGroupsStoreString);
     }
+
+    storeFilterMap.set(
+      "include-secondary-exercise-groups",
+      includeSecondaryGroups
+    );
 
     setFilterMap(updatedFilterMap);
     setExerciseFilterValues(filterValues);
-    // TODO: SAVE TO STORE
+    saveFilterMapToStore(storeFilterMap);
 
     if (activeModal !== undefined) activeModal.onClose();
+  };
+
+  const saveFilterMapToStore = async (
+    storeFilterMap: ExerciseStoreFilterMap
+  ) => {
+    if (store.current === null) return;
+
+    await store.current.set("filter-map-exercises", {
+      value: JSON.stringify(Array.from(storeFilterMap.entries())),
+    });
+
+    storeFilters.current = storeFilterMap;
   };
 
   return {
