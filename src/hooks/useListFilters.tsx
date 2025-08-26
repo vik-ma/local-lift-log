@@ -929,6 +929,23 @@ export const useListFilters = ({
 
             break;
           }
+          case "weight-units": {
+            const weightUnitsString = value as string;
+
+            const weightUnits = weightUnitsString.split(",");
+
+            const weightUnitSet = new Set<string>();
+
+            for (const weightUnit of weightUnits) {
+              if (ValidWeightUnits().includes(weightUnit)) {
+                weightUnitSet.add(weightUnit);
+              }
+            }
+
+            filterStoreValues.filterWeightUnits = weightUnitSet;
+
+            break;
+          }
           case "min-distance": {
             const minDistance = value as number;
 
@@ -955,6 +972,23 @@ export const useListFilters = ({
               filterStoreValues.filterMaxDistance =
                 ConvertNumberToTwoDecimals(maxDistance);
             }
+
+            break;
+          }
+          case "distance-units": {
+            const distanceUnitsString = value as string;
+
+            const distanceUnits = distanceUnitsString.split(",");
+
+            const distanceUnitSet = new Set<string>();
+
+            for (const distanceUnit of distanceUnits) {
+              if (ValidDistanceUnits().includes(distanceUnit)) {
+                distanceUnitSet.add(distanceUnit);
+              }
+            }
+
+            filterStoreValues.filterDistanceUnits = distanceUnitSet;
 
             break;
           }
