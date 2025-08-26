@@ -22,6 +22,7 @@ import {
   ConvertDateStringToCalendarDate,
   ConvertNumberToTwoDecimals,
   DefaultListFilterValues,
+  GetFilterExerciseGroupsString,
   IsEndDateBeforeStartDate,
   IsNumberValid,
   IsNumberValidInteger,
@@ -224,10 +225,13 @@ export const useListFilters = ({
       storeFilterMap.set("exercises", filterExercisesStoreString);
     }
 
-    if (filterExerciseGroups.length > 0) {
+    if (filterExerciseGroups.length > 0 && useExerciseList !== undefined) {
       updatedFilterMap.set(
         "exercise-groups",
-        getFilterExerciseGroupsString(filterExerciseGroups)
+        GetFilterExerciseGroupsString(
+          filterExerciseGroups,
+          useExerciseList.exerciseGroupDictionary
+        )
       );
 
       const filterExerciseGroupsStoreString = filterExerciseGroups.join(",");
@@ -618,24 +622,6 @@ export const useListFilters = ({
     }
 
     return exerciseNames.join(", ");
-  };
-
-  const getFilterExerciseGroupsString = (exerciseGroupList: string[]) => {
-    if (exerciseGroupList.length === 0 || useExerciseList === undefined)
-      return "No Exercise Groups Selected";
-
-    const exerciseGroupNames: string[] = [];
-
-    const exerciseGroupDictionary = useExerciseList.exerciseGroupDictionary;
-
-    for (const group of exerciseGroupList) {
-      if (exerciseGroupDictionary.has(group)) {
-        const groupName = exerciseGroupDictionary.get(group);
-        exerciseGroupNames.push(groupName!);
-      }
-    }
-
-    return exerciseGroupNames.join(", ");
   };
 
   const getFilterMeasurementsString = (measurementIdSet: Set<string>) => {
@@ -1052,7 +1038,6 @@ export const useListFilters = ({
     multisetTypeMap,
     getFilterRoutinesString,
     getFilterExercisesString,
-    getFilterExerciseGroupsString,
     getFilterMeasurementsString,
     getFilterWorkoutTemplatesString,
     loadFilterMapFromStore,

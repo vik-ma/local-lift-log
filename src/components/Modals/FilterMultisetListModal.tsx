@@ -18,6 +18,7 @@ import {
   MultipleChoiceMultisetTypeDropdown,
 } from "..";
 import { useMemo, useState } from "react";
+import { GetFilterExerciseGroupsString } from "../../helpers";
 
 type FilterMultisetListModalProps = {
   useMultisetActions: UseMultisetActionsReturnType;
@@ -53,7 +54,6 @@ export const FilterMultisetListModal = ({
     resetFilter,
     handleFilterSaveButton,
     getFilterExercisesString,
-    getFilterExerciseGroupsString,
     handleClickExercise,
   } = listFilters;
 
@@ -84,8 +84,11 @@ export const FilterMultisetListModal = ({
   }, [getFilterExercisesString, filterExercises]);
 
   const filterExerciseGroupsString = useMemo(() => {
-    return getFilterExerciseGroupsString(filterExerciseGroups);
-  }, [getFilterExerciseGroupsString, filterExerciseGroups]);
+    return GetFilterExerciseGroupsString(
+      filterExerciseGroups,
+      exerciseGroupDictionary
+    );
+  }, [exerciseGroupDictionary, filterExerciseGroups]);
 
   return (
     <Modal

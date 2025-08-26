@@ -16,7 +16,10 @@ import {
 } from "../../typings";
 import { useEffect, useMemo, useState } from "react";
 import { ExerciseGroupCheckboxes, ExerciseModalList } from "..";
-import { HandleFilterListObjectClick } from "../../helpers";
+import {
+  GetFilterExerciseGroupsString,
+  HandleFilterListObjectClick,
+} from "../../helpers";
 
 type FilterWorkoutTemplateListModalProps = {
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
@@ -55,7 +58,6 @@ export const FilterWorkoutTemplateListModal = ({
     resetFilter,
     handleFilterSaveButton,
     getFilterExercisesString,
-    getFilterExerciseGroupsString,
     listFilterValues,
   } = listFilters;
 
@@ -94,8 +96,11 @@ export const FilterWorkoutTemplateListModal = ({
   }, [getFilterExercisesString, filterExercises]);
 
   const filterExerciseGroupsString = useMemo(() => {
-    return getFilterExerciseGroupsString(filterExerciseGroups);
-  }, [getFilterExerciseGroupsString, filterExerciseGroups]);
+    return GetFilterExerciseGroupsString(
+      filterExerciseGroups,
+      exerciseGroupDictionary
+    );
+  }, [exerciseGroupDictionary, filterExerciseGroups]);
 
   const handleClickExercise = (exercise: Exercise) => {
     HandleFilterListObjectClick(exercise, filterExercises, setFilterExercises);
@@ -119,7 +124,9 @@ export const FilterWorkoutTemplateListModal = ({
   useEffect(() => {
     setFilterExercises(listFilterValues.filterExercises);
     setFilterExerciseGroups(listFilterValues.filterExerciseGroups);
-    setIncludeSecondaryExerciseGroups(listFilterValues.includeSecondaryExerciseGroups);
+    setIncludeSecondaryExerciseGroups(
+      listFilterValues.includeSecondaryExerciseGroups
+    );
   }, [listFilterValues]);
 
   return (
@@ -154,7 +161,9 @@ export const FilterWorkoutTemplateListModal = ({
                     handleChange={setFilterExerciseGroups}
                     exerciseGroupDictionary={exerciseGroupDictionary}
                     includeSecondaryGroups={includeSecondaryExerciseGroups}
-                    setIncludeSecondaryGroups={setIncludeSecondaryExerciseGroups}
+                    setIncludeSecondaryGroups={
+                      setIncludeSecondaryExerciseGroups
+                    }
                   />
                 </div>
               ) : (

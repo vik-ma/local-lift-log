@@ -479,7 +479,6 @@ export type UseListFiltersReturnType = {
   multisetTypeMap: MultisetTypeMap;
   getFilterRoutinesString: (routineIdSet: Set<number>) => string;
   getFilterExercisesString: (exerciseIdSet: Set<number>) => string;
-  getFilterExerciseGroupsString: (exerciseGroupList: string[]) => string;
   getFilterMeasurementsString: (measurementIdSet: Set<string>) => string;
   getFilterWorkoutTemplatesString: (
     workoutTemplateIdSet: Set<number>

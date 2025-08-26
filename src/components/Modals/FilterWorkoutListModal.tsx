@@ -25,7 +25,10 @@ import {
   FilterDateRangeAndWeekdays,
   WorkoutTemplateModalList,
 } from "..";
-import { HandleFilterListObjectClick } from "../../helpers";
+import {
+  GetFilterExerciseGroupsString,
+  HandleFilterListObjectClick,
+} from "../../helpers";
 import { useFilterDateRangeAndWeekdays } from "../../hooks";
 
 type FilterWorkoutListModalProps = {
@@ -73,7 +76,6 @@ export const FilterWorkoutListModal = ({
     resetFilter,
     getFilterRoutinesString,
     getFilterExercisesString,
-    getFilterExerciseGroupsString,
     getFilterWorkoutTemplatesString,
     filterMap,
     weekdayMap,
@@ -177,8 +179,11 @@ export const FilterWorkoutListModal = ({
   }, [getFilterExercisesString, filterExercises]);
 
   const filterExerciseGroupsString = useMemo(() => {
-    return getFilterExerciseGroupsString(filterExerciseGroups);
-  }, [getFilterExerciseGroupsString, filterExerciseGroups]);
+    return GetFilterExerciseGroupsString(
+      filterExerciseGroups,
+      exerciseGroupDictionary
+    );
+  }, [exerciseGroupDictionary, filterExerciseGroups]);
 
   const filterWorkoutTemplatesString = useMemo(() => {
     return getFilterWorkoutTemplatesString(filterWorkoutTemplates);
