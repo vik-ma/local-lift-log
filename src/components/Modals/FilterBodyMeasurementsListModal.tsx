@@ -8,6 +8,7 @@ import {
   ScrollShadow,
 } from "@heroui/react";
 import {
+  ListFilterValues,
   Measurement,
   UseDisclosureReturnType,
   UseListFiltersReturnType,
@@ -25,6 +26,7 @@ import {
   useFilterDateRangeAndWeekdays,
   useFilterMinAndMaxValueInputs,
 } from "../../hooks";
+import { ConvertInputStringToNumberOrNull } from "../../helpers";
 
 type FilterBodyMeasurementsListModalProps = {
   filterBodyMeasurementsListModal: UseDisclosureReturnType;
@@ -75,6 +77,7 @@ export const FilterBodyMeasurementsListModal = ({
     handleFilterSaveButton,
     getFilterMeasurementsString,
     weekdayMap,
+    listFilterValues,
   } = useListFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -131,6 +134,41 @@ export const FilterBodyMeasurementsListModal = ({
     }
 
     setFilterMeasurements(updatedMeasurementSet);
+  };
+
+  const handleSaveButton = () => {
+    if (isFilterButtonDisabled) return;
+
+    const filterValues: ListFilterValues = {
+      ...listFilterValues,
+      filterMinDate: filterMinDate,
+      filterMaxDate: filterMaxDate,
+      filterWeekdays: filterWeekdays,
+      filterMeasurements: filterMeasurements,
+      filterMinWeight: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsWeight.minInput
+      ),
+      filterMaxWeight: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsWeight.maxInput
+      ),
+      filterWeightRangeUnit: filterWeightRangeUnit,
+      filterMinBodyFatPercentage: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsBodyFatPercentage.minInput
+      ),
+      filterMaxBodyFatPercentage: ConvertInputStringToNumberOrNull(
+        filterMinAndMaxValueInputsBodyFatPercentage.maxInput
+      ),
+      includeNullInMaxValues:
+        filterMinAndMaxValueInputsWeight.includeNullInMaxValues,
+      includeNullInMaxValuesSecondary:
+        filterMinAndMaxValueInputsBodyFatPercentage.includeNullInMaxValues,
+    };
+
+    handleFilterSaveButton(
+      userSettings.locale,
+      filterValues,
+      filterBodyMeasurementsListModal
+    );
   };
 
   return (
@@ -263,11 +301,7 @@ export const FilterBodyMeasurementsListModal = ({
                   color="primary"
                   onPress={
                     modalPage === "base"
-                      ? () =>
-                          handleFilterSaveButton(
-                            locale,
-                            filterBodyMeasurementsListModal
-                          )
+                      ? handleSaveButton
                       : () => setModalPage("base")
                   }
                   isDisabled={isFilterButtonDisabled}
