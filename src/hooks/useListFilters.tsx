@@ -992,6 +992,23 @@ export const useListFilters = ({
 
             break;
           }
+          case "multiset-types": {
+            const multisetTypesString = value as string;
+
+            const multisetTypes = multisetTypesString.split(",");
+
+            const multisetTypeSet = new Set<string>();
+
+            for (const multisetType of multisetTypes) {
+              if (multisetTypeMap.has(Number(multisetType))) {
+                multisetTypeSet.add(multisetType);
+              }
+            }
+
+            filterStoreValues.filterMultisetTypes = multisetTypeSet;
+
+            break;
+          }
           case "min-bf": {
             const minBodyFatPercentage = value as number;
 
