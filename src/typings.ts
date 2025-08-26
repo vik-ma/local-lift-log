@@ -389,6 +389,9 @@ export type UseExerciseListFiltersReturnType = {
     activeModal?: UseDisclosureReturnType
   ) => void;
   exerciseFilterValues: ExerciseFilterValues;
+  loadFilterMapFromStore: (
+    loadExerciseGroupsString: (exerciseGroupsString: string) => string[]
+  ) => Promise<void>;
 };
 
 export type HandleMultisetSetOptionSelectionProps = (

@@ -46,7 +46,8 @@ export const useExerciseList = ({
 
   const exerciseListFilters = useExerciseListFilters({ store: store });
 
-  const { filterMap, exerciseFilterValues } = exerciseListFilters;
+  const { filterMap, exerciseFilterValues, loadFilterMapFromStore } =
+    exerciseListFilters;
 
   const { filterExerciseGroups, includeSecondaryGroups } = exerciseFilterValues;
 
@@ -238,6 +239,8 @@ export const useExerciseList = ({
     if (isExerciseListLoaded.current) return;
 
     setShowSecondaryGroups(!!userSettings.show_secondary_exercise_groups);
+
+    await loadFilterMapFromStore(loadExerciseGroupsString);
 
     const sortCategory = await GetSortCategoryFromStore(
       store,
