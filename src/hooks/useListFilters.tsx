@@ -839,31 +839,17 @@ export const useListFilters = ({
 
             break;
           }
-          case "min-distance": {
-            const minDistance = value as number;
+          case "measurements": {
+            const measurementsString = value as string;
 
-            const minValue = 0;
-            const doNotAllowMinValue = true;
-            const maxValue = filterStoreValues.filterMaxDistance ?? undefined;
+            if (useMeasurementList !== undefined) {
+              const measurements =
+                await useMeasurementList.loadMeasurementsString(
+                  userSettings,
+                  measurementsString
+                );
 
-            if (
-              IsNumberValid(minDistance, minValue, doNotAllowMinValue, maxValue)
-            ) {
-              filterStoreValues.filterMinDistance =
-                ConvertNumberToTwoDecimals(minDistance);
-            }
-
-            break;
-          }
-          case "max-distance": {
-            const maxDistance = value as number;
-
-            const minValue = filterStoreValues.filterMinDistance ?? 0;
-            const doNotAllowMinValue = minValue === 0;
-
-            if (IsNumberValid(maxDistance, minValue, doNotAllowMinValue)) {
-              filterStoreValues.filterMaxDistance =
-                ConvertNumberToTwoDecimals(maxDistance);
+              filterStoreValues.filterMeasurements = measurements;
             }
 
             break;
@@ -939,6 +925,35 @@ export const useListFilters = ({
               )
             ) {
               filterStoreValues.filterMaxNumScheduleDays = maxNumScheduleDays;
+            }
+
+            break;
+          }
+          case "min-distance": {
+            const minDistance = value as number;
+
+            const minValue = 0;
+            const doNotAllowMinValue = true;
+            const maxValue = filterStoreValues.filterMaxDistance ?? undefined;
+
+            if (
+              IsNumberValid(minDistance, minValue, doNotAllowMinValue, maxValue)
+            ) {
+              filterStoreValues.filterMinDistance =
+                ConvertNumberToTwoDecimals(minDistance);
+            }
+
+            break;
+          }
+          case "max-distance": {
+            const maxDistance = value as number;
+
+            const minValue = filterStoreValues.filterMinDistance ?? 0;
+            const doNotAllowMinValue = minValue === 0;
+
+            if (IsNumberValid(maxDistance, minValue, doNotAllowMinValue)) {
+              filterStoreValues.filterMaxDistance =
+                ConvertNumberToTwoDecimals(maxDistance);
             }
 
             break;

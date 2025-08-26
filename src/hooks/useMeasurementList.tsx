@@ -268,6 +268,25 @@ export const useMeasurementList = ({
     await getMeasurements(sortCategory, activeMeasurementSet);
   };
 
+  const loadMeasurementsString = async (
+    userSettings: UserSettings,
+    measurementsString: string
+  ) => {
+    await loadMeasurementList(userSettings);
+
+    const measurementIdSet = new Set<string>();
+
+    const measurementIds = measurementsString.split(",");
+
+    for (const measurementId of measurementIds) {
+      if (measurementMap.current.has(measurementId)) {
+        measurementIdSet.add(measurementId);
+      }
+    }
+
+    return measurementIdSet;
+  };
+
   return {
     measurements,
     setMeasurements,
@@ -285,5 +304,6 @@ export const useMeasurementList = ({
     createMeasurement,
     measurementListFilters,
     loadMeasurementList,
+    loadMeasurementsString,
   };
 };
