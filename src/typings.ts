@@ -1299,6 +1299,7 @@ export type ListFilterValues = {
   filterWeightRangeUnit: string;
   filterDistanceRangeUnit: string;
   includeNullInMaxValues: boolean;
+  includeNullInMaxValuesSecondary: boolean;
   includeSecondaryExerciseGroups: boolean;
 };
 

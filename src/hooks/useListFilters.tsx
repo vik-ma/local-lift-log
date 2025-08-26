@@ -46,6 +46,7 @@ type StoreFilterMapKey =
   | "weight-range-unit"
   | "distance-range-unit"
   | "include-null-in-max-values"
+  | "include-null-in-max-values-secondary"
   | "include-secondary-exercise-groups";
 
 type StoreFilterMap = Map<StoreFilterMapKey, string | number | boolean>;
@@ -161,6 +162,7 @@ export const useListFilters = ({
       filterWeightRangeUnit,
       filterDistanceRangeUnit,
       includeNullInMaxValues,
+      includeNullInMaxValuesSecondary,
       includeSecondaryExerciseGroups,
     } = filterValues;
 
@@ -399,6 +401,10 @@ export const useListFilters = ({
       filterValues.filterDistanceRangeUnit
     );
     storeFilterMap.set("include-null-in-max-values", includeNullInMaxValues);
+    storeFilterMap.set(
+      "include-null-in-max-values-secondary",
+      includeNullInMaxValuesSecondary
+    );
     storeFilterMap.set(
       "include-secondary-exercise-groups",
       includeSecondaryExerciseGroups
@@ -1072,6 +1078,13 @@ export const useListFilters = ({
           case "include-null-in-max-values": {
             if (value === true) {
               filterStoreValues.includeNullInMaxValues = true;
+            }
+
+            break;
+          }
+          case "include-null-in-max-values-secondary": {
+            if (value === true) {
+              filterStoreValues.includeNullInMaxValuesSecondary = true;
             }
 
             break;
