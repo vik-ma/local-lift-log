@@ -8,7 +8,7 @@ import {
 } from "@heroui/react";
 import { ExerciseGroupCheckboxes } from "..";
 import { UseExerciseListReturnType, ExerciseFilterValues } from "../../typings";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type ExerciseGroupModalProps = {
   useExerciseList: UseExerciseListReturnType;
@@ -23,16 +23,17 @@ export const FilterExerciseGroupsModal = ({
   const [includeSecondaryGroups, setIncludeSecondaryGroups] =
     useState<boolean>(false);
 
-  const { exerciseGroupList, exerciseGroupDictionary, exerciseListFilters } =
-    useExerciseList;
+  const { exerciseGroupDictionary, exerciseListFilters } = useExerciseList;
 
-  const { filterExerciseGroupModal, handleFilterSaveButton } =
-    exerciseListFilters;
+  const {
+    filterExerciseGroupModal,
+    handleFilterSaveButton,
+    exerciseFilterValues,
+  } = exerciseListFilters;
 
   const handleToggleAllButton = () => {
     if (filterExerciseGroups.length === 0) {
-      // TODO: FIX
-      setFilterExerciseGroups([...exerciseGroupList]);
+      setFilterExerciseGroups(Array.from(exerciseGroupDictionary.keys()));
     } else {
       setFilterExerciseGroups([]);
     }
@@ -50,6 +51,11 @@ export const FilterExerciseGroupsModal = ({
       filterExerciseGroupModal
     );
   };
+
+  useEffect(() => {
+    setFilterExerciseGroups(exerciseFilterValues.filterExerciseGroups);
+    setIncludeSecondaryGroups(exerciseFilterValues.includeSecondaryGroups);
+  }, [exerciseFilterValues]);
 
   return (
     <Modal
