@@ -487,7 +487,7 @@ export type UseListFiltersReturnType = {
   ) => string;
   loadFilterMapFromStore: (
     userSettings: UserSettings,
-    validFilterKeys: Set<ListFilterMapKey>
+    validFilterKeys: Set<StoreFilterMapKey>
   ) => Promise<void>;
   listFilterValues: ListFilterValues;
 };
@@ -1276,6 +1276,14 @@ export type TimePeriodFilterMap = Map<TimePeriodListFilterMapKey, string>;
 export type DietLogFilterMap = Map<DietLogListFilterMapKey, string>;
 
 export type MeasurementFilterMap = Map<MeasurementListFilterMapKey, string>;
+
+export type StoreFilterMapKey =
+  | ListFilterMapKey
+  | "weight-range-unit"
+  | "distance-range-unit"
+  | "include-null-in-max-values"
+  | "include-null-in-max-values-secondary"
+  | "include-secondary-exercise-groups";
 
 export type ListFilterValues = {
   filterMinDate: CalendarDate | null;

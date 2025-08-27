@@ -10,6 +10,7 @@ import {
   UseMeasurementListReturnType,
   UseWorkoutTemplateListReturnType,
   UserSettings,
+  StoreFilterMapKey,
 } from "../typings";
 import {
   useWeekdayMap,
@@ -40,14 +41,6 @@ type UseListFiltersProps = {
 };
 
 export type ListFilterMap = Map<ListFilterMapKey, string>;
-
-type StoreFilterMapKey =
-  | ListFilterMapKey
-  | "weight-range-unit"
-  | "distance-range-unit"
-  | "include-null-in-max-values"
-  | "include-null-in-max-values-secondary"
-  | "include-secondary-exercise-groups";
 
 type StoreFilterMap = Map<StoreFilterMapKey, string | number | boolean>;
 
