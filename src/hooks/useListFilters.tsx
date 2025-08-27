@@ -520,9 +520,13 @@ export const useListFilters = ({
     saveFilterMapToStore(updatedStoreFilterMap);
   };
 
-  const resetFilter = () => {
+  const resetFilter = (userSettings: UserSettings) => {
     setFilterMap(new Map());
-    setListFilterValues({ ...defaultListFilterValues });
+    setListFilterValues({
+      ...defaultListFilterValues,
+      filterWeightRangeUnit: userSettings.default_unit_weight,
+      filterDistanceRangeUnit: userSettings.default_unit_distance,
+    });
     saveFilterMapToStore(new Map());
   };
 

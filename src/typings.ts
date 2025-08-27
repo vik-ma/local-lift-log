@@ -475,7 +475,7 @@ export type UseListFiltersReturnType = {
   ) => void;
   filterMap: ListFilterMap;
   removeFilter: (key: string) => void;
-  resetFilter: () => void;
+  resetFilter: (userSettings: UserSettings) => void;
   weekdayMap: Map<string, string>;
   prefixMap: ListFilterMap;
   multisetTypeMap: MultisetTypeMap;

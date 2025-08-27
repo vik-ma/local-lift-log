@@ -219,7 +219,7 @@ export const FilterMultisetListModal = ({
                 ) : (
                   <>
                     {showResetFilterButton && (
-                      <Button variant="flat" onPress={resetFilter}>
+                      <Button variant="flat" onPress={() => resetFilter(userSettings)}>
                         Reset All Filters
                       </Button>
                     )}

@@ -128,7 +128,11 @@ export const FilterPresetsListModal = ({
             <ModalFooter className="flex justify-between">
               <div>
                 {showResetFilterButton && (
-                  <Button variant="flat" color="danger" onPress={resetFilter}>
+                  <Button
+                    variant="flat"
+                    color="danger"
+                    onPress={() => resetFilter(userSettings)}
+                  >
                     Reset All Filters
                   </Button>
                 )}
