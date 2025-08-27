@@ -27,8 +27,8 @@ import {
   DeleteBodyMeasurementsWithId,
   GetAllBodyMeasurements,
   UpdateBodyMeasurementsTimestamp,
-  GetValidatedUnit,
   LoadStore,
+  ValidateAndModifyDefaultUnits,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -111,12 +111,10 @@ export default function LoggingIndex() {
 
       if (userSettings === undefined) return;
 
-      const weightUnit = GetValidatedUnit(
-        userSettings.default_unit_weight,
-        "weight"
-      );
+      ValidateAndModifyDefaultUnits(userSettings, new Set(["weight"]));
 
-      setWeightUnit(weightUnit);
+      // TODO: FIX
+      setWeightUnit(userSettings.default_unit_weight);
 
       await LoadStore(store);
 

@@ -32,11 +32,11 @@ import {
   UpdateItemInList,
   UpdateCalculationString,
   DefaultNewSet,
-  GetValidatedUnit,
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
   LoadStore,
   GetSortCategoryFromStore,
+  ValidateAndModifyDefaultUnits,
 } from "../helpers";
 import {
   CalculationModal,
@@ -170,31 +170,27 @@ export default function Multisets() {
 
       ValidateAndModifyIncrementMultipliers(userSettings);
       ValidateAndModifyTimeInputBehavior(userSettings);
+      ValidateAndModifyDefaultUnits(
+        userSettings,
+        new Set(["weight", "distance"])
+      );
 
       setUserSettings(userSettings);
 
-      const weightUnit = GetValidatedUnit(
-        userSettings.default_unit_weight,
-        "weight"
-      );
-      const distanceUnit = GetValidatedUnit(
-        userSettings.default_unit_distance,
-        "distance"
-      );
-
       const emptySet: WorkoutSet = {
         ...defaultSet.current,
-        weight_unit: weightUnit,
-        distance_unit: distanceUnit,
-        user_weight_unit: weightUnit,
+        weight_unit: userSettings.default_unit_weight,
+        distance_unit: userSettings.default_unit_distance,
+        user_weight_unit: userSettings.default_unit_weight,
       };
 
       defaultSet.current = emptySet;
 
       setOperatingSet({ ...emptySet });
 
-      setFilterWeightRangeUnit(weightUnit);
-      setFilterDistanceRangeUnit(distanceUnit);
+      // TODO: FIX
+      setFilterWeightRangeUnit(userSettings.default_unit_weight);
+      setFilterDistanceRangeUnit(userSettings.default_unit_distance);
 
       await LoadStore(store);
 

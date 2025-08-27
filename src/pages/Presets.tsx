@@ -43,10 +43,10 @@ import {
   DeleteItemFromList,
   GetSortCategoryFromStore,
   GetUserSettings,
-  GetValidatedUnit,
   LoadStore,
   UpdateItemInList,
   UpdateUserSetting,
+  ValidateAndModifyDefaultUnits,
 } from "../helpers";
 import toast from "react-hot-toast";
 import { usePlateCollectionModal, usePresetsList } from "../hooks";
@@ -143,9 +143,6 @@ export default function Presets() {
     showResetFilterButton,
   } = listFilters;
 
-  const defaultWeightUnit = useRef<string>("kg");
-  const defaultDistanceUnit = useRef<string>("km");
-
   useEffect(() => {
     const loadPage = async () => {
       const userSettings = await GetUserSettings();
@@ -154,30 +151,24 @@ export default function Presets() {
 
       setUserSettings(userSettings);
 
-      const weightUnit = GetValidatedUnit(
-        userSettings.default_unit_weight,
-        "weight"
-      );
-      const distanceUnit = GetValidatedUnit(
-        userSettings.default_unit_distance,
-        "distance"
+      ValidateAndModifyDefaultUnits(
+        userSettings,
+        new Set(["weight", "distance"])
       );
 
       setOperatingEquipmentWeight((prev) => ({
         ...prev,
-        weight_unit: weightUnit,
+        weight_unit: userSettings.default_unit_weight,
       }));
 
       setOperatingDistance((prev) => ({
         ...prev,
-        distance_unit: distanceUnit,
+        distance_unit: userSettings.default_unit_distance,
       }));
 
-      setFilterWeightRangeUnit(weightUnit);
-      setFilterDistanceRangeUnit(distanceUnit);
-
-      defaultWeightUnit.current = weightUnit;
-      defaultDistanceUnit.current = distanceUnit;
+      // TODO: FIX
+      setFilterWeightRangeUnit(userSettings.default_unit_weight);
+      setFilterDistanceRangeUnit(userSettings.default_unit_distance);
 
       await LoadStore(store);
 
@@ -539,7 +530,7 @@ export default function Presets() {
     setOperationType("add");
     setOperatingEquipmentWeight({
       ...defaultEquipmentWeight,
-      weight_unit: defaultWeightUnit.current,
+      weight_unit: userSettings.default_unit_weight,
     });
     setIsOperatingPlateCollection(false);
   };
@@ -551,7 +542,7 @@ export default function Presets() {
     setOperationType("add");
     setOperatingDistance({
       ...defaultDistance,
-      distance_unit: defaultDistanceUnit.current,
+      distance_unit: userSettings.default_unit_distance,
     });
     setIsOperatingPlateCollection(false);
   };
@@ -562,11 +553,11 @@ export default function Presets() {
     setOperationType("add");
     setOperatingPlateCollection({
       ...defaultPlateCollection,
-      weight_unit: defaultWeightUnit.current,
+      weight_unit: userSettings.default_unit_weight,
     });
     setOtherUnitPlateCollection({
       ...defaultPlateCollection,
-      weight_unit: defaultWeightUnit.current,
+      weight_unit: userSettings.default_unit_distance,
     });
     setIsOperatingPlateCollection(false);
   };

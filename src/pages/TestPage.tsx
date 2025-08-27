@@ -20,8 +20,8 @@ import {
   CreateDefaultMeasurements,
   GetCurrentDateTimeISOString,
   GetUserSettings,
-  GetValidatedUnit,
   LoadStore,
+  ValidateAndModifyDefaultUnits,
 } from "../helpers";
 import { Store } from "@tauri-apps/plugin-store";
 
@@ -46,6 +46,7 @@ export default function Test() {
 
   const listFilters = useListFilters({ store: store, filterMapSuffix: "test" });
 
+  // TODO: FIX
   const { setFilterWeightRangeUnit } = listFilters;
 
   const handleCreateDefaultsButton = async (key: string) => {
@@ -120,12 +121,10 @@ export default function Test() {
 
       setUserSettings(userSettings);
 
-      const weightUnit = GetValidatedUnit(
-        userSettings.default_unit_weight,
-        "weight"
-      );
+      ValidateAndModifyDefaultUnits(userSettings, new Set(["weight"]));
 
-      setFilterWeightRangeUnit(weightUnit);
+      // TODO: FIX
+      setFilterWeightRangeUnit(userSettings.default_unit_weight);
     };
 
     loadStore();

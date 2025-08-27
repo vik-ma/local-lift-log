@@ -3,9 +3,9 @@ import { UserSettings, DefaultIncrementInputs } from "../typings";
 import {
   GetUserSettings,
   ConvertNumberToInputString,
-  GetValidatedUnit,
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
+  ValidateAndModifyDefaultUnits,
 } from "../helpers";
 import { LoadingSpinner, SettingsList } from "../components";
 import { useSettingsList } from "../hooks";
@@ -29,23 +29,10 @@ export default function Settings() {
 
       ValidateAndModifyIncrementMultipliers(userSettings);
       ValidateAndModifyTimeInputBehavior(userSettings);
-
-      const weightUnit = GetValidatedUnit(
-        userSettings.default_unit_weight,
-        "weight"
+      ValidateAndModifyDefaultUnits(
+        userSettings,
+        new Set(["weight", "distance", "measurement"])
       );
-      const distanceUnit = GetValidatedUnit(
-        userSettings.default_unit_distance,
-        "distance"
-      );
-      const measurementUnit = GetValidatedUnit(
-        userSettings.default_unit_measurement,
-        "circumference"
-      );
-
-      userSettings.default_unit_weight = weightUnit;
-      userSettings.default_unit_distance = distanceUnit;
-      userSettings.default_unit_measurement = measurementUnit;
 
       setUserSettings(userSettings);
 

@@ -31,7 +31,6 @@ import {
   DeleteItemFromList,
   GetAllBodyMeasurements,
   GetUserSettings,
-  GetValidatedUnit,
   InsertBodyMeasurementsIntoDatabase,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
@@ -42,6 +41,7 @@ import {
   UpdateBodyMeasurements,
   UpdateBodyMeasurementsTimestamp,
   UpdateItemInList,
+  ValidateAndModifyDefaultUnits,
 } from "../helpers";
 import {
   Button,
@@ -72,8 +72,6 @@ export default function BodyMeasurementsList() {
 
   const [operatingBodyMeasurements, setOperatingBodyMeasurements] =
     useState<BodyMeasurements>(defaultBodyMeasurements);
-
-  const defaultWeightUnit = useRef<string>("kg");
 
   const measurementList = useMeasurementList({ store: store });
 
@@ -229,15 +227,10 @@ export default function BodyMeasurementsList() {
 
       if (userSettings === undefined) return;
 
-      const weightUnit = GetValidatedUnit(
-        userSettings.default_unit_weight,
-        "weight"
-      );
+      ValidateAndModifyDefaultUnits(userSettings, new Set(["weight"]));
 
-      setWeightUnit(weightUnit);
+      setWeightUnit(userSettings.default_unit_weight);
       // setFilterWeightRangeUnit(weightUnit); TODO: FIX
-
-      defaultWeightUnit.current = weightUnit;
 
       loadBodyFatCalculationSettingsString(
         userSettings.body_fat_calculation_settings,

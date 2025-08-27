@@ -30,7 +30,7 @@ import {
   UpdateIsFavorite,
   UpdateUserSetting,
   UpdateExercise,
-  GetValidatedUnit,
+  ValidateAndModifyDefaultUnits,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -374,20 +374,20 @@ export default function ExerciseDetails() {
 
       if (userSettings === undefined) return;
 
-      const weightUnit = GetValidatedUnit(
-        userSettings.default_unit_weight,
-        "weight"
-      );
-      const distanceUnit = GetValidatedUnit(
-        userSettings.default_unit_distance,
-        "distance"
+      ValidateAndModifyDefaultUnits(
+        userSettings,
+        new Set(["weight", "distance"])
       );
 
-      const speedUnit = GetSpeedUnitFromDistanceUnit(distanceUnit);
-      const paceUnit = GetPaceUnitFromDistanceUnit(distanceUnit);
+      const speedUnit = GetSpeedUnitFromDistanceUnit(
+        userSettings.default_unit_distance
+      );
+      const paceUnit = GetPaceUnitFromDistanceUnit(
+        userSettings.default_unit_distance
+      );
 
-      setWeightUnit(weightUnit);
-      setDistanceUnit(distanceUnit);
+      setWeightUnit(userSettings.default_unit_weight);
+      setDistanceUnit(userSettings.default_unit_distance);
       setSpeedUnit(speedUnit);
       setPaceUnit(paceUnit);
 
@@ -400,8 +400,8 @@ export default function ExerciseDetails() {
       );
 
       await getDateSetListMap(
-        weightUnit,
-        distanceUnit,
+        userSettings.default_unit_weight,
+        userSettings.default_unit_distance,
         speedUnit,
         paceUnit,
         userSettings.locale
