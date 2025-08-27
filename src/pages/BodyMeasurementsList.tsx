@@ -118,21 +118,20 @@ export default function BodyMeasurementsList() {
   const { nameInputModal, handleReassignMeasurement, reassignMeasurement } =
     useReassignMeasurement({ useMeasurementList: measurementList });
 
+  const { filterMap, removeFilter, prefixMap, listFilterValues } = listFilters;
+
   const {
-    filterMap,
     filterMinDate,
     filterMaxDate,
     filterWeekdays,
     filterMeasurements,
-    removeFilter,
-    prefixMap,
     filterWeightRangeUnit,
-    setFilterWeightRangeUnit,
+    // setFilterWeightRangeUnit, TODO: FIX
     filterMinWeight,
     filterMaxWeight,
     filterMinBodyFatPercentage,
     filterMaxBodyFatPercentage,
-  } = listFilters;
+  } = listFilterValues;
 
   const filteredBodyMeasurements = useMemo(() => {
     if (filterQuery !== "" || filterMap.size > 0) {
@@ -244,7 +243,7 @@ export default function BodyMeasurementsList() {
       );
 
       setWeightUnit(weightUnit);
-      setFilterWeightRangeUnit(weightUnit);
+      // setFilterWeightRangeUnit(weightUnit); TODO: FIX
 
       defaultWeightUnit.current = weightUnit;
 
@@ -622,13 +621,8 @@ export default function BodyMeasurementsList() {
       <FilterBodyMeasurementsListModal
         filterBodyMeasurementsListModal={filterBodyMeasurementsListModal}
         useListFilters={listFilters}
-        locale={userSettings.locale}
+        userSettings={userSettings}
         useMeasurementList={measurementList}
-        include0InMaxValuesWeight={include0InMaxValuesWeight}
-        setInclude0InMaxValuesWeight={setInclude0InMaxValuesWeight}
-        filterMinAndMaxValueInputsBodyFat={filterMinAndMaxValueInputsBodyFat}
-        includeNullInMaxValuesBodyFat={includeNullInMaxValuesBodyFat}
-        setIncludeNullInMaxValuesBodyFat={setIncludeNullInMaxValuesBodyFat}
       />
       <BodyFatCalculationModal
         useBodyMeasurementsSettings={activeMeasurements}
