@@ -235,7 +235,7 @@ export default function BodyMeasurementsList() {
 
     if (isBodyMeasurementsListLoaded.current) return;
 
-    await loadBodyMeasurementsSettings(userSettings, measurementMap.current);
+    loadBodyMeasurementsSettings(userSettings, measurementMap.current);
 
     const validFilterKeys = new Set<StoreFilterMapKey>([
       "min-date",

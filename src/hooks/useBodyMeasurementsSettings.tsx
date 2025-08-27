@@ -148,7 +148,7 @@ export const useBodyMeasurementsSettings = ({
     toast.success("Settings Updated");
   };
 
-  const loadBodyMeasurementsSettings = async (
+  const loadBodyMeasurementsSettings = (
     userSettings: UserSettings,
     measurementMap: MeasurementMap
   ) => {
@@ -182,7 +182,6 @@ export const useBodyMeasurementsSettings = ({
     bodyFatMeasurementList,
     setBodyFatMeasurementList,
     bodyFatCalculationModal,
-    loadBodyFatCalculationSettingsString,
     bodyFatMeasurementsMap,
     isBodyFatMeasurementListInvalid,
     saveBodyFatCalculationSettingsString,

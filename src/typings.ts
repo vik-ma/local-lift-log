@@ -1083,10 +1083,6 @@ export type UseBodyMeasurementsSettingsReturnType = {
     React.SetStateAction<(Measurement | undefined)[]>
   >;
   bodyFatCalculationModal: UseDisclosureReturnType;
-  loadBodyFatCalculationSettingsString: (
-    bodyFatCalculationSettingsString: string,
-    measurementMap: MeasurementMap
-  ) => void;
   bodyFatMeasurementsMap: Map<number, Measurement>;
   isBodyFatMeasurementListInvalid: boolean;
   saveBodyFatCalculationSettingsString: () => void;
@@ -1094,7 +1090,7 @@ export type UseBodyMeasurementsSettingsReturnType = {
   loadBodyMeasurementsSettings: (
     userSettings: UserSettings,
     measurementMap: MeasurementMap
-  ) => Promise<void>;
+  ) => void;
 };
 
 export type BodyFatCalculationConstants = {

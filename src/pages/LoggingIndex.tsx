@@ -73,18 +73,16 @@ export default function LoggingIndex() {
   const { nameInputModal, handleReassignMeasurement, reassignMeasurement } =
     useReassignMeasurement({ useMeasurementList: measurementList });
 
-  const activeMeasurements = useBodyMeasurementsSettings({
+  const bodyMeasurementsSettings = useBodyMeasurementsSettings({
     userSettings,
     setUserSettings,
   });
 
   const {
-    setWeightUnit,
-    getActiveMeasurements,
+    loadBodyMeasurementsSettings,
     updateActiveTrackingMeasurementOrder,
     bodyFatCalculationModal,
-    loadBodyFatCalculationSettingsString,
-  } = activeMeasurements;
+  } = bodyMeasurementsSettings;
 
   const dietLogList = useDietLogList({ store: store });
 
@@ -113,22 +111,16 @@ export default function LoggingIndex() {
 
       ValidateAndModifyDefaultUnits(userSettings, new Set(["weight"]));
 
-      // TODO: FIX
-      setWeightUnit(userSettings.default_unit_weight);
-
       await LoadStore(store);
 
       await Promise.all([
         loadMeasurementList(userSettings),
-        getActiveMeasurements(userSettings.active_tracking_measurements),
-        getLatestBodyMeasurements(userSettings.clock_style),
         loadDietLogList(userSettings),
       ]);
 
-      loadBodyFatCalculationSettingsString(
-        userSettings.body_fat_calculation_settings,
-        measurementMap.current
-      );
+      loadBodyMeasurementsSettings(userSettings, measurementMap.current);
+
+      getLatestBodyMeasurements(userSettings.clock_style);
 
       setUserSettings(userSettings);
     };
@@ -460,7 +452,7 @@ export default function LoggingIndex() {
         bodyMeasurementsModal={bodyMeasurementsModal}
         operatingBodyMeasurements={operatingBodyMeasurements}
         measurementMap={measurementMap.current}
-        useBodyMeasurementsSettings={activeMeasurements}
+        useBodyMeasurementsSettings={bodyMeasurementsSettings}
         useMeasurementList={measurementList}
         doneButtonAction={
           operationType === "edit"
@@ -497,7 +489,7 @@ export default function LoggingIndex() {
         saveRangeButtonAction={addDietLogEntries}
       />
       <BodyFatCalculationModal
-        useBodyMeasurementsSettings={activeMeasurements}
+        useBodyMeasurementsSettings={bodyMeasurementsSettings}
         useMeasurementList={measurementList}
       />
       <div className="flex flex-col gap-3 items-center w-full">
