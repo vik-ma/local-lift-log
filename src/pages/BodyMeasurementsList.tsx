@@ -3,6 +3,7 @@ import {
   BodyMeasurements,
   BodyMeasurementsOperationType,
   BodyMeasurementSortCategory,
+  StoreFilterMapKey,
   UserSettings,
 } from "../typings";
 import {
@@ -83,6 +84,8 @@ export default function BodyMeasurementsList() {
     setUserSettings,
   });
 
+  const isBodyMeasurementsListLoaded = useRef<boolean>(false);
+
   const deleteModal = useDisclosure();
   const bodyMeasurementsModal = useDisclosure();
   const timeInputModal = useDisclosure();
@@ -104,7 +107,13 @@ export default function BodyMeasurementsList() {
   const { nameInputModal, handleReassignMeasurement, reassignMeasurement } =
     useReassignMeasurement({ useMeasurementList: measurementList });
 
-  const { filterMap, removeFilter, prefixMap, listFilterValues } = listFilters;
+  const {
+    filterMap,
+    removeFilter,
+    prefixMap,
+    listFilterValues,
+    loadFilterMapFromStore,
+  } = listFilters;
 
   const {
     filterMinDate,
@@ -215,7 +224,36 @@ export default function BodyMeasurementsList() {
       measurementMap.current
     );
 
-    sortBodyMeasurementsByDate(detailedBodyMeasurements, false);
+    const isAscending = false;
+
+    sortBodyMeasurementsByDate(detailedBodyMeasurements, isAscending);
+    isBodyMeasurementsListLoaded.current = true;
+  };
+
+  const loadBodyMeasurementsList = async (userSettings: UserSettings) => {
+    await loadMeasurementList(userSettings);
+
+    if (isBodyMeasurementsListLoaded.current) return;
+
+    await loadBodyMeasurementsSettings(userSettings, measurementMap.current);
+
+    const validFilterKeys = new Set<StoreFilterMapKey>([
+      "min-date",
+      "max-date",
+      "weekdays",
+      "measurements",
+      "min-weight",
+      "max-weight",
+      "weight-range-unit",
+      "min-bf",
+      "max-bf",
+      "include-null-in-max-values",
+      "include-null-in-max-values-secondary",
+    ]);
+
+    await loadFilterMapFromStore(userSettings, validFilterKeys);
+
+    await getBodyMeasurements(userSettings.clock_style);
   };
 
   useEffect(() => {
@@ -226,15 +264,11 @@ export default function BodyMeasurementsList() {
 
       ValidateAndModifyDefaultUnits(userSettings, new Set(["weight"]));
 
+      setUserSettings(userSettings);
+
       await LoadStore(store);
 
-      await loadMeasurementList(userSettings);
-
-      await loadBodyMeasurementsSettings(userSettings, measurementMap.current);
-
-      await getBodyMeasurements(userSettings.clock_style);
-
-      setUserSettings(userSettings);
+      await loadBodyMeasurementsList(userSettings);
     };
 
     loadPage();
@@ -547,7 +581,8 @@ export default function BodyMeasurementsList() {
     }
   };
 
-  if (userSettings === undefined) return <LoadingSpinner />;
+  if (userSettings === undefined || !isBodyMeasurementsListLoaded.current)
+    return <LoadingSpinner />;
 
   return (
     <>
