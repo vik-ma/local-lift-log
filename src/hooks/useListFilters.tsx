@@ -685,24 +685,29 @@ export const useListFilters = ({
   ) => {
     if (store.current === null) return;
 
+    const filterStoreValues: ListFilterValues = {
+      ...defaultListFilterValues,
+      filterWeightRangeUnit: userSettings.default_unit_weight,
+      filterDistanceRangeUnit: userSettings.default_unit_distance,
+    };
+
     const val = await store.current.get<{ value: string }>(
       `filter-map-${filterMapSuffix}`
     );
 
-    if (val === undefined) return;
+    if (val === undefined) {
+      handleFilterSaveButton(userSettings.locale, filterStoreValues);
+      return;
+    }
 
     try {
       const storeFilterList: [StoreFilterMapKey, string | number | boolean][] =
         JSON.parse(val.value);
 
       if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
-        handleFilterSaveButton(userSettings.locale, defaultListFilterValues);
+        handleFilterSaveButton(userSettings.locale, filterStoreValues);
         return;
       }
-
-      const filterStoreValues: ListFilterValues = {
-        ...defaultListFilterValues,
-      };
 
       const addedKeys = new Set<StoreFilterMapKey>();
 
@@ -1103,7 +1108,7 @@ export const useListFilters = ({
 
       handleFilterSaveButton(userSettings.locale, filterStoreValues);
     } catch {
-      handleFilterSaveButton(userSettings.locale, defaultListFilterValues);
+      handleFilterSaveButton(userSettings.locale, filterStoreValues);
     }
   };
 
