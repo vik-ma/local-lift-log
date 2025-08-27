@@ -50,7 +50,7 @@ export const BodyMeasurementsAccordions = ({
 
         return (
           <div
-            key={measurement.id}
+            key={index}
             className={
               measurement.disableExpansion
                 ? "flex flex-col select-none bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
