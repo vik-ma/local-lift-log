@@ -55,7 +55,9 @@ export const FilterBodyMeasurementsListModal = ({
 
   const filterMinAndMaxValueInputsWeight = useFilterMinAndMaxValueInputs();
   const filterMinAndMaxValueInputsBodyFatPercentage =
-    useFilterMinAndMaxValueInputs();
+    useFilterMinAndMaxValueInputs({
+      maxValue: 100,
+    });
 
   const filterDateRangeAndWeekdays = useFilterDateRangeAndWeekdays();
 

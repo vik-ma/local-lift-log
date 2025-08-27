@@ -19,7 +19,6 @@ import {
 } from "../components";
 import {
   useBodyMeasurementsSettings,
-  useFilterMinAndMaxValueInputs,
   useListFilters,
   useMeasurementList,
   useReassignMeasurement,
@@ -100,15 +99,6 @@ export default function BodyMeasurementsList() {
     bodyFatCalculationModal,
   } = activeMeasurements;
 
-  const filterMinAndMaxValueInputsBodyFat = useFilterMinAndMaxValueInputs({
-    maxValue: 100,
-  });
-
-  const [include0InMaxValuesWeight, setInclude0InMaxValuesWeight] =
-    useState<boolean>(false);
-  const [includeNullInMaxValuesBodyFat, setIncludeNullInMaxValuesBodyFat] =
-    useState<boolean>(false);
-
   const listFilters = useListFilters({
     store: store,
     filterMapSuffix: "body-measurements",
@@ -131,6 +121,8 @@ export default function BodyMeasurementsList() {
     filterMaxWeight,
     filterMinBodyFatPercentage,
     filterMaxBodyFatPercentage,
+    includeNullInMaxValues,
+    includeNullInMaxValuesSecondary,
   } = listFilterValues;
 
   const filteredBodyMeasurements = useMemo(() => {
@@ -184,7 +176,7 @@ export default function BodyMeasurementsList() {
               item.weight_unit,
               filterWeightRangeUnit,
               true,
-              include0InMaxValuesWeight
+              includeNullInMaxValues
             )) &&
           (!filterMap.has("min-bf") ||
             IsNumberWithinLimit(
@@ -197,7 +189,7 @@ export default function BodyMeasurementsList() {
               item.body_fat_percentage,
               filterMaxBodyFatPercentage,
               true,
-              includeNullInMaxValuesBodyFat
+              includeNullInMaxValuesSecondary
             ))
       );
     }
@@ -216,8 +208,8 @@ export default function BodyMeasurementsList() {
     filterMaxWeight,
     filterMinBodyFatPercentage,
     filterMaxBodyFatPercentage,
-    include0InMaxValuesWeight,
-    includeNullInMaxValuesBodyFat,
+    includeNullInMaxValues,
+    includeNullInMaxValuesSecondary,
   ]);
 
   const getBodyMeasurements = async (clockStyle: string) => {
