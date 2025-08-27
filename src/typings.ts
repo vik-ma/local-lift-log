@@ -1073,7 +1073,6 @@ export type UseBodyMeasurementsSettingsReturnType = {
   activeMeasurementsValue: React.RefObject<Measurement[]>;
   activeMeasurements: Measurement[];
   setActiveMeasurements: React.Dispatch<React.SetStateAction<Measurement[]>>;
-  getActiveMeasurements: (activeMeasurementsString: string) => void;
   updateActiveTrackingMeasurementOrder: () => void;
   isMale: boolean;
   setIsMale: React.Dispatch<React.SetStateAction<boolean>>;
@@ -1092,6 +1091,10 @@ export type UseBodyMeasurementsSettingsReturnType = {
   isBodyFatMeasurementListInvalid: boolean;
   saveBodyFatCalculationSettingsString: () => void;
   validBodyFatInputs: React.RefObject<Set<number>>;
+  loadBodyMeasurementsSettings: (
+    userSettings: UserSettings,
+    measurementMap: MeasurementMap
+  ) => Promise<void>;
 };
 
 export type BodyFatCalculationConstants = {

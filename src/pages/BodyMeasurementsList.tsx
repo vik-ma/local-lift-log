@@ -78,7 +78,7 @@ export default function BodyMeasurementsList() {
   const { loadMeasurementList, measurementMap, isMeasurementListLoaded } =
     measurementList;
 
-  const activeMeasurements = useBodyMeasurementsSettings({
+  const bodyMeasurementsSettings = useBodyMeasurementsSettings({
     userSettings,
     setUserSettings,
   });
@@ -90,12 +90,10 @@ export default function BodyMeasurementsList() {
 
   const {
     setActiveMeasurements,
-    setWeightUnit,
-    getActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
-    loadBodyFatCalculationSettingsString,
+    loadBodyMeasurementsSettings,
     bodyFatCalculationModal,
-  } = activeMeasurements;
+  } = bodyMeasurementsSettings;
 
   const listFilters = useListFilters({
     store: store,
@@ -114,7 +112,6 @@ export default function BodyMeasurementsList() {
     filterWeekdays,
     filterMeasurements,
     filterWeightRangeUnit,
-    // setFilterWeightRangeUnit, TODO: FIX
     filterMinWeight,
     filterMaxWeight,
     filterMinBodyFatPercentage,
@@ -229,21 +226,13 @@ export default function BodyMeasurementsList() {
 
       ValidateAndModifyDefaultUnits(userSettings, new Set(["weight"]));
 
-      setWeightUnit(userSettings.default_unit_weight);
-      // setFilterWeightRangeUnit(weightUnit); TODO: FIX
-
-      loadBodyFatCalculationSettingsString(
-        userSettings.body_fat_calculation_settings,
-        measurementMap.current
-      );
-
       await LoadStore(store);
 
-      await Promise.all([
-        loadMeasurementList(userSettings),
-        getActiveMeasurements(userSettings.active_tracking_measurements),
-        getBodyMeasurements(userSettings.clock_style),
-      ]);
+      await loadMeasurementList(userSettings);
+
+      await loadBodyMeasurementsSettings(userSettings, measurementMap.current);
+
+      await getBodyMeasurements(userSettings.clock_style);
 
       setUserSettings(userSettings);
     };
@@ -403,7 +392,7 @@ export default function BodyMeasurementsList() {
     setBodyMeasurements(updatedBodyMeasurements);
   };
 
-  const handleNewBodyMeasurementsButton = async () => {
+  const handleNewBodyMeasurementsButton = () => {
     if (userSettings === undefined) return;
 
     if (operationType !== "add") {
@@ -411,8 +400,9 @@ export default function BodyMeasurementsList() {
       setOperatingBodyMeasurements({ ...defaultBodyMeasurements });
     }
 
-    const activeMeasurements = await CreateActiveMeasurementInputs(
-      userSettings.active_tracking_measurements
+    const activeMeasurements = CreateActiveMeasurementInputs(
+      userSettings.active_tracking_measurements,
+      measurementMap.current
     );
 
     setActiveMeasurements(activeMeasurements);
@@ -580,7 +570,7 @@ export default function BodyMeasurementsList() {
         bodyMeasurementsModal={bodyMeasurementsModal}
         operatingBodyMeasurements={operatingBodyMeasurements}
         measurementMap={measurementMap.current}
-        useBodyMeasurementsSettings={activeMeasurements}
+        useBodyMeasurementsSettings={bodyMeasurementsSettings}
         useMeasurementList={measurementList}
         doneButtonAction={
           operationType === "edit"
@@ -610,7 +600,7 @@ export default function BodyMeasurementsList() {
         useMeasurementList={measurementList}
       />
       <BodyFatCalculationModal
-        useBodyMeasurementsSettings={activeMeasurements}
+        useBodyMeasurementsSettings={bodyMeasurementsSettings}
         useMeasurementList={measurementList}
       />
       <div className="flex flex-col items-center gap-1.5">

@@ -42,19 +42,6 @@ export const useBodyMeasurementsSettings = ({
 
   const bodyFatCalculationModal = useDisclosure();
 
-  const getActiveMeasurements = async (activeMeasurementsString: string) => {
-    try {
-      const activeMeasurements = await CreateActiveMeasurementInputs(
-        activeMeasurementsString
-      );
-
-      setActiveMeasurements(activeMeasurements);
-      activeMeasurementsValue.current = activeMeasurements;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const updateActiveTrackingMeasurementOrder = async () => {
     if (userSettings === undefined) return;
 
@@ -161,13 +148,32 @@ export const useBodyMeasurementsSettings = ({
     toast.success("Settings Updated");
   };
 
+  const loadBodyMeasurementsSettings = async (
+    userSettings: UserSettings,
+    measurementMap: MeasurementMap
+  ) => {
+    setWeightUnit(userSettings.default_unit_weight);
+
+    loadBodyFatCalculationSettingsString(
+      userSettings.body_fat_calculation_settings,
+      measurementMap
+    );
+
+    const activeMeasurements = CreateActiveMeasurementInputs(
+      userSettings.active_tracking_measurements,
+      measurementMap
+    );
+
+    setActiveMeasurements(activeMeasurements);
+    activeMeasurementsValue.current = activeMeasurements;
+  };
+
   return {
     weightUnit,
     setWeightUnit,
     activeMeasurementsValue,
     activeMeasurements,
     setActiveMeasurements,
-    getActiveMeasurements,
     updateActiveTrackingMeasurementOrder,
     isMale,
     setIsMale,
@@ -181,5 +187,6 @@ export const useBodyMeasurementsSettings = ({
     isBodyFatMeasurementListInvalid,
     saveBodyFatCalculationSettingsString,
     validBodyFatInputs,
+    loadBodyMeasurementsSettings,
   };
 };
