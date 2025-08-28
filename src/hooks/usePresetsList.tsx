@@ -51,6 +51,7 @@ export const usePresetsList = ({
 
   const isEquipmentWeightListLoaded = useRef(false);
   const isDistanceListLoaded = useRef(false);
+  const isPlateCollectionListLoaded = useRef(false);
 
   const defaultPlateCollection: PlateCollection = useMemo(() => {
     return {
@@ -183,10 +184,7 @@ export const usePresetsList = ({
     return plateCollections;
   }, [plateCollections, filterQueryPlateCollection]);
 
-  const getEquipmentWeights = async (
-    category: EquipmentWeightSortCategory,
-    defaultPlateCollectionId?: number
-  ) => {
+  const getEquipmentWeights = async (category: EquipmentWeightSortCategory) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -194,31 +192,9 @@ export const usePresetsList = ({
         "SELECT * FROM equipment_weights WHERE weight_unit IN ('kg', 'lbs')"
       );
 
-      const plateCollections = await db.select<PlateCollection[]>(
-        "SELECT * FROM plate_collections"
-      );
-
       sortEquipmentWeightsByActiveCategory(equipmentWeights, category);
 
-      const plateCollectionList = CreatePlateCollectionList(
-        plateCollections,
-        equipmentWeights
-      );
-
-      setPlateCollections(plateCollectionList);
       isEquipmentWeightListLoaded.current = true;
-
-      if (defaultPlateCollectionId !== undefined) {
-        const defaultPlateCollection = plateCollectionList.find(
-          (plateCollection) => plateCollection.id === defaultPlateCollectionId
-        );
-
-        if (defaultPlateCollection !== undefined) {
-          setOperatingPlateCollection(defaultPlateCollection);
-        } else {
-          setIsDefaultPlateCollectionInvalid(true);
-        }
-      }
     } catch (error) {
       console.log(error);
     }
@@ -234,6 +210,39 @@ export const usePresetsList = ({
 
       sortDistancesByActiveCategory(result, category);
       isDistanceListLoaded.current = true;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getPlateCollections = async (defaultPlateCollectionId: number) => {
+    if (!isEquipmentWeightListLoaded.current) return;
+    // TODO: REPLACE WITH LOAD FUNCTION
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const plateCollections = await db.select<PlateCollection[]>(
+        "SELECT * FROM plate_collections"
+      );
+
+      const plateCollectionList = CreatePlateCollectionList(
+        plateCollections,
+        equipmentWeights
+      );
+
+      const defaultPlateCollection = plateCollectionList.find(
+        (plateCollection) => plateCollection.id === defaultPlateCollectionId
+      );
+
+      if (defaultPlateCollection !== undefined) {
+        setOperatingPlateCollection(defaultPlateCollection);
+      } else {
+        setIsDefaultPlateCollectionInvalid(true);
+      }
+
+      setPlateCollections(plateCollectionList);
+      isPlateCollectionListLoaded.current = true;
     } catch (error) {
       console.log(error);
     }
