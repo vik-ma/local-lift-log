@@ -1,6 +1,6 @@
 import { useState, useRef, useMemo } from "react";
 import {
-  ListFilterMapKey,
+  StoreFilterMapKey,
   StoreRef,
   UseExerciseListReturnType,
   UserSettings,
@@ -239,7 +239,7 @@ export const useWorkoutList = ({
 
       setSelectedWorkoutProperties(workoutPropertySet);
 
-      const validFilterKeys = new Set<ListFilterMapKey>([
+      const validFilterKeys = new Set<StoreFilterMapKey>([
         "min-date",
         "max-date",
         "weekdays",

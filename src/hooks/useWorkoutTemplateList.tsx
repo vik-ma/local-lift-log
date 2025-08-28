@@ -6,7 +6,7 @@ import {
   WorkoutTemplateMap,
   StoreRef,
   UserSettings,
-  ListFilterMapKey,
+  StoreFilterMapKey,
 } from "../typings";
 import { useState, useRef, useMemo } from "react";
 import { useDisclosure } from "@heroui/react";
@@ -173,7 +173,7 @@ export const useWorkoutTemplateList = ({
     await loadExerciseList(userSettings);
 
     if (!isWorkoutTemplateListLoaded.current) {
-      const validFilterKeys = new Set<ListFilterMapKey>([
+      const validFilterKeys = new Set<StoreFilterMapKey>([
         "exercises",
         "exercise-groups",
       ]);

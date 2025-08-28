@@ -1,9 +1,9 @@
 import { useMemo, useRef, useState } from "react";
 import {
-  ListFilterMapKey,
   Routine,
   RoutineMap,
   RoutineSortCategory,
+  StoreFilterMapKey,
   StoreRef,
   UseExerciseListReturnType,
   UseRoutineListReturnType,
@@ -288,7 +288,7 @@ export const useRoutineList = ({
     await loadWorkoutTemplateList(userSettings);
 
     if (!isRoutineListLoaded.current) {
-      const validFilterKeys = new Set<ListFilterMapKey>([
+      const validFilterKeys = new Set<StoreFilterMapKey>([
         "workout-templates",
         "schedule-types",
         "min-num-schedule-days",
