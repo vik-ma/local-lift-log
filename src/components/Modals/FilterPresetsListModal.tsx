@@ -13,6 +13,8 @@ import {
   MultipleChoiceUnitDropdown,
   WeightUnitDropdown,
 } from "..";
+import { useFilterMinAndMaxValueInputs } from "../../hooks";
+import { useMemo, useState } from "react";
 
 type FilterPresetsListModalProps = {
   usePresetsList: UsePresetsListReturnType;
@@ -23,31 +25,41 @@ export const FilterPresetsListModal = ({
   usePresetsList,
   userSettings,
 }: FilterPresetsListModalProps) => {
+  const [filterWeightRangeUnit, setFilterWeightRangeUnit] =
+    useState<string>("kg");
+  const [filterDistanceRangeUnit, setFilterDistanceRangeUnit] =
+    useState<string>("km");
+  const [filterWeightUnits, setFilterWeightUnits] = useState<Set<string>>(
+    new Set()
+  );
+  const [filterDistanceUnits, setFilterDistanceUnits] = useState<Set<string>>(
+    new Set()
+  );
+
   const {
     filterPresetsListModal,
-    listFilters,
+    listFiltersEquipment,
+    listFiltersDistance,
     presetsType,
     presetsTypeString,
   } = usePresetsList;
 
-  const {
-    setFilterMinWeight,
-    setFilterMaxWeight,
-    filterWeightRangeUnit,
-    setFilterWeightRangeUnit,
-    showResetFilterButton,
-    resetFilter,
-    handleFilterSaveButton,
-    filterWeightUnits,
-    setFilterWeightUnits,
-    setFilterMinDistance,
-    setFilterMaxDistance,
-    filterDistanceRangeUnit,
-    setFilterDistanceRangeUnit,
-    filterDistanceUnits,
-    setFilterDistanceUnits,
-    filterMinAndMaxValueInputs,
-  } = listFilters;
+  const filterMinAndMaxValueInputsWeight = useFilterMinAndMaxValueInputs();
+  const filterMinAndMaxValueInputsDistance = useFilterMinAndMaxValueInputs();
+
+  const isFilterButtonDisabled = useMemo(() => {
+    if (presetsType === "equipment") {
+      if (filterMinAndMaxValueInputsWeight.isFilterInvalid) return true;
+    } else {
+      if (filterMinAndMaxValueInputsDistance.isFilterInvalid) return true;
+    }
+
+    return false;
+  }, [
+    presetsType,
+    filterMinAndMaxValueInputsWeight.isFilterInvalid,
+    filterMinAndMaxValueInputsDistance.isFilterInvalid,
+  ]);
 
   return (
     <Modal
@@ -65,11 +77,9 @@ export const FilterPresetsListModal = ({
                     <h3 className="text-lg font-semibold px-0.5">Weight</h3>
                     <div className="flex gap-5">
                       <FilterMinAndMaxValues
-                        setFilterMinValue={setFilterMinWeight}
-                        setFilterMaxValue={setFilterMaxWeight}
                         label="Weight"
                         useFilterMinAndMaxValueInputs={
-                          filterMinAndMaxValueInputs
+                          filterMinAndMaxValueInputsWeight
                         }
                       />
                       <WeightUnitDropdown
@@ -97,11 +107,9 @@ export const FilterPresetsListModal = ({
                     <h3 className="text-lg font-semibold px-0.5">Distance</h3>
                     <div className="flex gap-5">
                       <FilterMinAndMaxValues
-                        setFilterMinValue={setFilterMinDistance}
-                        setFilterMaxValue={setFilterMaxDistance}
                         label="Distance"
                         useFilterMinAndMaxValueInputs={
-                          filterMinAndMaxValueInputs
+                          filterMinAndMaxValueInputsDistance
                         }
                       />
                       <DistanceUnitDropdown
@@ -149,7 +157,7 @@ export const FilterPresetsListModal = ({
                       filterPresetsListModal
                     )
                   }
-                  isDisabled={filterMinAndMaxValueInputs.isFilterInvalid}
+                  isDisabled={isFilterButtonDisabled}
                 >
                   Filter
                 </Button>
