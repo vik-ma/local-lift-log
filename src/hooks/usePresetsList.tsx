@@ -56,6 +56,8 @@ export const usePresetsList = ({
   const isDistanceListLoaded = useRef(false);
   const isPlateCollectionListLoaded = useRef(false);
 
+  const equipmentWeightMap = useRef<Map<number, EquipmentWeight>>(new Map());
+
   const presetsTypeString = usePresetsTypeString({ presetsType });
 
   const defaultPlateCollection: PlateCollection = useMemo(() => {
@@ -195,6 +197,11 @@ export const usePresetsList = ({
 
       const equipmentWeights = await db.select<EquipmentWeight[]>(
         "SELECT * FROM equipment_weights WHERE weight_unit IN ('kg', 'lbs')"
+      );
+
+      equipmentWeightMap.current = equipmentWeights.reduce(
+        (map, equipment) => map.set(equipment.id, equipment),
+        new Map()
       );
 
       sortEquipmentWeightsByActiveCategory(equipmentWeights, category);
@@ -606,7 +613,7 @@ export const usePresetsList = ({
 
       const plateCollectionList = CreatePlateCollectionList(
         plateCollections,
-        equipmentWeights
+        equipmentWeightMap.current
       );
 
       const defaultPlateCollection = plateCollectionList.find(

@@ -8,14 +8,8 @@ import {
 
 export const CreatePlateCollectionList = (
   plateCollections: PlateCollection[],
-  equipmentWeights: EquipmentWeight[]
+  equipmentWeightMap: Map<number, EquipmentWeight>
 ) => {
-  const equipmentWeightMap: Map<string, EquipmentWeight> =
-    equipmentWeights.reduce(
-      (map, equipment) => map.set(equipment.id.toString(), equipment),
-      new Map<string, EquipmentWeight>()
-    );
-
   const plateCollectionList: PlateCollection[] = [];
 
   for (const plate of plateCollections) {
@@ -29,7 +23,7 @@ export const CreatePlateCollectionList = (
 
     const availablePlatesMap = new Map<EquipmentWeight, number>();
 
-    const handle = equipmentWeightMap.get(plate.handle_id.toString());
+    const handle = equipmentWeightMap.get(plate.handle_id);
 
     const availablePlateStrings = plate.available_plates_string.split(",");
 
@@ -38,7 +32,7 @@ export const CreatePlateCollectionList = (
 
       const id = plateAvailability[0];
       const numAvailable = plateAvailability[1];
-      const plate = equipmentWeightMap.get(id);
+      const plate = equipmentWeightMap.get(Number(id));
 
       if (
         id !== undefined &&
