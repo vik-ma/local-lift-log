@@ -638,6 +638,8 @@ export const usePresetsList = ({
     setEquipmentWeights,
     distances,
     setDistances,
+    getEquipmentWeights,
+    getDistances,
     presetsType,
     setPresetsType,
     filterQueryEquipment,
@@ -677,5 +679,6 @@ export const usePresetsList = ({
     loadEquipmentWeightList,
     loadDistanceList,
     loadPlateCollectionList,
+    equipmentWeightMap,
   };
 };

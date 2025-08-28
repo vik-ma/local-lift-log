@@ -132,6 +132,7 @@ export default function Presets() {
     listFiltersDistance,
     isEquipmentWeightListLoaded,
     isDistanceListLoaded,
+    equipmentWeightMap,
   } = presetsList;
 
   useEffect(() => {
@@ -158,24 +159,6 @@ export default function Presets() {
       }));
 
       await LoadStore(store);
-
-      const sortCategoryEquipment = await GetSortCategoryFromStore(
-        store,
-        "favorite" as EquipmentWeightSortCategory,
-        "equipment-weights"
-      );
-      const sortCategoryDistance = await GetSortCategoryFromStore(
-        store,
-        "favorite" as DistanceSortCategory,
-        "distances"
-      );
-
-      await Promise.all([
-        getEquipmentWeights(
-          sortCategoryEquipment as EquipmentWeightSortCategory
-        ),
-        getDistances(sortCategoryDistance as DistanceSortCategory),
-      ]);
     };
 
     if (searchParams.get("tab") === "distance") {
@@ -212,6 +195,8 @@ export default function Presets() {
         ...equipmentWeight,
         id: result.lastInsertId,
       };
+
+      equipmentWeightMap.current.set(newEquipment.id, newEquipment);
 
       sortEquipmentWeightsByActiveCategory([...equipmentWeights, newEquipment]);
 
@@ -326,6 +311,8 @@ export default function Presets() {
         equipmentWeight
       );
 
+      equipmentWeightMap.current.set(equipmentWeight.id, equipmentWeight);
+
       sortEquipmentWeightsByActiveCategory(updatedEquipmentWeights);
 
       resetOperatingEquipment();
@@ -423,6 +410,8 @@ export default function Presets() {
         equipmentWeights,
         equipmentWeight.id
       );
+
+      equipmentWeightMap.current.delete(equipmentWeight.id);
 
       setEquipmentWeights(updatedEquipmentWeights);
 
