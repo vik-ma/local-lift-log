@@ -133,6 +133,9 @@ export default function Presets() {
     isEquipmentWeightListLoaded,
     isDistanceListLoaded,
     equipmentWeightMap,
+    loadEquipmentWeightList,
+    loadDistanceList,
+    loadPlateCollectionList,
   } = presetsList;
 
   useEffect(() => {
@@ -159,13 +162,17 @@ export default function Presets() {
       }));
 
       await LoadStore(store);
-    };
 
-    if (searchParams.get("tab") === "distance") {
-      setSelectedTab("distance");
-    } else if (searchParams.get("tab") === "plate") {
-      setSelectedTab("plate");
-    }
+      if (searchParams.get("tab") === "distance") {
+        setSelectedTab("distance");
+        await loadDistanceList(userSettings);
+      } else if (searchParams.get("tab") === "plate") {
+        setSelectedTab("plate");
+        await loadPlateCollectionList(userSettings);
+      } else {
+        await loadEquipmentWeightList(userSettings);
+      }
+    };
 
     loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
