@@ -596,10 +596,7 @@ export const usePresetsList = ({
     await getDistances(sortCategory);
   };
 
-  const loadPlateCollectionList = async (
-    userSettings: UserSettings,
-    defaultPlateCollectionId: number
-  ) => {
+  const loadPlateCollectionList = async (userSettings: UserSettings) => {
     if (isPlateCollectionListLoaded.current) return;
 
     await loadEquipmentWeightList(userSettings);
@@ -611,14 +608,12 @@ export const usePresetsList = ({
         "SELECT * FROM plate_collections"
       );
 
-      const plateCollectionList = CreatePlateCollectionList(
-        plateCollections,
-        equipmentWeightMap.current
-      );
-
-      const defaultPlateCollection = plateCollectionList.find(
-        (plateCollection) => plateCollection.id === defaultPlateCollectionId
-      );
+      const { plateCollectionList, defaultPlateCollection } =
+        CreatePlateCollectionList(
+          plateCollections,
+          equipmentWeightMap.current,
+          userSettings.default_plate_collection_id
+        );
 
       if (defaultPlateCollection !== undefined) {
         setOperatingPlateCollection(defaultPlateCollection);

@@ -580,10 +580,7 @@ export type UsePresetsListReturnType = {
   presetsTypeString: string;
   loadEquipmentWeightList: (userSettings: UserSettings) => Promise<void>;
   loadDistanceList: (userSettings: UserSettings) => Promise<void>;
-  loadPlateCollectionList: (
-    userSettings: UserSettings,
-    defaultPlateCollectionId: number
-  ) => Promise<void>;
+  loadPlateCollectionList: (userSettings: UserSettings) => Promise<void>;
   equipmentWeightMap: React.RefObject<Map<number, EquipmentWeight>>;
 };
 

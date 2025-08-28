@@ -8,9 +8,12 @@ import {
 
 export const CreatePlateCollectionList = (
   plateCollections: PlateCollection[],
-  equipmentWeightMap: Map<number, EquipmentWeight>
+  equipmentWeightMap: Map<number, EquipmentWeight>,
+  defaultPlateCollectionId: number
 ) => {
   const plateCollectionList: PlateCollection[] = [];
+
+  let defaultPlateCollection = undefined;
 
   for (const plate of plateCollections) {
     if (
@@ -62,8 +65,12 @@ export const CreatePlateCollectionList = (
       formattedAvailablePlatesMapString,
     };
 
+    if (plateCollection.id === defaultPlateCollectionId) {
+      defaultPlateCollection = plateCollection;
+    }
+
     plateCollectionList.push(plateCollection);
   }
 
-  return plateCollectionList;
+  return { plateCollectionList, defaultPlateCollection };
 };
