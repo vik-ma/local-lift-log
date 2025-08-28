@@ -69,27 +69,18 @@ export const usePresetsList = ({
   const [otherUnitPlateCollection, setOtherUnitPlateCollection] =
     useState<PlateCollection>(defaultPlateCollection);
 
-  const listFilters = useListFilters({
+  const listFiltersEquipment = useListFilters({
     store: store,
-    filterMapSuffix: "presets",
+    filterMapSuffix: "equipment-weights",
   });
-
-  const {
-    filterMap,
-    filterMinWeight,
-    filterMaxWeight,
-    filterWeightRangeUnit,
-    filterWeightUnits,
-    filterMinDistance,
-    filterMaxDistance,
-    filterDistanceRangeUnit,
-    filterDistanceUnits,
-  } = listFilters;
 
   const filterPresetsListModal = useDisclosure();
 
   const filteredEquipmentWeights = useMemo(() => {
-    if (filterQueryEquipment !== "" || filterMap.size > 0) {
+    if (
+      filterQueryEquipment !== "" ||
+      listFiltersEquipment.filterMap.size > 0
+    ) {
       return equipmentWeights.filter(
         (item) =>
           (item.name
@@ -99,39 +90,46 @@ export const usePresetsList = ({
               .toString()
               .toLocaleLowerCase()
               .includes(filterQueryEquipment.toLocaleLowerCase())) &&
-          (!filterMap.has("min-weight") ||
+          (!listFiltersEquipment.filterMap.has("min-weight") ||
             IsWeightWithinLimit(
               item.weight,
-              filterMinWeight,
+              listFiltersEquipment.listFilterValues.filterMinWeight,
               item.weight_unit,
-              filterWeightRangeUnit,
+              listFiltersEquipment.listFilterValues.filterWeightRangeUnit,
               false
             )) &&
-          (!filterMap.has("max-weight") ||
+          (!listFiltersEquipment.filterMap.has("max-weight") ||
             IsWeightWithinLimit(
               item.weight,
-              filterMaxWeight,
+              listFiltersEquipment.listFilterValues.filterMaxWeight,
               item.weight_unit,
-              filterWeightRangeUnit,
+              listFiltersEquipment.listFilterValues.filterWeightRangeUnit,
               true
             )) &&
-          (!filterMap.has("weight-units") ||
-            filterWeightUnits.has(item.weight_unit))
+          (!listFiltersEquipment.filterMap.has("weight-units") ||
+            listFiltersEquipment.listFilterValues.filterWeightUnits.has(
+              item.weight_unit
+            ))
       );
     }
     return equipmentWeights;
   }, [
     equipmentWeights,
     filterQueryEquipment,
-    filterMap,
-    filterMinWeight,
-    filterMaxWeight,
-    filterWeightRangeUnit,
-    filterWeightUnits,
+    listFiltersEquipment.filterMap,
+    listFiltersEquipment.listFilterValues.filterMinWeight,
+    listFiltersEquipment.listFilterValues.filterMaxWeight,
+    listFiltersEquipment.listFilterValues.filterWeightRangeUnit,
+    listFiltersEquipment.listFilterValues.filterWeightUnits,
   ]);
 
+  const listFiltersDistance = useListFilters({
+    store: store,
+    filterMapSuffix: "distances",
+  });
+
   const filteredDistances = useMemo(() => {
-    if (filterQueryDistance !== "" || filterMap.size > 0) {
+    if (filterQueryDistance !== "" || listFiltersDistance.filterMap.size > 0) {
       return distances.filter(
         (item) =>
           (item.name
@@ -141,35 +139,37 @@ export const usePresetsList = ({
               .toString()
               .toLocaleLowerCase()
               .includes(filterQueryDistance.toLocaleLowerCase())) &&
-          (!filterMap.has("min-distance") ||
+          (!listFiltersDistance.filterMap.has("min-distance") ||
             IsDistanceWithinLimit(
               item.distance,
-              filterMinDistance,
+              listFiltersDistance.listFilterValues.filterMinDistance,
               item.distance_unit,
-              filterDistanceRangeUnit,
+              listFiltersDistance.listFilterValues.filterDistanceRangeUnit,
               false
             )) &&
-          (!filterMap.has("max-distance") ||
+          (!listFiltersDistance.filterMap.has("max-distance") ||
             IsDistanceWithinLimit(
               item.distance,
-              filterMaxDistance,
+              listFiltersDistance.listFilterValues.filterMaxDistance,
               item.distance_unit,
-              filterDistanceRangeUnit,
+              listFiltersDistance.listFilterValues.filterDistanceRangeUnit,
               true
             )) &&
-          (!filterMap.has("distance-units") ||
-            filterDistanceUnits.has(item.distance_unit))
+          (!listFiltersDistance.filterMap.has("distance-units") ||
+            listFiltersDistance.listFilterValues.filterDistanceUnits.has(
+              item.distance_unit
+            ))
       );
     }
     return distances;
   }, [
     distances,
     filterQueryDistance,
-    filterMap,
-    filterMinDistance,
-    filterMaxDistance,
-    filterDistanceRangeUnit,
-    filterDistanceUnits,
+    listFiltersDistance.filterMap,
+    listFiltersDistance.listFilterValues.filterMinDistance,
+    listFiltersDistance.listFilterValues.filterMaxDistance,
+    listFiltersDistance.listFilterValues.filterDistanceRangeUnit,
+    listFiltersDistance.listFilterValues.filterDistanceUnits,
   ]);
 
   const filteredPlateCollections = useMemo(() => {
@@ -601,7 +601,8 @@ export const usePresetsList = ({
     updateAvailablePlatesMapValue,
     isDefaultPlateCollectionInvalid,
     setIsDefaultPlateCollectionInvalid,
-    listFilters,
+    listFiltersEquipment,
+    listFiltersDistance,
     filterPresetsListModal,
     presetsTypeString,
   };

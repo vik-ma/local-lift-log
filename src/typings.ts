@@ -574,7 +574,8 @@ export type UsePresetsListReturnType = {
   setIsDefaultPlateCollectionInvalid: React.Dispatch<
     React.SetStateAction<boolean>
   >;
-  listFilters: UseListFiltersReturnType;
+  listFiltersEquipment: UseListFiltersReturnType;
+  listFiltersDistance: UseListFiltersReturnType;
   filterPresetsListModal: UseDisclosureReturnType;
   presetsTypeString: string;
 };

@@ -128,20 +128,11 @@ export default function Presets() {
     setOperatingPlateCollection,
     defaultPlateCollection,
     setOtherUnitPlateCollection,
-    listFilters,
+    listFiltersEquipment,
+    listFiltersDistance,
     isEquipmentWeightListLoaded,
     isDistanceListLoaded,
   } = presetsList;
-
-  const {
-    filterMap,
-    removeFilter,
-    prefixMap,
-    resetFilter,
-    setFilterWeightRangeUnit,
-    setFilterDistanceRangeUnit,
-    showResetFilterButton,
-  } = listFilters;
 
   useEffect(() => {
     const loadPage = async () => {
@@ -165,10 +156,6 @@ export default function Presets() {
         ...prev,
         distance_unit: userSettings.default_unit_distance,
       }));
-
-      // TODO: FIX
-      setFilterWeightRangeUnit(userSettings.default_unit_weight);
-      setFilterDistanceRangeUnit(userSettings.default_unit_distance);
 
       await LoadStore(store);
 
@@ -719,8 +706,6 @@ export default function Presets() {
   const changeTab = (key: PresetTab) => {
     if (selectedTab === key) return;
 
-    if (showResetFilterButton) resetFilter();
-
     if (key === "equipment") setPresetsType("equipment");
 
     if (key === "distance") setPresetsType("distance");
@@ -852,7 +837,7 @@ export default function Presets() {
                   setFilterQuery={setFilterQueryEquipment}
                   filteredListLength={filteredEquipmentWeights.length}
                   totalListLength={equipmentWeights.length}
-                  isListFiltered={filterMap.size > 0}
+                  isListFiltered={listFiltersEquipment.filterMap.size > 0}
                   extraTopSpace={true}
                   bottomContent={
                     <div className="flex flex-col gap-1.5">
@@ -867,11 +852,11 @@ export default function Presets() {
                         </Button>
                         <PresetsListOptions usePresetsList={presetsList} />
                       </div>
-                      {filterMap.size > 0 && (
+                      {listFiltersEquipment.filterMap.size > 0 && (
                         <ListFilters
-                          filterMap={filterMap}
-                          removeFilter={removeFilter}
-                          prefixMap={prefixMap}
+                          filterMap={listFiltersEquipment.filterMap}
+                          removeFilter={listFiltersEquipment.removeFilter}
+                          prefixMap={listFiltersEquipment.prefixMap}
                         />
                       )}
                     </div>
@@ -983,7 +968,7 @@ export default function Presets() {
                   setFilterQuery={setFilterQueryDistance}
                   filteredListLength={filteredDistances.length}
                   totalListLength={distances.length}
-                  isListFiltered={filterMap.size > 0}
+                  isListFiltered={listFiltersDistance.filterMap.size > 0}
                   extraTopSpace={true}
                   bottomContent={
                     <div className="flex flex-col gap-1.5">
@@ -998,11 +983,11 @@ export default function Presets() {
                         </Button>
                         <PresetsListOptions usePresetsList={presetsList} />
                       </div>
-                      {filterMap.size > 0 && (
+                      {listFiltersDistance.filterMap.size > 0 && (
                         <ListFilters
-                          filterMap={filterMap}
-                          removeFilter={removeFilter}
-                          prefixMap={prefixMap}
+                          filterMap={listFiltersDistance.filterMap}
+                          removeFilter={listFiltersDistance.removeFilter}
+                          prefixMap={listFiltersDistance.prefixMap}
                         />
                       )}
                     </div>
