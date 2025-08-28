@@ -23,14 +23,10 @@ import {
   SumCalculatorPage,
   CalculationModalTab,
   PlateCollection,
-  StoreRef,
-  EquipmentWeightSortCategory,
-  DistanceSortCategory,
 } from "../../typings";
 import { useEffect, useMemo, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,
-  GetSortCategoryFromStore,
   IsStringEmpty,
   IsStringInvalidNumber,
 } from "../../helpers";
@@ -51,7 +47,6 @@ type CalculationModalProps = {
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
-  store: StoreRef;
 };
 
 export const CalculationModal = ({
@@ -60,7 +55,6 @@ export const CalculationModal = ({
   doneButtonAction,
   userSettings,
   setUserSettings,
-  store,
 }: CalculationModalProps) => {
   const [calculationListWeight, setCalculationListWeight] = useState<
     CalculationListItem[]
@@ -85,11 +79,10 @@ export const CalculationModal = ({
   const {
     equipmentWeights,
     distances,
-    getEquipmentWeights,
-    getDistances,
+    loadEquipmentWeightList,
+    loadDistanceList,
+    loadPlateCollectionList,
     presetsType,
-    isEquipmentWeightListLoaded,
-    isDistanceListLoaded,
     operatingPlateCollection,
     setOperatingPlateCollection,
   } = usePresetsList;
@@ -107,24 +100,18 @@ export const CalculationModal = ({
     setTargetWeightInput,
   } = useCalculationModal;
 
+  // TODO: DELETE?
   const loadPresets = async () => {
-    const sortCategory = await GetSortCategoryFromStore(
-      store,
-      presetsType === "equipment"
-        ? ("favorite" as EquipmentWeightSortCategory)
-        : ("favorite" as DistanceSortCategory),
-      presetsType === "equipment" ? "equipment-weights" : "distances"
-    );
+    if (presetsType === "equipment") {
+      await loadEquipmentWeightList(userSettings);
 
-    if (presetsType === "equipment" && !isEquipmentWeightListLoaded.current) {
-      await getEquipmentWeights(
-        sortCategory as EquipmentWeightSortCategory,
-        userSettings.default_plate_collection_id
-      );
+      if (calculationModalTab === "plate") {
+        await loadPlateCollectionList(userSettings);
+      }
     }
 
-    if (presetsType === "distance" && !isDistanceListLoaded.current) {
-      await getDistances(sortCategory as DistanceSortCategory);
+    if (presetsType === "distance") {
+      await loadDistanceList(userSettings);
     }
   };
 
@@ -239,15 +226,9 @@ export const CalculationModal = ({
   };
 
   useEffect(() => {
-    if (
-      calculationModal.isOpen &&
-      calculationModalTab === "plate" &&
-      !isEquipmentWeightListLoaded.current
-    ) {
-      loadPresets();
-    }
+    loadPresets();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calculationModal.isOpen, calculationModalTab]);
+  }, [calculationModalTab]);
 
   const showBackButton = useMemo(() => {
     if (calculationModalTab === "sum" && sumCalculatorPage !== "base")

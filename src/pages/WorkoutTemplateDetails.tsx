@@ -330,9 +330,7 @@ export default function WorkoutTemplateDetails() {
         multisetTypeMap={multisetActions.multisetTypeMap}
         onClickAction={mergeGroupedSets}
       />
-      <FilterExerciseGroupsModal
-        useExerciseList={exerciseList}
-      />
+      <FilterExerciseGroupsModal useExerciseList={exerciseList} />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
         userSettings={userSettings}
@@ -362,7 +360,6 @@ export default function WorkoutTemplateDetails() {
           doneButtonAction={addCalculationResult}
           userSettings={userSettings}
           setUserSettings={setUserSettings}
-          store={store}
         />
       )}
       <div className="flex flex-col">

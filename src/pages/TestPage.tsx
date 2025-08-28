@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useCalculationModal, useListFilters, usePresetsList } from "../hooks";
+import { useCalculationModal, usePresetsList } from "../hooks";
 import { Button, useDisclosure } from "@heroui/react";
 import {
   CalculationModal,
@@ -43,11 +43,6 @@ export default function Test() {
   const timeInputModal = useDisclosure();
 
   const presetsList = usePresetsList({ store: store });
-
-  const listFilters = useListFilters({ store: store, filterMapSuffix: "test" });
-
-  // TODO: FIX
-  const { setFilterWeightRangeUnit } = listFilters;
 
   const handleCreateDefaultsButton = async (key: string) => {
     if (key === "exercises") {
@@ -122,14 +117,10 @@ export default function Test() {
       setUserSettings(userSettings);
 
       ValidateAndModifyDefaultUnits(userSettings, new Set(["weight"]));
-
-      // TODO: FIX
-      setFilterWeightRangeUnit(userSettings.default_unit_weight);
     };
 
     loadStore();
     loadPage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (userSettings === undefined) return <LoadingSpinner />;
@@ -150,7 +141,6 @@ export default function Test() {
         doneButtonAction={calculationModalDoneButtonAction}
         userSettings={userSettings}
         setUserSettings={setUserSettings}
-        store={store}
       />
       <FilterPresetsListModal
         usePresetsList={presetsList}
