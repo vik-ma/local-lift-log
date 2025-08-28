@@ -8,12 +8,15 @@ import {
   UsePresetsListReturnType,
   PlateCollection,
   StoreRef,
+  UserSettings,
+  StoreFilterMapKey,
 } from "../typings";
 import Database from "@tauri-apps/plugin-sql";
 import {
   ConvertDistanceToMeter,
   ConvertWeightToKg,
   CreatePlateCollectionList,
+  GetSortCategoryFromStore,
   IsDistanceWithinLimit,
   IsWeightWithinLimit,
   UpdateAvailablePlatesInPlateCollection,
@@ -52,6 +55,8 @@ export const usePresetsList = ({
   const isEquipmentWeightListLoaded = useRef(false);
   const isDistanceListLoaded = useRef(false);
   const isPlateCollectionListLoaded = useRef(false);
+
+  const presetsTypeString = usePresetsTypeString({ presetsType });
 
   const defaultPlateCollection: PlateCollection = useMemo(() => {
     return {
@@ -210,39 +215,6 @@ export const usePresetsList = ({
 
       sortDistancesByActiveCategory(result, category);
       isDistanceListLoaded.current = true;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getPlateCollections = async (defaultPlateCollectionId: number) => {
-    if (!isEquipmentWeightListLoaded.current) return;
-    // TODO: REPLACE WITH LOAD FUNCTION
-
-    try {
-      const db = await Database.load(import.meta.env.VITE_DB);
-
-      const plateCollections = await db.select<PlateCollection[]>(
-        "SELECT * FROM plate_collections"
-      );
-
-      const plateCollectionList = CreatePlateCollectionList(
-        plateCollections,
-        equipmentWeights
-      );
-
-      const defaultPlateCollection = plateCollectionList.find(
-        (plateCollection) => plateCollection.id === defaultPlateCollectionId
-      );
-
-      if (defaultPlateCollection !== undefined) {
-        setOperatingPlateCollection(defaultPlateCollection);
-      } else {
-        setIsDefaultPlateCollectionInvalid(true);
-      }
-
-      setPlateCollections(plateCollectionList);
-      isPlateCollectionListLoaded.current = true;
     } catch (error) {
       console.log(error);
     }
@@ -569,15 +541,96 @@ export const usePresetsList = ({
     setOperatingPlateCollection(updatedPlateCollection);
   };
 
-  const presetsTypeString = usePresetsTypeString({ presetsType });
+  const loadEquipmentWeightList = async (userSettings: UserSettings) => {
+    if (isEquipmentWeightListLoaded.current) return;
+
+    const validFilterKeys = new Set<StoreFilterMapKey>([
+      "min-weight",
+      "max-weight",
+      "weight-range-unit",
+      "weight-units",
+    ]);
+
+    await listFiltersEquipment.loadFilterMapFromStore(
+      userSettings,
+      validFilterKeys
+    );
+
+    const sortCategory = await GetSortCategoryFromStore(
+      store,
+      "favorite" as EquipmentWeightSortCategory,
+      "equipment-weights"
+    );
+
+    await getEquipmentWeights(sortCategory);
+  };
+
+  const loadDistanceList = async (userSettings: UserSettings) => {
+    if (isDistanceListLoaded.current) return;
+
+    const validFilterKeys = new Set<StoreFilterMapKey>([
+      "min-distance",
+      "max-distance",
+      "distance-range-unit",
+      "distance-units",
+    ]);
+
+    await listFiltersDistance.loadFilterMapFromStore(
+      userSettings,
+      validFilterKeys
+    );
+
+    const sortCategory = await GetSortCategoryFromStore(
+      store,
+      "favorite" as DistanceSortCategory,
+      "distances"
+    );
+
+    await getDistances(sortCategory);
+  };
+
+  const loadPlateCollectionList = async (
+    userSettings: UserSettings,
+    defaultPlateCollectionId: number
+  ) => {
+    if (isPlateCollectionListLoaded.current) return;
+
+    await loadEquipmentWeightList(userSettings);
+
+    try {
+      const db = await Database.load(import.meta.env.VITE_DB);
+
+      const plateCollections = await db.select<PlateCollection[]>(
+        "SELECT * FROM plate_collections"
+      );
+
+      const plateCollectionList = CreatePlateCollectionList(
+        plateCollections,
+        equipmentWeights
+      );
+
+      const defaultPlateCollection = plateCollectionList.find(
+        (plateCollection) => plateCollection.id === defaultPlateCollectionId
+      );
+
+      if (defaultPlateCollection !== undefined) {
+        setOperatingPlateCollection(defaultPlateCollection);
+      } else {
+        setIsDefaultPlateCollectionInvalid(true);
+      }
+
+      setPlateCollections(plateCollectionList);
+      isPlateCollectionListLoaded.current = true;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return {
     equipmentWeights,
     setEquipmentWeights,
     distances,
     setDistances,
-    getEquipmentWeights,
-    getDistances,
     presetsType,
     setPresetsType,
     filterQueryEquipment,
@@ -614,5 +667,8 @@ export const usePresetsList = ({
     listFiltersDistance,
     filterPresetsListModal,
     presetsTypeString,
+    loadEquipmentWeightList,
+    loadDistanceList,
+    loadPlateCollectionList,
   };
 };

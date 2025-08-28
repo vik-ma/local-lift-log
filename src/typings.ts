@@ -526,11 +526,6 @@ export type UsePresetsListReturnType = {
   setEquipmentWeights: React.Dispatch<React.SetStateAction<EquipmentWeight[]>>;
   distances: Distance[];
   setDistances: React.Dispatch<React.SetStateAction<Distance[]>>;
-  getEquipmentWeights: (
-    category: EquipmentWeightSortCategory,
-    defaultPlateCollectionId?: number
-  ) => Promise<void>;
-  getDistances: (category: DistanceSortCategory) => Promise<void>;
   presetsType: PresetsType;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
   filterQueryEquipment: string;
@@ -578,6 +573,12 @@ export type UsePresetsListReturnType = {
   listFiltersDistance: UseListFiltersReturnType;
   filterPresetsListModal: UseDisclosureReturnType;
   presetsTypeString: string;
+  loadEquipmentWeightList: (userSettings: UserSettings) => Promise<void>;
+  loadDistanceList: (userSettings: UserSettings) => Promise<void>;
+  loadPlateCollectionList: (
+    userSettings: UserSettings,
+    defaultPlateCollectionId: number
+  ) => Promise<void>;
 };
 
 export type CalculationModalTab = "sum" | "plate";
