@@ -7,8 +7,6 @@ import {
   PresetsType,
   CalculationListItem,
   UseSetTrackingInputsReturnType,
-  EquipmentWeightSortCategory,
-  DistanceSortCategory,
 } from "../typings";
 import {
   useCalculationModal,
@@ -35,7 +33,6 @@ import {
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
   LoadStore,
-  GetSortCategoryFromStore,
   ValidateAndModifyDefaultUnits,
 } from "../helpers";
 import {
@@ -82,9 +79,6 @@ export default function Multisets() {
   const calculationModal = useCalculationModal();
 
   const presetsList = usePresetsList({ store: store });
-
-  const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
-    presetsList.listFilters;
 
   const removeSetFromMultiset = async (
     setToDelete?: WorkoutSet,
@@ -187,10 +181,6 @@ export default function Multisets() {
       defaultSet.current = emptySet;
 
       setOperatingSet({ ...emptySet });
-
-      // TODO: FIX
-      setFilterWeightRangeUnit(userSettings.default_unit_weight);
-      setFilterDistanceRangeUnit(userSettings.default_unit_distance);
 
       await LoadStore(store);
 
@@ -497,12 +487,6 @@ export default function Multisets() {
   ) => {
     if (userSettings === undefined) return;
 
-    const sortCategory = await GetSortCategoryFromStore(
-      store,
-      "favorite" as EquipmentWeightSortCategory,
-      "equipment-weights"
-    );
-
     await calculationModal.openCalculationModal(
       isWeight,
       exercise,
@@ -510,8 +494,7 @@ export default function Multisets() {
       setInputs,
       set,
       presetsList,
-      userSettings,
-      sortCategory as EquipmentWeightSortCategory | DistanceSortCategory
+      userSettings
     );
   };
 
@@ -614,7 +597,6 @@ export default function Multisets() {
           doneButtonAction={addCalculationResult}
           userSettings={userSettings}
           setUserSettings={setUserSettings}
-          store={store}
         />
       )}
       <div className="flex flex-col items-center gap-1.5">

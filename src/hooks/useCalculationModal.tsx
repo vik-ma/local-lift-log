@@ -2,8 +2,6 @@ import { useDisclosure } from "@heroui/react";
 import { useState } from "react";
 import {
   CalculationModalTab,
-  DistanceSortCategory,
-  EquipmentWeightSortCategory,
   Exercise,
   UseCalculationModalReturnType,
   UsePresetsListReturnType,
@@ -36,19 +34,11 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
     setInputs: UseSetTrackingInputsReturnType,
     set: WorkoutSet,
     presetsList: UsePresetsListReturnType,
-    userSettings: UserSettings,
-    sortCategory: EquipmentWeightSortCategory | DistanceSortCategory
+    userSettings: UserSettings
   ) => {
-    if (isWeight && !presetsList.isEquipmentWeightListLoaded) {
-      await presetsList.getEquipmentWeights(
-        sortCategory as EquipmentWeightSortCategory,
-        userSettings.default_plate_collection_id
-      );
-    } else if (!isWeight && !presetsList.isDistanceListLoaded) {
-      await presetsList.getDistances(sortCategory as DistanceSortCategory);
-    }
-
     if (isWeight) {
+      await presetsList.loadEquipmentWeightList(userSettings);
+
       presetsList.setPresetsType("equipment");
 
       setWeightUnit(set.weight_unit);
@@ -69,6 +59,8 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
 
       setUpPlateCollectionValues(set, presetsList);
     } else {
+      await presetsList.loadDistanceList(userSettings);
+
       presetsList.setPresetsType("distance");
 
       setCalculationModalTab("sum");

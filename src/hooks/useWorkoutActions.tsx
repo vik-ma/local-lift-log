@@ -11,8 +11,6 @@ import {
   PresetsType,
   UseSetTrackingInputsReturnType,
   UserWeight,
-  EquipmentWeightSortCategory,
-  DistanceSortCategory,
 } from "../typings";
 import { useState, useEffect, useRef } from "react";
 import { useDisclosure } from "@heroui/react";
@@ -57,7 +55,6 @@ import {
   GetValidatedUnit,
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
-  GetSortCategoryFromStore,
   LoadStore,
 } from "../helpers";
 import {
@@ -145,9 +142,6 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
   const presetsList = usePresetsList({ store: store });
 
-  const { setFilterWeightRangeUnit, setFilterDistanceRangeUnit } =
-    presetsList.listFilters;
-
   const exerciseList = useExerciseList({ store: store });
 
   const { exerciseGroupDictionary, exercises, setExercises, loadExerciseList } =
@@ -202,9 +196,6 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
         defaultSet.current = emptySet;
 
         setOperatingSet({ ...emptySet });
-
-        setFilterWeightRangeUnit(weightUnit);
-        setFilterDistanceRangeUnit(distanceUnit);
 
         await LoadStore(store);
 
@@ -2387,12 +2378,6 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
   ) => {
     if (userSettings === undefined) return;
 
-    const sortCategory = await GetSortCategoryFromStore(
-      store,
-      "favorite" as EquipmentWeightSortCategory,
-      "equipment-weights"
-    );
-
     await calculationModal.openCalculationModal(
       isWeight,
       exercise,
@@ -2400,8 +2385,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
       setInputs,
       set,
       presetsList,
-      userSettings,
-      sortCategory as EquipmentWeightSortCategory | DistanceSortCategory
+      userSettings
     );
   };
 
