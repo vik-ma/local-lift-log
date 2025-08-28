@@ -6,7 +6,11 @@ import {
   ModalHeader,
   ModalFooter,
 } from "@heroui/react";
-import { UsePresetsListReturnType, UserSettings } from "../../typings";
+import {
+  ListFilterValues,
+  UsePresetsListReturnType,
+  UserSettings,
+} from "../../typings";
 import {
   DistanceUnitDropdown,
   FilterMinAndMaxValues,
@@ -15,6 +19,7 @@ import {
 } from "..";
 import { useFilterMinAndMaxValueInputs } from "../../hooks";
 import { useMemo, useState } from "react";
+import { ConvertInputStringToNumberOrNull } from "../../helpers";
 
 type FilterPresetsListModalProps = {
   usePresetsList: UsePresetsListReturnType;
@@ -60,6 +65,78 @@ export const FilterPresetsListModal = ({
     filterMinAndMaxValueInputsWeight.isFilterInvalid,
     filterMinAndMaxValueInputsDistance.isFilterInvalid,
   ]);
+
+  const showResetFilterButton = useMemo(() => {
+    if (presetsType === "equipment") {
+      if (listFiltersEquipment.filterMap.size > 0) return true;
+      if (filterMinAndMaxValueInputsWeight.areInputsEmpty) return true;
+      if (filterWeightUnits.size > 0) return true;
+    } else {
+      if (listFiltersDistance.filterMap.size > 0) return true;
+      if (filterMinAndMaxValueInputsDistance.areInputsEmpty) return true;
+      if (filterDistanceUnits.size > 0) return true;
+    }
+
+    return false;
+  }, [
+    presetsType,
+    listFiltersEquipment.filterMap,
+    listFiltersDistance.filterMap,
+    filterMinAndMaxValueInputsWeight.areInputsEmpty,
+    filterMinAndMaxValueInputsDistance.areInputsEmpty,
+    filterWeightUnits,
+    filterDistanceUnits,
+  ]);
+
+  const handleResetFilterButton = () => {
+    if (presetsType === "equipment") {
+      listFiltersEquipment.resetFilter(userSettings);
+    } else {
+      listFiltersDistance.resetFilter(userSettings);
+    }
+  };
+
+  const handleSaveButton = () => {
+    if (isFilterButtonDisabled) return;
+
+    if (presetsType === "equipment") {
+      const filterValues: ListFilterValues = {
+        ...listFiltersEquipment.listFilterValues,
+        filterMinWeight: ConvertInputStringToNumberOrNull(
+          filterMinAndMaxValueInputsWeight.minInput
+        ),
+        filterMaxWeight: ConvertInputStringToNumberOrNull(
+          filterMinAndMaxValueInputsWeight.maxInput
+        ),
+        filterWeightRangeUnit: filterWeightRangeUnit,
+        filterWeightUnits: filterWeightUnits,
+      };
+
+      listFiltersEquipment.handleFilterSaveButton(
+        userSettings.locale,
+        filterValues,
+        filterPresetsListModal
+      );
+    } else {
+      const filterValues: ListFilterValues = {
+        ...listFiltersDistance.listFilterValues,
+        filterMinDistance: ConvertInputStringToNumberOrNull(
+          filterMinAndMaxValueInputsDistance.minInput
+        ),
+        filterMaxDistance: ConvertInputStringToNumberOrNull(
+          filterMinAndMaxValueInputsDistance.maxInput
+        ),
+        filterDistanceRangeUnit: filterDistanceRangeUnit,
+        filterDistanceUnits: filterDistanceUnits,
+      };
+
+      listFiltersDistance.handleFilterSaveButton(
+        userSettings.locale,
+        filterValues,
+        filterPresetsListModal
+      );
+    }
+  };
 
   return (
     <Modal
@@ -139,7 +216,7 @@ export const FilterPresetsListModal = ({
                   <Button
                     variant="flat"
                     color="danger"
-                    onPress={() => resetFilter(userSettings)}
+                    onPress={handleResetFilterButton}
                   >
                     Reset All Filters
                   </Button>
@@ -151,12 +228,7 @@ export const FilterPresetsListModal = ({
                 </Button>
                 <Button
                   color="primary"
-                  onPress={() =>
-                    handleFilterSaveButton(
-                      userSettings.locale,
-                      filterPresetsListModal
-                    )
-                  }
+                  onPress={handleSaveButton}
                   isDisabled={isFilterButtonDisabled}
                 >
                   Filter
