@@ -3,15 +3,18 @@ import { UseMultisetActionsReturnType } from "../../typings";
 
 type MultipleChoiceMultisetTypeDropdown = {
   useMultisetActions: UseMultisetActionsReturnType;
+  filterMultisetTypes: Set<string>;
+  setFilterMultisetTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
 };
 
 export const MultipleChoiceMultisetTypeDropdown = ({
   useMultisetActions,
+  filterMultisetTypes,
+  setFilterMultisetTypes,
 }: MultipleChoiceMultisetTypeDropdown) => {
   const { listFilters } = useMultisetActions;
 
-  const { filterMultisetTypes, setFilterMultisetTypes, multisetTypeMap } =
-    listFilters;
+  const { multisetTypeMap } = listFilters;
 
   const handleChange = (keys: SharedSelection) => {
     const updatedFilterMultisetTypes = new Set(keys);
