@@ -74,8 +74,6 @@ export default function Multisets() {
 
   const exerciseList = useExerciseList({ store: store });
 
-  const { loadExerciseList } = exerciseList;
-
   const calculationModal = useCalculationModal();
 
   const presetsList = usePresetsList({ store: store });
@@ -184,7 +182,7 @@ export default function Multisets() {
 
       await LoadStore(store);
 
-      await loadExerciseList(userSettings);
+      await multisetActions.loadMultisets(userSettings);
     };
 
     loadPage();
