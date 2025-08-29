@@ -8,6 +8,8 @@ import {
   ScrollShadow,
 } from "@heroui/react";
 import {
+  Exercise,
+  ListFilterValues,
   UseExerciseListReturnType,
   UseMultisetActionsReturnType,
   UserSettings,
@@ -18,7 +20,10 @@ import {
   MultipleChoiceMultisetTypeDropdown,
 } from "..";
 import { useMemo, useState } from "react";
-import { GetFilterExerciseGroupsString } from "../../helpers";
+import {
+  GetFilterExerciseGroupsString,
+  HandleFilterListObjectClick,
+} from "../../helpers";
 
 type FilterMultisetListModalProps = {
   useMultisetActions: UseMultisetActionsReturnType;
@@ -38,6 +43,15 @@ export const FilterMultisetListModal = ({
   setUserSettings,
 }: FilterMultisetListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
+  const [filterMultisetTypes, setFilterMultisetTypes] = useState<Set<string>>(
+    new Set()
+  );
+  const [filterExercises, setFilterExercises] = useState<Set<number>>(
+    new Set()
+  );
+  const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
+    []
+  );
   const [includeSecondaryExerciseGroups, setIncludeSecondaryExerciseGroups] =
     useState<boolean>(false);
 
@@ -46,15 +60,11 @@ export const FilterMultisetListModal = ({
   const { exerciseGroupDictionary } = useExerciseList;
 
   const {
-    filterExercises,
-    setFilterExercises,
-    filterExerciseGroups,
-    setFilterExerciseGroups,
-    showResetFilterButton,
     resetFilter,
     handleFilterSaveButton,
     getFilterExercisesString,
-    handleClickExercise,
+    filterMap,
+    listFilterValues,
   } = listFilters;
 
   const showClearAllButton = useMemo(() => {
@@ -79,6 +89,15 @@ export const FilterMultisetListModal = ({
     }
   };
 
+  const showResetFilterButton = useMemo(() => {
+    if (filterMap.size > 0) return true;
+    if (filterMultisetTypes.size > 0) return true;
+    if (filterExercises.size > 0) return true;
+    if (filterExerciseGroups.length > 0) return true;
+
+    return false;
+  }, [filterMap, filterMultisetTypes, filterExercises, filterExerciseGroups]);
+
   const filterExercisesString = useMemo(() => {
     return getFilterExercisesString(filterExercises);
   }, [getFilterExercisesString, filterExercises]);
@@ -89,6 +108,26 @@ export const FilterMultisetListModal = ({
       exerciseGroupDictionary
     );
   }, [exerciseGroupDictionary, filterExerciseGroups]);
+
+  const handleClickExercise = (exercise: Exercise) => {
+    HandleFilterListObjectClick(exercise, filterExercises, setFilterExercises);
+  };
+
+  const handleSaveButton = () => {
+    const filterValues: ListFilterValues = {
+      ...listFilterValues,
+      filterMultisetTypes: filterMultisetTypes,
+      filterExercises: filterExercises,
+      filterExerciseGroups: filterExerciseGroups,
+      includeSecondaryExerciseGroups: includeSecondaryExerciseGroups,
+    };
+
+    handleFilterSaveButton(
+      userSettings.locale,
+      filterValues,
+      filterMultisetsModal
+    );
+  };
 
   return (
     <Modal
@@ -136,6 +175,8 @@ export const FilterMultisetListModal = ({
                       </h3>
                       <MultipleChoiceMultisetTypeDropdown
                         useMultisetActions={useMultisetActions}
+                        filterMultisetTypes={filterMultisetTypes}
+                        setFilterMultisetTypes={setFilterMultisetTypes}
                       />
                     </div>
                     <div className="flex flex-col gap-3">
@@ -219,7 +260,10 @@ export const FilterMultisetListModal = ({
                 ) : (
                   <>
                     {showResetFilterButton && (
-                      <Button variant="flat" onPress={() => resetFilter(userSettings)}>
+                      <Button
+                        variant="flat"
+                        onPress={() => resetFilter(userSettings)}
+                      >
                         Reset All Filters
                       </Button>
                     )}
@@ -240,11 +284,7 @@ export const FilterMultisetListModal = ({
                   color="primary"
                   onPress={
                     modalPage === "base"
-                      ? () =>
-                          handleFilterSaveButton(
-                            userSettings.locale,
-                            filterMultisetsModal
-                          )
+                      ? handleSaveButton
                       : () => setModalPage("base")
                   }
                 >
