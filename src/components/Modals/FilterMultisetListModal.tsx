@@ -19,7 +19,7 @@ import {
   ExerciseModalList,
   MultipleChoiceMultisetTypeDropdown,
 } from "..";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   GetFilterExerciseGroupsString,
   HandleFilterListObjectClick,
@@ -43,9 +43,6 @@ export const FilterMultisetListModal = ({
   setUserSettings,
 }: FilterMultisetListModalProps) => {
   const [modalPage, setModalPage] = useState<ModalPage>("base");
-  const [filterMultisetTypes, setFilterMultisetTypes] = useState<Set<string>>(
-    new Set()
-  );
   const [filterExercises, setFilterExercises] = useState<Set<number>>(
     new Set()
   );
@@ -54,6 +51,9 @@ export const FilterMultisetListModal = ({
   );
   const [includeSecondaryExerciseGroups, setIncludeSecondaryExerciseGroups] =
     useState<boolean>(false);
+  const [filterMultisetTypes, setFilterMultisetTypes] = useState<Set<string>>(
+    new Set()
+  );
 
   const { filterMultisetsModal, listFilters } = useMultisetActions;
 
@@ -91,9 +91,9 @@ export const FilterMultisetListModal = ({
 
   const showResetFilterButton = useMemo(() => {
     if (filterMap.size > 0) return true;
-    if (filterMultisetTypes.size > 0) return true;
     if (filterExercises.size > 0) return true;
     if (filterExerciseGroups.length > 0) return true;
+    if (filterMultisetTypes.size > 0) return true;
 
     return false;
   }, [filterMap, filterMultisetTypes, filterExercises, filterExerciseGroups]);
@@ -116,9 +116,9 @@ export const FilterMultisetListModal = ({
   const handleSaveButton = () => {
     const filterValues: ListFilterValues = {
       ...listFilterValues,
-      filterMultisetTypes: filterMultisetTypes,
       filterExercises: filterExercises,
       filterExerciseGroups: filterExerciseGroups,
+      filterMultisetTypes: filterMultisetTypes,
       includeSecondaryExerciseGroups: includeSecondaryExerciseGroups,
     };
 
@@ -128,6 +128,15 @@ export const FilterMultisetListModal = ({
       filterMultisetsModal
     );
   };
+
+  useEffect(() => {
+    setFilterMultisetTypes(listFilterValues.filterMultisetTypes);
+    setFilterExercises(listFilterValues.filterExercises);
+    setFilterExerciseGroups(listFilterValues.filterExerciseGroups);
+    setIncludeSecondaryExerciseGroups(
+      listFilterValues.includeSecondaryExerciseGroups
+    );
+  }, [listFilterValues]);
 
   return (
     <Modal
