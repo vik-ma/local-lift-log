@@ -699,12 +699,27 @@ export default function Presets() {
     }
   };
 
-  const changeTab = (key: PresetTab) => {
-    if (selectedTab === key) return;
+  const changeTab = async (key: PresetTab) => {
+    if (userSettings === undefined || selectedTab === key) return;
 
-    if (key === "equipment") setPresetsType("equipment");
-
-    if (key === "distance") setPresetsType("distance");
+    switch (key) {
+      case "equipment": {
+        setPresetsType("equipment");
+        await loadEquipmentWeightList(userSettings);
+        break;
+      }
+      case "distance": {
+        setPresetsType("distance");
+        await loadDistanceList(userSettings);
+        break;
+      }
+      case "plate": {
+        await loadPlateCollectionList(userSettings);
+        break;
+      }
+      default:
+        return;
+    }
 
     setSelectedTab(key);
   };
