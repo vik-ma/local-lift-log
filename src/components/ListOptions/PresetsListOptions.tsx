@@ -6,6 +6,7 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import { UsePresetsListReturnType } from "../../typings";
+import { useMemo } from "react";
 
 type PresetsListOptionsProps = {
   usePresetsList: UsePresetsListReturnType;
@@ -21,19 +22,30 @@ export const PresetsListOptions = ({
     sortCategoryDistance,
     handleSortOptionSelectionEquipment,
     handleSortOptionSelectionDistance,
-    listFilters,
+    listFiltersEquipment,
+    listFiltersDistance,
     filterPresetsListModal,
     presetsType,
   } = usePresetsList;
 
-  const { filterMap } = listFilters;
+  const filterButtonColor = useMemo(() => {
+    if (presetsType === "equipment" && listFiltersEquipment.filterMap.size > 0)
+      return "secondary";
+    if (presetsType === "distance" && listFiltersDistance.filterMap.size > 0)
+      return "secondary";
+    return "default";
+  }, [
+    presetsType,
+    listFiltersEquipment.filterMap,
+    listFiltersDistance.filterMap,
+  ]);
 
   return (
     <div className="flex gap-1 pr-0.5">
       <Button
         className="z-1"
         variant="flat"
-        color={filterMap.size > 0 ? "secondary" : "default"}
+        color={filterButtonColor}
         size="sm"
         onPress={() => filterPresetsListModal.onOpen()}
       >
