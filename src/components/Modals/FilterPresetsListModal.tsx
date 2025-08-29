@@ -74,13 +74,13 @@ export const FilterPresetsListModal = ({
       if (listFiltersEquipment.filterMap.size > 0) return true;
       if (filterMinAndMaxValueInputsWeight.areInputsEmpty) return true;
       if (filterWeightUnits.size > 0) return true;
+      return false;
     } else {
       if (listFiltersDistance.filterMap.size > 0) return true;
       if (filterMinAndMaxValueInputsDistance.areInputsEmpty) return true;
       if (filterDistanceUnits.size > 0) return true;
+      return false;
     }
-
-    return false;
   }, [
     presetsType,
     listFiltersEquipment.filterMap,
