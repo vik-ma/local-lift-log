@@ -18,8 +18,11 @@ import {
   WeightUnitDropdown,
 } from "..";
 import { useFilterMinAndMaxValueInputs } from "../../hooks";
-import { useMemo, useState } from "react";
-import { ConvertInputStringToNumberOrNull } from "../../helpers";
+import { useEffect, useMemo, useState } from "react";
+import {
+  ConvertInputStringToNumberOrNull,
+  ConvertNumberToInputString,
+} from "../../helpers";
 
 type FilterPresetsListModalProps = {
   usePresetsList: UsePresetsListReturnType;
@@ -137,6 +140,52 @@ export const FilterPresetsListModal = ({
       );
     }
   };
+
+  useEffect(() => {
+    filterMinAndMaxValueInputsWeight.setMinInput(
+      ConvertNumberToInputString(
+        listFiltersEquipment.listFilterValues.filterMinWeight
+      )
+    );
+    filterMinAndMaxValueInputsWeight.setMaxInput(
+      ConvertNumberToInputString(
+        listFiltersEquipment.listFilterValues.filterMaxWeight
+      )
+    );
+
+    setFilterWeightRangeUnit(
+      listFiltersEquipment.listFilterValues.filterWeightRangeUnit
+    );
+
+    setFilterWeightUnits(
+      listFiltersEquipment.listFilterValues.filterWeightUnits
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listFiltersEquipment.listFilterValues]);
+
+  useEffect(() => {
+    filterMinAndMaxValueInputsDistance.setMinInput(
+      ConvertNumberToInputString(
+        listFiltersDistance.listFilterValues.filterMinDistance
+      )
+    );
+    filterMinAndMaxValueInputsDistance.setMaxInput(
+      ConvertNumberToInputString(
+        listFiltersDistance.listFilterValues.filterMaxDistance
+      )
+    );
+
+    setFilterDistanceRangeUnit(
+      listFiltersDistance.listFilterValues.filterDistanceRangeUnit
+    );
+
+    setFilterDistanceUnits(
+      listFiltersDistance.listFilterValues.filterDistanceUnits
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listFiltersDistance.listFilterValues]);
 
   return (
     <Modal
