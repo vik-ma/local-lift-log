@@ -795,6 +795,7 @@ export type UseMultisetActionsReturnType = {
   filterMultisetsModal: UseDisclosureReturnType;
   handleOpenFilterButton: () => void;
   isMultisetListLoaded: React.RefObject<boolean>;
+  loadMultisets: (userSettings: UserSettings) => Promise<void>;
 };
 
 export type TimePeriod = {

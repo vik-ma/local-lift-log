@@ -9,8 +9,9 @@ import {
   UseMultisetActionsReturnType,
   UserSettings,
   StoreRef,
+  StoreFilterMapKey,
 } from "../typings";
-import { useEffect, useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useDefaultExercise, useListFilters, useMultisetTypeMap } from ".";
 import Database from "@tauri-apps/plugin-sql";
 import {
@@ -79,7 +80,7 @@ export const useMultisetActions = ({
     useExerciseList: exerciseList,
   });
 
-  const { filterMap, listFilterValues } = listFilters;
+  const { filterMap, listFilterValues, loadFilterMapFromStore } = listFilters;
 
   const {
     filterMultisetTypes,
@@ -88,12 +89,8 @@ export const useMultisetActions = ({
     includeSecondaryExerciseGroups,
   } = listFilterValues;
 
-  const {
-    exercises,
-    exerciseGroupDictionary,
-    exerciseMap,
-    isExerciseListLoaded,
-  } = exerciseList;
+  const { exercises, exerciseGroupDictionary, exerciseMap, loadExerciseList } =
+    exerciseList;
 
   const isMultisetListLoaded = useRef(false);
 
@@ -492,26 +489,28 @@ export const useMultisetActions = ({
     setModalPage("base");
   };
 
-  const loadMultisets = async () => {
-    try {
-      const multisets = await GetAllMultisetTemplates(
-        exerciseGroupDictionary,
-        exerciseMap.current
-      );
+  const loadMultisets = async (userSettings: UserSettings) => {
+    await loadExerciseList(userSettings);
 
-      setMultisets(multisets);
-      isMultisetListLoaded.current = true;
-    } catch (error) {
-      console.log(error);
-    }
+    if (isMultisetListLoaded.current) return;
+
+    const validFilterKeys = new Set<StoreFilterMapKey>([
+      "exercises",
+      "exercise-groups",
+      "multiset-types",
+      "include-secondary-exercise-groups",
+    ]);
+
+    await loadFilterMapFromStore(userSettings, validFilterKeys);
+
+    const multisets = await GetAllMultisetTemplates(
+      exerciseGroupDictionary,
+      exerciseMap.current
+    );
+
+    setMultisets(multisets);
+    isMultisetListLoaded.current = true;
   };
-
-  useEffect(() => {
-    if (!isExerciseListLoaded.current) {
-      loadMultisets();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isExerciseListLoaded.current]);
 
   const handleOpenFilterButton = () => {
     filterMultisetsModal.onOpen();
@@ -552,5 +551,6 @@ export const useMultisetActions = ({
     filterMultisetsModal,
     handleOpenFilterButton,
     isMultisetListLoaded,
+    loadMultisets,
   };
 };
