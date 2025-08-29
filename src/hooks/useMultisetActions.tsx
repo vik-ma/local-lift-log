@@ -512,7 +512,9 @@ export const useMultisetActions = ({
     isMultisetListLoaded.current = true;
   };
 
-  const handleOpenFilterButton = () => {
+  const handleOpenFilterButton = async (userSettings: UserSettings) => {
+    await loadMultisets(userSettings);
+
     filterMultisetsModal.onOpen();
   };
 

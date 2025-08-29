@@ -616,7 +616,10 @@ export default function Multisets() {
                 >
                   Create New Multiset
                 </Button>
-                <MultisetListOptions useMultisetActions={multisetActions} />
+                <MultisetListOptions
+                  useMultisetActions={multisetActions}
+                  userSettings={userSettings}
+                />
               </div>
               {multisetActions.listFilters.filterMap.size > 0 && (
                 <ListFilters

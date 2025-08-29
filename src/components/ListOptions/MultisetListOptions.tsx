@@ -1,12 +1,14 @@
 import { Button } from "@heroui/react";
-import { UseMultisetActionsReturnType } from "../../typings";
+import { UseMultisetActionsReturnType, UserSettings } from "../../typings";
 
 type MultisetListOptionsProps = {
   useMultisetActions: UseMultisetActionsReturnType;
+  userSettings: UserSettings;
 };
 
 export const MultisetListOptions = ({
   useMultisetActions,
+  userSettings,
 }: MultisetListOptionsProps) => {
   const { listFilters, handleOpenFilterButton } = useMultisetActions;
 
@@ -19,7 +21,7 @@ export const MultisetListOptions = ({
         variant="flat"
         color={filterMap.size > 0 ? "secondary" : "default"}
         size="sm"
-        onPress={handleOpenFilterButton}
+        onPress={() => handleOpenFilterButton(userSettings)}
       >
         Filter
       </Button>
