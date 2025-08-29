@@ -3,6 +3,7 @@ import {
   Multiset,
   MultisetModalPage,
   UseMultisetActionsReturnType,
+  UserSettings,
 } from "../../typings";
 import {
   EmptyListLabel,
@@ -16,6 +17,7 @@ type MultisetTemplateModalListProps = {
   handleClickMultiset: (multiset: Multiset, numSets: string) => void;
   numNewSets: string;
   setModalPage: React.Dispatch<React.SetStateAction<MultisetModalPage>>;
+  userSettings: UserSettings;
 };
 
 export const MultisetTemplateModalList = ({
@@ -23,6 +25,7 @@ export const MultisetTemplateModalList = ({
   handleClickMultiset,
   numNewSets,
   setModalPage,
+  userSettings,
 }: MultisetTemplateModalListProps) => {
   const {
     multisets,
@@ -38,7 +41,7 @@ export const MultisetTemplateModalList = ({
   const handleCreateNewMultisetButton = () => {
     setModalPage("base");
 
-    if (filterMap.size > 0) resetFilter();
+    if (filterMap.size > 0) resetFilter(userSettings);
   };
 
   return (
@@ -60,7 +63,10 @@ export const MultisetTemplateModalList = ({
           >
             Create New Multiset
           </Button>
-          <MultisetListOptions useMultisetActions={useMultisetActions} />
+          <MultisetListOptions
+            useMultisetActions={useMultisetActions}
+            userSettings={userSettings}
+          />
         </div>
         {filterMap.size > 0 && (
           <ListFilters

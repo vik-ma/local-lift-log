@@ -264,6 +264,7 @@ export const MultisetModal = ({
                   handleClickMultiset={handleClickMultiset}
                   numNewSets={numNewSets}
                   setModalPage={setModalPage}
+                  userSettings={userSettings}
                 />
               ) : (
                 <div className="flex flex-col items-center gap-1.5 h-[400px]">
