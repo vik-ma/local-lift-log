@@ -225,40 +225,40 @@ export const useWorkoutList = ({
   };
 
   const loadWorkoutList = async (userSettings: UserSettings) => {
+    if (isWorkoutListLoaded.current) return;
+
     await loadExerciseList(userSettings);
 
     await loadWorkoutTemplateList(userSettings);
 
     await loadRoutineList(userSettings);
 
-    if (!isWorkoutListLoaded.current) {
-      const workoutPropertySet = CreateShownPropertiesSet(
-        userSettings.shown_workout_properties,
-        "workout"
-      );
+    const workoutPropertySet = CreateShownPropertiesSet(
+      userSettings.shown_workout_properties,
+      "workout"
+    );
 
-      setSelectedWorkoutProperties(workoutPropertySet);
+    setSelectedWorkoutProperties(workoutPropertySet);
 
-      const validFilterKeys = new Set<StoreFilterMapKey>([
-        "min-date",
-        "max-date",
-        "weekdays",
-        "routines",
-        "exercises",
-        "exercise-groups",
-        "workout-templates",
-      ]);
+    const validFilterKeys = new Set<StoreFilterMapKey>([
+      "min-date",
+      "max-date",
+      "weekdays",
+      "routines",
+      "exercises",
+      "exercise-groups",
+      "workout-templates",
+    ]);
 
-      await loadFilterMapFromStore(userSettings, validFilterKeys);
+    await loadFilterMapFromStore(userSettings, validFilterKeys);
 
-      const workoutSortCategory = await GetSortCategoryFromStore(
-        store,
-        "name" as WorkoutSortCategory,
-        "workouts"
-      );
+    const workoutSortCategory = await GetSortCategoryFromStore(
+      store,
+      "name" as WorkoutSortCategory,
+      "workouts"
+    );
 
-      await getWorkouts(workoutSortCategory);
-    }
+    await getWorkouts(workoutSortCategory);
   };
 
   const sortWorkoutsByDate = (workoutList: Workout[], isAscending: boolean) => {

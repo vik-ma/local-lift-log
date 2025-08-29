@@ -170,24 +170,24 @@ export const useWorkoutTemplateList = ({
   };
 
   const loadWorkoutTemplateList = async (userSettings: UserSettings) => {
+    if (isWorkoutTemplateListLoaded.current) return;
+
     await loadExerciseList(userSettings);
 
-    if (!isWorkoutTemplateListLoaded.current) {
-      const validFilterKeys = new Set<StoreFilterMapKey>([
-        "exercises",
-        "exercise-groups",
-      ]);
+    const validFilterKeys = new Set<StoreFilterMapKey>([
+      "exercises",
+      "exercise-groups",
+    ]);
 
-      await loadFilterMapFromStore(userSettings, validFilterKeys);
+    await loadFilterMapFromStore(userSettings, validFilterKeys);
 
-      const workoutTemplateSortCategory = await GetSortCategoryFromStore(
-        store,
-        "name" as WorkoutTemplateSortCategory,
-        "workout-templates"
-      );
+    const workoutTemplateSortCategory = await GetSortCategoryFromStore(
+      store,
+      "name" as WorkoutTemplateSortCategory,
+      "workout-templates"
+    );
 
-      await getWorkoutTemplates(workoutTemplateSortCategory);
-    }
+    await getWorkoutTemplates(workoutTemplateSortCategory);
   };
 
   const sortWorkoutTemplatesByName = (

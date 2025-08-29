@@ -283,28 +283,28 @@ export const useRoutineList = ({
   };
 
   const loadRoutineList = async (userSettings: UserSettings) => {
+    if (isRoutineListLoaded.current) return;
+
     await loadExerciseList(userSettings);
 
     await loadWorkoutTemplateList(userSettings);
 
-    if (!isRoutineListLoaded.current) {
-      const validFilterKeys = new Set<StoreFilterMapKey>([
-        "workout-templates",
-        "schedule-types",
-        "min-num-schedule-days",
-        "max-num-schedule-days",
-      ]);
+    const validFilterKeys = new Set<StoreFilterMapKey>([
+      "workout-templates",
+      "schedule-types",
+      "min-num-schedule-days",
+      "max-num-schedule-days",
+    ]);
 
-      await loadFilterMapFromStore(userSettings, validFilterKeys);
+    await loadFilterMapFromStore(userSettings, validFilterKeys);
 
-      const routineSortCategory = await GetSortCategoryFromStore(
-        store,
-        "name" as RoutineSortCategory,
-        "routines"
-      );
+    const routineSortCategory = await GetSortCategoryFromStore(
+      store,
+      "name" as RoutineSortCategory,
+      "routines"
+    );
 
-      await getRoutines(routineSortCategory);
-    }
+    await getRoutines(routineSortCategory);
   };
 
   const handleOpenRoutineListModal = async (userSettings: UserSettings) => {
