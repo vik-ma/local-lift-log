@@ -81,6 +81,7 @@ export { ValidateAndModifyIncrementMultipliers } from "./UserSettings/ValidateAn
 export { ValidateAndModifyTimeInputBehavior } from "./UserSettings/ValidateAndModifyTimeInputBehavior";
 export { GetValidatedLocale } from "./UserSettings/GetValidatedLocale";
 export { ValidateAndModifyDefaultUnits } from "./UserSettings/ValidateAndModifyDefaultUnits";
+export { ValidateAndModifyLocale } from "./UserSettings/ValidateAndModifyLocale";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
