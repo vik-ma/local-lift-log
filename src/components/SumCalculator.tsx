@@ -56,7 +56,6 @@ type SumCalculatorProps = {
   resultDistance: number;
   disableTotalMultiplierDecreaseButton: boolean;
   disableTotalMultiplierIncreaseButton: boolean;
-  loadPresets: () => Promise<void>;
   usePresetsList: UsePresetsListReturnType;
   OperationTypeSumCalc: OperationTypeSumCalc;
   setOperationTypeSumCalc: React.Dispatch<
@@ -91,7 +90,6 @@ export const SumCalculator = ({
   resultDistance,
   disableTotalMultiplierDecreaseButton,
   disableTotalMultiplierIncreaseButton,
-  loadPresets,
   usePresetsList,
   OperationTypeSumCalc,
   setOperationTypeSumCalc,
@@ -123,8 +121,6 @@ export const SumCalculator = ({
 
       return;
     }
-
-    loadPresets();
 
     const unit = presetsType === "equipment" ? weightUnit : distanceUnit;
 
@@ -198,8 +194,6 @@ export const SumCalculator = ({
   };
 
   const handleAddPresetButton = async () => {
-    await loadPresets();
-
     setSumCalculatorPage("list");
     setShowNumberInput(false);
     setOperatingCalculationItem(undefined);

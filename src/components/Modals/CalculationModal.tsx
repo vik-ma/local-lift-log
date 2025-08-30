@@ -79,8 +79,6 @@ export const CalculationModal = ({
   const {
     equipmentWeights,
     distances,
-    loadEquipmentWeightList,
-    loadDistanceList,
     loadPlateCollectionList,
     presetsType,
     operatingPlateCollection,
@@ -99,21 +97,6 @@ export const CalculationModal = ({
     targetWeightInput,
     setTargetWeightInput,
   } = useCalculationModal;
-
-  // TODO: DELETE/MOVE TO OPEN FUNCTION?
-  const loadPresets = async () => {
-    if (presetsType === "equipment") {
-      await loadEquipmentWeightList(userSettings);
-
-      if (calculationModalTab === "plate") {
-        await loadPlateCollectionList(userSettings);
-      }
-    }
-
-    if (presetsType === "distance") {
-      await loadDistanceList(userSettings);
-    }
-  };
 
   const {
     totalMultiplier,
@@ -226,7 +209,9 @@ export const CalculationModal = ({
   };
 
   useEffect(() => {
-    loadPresets();
+    if (calculationModalTab === "plate") {
+      loadPlateCollectionList(userSettings);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calculationModalTab]);
 
@@ -331,7 +316,6 @@ export const CalculationModal = ({
                       disableTotalMultiplierIncreaseButton={
                         disableTotalMultiplierIncreaseButton
                       }
-                      loadPresets={loadPresets}
                       usePresetsList={usePresetsList}
                       OperationTypeSumCalc={operationTypeSumCalc}
                       setOperationTypeSumCalc={setOperationTypeSumCalc}
