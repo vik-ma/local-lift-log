@@ -2327,7 +2327,10 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
         totalMultiplier
       );
 
-      if (!success) return;
+      if (!success) {
+        calculationModal.calculationModal.onClose();
+        return;
+      }
 
       const updatedExercises = UpdateItemInList(exercises, updatedExercise);
 
@@ -2344,7 +2347,10 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
           ? { ...operatingGroupedSet }
           : undefined;
 
-      if (updatedGroupedSet === undefined) return;
+      if (updatedGroupedSet === undefined) {
+        calculationModal.calculationModal.onClose();
+        return;
+      }
 
       const updatedExerciseList = updatedGroupedSet.exerciseList.map((obj) =>
         obj.id === updatedExercise.id ? updatedExercise : obj
