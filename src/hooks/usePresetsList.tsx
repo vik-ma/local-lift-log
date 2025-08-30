@@ -675,5 +675,6 @@ export const usePresetsList = ({
     loadDistanceList,
     loadPlateCollectionList,
     equipmentWeightMap,
+    isPlateCollectionListLoaded,
   };
 };
