@@ -333,6 +333,8 @@ export default function Analytics() {
 
     setAnalyticsChartListModalPage(modalListType);
 
+    listModal.onOpen();
+
     if (modalListType === "measurement-list") {
       await loadMeasurementList(userSettings);
     }
@@ -340,8 +342,6 @@ export default function Analytics() {
     if (modalListType === "time-period-list") {
       await loadTimePeriodList(userSettings);
     }
-
-    listModal.onOpen();
   };
 
   const loadDietLogsCalories = async (loadPrimary: boolean) => {

@@ -301,9 +301,9 @@ export const useWorkoutTemplateList = ({
   };
 
   const handleOpenFilterButton = async (userSettings: UserSettings) => {
-    await loadWorkoutTemplateList(userSettings);
-
     filterWorkoutTemplateListModal.onOpen();
+
+    await loadWorkoutTemplateList(userSettings);
   };
 
   const handleOpenWorkoutTemplateListModal = async (
@@ -311,9 +311,9 @@ export const useWorkoutTemplateList = ({
   ) => {
     if (userSettings === undefined) return;
 
-    await loadWorkoutTemplateList(userSettings);
-
     workoutTemplateListModal.onOpen();
+
+    await loadWorkoutTemplateList(userSettings);
   };
 
   const loadWorkoutTemplatesString = async (

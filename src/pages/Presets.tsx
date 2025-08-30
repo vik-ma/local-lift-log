@@ -702,6 +702,8 @@ export default function Presets() {
   const changeTab = async (key: PresetTab) => {
     if (userSettings === undefined || selectedTab === key) return;
 
+    setSelectedTab(key);
+
     switch (key) {
       case "equipment": {
         setPresetsType("equipment");
@@ -720,8 +722,6 @@ export default function Presets() {
       default:
         return;
     }
-
-    setSelectedTab(key);
   };
 
   const handleSetUnitsModalChoice = (useMetricUnits: boolean) => {

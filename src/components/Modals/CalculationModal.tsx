@@ -100,7 +100,7 @@ export const CalculationModal = ({
     setTargetWeightInput,
   } = useCalculationModal;
 
-  // TODO: DELETE?
+  // TODO: DELETE/MOVE TO OPEN FUNCTION?
   const loadPresets = async () => {
     if (presetsType === "equipment") {
       await loadEquipmentWeightList(userSettings);

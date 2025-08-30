@@ -231,9 +231,9 @@ export default function BodyMeasurementsList() {
   };
 
   const loadBodyMeasurementsList = async (userSettings: UserSettings) => {
-    await loadMeasurementList(userSettings);
-
     if (isBodyMeasurementsListLoaded.current) return;
+
+    await loadMeasurementList(userSettings);
 
     loadBodyMeasurementsSettings(userSettings, measurementMap.current);
 

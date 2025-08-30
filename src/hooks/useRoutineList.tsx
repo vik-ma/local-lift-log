@@ -308,9 +308,9 @@ export const useRoutineList = ({
   };
 
   const handleOpenRoutineListModal = async (userSettings: UserSettings) => {
-    await loadRoutineList(userSettings);
-
     routineListModal.onOpen();
+
+    await loadRoutineList(userSettings);
   };
 
   const handleOpenFilterButton = async (
@@ -318,9 +318,9 @@ export const useRoutineList = ({
   ) => {
     if (userSettings === undefined) return;
 
-    await loadRoutineList(userSettings);
-
     filterRoutineListModal.onOpen();
+
+    await loadRoutineList(userSettings);
   };
 
   const loadRoutinesString = async (

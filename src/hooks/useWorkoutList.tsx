@@ -368,9 +368,9 @@ export const useWorkoutList = ({
     }
   };
   const handleOpenFilterButton = async (userSettings: UserSettings) => {
-    await loadWorkoutList(userSettings);
-
     filterWorkoutListModal.onOpen();
+
+    await loadWorkoutList(userSettings);
   };
 
   const handleOpenWorkoutListModal = async (
@@ -378,9 +378,9 @@ export const useWorkoutList = ({
   ) => {
     if (userSettings === undefined) return;
 
-    await loadWorkoutList(userSettings);
-
     workoutListModal.onOpen();
+
+    await loadWorkoutList(userSettings);
   };
 
   return {
