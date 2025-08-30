@@ -151,7 +151,7 @@ export const ExerciseModalList = ({
               itemName="Exercises"
               customLabel={
                 isInAnalyticsPage && exercises.length === 0
-                  ? "No Exercises Has Been Completed"
+                  ? "No Exercises Have Been Completed"
                   : undefined
               }
               extraContent={

@@ -162,7 +162,7 @@ export const MeasurementModalList = ({
               itemName="Measurements"
               customLabel={
                 isInAnalyticsPage && measurements.length === 0
-                  ? "No Body Measurements Has Been Recorded"
+                  ? "No Body Measurements Have Been Recorded"
                   : undefined
               }
               extraContent={
