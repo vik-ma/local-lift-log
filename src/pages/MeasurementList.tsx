@@ -33,8 +33,9 @@ import {
   DeleteItemFromList,
   FormatNumBodyMeasurementsEntriesString,
   UpdateUserSetting,
-  GetValidatedUnit,
   LoadStore,
+  ValidateAndModifyDefaultUnits,
+  ValidateAndModifyLocale,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import { useDefaultMeasurement, useMeasurementList } from "../hooks";
@@ -89,14 +90,12 @@ export default function MeasurementList() {
 
         setUserSettings(userSettings);
 
-        const measurementUnit = GetValidatedUnit(
-          userSettings.default_unit_weight,
-          "circumference"
-        );
+        ValidateAndModifyDefaultUnits(userSettings, new Set(["measurement"]));
+        ValidateAndModifyLocale(userSettings);
 
         setOperatingMeasurement((prev) => ({
           ...prev,
-          default_unit: measurementUnit,
+          default_unit: userSettings.default_unit_measurement,
         }));
 
         await LoadStore(store);

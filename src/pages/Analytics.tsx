@@ -105,6 +105,7 @@ import {
   GetValidatedUnit,
   GetValidatedMeasurementType,
   LoadStore,
+  ValidateAndModifyLocale,
 } from "../helpers";
 import toast from "react-hot-toast";
 import { Store } from "@tauri-apps/plugin-store";
@@ -312,6 +313,8 @@ export default function Analytics() {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
+
+      ValidateAndModifyLocale(userSettings);
 
       setUserSettings(userSettings);
 

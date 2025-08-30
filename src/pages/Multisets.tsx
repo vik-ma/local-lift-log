@@ -34,6 +34,7 @@ import {
   ValidateAndModifyTimeInputBehavior,
   LoadStore,
   ValidateAndModifyDefaultUnits,
+  ValidateAndModifyLocale,
 } from "../helpers";
 import {
   CalculationModal,
@@ -166,6 +167,7 @@ export default function Multisets() {
         userSettings,
         new Set(["weight", "distance"])
       );
+      ValidateAndModifyLocale(userSettings);
 
       setUserSettings(userSettings);
 

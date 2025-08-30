@@ -25,6 +25,7 @@ import {
   GetUserSettings,
   UpdateItemInList,
   LoadStore,
+  ValidateAndModifyLocale,
 } from "../helpers";
 import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
@@ -67,6 +68,8 @@ export default function TimePeriodList() {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
+
+      ValidateAndModifyLocale(userSettings);
 
       setUserSettings(userSettings);
 

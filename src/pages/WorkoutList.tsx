@@ -28,12 +28,9 @@ import {
   LoadStore,
   UpdateItemInList,
   UpdateWorkout,
+  ValidateAndModifyLocale,
 } from "../helpers";
-import {
-  useDefaultWorkout,
-  useExerciseList,
-  useWorkoutList,
-} from "../hooks";
+import { useDefaultWorkout, useExerciseList, useWorkoutList } from "../hooks";
 import { GoToArrowIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
 
@@ -94,6 +91,8 @@ export default function WorkoutList() {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
+
+      ValidateAndModifyLocale(userSettings);
 
       setUserSettings(userSettings);
 
@@ -486,9 +485,7 @@ export default function WorkoutList() {
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
-      <FilterExerciseGroupsModal
-        useExerciseList={exerciseList}
-      />
+      <FilterExerciseGroupsModal useExerciseList={exerciseList} />
       <FilterWorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
         useExerciseList={exerciseList}

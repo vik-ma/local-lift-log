@@ -52,10 +52,10 @@ import {
   NumNewSetsOptionList,
   GetLatestUserWeight,
   IsDateStringOlderThanOneWeek,
-  GetValidatedUnit,
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
   LoadStore,
+  ValidateAndModifyLocale,
 } from "../helpers";
 import {
   useMultisetActions,
@@ -174,23 +174,15 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
         ValidateAndModifyIncrementMultipliers(userSettings);
         ValidateAndModifyTimeInputBehavior(userSettings);
+        ValidateAndModifyLocale(userSettings);
 
         setUserSettings(userSettings);
 
-        const weightUnit = GetValidatedUnit(
-          userSettings.default_unit_weight,
-          "weight"
-        );
-        const distanceUnit = GetValidatedUnit(
-          userSettings.default_unit_distance,
-          "distance"
-        );
-
         const emptySet: WorkoutSet = {
           ...defaultSet.current,
-          weight_unit: weightUnit,
-          distance_unit: distanceUnit,
-          user_weight_unit: weightUnit,
+          weight_unit: userSettings.default_unit_weight,
+          distance_unit: userSettings.default_unit_distance,
+          user_weight_unit: userSettings.default_unit_measurement,
         };
 
         defaultSet.current = emptySet;

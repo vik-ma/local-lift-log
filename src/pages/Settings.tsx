@@ -6,6 +6,7 @@ import {
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
   ValidateAndModifyDefaultUnits,
+  ValidateAndModifyLocale,
 } from "../helpers";
 import { LoadingSpinner, SettingsList } from "../components";
 import { useSettingsList } from "../hooks";
@@ -33,6 +34,7 @@ export default function Settings() {
         userSettings,
         new Set(["weight", "distance", "measurement"])
       );
+      ValidateAndModifyLocale(userSettings);
 
       setUserSettings(userSettings);
 

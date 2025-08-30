@@ -36,6 +36,7 @@ import {
   DeleteMultisetWithId,
   GetUserSettings,
   LoadStore,
+  ValidateAndModifyLocale,
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
@@ -84,6 +85,8 @@ export default function WorkoutTemplateList() {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
+
+      ValidateAndModifyLocale(userSettings);
 
       setUserSettings(userSettings);
 
@@ -253,9 +256,7 @@ export default function WorkoutTemplateList() {
         userSettings={userSettings}
         setUserSettings={setUserSettings}
       />
-      <FilterExerciseGroupsModal
-        useExerciseList={exerciseList}
-      />
+      <FilterExerciseGroupsModal useExerciseList={exerciseList} />
       <div className="flex flex-col items-center gap-1.5">
         <ListPageSearchInput
           header="Workout Templates"

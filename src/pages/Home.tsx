@@ -9,6 +9,7 @@ import {
   CreateDefaultEquipmentWeights,
   CreateDefaultMeasurements,
   CreateDefaultDistances,
+  ValidateAndModifyLocale,
 } from "../helpers";
 import { CreateDefaultSettingsModal } from "../components";
 
@@ -58,8 +59,12 @@ export default function Home() {
 
       try {
         const userSettings = await GetUserSettings();
+
         if (userSettings !== undefined) {
           // If UserSettings exists
+
+          ValidateAndModifyLocale(userSettings);
+
           setUserSettings(userSettings);
           isUserSettingsLoaded.current = true;
         } else {

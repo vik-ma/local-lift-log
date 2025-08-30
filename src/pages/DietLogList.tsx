@@ -19,7 +19,7 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import toast from "react-hot-toast";
-import { GetUserSettings, LoadStore } from "../helpers";
+import { GetUserSettings, LoadStore, ValidateAndModifyLocale } from "../helpers";
 import { Store } from "@tauri-apps/plugin-store";
 
 type OperationType = "add" | "edit" | "delete";
@@ -67,6 +67,8 @@ export default function DietLogList() {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
+
+      ValidateAndModifyLocale(userSettings);
 
       setUserSettings(userSettings);
 

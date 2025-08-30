@@ -36,6 +36,7 @@ import {
   GetValidatedRoutineScheduleType,
   GetValidatedRoutineScheduleItemDay,
   LoadStore,
+  ValidateAndModifyLocale,
 } from "../helpers";
 import toast from "react-hot-toast";
 import {
@@ -209,6 +210,8 @@ export default function RoutineDetails() {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
+
+      ValidateAndModifyLocale(userSettings);
 
       setUserSettings(userSettings);
 

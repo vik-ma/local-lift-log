@@ -31,6 +31,7 @@ import {
   UpdateUserSetting,
   UpdateExercise,
   ValidateAndModifyDefaultUnits,
+  ValidateAndModifyLocale,
 } from "../helpers";
 import {
   useDefaultExercise,
@@ -378,6 +379,7 @@ export default function ExerciseDetails() {
         userSettings,
         new Set(["weight", "distance"])
       );
+      ValidateAndModifyLocale(userSettings);
 
       const speedUnit = GetSpeedUnitFromDistanceUnit(
         userSettings.default_unit_distance

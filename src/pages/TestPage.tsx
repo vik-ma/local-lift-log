@@ -22,6 +22,7 @@ import {
   GetUserSettings,
   LoadStore,
   ValidateAndModifyDefaultUnits,
+  ValidateAndModifyLocale,
 } from "../helpers";
 import { Store } from "@tauri-apps/plugin-store";
 
@@ -114,9 +115,10 @@ export default function Test() {
 
       if (userSettings === undefined) return;
 
-      setUserSettings(userSettings);
-
       ValidateAndModifyDefaultUnits(userSettings, new Set(["weight"]));
+      ValidateAndModifyLocale(userSettings);
+
+      setUserSettings(userSettings);
     };
 
     loadStore();
