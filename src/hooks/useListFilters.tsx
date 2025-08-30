@@ -53,61 +53,6 @@ export const useListFilters = ({
   useWorkoutTemplateList,
 }: UseListFiltersProps): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<ListFilterMap>(new Map());
-  // const [filterMinDate, setFilterMinDate] = useState<CalendarDate | null>(null);
-  // const [filterMaxDate, setFilterMaxDate] = useState<CalendarDate | null>(null);
-  // const [filterWeekdays, setFilterWeekdays] = useState<Set<string>>(new Set());
-  // const [filterRoutines, setFilterRoutines] = useState<Set<number>>(new Set());
-  // const [filterExercises, setFilterExercises] = useState<Set<number>>(
-  //   new Set()
-  // );
-  // const [filterExerciseGroups, setFilterExerciseGroups] = useState<string[]>(
-  //   []
-  // );
-  // const [filterMinWeight, setFilterMinWeight] = useState<number | null>(null);
-  // const [filterMaxWeight, setFilterMaxWeight] = useState<number | null>(null);
-  // const [filterMinDistance, setFilterMinDistance] = useState<number | null>(
-  //   null
-  // );
-  // const [filterMaxDistance, setFilterMaxDistance] = useState<number | null>(
-  //   null
-  // );
-  // const [filterMeasurements, setFilterMeasurements] = useState<Set<string>>(
-  //   new Set()
-  // );
-  // const [filterMeasurementTypes, setFilterMeasurementTypes] = useState<
-  //   Set<string>
-  // >(new Set());
-  // const [filterWorkoutTemplates, setFilterWorkoutTemplates] = useState<
-  //   Set<number>
-  // >(new Set());
-  // const [filterScheduleTypes, setFilterScheduleTypes] = useState<Set<string>>(
-  //   new Set()
-  // );
-  // const [filterMinNumScheduleDays, setFilterMinNumScheduleDays] = useState<
-  //   number | null
-  // >(null);
-  // const [filterMaxNumScheduleDays, setFilterMaxNumScheduleDays] = useState<
-  //   number | null
-  // >(null);
-  // const [filterWeightUnits, setFilterWeightUnits] = useState<Set<string>>(
-  //   new Set()
-  // );
-  // const [filterDistanceUnits, setFilterDistanceUnits] = useState<Set<string>>(
-  //   new Set()
-  // );
-  // const [filterMultisetTypes, setFilterMultisetTypes] = useState<Set<string>>(
-  //   new Set()
-  // );
-  // const [filterMinBodyFatPercentage, setFilterMinBodyFatPercentage] = useState<
-  //   number | null
-  // >(null);
-  // const [filterMaxBodyFatPercentage, setFilterMaxBodyFatPercentage] = useState<
-  //   number | null
-  // >(null);
-  // const [filterWeightRangeUnit, setFilterWeightRangeUnit] =
-  //   useState<string>("kg");
-  // const [filterDistanceRangeUnit, setFilterDistanceRangeUnit] =
-  //   useState<string>("km");
 
   const defaultListFilterValues = useMemo(() => DefaultListFilterValues(), []);
 
