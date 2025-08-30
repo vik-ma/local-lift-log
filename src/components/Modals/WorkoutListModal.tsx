@@ -17,6 +17,7 @@ import {
   ListFilters,
   WorkoutListItem,
   WorkoutListOptions,
+  LoadingSpinner,
 } from "..";
 
 type WorkoutListModalProps = {
@@ -48,6 +49,7 @@ export const WorkoutListModal = ({
     filterQuery,
     setFilterQuery,
     listFilters,
+    isWorkoutListLoaded,
   } = workoutList;
 
   const { filterMap } = listFilters;
@@ -101,21 +103,25 @@ export const WorkoutListModal = ({
                     />
                   )}
                 </div>
-                <ScrollShadow className="flex flex-col gap-1">
-                  {filteredWorkouts.map((workout) => (
-                    <WorkoutListItem
-                      key={workout.id}
-                      workout={workout}
-                      selectedWorkoutProperties={selectedWorkoutProperties}
-                      onClickAction={() =>
-                        onClickAction(workout, keepSetValues)
-                      }
-                    />
-                  ))}
-                  {filteredWorkouts.length === 0 && (
-                    <EmptyListLabel itemName="Workouts" />
-                  )}
-                </ScrollShadow>
+                {isWorkoutListLoaded.current ? (
+                  <ScrollShadow className="flex flex-col gap-1">
+                    {filteredWorkouts.map((workout) => (
+                      <WorkoutListItem
+                        key={workout.id}
+                        workout={workout}
+                        selectedWorkoutProperties={selectedWorkoutProperties}
+                        onClickAction={() =>
+                          onClickAction(workout, keepSetValues)
+                        }
+                      />
+                    ))}
+                    {filteredWorkouts.length === 0 && (
+                      <EmptyListLabel itemName="Workouts" />
+                    )}
+                  </ScrollShadow>
+                ) : (
+                  <LoadingSpinner />
+                )}
               </div>
             </ModalBody>
             <ModalFooter>
