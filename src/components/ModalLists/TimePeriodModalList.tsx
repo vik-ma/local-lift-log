@@ -8,6 +8,7 @@ import { Button, ScrollShadow } from "@heroui/react";
 import {
   EmptyListLabel,
   ListFilters,
+  LoadingSpinner,
   SearchInput,
   TimePeriodListItemContent,
   TimePeriodListOptions,
@@ -41,6 +42,7 @@ export const TimePeriodModalList = ({
     filteredTimePeriods,
     timePeriodListFilters,
     selectedTimePeriodProperties,
+    isTimePeriodListLoaded,
   } = useTimePeriodList;
 
   const { filterMap, removeFilter, prefixMap } = timePeriodListFilters;
@@ -86,35 +88,39 @@ export const TimePeriodModalList = ({
           />
         )}
       </div>
-      <ScrollShadow className="flex flex-col gap-1">
-        {filteredTimePeriods.map((timePeriod) => (
-          <div
-            key={timePeriod.id}
-            className={
-              hiddenTimePeriods?.has(timePeriod.id.toString())
-                ? "hidden"
-                : "flex justify-between items-center cursor-pointer w-full bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-            }
-            onClick={() => handleTimePeriodClick(timePeriod)}
-          >
-            <TimePeriodListItemContent
-              timePeriod={timePeriod}
-              selectedTimePeriodProperties={selectedTimePeriodProperties}
-              isInModalList={true}
+      {isTimePeriodListLoaded.current ? (
+        <ScrollShadow className="flex flex-col gap-1">
+          {filteredTimePeriods.map((timePeriod) => (
+            <div
+              key={timePeriod.id}
+              className={
+                hiddenTimePeriods?.has(timePeriod.id.toString())
+                  ? "hidden"
+                  : "flex justify-between items-center cursor-pointer w-full bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+              }
+              onClick={() => handleTimePeriodClick(timePeriod)}
+            >
+              <TimePeriodListItemContent
+                timePeriod={timePeriod}
+                selectedTimePeriodProperties={selectedTimePeriodProperties}
+                isInModalList={true}
+              />
+            </div>
+          ))}
+          {filteredTimePeriods.length === 0 && (
+            <EmptyListLabel
+              itemName="Time Periods"
+              extraContent={
+                timePeriods.length > 0 ? undefined : (
+                  <Link to={"/time-periods"}>Create Time Periods Here</Link>
+                )
+              }
             />
-          </div>
-        ))}
-        {filteredTimePeriods.length === 0 && (
-          <EmptyListLabel
-            itemName="Time Periods"
-            extraContent={
-              timePeriods.length > 0 ? undefined : (
-                <Link to={"/time-periods"}>Create Time Periods Here</Link>
-              )
-            }
-          />
-        )}
-      </ScrollShadow>
+          )}
+        </ScrollShadow>
+      ) : (
+        <LoadingSpinner />
+      )}
     </div>
   );
 };

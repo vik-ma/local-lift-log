@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import {
   EmptyListLabel,
   ListFilters,
+  LoadingSpinner,
   SearchInput,
   WorkoutTemplateListOptions,
 } from "..";
@@ -33,6 +34,7 @@ export const WorkoutTemplateModalList = ({
     setFilterQuery,
     workoutTemplates,
     listFilters,
+    isWorkoutTemplateListLoaded,
   } = useWorkoutTemplateList;
 
   const { filterMap, removeFilter, prefixMap } = listFilters;
@@ -73,42 +75,46 @@ export const WorkoutTemplateModalList = ({
           />
         )}
       </div>
-      <ScrollShadow className="flex flex-col gap-1">
-        {filteredWorkoutTemplates.map((template) => (
-          <button
-            className={
-              filterWorkoutTemplates?.has(template.id)
-                ? "flex flex-col justify-start items-start bg-amber-100 border-2 border-amber-300 rounded-xl px-2 py-1 hover:border-default-400 focus:border-default-400"
-                : "flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:border-default-400"
-            }
-            key={template.id}
-            onClick={() => onClickAction(template)}
-          >
-            <span className="w-full truncate text-left">{template.name}</span>
-            {template.numSets! > 0 ? (
-              <span className="text-xs text-secondary text-left">
-                {FormatNumItemsString(
-                  template.exerciseIdSet !== undefined
-                    ? template.exerciseIdSet.size
-                    : 0,
-                  "Exercise"
-                )}
-                , {FormatNumItemsString(template.numSets, "Set")}
-              </span>
-            ) : (
-              <span className="text-xs text-stone-400 text-left">Empty</span>
-            )}
-            {template.note !== null && (
-              <span className="w-full break-all text-xs text-stone-500 text-left">
-                {template.note}
-              </span>
-            )}
-          </button>
-        ))}
-        {filteredWorkoutTemplates.length === 0 && (
-          <EmptyListLabel itemName="Workout Templates" />
-        )}
-      </ScrollShadow>
+      {isWorkoutTemplateListLoaded.current ? (
+        <ScrollShadow className="flex flex-col gap-1">
+          {filteredWorkoutTemplates.map((template) => (
+            <button
+              className={
+                filterWorkoutTemplates?.has(template.id)
+                  ? "flex flex-col justify-start items-start bg-amber-100 border-2 border-amber-300 rounded-xl px-2 py-1 hover:border-default-400 focus:border-default-400"
+                  : "flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:border-default-400"
+              }
+              key={template.id}
+              onClick={() => onClickAction(template)}
+            >
+              <span className="w-full truncate text-left">{template.name}</span>
+              {template.numSets! > 0 ? (
+                <span className="text-xs text-secondary text-left">
+                  {FormatNumItemsString(
+                    template.exerciseIdSet !== undefined
+                      ? template.exerciseIdSet.size
+                      : 0,
+                    "Exercise"
+                  )}
+                  , {FormatNumItemsString(template.numSets, "Set")}
+                </span>
+              ) : (
+                <span className="text-xs text-stone-400 text-left">Empty</span>
+              )}
+              {template.note !== null && (
+                <span className="w-full break-all text-xs text-stone-500 text-left">
+                  {template.note}
+                </span>
+              )}
+            </button>
+          ))}
+          {filteredWorkoutTemplates.length === 0 && (
+            <EmptyListLabel itemName="Workout Templates" />
+          )}
+        </ScrollShadow>
+      ) : (
+        <LoadingSpinner />
+      )}
     </div>
   );
 };

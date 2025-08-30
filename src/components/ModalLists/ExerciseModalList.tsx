@@ -10,6 +10,7 @@ import {
   ExerciseListOptions,
   FavoriteButton,
   ListFilters,
+  LoadingSpinner,
   SearchInput,
 } from "..";
 import { GoToArrowIcon } from "../../assets";
@@ -45,6 +46,7 @@ export const ExerciseModalList = ({
     filterQuery,
     setFilterQuery,
     exerciseListFilters,
+    isExerciseListLoaded,
   } = useExerciseList;
 
   const { filterMap, removeFilter, prefixMap } = exerciseListFilters;
@@ -90,75 +92,81 @@ export const ExerciseModalList = ({
           />
         )}
       </div>
-      <ScrollShadow className="flex flex-col gap-1">
-        {filteredExercises.map((exercise) => (
-          <div
-            key={exercise.id}
-            className={
-              selectedExercises?.has(exercise.id)
-                ? "flex justify-between items-center gap-1 cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:border-default-400"
-                : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:border-default-400"
-            }
-            onClick={() => handleClickExercise(exercise)}
-          >
-            <div className="flex flex-col justify-start items-start pl-2 py-1">
-              <span className="w-[20rem] truncate text-left">
-                {exercise.name}
-              </span>
-              {isInAnalyticsPage && (
-                <span className="text-xs text-secondary text-left">
-                  {FormatSetsCompletedString(exercise.set_count)}
+      {isExerciseListLoaded.current ? (
+        <ScrollShadow className="flex flex-col gap-1">
+          {filteredExercises.map((exercise) => (
+            <div
+              key={exercise.id}
+              className={
+                selectedExercises?.has(exercise.id)
+                  ? "flex justify-between items-center gap-1 cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:border-default-400"
+                  : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:border-default-400"
+              }
+              onClick={() => handleClickExercise(exercise)}
+            >
+              <div className="flex flex-col justify-start items-start pl-2 py-1">
+                <span className="w-[20rem] truncate text-left">
+                  {exercise.name}
                 </span>
-              )}
-              {!showSecondaryGroups ? (
-                <span className="text-xs text-stone-400 text-left">
-                  {exercise.formattedGroupStringPrimary}
-                </span>
-              ) : (
-                <>
+                {isInAnalyticsPage && (
+                  <span className="text-xs text-secondary text-left">
+                    {FormatSetsCompletedString(exercise.set_count)}
+                  </span>
+                )}
+                {!showSecondaryGroups ? (
                   <span className="text-xs text-stone-400 text-left">
-                    <span className="font-medium text-stone-600">Primary:</span>{" "}
                     {exercise.formattedGroupStringPrimary}
                   </span>
-                  {exercise.formattedGroupStringSecondary !== undefined && (
+                ) : (
+                  <>
                     <span className="text-xs text-stone-400 text-left">
                       <span className="font-medium text-stone-600">
-                        Secondary:
+                        Primary:
                       </span>{" "}
-                      {exercise.formattedGroupStringSecondary}
+                      {exercise.formattedGroupStringPrimary}
                     </span>
-                  )}
-                </>
-              )}
+                    {exercise.formattedGroupStringSecondary !== undefined && (
+                      <span className="text-xs text-stone-400 text-left">
+                        <span className="font-medium text-stone-600">
+                          Secondary:
+                        </span>{" "}
+                        {exercise.formattedGroupStringSecondary}
+                      </span>
+                    )}
+                  </>
+                )}
+              </div>
+              <div className="flex items-center pr-2">
+                <FavoriteButton
+                  name={exercise.name}
+                  isFavorite={!!exercise.is_favorite}
+                  item={exercise}
+                  toggleFavorite={toggleFavorite}
+                />
+              </div>
             </div>
-            <div className="flex items-center pr-2">
-              <FavoriteButton
-                name={exercise.name}
-                isFavorite={!!exercise.is_favorite}
-                item={exercise}
-                toggleFavorite={toggleFavorite}
-              />
-            </div>
-          </div>
-        ))}
-        {filteredExercises.length === 0 && (
-          <EmptyListLabel
-            itemName="Exercises"
-            customLabel={
-              isInAnalyticsPage && exercises.length === 0
-                ? "No Exercises Has Been Completed"
-                : undefined
-            }
-            extraContent={
-              isInAnalyticsPage || exercises.length > 0 ? undefined : (
-                <Link to={"/exercises"}>
-                  Create Or Restore Default Exercises Here
-                </Link>
-              )
-            }
-          />
-        )}
-      </ScrollShadow>
+          ))}
+          {filteredExercises.length === 0 && (
+            <EmptyListLabel
+              itemName="Exercises"
+              customLabel={
+                isInAnalyticsPage && exercises.length === 0
+                  ? "No Exercises Has Been Completed"
+                  : undefined
+              }
+              extraContent={
+                isInAnalyticsPage || exercises.length > 0 ? undefined : (
+                  <Link to={"/exercises"}>
+                    Create Or Restore Default Exercises Here
+                  </Link>
+                )
+              }
+            />
+          )}
+        </ScrollShadow>
+      ) : (
+        <LoadingSpinner />
+      )}
     </div>
   );
 };
