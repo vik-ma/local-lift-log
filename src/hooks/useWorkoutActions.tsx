@@ -1430,7 +1430,9 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     timeInputModal.onClose();
   };
 
-  const handleAddMultisetButton = () => {
+  const handleAddMultisetButton = async () => {
+    if (userSettings === undefined) return;
+
     if (operationType === "edit") {
       resetOperatingMultiset();
     }
@@ -1438,6 +1440,8 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     resetOperatingSet();
 
     multisetActions.multisetModal.onOpen();
+
+    await multisetActions.loadMultisets(userSettings);
   };
 
   const resetOperatingMultiset = () => {

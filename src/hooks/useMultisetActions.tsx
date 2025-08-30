@@ -490,9 +490,9 @@ export const useMultisetActions = ({
   };
 
   const loadMultisets = async (userSettings: UserSettings) => {
-    await loadExerciseList(userSettings);
-
     if (isMultisetListLoaded.current) return;
+
+    await loadExerciseList(userSettings);
 
     const validFilterKeys = new Set<StoreFilterMapKey>([
       "exercises",
