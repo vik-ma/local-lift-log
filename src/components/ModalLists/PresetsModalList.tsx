@@ -55,10 +55,12 @@ export const PresetsModalList = ({
     operatingPlateCollection,
     setOperatingPlateCollection,
     presetsTypeString,
-    listFilters,
+    listFiltersEquipment,
+    listFiltersDistance,
   } = presetsList;
 
-  const { filterMap, removeFilter, prefixMap } = listFilters;
+  const { filterMap, removeFilter, prefixMap } =
+    presetsType === "equipment" ? listFiltersEquipment : listFiltersDistance;
 
   const [hideInvalidUnitItems, setHideInvalidUnitItems] =
     useState<boolean>(true);
