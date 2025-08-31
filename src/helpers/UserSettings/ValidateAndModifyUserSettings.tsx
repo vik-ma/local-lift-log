@@ -6,16 +6,17 @@ import {
 } from "..";
 import { UserSettings } from "../../typings";
 
+type UserSettingsPropsToValidate =
+  | "default_unit_weight"
+  | "default_unit_distance"
+  | "default_unit_measurement"
+  | "locale"
+  | "time_input"
+  | "increment_multipliers";
+
 export const ValidateAndModifyUserSettings = (
   userSettings: UserSettings,
-  settingsToValidate: Set<
-    | "default_unit_weight"
-    | "default_unit_distance"
-    | "default_unit_measurement"
-    | "locale"
-    | "time_input"
-    | "increment_multipliers"
-  >
+  settingsToValidate: Set<UserSettingsPropsToValidate>
 ) => {
   for (const settings of settingsToValidate) {
     switch (settings) {
