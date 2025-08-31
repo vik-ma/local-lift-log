@@ -152,16 +152,24 @@ export default function DietLogList() {
   const handleDietLogOptionSelection = (key: string, dietLog: DietLog) => {
     if (userSettings === undefined) return;
 
-    if (key === "edit") {
-      setOperationType("edit");
-      setOperatingDietLog(dietLog);
-      dietLogModal.onOpen();
-    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
-      deleteDietLogEntry(dietLog);
-    } else if (key === "delete") {
-      setOperationType("delete");
-      setOperatingDietLog(dietLog);
-      deleteModal.onOpen();
+    switch (key) {
+      case "edit": {
+        setOperationType("edit");
+        setOperatingDietLog(dietLog);
+        dietLogModal.onOpen();
+        break;
+      }
+      case "delete": {
+        if (userSettings.never_show_delete_modal) {
+          deleteDietLogEntry(dietLog);
+        } else {
+          setOperationType("delete");
+          setOperatingDietLog(dietLog);
+          deleteModal.onOpen();
+        }
+
+        break;
+      }
     }
   };
 
