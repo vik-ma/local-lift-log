@@ -80,7 +80,6 @@ export { GenerateBodyFatCalculationSettingsString } from "./UserSettings/Generat
 export { ValidateAndModifyIncrementMultipliers } from "./UserSettings/ValidateAndModifyIncrementMultipliers";
 export { ValidateAndModifyTimeInputBehavior } from "./UserSettings/ValidateAndModifyTimeInputBehavior";
 export { ValidateAndModifyUserSettings } from "./UserSettings/ValidateAndModifyUserSettings";
-export { ValidateAndModifyLocale } from "./UserSettings/ValidateAndModifyLocale";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
