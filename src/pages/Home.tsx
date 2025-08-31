@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, useDisclosure } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { UserSettings } from "../typings";
@@ -17,8 +17,6 @@ export default function Home() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const navigate = useNavigate();
-
-  const isUserSettingsLoaded = useRef(false);
 
   const createDefaultSettingsModal = useDisclosure();
 
@@ -48,25 +46,19 @@ export default function Home() {
       // Create Default Distance List
       await CreateDefaultDistances(useMetricUnits);
 
-      isUserSettingsLoaded.current = true;
       createDefaultSettingsModal.onClose();
     }
   };
 
   useEffect(() => {
     const loadPage = async () => {
-      if (isUserSettingsLoaded.current) return;
-
       try {
         const userSettings = await GetUserSettings();
 
         if (userSettings !== undefined) {
-          // If UserSettings exists
-
           ValidateAndModifyLocale(userSettings);
 
           setUserSettings(userSettings);
-          isUserSettingsLoaded.current = true;
         } else {
           createDefaultSettingsModal.onOpen();
         }
