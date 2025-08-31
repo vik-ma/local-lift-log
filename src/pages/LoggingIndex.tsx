@@ -28,7 +28,7 @@ import {
   GetAllBodyMeasurements,
   UpdateBodyMeasurementsTimestamp,
   LoadStore,
-  ValidateAndModifyDefaultUnits,
+  ValidateAndModifyUserSettings,
   ValidateAndModifyLocale,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
@@ -110,7 +110,7 @@ export default function LoggingIndex() {
 
       if (userSettings === undefined) return;
 
-      ValidateAndModifyDefaultUnits(userSettings, new Set(["weight"]));
+      ValidateAndModifyUserSettings(userSettings, new Set(["weight"]));
       ValidateAndModifyLocale(userSettings);
 
       await LoadStore(store);

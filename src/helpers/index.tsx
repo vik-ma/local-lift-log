@@ -79,7 +79,7 @@ export { ValidateBodyFatCalculationSettingsString } from "./UserSettings/Validat
 export { GenerateBodyFatCalculationSettingsString } from "./UserSettings/GenerateBodyFatCalculationSettingsString";
 export { ValidateAndModifyIncrementMultipliers } from "./UserSettings/ValidateAndModifyIncrementMultipliers";
 export { ValidateAndModifyTimeInputBehavior } from "./UserSettings/ValidateAndModifyTimeInputBehavior";
-export { ValidateAndModifyDefaultUnits } from "./UserSettings/ValidateAndModifyDefaultUnits";
+export { ValidateAndModifyUserSettings } from "./UserSettings/ValidateAndModifyUserSettings";
 export { ValidateAndModifyLocale } from "./UserSettings/ValidateAndModifyLocale";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";

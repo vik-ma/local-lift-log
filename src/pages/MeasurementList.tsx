@@ -34,7 +34,7 @@ import {
   FormatNumBodyMeasurementsEntriesString,
   UpdateUserSetting,
   LoadStore,
-  ValidateAndModifyDefaultUnits,
+  ValidateAndModifyUserSettings,
   ValidateAndModifyLocale,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
@@ -90,7 +90,7 @@ export default function MeasurementList() {
 
         setUserSettings(userSettings);
 
-        ValidateAndModifyDefaultUnits(userSettings, new Set(["measurement"]));
+        ValidateAndModifyUserSettings(userSettings, new Set(["measurement"]));
         ValidateAndModifyLocale(userSettings);
 
         setOperatingMeasurement((prev) => ({

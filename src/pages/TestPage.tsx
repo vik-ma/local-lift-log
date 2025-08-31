@@ -21,7 +21,7 @@ import {
   GetCurrentDateTimeISOString,
   GetUserSettings,
   LoadStore,
-  ValidateAndModifyDefaultUnits,
+  ValidateAndModifyUserSettings,
   ValidateAndModifyLocale,
 } from "../helpers";
 import { Store } from "@tauri-apps/plugin-store";
@@ -115,7 +115,7 @@ export default function Test() {
 
       if (userSettings === undefined) return;
 
-      ValidateAndModifyDefaultUnits(userSettings, new Set(["weight"]));
+      ValidateAndModifyUserSettings(userSettings, new Set(["weight"]));
       ValidateAndModifyLocale(userSettings);
 
       setUserSettings(userSettings);

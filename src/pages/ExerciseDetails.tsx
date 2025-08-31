@@ -30,7 +30,7 @@ import {
   UpdateIsFavorite,
   UpdateUserSetting,
   UpdateExercise,
-  ValidateAndModifyDefaultUnits,
+  ValidateAndModifyUserSettings,
   ValidateAndModifyLocale,
 } from "../helpers";
 import {
@@ -375,7 +375,7 @@ export default function ExerciseDetails() {
 
       if (userSettings === undefined) return;
 
-      ValidateAndModifyDefaultUnits(
+      ValidateAndModifyUserSettings(
         userSettings,
         new Set(["weight", "distance"])
       );

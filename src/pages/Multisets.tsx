@@ -33,7 +33,7 @@ import {
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
   LoadStore,
-  ValidateAndModifyDefaultUnits,
+  ValidateAndModifyUserSettings,
   ValidateAndModifyLocale,
 } from "../helpers";
 import {
@@ -163,7 +163,7 @@ export default function Multisets() {
 
       ValidateAndModifyIncrementMultipliers(userSettings);
       ValidateAndModifyTimeInputBehavior(userSettings);
-      ValidateAndModifyDefaultUnits(
+      ValidateAndModifyUserSettings(
         userSettings,
         new Set(["weight", "distance"])
       );

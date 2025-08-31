@@ -5,7 +5,7 @@ import {
   ConvertNumberToInputString,
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
-  ValidateAndModifyDefaultUnits,
+  ValidateAndModifyUserSettings,
   ValidateAndModifyLocale,
 } from "../helpers";
 import { LoadingSpinner, SettingsList } from "../components";
@@ -30,7 +30,7 @@ export default function Settings() {
 
       ValidateAndModifyIncrementMultipliers(userSettings);
       ValidateAndModifyTimeInputBehavior(userSettings);
-      ValidateAndModifyDefaultUnits(
+      ValidateAndModifyUserSettings(
         userSettings,
         new Set(["weight", "distance", "measurement"])
       );

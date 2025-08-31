@@ -46,7 +46,7 @@ import {
   LoadStore,
   UpdateItemInList,
   UpdateUserSetting,
-  ValidateAndModifyDefaultUnits,
+  ValidateAndModifyUserSettings,
   ValidateAndModifyLocale,
 } from "../helpers";
 import toast from "react-hot-toast";
@@ -147,7 +147,7 @@ export default function Presets() {
 
       setUserSettings(userSettings);
 
-      ValidateAndModifyDefaultUnits(
+      ValidateAndModifyUserSettings(
         userSettings,
         new Set(["weight", "distance"])
       );
