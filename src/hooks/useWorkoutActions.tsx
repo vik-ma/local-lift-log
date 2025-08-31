@@ -581,24 +581,35 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     exercise: Exercise,
     groupedSet: GroupedWorkoutSet
   ) => {
-    if (key === "edit") {
-      handleEditSet(set, index, exercise, groupedSet);
-    } else if (key === "delete-set") {
-      handleDeleteSet(set, groupedSet);
-    } else if (key === "update-completed-set-time") {
-      handleUpdateSetTimeCompleted(set, groupedSet);
-    } else if (key === "change-exercise") {
-      handleChangeExerciseMultiset(set, groupedSet, index, key);
-    } else if (key === "reassign-exercise") {
-      handleChangeExerciseMultiset(set, groupedSet, index, key);
-    } else if (key === "unset-warmup") {
-      const newValueIsWarmup = false;
-      handleChangeWarmupForSet(set, index, groupedSet, newValueIsWarmup);
-    } else if (key === "set-warmup") {
-      const newValueIsWarmup = true;
-      handleChangeWarmupForSet(set, index, groupedSet, newValueIsWarmup);
-    } else if (key === "view-notes") {
-      openSetNotesModal(set, index, groupedSet);
+    switch (key) {
+      case "edit":
+        handleEditSet(set, index, exercise, groupedSet);
+        break;
+      case "delete-set":
+        handleDeleteSet(set, groupedSet);
+        break;
+      case "update-completed-set-time":
+        handleUpdateSetTimeCompleted(set, groupedSet);
+        break;
+      case "change-exercise":
+        handleChangeExerciseMultiset(set, groupedSet, index, key);
+        break;
+      case "reassign-exercise":
+        handleChangeExerciseMultiset(set, groupedSet, index, key);
+        break;
+      case "unset-warmup": {
+        const newValueIsWarmup = false;
+        handleChangeWarmupForSet(set, index, groupedSet, newValueIsWarmup);
+        break;
+      }
+      case "set-warmup": {
+        const newValueIsWarmup = true;
+        handleChangeWarmupForSet(set, index, groupedSet, newValueIsWarmup);
+        break;
+      }
+      case "view-notes":
+        openSetNotesModal(set, index, groupedSet);
+        break;
     }
   };
 
@@ -681,30 +692,43 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     key: string,
     groupedWorkoutSet: GroupedWorkoutSet
   ) => {
-    if (key === "reassign-exercise") {
-      handleReassignExercise(groupedWorkoutSet);
-    } else if (key === "change-exercise") {
-      handleChangeExercise(groupedWorkoutSet);
-    } else if (key === "delete-grouped_sets-sets") {
-      handleDeleteExerciseSets(groupedWorkoutSet);
-    } else if (key === "add-set-to-exercise") {
-      handleAddSetToExercise(groupedWorkoutSet);
-    } else if (key === "add-sets-to-multiset") {
-      handleAddSetToMultiset(groupedWorkoutSet);
-    } else if (key === "toggle-exercise-note") {
-      handleToggleExerciseNote(groupedWorkoutSet);
-    } else if (key === "edit-multiset") {
-      handleEditMultiset(groupedWorkoutSet);
-    } else if (key === "add-multiset") {
-      handleAddMultisetToMultiset(groupedWorkoutSet);
-    } else if (key === "fill-in-last-workout-set-values") {
-      handleFillInLastWorkoutSetValues(groupedWorkoutSet);
-    } else if (key === "convert-exercise-to-multiset") {
-      convertExerciseIntoMultiset(groupedWorkoutSet);
-    } else if (key === "split-multiset-into-exercises") {
-      splitMultisetIntoExercises(groupedWorkoutSet);
-    } else if (key === "merge-grouped_set") {
-      handleMergeGroupedSet(groupedWorkoutSet);
+    switch (key) {
+      case "reassign-exercise":
+        handleReassignExercise(groupedWorkoutSet);
+        break;
+      case "change-exercise":
+        handleChangeExercise(groupedWorkoutSet);
+        break;
+      case "delete-grouped_sets-sets":
+        handleDeleteExerciseSets(groupedWorkoutSet);
+        break;
+      case "add-set-to-exercise":
+        handleAddSetToExercise(groupedWorkoutSet);
+        break;
+      case "add-sets-to-multiset":
+        handleAddSetToMultiset(groupedWorkoutSet);
+        break;
+      case "toggle-exercise-note":
+        handleToggleExerciseNote(groupedWorkoutSet);
+        break;
+      case "edit-multiset":
+        handleEditMultiset(groupedWorkoutSet);
+        break;
+      case "add-multiset":
+        handleAddMultisetToMultiset(groupedWorkoutSet);
+        break;
+      case "fill-in-last-workout-set-values":
+        handleFillInLastWorkoutSetValues(groupedWorkoutSet);
+        break;
+      case "convert-exercise-to-multiset":
+        convertExerciseIntoMultiset(groupedWorkoutSet);
+        break;
+      case "split-multiset-into-exercises":
+        splitMultisetIntoExercises(groupedWorkoutSet);
+        break;
+      case "merge-grouped_set":
+        handleMergeGroupedSet(groupedWorkoutSet);
+        break;
     }
   };
 
