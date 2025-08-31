@@ -79,7 +79,6 @@ export { ValidateBodyFatCalculationSettingsString } from "./UserSettings/Validat
 export { GenerateBodyFatCalculationSettingsString } from "./UserSettings/GenerateBodyFatCalculationSettingsString";
 export { ValidateAndModifyIncrementMultipliers } from "./UserSettings/ValidateAndModifyIncrementMultipliers";
 export { ValidateAndModifyTimeInputBehavior } from "./UserSettings/ValidateAndModifyTimeInputBehavior";
-export { GetValidatedLocale } from "./UserSettings/GetValidatedLocale";
 export { ValidateAndModifyDefaultUnits } from "./UserSettings/ValidateAndModifyDefaultUnits";
 export { ValidateAndModifyLocale } from "./UserSettings/ValidateAndModifyLocale";
 
