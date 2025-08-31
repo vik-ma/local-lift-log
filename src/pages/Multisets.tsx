@@ -30,11 +30,8 @@ import {
   UpdateItemInList,
   UpdateCalculationString,
   DefaultNewSet,
-  ValidateAndModifyIncrementMultipliers,
-  ValidateAndModifyTimeInputBehavior,
   LoadStore,
   ValidateAndModifyUserSettings,
-  ValidateAndModifyLocale,
 } from "../helpers";
 import {
   CalculationModal,
@@ -161,13 +158,16 @@ export default function Multisets() {
 
       if (userSettings === undefined) return;
 
-      ValidateAndModifyIncrementMultipliers(userSettings);
-      ValidateAndModifyTimeInputBehavior(userSettings);
       ValidateAndModifyUserSettings(
         userSettings,
-        new Set(["weight", "distance"])
+        new Set([
+          "default_unit_weight",
+          "default_unit_distance",
+          "locale",
+          "time_input",
+          "increment_multipliers",
+        ])
       );
-      ValidateAndModifyLocale(userSettings);
 
       setUserSettings(userSettings);
 

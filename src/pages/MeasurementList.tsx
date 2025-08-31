@@ -35,7 +35,6 @@ import {
   UpdateUserSetting,
   LoadStore,
   ValidateAndModifyUserSettings,
-  ValidateAndModifyLocale,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import { useDefaultMeasurement, useMeasurementList } from "../hooks";
@@ -90,8 +89,10 @@ export default function MeasurementList() {
 
         setUserSettings(userSettings);
 
-        ValidateAndModifyUserSettings(userSettings, new Set(["measurement"]));
-        ValidateAndModifyLocale(userSettings);
+        ValidateAndModifyUserSettings(
+          userSettings,
+          new Set(["default_unit_measurement", "locale"])
+        );
 
         setOperatingMeasurement((prev) => ({
           ...prev,

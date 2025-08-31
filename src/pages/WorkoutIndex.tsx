@@ -20,7 +20,7 @@ import {
   CreateSetsFromWorkoutTemplate,
   GenerateExerciseOrderString,
   LoadStore,
-  ValidateAndModifyLocale,
+  ValidateAndModifyUserSettings,
 } from "../helpers";
 import { UserSettings, Workout, WorkoutTemplate } from "../typings";
 import { Store } from "@tauri-apps/plugin-store";
@@ -51,7 +51,7 @@ export default function WorkoutIndex() {
 
       if (userSettings === undefined) return;
 
-      ValidateAndModifyLocale(userSettings);
+      ValidateAndModifyUserSettings(userSettings, new Set(["locale"]));
 
       setUserSettings(userSettings);
 

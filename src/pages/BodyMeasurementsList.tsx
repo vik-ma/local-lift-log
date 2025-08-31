@@ -43,7 +43,6 @@ import {
   UpdateBodyMeasurementsTimestamp,
   UpdateItemInList,
   ValidateAndModifyUserSettings,
-  ValidateAndModifyLocale,
 } from "../helpers";
 import {
   Button,
@@ -263,8 +262,10 @@ export default function BodyMeasurementsList() {
 
       if (userSettings === undefined) return;
 
-      ValidateAndModifyUserSettings(userSettings, new Set(["weight"]));
-      ValidateAndModifyLocale(userSettings);
+      ValidateAndModifyUserSettings(
+        userSettings,
+        new Set(["default_unit_weight", "default_unit_measurement", "locale"])
+      );
 
       setUserSettings(userSettings);
 

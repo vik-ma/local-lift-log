@@ -36,7 +36,7 @@ import {
   DeleteMultisetWithId,
   GetUserSettings,
   LoadStore,
-  ValidateAndModifyLocale,
+  ValidateAndModifyUserSettings,
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
@@ -86,7 +86,7 @@ export default function WorkoutTemplateList() {
 
       if (userSettings === undefined) return;
 
-      ValidateAndModifyLocale(userSettings);
+      ValidateAndModifyUserSettings(userSettings, new Set(["locale"]));
 
       setUserSettings(userSettings);
 

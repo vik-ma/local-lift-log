@@ -9,7 +9,7 @@ import {
   CreateDefaultEquipmentWeights,
   CreateDefaultMeasurements,
   CreateDefaultDistances,
-  ValidateAndModifyLocale,
+  ValidateAndModifyUserSettings,
 } from "../helpers";
 import { CreateDefaultSettingsModal } from "../components";
 
@@ -56,7 +56,7 @@ export default function Home() {
         const userSettings = await GetUserSettings();
 
         if (userSettings !== undefined) {
-          ValidateAndModifyLocale(userSettings);
+          ValidateAndModifyUserSettings(userSettings, new Set(["locale"]));
 
           setUserSettings(userSettings);
         } else {

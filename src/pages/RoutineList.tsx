@@ -22,7 +22,7 @@ import {
   CreateRoutineWorkoutTemplateList,
   UpdateUserSetting,
   LoadStore,
-  ValidateAndModifyLocale,
+  ValidateAndModifyUserSettings,
 } from "../helpers";
 import {
   LoadingSpinner,
@@ -103,7 +103,7 @@ export default function RoutineList() {
 
       if (userSettings === undefined) return;
 
-      ValidateAndModifyLocale(userSettings);
+      ValidateAndModifyUserSettings(userSettings, new Set(["locale"]));
 
       setUserSettings(userSettings);
 

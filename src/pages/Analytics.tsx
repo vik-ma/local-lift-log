@@ -104,7 +104,7 @@ import {
   IsNumberValidInteger,
   GetValidatedMeasurementType,
   LoadStore,
-  ValidateAndModifyLocale,
+  ValidateAndModifyUserSettings,
 } from "../helpers";
 import toast from "react-hot-toast";
 import { Store } from "@tauri-apps/plugin-store";
@@ -313,7 +313,15 @@ export default function Analytics() {
 
       if (userSettings === undefined) return;
 
-      ValidateAndModifyLocale(userSettings);
+      ValidateAndModifyUserSettings(
+        userSettings,
+        new Set([
+          "default_unit_weight",
+          "default_unit_distance",
+          "default_unit_measurement",
+          "locale",
+        ])
+      );
 
       setUserSettings(userSettings);
 

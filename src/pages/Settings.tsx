@@ -3,10 +3,7 @@ import { UserSettings, DefaultIncrementInputs } from "../typings";
 import {
   GetUserSettings,
   ConvertNumberToInputString,
-  ValidateAndModifyIncrementMultipliers,
-  ValidateAndModifyTimeInputBehavior,
   ValidateAndModifyUserSettings,
-  ValidateAndModifyLocale,
 } from "../helpers";
 import { LoadingSpinner, SettingsList } from "../components";
 import { useSettingsList } from "../hooks";
@@ -28,13 +25,17 @@ export default function Settings() {
 
       if (userSettings === undefined) return;
 
-      ValidateAndModifyIncrementMultipliers(userSettings);
-      ValidateAndModifyTimeInputBehavior(userSettings);
       ValidateAndModifyUserSettings(
         userSettings,
-        new Set(["weight", "distance", "measurement"])
+        new Set([
+          "default_unit_weight",
+          "default_unit_distance",
+          "default_unit_measurement",
+          "locale",
+          "time_input",
+          "increment_multipliers",
+        ])
       );
-      ValidateAndModifyLocale(userSettings);
 
       setUserSettings(userSettings);
 

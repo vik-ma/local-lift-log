@@ -47,7 +47,6 @@ import {
   UpdateItemInList,
   UpdateUserSetting,
   ValidateAndModifyUserSettings,
-  ValidateAndModifyLocale,
 } from "../helpers";
 import toast from "react-hot-toast";
 import { usePlateCollectionModal, usePresetsList } from "../hooks";
@@ -149,9 +148,8 @@ export default function Presets() {
 
       ValidateAndModifyUserSettings(
         userSettings,
-        new Set(["weight", "distance"])
+        new Set(["default_unit_weight", "default_unit_distance", "locale"])
       );
-      ValidateAndModifyLocale(userSettings);
 
       setOperatingEquipmentWeight((prev) => ({
         ...prev,

@@ -28,7 +28,7 @@ import {
   LoadStore,
   UpdateItemInList,
   UpdateWorkout,
-  ValidateAndModifyLocale,
+  ValidateAndModifyUserSettings,
 } from "../helpers";
 import { useDefaultWorkout, useExerciseList, useWorkoutList } from "../hooks";
 import { GoToArrowIcon } from "../assets";
@@ -92,7 +92,7 @@ export default function WorkoutList() {
 
       if (userSettings === undefined) return;
 
-      ValidateAndModifyLocale(userSettings);
+      ValidateAndModifyUserSettings(userSettings, new Set(["locale"]));
 
       setUserSettings(userSettings);
 

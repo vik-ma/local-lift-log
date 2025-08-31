@@ -29,7 +29,6 @@ import {
   UpdateBodyMeasurementsTimestamp,
   LoadStore,
   ValidateAndModifyUserSettings,
-  ValidateAndModifyLocale,
 } from "../helpers";
 import { Button, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -110,8 +109,10 @@ export default function LoggingIndex() {
 
       if (userSettings === undefined) return;
 
-      ValidateAndModifyUserSettings(userSettings, new Set(["weight"]));
-      ValidateAndModifyLocale(userSettings);
+      ValidateAndModifyUserSettings(
+        userSettings,
+        new Set(["default_unit_weight", "default_unit_measurement", "locale"])
+      );
 
       await LoadStore(store);
 
