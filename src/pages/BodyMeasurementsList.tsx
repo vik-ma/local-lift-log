@@ -453,20 +453,29 @@ export default function BodyMeasurementsList() {
   ) => {
     if (userSettings === undefined) return;
 
-    if (key === "edit") {
-      setOperatingBodyMeasurements(bodyMeasurements);
-      setOperationType("edit");
-      bodyMeasurementsModal.onOpen();
-    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
-      deleteBodyMeasurements(bodyMeasurements);
-    } else if (key === "delete") {
-      setOperatingBodyMeasurements(bodyMeasurements);
-      setOperationType("delete");
-      deleteModal.onOpen();
-    } else if (key === "edit-timestamp") {
-      setOperatingBodyMeasurements(bodyMeasurements);
-      setOperationType("edit-timestamp");
-      timeInputModal.onOpen();
+    switch (key) {
+      case "edit": {
+        setOperatingBodyMeasurements(bodyMeasurements);
+        setOperationType("edit");
+        bodyMeasurementsModal.onOpen();
+        break;
+      }
+      case "delete": {
+        if (userSettings.never_show_delete_modal) {
+          deleteBodyMeasurements(bodyMeasurements);
+        } else {
+          setOperatingBodyMeasurements(bodyMeasurements);
+          setOperationType("delete");
+          deleteModal.onOpen();
+        }
+        break;
+      }
+      case "edit-timestamp": {
+        setOperatingBodyMeasurements(bodyMeasurements);
+        setOperationType("edit-timestamp");
+        timeInputModal.onOpen();
+        break;
+      }
     }
   };
 
