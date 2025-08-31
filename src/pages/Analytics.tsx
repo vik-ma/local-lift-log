@@ -102,7 +102,6 @@ import {
   GetBodyMeasurementsWithMeasurementId,
   IsNumberValid,
   IsNumberValidInteger,
-  GetValidatedUnit,
   GetValidatedMeasurementType,
   LoadStore,
   ValidateAndModifyLocale,
@@ -1874,26 +1873,20 @@ export default function Analytics() {
   };
 
   const assignDefaultUnits = (userSettings: UserSettings) => {
-    const weightUnit = GetValidatedUnit(
-      userSettings.default_unit_weight,
-      "weight"
+    setWeightUnit(userSettings.default_unit_weight);
+    setDistanceUnit(userSettings.default_unit_distance);
+    setCircumferenceUnit(userSettings.default_unit_measurement);
+    setSpeedUnit(
+      GetSpeedUnitFromDistanceUnit(userSettings.default_unit_distance)
     );
-    const distanceUnit = GetValidatedUnit(
-      userSettings.default_unit_distance,
-      "distance"
-    );
-    const circumferenceUnit = GetValidatedUnit(
-      userSettings.default_unit_measurement,
-      "circumference"
+    setPaceUnit(
+      GetPaceUnitFromDistanceUnit(userSettings.default_unit_distance)
     );
 
-    setWeightUnit(weightUnit);
-    setDistanceUnit(distanceUnit);
-    setCircumferenceUnit(circumferenceUnit);
-    setSpeedUnit(GetSpeedUnitFromDistanceUnit(distanceUnit));
-    setPaceUnit(GetPaceUnitFromDistanceUnit(distanceUnit));
-
-    chartDataUnitMap.current.set("body_weight", ` ${weightUnit}`);
+    chartDataUnitMap.current.set(
+      "body_weight",
+      ` ${userSettings.default_unit_weight}`
+    );
   };
 
   const updateChartDataAndFilteredHighestCategoryValues = (
