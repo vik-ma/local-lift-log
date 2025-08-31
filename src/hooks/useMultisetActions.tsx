@@ -164,18 +164,25 @@ export const useMultisetActions = ({
     modalIsOpen: boolean,
     index: number
   ) => {
-    if (key === "edit-set") {
-      handleEditSet(set, multiset);
-    } else if (key === "delete-set") {
-      handleDeleteSet(set, multiset, modalIsOpen);
-    } else if (key === "change-exercise") {
-      handleChangeExercise(set, multiset, modalIsOpen, key);
-    } else if (key === "reassign-exercise") {
-      handleChangeExercise(set, multiset, modalIsOpen, key);
-    } else if (key === "remove-set-cutoff") {
-      handleRemoveSetCutoff(multiset, index);
-    } else if (key === "add-set-cutoff") {
-      handleInsertSetCutoff(multiset, index);
+    switch (key) {
+      case "edit-set":
+        handleEditSet(set, multiset);
+        break;
+      case "delete-set":
+        handleDeleteSet(set, multiset, modalIsOpen);
+        break;
+      case "change-exercise":
+        handleChangeExercise(set, multiset, modalIsOpen, key);
+        break;
+      case "reassign-exercise":
+        handleChangeExercise(set, multiset, modalIsOpen, key);
+        break;
+      case "remove-set-cutoff":
+        handleRemoveSetCutoff(multiset, index);
+        break;
+      case "add-set-cutoff":
+        handleInsertSetCutoff(multiset, index);
+        break;
     }
   };
 
