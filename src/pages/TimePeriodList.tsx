@@ -200,16 +200,23 @@ export default function TimePeriodList() {
   ) => {
     if (userSettings === undefined) return;
 
-    if (key === "edit") {
-      setOperatingTimePeriod(timePeriod);
-      setOperationType("edit");
-      timePeriodModal.onOpen();
-    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
-      deleteTimePeriod(timePeriod);
-    } else if (key === "delete") {
-      setOperationType("delete");
-      setOperatingTimePeriod(timePeriod);
-      deleteModal.onOpen();
+    switch (key) {
+      case "edit": {
+        setOperatingTimePeriod(timePeriod);
+        setOperationType("edit");
+        timePeriodModal.onOpen();
+        break;
+      }
+      case "delete": {
+        if (userSettings.never_show_delete_modal) {
+          deleteTimePeriod(timePeriod);
+        } else {
+          setOperationType("delete");
+          setOperatingTimePeriod(timePeriod);
+          deleteModal.onOpen();
+        }
+        break;
+      }
     }
   };
 
