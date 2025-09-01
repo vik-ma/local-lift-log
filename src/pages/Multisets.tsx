@@ -415,17 +415,24 @@ export default function Multisets() {
   const handleMultisetOptionSelection = (key: string, multiset: Multiset) => {
     if (userSettings === undefined) return;
 
-    if (key === "edit") {
-      setOperationType("edit");
-      multisetActions.clearMultiset("base", { ...multiset });
-      multisetActions.setUneditedMultiset({ ...multiset });
-      multisetActions.multisetModal.onOpen();
-    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
-      deleteMultiset(multiset);
-    } else if (key === "delete") {
-      setOperatingMultiset(multiset);
-      setOperationType("delete");
-      deleteModal.onOpen();
+    switch (key) {
+      case "edit": {
+        setOperationType("edit");
+        multisetActions.clearMultiset("base", { ...multiset });
+        multisetActions.setUneditedMultiset({ ...multiset });
+        multisetActions.multisetModal.onOpen();
+        break;
+      }
+      case "delete": {
+        if (userSettings.never_show_delete_modal) {
+          deleteMultiset(multiset);
+        } else {
+          setOperatingMultiset(multiset);
+          setOperationType("delete");
+          deleteModal.onOpen();
+        }
+        break;
+      }
     }
   };
 
