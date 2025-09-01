@@ -182,18 +182,27 @@ export default function ExerciseList() {
   const handleExerciseOptionSelection = (key: string, exercise: Exercise) => {
     if (userSettings === undefined) return;
 
-    if (key === "edit") {
-      setOperationType("edit");
-      setOperatingExercise(exercise);
-      exerciseModal.onOpen();
-    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
-      deleteExercise(exercise);
-    } else if (key === "delete") {
-      setOperationType("delete");
-      setOperatingExercise(exercise);
-      deleteModal.onOpen();
-    } else if (key === "toggle-favorite") {
-      toggleFavorite(exercise);
+    switch (key) {
+      case "edit": {
+        setOperationType("edit");
+        setOperatingExercise(exercise);
+        exerciseModal.onOpen();
+        break;
+      }
+      case "delete": {
+        if (userSettings.never_show_delete_modal) {
+          deleteExercise(exercise);
+        } else {
+          setOperationType("delete");
+          setOperatingExercise(exercise);
+          deleteModal.onOpen();
+        }
+        break;
+      }
+      case "toggle-favorite": {
+        toggleFavorite(exercise);
+        break;
+      }
     }
   };
 
