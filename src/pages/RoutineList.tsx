@@ -137,23 +137,31 @@ export default function RoutineList() {
   ) => {
     if (userSettings === undefined) return;
 
-    if (key === "edit") {
-      setOperationType("edit");
-      setOperatingRoutine(routine);
-      setOperatingRoutineIndex(index);
-      routineModal.onOpen();
-    } else if (
-      key === "delete" &&
-      (routine.workoutTemplateIdList?.length === 0 ||
-        !!userSettings.never_show_delete_modal)
-    ) {
-      deleteRoutine(routine);
-    } else if (key === "delete") {
-      setOperationType("delete");
-      setOperatingRoutine(routine);
-      deleteModal.onOpen();
-    } else if (key === "set-active") {
-      handleSetActiveButton(routine);
+    switch (key) {
+      case "edit": {
+        setOperationType("edit");
+        setOperatingRoutine(routine);
+        setOperatingRoutineIndex(index);
+        routineModal.onOpen();
+        break;
+      }
+      case "delete": {
+        if (
+          routine.workoutTemplateIdList?.length === 0 ||
+          !!userSettings.never_show_delete_modal
+        ) {
+          deleteRoutine(routine);
+        } else {
+          setOperationType("delete");
+          setOperatingRoutine(routine);
+          deleteModal.onOpen();
+        }
+        break;
+      }
+      case "set-active": {
+        handleSetActiveButton(routine);
+        break;
+      }
     }
   };
 
