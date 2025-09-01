@@ -266,18 +266,27 @@ export default function LoggingIndex() {
 
     setIsOperatingBodyMeasurements(true);
 
-    if (key === "edit") {
-      setOperatingBodyMeasurements(bodyMeasurements);
-      setOperationType("edit");
-      bodyMeasurementsModal.onOpen();
-    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
-      deleteBodyMeasurements();
-    } else if (key === "delete") {
-      setOperationType("delete");
-      deleteModal.onOpen();
-    } else if (key === "edit-timestamp") {
-      setOperationType("edit-timestamp");
-      timeInputModal.onOpen();
+    switch (key) {
+      case "edit": {
+        setOperatingBodyMeasurements(bodyMeasurements);
+        setOperationType("edit");
+        bodyMeasurementsModal.onOpen();
+        break;
+      }
+      case "delete": {
+        if (userSettings.never_show_delete_modal) {
+          deleteBodyMeasurements();
+        } else {
+          setOperationType("delete");
+          deleteModal.onOpen();
+        }
+        break;
+      }
+      case "edit-timestamp": {
+        setOperationType("edit-timestamp");
+        timeInputModal.onOpen();
+        break;
+      }
     }
   };
 
@@ -338,13 +347,20 @@ export default function LoggingIndex() {
 
     setIsOperatingBodyMeasurements(false);
 
-    if (key === "edit") {
-      handleEditLatestDietLog();
-    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
-      deleteDietLogEntry();
-    } else if (key === "delete") {
-      setOperationType("delete");
-      deleteModal.onOpen();
+    switch (key) {
+      case "edit": {
+        handleEditLatestDietLog();
+        break;
+      }
+      case "delete": {
+        if (userSettings.never_show_delete_modal) {
+          deleteDietLogEntry();
+        } else {
+          setOperationType("delete");
+          deleteModal.onOpen();
+        }
+        break;
+      }
     }
   };
 
