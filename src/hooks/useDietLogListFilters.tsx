@@ -240,9 +240,6 @@ export const useDietLogListFilters = ({
         updatedDietLogFilterValues.filterMaxProtein = null;
         break;
       }
-      default: {
-        return;
-      }
     }
 
     updatedFilterMap.delete(key as DietLogListFilterMapKey);
@@ -534,8 +531,6 @@ export const useDietLogListFilters = ({
 
             break;
           }
-          default:
-            break;
         }
       }
 

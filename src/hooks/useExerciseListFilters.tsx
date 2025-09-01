@@ -156,8 +156,6 @@ export const useExerciseListFilters = ({
 
             break;
           }
-          default:
-            break;
         }
       }
 

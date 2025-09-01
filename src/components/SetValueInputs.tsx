@@ -311,8 +311,6 @@ export const SetValueInputs = ({
 
         break;
       }
-      default:
-        break;
     }
 
     setOperatingSet(updatedSet);
@@ -381,8 +379,6 @@ export const SetValueInputs = ({
           ...prev,
           user_weight: value,
         }));
-        break;
-      default:
         break;
     }
 

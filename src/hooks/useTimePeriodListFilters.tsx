@@ -471,8 +471,6 @@ export const useTimePeriodListFilters = ({
 
             break;
           }
-          default:
-            break;
         }
       }
 

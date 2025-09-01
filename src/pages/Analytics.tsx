@@ -293,8 +293,6 @@ export default function Analytics() {
         case "Circumference":
           circumferenceCharts.add(chart);
           break;
-        default:
-          break;
       }
     }
 
@@ -1872,8 +1870,6 @@ export default function Analytics() {
         break;
       case "Resistance Level":
         unit = " RL";
-        break;
-      default:
         break;
     }
 

@@ -1043,8 +1043,6 @@ export const useListFilters = ({
 
             break;
           }
-          default:
-            break;
         }
       }
 

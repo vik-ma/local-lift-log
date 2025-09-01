@@ -719,8 +719,6 @@ export default function Presets() {
         await loadPlateCollectionList(userSettings);
         break;
       }
-      default:
-        return;
     }
   };
 

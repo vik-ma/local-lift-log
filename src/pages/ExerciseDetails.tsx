@@ -482,8 +482,6 @@ export default function ExerciseDetails() {
         column = "show_workout_comments_in_exercise_details";
         setShowWorkoutComments(value);
         break;
-      default:
-        return;
     }
 
     await UpdateUserSetting(

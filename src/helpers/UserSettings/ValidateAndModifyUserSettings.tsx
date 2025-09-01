@@ -25,7 +25,7 @@ export const ValidateAndModifyUserSettings = (
           userSettings.default_unit_weight,
           "weight"
         );
-
+        
         break;
       }
       case "default_unit_distance": {
@@ -61,8 +61,6 @@ export const ValidateAndModifyUserSettings = (
         ValidateAndModifyIncrementMultipliers(userSettings);
         break;
       }
-      default:
-        break;
     }
   }
 };

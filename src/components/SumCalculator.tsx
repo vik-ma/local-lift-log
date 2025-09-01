@@ -461,8 +461,6 @@ export const SumCalculator = ({
 
         break;
       }
-      default:
-        break;
     }
   };
 

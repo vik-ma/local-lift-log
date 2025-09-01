@@ -99,8 +99,6 @@ export const SetValueConfig = ({
         updatedSet.is_warmup = numValue;
         break;
       }
-      default:
-        break;
     }
 
     setOperatingSet(updatedSet);

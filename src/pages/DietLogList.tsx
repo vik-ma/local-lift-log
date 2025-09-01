@@ -167,7 +167,6 @@ export default function DietLogList() {
           setOperatingDietLog(dietLog);
           deleteModal.onOpen();
         }
-
         break;
       }
     }
