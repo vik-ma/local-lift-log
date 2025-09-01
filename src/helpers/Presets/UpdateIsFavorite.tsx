@@ -12,15 +12,23 @@ export const UpdateIsFavorite = async (
 
   let queryString: string = "";
 
-  if (targetType === "exercise") {
-    queryString = "UPDATE exercises SET is_favorite = $1 WHERE id = $2";
-  } else if (targetType === "equipment") {
-    queryString = "UPDATE equipment_weights SET is_favorite = $1 WHERE id = $2";
-  } else if (targetType === "distance") {
-    queryString = "UPDATE distances SET is_favorite = $1 WHERE id = $2";
-  } else if (targetType === "measurement") {
-    queryString = "UPDATE measurements SET is_favorite = $1 WHERE id = $2";
-  } else return false;
+  switch (targetType) {
+    case "exercise":
+      queryString = "UPDATE exercises SET is_favorite = $1 WHERE id = $2";
+      break;
+    case "equipment":
+      queryString =
+        "UPDATE equipment_weights SET is_favorite = $1 WHERE id = $2";
+      break;
+    case "distance":
+      queryString = "UPDATE distances SET is_favorite = $1 WHERE id = $2";
+      break;
+    case "measurement":
+      queryString = "UPDATE measurements SET is_favorite = $1 WHERE id = $2";
+      break;
+    default:
+      return false;
+  }
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
