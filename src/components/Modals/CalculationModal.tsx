@@ -186,11 +186,10 @@ export const CalculationModal = ({
   };
 
   const handleBackButtonWeightCalc = () => {
-    if (operationTypeSumCalc === "add-preset") {
-      setSumCalculatorPage("base");
-    } else if (operationTypeSumCalc === "change-preset") {
+    setSumCalculatorPage("base");
+
+    if (operationTypeSumCalc === "change-preset") {
       setOperationTypeSumCalc("add-preset");
-      setSumCalculatorPage("base");
       setOperatingCalculationItem(undefined);
     }
   };
