@@ -273,18 +273,31 @@ export default function MeasurementList() {
   const handleOptionSelection = (key: string, measurement: Measurement) => {
     if (userSettings === undefined) return;
 
-    if (key === "edit") {
-      handleEditButton(measurement);
-    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
-      deleteMeasurement(measurement);
-    } else if (key === "delete") {
-      handleDeleteButton(measurement);
-    } else if (key === "track") {
-      trackMeasurement(measurement.id);
-    } else if (key === "untrack") {
-      untrackMeasurement(measurement.id);
-    } else if (key === "toggle-favorite") {
-      toggleFavorite(measurement);
+    switch (key) {
+      case "edit": {
+        handleEditButton(measurement);
+        break;
+      }
+      case "delete": {
+        if (userSettings.never_show_delete_modal) {
+          handleDeleteButton(measurement);
+        } else {
+          deleteMeasurement(measurement);
+        }
+        break;
+      }
+      case "track": {
+        trackMeasurement(measurement.id);
+        break;
+      }
+      case "untrack": {
+        untrackMeasurement(measurement.id);
+        break;
+      }
+      case "toggle-favorite": {
+        toggleFavorite(measurement);
+        break;
+      }
     }
   };
 
