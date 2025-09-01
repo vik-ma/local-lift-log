@@ -570,17 +570,26 @@ export default function Presets() {
     setOperatingEquipmentWeight(equipment);
     setIsOperatingPlateCollection(false);
 
-    if (key === "edit") {
-      setOperationType("edit");
-      presetsModal.onOpen();
-    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
-      deleteEquipmentWeight(equipment);
-    } else if (key === "delete") {
-      setOperationType("delete");
-      deleteModal.onOpen();
-    } else if (key === "toggle-favorite") {
-      toggleFavoriteEquipmentWeight(equipment);
-      resetOperatingEquipment();
+    switch (key) {
+      case "edit": {
+        setOperationType("edit");
+        presetsModal.onOpen();
+        break;
+      }
+      case "delete": {
+        if (userSettings.never_show_delete_modal) {
+          deleteEquipmentWeight(equipment);
+        } else {
+          setOperationType("delete");
+          deleteModal.onOpen();
+        }
+        break;
+      }
+      case "toggle-favorite": {
+        toggleFavoriteEquipmentWeight(equipment);
+        resetOperatingEquipment();
+        break;
+      }
     }
   };
 
@@ -591,17 +600,26 @@ export default function Presets() {
     setOperatingDistance(distance);
     setIsOperatingPlateCollection(false);
 
-    if (key === "edit") {
-      setOperationType("edit");
-      presetsModal.onOpen();
-    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
-      deleteDistance(distance);
-    } else if (key === "delete") {
-      setOperationType("delete");
-      deleteModal.onOpen();
-    } else if (key === "toggle-favorite") {
-      toggleFavoriteDistance(distance);
-      resetOperatingDistance();
+    switch (key) {
+      case "edit": {
+        setOperationType("edit");
+        presetsModal.onOpen();
+        break;
+      }
+      case "delete": {
+        if (userSettings.never_show_delete_modal) {
+          deleteDistance(distance);
+        } else {
+          setOperationType("delete");
+          deleteModal.onOpen();
+        }
+        break;
+      }
+      case "toggle-favorite": {
+        toggleFavoriteDistance(distance);
+        resetOperatingDistance();
+        break;
+      }
     }
   };
 
@@ -618,17 +636,26 @@ export default function Presets() {
     });
     setIsOperatingPlateCollection(true);
 
-    if (key === "edit") {
-      setOperationType("edit");
-      plateCollectionModal.resetAndOpenPlateCollectionModal();
-    } else if (key === "delete" && !!userSettings.never_show_delete_modal) {
-      deletePlateCollection(plateCollection);
-    } else if (key === "delete") {
-      setOperationType("delete");
-      deleteModal.onOpen();
-    } else if (key === "set-default") {
-      updateDefaultPlateCollectionId(plateCollection.id);
-      resetOperatingPlateCollection();
+    switch (key) {
+      case "edit": {
+        setOperationType("edit");
+        plateCollectionModal.resetAndOpenPlateCollectionModal();
+        break;
+      }
+      case "delete": {
+        if (userSettings.never_show_delete_modal) {
+          deletePlateCollection(plateCollection);
+        } else {
+          setOperationType("delete");
+          deleteModal.onOpen();
+        }
+        break;
+      }
+      case "set-default": {
+        updateDefaultPlateCollectionId(plateCollection.id);
+        resetOperatingPlateCollection();
+        break;
+      }
     }
   };
 
