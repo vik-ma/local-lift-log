@@ -197,19 +197,26 @@ export default function WorkoutTemplateList() {
   ) => {
     if (userSettings === undefined) return;
 
-    if (key === "edit") {
-      setOperationType("edit");
-      setOperatingWorkoutTemplate(workoutTemplate);
-      workoutTemplateModal.onOpen();
-    } else if (
-      key === "delete" &&
-      (workoutTemplate.numSets === 0 || !!userSettings.never_show_delete_modal)
-    ) {
-      deleteWorkoutTemplate(workoutTemplate);
-    } else if (key === "delete") {
-      setOperationType("delete");
-      setOperatingWorkoutTemplate(workoutTemplate);
-      deleteModal.onOpen();
+    switch (key) {
+      case "edit": {
+        setOperationType("edit");
+        setOperatingWorkoutTemplate(workoutTemplate);
+        workoutTemplateModal.onOpen();
+        break;
+      }
+      case "delete": {
+        if (
+          workoutTemplate.numSets === 0 ||
+          !!userSettings.never_show_delete_modal
+        ) {
+          deleteWorkoutTemplate(workoutTemplate);
+        } else {
+          setOperationType("delete");
+          setOperatingWorkoutTemplate(workoutTemplate);
+          deleteModal.onOpen();
+        }
+        break;
+      }
     }
   };
 
