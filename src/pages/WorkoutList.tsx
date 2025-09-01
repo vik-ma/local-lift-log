@@ -166,25 +166,33 @@ export default function WorkoutList() {
   const handleWorkoutOptionSelection = (key: string, workout: Workout) => {
     if (userSettings === undefined) return;
 
-    if (key === "edit") {
-      editWorkout(workout);
-    } else if (
-      key === "delete" &&
-      (workout.numSets === 0 || !!userSettings.never_show_delete_modal)
-    ) {
-      deleteWorkout(workout);
-    } else if (key === "delete") {
-      setOperationType("delete");
-      setOperatingWorkout(workout);
-      deleteModal.onOpen();
-    } else if (key === "reassign-workout-template") {
-      setOperationType("reassign-workout-template");
-      setOperatingWorkout(workout);
-      handleOpenWorkoutTemplateListModal(userSettings);
-    } else if (key === "reassign-routine") {
-      setOperationType("reassign-routine");
-      setOperatingWorkout(workout);
-      routineList.handleOpenRoutineListModal(userSettings);
+    switch (key) {
+      case "edit": {
+        editWorkout(workout);
+        break;
+      }
+      case "delete": {
+        if (workout.numSets === 0 || !!userSettings.never_show_delete_modal) {
+          deleteWorkout(workout);
+        } else {
+          setOperationType("delete");
+          setOperatingWorkout(workout);
+          deleteModal.onOpen();
+        }
+        break;
+      }
+      case "reassign-workout-template": {
+        setOperationType("reassign-workout-template");
+        setOperatingWorkout(workout);
+        handleOpenWorkoutTemplateListModal(userSettings);
+        break;
+      }
+      case "reassign-routine": {
+        setOperationType("reassign-routine");
+        setOperatingWorkout(workout);
+        routineList.handleOpenRoutineListModal(userSettings);
+        break;
+      }
     }
   };
 
