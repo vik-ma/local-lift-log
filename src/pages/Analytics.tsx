@@ -86,7 +86,6 @@ import {
   GetTimeCompletedForSetsWithExerciseId,
   GetUserSettings,
   UpdateLoadExerciseOptions,
-  ValidMeasurementUnits,
   UpdateItemInList,
   ConvertDateToYmdString,
   ConvertDistanceValue,
@@ -108,6 +107,7 @@ import {
 } from "../helpers";
 import toast from "react-hot-toast";
 import { Store } from "@tauri-apps/plugin-store";
+import { VALID_MEASUREMENT_UNITS } from "../constants";
 
 export type AnalyticsChartListModalPage =
   | "measurement-list"
@@ -1014,7 +1014,7 @@ export default function Analytics() {
         (measurementValues.measurement_type === "Caliper" &&
           measurementValues.unit !== "mm") ||
         (measurementValues.measurement_type === "Circumference" &&
-          !ValidMeasurementUnits().includes(measurementValues.unit))
+          !VALID_MEASUREMENT_UNITS.includes(measurementValues.unit))
       )
         continue;
 

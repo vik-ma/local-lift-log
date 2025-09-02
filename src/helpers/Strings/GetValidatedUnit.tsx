@@ -1,5 +1,8 @@
-import { ValidMeasurementUnits } from "..";
-import { VALID_DISTANCE_UNITS, VALID_WEIGHT_UNITS } from "../../constants";
+import {
+  VALID_DISTANCE_UNITS,
+  VALID_MEASUREMENT_UNITS,
+  VALID_WEIGHT_UNITS,
+} from "../../constants";
 
 type UnitType = "weight" | "distance" | "caliper" | "circumference";
 
@@ -21,9 +24,9 @@ export const GetValidatedUnit = (unit: string, unitType: UnitType) => {
   }
 
   if (unitType === "circumference") {
-    if (ValidMeasurementUnits().includes(unit)) return unit;
+    if (VALID_MEASUREMENT_UNITS.includes(unit)) return unit;
 
-    return ValidMeasurementUnits()[0];
+    return VALID_MEASUREMENT_UNITS[0];
   }
 
   return "";

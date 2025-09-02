@@ -1,6 +1,10 @@
 import { Select, SelectItem } from "@heroui/react";
-import { useValidMeasurementUnits } from "../../hooks";
-import { Measurement, UnitCategory, UpdateUserSettingFunction } from "../../typings";
+import {
+  Measurement,
+  UnitCategory,
+  UpdateUserSettingFunction,
+} from "../../typings";
+import { VALID_MEASUREMENT_UNITS } from "../../constants";
 
 type MeasurementDropdownProps = {
   targetType: "modal" | "settings" | "active" | "chart";
@@ -14,10 +18,7 @@ type MeasurementDropdownProps = {
   showLabel?: boolean;
   showBigLabel?: boolean;
   customLabel?: string;
-  changeUnitInChart?: (
-    newUnit: string,
-    unitCategory: UnitCategory
-  ) => void;
+  changeUnitInChart?: (newUnit: string, unitCategory: UnitCategory) => void;
   customWidthString?: string;
 };
 
@@ -36,7 +37,7 @@ export const MeasurementUnitDropdown = ({
   changeUnitInChart,
   customWidthString,
 }: MeasurementDropdownProps) => {
-  const validMeasurementUnits = useValidMeasurementUnits();
+  const validMeasurementUnits = VALID_MEASUREMENT_UNITS;
 
   const displayValue: string =
     measurement !== undefined
