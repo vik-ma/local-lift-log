@@ -45,14 +45,19 @@ export default function Test() {
   const presetsList = usePresetsList({ store: store });
 
   const handleCreateDefaultsButton = async (key: string) => {
-    if (key === "exercises") {
-      await CreateDefaultExercises();
-    } else if (key === "measurements") {
-      await CreateDefaultMeasurements(isMetric);
-    } else if (key === "equipment-weights") {
-      await CreateDefaultEquipmentWeights(isMetric);
-    } else if (key === "distances") {
-      await CreateDefaultDistances(isMetric);
+    switch (key) {
+      case "exercises":
+        await CreateDefaultExercises();
+        break;
+      case "measurements":
+        await CreateDefaultMeasurements(isMetric);
+        break;
+      case "equipment-weights":
+        await CreateDefaultEquipmentWeights(isMetric);
+        break;
+      case "distances":
+        await CreateDefaultDistances(isMetric);
+        break;
     }
   };
 
