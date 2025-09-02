@@ -1,10 +1,11 @@
 import { UserSettings } from "../../typings";
-import { TimeInputMap, ValidTimeInputBehaviors } from "..";
+import { ValidTimeInputBehaviors } from "..";
+import { TIME_INPUT_MAP } from "../../constants";
 
 export const ValidateAndModifyTimeInputBehavior = (
   userSettings: UserSettings
 ) => {
-  const timeInputMap = TimeInputMap();
+  const timeInputMap = TIME_INPUT_MAP;
 
   const isHhmmss = true;
 

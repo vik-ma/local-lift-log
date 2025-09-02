@@ -17,7 +17,7 @@ import {
   IsStringInvalidNumber,
 } from "../helpers";
 import { ChevronIcon } from "../assets";
-import { useTimeInputMap } from "../hooks";
+import { TIME_INPUT_MAP } from "../constants";
 
 type TimeValueInputProps = {
   userSettings: UserSettings;
@@ -67,7 +67,7 @@ export const TimeValueInput = ({
     return { first: 1, second: 2, third: 3, never: 0 };
   }, []);
 
-  const timeInputMap = useTimeInputMap();
+  const timeInputMap = TIME_INPUT_MAP;
 
   const convertSecondsToMinutes = (seconds: number) => {
     if (seconds === 0) return "";

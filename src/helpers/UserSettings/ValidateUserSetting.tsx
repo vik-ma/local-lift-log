@@ -10,11 +10,10 @@ import {
   ValidDistanceUnits,
   ValidMeasurementUnits,
   ValidTimeInputBehaviors,
-  TimeInputMap,
   ValidWeightUnits,
   ValidateBodyFatCalculationSettingsString,
 } from "..";
-import { LOCALE_MAP } from "../../constants";
+import { LOCALE_MAP, TIME_INPUT_MAP } from "../../constants";
 import { UserSettings } from "../../typings";
 
 export const ValidateUserSetting = <K extends keyof UserSettings>(
@@ -31,7 +30,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "default_unit_distance":
       return ValidDistanceUnits().includes(value as string);
     case "default_time_input":
-      return TimeInputMap().has(value as string);
+      return TIME_INPUT_MAP.has(value as string);
     case "default_unit_measurement":
       return ValidMeasurementUnits().includes(value as string);
     case "active_tracking_measurements":

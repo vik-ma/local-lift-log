@@ -32,7 +32,7 @@ import {
 } from "../components";
 import toast from "react-hot-toast";
 import Database from "@tauri-apps/plugin-sql";
-import { useTimeInputMap } from "../hooks";
+import { TIME_INPUT_MAP } from "../constants";
 
 type SettingsListProps = {
   userSettings: UserSettings;
@@ -102,7 +102,7 @@ export const SettingsList = ({
       return values;
     }, [defaultIncrementInputValues]);
 
-  const timeInputMap = useTimeInputMap();
+  const timeInputMap = TIME_INPUT_MAP;
 
   const updateUserSetting = async <K extends keyof UserSettings>(
     key: K,

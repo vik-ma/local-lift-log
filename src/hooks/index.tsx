@@ -18,7 +18,6 @@ export { useReassignMeasurement } from "./useReassignMeasurement";
 export { useMultisetTypeMap } from "./useMultisetTypeMap";
 export { useDefaultMultiset } from "./useDefaultMultiset";
 export { useMultisetActions } from "./useMultisetActions";
-export { useTimeInputMap } from "./useTimeInputMap";
 export { useDetailsHeaderOptionsMenu } from "./useDetailsHeaderOptionsMenu";
 export { useWorkoutList } from "./useWorkoutList";
 export { useMeasurementList } from "./useMeasurementList";
