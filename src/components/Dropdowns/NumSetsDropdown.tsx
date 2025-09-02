@@ -4,7 +4,7 @@ import { UpdateUserSettingFunction } from "../../typings";
 type NumSetsDropdownProps = {
   numNewSets: string;
   targetType: "state" | "settings";
-  numSetsOptions: string[];
+  numSetsOptions: Readonly<string[]>;
   setNumNewSets?: React.Dispatch<React.SetStateAction<string>>;
   updateUserSetting?: UpdateUserSettingFunction;
 };

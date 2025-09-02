@@ -32,8 +32,8 @@ import {
   ConvertNullToEmptyInputString,
   ConvertSetInputValuesToNumbers,
   GetValidatedNumNewSets,
-  NumNewSetsOptionList,
 } from "../../helpers";
+import { NUM_NEW_SETS_OPTIONS_LIST } from "../../constants";
 
 type MultisetModalProps = {
   multiset: Multiset;
@@ -78,7 +78,7 @@ export const MultisetModal = ({
 }: MultisetModalProps) => {
   const [multisetNoteInput, setMultisetNoteInput] = useState<string>("");
 
-  const numSetsOptions = NumNewSetsOptionList();
+  const numSetsOptions = NUM_NEW_SETS_OPTIONS_LIST;
 
   const [numNewSets, setNumNewSets] = useState<string>(
     GetValidatedNumNewSets(userSettings.default_num_new_sets, numSetsOptions)

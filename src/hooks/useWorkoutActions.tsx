@@ -49,11 +49,11 @@ import {
   UpdateCalculationString,
   DeleteMultisetWithId,
   DefaultNewSet,
-  NumNewSetsOptionList,
   GetLatestUserWeight,
   IsDateStringOlderThanOneWeek,
   LoadStore,
   ValidateAndModifyUserSettings,
+  GetValidatedNumNewSets,
 } from "../helpers";
 import {
   useMultisetActions,
@@ -63,6 +63,7 @@ import {
   usePresetsList,
 } from "../hooks";
 import { Store } from "@tauri-apps/plugin-store";
+import { NUM_NEW_SETS_OPTIONS_LIST } from "../constants";
 
 type OperationType =
   | "add"
@@ -207,16 +208,13 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
   }, []);
 
   const addSetsToExercise = async (newSet: WorkoutSet, numSets: string) => {
-    if (
-      selectedExercise === undefined ||
-      !NumNewSetsOptionList().includes(numSets) ||
-      newSet.id !== 0
-    )
-      return;
+    if (selectedExercise === undefined || newSet.id !== 0) return;
 
     const newSets: WorkoutSet[] = [];
 
-    const numSetsToAdd: number = parseInt(numSets);
+    const numSetsToAdd: number = parseInt(
+      GetValidatedNumNewSets(numSets, NUM_NEW_SETS_OPTIONS_LIST)
+    );
 
     for (let i = 0; i < numSetsToAdd; i++) {
       if (isTemplate && workoutTemplate.id !== 0) {
@@ -1522,8 +1520,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
   };
 
   const createNewMultiset = async (noteInput: string, numSets: string) => {
-    if (operationType !== "add" || !NumNewSetsOptionList().includes(numSets))
-      return;
+    if (operationType !== "add") return;
 
     const noteToInsert = ConvertEmptyStringToNull(noteInput);
 
@@ -1560,7 +1557,9 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
     const templateSetListIds: number[] = [];
 
-    const numSetsToAdd: number = parseInt(numSets);
+    const numSetsToAdd: number = parseInt(
+      GetValidatedNumNewSets(numSets, NUM_NEW_SETS_OPTIONS_LIST)
+    );
 
     const operatingSetListIdList: number[][] = Array.from(
       { length: numSetsToAdd },
@@ -1697,8 +1696,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
       selectedExercise === undefined ||
       operatingGroupedSet === undefined ||
       operatingGroupedSet.multiset === undefined ||
-      operatingGroupedSet.multiset.setListIndexCutoffs === undefined ||
-      !NumNewSetsOptionList().includes(numSets)
+      operatingGroupedSet.multiset.setListIndexCutoffs === undefined
     )
       return;
 
@@ -1714,7 +1712,9 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
     const newSets: WorkoutSet[] = [];
 
-    const numSetsToAdd = parseInt(numSets);
+    const numSetsToAdd = parseInt(
+      GetValidatedNumNewSets(numSets, NUM_NEW_SETS_OPTIONS_LIST)
+    );
 
     const newSetListIdList = GenerateMultisetSetListIdList(
       operatingGroupedSet.multiset.set_order
@@ -1970,8 +1970,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
       return;
     }
 
-    if (operationType !== "add" || !NumNewSetsOptionList().includes(numSets))
-      return;
+    if (operationType !== "add") return;
 
     const newMultiset = { ...multiset, is_template: 0 };
 
@@ -1983,7 +1982,9 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
     const templateSetListIds = GenerateMultisetSetOrderList(multiset.set_order);
 
-    const numSetsToAdd: number = parseInt(numSets);
+    const numSetsToAdd: number = parseInt(
+      GetValidatedNumNewSets(numSets, NUM_NEW_SETS_OPTIONS_LIST)
+    );
 
     const { setListIdList, setListList, exerciseListList } =
       await AddNewSetsToMultiset(
@@ -2060,8 +2061,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
   ) => {
     if (
       operatingGroupedSet === undefined ||
-      operatingGroupedSet.multiset === undefined ||
-      !NumNewSetsOptionList().includes(numSets)
+      operatingGroupedSet.multiset === undefined
     )
       return;
 
@@ -2073,7 +2073,9 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
       selectedMultiset.set_order
     );
 
-    const numSetsToAdd: number = parseInt(numSets);
+    const numSetsToAdd: number = parseInt(
+      GetValidatedNumNewSets(numSets, NUM_NEW_SETS_OPTIONS_LIST)
+    );
 
     const multisetId = operatingGroupedSet.multiset.id;
 

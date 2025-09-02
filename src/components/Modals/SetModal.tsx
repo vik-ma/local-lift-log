@@ -23,9 +23,9 @@ import {
   ConvertEmptyStringToNull,
   ConvertSetInputValuesToNumbers,
   GetValidatedNumNewSets,
-  NumNewSetsOptionList,
 } from "../../helpers";
 import { useSetTrackingInputs } from "../../hooks";
+import { NUM_NEW_SETS_OPTIONS_LIST } from "../../constants";
 
 type SetModalProps = {
   setModal: UseDisclosureReturnType;
@@ -72,7 +72,7 @@ export const SetModal = ({
   numMultisetSets,
   openCalculationModal,
 }: SetModalProps) => {
-  const numSetsOptions = NumNewSetsOptionList();
+  const numSetsOptions = NUM_NEW_SETS_OPTIONS_LIST;
 
   const [numNewSets, setNumNewSets] = useState<string>(
     GetValidatedNumNewSets(userSettings.default_num_new_sets, numSetsOptions)

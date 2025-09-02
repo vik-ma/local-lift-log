@@ -2,7 +2,6 @@ import {
   IsNumberValid,
   IsNumberValidBinary,
   IsNumberValidInteger,
-  NumNewSetsOptionList,
   ValidateActiveMeasurementsString,
   ValidateShownPropertiesString,
   ValidCalculationModalTabs,
@@ -11,6 +10,7 @@ import {
 } from "..";
 import {
   LOCALE_MAP,
+  NUM_NEW_SETS_OPTIONS_LIST,
   TIME_INPUT_MAP,
   VALID_CLOCK_STYLES,
   VALID_DISTANCE_UNITS,
@@ -94,7 +94,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "automatically_update_active_measurements":
       return IsNumberValidBinary(value as number);
     case "default_num_new_sets":
-      return NumNewSetsOptionList().includes(value as string);
+      return NUM_NEW_SETS_OPTIONS_LIST.includes(value as string);
     case "shown_time_period_properties":
       return ValidateShownPropertiesString(value as string, "time-period");
     case "default_diet_log_day_is_yesterday":
