@@ -1,10 +1,7 @@
-import { ChartDataExerciseCategoryBase } from "../../typings";
+import { ChartDataExerciseCategoryBase } from "../typings";
 
-export const ValidLoadExerciseOptionsMap = () => {
-  const VALID_LOAD_EXERCISE_OPTIONS_MAP = new Map<
-    ChartDataExerciseCategoryBase,
-    string
-  >([
+export const VALID_LOAD_EXERCISE_OPTIONS_MAP = Object.freeze(
+  new Map<ChartDataExerciseCategoryBase, string>([
     ["weight_min", "Min Weight"],
     ["weight_max", "Max Weight"],
     ["weight_avg", "Average Weight"],
@@ -46,9 +43,5 @@ export const ValidLoadExerciseOptionsMap = () => {
     ["resistance_level_max", "Max Resistance Level"],
     ["resistance_level_avg", "Average Resistance Level"],
     ["set_body_weight", "Body Weight"],
-  ]);
-
-  Object.freeze(VALID_LOAD_EXERCISE_OPTIONS_MAP);
-
-  return VALID_LOAD_EXERCISE_OPTIONS_MAP;
-};
+  ])
+);

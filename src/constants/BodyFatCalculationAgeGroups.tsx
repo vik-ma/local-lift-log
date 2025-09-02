@@ -1,7 +1,3 @@
-export const BodyFatCalculationAgeGroups = () => {
-  const VALID_AGE_GROUPS = new Set(["17-19", "20-29", "30-39", "40-49", "50+"]);
-
-  Object.freeze(VALID_AGE_GROUPS);
-
-  return VALID_AGE_GROUPS;
-};
+export const BODY_FAT_CALCULATION_AGE_GROUPS = Object.freeze(
+  new Set(["17-19", "20-29", "30-39", "40-49", "50+"])
+);

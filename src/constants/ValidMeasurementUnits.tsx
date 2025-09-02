@@ -1,5 +1,1 @@
-export const ValidMeasurementUnits = (): string[] => {
-  const VALID_MEASUREMENT_UNITS: string[] = ["cm", "mm", "in"];
-  Object.freeze(VALID_MEASUREMENT_UNITS);
-  return VALID_MEASUREMENT_UNITS;
-};
+export const VALID_MEASUREMENT_UNITS = Object.freeze(["cm", "mm", "in"]);

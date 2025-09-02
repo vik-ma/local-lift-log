@@ -1,7 +1,7 @@
-import { ExerciseGroupMap } from "../../typings";
+import { ExerciseGroupMap } from "../typings";
 
-export const ExerciseGroupDictionary = () => {
-  const EXERCISE_GROUP_DICTIONARY: ExerciseGroupMap = new Map<string, string>([
+export const EXERCISE_GROUP_DICTIONARY: ExerciseGroupMap = Object.freeze(
+  new Map([
     ["0", "Chest"],
     ["1", "Triceps"],
     ["2", "Biceps"],
@@ -20,9 +20,5 @@ export const ExerciseGroupDictionary = () => {
     ["15", "Neck"],
     ["16", "Cardio"],
     ["17", "Other"],
-  ]);
-
-  Object.freeze(EXERCISE_GROUP_DICTIONARY);
-
-  return EXERCISE_GROUP_DICTIONARY;
-};
+  ])
+);
