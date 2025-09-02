@@ -179,8 +179,6 @@ export default function Analytics() {
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
-  const validCircumferenceUnits = new Set(ValidMeasurementUnits());
-
   const loadedBodyMeasurementsIds = useRef<Set<number>>(new Set());
 
   const areAllTestLinesAndAreasRendered = useRef<boolean>(false);
@@ -1016,7 +1014,7 @@ export default function Analytics() {
         (measurementValues.measurement_type === "Caliper" &&
           measurementValues.unit !== "mm") ||
         (measurementValues.measurement_type === "Circumference" &&
-          !validCircumferenceUnits.has(measurementValues.unit))
+          !ValidMeasurementUnits().includes(measurementValues.unit))
       )
         continue;
 
