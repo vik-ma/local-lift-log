@@ -8,7 +8,6 @@ import {
   ValidCalculationModalTabs,
   ValidMeasurementUnits,
   ValidTimeInputBehaviors,
-  ValidWeightUnits,
   ValidateBodyFatCalculationSettingsString,
 } from "..";
 import {
@@ -16,6 +15,7 @@ import {
   TIME_INPUT_MAP,
   VALID_CLOCK_STYLES,
   VALID_DISTANCE_UNITS,
+  VALID_WEIGHT_UNITS,
 } from "../../constants";
 import { UserSettings } from "../../typings";
 
@@ -29,7 +29,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "active_routine_id":
       return IsNumberValidInteger(value as number);
     case "default_unit_weight":
-      return ValidWeightUnits().includes(value as string);
+      return VALID_WEIGHT_UNITS.includes(value as string);
     case "default_unit_distance":
       return VALID_DISTANCE_UNITS.includes(value as string);
     case "default_time_input":

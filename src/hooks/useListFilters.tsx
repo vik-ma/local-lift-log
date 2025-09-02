@@ -27,9 +27,8 @@ import {
   IsEndDateBeforeStartDate,
   IsNumberValid,
   IsNumberValidInteger,
-  ValidWeightUnits,
 } from "../helpers";
-import { VALID_DISTANCE_UNITS } from "../constants";
+import { VALID_DISTANCE_UNITS, VALID_WEIGHT_UNITS } from "../constants";
 
 type UseListFiltersProps = {
   store: StoreRef;
@@ -890,7 +889,7 @@ export const useListFilters = ({
             const weightUnitSet = new Set<string>();
 
             for (const weightUnit of weightUnits) {
-              if (ValidWeightUnits().includes(weightUnit)) {
+              if (VALID_WEIGHT_UNITS.includes(weightUnit)) {
                 weightUnitSet.add(weightUnit);
               }
             }
@@ -1008,7 +1007,7 @@ export const useListFilters = ({
           case "weight-range-unit": {
             const weightUnit = value as string;
 
-            if (ValidWeightUnits().includes(weightUnit)) {
+            if (VALID_WEIGHT_UNITS.includes(weightUnit)) {
               filterStoreValues.filterWeightRangeUnit = weightUnit;
             }
 

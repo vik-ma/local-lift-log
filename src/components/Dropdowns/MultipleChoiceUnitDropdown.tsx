@@ -1,7 +1,7 @@
 import { Select, SelectItem, SharedSelection } from "@heroui/react";
 import { useMemo } from "react";
-import { ValidMeasurementUnits, ValidWeightUnits } from "../../helpers";
-import { VALID_DISTANCE_UNITS } from "../../constants";
+import { ValidMeasurementUnits } from "../../helpers";
+import { VALID_DISTANCE_UNITS, VALID_WEIGHT_UNITS } from "../../constants";
 
 type UnitType = "weight" | "distance" | "measurement";
 
@@ -17,7 +17,7 @@ export const MultipleChoiceUnitDropdown = ({
   setFilterUnits,
 }: MultipleChoiceUnitDropdownProps) => {
   const unitList = useMemo(() => {
-    if (unitType === "weight") return ValidWeightUnits();
+    if (unitType === "weight") return VALID_WEIGHT_UNITS;
     if (unitType === "distance") return VALID_DISTANCE_UNITS;
     if (unitType === "measurement") return ValidMeasurementUnits();
     return [];
