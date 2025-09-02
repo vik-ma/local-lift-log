@@ -6,7 +6,6 @@ import {
   ValidateActiveMeasurementsString,
   ValidateShownPropertiesString,
   ValidCalculationModalTabs,
-  ValidDistanceUnits,
   ValidMeasurementUnits,
   ValidTimeInputBehaviors,
   ValidWeightUnits,
@@ -16,6 +15,7 @@ import {
   LOCALE_MAP,
   TIME_INPUT_MAP,
   VALID_CLOCK_STYLES,
+  VALID_DISTANCE_UNITS,
 } from "../../constants";
 import { UserSettings } from "../../typings";
 
@@ -31,7 +31,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "default_unit_weight":
       return ValidWeightUnits().includes(value as string);
     case "default_unit_distance":
-      return ValidDistanceUnits().includes(value as string);
+      return VALID_DISTANCE_UNITS.includes(value as string);
     case "default_time_input":
       return TIME_INPUT_MAP.has(value as string);
     case "default_unit_measurement":

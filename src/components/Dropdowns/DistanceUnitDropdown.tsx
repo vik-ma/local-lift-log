@@ -1,6 +1,6 @@
 import { Select, SelectItem } from "@heroui/react";
 import { UnitDropdownProps } from "../../typings";
-import { useValidDistanceUnits } from "../../hooks";
+import { VALID_DISTANCE_UNITS } from "../../constants";
 
 export const DistanceUnitDropdown = ({
   value,
@@ -18,7 +18,7 @@ export const DistanceUnitDropdown = ({
   customLabel,
   customWidthString,
 }: UnitDropdownProps) => {
-  const validDistanceUnits = useValidDistanceUnits();
+  const validDistanceUnits = VALID_DISTANCE_UNITS;
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "set" && setSet !== undefined) {

@@ -1,8 +1,5 @@
-import {
-  ValidDistanceUnits,
-  ValidMeasurementUnits,
-  ValidWeightUnits,
-} from "..";
+import { ValidMeasurementUnits, ValidWeightUnits } from "..";
+import { VALID_DISTANCE_UNITS } from "../../constants";
 
 type UnitType = "weight" | "distance" | "caliper" | "circumference";
 
@@ -14,9 +11,9 @@ export const GetValidatedUnit = (unit: string, unitType: UnitType) => {
   }
 
   if (unitType === "distance") {
-    if (ValidDistanceUnits().includes(unit)) return unit;
+    if (VALID_DISTANCE_UNITS.includes(unit)) return unit;
 
-    return ValidDistanceUnits()[0];
+    return VALID_DISTANCE_UNITS[0];
   }
 
   if (unitType === "caliper") {

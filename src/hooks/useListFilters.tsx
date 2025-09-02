@@ -27,9 +27,9 @@ import {
   IsEndDateBeforeStartDate,
   IsNumberValid,
   IsNumberValidInteger,
-  ValidDistanceUnits,
   ValidWeightUnits,
 } from "../helpers";
+import { VALID_DISTANCE_UNITS } from "../constants";
 
 type UseListFiltersProps = {
   store: StoreRef;
@@ -936,7 +936,7 @@ export const useListFilters = ({
             const distanceUnitSet = new Set<string>();
 
             for (const distanceUnit of distanceUnits) {
-              if (ValidDistanceUnits().includes(distanceUnit)) {
+              if (VALID_DISTANCE_UNITS.includes(distanceUnit)) {
                 distanceUnitSet.add(distanceUnit);
               }
             }
@@ -1017,7 +1017,7 @@ export const useListFilters = ({
           case "distance-range-unit": {
             const distanceUnit = value as string;
 
-            if (ValidDistanceUnits().includes(distanceUnit)) {
+            if (VALID_DISTANCE_UNITS.includes(distanceUnit)) {
               filterStoreValues.filterDistanceRangeUnit = distanceUnit;
             }
             break;
