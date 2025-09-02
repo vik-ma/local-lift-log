@@ -20,17 +20,29 @@ export const MultipleChoiceUnitDropdown = ({
   setFilterUnits,
 }: MultipleChoiceUnitDropdownProps) => {
   const unitList = useMemo(() => {
-    if (unitType === "weight") return VALID_WEIGHT_UNITS;
-    if (unitType === "distance") return VALID_DISTANCE_UNITS;
-    if (unitType === "measurement") return VALID_MEASUREMENT_UNITS;
-    return [];
+    switch (unitType) {
+      case "weight":
+        return VALID_WEIGHT_UNITS;
+      case "distance":
+        return VALID_DISTANCE_UNITS;
+      case "measurement":
+        return VALID_MEASUREMENT_UNITS;
+      default:
+        return [];
+    }
   }, [unitType]);
 
   const unitTypeString = useMemo(() => {
-    if (unitType === "weight") return "Weight";
-    if (unitType === "distance") return "Distance";
-    if (unitType === "measurement") return "Measurements";
-    return "";
+    switch (unitType) {
+      case "weight":
+        return "Weight";
+      case "distance":
+        return "Distance";
+      case "measurement":
+        return "Measurements";
+      default:
+        return "";
+    }
   }, [unitType]);
 
   return (
