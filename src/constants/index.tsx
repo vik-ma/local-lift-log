@@ -5,7 +5,7 @@ export { VALID_DISTANCE_UNITS } from "./ValidDistanceUnits";
 export { VALID_WEIGHT_UNITS } from "./ValidWeightUnits";
 export { VALID_MEASUREMENT_UNITS } from "./ValidMeasurementUnits";
 export { EXERCISE_GROUP_DICTIONARY } from "./ExerciseGroupDictionary";
-export { NUM_SETS_OPTIONS } from "./NumNewSetsOptionList";
+export { NUM_NEW_SETS_OPTIONS_LIST } from "./NumNewSetsOptionList";
 export { CALCULATION_STRINGS_REGEX } from "./CalculationStringsRegex";
 export { VALID_CALCULATION_MODAL_TABS } from "./ValidCalculationModalTabs";
 export { VALID_WORKOUT_PROPERTIES_MAP } from "./ValidWorkoutPropertiesMap";
