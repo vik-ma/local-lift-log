@@ -553,16 +553,23 @@ export const SumCalculator = ({
   ) => {
     setOperatingCalculationItem({ calculationItem, index });
 
-    if (calculationItem.itemType === "calculation") {
-      setSumCalculatorPage("calc");
-      setShowNumberInput(false);
-    } else if (calculationItem.itemType === "number") {
-      setNumberInput(calculationItem.value.toString());
-      setShowNumberInput(true);
-    } else if (calculationItem.itemType === "preset") {
-      setSumCalculatorPage("list");
-      setOperationTypeSumCalc("change-preset");
-      setShowNumberInput(false);
+    switch (calculationItem.itemType) {
+      case "calculation": {
+        setSumCalculatorPage("calc");
+        setShowNumberInput(false);
+        break;
+      }
+      case "number": {
+        setNumberInput(calculationItem.value.toString());
+        setShowNumberInput(true);
+        break;
+      }
+      case "preset": {
+        setSumCalculatorPage("list");
+        setOperationTypeSumCalc("change-preset");
+        setShowNumberInput(false);
+        break;
+      }
     }
   };
 
