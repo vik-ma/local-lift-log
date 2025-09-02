@@ -201,34 +201,12 @@ export { GetUniqueMultisetIds } from "./Workouts/GetUniqueMultisetIds";
 export { CreateWorkout } from "./Workouts/CreateWorkout";
 export { DeleteWorkoutWithId } from "./Workouts/DeleteWorkoutWithId";
 
-export { LocaleMap } from "./Factories/LocaleMap";
-export { TimeInputMap } from "./Factories/TimeInputMap";
-export { ValidClockStyles } from "./Factories/ValidClockStyles";
-export { ValidDistanceUnits } from "./Factories/ValidDistanceUnits";
-export { ValidWeightUnits } from "./Factories/ValidWeightUnits";
+
 export { DefaultDistances } from "./Factories/DefaultDistances";
 export { DefaultEquipmentWeights } from "./Factories/DefaultEquipmentWeights";
-export { ValidMeasurementUnits } from "./Factories/ValidMeasurementUnits";
 export { DefaultMeasurements } from "./Factories/DefaultMeasurements";
 export { DefaultExercises } from "./Factories/DefaultExercises";
-export { ExerciseGroupDictionary } from "./Factories/ExerciseGroupDictionary";
-export { NumNewSetsOptionList } from "./Factories/NumNewSetsOptionList";
 export { ValidTimeInputBehaviors } from "./Factories/ValidTimeInputBehaviors";
-export { CalculationStringsRegex } from "./Factories/CalculationStringsRegex";
-export { ValidCalculationModalTabs } from "./Factories/ValidCalculationModalTabs";
-export { ValidWorkoutPropertiesMap } from "./Factories/ValidWorkoutPropertiesMap";
-export { DefaultPlateWeights } from "./Factories/DefaultPlateWeights";
-export { WeekdayMap } from "./Factories/WeekdayMap";
-export { MeasurementTypes } from "./Factories/MeasurementTypes";
-export { MultisetTypes } from "./Factories/MultisetTypes";
-export { DietPhaseTypes } from "./Factories/DietPhaseTypes";
-export { ValidTimePeriodPropertiesMap } from "./Factories/ValidTimePeriodPropertiesMap";
-export { RoutineScheduleTypes } from "./Factories/RoutineScheduleTypes";
-export { ValidLoadExerciseOptionsMap } from "./Factories/ValidLoadExerciseOptionsMap";
-export { ValidSpeedUnits } from "./Factories/ValidSpeedUnits";
-export { ValidLoadExerciseOptionsCategories } from "./Factories/ValidLoadExerciseOptionsCategories";
-export { ValidPaceUnits } from "./Factories/ValidPaceUnits";
-export { BodyFatCalculationAgeGroups } from "./Factories/BodyFatCalculationAgeGroups";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
