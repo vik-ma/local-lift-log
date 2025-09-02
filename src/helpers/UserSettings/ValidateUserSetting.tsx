@@ -6,14 +6,17 @@ import {
   ValidateActiveMeasurementsString,
   ValidateShownPropertiesString,
   ValidCalculationModalTabs,
-  ValidClockStyles,
   ValidDistanceUnits,
   ValidMeasurementUnits,
   ValidTimeInputBehaviors,
   ValidWeightUnits,
   ValidateBodyFatCalculationSettingsString,
 } from "..";
-import { LOCALE_MAP, TIME_INPUT_MAP } from "../../constants";
+import {
+  LOCALE_MAP,
+  TIME_INPUT_MAP,
+  VALID_CLOCK_STYLES,
+} from "../../constants";
 import { UserSettings } from "../../typings";
 
 export const ValidateUserSetting = <K extends keyof UserSettings>(
@@ -38,7 +41,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "locale":
       return LOCALE_MAP.has(value as string);
     case "clock_style":
-      return ValidClockStyles().includes(value as string);
+      return VALID_CLOCK_STYLES.includes(value as string);
     case "time_input_behavior_hhmmss": {
       const isHhmmss = true;
       return ValidTimeInputBehaviors(isHhmmss).has(value as string);
