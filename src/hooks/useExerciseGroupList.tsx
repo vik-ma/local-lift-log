@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { ExerciseGroupDictionary } from "../helpers";
+import { EXERCISE_GROUP_DICTIONARY } from "../constants";
 
 export const useExerciseGroupList = () => {
   const exerciseGroupList = useMemo(
-    () => Array.from(ExerciseGroupDictionary().values()),
+    () => Array.from(EXERCISE_GROUP_DICTIONARY),
     []
   );
 

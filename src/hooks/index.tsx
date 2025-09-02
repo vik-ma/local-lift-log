@@ -1,7 +1,6 @@
 export { useSetTrackingInputs } from "./useSetTrackingInputs";
 export { useValidateName } from "./useValidateName";
 export { useValidateExerciseGroupStringPrimary } from "./useValidateExerciseGroupStringPrimary";
-export { useExerciseGroupDictionary } from "./useExerciseGroupDictionary";
 export { useExerciseList } from "./useExerciseList";
 export { useValidTimeInputBehaviors } from "./useValidTimeInputBehaviors";
 export { useDefaultRoutine } from "./useDefaultRoutine";

@@ -32,13 +32,10 @@ import {
   UpdateExercise,
   ValidateAndModifyUserSettings,
 } from "../helpers";
-import {
-  useDefaultExercise,
-  useDetailsHeaderOptionsMenu,
-  useExerciseGroupDictionary,
-} from "../hooks";
+import { useDefaultExercise, useDetailsHeaderOptionsMenu } from "../hooks";
 import toast from "react-hot-toast";
 import { TrophyIcon } from "../assets";
+import { EXERCISE_GROUP_DICTIONARY } from "../constants";
 
 type ShowCheckboxType =
   | "warmup"
@@ -84,7 +81,7 @@ export default function ExerciseDetails() {
 
   const exerciseModal = useDisclosure();
 
-  const exerciseGroupDictionary = useExerciseGroupDictionary();
+  const exerciseGroupDictionary = EXERCISE_GROUP_DICTIONARY;
 
   const datesThatAreNotOnlyWarmups = useRef<Set<string>>(new Set());
   const datesThatAreNotOnlyMultisets = useRef<Set<string>>(new Set());
