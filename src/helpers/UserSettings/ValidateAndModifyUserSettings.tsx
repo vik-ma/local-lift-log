@@ -1,9 +1,9 @@
 import {
   GetValidatedUnit,
-  LocaleMap,
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
 } from "..";
+import { LOCALE_MAP } from "../../constants";
 import { UserSettings } from "../../typings";
 
 type UserSettingsPropsToValidate =
@@ -25,7 +25,7 @@ export const ValidateAndModifyUserSettings = (
           userSettings.default_unit_weight,
           "weight"
         );
-        
+
         break;
       }
       case "default_unit_distance": {
@@ -45,7 +45,7 @@ export const ValidateAndModifyUserSettings = (
         break;
       }
       case "locale": {
-        const localeMap = LocaleMap();
+        const localeMap = LOCALE_MAP;
 
         if (!localeMap.has(userSettings.locale)) {
           userSettings.locale = localeMap.keys().next().value!;

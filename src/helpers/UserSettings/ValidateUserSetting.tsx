@@ -2,7 +2,6 @@ import {
   IsNumberValid,
   IsNumberValidBinary,
   IsNumberValidInteger,
-  LocaleMap,
   NumNewSetsOptionList,
   ValidateActiveMeasurementsString,
   ValidateShownPropertiesString,
@@ -15,6 +14,7 @@ import {
   ValidWeightUnits,
   ValidateBodyFatCalculationSettingsString,
 } from "..";
+import { LOCALE_MAP } from "../../constants";
 import { UserSettings } from "../../typings";
 
 export const ValidateUserSetting = <K extends keyof UserSettings>(
@@ -37,7 +37,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "active_tracking_measurements":
       return ValidateActiveMeasurementsString(value as string);
     case "locale":
-      return LocaleMap().has(value as string);
+      return LOCALE_MAP.has(value as string);
     case "clock_style":
       return ValidClockStyles().includes(value as string);
     case "time_input_behavior_hhmmss": {

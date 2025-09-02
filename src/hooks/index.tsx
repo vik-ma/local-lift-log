@@ -5,7 +5,6 @@ export { useExerciseGroupDictionary } from "./useExerciseGroupDictionary";
 export { useValidDistanceUnits } from "./useValidDistanceUnits";
 export { useValidWeightUnits } from "./useValidWeightUnits";
 export { useValidMeasurementUnits } from "./useValidMeasurementUnits";
-export { useLocaleMap } from "./useLocaleMap";
 export { useExerciseList } from "./useExerciseList";
 export { useValidTimeInputBehaviors } from "./useValidTimeInputBehaviors";
 export { useDefaultRoutine } from "./useDefaultRoutine";

@@ -1,6 +1,6 @@
 import Database from "@tauri-apps/plugin-sql";
 import { UserSettings } from "../../typings";
-import { LocaleMap } from "..";
+import { LOCALE_MAP } from "../../constants";
 
 export const CreateDefaultUserSettings = async (
   useMetricUnits: boolean,
@@ -20,7 +20,7 @@ export const CreateDefaultUserSettings = async (
 
   const default_time_input = "hhmmss";
 
-  const default_locale = LocaleMap().has(locale) ? locale : "en-GB";
+  const default_locale = LOCALE_MAP.has(locale) ? locale : "en-GB";
 
   const default_clock_style =
     clockStyle === "24h" || clockStyle === "12h" ? clockStyle : "24h";
