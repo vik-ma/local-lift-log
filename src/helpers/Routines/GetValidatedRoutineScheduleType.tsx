@@ -1,11 +1,9 @@
-import { RoutineScheduleTypes } from "..";
+import { ROUTINE_SCHEDULE_TYPES } from "../../constants";
 
 export const GetValidatedRoutineScheduleType = (
   routineScheduleType: number
 ) => {
-  const validRoutineScheduleTypes = RoutineScheduleTypes();
-
-  if (validRoutineScheduleTypes.has(routineScheduleType))
+  if (ROUTINE_SCHEDULE_TYPES.has(routineScheduleType))
     return routineScheduleType;
 
   return 0;

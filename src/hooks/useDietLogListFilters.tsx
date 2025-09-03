@@ -14,7 +14,7 @@ import {
   IsEndDateBeforeStartDate,
   IsNumberValidInteger,
 } from "../helpers";
-import { useWeekdayMap } from "./useWeekdayMap";
+import { WEEKDAY_MAP } from "../constants";
 
 type UseDietLogListFiltersProps = {
   store: StoreRef;
@@ -43,7 +43,7 @@ export const useDietLogListFilters = ({
   const [dietLogFilterValues, setDietLogFilterValues] =
     useState<DietLogFilterValues>(defaultDietLogFilterValues);
 
-  const weekdayMap = useWeekdayMap();
+  const weekdayMap = WEEKDAY_MAP;
 
   const storeFilters = useRef<DietLogStoreFilterMap>(new Map());
 

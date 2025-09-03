@@ -1,4 +1,5 @@
-import { BodyFatCalculationAgeGroups, IsNumberValidInteger } from "..";
+import { IsNumberValidInteger } from "..";
+import { BODY_FAT_CALCULATION_AGE_GROUPS } from "../../constants";
 
 export const ValidateBodyFatCalculationSettingsString = (
   bodyFatCalculationSettingsString: string
@@ -9,9 +10,7 @@ export const ValidateBodyFatCalculationSettingsString = (
 
   if (stats[0] !== "male" && stats[0] !== "female") return false;
 
-  const validAgeGroups = BodyFatCalculationAgeGroups();
-
-  if (!validAgeGroups.has(stats[1])) return false;
+  if (!BODY_FAT_CALCULATION_AGE_GROUPS.has(stats[1])) return false;
 
   const measurementIds = stats[2].split(",");
 

@@ -28,11 +28,9 @@ import {
   UserSettings,
 } from "../../typings";
 import { useMemo, useState } from "react";
-import {
-  CreateLoadExerciseOptionsList,
-  ValidLoadExerciseOptionsCategories,
-} from "../../helpers";
+import { CreateLoadExerciseOptionsList } from "../../helpers";
 import { ExerciseModalList } from "..";
+import { VALID_LOAD_EXERCISE_OPTIONS_CATEGORIES } from "../../constants";
 
 type LoadExerciseOptionsModalProps = {
   loadExerciseOptionsModal: UseDisclosureReturnType;
@@ -102,7 +100,7 @@ export const LoadExerciseOptionsModal = ({
     useState<Set<ChartDataExerciseCategoryBase>>(new Set());
 
   const validLoadExerciseOptionsCategories =
-    ValidLoadExerciseOptionsCategories();
+    VALID_LOAD_EXERCISE_OPTIONS_CATEGORIES;
 
   const filteredLoadExerciseOptionsMap = useMemo(() => {
     if (filterCategories.size > 0) {

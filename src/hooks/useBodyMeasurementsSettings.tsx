@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState } from "react";
 import {
-  BodyFatCalculationAgeGroups,
   CreateActiveMeasurementInputs,
   GenerateActiveMeasurementString,
   GenerateBodyFatCalculationSettingsString,
@@ -14,6 +13,7 @@ import {
 } from "../typings";
 import toast from "react-hot-toast";
 import { useDisclosure } from "@heroui/react";
+import { BODY_FAT_CALCULATION_AGE_GROUPS } from "../constants";
 
 type UseBodyMeasurementsSettingsProps = {
   userSettings: UserSettings | undefined;
@@ -75,9 +75,7 @@ export const useBodyMeasurementsSettings = ({
 
     setIsMale(stats[0] === "male");
 
-    const validAgeGroups = BodyFatCalculationAgeGroups();
-
-    if (validAgeGroups.has(stats[1])) {
+    if (BODY_FAT_CALCULATION_AGE_GROUPS.has(stats[1])) {
       setAgeGroup(stats[1]);
     }
 

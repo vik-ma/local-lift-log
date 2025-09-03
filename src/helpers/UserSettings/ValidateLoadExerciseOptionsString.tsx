@@ -1,4 +1,5 @@
-import { IsStringEmpty, ValidLoadExerciseOptionsMap } from "..";
+import { IsStringEmpty } from "..";
+import { VALID_LOAD_EXERCISE_OPTIONS_MAP } from "../../constants";
 import { ChartDataExerciseCategoryBase } from "../../typings";
 
 export const ValidateLoadExerciseOptionsString = (str: string) => {
@@ -8,11 +9,11 @@ export const ValidateLoadExerciseOptionsString = (str: string) => {
 
   if (options.length === 0) return false;
 
-  const validLoadExerciseOptionsMap = ValidLoadExerciseOptionsMap();
-
   for (const option of options) {
     if (
-      !validLoadExerciseOptionsMap.has(option as ChartDataExerciseCategoryBase)
+      !VALID_LOAD_EXERCISE_OPTIONS_MAP.has(
+        option as ChartDataExerciseCategoryBase
+      )
     )
       return false;
   }

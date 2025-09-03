@@ -43,11 +43,11 @@ import {
   useWorkoutTemplateList,
   useDetailsHeaderOptionsMenu,
   useExerciseList,
-  useWeekdayMap,
 } from "../hooks";
 import { Link } from "react-router-dom";
 import { Reorder } from "framer-motion";
 import { Store } from "@tauri-apps/plugin-store";
+import { WEEKDAY_MAP } from "../constants";
 
 export default function RoutineDetails() {
   const { id } = useParams();
@@ -74,7 +74,7 @@ export default function RoutineDetails() {
 
   const store = useRef<Store>(null);
 
-  const weekdayMap = useWeekdayMap();
+  const weekdayMap = WEEKDAY_MAP;
 
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
