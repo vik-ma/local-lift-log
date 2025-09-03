@@ -21,3 +21,14 @@ export { SPEED_UNITS } from "./SpeedUnits";
 export { LOAD_EXERCISE_OPTIONS_CATEGORIES } from "./LoadExerciseOptionsCategories";
 export { PACE_UNITS } from "./PaceUnits";
 export { BODY_FAT_CALCULATION_AGE_GROUPS } from "./BodyFatCalculationAgeGroups";
+
+export { DEFAULT_BODY_MEASUREMENTS } from "./DefaultBodyMeasurements";
+export { DEFAULT_DIET_LOG } from "./DefaultDietLog";
+export { DEFAULT_EXERCISE } from "./DefaultExercise";
+export { DEFAULT_MEASUREMENT } from "./DefaultMeasurement";
+export { DEFAULT_MULTISET } from "./DefaultMultiset";
+export { DEFAULT_ROUTINE } from "./DefaultRoutine";
+export { DEFAULT_SET } from "./DefaultSet";
+export { DEFAULT_TIME_PERIOD } from "./DefaultTimePeriod";
+export { DEFAULT_WORKOUT } from "./DefaultWorkout";
+export { DEFAULT_WORKOUT_TEMPLATE } from "./DefaultWorkoutTemplate";

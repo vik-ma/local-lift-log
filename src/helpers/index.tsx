@@ -35,7 +35,6 @@ export { ValidateExerciseGroupSetStringPrimary } from "./Exercises/ValidateExerc
 export { GetExerciseListWithGroupStrings } from "./Exercises/GetExerciseListWithGroupStrings";
 export { GetExerciseWithId } from "./Exercises/GetExerciseWithId";
 export { UpdateExercise } from "./Exercises/UpdateExercise";
-export { DefaultNewExercise } from "./Exercises/DefaultNewExercise";
 export { GetExerciseListWithGroupStringsAndTotalSets } from "./Exercises/GetExerciseListWithGroupStringsAndTotalSets";
 export { GetNumberOfUniqueExercisesInGroupedSets } from "./Exercises/GetNumberOfUniqueExercisesInGroupedSets";
 export { ValidateExerciseGroupSetStringSecondary } from "./Exercises/ValidateExerciseGroupSetStringSecondary";
@@ -52,7 +51,6 @@ export { GetFilterExerciseGroupsString } from "./Exercises/GetFilterExerciseGrou
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleDayValues";
 export { NumDaysInScheduleOptions } from "./Routines/NumDaysInScheduleOptions";
-export { DefaultNewRoutine } from "./Routines/DefaultNewRoutine";
 export { UpdateRoutine } from "./Routines/UpdateRoutine";
 export { CreateRoutineWorkoutTemplateList } from "./Routines/CreateRoutineWorkoutTemplateList";
 export { IsRoutineScheduleTypeFiltered } from "./Routines/IsRoutineScheduleTypeFiltered";
@@ -83,7 +81,6 @@ export { ValidateAndModifyUserSettings } from "./UserSettings/ValidateAndModifyU
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
-export { DefaultNewSet } from "./Sets/DefaultNewSet";
 export { ConvertSetInputValuesToNumbers } from "./Sets/ConvertSetInputValuesToNumbers";
 export { DefaultSetInputValues } from "./Sets/DefaultSetInputValues";
 export { ReassignExerciseIdForSets } from "./Sets/ReassignExerciseIdForSets";
@@ -104,7 +101,6 @@ export { GetTimeCompletedForSetsWithExerciseId } from "./Sets/GetTimeCompletedFo
 export { GetValidatedSetValue } from "./Sets/GetValidatedSetValue";
 
 export { GenerateMultisetSetOrderString } from "./Multisets/GenerateMultisetSetOrderString";
-export { DefaultNewMultiset } from "./Multisets/DefaultNewMultiset";
 export { InsertMultisetIntoDatabase } from "./Multisets/InsertMultisetIntoDatabase";
 export { UpdateMultiset } from "./Multisets/UpdateMultiset";
 export { GenerateMultisetSetOrderList } from "./Multisets/GenerateMultisetSetOrderList";
@@ -151,14 +147,12 @@ export { CreateActiveMeasurementInputs } from "./Measurements/CreateActiveMeasur
 export { ValidateActiveMeasurementsString } from "./Measurements/ValidateActiveMeasurementsString";
 export { CreateBodyMeasurementsValues } from "./Measurements/CreateBodyMeasurementsValues";
 export { ConvertBodyMeasurementsValuesToMeasurementInputs } from "./Measurements/ConvertBodyMeasurementsValuesToMeasurementInputs";
-export { DefaultNewMeasurement } from "./Measurements/DefaultNewMeasurement";
 export { InsertMeasurementIntoDatabase } from "./Measurements/InsertMeasurementIntoDatabase";
 export { ReassignMeasurementIdForBodyMeasurements } from "./Measurements/ReassignMeasurementIdForBodyMeasurements";
 export { SortMeasurementMap } from "./Measurements/SortMeasurementMap";
 export { IsMeasurementInBodyMeasurementsValues } from "./Measurements/IsMeasurementInBodyMeasurementsValues";
 export { GetMeasurementListWithNumberOfBodyMeasurementsEntries } from "./Measurements/GetMeasurementListWithNumberOfBodyMeasurementsEntries";
 export { GetMeasurementList } from "./Measurements/GetMeasurementList";
-export { DefaultNewBodyMeasurements } from "./Measurements/DefaultNewBodyMeasurements";
 export { InsertBodyMeasurementsIntoDatabase } from "./Measurements/InsertBodyMeasurementsIntoDatabase";
 export { CreateDetailedBodyMeasurementsList } from "./Measurements/CreateDetailedBodyMeasurementsList";
 export { GetLatestBodyMeasurements } from "./Measurements/GetLatestBodyMeasurements";
@@ -187,8 +181,6 @@ export { FormatPresetsTypeString } from "./Presets/FormatPresetsTypeString";
 export { CreateGroupedWorkoutSetList } from "./Workouts/CreateGroupedWorkoutSetList";
 export { GenerateExerciseOrderString } from "./Workouts/GenerateExerciseOrderString";
 export { UpdateExerciseOrder } from "./Workouts/UpdateExerciseOrder";
-export { DefaultNewWorkoutTemplate } from "./Workouts/DefaultNewWorkoutTemplate";
-export { DefaultNewWorkout } from "./Workouts/DefaultNewWorkout";
 export { UpdateWorkout } from "./Workouts/UpdateWorkout";
 export { UpdateWorkoutTemplate } from "./Workouts/UpdateWorkoutTemplate";
 export { ValidateExerciseOrderEntry } from "./Workouts/ValidateExerciseOrderEntry";
@@ -200,7 +192,6 @@ export { MergeTwoGroupedSetLists } from "./Workouts/MergeTwoGroupedSetLists";
 export { GetUniqueMultisetIds } from "./Workouts/GetUniqueMultisetIds";
 export { CreateWorkout } from "./Workouts/CreateWorkout";
 export { DeleteWorkoutWithId } from "./Workouts/DeleteWorkoutWithId";
-
 
 export { DefaultDistances } from "./Factories/DefaultDistances";
 export { DefaultEquipmentWeights } from "./Factories/DefaultEquipmentWeights";
@@ -236,11 +227,9 @@ export { UpdateCalculationString } from "./CalculationItems/UpdateCalculationStr
 export { CreateNewCalculationItem } from "./CalculationItems/CreateNewCalculationItem";
 export { LoadCalculationString } from "./CalculationItems/LoadCalculationString";
 
-export { DefaultNewTimePeriod } from "./TimePeriods/DefaultNewTimePeriod";
 export { GetValidatedDietPhase } from "./TimePeriods/GetValidatedDietPhase";
 export { DefaultTimePeriodFilterValues } from "./TimePeriods/DefaultTimePeriodFilterValues";
 
-export { DefaultNewDietLog } from "./DietLogs/DefaultNewDietLog";
 export { ShouldDietLogDisableExpansion } from "./DietLogs/ShouldDietLogDisableExpansion";
 export { InsertDietLogIntoDatabase } from "./DietLogs/InsertDietLogIntoDatabase";
 export { DeleteDietLogWithId } from "./DietLogs/DeleteDietLogWithId";
