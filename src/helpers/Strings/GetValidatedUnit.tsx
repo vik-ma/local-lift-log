@@ -1,22 +1,22 @@
 import {
-  VALID_DISTANCE_UNITS,
-  VALID_MEASUREMENT_UNITS,
-  VALID_WEIGHT_UNITS,
+  DISTANCE_UNITS,
+  MEASUREMENT_UNITS,
+  WEIGHT_UNITS,
 } from "../../constants";
 
 type UnitType = "weight" | "distance" | "caliper" | "circumference";
 
 export const GetValidatedUnit = (unit: string, unitType: UnitType) => {
   if (unitType === "weight") {
-    if (VALID_WEIGHT_UNITS.includes(unit)) return unit;
+    if (WEIGHT_UNITS.includes(unit)) return unit;
 
-    return VALID_WEIGHT_UNITS[0];
+    return WEIGHT_UNITS[0];
   }
 
   if (unitType === "distance") {
-    if (VALID_DISTANCE_UNITS.includes(unit)) return unit;
+    if (DISTANCE_UNITS.includes(unit)) return unit;
 
-    return VALID_DISTANCE_UNITS[0];
+    return DISTANCE_UNITS[0];
   }
 
   if (unitType === "caliper") {
@@ -24,9 +24,9 @@ export const GetValidatedUnit = (unit: string, unitType: UnitType) => {
   }
 
   if (unitType === "circumference") {
-    if (VALID_MEASUREMENT_UNITS.includes(unit)) return unit;
+    if (MEASUREMENT_UNITS.includes(unit)) return unit;
 
-    return VALID_MEASUREMENT_UNITS[0];
+    return MEASUREMENT_UNITS[0];
   }
 
   return "";

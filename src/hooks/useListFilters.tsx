@@ -26,8 +26,8 @@ import {
 } from "../helpers";
 import {
   MULTISET_TYPES,
-  VALID_DISTANCE_UNITS,
-  VALID_WEIGHT_UNITS,
+  DISTANCE_UNITS,
+  WEIGHT_UNITS,
   WEEKDAY_MAP,
 } from "../constants";
 
@@ -890,7 +890,7 @@ export const useListFilters = ({
             const weightUnitSet = new Set<string>();
 
             for (const weightUnit of weightUnits) {
-              if (VALID_WEIGHT_UNITS.includes(weightUnit)) {
+              if (WEIGHT_UNITS.includes(weightUnit)) {
                 weightUnitSet.add(weightUnit);
               }
             }
@@ -936,7 +936,7 @@ export const useListFilters = ({
             const distanceUnitSet = new Set<string>();
 
             for (const distanceUnit of distanceUnits) {
-              if (VALID_DISTANCE_UNITS.includes(distanceUnit)) {
+              if (DISTANCE_UNITS.includes(distanceUnit)) {
                 distanceUnitSet.add(distanceUnit);
               }
             }
@@ -1008,7 +1008,7 @@ export const useListFilters = ({
           case "weight-range-unit": {
             const weightUnit = value as string;
 
-            if (VALID_WEIGHT_UNITS.includes(weightUnit)) {
+            if (WEIGHT_UNITS.includes(weightUnit)) {
               filterStoreValues.filterWeightRangeUnit = weightUnit;
             }
 
@@ -1017,7 +1017,7 @@ export const useListFilters = ({
           case "distance-range-unit": {
             const distanceUnit = value as string;
 
-            if (VALID_DISTANCE_UNITS.includes(distanceUnit)) {
+            if (DISTANCE_UNITS.includes(distanceUnit)) {
               filterStoreValues.filterDistanceRangeUnit = distanceUnit;
             }
             break;

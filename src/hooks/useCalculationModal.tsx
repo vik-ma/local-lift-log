@@ -9,7 +9,7 @@ import {
   UseSetTrackingInputsReturnType,
   WorkoutSet,
 } from "../typings";
-import { VALID_CALCULATION_MODAL_TABS } from "../constants";
+import { CALCULATION_MODAL_TABS } from "../constants";
 
 export const useCalculationModal = (): UseCalculationModalReturnType => {
   const [calculationModalTab, setCalculationModalTab] =
@@ -46,9 +46,7 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
       }
 
       if (
-        VALID_CALCULATION_MODAL_TABS.includes(
-          userSettings.default_calculation_tab
-        )
+        CALCULATION_MODAL_TABS.includes(userSettings.default_calculation_tab)
       ) {
         setCalculationModalTab(
           userSettings.default_calculation_tab as CalculationModalTab

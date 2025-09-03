@@ -1,6 +1,6 @@
 import { Select, SelectItem } from "@heroui/react";
 import { UnitDropdownProps } from "../../typings";
-import { VALID_WEIGHT_UNITS } from "../../constants";
+import { WEIGHT_UNITS } from "../../constants";
 
 export const WeightUnitDropdown = ({
   value,
@@ -20,7 +20,7 @@ export const WeightUnitDropdown = ({
   customLabel,
   customWidthString,
 }: UnitDropdownProps) => {
-  const validWeightUnits = VALID_WEIGHT_UNITS;
+  const validWeightUnits = WEIGHT_UNITS;
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "set" && setSet !== undefined) {

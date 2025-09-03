@@ -106,10 +106,7 @@ import {
 } from "../helpers";
 import toast from "react-hot-toast";
 import { Store } from "@tauri-apps/plugin-store";
-import {
-  VALID_LOAD_EXERCISE_OPTIONS_MAP,
-  VALID_MEASUREMENT_UNITS,
-} from "../constants";
+import { LOAD_EXERCISE_OPTIONS_MAP, MEASUREMENT_UNITS } from "../constants";
 
 export type AnalyticsChartListModalPage =
   | "measurement-list"
@@ -207,7 +204,7 @@ export default function Analytics() {
   const loadExerciseOptionsModal = useDisclosure();
   const deleteModal = useDisclosure();
 
-  const loadExerciseOptionsMap = VALID_LOAD_EXERCISE_OPTIONS_MAP;
+  const loadExerciseOptionsMap = LOAD_EXERCISE_OPTIONS_MAP;
 
   const highestCategoryValues = useRef<Map<ChartDataCategory, number>>(
     new Map()
@@ -1016,7 +1013,7 @@ export default function Analytics() {
         (measurementValues.measurement_type === "Caliper" &&
           measurementValues.unit !== "mm") ||
         (measurementValues.measurement_type === "Circumference" &&
-          !VALID_MEASUREMENT_UNITS.includes(measurementValues.unit))
+          !MEASUREMENT_UNITS.includes(measurementValues.unit))
       )
         continue;
 

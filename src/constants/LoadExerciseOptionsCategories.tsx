@@ -1,6 +1,6 @@
 import { ChartDataUnitCategoryNoUndefined } from "../typings";
 
-export const VALID_LOAD_EXERCISE_OPTIONS_CATEGORIES = Object.freeze(
+export const LOAD_EXERCISE_OPTIONS_CATEGORIES = Object.freeze(
   new Set<ChartDataUnitCategoryNoUndefined>([
     "Weight",
     "Distance",

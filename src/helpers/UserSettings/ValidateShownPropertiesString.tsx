@@ -1,7 +1,7 @@
 import { IsStringEmpty } from "..";
 import {
-  VALID_TIME_PERIOD_PROPERTIES_MAP,
-  VALID_WORKOUT_PROPERTIES_MAP,
+  TIME_PERIOD_PROPERTIES_MAP,
+  WORKOUT_PROPERTIES_MAP,
 } from "../../constants";
 import { ShownPropertiesTargetType } from "../../typings";
 
@@ -17,8 +17,8 @@ export const ValidateShownPropertiesString = (
 
   const validPropertiesMap =
     targetType === "workout"
-      ? VALID_WORKOUT_PROPERTIES_MAP
-      : VALID_TIME_PERIOD_PROPERTIES_MAP;
+      ? WORKOUT_PROPERTIES_MAP
+      : TIME_PERIOD_PROPERTIES_MAP;
 
   for (const property of properties) {
     if (!validPropertiesMap.has(property)) return false;

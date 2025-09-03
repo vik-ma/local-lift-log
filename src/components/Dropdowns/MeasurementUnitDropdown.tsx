@@ -4,7 +4,7 @@ import {
   UnitCategory,
   UpdateUserSettingFunction,
 } from "../../typings";
-import { VALID_MEASUREMENT_UNITS } from "../../constants";
+import { MEASUREMENT_UNITS } from "../../constants";
 
 type MeasurementDropdownProps = {
   targetType: "modal" | "settings" | "active" | "chart";
@@ -37,7 +37,7 @@ export const MeasurementUnitDropdown = ({
   changeUnitInChart,
   customWidthString,
 }: MeasurementDropdownProps) => {
-  const validMeasurementUnits = VALID_MEASUREMENT_UNITS;
+  const validMeasurementUnits = MEASUREMENT_UNITS;
 
   const displayValue: string =
     measurement !== undefined

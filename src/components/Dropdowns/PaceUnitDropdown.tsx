@@ -1,6 +1,6 @@
 import { Select, SelectItem } from "@heroui/react";
 import { UnitCategory } from "../../typings";
-import { VALID_PACE_UNITS } from "../../constants";
+import { PACE_UNITS } from "../../constants";
 
 type PaceUnitDropdownProps = {
   value: string;
@@ -13,7 +13,7 @@ export const PaceUnitDropdown = ({
   targetType,
   changeUnitInChart,
 }: PaceUnitDropdownProps) => {
-  const validPaceUnits = VALID_PACE_UNITS;
+  const validPaceUnits = PACE_UNITS;
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "chart" && changeUnitInChart !== undefined) {

@@ -1,5 +1,5 @@
 import { IsStringEmpty } from "..";
-import { VALID_LOAD_EXERCISE_OPTIONS_CATEGORIES } from "../../constants";
+import { LOAD_EXERCISE_OPTIONS_CATEGORIES } from "../../constants";
 import { ChartDataUnitCategoryNoUndefined } from "../../typings";
 
 export const ValidateLoadExerciseOptionsCategoriesString = (str: string) => {
@@ -11,7 +11,7 @@ export const ValidateLoadExerciseOptionsCategoriesString = (str: string) => {
 
   for (const category of categories) {
     if (
-      !VALID_LOAD_EXERCISE_OPTIONS_CATEGORIES.has(
+      !LOAD_EXERCISE_OPTIONS_CATEGORIES.has(
         category as ChartDataUnitCategoryNoUndefined
       )
     )

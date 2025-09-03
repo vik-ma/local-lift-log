@@ -11,11 +11,11 @@ import {
   LOCALE_MAP,
   NUM_NEW_SETS_OPTIONS_LIST,
   TIME_INPUT_MAP,
-  VALID_CALCULATION_MODAL_TABS,
-  VALID_CLOCK_STYLES,
-  VALID_DISTANCE_UNITS,
-  VALID_MEASUREMENT_UNITS,
-  VALID_WEIGHT_UNITS,
+  CALCULATION_MODAL_TABS,
+  CLOCK_STYLES,
+  DISTANCE_UNITS,
+  MEASUREMENT_UNITS,
+  WEIGHT_UNITS,
 } from "../../constants";
 import { UserSettings } from "../../typings";
 
@@ -29,19 +29,19 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "active_routine_id":
       return IsNumberValidInteger(value as number);
     case "default_unit_weight":
-      return VALID_WEIGHT_UNITS.includes(value as string);
+      return WEIGHT_UNITS.includes(value as string);
     case "default_unit_distance":
-      return VALID_DISTANCE_UNITS.includes(value as string);
+      return DISTANCE_UNITS.includes(value as string);
     case "default_time_input":
       return TIME_INPUT_MAP.has(value as string);
     case "default_unit_measurement":
-      return VALID_MEASUREMENT_UNITS.includes(value as string);
+      return MEASUREMENT_UNITS.includes(value as string);
     case "active_tracking_measurements":
       return ValidateActiveMeasurementsString(value as string);
     case "locale":
       return LOCALE_MAP.has(value as string);
     case "clock_style":
-      return VALID_CLOCK_STYLES.includes(value as string);
+      return CLOCK_STYLES.includes(value as string);
     case "time_input_behavior_hhmmss": {
       const isHhmmss = true;
       return ValidTimeInputBehaviors(isHhmmss).has(value as string);
@@ -84,7 +84,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
       return IsNumberValid(value as number, minValue, doNotAllowMinValue);
     }
     case "default_calculation_tab":
-      return VALID_CALCULATION_MODAL_TABS.includes(value as string);
+      return CALCULATION_MODAL_TABS.includes(value as string);
     case "shown_workout_properties":
       return ValidateShownPropertiesString(value as string, "workout");
     case "default_plate_collection_id":

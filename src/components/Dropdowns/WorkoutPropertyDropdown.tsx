@@ -7,7 +7,7 @@ import {
 } from "@heroui/react";
 import { UserSettings } from "../../typings";
 import { UpdateUserSetting } from "../../helpers";
-import { VALID_WORKOUT_PROPERTIES_MAP } from "../../constants";
+import { WORKOUT_PROPERTIES_MAP } from "../../constants";
 
 type WorkoutPropertyDropdownProps = {
   selectedWorkoutProperties: Set<string>;
@@ -39,7 +39,7 @@ export const WorkoutPropertyDropdown = ({
     );
   };
 
-  const workoutProperties = VALID_WORKOUT_PROPERTIES_MAP;
+  const workoutProperties = WORKOUT_PROPERTIES_MAP;
 
   return (
     <Dropdown shouldBlockScroll={false}>

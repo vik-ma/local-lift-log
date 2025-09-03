@@ -1,6 +1,6 @@
 import { ChartDataExerciseCategoryBase } from "../typings";
 
-export const VALID_LOAD_EXERCISE_OPTIONS_MAP = Object.freeze(
+export const LOAD_EXERCISE_OPTIONS_MAP = Object.freeze(
   new Map<ChartDataExerciseCategoryBase, string>([
     ["weight_min", "Min Weight"],
     ["weight_max", "Max Weight"],
