@@ -212,7 +212,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
     const newSets: WorkoutSet[] = [];
 
-    const numSetsToAdd: number = parseInt(
+    const numSetsToAdd = parseInt(
       GetValidatedNumNewSets(numSets, NUM_NEW_SETS_OPTIONS_LIST)
     );
 
@@ -225,7 +225,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
         newSet.workout_id = workout.id;
       }
 
-      const setId: number = await InsertSetIntoDatabase(newSet);
+      const setId = await InsertSetIntoDatabase(newSet);
 
       if (setId === 0) return;
 
@@ -411,7 +411,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
     if (!success) return;
 
-    const groupedSetId: string =
+    const groupedSetId =
       operatingSet.multiset_id > 0
         ? `m${operatingSet.multiset_id}`
         : operatingSet.exercise_id.toString();
@@ -754,7 +754,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
       exercise.formattedGroupStringPrimary ?? ""
     );
 
-    const setId: number = await InsertSetIntoDatabase(newSet);
+    const setId = await InsertSetIntoDatabase(newSet);
 
     if (setId === 0) return;
 
@@ -905,7 +905,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
   };
 
   const updateShownSetListComments = (groupedSetId: string, index: number) => {
-    let updatedSet: Set<number> = new Set<number>();
+    let updatedSet = new Set<number>();
     if (shownSetListComments[groupedSetId]) {
       // If shownSetListComments HAS key for exerciseId
       updatedSet = new Set(shownSetListComments[groupedSetId]);
@@ -1105,9 +1105,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
     if (completedSetsMap.has(oldExercise.id.toString())) {
       // Change key to match new exercise id
-      const newCompletedSetsMap: Map<string, number> = new Map(
-        completedSetsMap
-      );
+      const newCompletedSetsMap = new Map<string, number>(completedSetsMap);
 
       const value = completedSetsMap.get(oldExercise.id.toString());
       newCompletedSetsMap.delete(oldExercise.id.toString());
@@ -1338,9 +1336,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
       return;
     }
 
-    const lastSetIndex: number = incompleteSetIds.findIndex(
-      (id) => id === lastSet.id
-    );
+    const lastSetIndex = incompleteSetIds.findIndex((id) => id === lastSet.id);
 
     let nextSetIndex = 0;
 
@@ -1375,13 +1371,13 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
   const populateIncompleteSets = (groupedSetList: GroupedWorkoutSet[]) => {
     const incompleteSetIdList: number[] = [];
-    let firstSetIndex: number = -1;
-    const newCompletedSetsMap: Map<string, number> = new Map();
+    let firstSetIndex = -1;
+    const newCompletedSetsMap = new Map<string, number>();
 
     // Add Set ids of all incomplete Sets to incompleteSetIds list
     for (let i = 0; i < groupedSetList.length; i++) {
       const setList: WorkoutSet[] = groupedSetList[i].setList;
-      let numCompletedSets: number = 0;
+      let numCompletedSets = 0;
       for (let j = 0; j < setList.length; j++) {
         if (setList[j].is_completed === 0) {
           incompleteSetIdList.push(setList[j].id);
@@ -1557,7 +1553,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
     const templateSetListIds: number[] = [];
 
-    const numSetsToAdd: number = parseInt(
+    const numSetsToAdd = parseInt(
       GetValidatedNumNewSets(numSets, NUM_NEW_SETS_OPTIONS_LIST)
     );
 
@@ -1731,7 +1727,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
         newSet.workout_id = workout.id;
       }
 
-      const setId: number = await InsertSetIntoDatabase(newSet);
+      const setId = await InsertSetIntoDatabase(newSet);
 
       if (setId === 0) return;
 
@@ -1982,7 +1978,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
     const templateSetListIds = GenerateMultisetSetOrderList(multiset.set_order);
 
-    const numSetsToAdd: number = parseInt(
+    const numSetsToAdd = parseInt(
       GetValidatedNumNewSets(numSets, NUM_NEW_SETS_OPTIONS_LIST)
     );
 
@@ -2073,7 +2069,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
       selectedMultiset.set_order
     );
 
-    const numSetsToAdd: number = parseInt(
+    const numSetsToAdd = parseInt(
       GetValidatedNumNewSets(numSets, NUM_NEW_SETS_OPTIONS_LIST)
     );
 
