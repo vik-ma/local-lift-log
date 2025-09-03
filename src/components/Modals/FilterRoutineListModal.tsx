@@ -20,15 +20,13 @@ import {
 } from "../../typings";
 import { useEffect, useMemo, useState } from "react";
 import { FilterMinAndMaxValues, WorkoutTemplateModalList } from "..";
-import {
-  useFilterMinAndMaxValueInputs,
-  useRoutineScheduleTypeMap,
-} from "../../hooks";
+import { useFilterMinAndMaxValueInputs } from "../../hooks";
 import {
   ConvertInputStringToNumberOrNull,
   ConvertNumberToInputString,
   HandleFilterListObjectClick,
 } from "../../helpers";
+import { ROUTINE_SCHEDULE_TYPES } from "../../constants";
 
 type FilterRoutineListModalProps = {
   useRoutineList: UseRoutineListReturnType;
@@ -53,7 +51,7 @@ export const FilterRoutineListModal = ({
 
   const { listFilters, filterRoutineListModal } = useRoutineList;
 
-  const routineScheduleTypeMap = useRoutineScheduleTypeMap();
+  const routineScheduleTypeMap = ROUTINE_SCHEDULE_TYPES;
 
   const filterMinAndMaxValueInputsProps: UseFilterMinAndMaxValueInputsProps = {
     minValue: 2,

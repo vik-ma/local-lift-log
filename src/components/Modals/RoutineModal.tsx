@@ -19,7 +19,8 @@ import {
   IsNumberValidInteger,
   NumDaysInScheduleOptions,
 } from "../../helpers";
-import { useRoutineScheduleTypeMap, useValidateName } from "../../hooks";
+import { useValidateName } from "../../hooks";
+import { ROUTINE_SCHEDULE_TYPES } from "../../constants";
 
 type RoutineModalProps = {
   routineModal: UseDisclosureReturnType;
@@ -45,7 +46,7 @@ export const RoutineModal = ({
     return NumDaysInScheduleOptions();
   }, []);
 
-  const routineScheduleTypeMap = useRoutineScheduleTypeMap();
+  const routineScheduleTypeMap = ROUTINE_SCHEDULE_TYPES;
 
   const handleScheduleTypeChange = (scheduleType: string) => {
     if (scheduleType === "Weekly") {

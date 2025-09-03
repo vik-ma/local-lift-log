@@ -12,7 +12,6 @@ import {
   UserSettings,
   StoreFilterMapKey,
 } from "../typings";
-import { useRoutineScheduleTypeMap } from ".";
 import {
   ConvertCalendarDateToLocalizedString,
   ConvertCalendarDateToYmdString,
@@ -29,6 +28,7 @@ import {
   DISTANCE_UNITS,
   WEIGHT_UNITS,
   WEEKDAY_MAP,
+  ROUTINE_SCHEDULE_TYPES,
 } from "../constants";
 
 type UseListFiltersProps = {
@@ -62,7 +62,7 @@ export const useListFilters = ({
 
   const weekdayMap = WEEKDAY_MAP;
 
-  const scheduleTypeMap = useRoutineScheduleTypeMap();
+  const scheduleTypeMap = ROUTINE_SCHEDULE_TYPES;
 
   const multisetTypeMap = MULTISET_TYPES;
 
