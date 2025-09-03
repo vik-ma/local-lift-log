@@ -6,8 +6,8 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import { UserSettings } from "../../typings";
-import { UpdateUserSetting, ValidTimePeriodPropertiesMap } from "../../helpers";
-import { useMemo } from "react";
+import { UpdateUserSetting } from "../../helpers";
+import { VALID_TIME_PERIOD_PROPERTIES_MAP } from "../../constants";
 
 type TimePeriodPropertyDropdownProps = {
   selectedTimePeriodProperties: Set<string>;
@@ -26,9 +26,7 @@ export const TimePeriodPropertyDropdown = ({
   userSettings,
   setUserSettings,
 }: TimePeriodPropertyDropdownProps) => {
-  const timePeriodProperties = useMemo(() => {
-    return ValidTimePeriodPropertiesMap();
-  }, []);
+  const timePeriodProperties = VALID_TIME_PERIOD_PROPERTIES_MAP;
 
   const handleChange = async (keys: Set<string>) => {
     setSelectedTimePeriodProperties(keys);

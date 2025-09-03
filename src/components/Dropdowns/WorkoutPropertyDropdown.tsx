@@ -6,8 +6,8 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import { UserSettings } from "../../typings";
-import { useMemo } from "react";
-import { UpdateUserSetting, ValidWorkoutPropertiesMap } from "../../helpers";
+import { UpdateUserSetting } from "../../helpers";
+import { VALID_WORKOUT_PROPERTIES_MAP } from "../../constants";
 
 type WorkoutPropertyDropdownProps = {
   selectedWorkoutProperties: Set<string>;
@@ -39,7 +39,7 @@ export const WorkoutPropertyDropdown = ({
     );
   };
 
-  const workoutProperties = useMemo(() => ValidWorkoutPropertiesMap(), []);
+  const workoutProperties = VALID_WORKOUT_PROPERTIES_MAP;
 
   return (
     <Dropdown shouldBlockScroll={false}>

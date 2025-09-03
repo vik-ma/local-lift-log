@@ -4,11 +4,8 @@ import {
   EquipmentWeight,
   PresetsType,
 } from "../../typings";
-import {
-  CalculationStringsRegex,
-  IsCalculationStringValid,
-  CreateNewCalculationItem,
-} from "..";
+import { IsCalculationStringValid, CreateNewCalculationItem } from "..";
+import { CALCULATION_STRINGS_REGEX } from "../../constants";
 
 const createCalculationItemNumber = (
   number: number,
@@ -115,7 +112,7 @@ export const LoadCalculationString = (
     return { calculationList, totalMultiplier };
 
   // Calculation strings must be of format "e[**]/d[**]", e[**] or d[**]
-  const { regexEquipment, regexDistance } = CalculationStringsRegex();
+  const { regexEquipment, regexDistance } = CALCULATION_STRINGS_REGEX;
 
   // Number values must be of format "n**", where ** is a valid number above 0
   const regexNumber =

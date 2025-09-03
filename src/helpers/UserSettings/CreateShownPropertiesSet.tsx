@@ -1,9 +1,8 @@
+import { IsStringEmpty, ValidateShownPropertiesString } from "..";
 import {
-  IsStringEmpty,
-  ValidTimePeriodPropertiesMap,
-  ValidWorkoutPropertiesMap,
-  ValidateShownPropertiesString,
-} from "..";
+  VALID_TIME_PERIOD_PROPERTIES_MAP,
+  VALID_WORKOUT_PROPERTIES_MAP,
+} from "../../constants";
 import { ShownPropertiesTargetType } from "../../typings";
 
 export const CreateShownPropertiesSet = (
@@ -13,8 +12,8 @@ export const CreateShownPropertiesSet = (
   if (!ValidateShownPropertiesString(str, targetType)) {
     const keys =
       targetType === "workout"
-        ? ValidWorkoutPropertiesMap().keys()
-        : ValidTimePeriodPropertiesMap().keys();
+        ? VALID_WORKOUT_PROPERTIES_MAP.keys()
+        : VALID_TIME_PERIOD_PROPERTIES_MAP.keys();
 
     return new Set<string>(keys);
   }

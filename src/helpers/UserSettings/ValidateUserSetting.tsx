@@ -4,7 +4,6 @@ import {
   IsNumberValidInteger,
   ValidateActiveMeasurementsString,
   ValidateShownPropertiesString,
-  ValidCalculationModalTabs,
   ValidTimeInputBehaviors,
   ValidateBodyFatCalculationSettingsString,
 } from "..";
@@ -12,6 +11,7 @@ import {
   LOCALE_MAP,
   NUM_NEW_SETS_OPTIONS_LIST,
   TIME_INPUT_MAP,
+  VALID_CALCULATION_MODAL_TABS,
   VALID_CLOCK_STYLES,
   VALID_DISTANCE_UNITS,
   VALID_MEASUREMENT_UNITS,
@@ -84,7 +84,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
       return IsNumberValid(value as number, minValue, doNotAllowMinValue);
     }
     case "default_calculation_tab":
-      return ValidCalculationModalTabs().includes(value as string);
+      return VALID_CALCULATION_MODAL_TABS.includes(value as string);
     case "shown_workout_properties":
       return ValidateShownPropertiesString(value as string, "workout");
     case "default_plate_collection_id":

@@ -1,6 +1,7 @@
 import Database from "@tauri-apps/plugin-sql";
 import { CalculationListItem, Exercise, PresetsType } from "../../typings";
-import { CreateCalculationString, CalculationStringsRegex } from "..";
+import { CreateCalculationString } from "..";
+import { CALCULATION_STRINGS_REGEX } from "../../constants";
 
 type UpdateCalculationStringReturnType = {
   success: boolean;
@@ -30,7 +31,7 @@ export const UpdateCalculationString = async (
     const newCalculationStrings: string[] = [];
 
     // Calculation strings must be of format "e[**]/d[**]", e[**] or d[**]
-    const { regexEquipment, regexDistance } = CalculationStringsRegex();
+    const { regexEquipment, regexDistance } = CALCULATION_STRINGS_REGEX;
 
     let hasUpdatedCurrentPreset = false;
 
