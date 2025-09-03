@@ -1,7 +1,7 @@
 import { Select, SelectItem } from "@heroui/react";
-import { useDietPhaseTypes } from "../../hooks";
 import { TimePeriod } from "../../typings";
 import { ConvertEmptyStringToNull } from "../../helpers";
+import { DIET_PHASE_TYPES } from "../../constants";
 
 type DietPhaseDropdownProps = {
   value: string | null;
@@ -14,7 +14,7 @@ export const DietPhaseDropdown = ({
   targetType,
   setTimePeriod,
 }: DietPhaseDropdownProps) => {
-  const dietPhaseTypes = useDietPhaseTypes();
+  const dietPhaseTypes = DIET_PHASE_TYPES;
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = ConvertEmptyStringToNull(e.target.value);

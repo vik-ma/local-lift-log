@@ -1,9 +1,7 @@
-import { MultisetTypes } from "..";
+import { MULTISET_TYPES } from "../../constants";
 
 export const GetValidatedMultisetType = (multisetType: number) => {
-  const validMultisetTypes = MultisetTypes();
-
-  if (validMultisetTypes.has(multisetType)) return multisetType;
+  if (MULTISET_TYPES.has(multisetType)) return multisetType;
 
   return 0;
 };

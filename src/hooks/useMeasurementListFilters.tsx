@@ -4,7 +4,7 @@ import {
   StoreRef,
   UseMeasurementListFiltersReturnType,
 } from "../typings";
-import { MeasurementTypes } from "../helpers";
+import { MEASUREMENT_TYPES } from "../constants";
 
 type UseMeasurementListFiltersProps = {
   store: StoreRef;
@@ -67,7 +67,7 @@ export const useMeasurementListFilters = ({
 
     if (val === undefined) return;
 
-    if (MeasurementTypes().includes(val.value)) {
+    if (MEASUREMENT_TYPES.includes(val.value)) {
       handleFilterMeasurementTypes(val.value);
     }
   };

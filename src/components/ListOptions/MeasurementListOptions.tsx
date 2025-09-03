@@ -6,7 +6,7 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import { UseMeasurementListReturnType } from "../../typings";
-import { useMeasurementTypes } from "../../hooks";
+import { MEASUREMENT_TYPES } from "../../constants";
 
 type MeasurementListOptionsProps = {
   useMeasurementList: UseMeasurementListReturnType;
@@ -21,7 +21,7 @@ export const MeasurementListOptions = ({
   const { handleFilterMeasurementTypes, filterMeasurementTypes } =
     measurementListFilters;
 
-  const measurementTypes = useMeasurementTypes();
+  const measurementTypes = MEASUREMENT_TYPES;
 
   return (
     <div className="flex gap-1">

@@ -11,8 +11,9 @@ import {
   RadioGroup,
 } from "@heroui/react";
 import { Measurement, UseDisclosureReturnType } from "../../typings";
-import { useMeasurementTypes, useValidateName } from "../../hooks/";
+import { useValidateName } from "../../hooks/";
 import { useEffect, useState } from "react";
+import { MEASUREMENT_TYPES } from "../../constants";
 
 type MeasurementModalProps = {
   measurementModal: UseDisclosureReturnType;
@@ -31,7 +32,7 @@ export const MeasurementModal = ({
 
   const isMeasurementNameValid = useValidateName({ name: nameInput });
 
-  const measurementTypes = useMeasurementTypes();
+  const measurementTypes = MEASUREMENT_TYPES;
 
   const handleMeasurementTypeChange = (measurementType: string) => {
     const newDefaultUnit: string =

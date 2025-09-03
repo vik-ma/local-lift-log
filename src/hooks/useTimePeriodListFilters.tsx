@@ -11,10 +11,10 @@ import {
   ConvertCalendarDateToYmdString,
   ConvertDateStringToCalendarDate,
   DefaultTimePeriodFilterValues,
-  DietPhaseTypes,
   IsEndDateBeforeStartDate,
   IsNumberValidInteger,
 } from "../helpers";
+import { DIET_PHASE_TYPES } from "../constants";
 
 type UseTimePeriodListFiltersProps = {
   store: StoreRef;
@@ -425,7 +425,7 @@ export const useTimePeriodListFilters = ({
             const dietPhaseSet = new Set<string>();
 
             for (const dietPhaseFilter of dietPhaseFilters) {
-              if (DietPhaseTypes().includes(dietPhaseFilter)) {
+              if (DIET_PHASE_TYPES.includes(dietPhaseFilter)) {
                 dietPhaseSet.add(dietPhaseFilter);
               }
             }

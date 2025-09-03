@@ -1,4 +1,4 @@
-import { DefaultPlateWeights } from "..";
+import { DEFAULT_PLATE_WEIGHTS } from "../../constants";
 
 type DefaultEquipmentWeight = {
   name: string;
@@ -25,7 +25,7 @@ export const DefaultEquipmentWeights = (
     },
   ];
 
-  const defaultPlateWeights = DefaultPlateWeights();
+  const defaultPlateWeights = DEFAULT_PLATE_WEIGHTS;
 
   const metricWeights = defaultPlateWeights.metric;
   const imperialWeights = defaultPlateWeights.imperial;

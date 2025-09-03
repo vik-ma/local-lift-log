@@ -1,5 +1,5 @@
 import { Button, Select, SelectItem, SharedSelection } from "@heroui/react";
-import { useDietPhaseTypes } from "../../hooks";
+import { DIET_PHASE_TYPES } from "../../constants";
 
 type MultipleChoiceDietPhaseDropdownProps = {
   values: Set<string>;
@@ -10,7 +10,7 @@ export const MultipleChoiceDietPhaseDropdown = ({
   values,
   setValues,
 }: MultipleChoiceDietPhaseDropdownProps) => {
-  const dietPhaseTypes = useDietPhaseTypes();
+  const dietPhaseTypes = DIET_PHASE_TYPES;
 
   return (
     <div className="relative w-full">
