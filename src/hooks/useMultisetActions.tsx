@@ -12,7 +12,7 @@ import {
   StoreFilterMapKey,
 } from "../typings";
 import { useState, useMemo, useRef } from "react";
-import { useDefaultExercise, useListFilters, useMultisetTypeMap } from ".";
+import {  useListFilters, useMultisetTypeMap } from ".";
 import Database from "@tauri-apps/plugin-sql";
 import {
   GenerateSetListText,
@@ -24,6 +24,7 @@ import {
   DoesListOrSetHaveCommonElement,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
+import { DEFAULT_EXERCISE } from "../constants";
 
 type UseMultisetActionsProps = {
   operatingMultiset: Multiset;
@@ -136,7 +137,7 @@ export const useMultisetActions = ({
     includeSecondaryExerciseGroups,
   ]);
 
-  const defaultExercise = useDefaultExercise();
+  const defaultExercise = DEFAULT_EXERCISE;
 
   const [selectedMultisetExercise, setSelectedMultisetExercise] =
     useState<Exercise>(defaultExercise);

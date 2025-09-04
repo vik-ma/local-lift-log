@@ -34,8 +34,9 @@ import {
   LoadingSpinner,
 } from "../components";
 import { VerticalMenuIcon } from "../assets";
-import { useExerciseList, useDefaultExercise } from "../hooks";
+import { useExerciseList } from "../hooks";
 import { Store } from "@tauri-apps/plugin-store";
+import { DEFAULT_EXERCISE } from "../constants";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -73,7 +74,7 @@ export default function ExerciseList() {
 
   const navigate = useNavigate();
 
-  const defaultExercise = useDefaultExercise();
+  const defaultExercise = DEFAULT_EXERCISE;
 
   const [operatingExercise, setOperatingExercise] =
     useState<Exercise>(defaultExercise);

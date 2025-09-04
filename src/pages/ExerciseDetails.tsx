@@ -32,10 +32,10 @@ import {
   UpdateExercise,
   ValidateAndModifyUserSettings,
 } from "../helpers";
-import { useDefaultExercise, useDetailsHeaderOptionsMenu } from "../hooks";
+import { useDetailsHeaderOptionsMenu } from "../hooks";
 import toast from "react-hot-toast";
 import { TrophyIcon } from "../assets";
-import { EXERCISE_GROUP_DICTIONARY } from "../constants";
+import { DEFAULT_EXERCISE, EXERCISE_GROUP_DICTIONARY } from "../constants";
 
 type ShowCheckboxType =
   | "warmup"
@@ -74,7 +74,7 @@ export default function ExerciseDetails() {
 
   const tabPages = useRef<string[][]>([["history", "Exercise History"]]);
 
-  const defaultExercise = useDefaultExercise();
+  const defaultExercise = DEFAULT_EXERCISE;
 
   const [editedExercise, setEditedExercise] =
     useState<Exercise>(defaultExercise);

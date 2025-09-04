@@ -4,7 +4,6 @@ export { useValidateExerciseGroupStringPrimary } from "./useValidateExerciseGrou
 export { useExerciseList } from "./useExerciseList";
 export { useValidTimeInputBehaviors } from "./useValidTimeInputBehaviors";
 export { useDefaultRoutine } from "./useDefaultRoutine";
-export { useDefaultExercise } from "./useDefaultExercise";
 export { useDefaultWorkoutTemplate } from "./useDefaultWorkoutTemplate";
 export { useWorkoutActions } from "./useWorkoutActions";
 export { useDefaultWorkout } from "./useDefaultWorkout";
