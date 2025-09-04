@@ -5,7 +5,6 @@ export { useExerciseList } from "./useExerciseList";
 export { useValidTimeInputBehaviors } from "./useValidTimeInputBehaviors";
 export { useDefaultWorkoutTemplate } from "./useDefaultWorkoutTemplate";
 export { useWorkoutActions } from "./useWorkoutActions";
-export { useDefaultWorkout } from "./useDefaultWorkout";
 export { useWorkoutTemplateList } from "./useWorkoutTemplateList";
 export { useReassignMeasurement } from "./useReassignMeasurement";
 export { useMultisetActions } from "./useMultisetActions";

@@ -27,7 +27,6 @@ import {
   GetUserSettings,
   GetCurrentDateTimeISOString,
   ValidateISODateString,
-  DefaultNewWorkout,
   DefaultNewWorkoutTemplate,
   InsertMultisetIntoDatabase,
   GenerateMultisetSetOrderList,
@@ -62,7 +61,11 @@ import {
   usePresetsList,
 } from "../hooks";
 import { Store } from "@tauri-apps/plugin-store";
-import { DEFAULT_MULTISET, NUM_NEW_SETS_OPTIONS_LIST } from "../constants";
+import {
+  DEFAULT_MULTISET,
+  DEFAULT_WORKOUT,
+  NUM_NEW_SETS_OPTIONS_LIST,
+} from "../constants";
 
 type OperationType =
   | "add"
@@ -105,7 +108,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     numSets: 0,
   });
 
-  const [workout, setWorkout] = useState<Workout>(DefaultNewWorkout());
+  const [workout, setWorkout] = useState<Workout>(DEFAULT_WORKOUT);
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
   const [incompleteSetIds, setIncompleteSetIds] = useState<number[]>([]);
   const [completedSetsMap, setCompletedSetsMap] = useState<Map<string, number>>(

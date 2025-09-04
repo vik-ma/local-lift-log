@@ -1,10 +1,7 @@
 import Database from "@tauri-apps/plugin-sql";
 import { Workout } from "../../typings";
-import {
-  DefaultNewWorkout,
-  GetCurrentDateTimeISOString,
-  IsNumberValidInteger,
-} from "..";
+import { GetCurrentDateTimeISOString, IsNumberValidInteger } from "..";
+import { DEFAULT_WORKOUT } from "../../constants";
 
 export const CreateWorkout = async (
   workoutTemplateId: number
@@ -14,7 +11,7 @@ export const CreateWorkout = async (
   const currentDate = GetCurrentDateTimeISOString();
 
   const newWorkout: Workout = {
-    ...DefaultNewWorkout(),
+    ...DEFAULT_WORKOUT,
     workout_template_id: workoutTemplateId,
     date: currentDate,
   };
