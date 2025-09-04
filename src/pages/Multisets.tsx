@@ -10,7 +10,6 @@ import {
 } from "../typings";
 import {
   useCalculationModal,
-  useDefaultMultiset,
   useExerciseList,
   useMultisetActions,
   usePresetsList,
@@ -48,6 +47,7 @@ import {
 } from "../components";
 import toast from "react-hot-toast";
 import { Store } from "@tauri-apps/plugin-store";
+import { DEFAULT_MULTISET } from "../constants";
 
 export type OperationType = "add" | "edit" | "delete";
 
@@ -57,7 +57,7 @@ export default function Multisets() {
 
   const store = useRef<Store>(null);
 
-  const defaultMultiset = useDefaultMultiset();
+  const defaultMultiset = DEFAULT_MULTISET;
 
   const [operatingMultiset, setOperatingMultiset] =
     useState<Multiset>(defaultMultiset);

@@ -57,13 +57,12 @@ import {
 } from "../helpers";
 import {
   useMultisetActions,
-  useDefaultMultiset,
   useExerciseList,
   useCalculationModal,
   usePresetsList,
 } from "../hooks";
 import { Store } from "@tauri-apps/plugin-store";
-import { NUM_NEW_SETS_OPTIONS_LIST } from "../constants";
+import { DEFAULT_MULTISET, NUM_NEW_SETS_OPTIONS_LIST } from "../constants";
 
 type OperationType =
   | "add"
@@ -124,7 +123,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     defaultSet.current
   );
 
-  const defaultMultiset = useDefaultMultiset();
+  const defaultMultiset = DEFAULT_MULTISET;
 
   const [operatingMultiset, setOperatingMultiset] =
     useState<Multiset>(defaultMultiset);

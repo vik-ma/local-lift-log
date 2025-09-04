@@ -5,12 +5,12 @@ import {
   WorkoutSet,
 } from "../../typings";
 import {
-  DefaultNewMultiset,
   GenerateMultisetSetOrderList,
   GetExerciseWithId,
   GetMultisetWithId,
   GetValidatedMultisetType,
 } from "..";
+import { DEFAULT_MULTISET } from "../../constants";
 
 type MultisetGroupedSet = {
   multiset: Multiset;
@@ -24,7 +24,7 @@ export const GetMultisetGroupedSet = async (
   exerciseGroupDictionary: ExerciseGroupMap
 ): Promise<MultisetGroupedSet> => {
   const multisetExerciseAndSetList: MultisetGroupedSet = {
-    multiset: DefaultNewMultiset(),
+    multiset: DEFAULT_MULTISET,
     exerciseList: [],
     orderedSetList: [],
   };
