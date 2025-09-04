@@ -99,9 +99,8 @@ export default function LoggingIndex() {
     loadDietLogList,
   } = dietLogList;
 
-  const [operatingDietLog, setOperatingDietLog] = useState<DietLog>({
-    ...defaultDietLog,
-  });
+  const [operatingDietLog, setOperatingDietLog] =
+    useState<DietLog>(defaultDietLog);
 
   useEffect(() => {
     const loadPage = async () => {

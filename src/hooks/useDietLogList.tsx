@@ -10,7 +10,6 @@ import {
 import Database from "@tauri-apps/plugin-sql";
 import {
   ConvertDateToYmdString,
-  DefaultNewDietLog,
   DeleteDietLogWithId,
   DeleteItemFromList,
   FormatYmdDateString,
@@ -25,6 +24,7 @@ import {
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
 import { useDietLogListFilters } from ".";
+import { DEFAULT_DIET_LOG } from "../constants";
 
 type UseDietLogListProps = {
   store: StoreRef;
@@ -39,7 +39,7 @@ export const useDietLogList = ({
   const [dietLogMap, setDietLogMap] = useState<DietLogMap>(new Map());
   const [filterQuery, setFilterQuery] = useState<string>("");
 
-  const defaultDietLog = DefaultNewDietLog();
+  const defaultDietLog = DEFAULT_DIET_LOG;
 
   const [latestDietLog, setLatestDietLog] = useState<DietLog>(defaultDietLog);
 
