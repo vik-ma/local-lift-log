@@ -37,13 +37,13 @@ import {
   FilterExerciseGroupsModal,
 } from "../components";
 import {
-  useDefaultRoutine,
   useExerciseList,
   useRoutineList,
   useWorkoutTemplateList,
 } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
+import { DEFAULT_ROUTINE } from "../constants";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -56,7 +56,7 @@ export default function RoutineList() {
 
   const navigate = useNavigate();
 
-  const defaultRoutine = useDefaultRoutine();
+  const defaultRoutine = DEFAULT_ROUTINE;
 
   const [operatingRoutine, setOperatingRoutine] =
     useState<Routine>(defaultRoutine);

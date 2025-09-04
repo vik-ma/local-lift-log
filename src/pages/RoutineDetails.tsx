@@ -20,7 +20,6 @@ import {
 import {
   GetScheduleDayNames,
   GetScheduleDayValues,
-  DefaultNewRoutine,
   IsNumberValidInteger,
   GetUserSettings,
   UpdateRoutine,
@@ -47,14 +46,12 @@ import {
 import { Link } from "react-router-dom";
 import { Reorder } from "framer-motion";
 import { Store } from "@tauri-apps/plugin-store";
-import { WEEKDAY_MAP } from "../constants";
+import { DEFAULT_ROUTINE, WEEKDAY_MAP } from "../constants";
 
 export default function RoutineDetails() {
   const { id } = useParams();
-  const [routine, setRoutine] = useState<Routine>(DefaultNewRoutine());
-  const [editedRoutine, setEditedRoutine] = useState<Routine>(
-    DefaultNewRoutine()
-  );
+  const [routine, setRoutine] = useState<Routine>(DEFAULT_ROUTINE);
+  const [editedRoutine, setEditedRoutine] = useState<Routine>(DEFAULT_ROUTINE);
   const [selectedDay, setSelectedDay] = useState<number>(0);
   const [scheduleValues, setScheduleValues] = useState<RoutineScheduleItem[][]>(
     []
@@ -271,7 +268,7 @@ export default function RoutineDetails() {
     }
 
     setRoutine(updatedRoutine);
-    setEditedRoutine({ ...updatedRoutine });
+    setEditedRoutine(updatedRoutine);
 
     routineModal.onClose();
     toast.success("Routine Updated");
