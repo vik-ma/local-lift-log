@@ -27,7 +27,6 @@ import {
 import {
   ConvertWeightToKg,
   CreateActiveMeasurementInputs,
-  DefaultNewBodyMeasurements,
   DeleteBodyMeasurementsWithId,
   DeleteItemFromList,
   GetAllBodyMeasurements,
@@ -55,6 +54,7 @@ import {
 import toast from "react-hot-toast";
 import { VerticalMenuIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
+import { DEFAULT_BODY_MEASUREMENTS } from "../constants";
 
 export default function BodyMeasurementsList() {
   const [bodyMeasurements, setBodyMeasurements] = useState<BodyMeasurements[]>(
@@ -69,7 +69,7 @@ export default function BodyMeasurementsList() {
 
   const store = useRef<Store>(null);
 
-  const defaultBodyMeasurements = DefaultNewBodyMeasurements();
+  const defaultBodyMeasurements = DEFAULT_BODY_MEASUREMENTS;
 
   const [operatingBodyMeasurements, setOperatingBodyMeasurements] =
     useState<BodyMeasurements>(defaultBodyMeasurements);

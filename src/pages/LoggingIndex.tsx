@@ -20,7 +20,6 @@ import {
 import {
   GetUserSettings,
   InsertBodyMeasurementsIntoDatabase,
-  DefaultNewBodyMeasurements,
   GetLatestBodyMeasurements,
   CreateDetailedBodyMeasurementsList,
   UpdateBodyMeasurements,
@@ -40,6 +39,7 @@ import {
   useDietLogList,
 } from "../hooks";
 import { Store } from "@tauri-apps/plugin-store";
+import { DEFAULT_BODY_MEASUREMENTS } from "../constants";
 
 export default function LoggingIndex() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -50,7 +50,7 @@ export default function LoggingIndex() {
   const [dateEntryType, setDateEntryType] =
     useState<DietLogDateEntryType>("recent");
 
-  const defaultBodyMeasurements = DefaultNewBodyMeasurements();
+  const defaultBodyMeasurements = DEFAULT_BODY_MEASUREMENTS;
 
   const [latestBodyMeasurements, setLatestBodyMeasurements] =
     useState<BodyMeasurements>(defaultBodyMeasurements);
