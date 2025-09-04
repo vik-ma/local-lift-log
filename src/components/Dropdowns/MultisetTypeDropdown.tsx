@@ -1,7 +1,7 @@
-import { useMultisetTypeMap } from "../../hooks";
 import { Multiset } from "../../typings";
 import { useState } from "react";
 import { Select, SelectItem } from "@heroui/react";
+import { MULTISET_TYPES } from "../../constants";
 
 type MultisetTypeDropdownProps = {
   multiset_type: number;
@@ -16,7 +16,7 @@ export const MultisetTypeDropdown = ({
     new Set([multiset_type.toString()])
   );
 
-  const multisetTypeMap = useMultisetTypeMap();
+  const multisetTypeMap = MULTISET_TYPES;
 
   const handleChange = async (keys: Set<string>) => {
     if (keys.size !== 1) return;

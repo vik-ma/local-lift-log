@@ -12,7 +12,7 @@ import {
   StoreFilterMapKey,
 } from "../typings";
 import { useState, useMemo, useRef } from "react";
-import {  useListFilters, useMultisetTypeMap } from ".";
+import {  useListFilters } from ".";
 import Database from "@tauri-apps/plugin-sql";
 import {
   GenerateSetListText,
@@ -24,7 +24,7 @@ import {
   DoesListOrSetHaveCommonElement,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
-import { DEFAULT_EXERCISE } from "../constants";
+import { DEFAULT_EXERCISE, MULTISET_TYPES } from "../constants";
 
 type UseMultisetActionsProps = {
   operatingMultiset: Multiset;
@@ -70,7 +70,7 @@ export const useMultisetActions = ({
     useState<Multiset>(defaultMultiset);
   const [setsToDelete, setSetsToDelete] = useState<Set<number>>(new Set());
 
-  const multisetTypeMap = useMultisetTypeMap();
+  const multisetTypeMap = MULTISET_TYPES;
 
   const multisetModal = useDisclosure();
   const filterMultisetsModal = useDisclosure();
