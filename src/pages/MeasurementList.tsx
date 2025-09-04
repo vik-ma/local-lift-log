@@ -37,8 +37,9 @@ import {
   ValidateAndModifyUserSettings,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
-import { useDefaultMeasurement, useMeasurementList } from "../hooks";
+import { useMeasurementList } from "../hooks";
 import { Store } from "@tauri-apps/plugin-store";
+import { DEFAULT_MEASUREMENT } from "../constants";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -46,7 +47,7 @@ export default function MeasurementList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
 
-  const defaultMeasurement = useDefaultMeasurement();
+  const defaultMeasurement = DEFAULT_MEASUREMENT;
 
   const [operatingMeasurement, setOperatingMeasurement] =
     useState<Measurement>(defaultMeasurement);

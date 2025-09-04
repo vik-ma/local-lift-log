@@ -8,7 +8,6 @@ export { useDefaultWorkoutTemplate } from "./useDefaultWorkoutTemplate";
 export { useWorkoutActions } from "./useWorkoutActions";
 export { useDefaultWorkout } from "./useDefaultWorkout";
 export { useWorkoutTemplateList } from "./useWorkoutTemplateList";
-export { useDefaultMeasurement } from "./useDefaultMeasurement";
 export { useReassignMeasurement } from "./useReassignMeasurement";
 export { useDefaultMultiset } from "./useDefaultMultiset";
 export { useMultisetActions } from "./useMultisetActions";
