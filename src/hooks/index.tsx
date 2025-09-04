@@ -3,7 +3,6 @@ export { useValidateName } from "./useValidateName";
 export { useValidateExerciseGroupStringPrimary } from "./useValidateExerciseGroupStringPrimary";
 export { useExerciseList } from "./useExerciseList";
 export { useValidTimeInputBehaviors } from "./useValidTimeInputBehaviors";
-export { useDefaultWorkoutTemplate } from "./useDefaultWorkoutTemplate";
 export { useWorkoutActions } from "./useWorkoutActions";
 export { useWorkoutTemplateList } from "./useWorkoutTemplateList";
 export { useReassignMeasurement } from "./useReassignMeasurement";

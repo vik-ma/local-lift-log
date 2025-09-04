@@ -27,7 +27,6 @@ import {
   GetUserSettings,
   GetCurrentDateTimeISOString,
   ValidateISODateString,
-  DefaultNewWorkoutTemplate,
   InsertMultisetIntoDatabase,
   GenerateMultisetSetOrderList,
   GetExerciseWithId,
@@ -64,6 +63,7 @@ import { Store } from "@tauri-apps/plugin-store";
 import {
   DEFAULT_MULTISET,
   DEFAULT_WORKOUT,
+  DEFAULT_WORKOUT_TEMPLATE,
   NUM_NEW_SETS_OPTIONS_LIST,
 } from "../constants";
 
@@ -91,7 +91,7 @@ type UseWorkoutActionsProps = {
 
 export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
   const [workoutTemplate, setWorkoutTemplate] = useState<WorkoutTemplate>(
-    DefaultNewWorkoutTemplate()
+    DEFAULT_WORKOUT_TEMPLATE
   );
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [selectedExercise, setSelectedExercise] = useState<Exercise>();
