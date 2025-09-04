@@ -29,9 +29,9 @@ import {
   DeleteItemFromList,
   UpdateItemInList,
   UpdateCalculationString,
-  DefaultNewSet,
   LoadStore,
   ValidateAndModifyUserSettings,
+  CreateDefaultSet,
 } from "../helpers";
 import {
   CalculationModal,
@@ -64,7 +64,7 @@ export default function Multisets() {
 
   const deleteModal = useDisclosure();
 
-  const defaultSet = useRef<WorkoutSet>(DefaultNewSet(true));
+  const defaultSet = useRef<WorkoutSet>(CreateDefaultSet(true));
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(
     defaultSet.current

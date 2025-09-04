@@ -48,12 +48,12 @@ import {
   CopySetTrackingValues,
   UpdateCalculationString,
   DeleteMultisetWithId,
-  DefaultNewSet,
   GetLatestUserWeight,
   IsDateStringOlderThanOneWeek,
   LoadStore,
   ValidateAndModifyUserSettings,
   GetValidatedNumNewSets,
+  CreateDefaultSet,
 } from "../helpers";
 import {
   useMultisetActions,
@@ -118,7 +118,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
   const [numMultisetSets, setNumMultisetSets] = useState<number>(1);
 
-  const defaultSet = useRef<WorkoutSet>(DefaultNewSet(isTemplate));
+  const defaultSet = useRef<WorkoutSet>(CreateDefaultSet(isTemplate));
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(
     defaultSet.current

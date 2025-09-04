@@ -99,6 +99,7 @@ export { GetCompletedSetsWithExerciseId } from "./Sets/GetCompletedSetsWithExerc
 export { GetAnalyticsValuesForSetList } from "./Sets/GetAnalyticsValuesForSetList";
 export { GetTimeCompletedForSetsWithExerciseId } from "./Sets/GetTimeCompletedForSetsWithExerciseId";
 export { GetValidatedSetValue } from "./Sets/GetValidatedSetValue";
+export { CreateDefaultSet } from "./Sets/CreateDefaultSet";
 
 export { GenerateMultisetSetOrderString } from "./Multisets/GenerateMultisetSetOrderString";
 export { InsertMultisetIntoDatabase } from "./Multisets/InsertMultisetIntoDatabase";
