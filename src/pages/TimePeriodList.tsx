@@ -17,7 +17,7 @@ import {
   TimePeriodModal,
   TimePeriodListItemContent,
 } from "../components";
-import { useDefaultTimePeriod, useTimePeriodList } from "../hooks";
+import { useTimePeriodList } from "../hooks";
 import { useEffect, useRef, useState } from "react";
 import { TimePeriod, UserSettings } from "../typings";
 import {
@@ -31,6 +31,7 @@ import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
 import { VerticalMenuIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
+import { DEFAULT_TIME_PERIOD } from "../constants";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -38,7 +39,7 @@ export default function TimePeriodList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
 
-  const defaultTimePeriod = useDefaultTimePeriod();
+  const defaultTimePeriod = DEFAULT_TIME_PERIOD;
 
   const [operatingTimePeriod, setOperatingTimePeriod] =
     useState<TimePeriod>(defaultTimePeriod);

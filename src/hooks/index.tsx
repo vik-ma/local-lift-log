@@ -22,7 +22,6 @@ export { useListFilters } from "./useListFilters";
 export { useExerciseListFilters } from "./useExerciseListFilters";
 export { usePresetsTypeString } from "./usePresetsTypeString";
 export { useTimePeriodList } from "./useTimePeriodList";
-export { useDefaultTimePeriod } from "./useDefaultTimePeriod";
 export { useTimePeriodListFilters } from "./useTimePeriodListFilters";
 export { useFilterMinAndMaxValueInputs } from "./useFilterMinAndMaxValueInputs";
 export { useIsEndDateBeforeStartDate } from "./useIsEndDateBeforeStartDate";
