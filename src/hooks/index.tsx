@@ -26,7 +26,6 @@ export { useIsEndDateBeforeStartDate } from "./useIsEndDateBeforeStartDate";
 export { useDietLogList } from "./useDietLogList";
 export { useDietLogListFilters } from "./useDietLogListFilters";
 export { useDateRange } from "./useDateRange";
-export { useDefaultChartMapsAndConfig } from "./useDefaultChartMapsAndConfig";
 export { useChartColorLists } from "./useChartColorLists";
 export { useChartDateMap } from "./useChartDateMap";
 export { useChartTimePeriodIdSets } from "./useChartTimePeriodIdSets";

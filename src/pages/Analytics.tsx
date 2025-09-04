@@ -39,7 +39,6 @@ import {
   useExerciseList,
   useMeasurementList,
   useChartTimePeriodIdSets,
-  useDefaultChartMapsAndConfig,
   useTimePeriodList,
 } from "../hooks";
 import { useEffect, useRef, useState, useMemo } from "react";
@@ -107,6 +106,7 @@ import {
 import toast from "react-hot-toast";
 import { Store } from "@tauri-apps/plugin-store";
 import { LOAD_EXERCISE_OPTIONS_MAP, MEASUREMENT_UNITS } from "../constants";
+import { DEFAULT_CHART_MAPS_AND_CONFIG } from "../constants/DefaultChartMapsAndConfig";
 
 export type AnalyticsChartListModalPage =
   | "measurement-list"
@@ -222,7 +222,7 @@ export default function Analytics() {
     defaultChartDataUnitMap,
     defaultChartDataUnitCategoryMap,
     defaultChartConfig,
-  } = useDefaultChartMapsAndConfig();
+  } = DEFAULT_CHART_MAPS_AND_CONFIG;
 
   const chartDataUnitMap = useRef<Map<ChartDataCategory, string>>(
     new Map(defaultChartDataUnitMap)
