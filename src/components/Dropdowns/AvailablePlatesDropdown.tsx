@@ -1,5 +1,4 @@
 import { Select, SelectItem } from "@heroui/react";
-import { useMemo } from "react";
 import { EquipmentWeight, PlateCollection } from "../../typings";
 import { UpdateAvailablePlatesInPlateCollection } from "../../helpers";
 
@@ -22,9 +21,7 @@ export const AvailablePlatesDropdown = ({
   isSmall,
   isActive,
 }: AvailablePlatesDropdownProps) => {
-  const availableNumbers = useMemo(() => {
-    return ["2", "4", "6", "8", "10", "12", "16", "18", "20"];
-  }, []);
+  const availableNumbers = ["2", "4", "6", "8", "10", "12", "16", "18", "20"];
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (

@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import {
   TimePeriod,
   UserSettings,
@@ -47,9 +46,8 @@ export const TimePeriodModalList = ({
 
   const { filterMap, removeFilter, prefixMap } = timePeriodListFilters;
 
-  const height = useMemo(() => {
-    return customHeightString !== undefined ? customHeightString : "h-[400px]";
-  }, [customHeightString]);
+  const height =
+    customHeightString !== undefined ? customHeightString : "h-[400px]";
 
   const navigate = useNavigate();
 

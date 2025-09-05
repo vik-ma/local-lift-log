@@ -29,9 +29,7 @@ export const Calculator = ({
   const [isOperationActive, setIsOperationActive] = useState<boolean>(false);
   const [numLeftBrackets, setNumLeftBrackets] = useState<number>(0);
 
-  const operationSymbols = useMemo(() => {
-    return ["+", "-", "*", "/"];
-  }, []);
+  const operationSymbols = ["+", "-", "*", "/"];
 
   const isInputAtLimit = useMemo(() => {
     return input.length >= 36;

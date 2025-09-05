@@ -13,7 +13,6 @@ import {
 import { Routine, UseRoutineListReturnType, UserSettings } from "../../typings";
 import { GoToArrowIcon } from "../../assets";
 import { useNavigate } from "react-router-dom";
-import { useMemo } from "react";
 
 type RoutineModalListProps = {
   useRoutineList: UseRoutineListReturnType;
@@ -43,9 +42,8 @@ export const RoutineModalList = ({
 
   const { filterMap, removeFilter, prefixMap } = listFilters;
 
-  const height = useMemo(() => {
-    return customHeightString !== undefined ? customHeightString : "h-[440px]";
-  }, [customHeightString]);
+  const height =
+    customHeightString !== undefined ? customHeightString : "h-[440px]";
 
   const navigate = useNavigate();
 

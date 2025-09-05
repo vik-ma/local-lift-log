@@ -10,7 +10,6 @@ import {
 import { Measurement, UseMeasurementListReturnType } from "../../typings";
 import { CheckmarkIcon, GoToArrowIcon } from "../../assets";
 import { Link, useNavigate } from "react-router-dom";
-import { useMemo } from "react";
 import { FormatNumBodyMeasurementsEntriesString } from "../../helpers";
 
 type MeasurementModalListProps = {
@@ -46,9 +45,8 @@ export const MeasurementModalList = ({
 
   const { filterMap, removeFilter, prefixMap } = measurementListFilters;
 
-  const height = useMemo(() => {
-    return customHeightString !== undefined ? customHeightString : "h-[400px]";
-  }, [customHeightString]);
+  const height =
+    customHeightString !== undefined ? customHeightString : "h-[400px]";
 
   const navigate = useNavigate();
 

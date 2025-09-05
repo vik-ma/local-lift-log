@@ -63,9 +63,12 @@ export const TimeValueInput = ({
     userSettings.default_time_input
   );
 
-  const timeInputBehaviorMap: TimeInputBehaviorMapType = useMemo(() => {
-    return { first: 1, second: 2, third: 3, never: 0 };
-  }, []);
+  const timeInputBehaviorMap: TimeInputBehaviorMapType = {
+    first: 1,
+    second: 2,
+    third: 3,
+    never: 0,
+  };
 
   const timeInputMap = TIME_INPUT_MAP;
 

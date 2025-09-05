@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from "react";
+import { ReactNode } from "react";
 import { SearchInput } from ".";
 
 type ListPageSearchInputProps = {
@@ -22,9 +22,7 @@ export const ListPageSearchInput = ({
   bottomContent,
   extraTopSpace,
 }: ListPageSearchInputProps) => {
-  const topSpace = useMemo(() => {
-    return extraTopSpace ? "top-[7rem]" : "top-[4.5rem]";
-  }, [extraTopSpace]);
+  const topSpace = extraTopSpace ? "top-[7rem]" : "top-[4.5rem]";
 
   return (
     <div

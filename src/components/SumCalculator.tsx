@@ -350,9 +350,7 @@ export const SumCalculator = ({
     totalMultiplierInput,
   ]);
 
-  const presetText = useMemo(() => {
-    return presetsType === "equipment" ? "Weight" : "Distance";
-  }, [presetsType]);
+  const presetText = presetsType === "equipment" ? "Weight" : "Distance";
 
   const handleWeightMultiplierChange = (
     value: string,
