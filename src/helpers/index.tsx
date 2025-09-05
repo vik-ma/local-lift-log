@@ -81,7 +81,6 @@ export { ValidateAndModifyUserSettings } from "./UserSettings/ValidateAndModifyU
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
 export { ConvertSetInputValuesToNumbers } from "./Sets/ConvertSetInputValuesToNumbers";
-export { DefaultSetInputValues } from "./Sets/DefaultSetInputValues";
 export { ReassignExerciseIdForSets } from "./Sets/ReassignExerciseIdForSets";
 export { InsertSetIntoDatabase } from "./Sets/InsertSetIntoDatabase";
 export { UpdateSet } from "./Sets/UpdateSet";

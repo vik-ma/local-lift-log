@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import {
   ConvertNullToEmptyInputString,
   ConvertNumberToInputString,
-  DefaultSetInputValues,
   IsNumberValidInteger,
   IsStringInvalidInteger,
   IsStringInvalidNumber,
@@ -13,6 +12,7 @@ import {
   WorkoutSet,
   UseSetTrackingInputsReturnType,
 } from "../typings";
+import { DEFAULT_SET_VALUES_INPUT } from "../constants";
 
 export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
@@ -23,9 +23,8 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   const [setNoteInput, setSetNoteInput] = useState<string>("");
   const [timeInSeconds, setTimeInSeconds] = useState<number>(0);
 
-  const defaultSetTrackingValuesInput: SetTrackingValuesInput = useMemo(() => {
-    return DefaultSetInputValues();
-  }, []);
+  const defaultSetTrackingValuesInput: SetTrackingValuesInput =
+    DEFAULT_SET_VALUES_INPUT;
 
   const [setTrackingValuesInput, setSetTrackingValuesInput] =
     useState<SetTrackingValuesInput>(defaultSetTrackingValuesInput);

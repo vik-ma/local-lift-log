@@ -36,3 +36,4 @@ export { DEFAULT_DIET_LOG_FILTER_VALUES } from "./DefaultDietLogFilterValues";
 export { DEFAULT_EXERCISE_FILTER_VALUES } from "./DefaultExerciseFilterValues";
 export { DEFAULT_TIME_PERIOD_FILTER_VALUES } from "./DefaultTimePeriodFilterValues";
 export { DEFAULT_LIST_FILTER_VALUES } from "./DefaultListFilterValues";
+export { DEFAULT_SET_VALUES_INPUT } from "./DefaultSetInputValues";
