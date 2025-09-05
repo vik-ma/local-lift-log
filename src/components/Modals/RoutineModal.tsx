@@ -12,15 +12,17 @@ import {
   SelectItem,
 } from "@heroui/react";
 import { Routine, UseDisclosureReturnType } from "../../typings";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ConvertEmptyStringToNull,
   ConvertNullToEmptyInputString,
   IsNumberValidInteger,
-  NumDaysInScheduleOptions,
 } from "../../helpers";
 import { useValidateName } from "../../hooks";
-import { ROUTINE_SCHEDULE_TYPES } from "../../constants";
+import {
+  NUM_DAYS_IN_SCHEDULE_OPTIONS,
+  ROUTINE_SCHEDULE_TYPES,
+} from "../../constants";
 
 type RoutineModalProps = {
   routineModal: UseDisclosureReturnType;
@@ -42,9 +44,7 @@ export const RoutineModal = ({
 
   const isRoutineNameValid = useValidateName({ name: nameInput });
 
-  const numDaysInScheduleOptions: number[] = useMemo(() => {
-    return NumDaysInScheduleOptions();
-  }, []);
+  const numDaysInScheduleOptions = NUM_DAYS_IN_SCHEDULE_OPTIONS;
 
   const routineScheduleTypeMap = ROUTINE_SCHEDULE_TYPES;
 

@@ -50,7 +50,6 @@ export { GetDefaultExercises } from "./Exercises/GetDefaultExercises";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleDayValues";
-export { NumDaysInScheduleOptions } from "./Routines/NumDaysInScheduleOptions";
 export { UpdateRoutine } from "./Routines/UpdateRoutine";
 export { CreateRoutineWorkoutTemplateList } from "./Routines/CreateRoutineWorkoutTemplateList";
 export { IsRoutineScheduleTypeFiltered } from "./Routines/IsRoutineScheduleTypeFiltered";
