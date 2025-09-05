@@ -1,8 +1,8 @@
 import Database from "@tauri-apps/plugin-sql";
-import { DefaultExercises } from "..";
+import { GetDefaultExercises } from "..";
 
 export const CreateDefaultExercises = async () => {
-  const DEFAULT_EXERCISES = DefaultExercises();
+  const DEFAULT_EXERCISES = GetDefaultExercises();
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);

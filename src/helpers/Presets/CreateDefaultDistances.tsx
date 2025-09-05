@@ -1,8 +1,8 @@
 import Database from "@tauri-apps/plugin-sql";
-import { DefaultDistances } from "..";
+import { GetDefaultDistances } from "..";
 
 export const CreateDefaultDistances = async (isMetric: boolean) => {
-  const DEFAULT_DISTANCES = DefaultDistances(isMetric);
+  const DEFAULT_DISTANCES = GetDefaultDistances(isMetric);
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);

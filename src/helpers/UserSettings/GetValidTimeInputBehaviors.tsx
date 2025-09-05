@@ -1,4 +1,4 @@
-export const ValidTimeInputBehaviors = (isHhmmss: boolean) => {
+export const GetValidTimeInputBehaviors = (isHhmmss: boolean) => {
   const timeType = isHhmmss ? "hours" : "minutes";
 
   const VALID_TIME_INPUT_BEHAVIORS = new Map([

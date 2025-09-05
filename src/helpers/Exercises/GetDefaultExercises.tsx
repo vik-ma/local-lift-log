@@ -4,14 +4,14 @@ type DefaultExercise = {
   exercise_group_map_string_secondary: string | null;
 };
 
-export const DefaultExercises = (): DefaultExercise[] => {
-  const defaultMultiplier = 0.5;
+export const GetDefaultExercises = () => {
+  const DEFAULT_MULTIPLIER = 0.5;
 
   const DEFAULT_EXERCISES: DefaultExercise[] = [
     {
       name: "Bench Press",
       exercise_group_set_string_primary: "0",
-      exercise_group_map_string_secondary: `1x${defaultMultiplier},4x${defaultMultiplier}`,
+      exercise_group_map_string_secondary: `1x${DEFAULT_MULTIPLIER},4x${DEFAULT_MULTIPLIER}`,
     },
     {
       name: "Hammer Curl",
@@ -26,7 +26,7 @@ export const DefaultExercises = (): DefaultExercise[] => {
     {
       name: "Deadlift",
       exercise_group_set_string_primary: "7,8",
-      exercise_group_map_string_secondary: `3x${defaultMultiplier},5x${defaultMultiplier},6x${defaultMultiplier},9x${defaultMultiplier},10x${defaultMultiplier},11x${defaultMultiplier}`,
+      exercise_group_map_string_secondary: `3x${DEFAULT_MULTIPLIER},5x${DEFAULT_MULTIPLIER},6x${DEFAULT_MULTIPLIER},9x${DEFAULT_MULTIPLIER},10x${DEFAULT_MULTIPLIER},11x${DEFAULT_MULTIPLIER}`,
     },
     {
       name: "Calf Raise",

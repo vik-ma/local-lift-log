@@ -4,7 +4,7 @@ import {
   IsNumberValidInteger,
   ValidateActiveMeasurementsString,
   ValidateShownPropertiesString,
-  ValidTimeInputBehaviors,
+  GetValidTimeInputBehaviors,
   ValidateBodyFatCalculationSettingsString,
 } from "..";
 import {
@@ -44,11 +44,11 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
       return CLOCK_STYLES.includes(value as string);
     case "time_input_behavior_hhmmss": {
       const isHhmmss = true;
-      return ValidTimeInputBehaviors(isHhmmss).has(value as string);
+      return GetValidTimeInputBehaviors(isHhmmss).has(value as string);
     }
     case "time_input_behavior_mmss": {
       const isHhmmss = false;
-      return ValidTimeInputBehaviors(isHhmmss).has(value as string);
+      return GetValidTimeInputBehaviors(isHhmmss).has(value as string);
     }
     case "default_increment_weight": {
       const minValue = 0;

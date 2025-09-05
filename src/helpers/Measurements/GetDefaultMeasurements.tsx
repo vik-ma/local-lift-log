@@ -4,9 +4,7 @@ type DefaultMeasurement = {
   measurement_type: string;
 };
 
-export const DefaultMeasurements = (
-  isMetric: boolean
-): DefaultMeasurement[] => {
+export const GetDefaultMeasurements = (isMetric: boolean) => {
   const DEFAULT_MEASUREMENTS: DefaultMeasurement[] = [
     {
       name: "Neck",

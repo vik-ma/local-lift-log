@@ -1,11 +1,11 @@
 import Database from "@tauri-apps/plugin-sql";
-import { DefaultMeasurements } from "..";
+import { GetDefaultMeasurements } from "..";
 import { Measurement } from "../../typings";
 
 export const CreateDefaultMeasurements = async (
   isMetric: boolean
 ): Promise<Measurement[]> => {
-  const DEFAULT_MEASUREMENTS = DefaultMeasurements(isMetric);
+  const DEFAULT_MEASUREMENTS = GetDefaultMeasurements(isMetric);
 
   const newMeasurementList: Measurement[] = [];
 

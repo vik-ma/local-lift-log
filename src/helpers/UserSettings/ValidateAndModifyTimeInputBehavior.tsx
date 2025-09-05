@@ -1,5 +1,5 @@
 import { UserSettings } from "../../typings";
-import { ValidTimeInputBehaviors } from "..";
+import { GetValidTimeInputBehaviors } from "..";
 import { TIME_INPUT_MAP } from "../../constants";
 
 export const ValidateAndModifyTimeInputBehavior = (
@@ -9,9 +9,9 @@ export const ValidateAndModifyTimeInputBehavior = (
 
   const isHhmmss = true;
 
-  const validTimeInputBehaviorsHhmmss = ValidTimeInputBehaviors(isHhmmss);
+  const validTimeInputBehaviorsHhmmss = GetValidTimeInputBehaviors(isHhmmss);
 
-  const validTimeInputBehaviorsMmss = ValidTimeInputBehaviors(!isHhmmss);
+  const validTimeInputBehaviorsMmss = GetValidTimeInputBehaviors(!isHhmmss);
 
   if (!timeInputMap.has(userSettings.default_time_input))
     userSettings.default_time_input = timeInputMap.keys().next().value!;

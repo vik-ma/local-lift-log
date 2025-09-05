@@ -5,8 +5,8 @@ type DefaultDistance = {
   is_favorite: number;
 };
 
-export const DefaultDistances = (isMetric: boolean): DefaultDistance[] => {
-  const DEFAULT_DISTANCE_LIST: DefaultDistance[] = [
+export const GetDefaultDistances = (isMetric: boolean) => {
+  const DEFAULT_DISTANCES: DefaultDistance[] = [
     {
       name: "5K",
       distance: isMetric ? 5 : 3.1,
@@ -27,7 +27,7 @@ export const DefaultDistances = (isMetric: boolean): DefaultDistance[] => {
     },
   ];
 
-  Object.freeze(DEFAULT_DISTANCE_LIST);
+  Object.freeze(DEFAULT_DISTANCES);
 
-  return DEFAULT_DISTANCE_LIST;
+  return DEFAULT_DISTANCES;
 };

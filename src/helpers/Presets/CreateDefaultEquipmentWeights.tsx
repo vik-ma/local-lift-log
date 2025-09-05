@@ -1,8 +1,8 @@
 import Database from "@tauri-apps/plugin-sql";
-import { CreateDefaultPlateCollections, DefaultEquipmentWeights } from "..";
+import { CreateDefaultPlateCollections, GetDefaultEquipmentWeights } from "..";
 
 export const CreateDefaultEquipmentWeights = async (isMetric: boolean) => {
-  const DEFAULT_EQUIPMENT_WEIGHTS = DefaultEquipmentWeights(isMetric);
+  const DEFAULT_EQUIPMENT_WEIGHTS = GetDefaultEquipmentWeights(isMetric);
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);

@@ -7,9 +7,7 @@ type DefaultEquipmentWeight = {
   is_favorite: number;
 };
 
-export const DefaultEquipmentWeights = (
-  isMetric: boolean
-): DefaultEquipmentWeight[] => {
+export const GetDefaultEquipmentWeights = (isMetric: boolean) => {
   const DEFAULT_EQUIPMENT_WEIGHTS: DefaultEquipmentWeight[] = [
     {
       name: "Barbell",
