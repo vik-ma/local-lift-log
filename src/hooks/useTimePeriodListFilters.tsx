@@ -10,11 +10,13 @@ import {
   ConvertCalendarDateToLocalizedString,
   ConvertCalendarDateToYmdString,
   ConvertDateStringToCalendarDate,
-  DefaultTimePeriodFilterValues,
   IsEndDateBeforeStartDate,
   IsNumberValidInteger,
 } from "../helpers";
-import { DIET_PHASE_TYPES } from "../constants";
+import {
+  DEFAULT_TIME_PERIOD_FILTER_VALUES,
+  DIET_PHASE_TYPES,
+} from "../constants";
 
 type UseTimePeriodListFiltersProps = {
   store: StoreRef;
@@ -32,10 +34,7 @@ export const useTimePeriodListFilters = ({
 }: UseTimePeriodListFiltersProps): UseTimePeriodListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<TimePeriodFilterMap>(new Map());
 
-  const defaultTimePeriodFilterValues = useMemo(
-    () => DefaultTimePeriodFilterValues(),
-    []
-  );
+  const defaultTimePeriodFilterValues = DEFAULT_TIME_PERIOD_FILTER_VALUES;
 
   const [timePeriodFilterValues, setTimePeriodFilterValues] =
     useState<TimePeriodFilterValues>(defaultTimePeriodFilterValues);

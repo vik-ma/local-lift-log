@@ -228,7 +228,6 @@ export { CreateNewCalculationItem } from "./CalculationItems/CreateNewCalculatio
 export { LoadCalculationString } from "./CalculationItems/LoadCalculationString";
 
 export { GetValidatedDietPhase } from "./TimePeriods/GetValidatedDietPhase";
-export { DefaultTimePeriodFilterValues } from "./TimePeriods/DefaultTimePeriodFilterValues";
 
 export { ShouldDietLogDisableExpansion } from "./DietLogs/ShouldDietLogDisableExpansion";
 export { InsertDietLogIntoDatabase } from "./DietLogs/InsertDietLogIntoDatabase";
