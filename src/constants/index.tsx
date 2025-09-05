@@ -35,3 +35,4 @@ export { DEFAULT_WORKOUT_TEMPLATE } from "./DefaultWorkoutTemplate";
 export { DEFAULT_DIET_LOG_FILTER_VALUES } from "./DefaultDietLogFilterValues";
 export { DEFAULT_EXERCISE_FILTER_VALUES } from "./DefaultExerciseFilterValues";
 export { DEFAULT_TIME_PERIOD_FILTER_VALUES } from "./DefaultTimePeriodFilterValues";
+export { DEFAULT_LIST_FILTER_VALUES } from "./DefaultListFilterValues";

@@ -17,7 +17,6 @@ import {
   ConvertCalendarDateToYmdString,
   ConvertDateStringToCalendarDate,
   ConvertNumberToTwoDecimals,
-  DefaultListFilterValues,
   GetFilterExerciseGroupsString,
   IsEndDateBeforeStartDate,
   IsNumberValid,
@@ -29,6 +28,7 @@ import {
   WEIGHT_UNITS,
   WEEKDAY_MAP,
   ROUTINE_SCHEDULE_TYPES,
+  DEFAULT_LIST_FILTER_VALUES,
 } from "../constants";
 
 type UseListFiltersProps = {
@@ -54,7 +54,7 @@ export const useListFilters = ({
 }: UseListFiltersProps): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<ListFilterMap>(new Map());
 
-  const defaultListFilterValues = useMemo(() => DefaultListFilterValues(), []);
+  const defaultListFilterValues = DEFAULT_LIST_FILTER_VALUES;
 
   const [listFilterValues, setListFilterValues] = useState<ListFilterValues>(
     defaultListFilterValues
