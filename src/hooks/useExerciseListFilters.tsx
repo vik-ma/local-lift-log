@@ -8,10 +8,8 @@ import {
   ExerciseGroupMap,
 } from "../typings";
 import { useMemo, useState } from "react";
-import {
-  DefaultExerciseFilterValues,
-  GetFilterExerciseGroupsString,
-} from "../helpers";
+import { GetFilterExerciseGroupsString } from "../helpers";
+import { DEFAULT_EXERCISE_FILTER_VALUES } from "../constants";
 
 type UseExerciseListFiltersProps = {
   store: StoreRef;
@@ -30,10 +28,7 @@ export const useExerciseListFilters = ({
     new Map()
   );
 
-  const defaultExerciseFilterValues = useMemo(
-    () => DefaultExerciseFilterValues(),
-    []
-  );
+  const defaultExerciseFilterValues = DEFAULT_EXERCISE_FILTER_VALUES;
 
   const [exerciseFilterValues, setExerciseFilterValues] =
     useState<ExerciseFilterValues>(defaultExerciseFilterValues);
