@@ -10,11 +10,10 @@ import {
   ConvertCalendarDateToLocalizedString,
   ConvertCalendarDateToYmdString,
   ConvertDateStringToCalendarDate,
-  DefaultDietLogFilterValues,
   IsEndDateBeforeStartDate,
   IsNumberValidInteger,
 } from "../helpers";
-import { WEEKDAY_MAP } from "../constants";
+import { DEFAULT_DIET_LOG_FILTER_VALUES, WEEKDAY_MAP } from "../constants";
 
 type UseDietLogListFiltersProps = {
   store: StoreRef;
@@ -35,10 +34,7 @@ export const useDietLogListFilters = ({
 }: UseDietLogListFiltersProps): UseDietLogListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<DietLogFilterMap>(new Map());
 
-  const defaultDietLogFilterValues = useMemo(
-    () => DefaultDietLogFilterValues(),
-    []
-  );
+  const defaultDietLogFilterValues = DEFAULT_DIET_LOG_FILTER_VALUES;
 
   const [dietLogFilterValues, setDietLogFilterValues] =
     useState<DietLogFilterValues>(defaultDietLogFilterValues);

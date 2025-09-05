@@ -32,3 +32,4 @@ export { DEFAULT_SET } from "./DefaultSet";
 export { DEFAULT_TIME_PERIOD } from "./DefaultTimePeriod";
 export { DEFAULT_WORKOUT } from "./DefaultWorkout";
 export { DEFAULT_WORKOUT_TEMPLATE } from "./DefaultWorkoutTemplate";
+export { DEFAULT_DIET_LOG_FILTER_VALUES } from "./DefaultDietLogFilterValues";

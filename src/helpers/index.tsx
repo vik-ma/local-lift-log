@@ -235,7 +235,6 @@ export { ShouldDietLogDisableExpansion } from "./DietLogs/ShouldDietLogDisableEx
 export { InsertDietLogIntoDatabase } from "./DietLogs/InsertDietLogIntoDatabase";
 export { DeleteDietLogWithId } from "./DietLogs/DeleteDietLogWithId";
 export { GetAllDietLogs } from "./DietLogs/GetAllDietLogs";
-export { DefaultDietLogFilterValues } from "./DietLogs/DefaultDietLogFilterValues";
 
 export { LoadStore } from "./Store/LoadStore";
 export { GetSortCategoryFromStore } from "./Store/GetSortCategoryFromStore";
