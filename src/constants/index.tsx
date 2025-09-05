@@ -21,6 +21,8 @@ export { SPEED_UNITS } from "./SpeedUnits";
 export { LOAD_EXERCISE_OPTIONS_CATEGORIES } from "./LoadExerciseOptionsCategories";
 export { PACE_UNITS } from "./PaceUnits";
 export { BODY_FAT_CALCULATION_AGE_GROUPS } from "./BodyFatCalculationAgeGroups";
+export { NUM_DAYS_IN_SCHEDULE_OPTIONS } from "./NumDaysInScheduleOptions";
+export { CHART_COLOR_LISTS } from "./ChartColorLists";
 
 export { DEFAULT_BODY_MEASUREMENTS } from "./DefaultBodyMeasurements";
 export { DEFAULT_DIET_LOG } from "./DefaultDietLog";
@@ -37,4 +39,3 @@ export { DEFAULT_EXERCISE_FILTER_VALUES } from "./DefaultExerciseFilterValues";
 export { DEFAULT_TIME_PERIOD_FILTER_VALUES } from "./DefaultTimePeriodFilterValues";
 export { DEFAULT_LIST_FILTER_VALUES } from "./DefaultListFilterValues";
 export { DEFAULT_SET_VALUES_INPUT } from "./DefaultSetInputValues";
-export { NUM_DAYS_IN_SCHEDULE_OPTIONS } from "./NumDaysInScheduleOptions";

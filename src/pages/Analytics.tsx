@@ -34,7 +34,6 @@ import {
   ChartConfig,
 } from "../components/ui/chart";
 import {
-  useChartColorLists,
   useChartDateMap,
   useExerciseList,
   useMeasurementList,
@@ -105,7 +104,11 @@ import {
 } from "../helpers";
 import toast from "react-hot-toast";
 import { Store } from "@tauri-apps/plugin-store";
-import { LOAD_EXERCISE_OPTIONS_MAP, MEASUREMENT_UNITS } from "../constants";
+import {
+  CHART_COLOR_LISTS,
+  LOAD_EXERCISE_OPTIONS_MAP,
+  MEASUREMENT_UNITS,
+} from "../constants";
 import { DEFAULT_CHART_MAPS_AND_CONFIG } from "../constants/DefaultChartMapsAndConfig";
 
 export type AnalyticsChartListModalPage =
@@ -174,7 +177,7 @@ export default function Analytics() {
   const dateMap = useChartDateMap();
 
   const { chartLineColorList, chartAreaColorList, referenceAreaColorList } =
-    useChartColorLists();
+    CHART_COLOR_LISTS;
 
   const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
