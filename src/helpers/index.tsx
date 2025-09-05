@@ -46,6 +46,7 @@ export { CreateExerciseGroupSetPrimary } from "./Exercises/CreateExerciseGroupSe
 export { CreateExerciseGroupSetSecondary } from "./Exercises/CreateExerciseGroupSetSecondary";
 export { CreateExerciseSetIds } from "./Exercises/CreateExerciseSetIds";
 export { GetFilterExerciseGroupsString } from "./Exercises/GetFilterExerciseGroupsString";
+export { DefaultExercises } from "./Exercises/DefaultExercises";
 
 export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleDayValues";
@@ -77,6 +78,7 @@ export { GenerateBodyFatCalculationSettingsString } from "./UserSettings/Generat
 export { ValidateAndModifyIncrementMultipliers } from "./UserSettings/ValidateAndModifyIncrementMultipliers";
 export { ValidateAndModifyTimeInputBehavior } from "./UserSettings/ValidateAndModifyTimeInputBehavior";
 export { ValidateAndModifyUserSettings } from "./UserSettings/ValidateAndModifyUserSettings";
+export { ValidTimeInputBehaviors } from "./UserSettings/ValidTimeInputBehaviors";
 
 export { OrderSetsBySetListOrderString } from "./Sets/OrderSetsBySetListOrderString";
 export { CreateSetsFromWorkoutTemplate } from "./Sets/CreateSetsFromWorkoutTemplate";
@@ -166,6 +168,7 @@ export { GetBodyFatCalculationConstants } from "./Measurements/GetBodyFatCalcula
 export { CalculateBodyFatPercentage } from "./Measurements/CalculateBodyFatPercentage";
 export { CreateValidBodyMeasurementsValues } from "./Measurements/CreateValidBodyMeasurementsValues";
 export { GetValidatedMeasurementType } from "./Measurements/GetValidatedMeasurementType";
+export { DefaultMeasurements } from "./Measurements/DefaultMeasurements";
 
 export { CreateDefaultEquipmentWeights } from "./Presets/CreateDefaultEquipmentWeights";
 export { CreateDefaultDistances } from "./Presets/CreateDefaultDistances";
@@ -176,6 +179,8 @@ export { CreatePlateCollectionList } from "./Presets/CreatePlateCollectionList";
 export { GenerateFormattedAvailablePlatesString } from "./Presets/GenerateFormattedAvailablePlatesString";
 export { UpdateAvailablePlatesInPlateCollection } from "./Presets/UpdateAvailablePlatesInPlateCollection";
 export { FormatPresetsTypeString } from "./Presets/FormatPresetsTypeString";
+export { DefaultDistances } from "./Presets/DefaultDistances";
+export { DefaultEquipmentWeights } from "./Presets/DefaultEquipmentWeights";
 
 export { CreateGroupedWorkoutSetList } from "./Workouts/CreateGroupedWorkoutSetList";
 export { GenerateExerciseOrderString } from "./Workouts/GenerateExerciseOrderString";
@@ -191,12 +196,6 @@ export { MergeTwoGroupedSetLists } from "./Workouts/MergeTwoGroupedSetLists";
 export { GetUniqueMultisetIds } from "./Workouts/GetUniqueMultisetIds";
 export { CreateWorkout } from "./Workouts/CreateWorkout";
 export { DeleteWorkoutWithId } from "./Workouts/DeleteWorkoutWithId";
-
-export { DefaultDistances } from "./Factories/DefaultDistances";
-export { DefaultEquipmentWeights } from "./Factories/DefaultEquipmentWeights";
-export { DefaultMeasurements } from "./Factories/DefaultMeasurements";
-export { DefaultExercises } from "./Factories/DefaultExercises";
-export { ValidTimeInputBehaviors } from "./Factories/ValidTimeInputBehaviors";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
