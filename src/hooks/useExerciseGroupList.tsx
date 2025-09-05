@@ -3,7 +3,7 @@ import { EXERCISE_GROUP_DICTIONARY } from "../constants";
 
 export const useExerciseGroupList = () => {
   const exerciseGroupList = useMemo(
-    () => Array.from(EXERCISE_GROUP_DICTIONARY),
+    () => Array.from(EXERCISE_GROUP_DICTIONARY.values()),
     []
   );
 

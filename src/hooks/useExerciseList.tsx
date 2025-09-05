@@ -15,11 +15,8 @@ import {
   StoreRef,
   UserSettings,
 } from "../typings";
-import {
-  useExerciseGroupDictionary,
-  useExerciseGroupList,
-  useExerciseListFilters,
-} from ".";
+import { useExerciseGroupList, useExerciseListFilters } from ".";
+import { EXERCISE_GROUP_DICTIONARY } from "../constants";
 
 type UseExerciseListProps = {
   store: StoreRef;
@@ -40,8 +37,8 @@ export const useExerciseList = ({
     useState<boolean>(false);
   const exerciseMap = useRef<ExerciseMap>(new Map());
 
+  const exerciseGroupDictionary = EXERCISE_GROUP_DICTIONARY;
   const exerciseGroupList = useExerciseGroupList();
-  const exerciseGroupDictionary = useExerciseGroupDictionary();
 
   const isExerciseListLoaded = useRef(false);
 
