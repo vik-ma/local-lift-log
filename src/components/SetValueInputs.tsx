@@ -58,6 +58,12 @@ type DisableUpdateValueButtonsMapType = {
   user_weight: Increment;
 };
 
+const IS_INCREASE_DEFAULT = false;
+const INTEGER_INCREMENT = 1;
+const MAX_VALUE_DEFAULT = undefined;
+const MAX_VALUE_RPE = 10;
+const MIN_VALUE_RIR = -1;
+
 export const SetValueInputs = ({
   operatingSet,
   setOperatingSet,
@@ -90,7 +96,7 @@ export const SetValueInputs = ({
         decrease: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.weight,
           setInputsInvalidityMap.weight,
-          false,
+          IS_INCREASE_DEFAULT,
           userSettings.default_increment_weight
         ),
         increase: setInputsInvalidityMap.weight,
@@ -99,8 +105,8 @@ export const SetValueInputs = ({
         decrease: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.reps,
           setInputsInvalidityMap.reps,
-          false,
-          1
+          IS_INCREASE_DEFAULT,
+          INTEGER_INCREMENT
         ),
         increase: setInputsInvalidityMap.reps,
       },
@@ -108,10 +114,10 @@ export const SetValueInputs = ({
         decrease: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.rir,
           setInputsInvalidityMap.rir,
-          false,
-          1,
-          undefined,
-          -1
+          IS_INCREASE_DEFAULT,
+          INTEGER_INCREMENT,
+          MAX_VALUE_DEFAULT,
+          MIN_VALUE_RIR
         ),
         increase: setInputsInvalidityMap.rir,
       },
@@ -119,23 +125,23 @@ export const SetValueInputs = ({
         decrease: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.rpe,
           setInputsInvalidityMap.rpe,
-          false,
-          1,
-          10
+          IS_INCREASE_DEFAULT,
+          INTEGER_INCREMENT,
+          MAX_VALUE_RPE
         ),
         increase: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.rpe,
           setInputsInvalidityMap.rpe,
-          true,
-          1,
-          10
+          !IS_INCREASE_DEFAULT,
+          INTEGER_INCREMENT,
+          MAX_VALUE_RPE
         ),
       },
       distance: {
         decrease: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.distance,
           setInputsInvalidityMap.distance,
-          false,
+          IS_INCREASE_DEFAULT,
           userSettings.default_increment_distance
         ),
         increase: setInputsInvalidityMap.distance,
@@ -150,7 +156,7 @@ export const SetValueInputs = ({
         decrease: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.resistance_level,
           setInputsInvalidityMap.resistance_level,
-          false,
+          IS_INCREASE_DEFAULT,
           userSettings.default_increment_resistance_level
         ),
         increase: setInputsInvalidityMap.resistance_level,
@@ -159,8 +165,8 @@ export const SetValueInputs = ({
         decrease: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.partial_reps,
           setInputsInvalidityMap.partial_reps,
-          false,
-          1
+          IS_INCREASE_DEFAULT,
+          INTEGER_INCREMENT
         ),
         increase: setInputsInvalidityMap.partial_reps,
       },
@@ -168,7 +174,7 @@ export const SetValueInputs = ({
         decrease: ShouldSetTrackingValueButtonBeDisabled(
           setTrackingValuesInput.user_weight,
           setInputsInvalidityMap.user_weight,
-          false,
+          IS_INCREASE_DEFAULT,
           userSettings.default_increment_weight
         ),
         increase: setInputsInvalidityMap.user_weight,
