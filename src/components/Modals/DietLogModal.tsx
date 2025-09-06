@@ -61,6 +61,9 @@ type DietLogModalProps = {
   ) => void;
 };
 
+const MIN_VALUE_CALORIES = 0;
+const DO_NOT_ALLOW_MIN_VALUE_CALORIES = true;
+
 export const DietLogModal = ({
   dietLogModal,
   dietLog,
@@ -94,12 +97,14 @@ export const DietLogModal = ({
 
   const isCaloriesInputValid = useMemo(() => {
     if (IsStringEmpty(caloriesInput)) return false;
-
-    const minValue = 0;
-    const doNotAllowMinValue = true;
-    if (IsStringInvalidInteger(caloriesInput, minValue, doNotAllowMinValue))
+    if (
+      IsStringInvalidInteger(
+        caloriesInput,
+        MIN_VALUE_CALORIES,
+        DO_NOT_ALLOW_MIN_VALUE_CALORIES
+      )
+    )
       return false;
-
     return true;
   }, [caloriesInput]);
 

@@ -54,9 +54,9 @@ const timeInputBehaviorMap: TimeInputBehaviorMapType = {
   never: 0,
 };
 
-const inputMinValue = 0;
-const doNotAllowMinValue = false;
-const inputMaxValue = 59;
+const INPUT_MIN_VALUE = 0;
+const DO_NOT_ALLOW_MIN_VALUE = false;
+const INPUT_MAX_VALUE = 59;
 
 export const TimeValueInput = ({
   userSettings,
@@ -139,18 +139,18 @@ export const TimeValueInput = ({
   const isHhmmssSecondsInputInvalid = useMemo(() => {
     return IsStringInvalidInteger(
       hhmmssInput.seconds,
-      inputMinValue,
-      doNotAllowMinValue,
-      inputMaxValue
+      INPUT_MIN_VALUE,
+      DO_NOT_ALLOW_MIN_VALUE,
+      INPUT_MAX_VALUE
     );
   }, [hhmmssInput.seconds]);
 
   const isHhmmssMinutesInputInvalid = useMemo(() => {
     return IsStringInvalidInteger(
       hhmmssInput.minutes,
-      inputMinValue,
-      doNotAllowMinValue,
-      inputMaxValue
+      INPUT_MIN_VALUE,
+      DO_NOT_ALLOW_MIN_VALUE,
+      INPUT_MAX_VALUE
     );
   }, [hhmmssInput.minutes]);
 
@@ -165,9 +165,9 @@ export const TimeValueInput = ({
   const isMmssSecondsInputInvalid = useMemo(() => {
     return IsStringInvalidInteger(
       mmssInput.seconds,
-      inputMinValue,
-      doNotAllowMinValue,
-      inputMaxValue
+      INPUT_MIN_VALUE,
+      DO_NOT_ALLOW_MIN_VALUE,
+      INPUT_MAX_VALUE
     );
   }, [mmssInput.seconds]);
 

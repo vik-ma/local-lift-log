@@ -9,8 +9,8 @@ import {
   UseFilterMinAndMaxValueInputsProps,
 } from "../typings";
 
-const inputMinValue = 0;
-const doNotAllowMin = true;
+const INPUT_MIN_VALUE = 0;
+const DO_NOT_ALLOW_MIN_VALUE = true;
 
 export const useFilterMinAndMaxValueInputs = ({
   minValue,
@@ -26,10 +26,12 @@ export const useFilterMinAndMaxValueInputs = ({
     if (IsStringEmpty(minInput)) return false;
     if (
       isIntegerOnly &&
-      IsStringInvalidInteger(minInput, inputMinValue, doNotAllowMin)
+      IsStringInvalidInteger(minInput, INPUT_MIN_VALUE, DO_NOT_ALLOW_MIN_VALUE)
     )
       return true;
-    if (IsStringInvalidNumber(minInput, inputMinValue, doNotAllowMin))
+    if (
+      IsStringInvalidNumber(minInput, INPUT_MIN_VALUE, DO_NOT_ALLOW_MIN_VALUE)
+    )
       return true;
     if (minValue !== undefined && Number(minInput) < minValue) return true;
     if (maxValue !== undefined && Number(minInput) > maxValue) return true;
@@ -40,10 +42,12 @@ export const useFilterMinAndMaxValueInputs = ({
     if (IsStringEmpty(maxInput)) return false;
     if (
       isIntegerOnly &&
-      IsStringInvalidInteger(maxInput, inputMinValue, doNotAllowMin)
+      IsStringInvalidInteger(maxInput, INPUT_MIN_VALUE, DO_NOT_ALLOW_MIN_VALUE)
     )
       return true;
-    if (IsStringInvalidNumber(maxInput, inputMinValue, doNotAllowMin))
+    if (
+      IsStringInvalidNumber(maxInput, INPUT_MIN_VALUE, DO_NOT_ALLOW_MIN_VALUE)
+    )
       return true;
     if (minValue !== undefined && Number(maxInput) < minValue) return true;
     if (maxValue !== undefined && Number(maxInput) > maxValue) return true;
