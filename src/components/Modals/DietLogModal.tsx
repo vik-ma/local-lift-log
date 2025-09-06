@@ -94,7 +94,12 @@ export const DietLogModal = ({
 
   const isCaloriesInputValid = useMemo(() => {
     if (IsStringEmpty(caloriesInput)) return false;
-    if (IsStringInvalidInteger(caloriesInput, 0, true)) return false;
+
+    const minValue = 0;
+    const doNotAllowMinValue = true;
+    if (IsStringInvalidInteger(caloriesInput, minValue, doNotAllowMinValue))
+      return false;
+
     return true;
   }, [caloriesInput]);
 
