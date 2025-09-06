@@ -47,6 +47,17 @@ type TimeInputBehaviorMapType = {
   [key: string]: number;
 };
 
+const timeInputBehaviorMap: TimeInputBehaviorMapType = {
+  first: 1,
+  second: 2,
+  third: 3,
+  never: 0,
+};
+
+const inputMinValue = 0;
+const doNotAllowMinValue = false;
+const inputMaxValue = 59;
+
 export const TimeValueInput = ({
   userSettings,
   setIsTimeInputInvalid,
@@ -63,14 +74,13 @@ export const TimeValueInput = ({
     userSettings.default_time_input
   );
 
-  const timeInputBehaviorMap: TimeInputBehaviorMapType = {
-    first: 1,
-    second: 2,
-    third: 3,
-    never: 0,
-  };
-
   const timeInputMap = TIME_INPUT_MAP;
+
+  const hhmmssHoursInput = useRef<HTMLInputElement>(null);
+  const hhmmssMinutesInput = useRef<HTMLInputElement>(null);
+  const hhmmssSecondsInput = useRef<HTMLInputElement>(null);
+  const mmssMinutesInput = useRef<HTMLInputElement>(null);
+  const mmssSecondsInput = useRef<HTMLInputElement>(null);
 
   const convertSecondsToMinutes = (seconds: number) => {
     if (seconds === 0) return "";
@@ -129,11 +139,21 @@ export const TimeValueInput = ({
   }, [minutesInput]);
 
   const isHhmmssSecondsInputInvalid = useMemo(() => {
-    return IsStringInvalidInteger(hhmmssInput.seconds, 0, false, 59);
+    return IsStringInvalidInteger(
+      hhmmssInput.seconds,
+      inputMinValue,
+      doNotAllowMinValue,
+      inputMaxValue
+    );
   }, [hhmmssInput.seconds]);
 
   const isHhmmssMinutesInputInvalid = useMemo(() => {
-    return IsStringInvalidInteger(hhmmssInput.minutes, 0, false, 59);
+    return IsStringInvalidInteger(
+      hhmmssInput.minutes,
+      inputMinValue,
+      doNotAllowMinValue,
+      inputMaxValue
+    );
   }, [hhmmssInput.minutes]);
 
   const isHhmmssHoursInputInvalid = useMemo(() => {
@@ -145,7 +165,12 @@ export const TimeValueInput = ({
   }, [mmssInput.minutes]);
 
   const isMmssSecondsInputInvalid = useMemo(() => {
-    return IsStringInvalidInteger(mmssInput.seconds, 0, false, 59);
+    return IsStringInvalidInteger(
+      mmssInput.seconds,
+      inputMinValue,
+      doNotAllowMinValue,
+      inputMaxValue
+    );
   }, [mmssInput.seconds]);
 
   const isValue0AndInvalid = useMemo(() => {
@@ -305,12 +330,6 @@ export const TimeValueInput = ({
     setMmssInput(convertSecondsToMmss(timeInSeconds));
     setHhmmssInput(convertSecondsToHhmmss(timeInSeconds));
   }, [timeInSeconds]);
-
-  const hhmmssHoursInput = useRef<HTMLInputElement>(null);
-  const hhmmssMinutesInput = useRef<HTMLInputElement>(null);
-  const hhmmssSecondsInput = useRef<HTMLInputElement>(null);
-  const mmssMinutesInput = useRef<HTMLInputElement>(null);
-  const mmssSecondsInput = useRef<HTMLInputElement>(null);
 
   return (
     <div className="flex justify-between gap-0.5 items-center">
