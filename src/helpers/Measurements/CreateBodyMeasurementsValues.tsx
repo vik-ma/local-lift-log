@@ -10,13 +10,16 @@ import {
 export const CreateBodyMeasurementsValues = (measurements: Measurement[]) => {
   const bodyMeasurementValues: BodyMeasurementsValues = {};
 
+  const minValue = 0;
+  const doNotAllowMinValue = true;
+
   for (let i = 0; i < measurements.length; i++) {
     const measurement = measurements[i];
 
     if (
       measurement.input === undefined ||
       IsStringEmpty(measurement.input) ||
-      IsStringInvalidNumber(measurement.input, 0, true)
+      IsStringInvalidNumber(measurement.input, minValue, doNotAllowMinValue)
     ) {
       continue;
     }

@@ -16,6 +16,10 @@ export const LoadExerciseGroupSetStringSecondary = (
   const exerciseGroupNameList: string[] = [];
   const exerciseGroupMultiplierMap: Map<string, string> = new Map();
 
+  const minValue = 0;
+  const doNotAllowMinValue = true;
+  const maxValue = 1;
+
   for (const str of exerciseGroups) {
     const exerciseGroupAndMultiplier = str.split("x");
 
@@ -28,7 +32,7 @@ export const LoadExerciseGroupSetStringSecondary = (
       !exerciseGroupSetPrimary.has(exerciseGroup) &&
       !exerciseGroupMultiplierMap.has(exerciseGroup) &&
       multiplier !== undefined &&
-      !IsStringInvalidNumber(multiplier, 0, true, 1)
+      !IsStringInvalidNumber(multiplier, minValue, doNotAllowMinValue, maxValue)
     ) {
       exerciseGroupNameList.push(exerciseGroupDictionary.get(exerciseGroup)!);
       exerciseGroupMultiplierMap.set(exerciseGroup, multiplier);

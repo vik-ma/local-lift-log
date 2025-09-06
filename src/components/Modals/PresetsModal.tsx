@@ -39,6 +39,9 @@ type PresetsModalProps = {
   ) => void;
 };
 
+const INPUT_MIN_VALUE = 0;
+const DO_NOT_ALLOW_MIN_VALUE = true;
+
 export const PresetsModal = ({
   presetsModal,
   operationType,
@@ -55,7 +58,11 @@ export const PresetsModal = ({
   const isNameInputValid = useValidateName({ name: nameInput });
 
   const isValueInputInvalid = useMemo(() => {
-    return IsStringInvalidNumber(valueInput, 0, true);
+    return IsStringInvalidNumber(
+      valueInput,
+      INPUT_MIN_VALUE,
+      DO_NOT_ALLOW_MIN_VALUE
+    );
   }, [valueInput]);
 
   const isNewPresetInvalid = useMemo(() => {

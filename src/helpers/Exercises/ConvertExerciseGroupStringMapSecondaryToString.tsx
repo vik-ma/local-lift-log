@@ -10,13 +10,17 @@ export const ConvertExerciseGroupStringMapSecondaryToString = (
 
   const exerciseGroupStrings: string[] = [];
 
+  const minValue = 0;
+  const doNotAllowMinValue = false;
+  const maxValue = 1;
+
   for (const key of exerciseGroupStringMap.keys()) {
     const value = multiplierInputMap.get(key);
 
     if (
       value === undefined ||
       !exerciseGroupDictionary.has(key) ||
-      IsStringInvalidNumber(value, 0, false, 1)
+      IsStringInvalidNumber(value, minValue, doNotAllowMinValue, maxValue)
     )
       continue;
 

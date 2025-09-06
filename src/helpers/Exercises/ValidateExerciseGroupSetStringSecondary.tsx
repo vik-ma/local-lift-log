@@ -9,6 +9,10 @@ export const ValidateExerciseGroupSetStringSecondary = (
 
   const exerciseGroups = exerciseGroupSetString.split(",");
 
+  const minValue = 0;
+  const doNotAllowMinValue = false;
+  const maxValue = 1;
+
   for (const str of exerciseGroups) {
     const exerciseGroupAndMultiplier = str.split("x");
 
@@ -19,7 +23,7 @@ export const ValidateExerciseGroupSetStringSecondary = (
       exerciseGroup === undefined ||
       !exerciseGroupDictionary.has(exerciseGroup) ||
       multiplier === undefined ||
-      IsStringInvalidNumber(multiplier, 0, false, 1)
+      IsStringInvalidNumber(multiplier, minValue, doNotAllowMinValue, maxValue)
     ) {
       return false;
     }

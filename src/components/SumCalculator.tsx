@@ -67,6 +67,9 @@ type SumCalculatorProps = {
   >;
 };
 
+const INPUT_MIN_VALUE = 0;
+const DO_NOT_ALLOW_MIN_VALUE = true;
+
 export const SumCalculator = ({
   equipmentWeights,
   distances,
@@ -103,7 +106,12 @@ export const SumCalculator = ({
 
   const isNumberInputInvalid = useMemo(() => {
     return (
-      IsStringEmpty(numberInput) || IsStringInvalidNumber(numberInput, 0, true)
+      IsStringEmpty(numberInput) ||
+      IsStringInvalidNumber(
+        numberInput,
+        INPUT_MIN_VALUE,
+        DO_NOT_ALLOW_MIN_VALUE
+      )
     );
   }, [numberInput]);
 
@@ -357,7 +365,11 @@ export const SumCalculator = ({
     weight: CalculationListItem,
     index: number
   ) => {
-    const isInputInvalid = IsStringInvalidNumber(value, 0, true);
+    const isInputInvalid = IsStringInvalidNumber(
+      value,
+      INPUT_MIN_VALUE,
+      DO_NOT_ALLOW_MIN_VALUE
+    );
 
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);
@@ -387,7 +399,11 @@ export const SumCalculator = ({
     distance: CalculationListItem,
     index: number
   ) => {
-    const isInputInvalid = IsStringInvalidNumber(value, 0, true);
+    const isInputInvalid = IsStringInvalidNumber(
+      value,
+      INPUT_MIN_VALUE,
+      DO_NOT_ALLOW_MIN_VALUE
+    );
 
     const multiplier =
       isInputInvalid || IsStringEmpty(value) ? 1 : Number(value);

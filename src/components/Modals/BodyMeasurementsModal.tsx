@@ -53,6 +53,10 @@ type BodyMeasurementsModalProps = {
 
 type ModalPage = "base" | "measurement-list";
 
+const INPUT_MIN_VALUE = 0;
+const DO_NOT_ALLOW_MIN_VALUE = true;
+const INPUT_MAX_VALUE_BF_PERCENTAGE = 100;
+
 export const BodyMeasurementsModal = ({
   bodyMeasurementsModal,
   operatingBodyMeasurements,
@@ -87,14 +91,28 @@ export const BodyMeasurementsModal = ({
 
   const isWeightInputValid = useMemo(() => {
     if (IsStringEmpty(weightInput)) return true;
-    if (IsStringInvalidNumber(weightInput, 0, true)) return false;
+    if (
+      IsStringInvalidNumber(
+        weightInput,
+        INPUT_MIN_VALUE,
+        DO_NOT_ALLOW_MIN_VALUE
+      )
+    )
+      return false;
 
     return true;
   }, [weightInput]);
 
   const isBodyFatPercentageInputValid = useMemo(() => {
     if (IsStringEmpty(bodyFatPercentageInput)) return true;
-    if (IsStringInvalidNumber(bodyFatPercentageInput, 0, true, 100))
+    if (
+      IsStringInvalidNumber(
+        bodyFatPercentageInput,
+        INPUT_MIN_VALUE,
+        DO_NOT_ALLOW_MIN_VALUE,
+        INPUT_MAX_VALUE_BF_PERCENTAGE
+      )
+    )
       return false;
 
     return true;
@@ -151,7 +169,10 @@ export const BodyMeasurementsModal = ({
 
   const validateActiveMeasurementInput = (value: string, index: number) => {
     const updatedInvalidInputs = new Set(invalidMeasurementInputs);
-    if (!IsStringEmpty(value) && IsStringInvalidNumber(value, 0, true)) {
+    if (
+      !IsStringEmpty(value) &&
+      IsStringInvalidNumber(value, INPUT_MIN_VALUE, DO_NOT_ALLOW_MIN_VALUE)
+    ) {
       updatedInvalidInputs.add(index);
     } else {
       updatedInvalidInputs.delete(index);
@@ -163,7 +184,7 @@ export const BodyMeasurementsModal = ({
   const validateBodyFatMeasurementInput = (value: string, id: number) => {
     if (!bodyFatMeasurementsMap.has(id)) return;
 
-    if (IsStringInvalidNumber(value, 0, true)) {
+    if (IsStringInvalidNumber(value, INPUT_MIN_VALUE, DO_NOT_ALLOW_MIN_VALUE)) {
       validBodyFatInputs.current.delete(id);
     } else {
       validBodyFatInputs.current.add(id);

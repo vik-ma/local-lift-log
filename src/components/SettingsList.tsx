@@ -56,6 +56,9 @@ type SettingsItem = {
   category: SettingsItemCategory;
 };
 
+const MIN_VALUE_DEFAULT_INCREMENTS = 0;
+const DO_NOT_ALLOW_MIN_VALUE_DEFAULT_INCREMENTS = true;
+
 export const SettingsList = ({
   userSettings,
   setUserSettings,
@@ -80,23 +83,23 @@ export const SettingsList = ({
       const values: DefaultIncrementInputInvalidityMap = {
         weight: IsStringInvalidNumber(
           defaultIncrementInputValues.weight,
-          0,
-          true
+          MIN_VALUE_DEFAULT_INCREMENTS,
+          DO_NOT_ALLOW_MIN_VALUE_DEFAULT_INCREMENTS
         ),
         distance: IsStringInvalidNumber(
           defaultIncrementInputValues.distance,
-          0,
-          true
+          MIN_VALUE_DEFAULT_INCREMENTS,
+          DO_NOT_ALLOW_MIN_VALUE_DEFAULT_INCREMENTS
         ),
         resistanceLevel: IsStringInvalidNumber(
           defaultIncrementInputValues.resistanceLevel,
-          0,
-          true
+          MIN_VALUE_DEFAULT_INCREMENTS,
+          DO_NOT_ALLOW_MIN_VALUE_DEFAULT_INCREMENTS
         ),
         calculationMultiplier: IsStringInvalidNumber(
           defaultIncrementInputValues.calculationMultiplier,
-          0,
-          true
+          MIN_VALUE_DEFAULT_INCREMENTS,
+          DO_NOT_ALLOW_MIN_VALUE_DEFAULT_INCREMENTS
         ),
       };
       return values;

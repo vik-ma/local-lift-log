@@ -9,6 +9,10 @@ export const CreateExerciseGroupSetSecondary = (
 
   const exerciseGroupStrings = exercise_group_map_string_secondary.split(",");
 
+  const minValue = 0;
+  const doNotAllowMinValue = false;
+  const maxValue = 1;
+
   for (const str of exerciseGroupStrings) {
     const exerciseGroupAndMultiplier = str.split("x");
 
@@ -19,7 +23,7 @@ export const CreateExerciseGroupSetSecondary = (
       exerciseGroup !== undefined &&
       exerciseGroupDictionary.has(exerciseGroup) &&
       multiplier !== undefined &&
-      !IsStringInvalidNumber(multiplier, 0, false, 1)
+      !IsStringInvalidNumber(multiplier, minValue, doNotAllowMinValue, maxValue)
     ) {
       exerciseGroupSetSecondary.add(exerciseGroup);
     }
