@@ -25,6 +25,7 @@ import {
 } from "../helpers";
 import { useListFilters, usePresetsTypeString } from ".";
 import { useDisclosure } from "@heroui/react";
+import { DEFAULT_PLATE_COLLECTION } from "../constants";
 
 type UsePresetsListProps = {
   store: StoreRef;
@@ -60,17 +61,7 @@ export const usePresetsList = ({
 
   const presetsTypeString = usePresetsTypeString({ presetsType });
 
-  const defaultPlateCollection: PlateCollection = useMemo(() => {
-    return {
-      id: 0,
-      name: "",
-      handle_id: 0,
-      available_plates_string: "",
-      num_handles: 1,
-      weight_unit: "kg",
-      availablePlatesMap: new Map(),
-    };
-  }, []);
+  const defaultPlateCollection = DEFAULT_PLATE_COLLECTION;
 
   const [operatingPlateCollection, setOperatingPlateCollection] =
     useState<PlateCollection>(defaultPlateCollection);
