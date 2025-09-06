@@ -1,18 +1,11 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { DefaultIncrementInputs, UseSettingsListReturnType } from "../typings";
+import { EMPTY_DEFAULT_INCREMENT_VALUES } from "../constants";
 
 export const useSettingsList = (): UseSettingsListReturnType => {
   const [timeInSeconds, setTimeInSeconds] = useState<number>(0);
 
-  const emptyDefaultIncrementValues: DefaultIncrementInputs = useMemo(() => {
-    return {
-      weight: "",
-      distance: "",
-      time: 0,
-      resistanceLevel: "",
-      calculationMultiplier: "",
-    };
-  }, []);
+  const emptyDefaultIncrementValues = EMPTY_DEFAULT_INCREMENT_VALUES;
 
   const [defaultIncrementInputValues, setDefaultIncrementInputValues] =
     useState<DefaultIncrementInputs>(emptyDefaultIncrementValues);
