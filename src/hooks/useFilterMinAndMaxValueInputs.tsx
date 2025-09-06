@@ -9,6 +9,9 @@ import {
   UseFilterMinAndMaxValueInputsProps,
 } from "../typings";
 
+const inputMinValue = 0;
+const doNotAllowMin = true;
+
 export const useFilterMinAndMaxValueInputs = ({
   minValue,
   maxValue,
@@ -19,28 +22,33 @@ export const useFilterMinAndMaxValueInputs = ({
   const [includeNullInMaxValues, setIncludeNullInMaxValues] =
     useState<boolean>(false);
 
-  const min = 0;
-  const doNotAllowMin = true;
-
   const isMinInputInvalid = useMemo(() => {
     if (IsStringEmpty(minInput)) return false;
-    if (isIntegerOnly && IsStringInvalidInteger(minInput, min, doNotAllowMin))
+    if (
+      isIntegerOnly &&
+      IsStringInvalidInteger(minInput, inputMinValue, doNotAllowMin)
+    )
       return true;
-    if (IsStringInvalidNumber(minInput, min, doNotAllowMin)) return true;
+    if (IsStringInvalidNumber(minInput, inputMinValue, doNotAllowMin))
+      return true;
     if (minValue !== undefined && Number(minInput) < minValue) return true;
     if (maxValue !== undefined && Number(minInput) > maxValue) return true;
     return false;
-  }, [minInput, minValue, maxValue, isIntegerOnly, doNotAllowMin]);
+  }, [minInput, minValue, maxValue, isIntegerOnly]);
 
   const isMaxInputInvalid = useMemo(() => {
     if (IsStringEmpty(maxInput)) return false;
-    if (isIntegerOnly && IsStringInvalidInteger(maxInput, min, doNotAllowMin))
+    if (
+      isIntegerOnly &&
+      IsStringInvalidInteger(maxInput, inputMinValue, doNotAllowMin)
+    )
       return true;
-    if (IsStringInvalidNumber(maxInput, min, doNotAllowMin)) return true;
+    if (IsStringInvalidNumber(maxInput, inputMinValue, doNotAllowMin))
+      return true;
     if (minValue !== undefined && Number(maxInput) < minValue) return true;
     if (maxValue !== undefined && Number(maxInput) > maxValue) return true;
     return false;
-  }, [maxInput, minValue, maxValue, isIntegerOnly, doNotAllowMin]);
+  }, [maxInput, minValue, maxValue, isIntegerOnly]);
 
   const isMaxValueBelowMinValue = useMemo(() => {
     if (isMinInputInvalid || isMaxInputInvalid) return false;
