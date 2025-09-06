@@ -466,11 +466,11 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     setList: GroupedWorkoutSet[] = groupedSets
   ) => {
     if (isTemplate && workoutTemplate.id !== 0) {
-      await UpdateExerciseOrder(setList, workoutTemplate.id, true);
+      await UpdateExerciseOrder(setList, workoutTemplate.id, isTemplate);
     }
 
     if (!isTemplate && workout.id !== 0) {
-      await UpdateExerciseOrder(setList, workout.id, false);
+      await UpdateExerciseOrder(setList, workout.id, isTemplate);
     }
 
     if (isExerciseBeingDragged) setIsExerciseBeingDragged(false);

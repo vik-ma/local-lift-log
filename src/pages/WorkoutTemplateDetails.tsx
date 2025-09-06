@@ -151,11 +151,13 @@ export default function WorkoutTemplateDetails() {
           exerciseList.exerciseGroupDictionary
         );
 
+      const isTemplate = true;
+
       if (shouldUpdateExerciseOrder) {
         const { success, exerciseOrderString } = await UpdateExerciseOrder(
           groupedSetList,
           Number(id),
-          true
+          isTemplate
         );
 
         if (!success) return;
