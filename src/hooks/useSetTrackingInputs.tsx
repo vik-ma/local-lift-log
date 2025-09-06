@@ -14,13 +14,16 @@ import {
 } from "../typings";
 import { DEFAULT_SET_VALUES_INPUT } from "../constants";
 
-const MIN_VALUE = 0;
+const MIN_VALUE_DEFAULT = 0;
+const MIN_VALUE_RIR = -1;
 const DO_NOT_ALLOW_MIN_VALUE_DEFAULT = false;
+const DO_NOT_ALLOW_MIN_VALUE_RIR = true;
 const DO_NOT_ALLOW_MIN_VALUE_RPE = true;
 const DO_NOT_ALLOW_MIN_VALUE_USER_WEIGHT = true;
 const MAX_VALUE_DEFAULT = undefined;
 const MAX_VALUE_RPE = 10;
 const ALLOW_EMPTY_STRING = true;
+const IS_INTEGER = true;
 
 export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
@@ -40,7 +43,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
       rir: IsStringInvalidInteger(setTrackingValuesInput.rir),
       rpe: IsStringInvalidInteger(
         setTrackingValuesInput.rpe,
-        MIN_VALUE,
+        MIN_VALUE_DEFAULT,
         DO_NOT_ALLOW_MIN_VALUE_RPE,
         MAX_VALUE_RPE,
         ALLOW_EMPTY_STRING
@@ -52,7 +55,7 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
       partial_reps: IsStringInvalidInteger(setTrackingValuesInput.partial_reps),
       user_weight: IsStringInvalidNumber(
         setTrackingValuesInput.user_weight,
-        MIN_VALUE,
+        MIN_VALUE_DEFAULT,
         DO_NOT_ALLOW_MIN_VALUE_USER_WEIGHT,
         MAX_VALUE_DEFAULT,
         ALLOW_EMPTY_STRING
@@ -73,36 +76,55 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     const newSetTrackingValuesInput = {
       weight: ConvertNumberToInputString(
         set.weight,
-        0,
-        false,
-        undefined,
-        false
+        MIN_VALUE_DEFAULT,
+        DO_NOT_ALLOW_MIN_VALUE_DEFAULT,
+        MAX_VALUE_DEFAULT
       ),
-      reps: ConvertNumberToInputString(set.reps, 0, false, undefined, true),
-      rir: ConvertNumberToInputString(set.rir, -1, true, undefined, true),
-      rpe: ConvertNumberToInputString(set.rpe, 0, true, 10, true),
+      reps: ConvertNumberToInputString(
+        set.reps,
+        MIN_VALUE_DEFAULT,
+        DO_NOT_ALLOW_MIN_VALUE_DEFAULT,
+        MAX_VALUE_DEFAULT,
+        IS_INTEGER
+      ),
+      rir: ConvertNumberToInputString(
+        set.rir,
+        MIN_VALUE_RIR,
+        DO_NOT_ALLOW_MIN_VALUE_RIR,
+        MAX_VALUE_DEFAULT,
+        IS_INTEGER
+      ),
+      rpe: ConvertNumberToInputString(
+        set.rpe,
+        MIN_VALUE_DEFAULT,
+        DO_NOT_ALLOW_MIN_VALUE_RPE,
+        MAX_VALUE_RPE,
+        IS_INTEGER
+      ),
       distance: ConvertNumberToInputString(
         set.distance,
-        0,
-        false,
-        undefined,
-        false
+        MIN_VALUE_DEFAULT,
+        DO_NOT_ALLOW_MIN_VALUE_DEFAULT,
+        MAX_VALUE_DEFAULT
       ),
       resistance_level: ConvertNumberToInputString(
         set.resistance_level,
-        0,
-        false,
-        undefined,
-        false
+        MIN_VALUE_DEFAULT,
+        DO_NOT_ALLOW_MIN_VALUE_DEFAULT,
+        MAX_VALUE_DEFAULT
       ),
       partial_reps: ConvertNumberToInputString(
         set.partial_reps,
-        0,
-        false,
-        undefined,
-        true
+        MIN_VALUE_DEFAULT,
+        DO_NOT_ALLOW_MIN_VALUE_DEFAULT,
+        MAX_VALUE_DEFAULT,
+        IS_INTEGER
       ),
-      user_weight: ConvertNumberToInputString(set.user_weight, 0, true),
+      user_weight: ConvertNumberToInputString(
+        set.user_weight,
+        MIN_VALUE_DEFAULT,
+        DO_NOT_ALLOW_MIN_VALUE_USER_WEIGHT
+      ),
     };
 
     setSetTrackingValuesInput(newSetTrackingValuesInput);
