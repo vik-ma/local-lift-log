@@ -38,11 +38,8 @@ type OperationType = "add" | "edit" | "delete";
 export default function TimePeriodList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
-
-  const defaultTimePeriod = DEFAULT_TIME_PERIOD;
-
   const [operatingTimePeriod, setOperatingTimePeriod] =
-    useState<TimePeriod>(defaultTimePeriod);
+    useState<TimePeriod>(DEFAULT_TIME_PERIOD);
 
   const timePeriodModal = useDisclosure();
   const deleteModal = useDisclosure();
@@ -185,7 +182,7 @@ export default function TimePeriodList() {
 
   const resetOperatingTimePeriod = () => {
     setOperationType("add");
-    setOperatingTimePeriod(defaultTimePeriod);
+    setOperatingTimePeriod(DEFAULT_TIME_PERIOD);
   };
 
   const handleCreateNewTimePeriodButton = () => {

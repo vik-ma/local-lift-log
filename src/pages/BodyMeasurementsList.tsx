@@ -66,13 +66,10 @@ export default function BodyMeasurementsList() {
   const [filterQuery, setFilterQuery] = useState<string>("");
   const [sortCategory, setSortCategory] =
     useState<BodyMeasurementSortCategory>("date-desc");
+  const [operatingBodyMeasurements, setOperatingBodyMeasurements] =
+    useState<BodyMeasurements>(DEFAULT_BODY_MEASUREMENTS);
 
   const store = useRef<Store>(null);
-
-  const defaultBodyMeasurements = DEFAULT_BODY_MEASUREMENTS;
-
-  const [operatingBodyMeasurements, setOperatingBodyMeasurements] =
-    useState<BodyMeasurements>(defaultBodyMeasurements);
 
   const measurementList = useMeasurementList({ store: store });
 
@@ -434,7 +431,7 @@ export default function BodyMeasurementsList() {
 
     if (operationType !== "add") {
       setOperationType("add");
-      setOperatingBodyMeasurements({ ...defaultBodyMeasurements });
+      setOperatingBodyMeasurements({ ...DEFAULT_BODY_MEASUREMENTS });
     }
 
     const activeMeasurements = CreateActiveMeasurementInputs(

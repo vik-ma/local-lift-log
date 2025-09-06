@@ -49,14 +49,10 @@ export default function LoggingIndex() {
     useState<boolean>(true);
   const [dateEntryType, setDateEntryType] =
     useState<DietLogDateEntryType>("recent");
-
-  const defaultBodyMeasurements = DEFAULT_BODY_MEASUREMENTS;
-
   const [latestBodyMeasurements, setLatestBodyMeasurements] =
-    useState<BodyMeasurements>(defaultBodyMeasurements);
-
+    useState<BodyMeasurements>(DEFAULT_BODY_MEASUREMENTS);
   const [operatingBodyMeasurements, setOperatingBodyMeasurements] =
-    useState<BodyMeasurements>({ ...defaultBodyMeasurements });
+    useState<BodyMeasurements>({ ...DEFAULT_BODY_MEASUREMENTS });
 
   const deleteModal = useDisclosure();
   const bodyMeasurementsModal = useDisclosure();
@@ -134,7 +130,7 @@ export default function LoggingIndex() {
   const handleAddMeasurementsButton = () => {
     if (operationType !== "add") {
       setOperationType("add");
-      setOperatingBodyMeasurements({ ...defaultBodyMeasurements });
+      setOperatingBodyMeasurements({ ...DEFAULT_BODY_MEASUREMENTS });
     }
 
     setIsOperatingBodyMeasurements(true);

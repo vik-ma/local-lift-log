@@ -55,20 +55,20 @@ export default function Multisets() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
-  const store = useRef<Store>(null);
-
   const defaultMultiset = DEFAULT_MULTISET;
 
   const [operatingMultiset, setOperatingMultiset] =
     useState<Multiset>(defaultMultiset);
-
-  const deleteModal = useDisclosure();
 
   const defaultSet = useRef<WorkoutSet>(CreateDefaultSet(true));
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(
     defaultSet.current
   );
+
+  const store = useRef<Store>(null);
+
+  const deleteModal = useDisclosure();
 
   const exerciseList = useExerciseList({ store: store });
 

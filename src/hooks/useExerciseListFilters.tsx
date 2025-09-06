@@ -27,7 +27,6 @@ export const useExerciseListFilters = ({
   const [filterMap, setFilterMap] = useState<Map<ListFilterMapKey, string>>(
     new Map()
   );
-
   const [exerciseFilterValues, setExerciseFilterValues] =
     useState<ExerciseFilterValues>(DEFAULT_EXERCISE_FILTER_VALUES);
 

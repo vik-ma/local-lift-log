@@ -53,16 +53,11 @@ export const useListFilters = ({
   useWorkoutTemplateList,
 }: UseListFiltersProps): UseListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<ListFilterMap>(new Map());
-
-  const defaultListFilterValues = DEFAULT_LIST_FILTER_VALUES;
-
   const [listFilterValues, setListFilterValues] = useState<ListFilterValues>(
-    defaultListFilterValues
+    DEFAULT_LIST_FILTER_VALUES
   );
 
   const weekdayMap = WEEKDAY_MAP;
-
-  const scheduleTypeMap = ROUTINE_SCHEDULE_TYPES;
 
   const multisetTypeMap = MULTISET_TYPES;
 
@@ -246,7 +241,7 @@ export const useListFilters = ({
 
       const scheduleTypesStoreArray: number[] = [];
 
-      for (const [key, value] of scheduleTypeMap) {
+      for (const [key, value] of ROUTINE_SCHEDULE_TYPES) {
         if (filterScheduleTypes.has(value)) {
           scheduleTypesStoreArray.push(key);
         }
@@ -461,7 +456,7 @@ export const useListFilters = ({
   const resetFilter = (userSettings: UserSettings) => {
     setFilterMap(new Map());
     setListFilterValues({
-      ...defaultListFilterValues,
+      ...DEFAULT_LIST_FILTER_VALUES,
       filterWeightRangeUnit: userSettings.default_unit_weight,
       filterDistanceRangeUnit: userSettings.default_unit_distance,
     });
@@ -628,7 +623,7 @@ export const useListFilters = ({
     if (store.current === null) return;
 
     const filterStoreValues: ListFilterValues = {
-      ...defaultListFilterValues,
+      ...DEFAULT_LIST_FILTER_VALUES,
       filterWeightRangeUnit: userSettings.default_unit_weight,
       filterDistanceRangeUnit: userSettings.default_unit_distance,
     };
@@ -832,8 +827,8 @@ export const useListFilters = ({
             for (const scheduleType of scheduleTypes) {
               const scheduleTypeNum = Number(scheduleType);
 
-              if (scheduleTypeMap.has(scheduleTypeNum)) {
-                const type = scheduleTypeMap.get(scheduleTypeNum);
+              if (ROUTINE_SCHEDULE_TYPES.has(scheduleTypeNum)) {
+                const type = ROUTINE_SCHEDULE_TYPES.get(scheduleTypeNum);
                 scheduleTypesSet.add(type!);
               }
             }

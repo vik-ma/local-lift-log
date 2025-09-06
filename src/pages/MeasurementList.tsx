@@ -46,11 +46,8 @@ type OperationType = "add" | "edit" | "delete";
 export default function MeasurementList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
-
-  const defaultMeasurement = DEFAULT_MEASUREMENT;
-
   const [operatingMeasurement, setOperatingMeasurement] =
-    useState<Measurement>(defaultMeasurement);
+    useState<Measurement>(DEFAULT_MEASUREMENT);
 
   const deleteModal = useDisclosure();
   const measurementModal = useDisclosure();
@@ -219,7 +216,7 @@ export default function MeasurementList() {
   const resetOperatingMeasurement = () => {
     setOperationType("add");
     setOperatingMeasurement({
-      ...defaultMeasurement,
+      ...DEFAULT_MEASUREMENT,
       default_unit: userSettings!.default_unit_measurement!,
     });
   };

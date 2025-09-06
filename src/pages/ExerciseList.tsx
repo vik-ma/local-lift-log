@@ -43,6 +43,8 @@ type OperationType = "add" | "edit" | "delete";
 export default function ExerciseList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
+  const [operatingExercise, setOperatingExercise] =
+    useState<Exercise>(DEFAULT_EXERCISE);
 
   const store = useRef<Store>(null);
 
@@ -73,11 +75,6 @@ export default function ExerciseList() {
   const exerciseModal = useDisclosure();
 
   const navigate = useNavigate();
-
-  const defaultExercise = DEFAULT_EXERCISE;
-
-  const [operatingExercise, setOperatingExercise] =
-    useState<Exercise>(defaultExercise);
 
   const addExercise = async (exercise: Exercise) => {
     if (operationType !== "add") return;
@@ -177,7 +174,7 @@ export default function ExerciseList() {
 
   const resetOperatingExercise = () => {
     setOperationType("add");
-    setOperatingExercise(defaultExercise);
+    setOperatingExercise(DEFAULT_EXERCISE);
   };
 
   const handleExerciseOptionSelection = (key: string, exercise: Exercise) => {

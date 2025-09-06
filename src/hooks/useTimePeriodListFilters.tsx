@@ -33,11 +33,8 @@ export const useTimePeriodListFilters = ({
   store,
 }: UseTimePeriodListFiltersProps): UseTimePeriodListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<TimePeriodFilterMap>(new Map());
-
-  const defaultTimePeriodFilterValues = DEFAULT_TIME_PERIOD_FILTER_VALUES;
-
   const [timePeriodFilterValues, setTimePeriodFilterValues] =
-    useState<TimePeriodFilterValues>(defaultTimePeriodFilterValues);
+    useState<TimePeriodFilterValues>(DEFAULT_TIME_PERIOD_FILTER_VALUES);
 
   const storeFilters = useRef<TimePeriodStoreFilterMap>(new Map());
 
@@ -233,7 +230,7 @@ export const useTimePeriodListFilters = ({
 
   const resetFilter = () => {
     setFilterMap(new Map());
-    setTimePeriodFilterValues({ ...defaultTimePeriodFilterValues });
+    setTimePeriodFilterValues({ ...DEFAULT_TIME_PERIOD_FILTER_VALUES });
     saveFilterMapToStore(new Map());
   };
 
@@ -282,12 +279,12 @@ export const useTimePeriodListFilters = ({
         JSON.parse(val.value);
 
       if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
-        handleFilterSaveButton(locale, defaultTimePeriodFilterValues);
+        handleFilterSaveButton(locale, DEFAULT_TIME_PERIOD_FILTER_VALUES);
         return;
       }
 
       const filterStoreValues: TimePeriodFilterValues = {
-        ...defaultTimePeriodFilterValues,
+        ...DEFAULT_TIME_PERIOD_FILTER_VALUES,
       };
 
       const addedKeys = new Set<TimePeriodListFilterMapKey>();
@@ -475,7 +472,7 @@ export const useTimePeriodListFilters = ({
 
       handleFilterSaveButton(locale, filterStoreValues);
     } catch {
-      handleFilterSaveButton(locale, defaultTimePeriodFilterValues);
+      handleFilterSaveButton(locale, DEFAULT_TIME_PERIOD_FILTER_VALUES);
     }
   };
 

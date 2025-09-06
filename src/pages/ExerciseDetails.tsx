@@ -71,17 +71,12 @@ export default function ExerciseDetails() {
   const [tabPage, setTabPage] = useState<TabPage>("history");
   const [showSetComments, setShowSetComments] = useState<boolean>(true);
   const [showWorkoutComments, setShowWorkoutComments] = useState<boolean>(true);
+  const [editedExercise, setEditedExercise] =
+    useState<Exercise>(DEFAULT_EXERCISE);
 
   const tabPages = useRef<string[][]>([["history", "Exercise History"]]);
 
-  const defaultExercise = DEFAULT_EXERCISE;
-
-  const [editedExercise, setEditedExercise] =
-    useState<Exercise>(defaultExercise);
-
   const exerciseModal = useDisclosure();
-
-  const exerciseGroupDictionary = EXERCISE_GROUP_DICTIONARY;
 
   const datesThatAreNotOnlyWarmups = useRef<Set<string>>(new Set());
   const datesThatAreNotOnlyMultisets = useRef<Set<string>>(new Set());
@@ -359,7 +354,7 @@ export default function ExerciseDetails() {
     const getExercise = async () => {
       const currentExercise = await GetExerciseWithId(
         Number(id),
-        exerciseGroupDictionary
+        EXERCISE_GROUP_DICTIONARY
       );
 
       setExercise(currentExercise);
@@ -502,7 +497,7 @@ export default function ExerciseDetails() {
         exerciseModal={exerciseModal}
         exercise={editedExercise}
         setExercise={setEditedExercise}
-        exerciseGroupDictionary={exerciseGroupDictionary}
+        exerciseGroupDictionary={EXERCISE_GROUP_DICTIONARY}
         buttonAction={updateExercise}
       />
 

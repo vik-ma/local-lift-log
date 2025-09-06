@@ -53,6 +53,13 @@ export const usePresetsList = ({
   const [isDefaultPlateCollectionInvalid, setIsDefaultPlateCollectionInvalid] =
     useState<boolean>(false);
 
+  const defaultPlateCollection = DEFAULT_PLATE_COLLECTION;
+
+  const [operatingPlateCollection, setOperatingPlateCollection] =
+    useState<PlateCollection>(defaultPlateCollection);
+  const [otherUnitPlateCollection, setOtherUnitPlateCollection] =
+    useState<PlateCollection>(defaultPlateCollection);
+
   const isEquipmentWeightListLoaded = useRef(false);
   const isDistanceListLoaded = useRef(false);
   const isPlateCollectionListLoaded = useRef(false);
@@ -60,13 +67,6 @@ export const usePresetsList = ({
   const equipmentWeightMap = useRef<Map<number, EquipmentWeight>>(new Map());
 
   const presetsTypeString = usePresetsTypeString({ presetsType });
-
-  const defaultPlateCollection = DEFAULT_PLATE_COLLECTION;
-
-  const [operatingPlateCollection, setOperatingPlateCollection] =
-    useState<PlateCollection>(defaultPlateCollection);
-  const [otherUnitPlateCollection, setOtherUnitPlateCollection] =
-    useState<PlateCollection>(defaultPlateCollection);
 
   const listFiltersEquipment = useListFilters({
     store: store,

@@ -64,16 +64,12 @@ export default function Presets() {
   const [selectedTab, setSelectedTab] = useState<PresetTab>("equipment");
   const [isOperatingPlateCollection, setIsOperatingPlateCollection] =
     useState<boolean>(false);
+  const [operatingEquipmentWeight, setOperatingEquipmentWeight] =
+    useState<EquipmentWeight>(DEFAULT_EQUIPMENT_WEIGHT);
+  const [operatingDistance, setOperatingDistance] =
+    useState<Distance>(DEFAULT_DISTANCE);
 
   const [searchParams] = useSearchParams();
-
-  const defaultEquipmentWeight = DEFAULT_EQUIPMENT_WEIGHT;
-  const defaultDistance = DEFAULT_DISTANCE;
-
-  const [operatingEquipmentWeight, setOperatingEquipmentWeight] =
-    useState<EquipmentWeight>(defaultEquipmentWeight);
-  const [operatingDistance, setOperatingDistance] =
-    useState<Distance>(defaultDistance);
 
   const deleteModal = useDisclosure();
   const presetsModal = useDisclosure();
@@ -496,7 +492,7 @@ export default function Presets() {
     setPresetsType("equipment");
     setOperationType("add");
     setOperatingEquipmentWeight({
-      ...defaultEquipmentWeight,
+      ...DEFAULT_EQUIPMENT_WEIGHT,
       weight_unit: userSettings.default_unit_weight,
     });
     setIsOperatingPlateCollection(false);
@@ -508,7 +504,7 @@ export default function Presets() {
     setPresetsType("distance");
     setOperationType("add");
     setOperatingDistance({
-      ...defaultDistance,
+      ...DEFAULT_DISTANCE,
       distance_unit: userSettings.default_unit_distance,
     });
     setIsOperatingPlateCollection(false);

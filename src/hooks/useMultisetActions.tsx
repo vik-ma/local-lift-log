@@ -12,7 +12,7 @@ import {
   StoreFilterMapKey,
 } from "../typings";
 import { useState, useMemo, useRef } from "react";
-import {  useListFilters } from ".";
+import { useListFilters } from ".";
 import Database from "@tauri-apps/plugin-sql";
 import {
   GenerateSetListText,
@@ -69,6 +69,8 @@ export const useMultisetActions = ({
   const [uneditedMultiset, setUneditedMultiset] =
     useState<Multiset>(defaultMultiset);
   const [setsToDelete, setSetsToDelete] = useState<Set<number>>(new Set());
+  const [selectedMultisetExercise, setSelectedMultisetExercise] =
+    useState<Exercise>(DEFAULT_EXERCISE);
 
   const multisetTypeMap = MULTISET_TYPES;
 
@@ -136,11 +138,6 @@ export const useMultisetActions = ({
     filterExerciseGroups,
     includeSecondaryExerciseGroups,
   ]);
-
-  const defaultExercise = DEFAULT_EXERCISE;
-
-  const [selectedMultisetExercise, setSelectedMultisetExercise] =
-    useState<Exercise>(defaultExercise);
 
   const handleEditSet = (set: WorkoutSet, multiset: Multiset) => {
     const exercise = exercises.find((obj) => obj.id === set.exercise_id);

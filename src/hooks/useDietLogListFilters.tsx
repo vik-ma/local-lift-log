@@ -33,7 +33,6 @@ export const useDietLogListFilters = ({
   store,
 }: UseDietLogListFiltersProps): UseDietLogListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<DietLogFilterMap>(new Map());
-
   const [dietLogFilterValues, setDietLogFilterValues] =
     useState<DietLogFilterValues>(DEFAULT_DIET_LOG_FILTER_VALUES);
 

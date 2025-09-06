@@ -71,8 +71,6 @@ export default function RoutineDetails() {
 
   const store = useRef<Store>(null);
 
-  const weekdayMap = WEEKDAY_MAP;
-
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
 
@@ -625,7 +623,7 @@ export default function RoutineDetails() {
               <WeekdayDropdown
                 value={routine.start_day}
                 label="Start Day"
-                weekdayMap={weekdayMap}
+                weekdayMap={WEEKDAY_MAP}
                 targetType="routine"
                 updateRoutineStartDay={updateRoutineStartDay}
               />

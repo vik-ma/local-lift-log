@@ -51,15 +51,12 @@ export default function RoutineList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [operatingRoutineIndex, setOperatingRoutineIndex] = useState<number>(0);
+  const [operatingRoutine, setOperatingRoutine] =
+    useState<Routine>(DEFAULT_ROUTINE);
 
   const store = useRef<Store>(null);
 
   const navigate = useNavigate();
-
-  const defaultRoutine = DEFAULT_ROUTINE;
-
-  const [operatingRoutine, setOperatingRoutine] =
-    useState<Routine>(defaultRoutine);
 
   const deleteModal = useDisclosure();
   const routineModal = useDisclosure();
@@ -266,7 +263,7 @@ export default function RoutineList() {
 
   const resetOperatingRoutine = () => {
     setOperationType("add");
-    setOperatingRoutine(defaultRoutine);
+    setOperatingRoutine(DEFAULT_ROUTINE);
     setOperatingRoutineIndex(0);
   };
 
