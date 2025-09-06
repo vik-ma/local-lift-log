@@ -115,7 +115,12 @@ export default function WorkoutList() {
 
       if (!success) return;
 
-      const workoutMultisetIds = await GetUniqueMultisetIds(workout.id, false);
+      const isTemplate = false;
+
+      const workoutMultisetIds = await GetUniqueMultisetIds(
+        workout.id,
+        isTemplate
+      );
 
       // Delete all multisets in workout
       for (const multisetId of workoutMultisetIds) {

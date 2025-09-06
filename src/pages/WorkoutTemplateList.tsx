@@ -130,9 +130,11 @@ export default function WorkoutTemplateList() {
         workoutTemplate.id,
       ]);
 
+      const isTemplate = true;
+
       const workoutTemplateMultisetIds = await GetUniqueMultisetIds(
         workoutTemplate.id,
-        true
+        isTemplate
       );
 
       // Delete all multisets in workout
