@@ -51,6 +51,8 @@ import { DEFAULT_MULTISET } from "../constants";
 
 export type OperationType = "add" | "edit" | "delete";
 
+const IS_SET_TEMPLATE = true;
+
 export default function Multisets() {
   const [operationType, setOperationType] = useState<OperationType>("add");
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -60,7 +62,7 @@ export default function Multisets() {
   const [operatingMultiset, setOperatingMultiset] =
     useState<Multiset>(defaultMultiset);
 
-  const defaultSet = useRef<WorkoutSet>(CreateDefaultSet(true));
+  const defaultSet = useRef<WorkoutSet>(CreateDefaultSet(IS_SET_TEMPLATE));
 
   const [operatingSet, setOperatingSet] = useState<WorkoutSet>(
     defaultSet.current
