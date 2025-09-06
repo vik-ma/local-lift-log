@@ -22,11 +22,7 @@ import {
 } from "../components";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import {
-  useDefaultWorkoutTemplate,
-  useExerciseList,
-  useWorkoutTemplateList,
-} from "../hooks";
+import { useExerciseList, useWorkoutTemplateList } from "../hooks";
 import {
   DeleteItemFromList,
   UpdateItemInList,
@@ -40,19 +36,17 @@ import {
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
+import { DEFAULT_WORKOUT_TEMPLATE } from "../constants";
 
 type OperationType = "add" | "edit" | "delete";
 
 export default function WorkoutTemplateList() {
   const [operationType, setOperationType] = useState<OperationType>("edit");
   const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [operatingWorkoutTemplate, setOperatingWorkoutTemplate] =
+    useState<WorkoutTemplate>(DEFAULT_WORKOUT_TEMPLATE);
 
   const store = useRef<Store>(null);
-
-  const defaultWorkoutTemplate = useDefaultWorkoutTemplate();
-
-  const [operatingWorkoutTemplate, setOperatingWorkoutTemplate] =
-    useState<WorkoutTemplate>(defaultWorkoutTemplate);
 
   const navigate = useNavigate();
 
@@ -187,7 +181,7 @@ export default function WorkoutTemplateList() {
   };
 
   const resetOperatingWorkoutTemplate = () => {
-    setOperatingWorkoutTemplate(defaultWorkoutTemplate);
+    setOperatingWorkoutTemplate(DEFAULT_WORKOUT_TEMPLATE);
     setOperationType("add");
   };
 

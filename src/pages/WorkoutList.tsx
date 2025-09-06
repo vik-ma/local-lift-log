@@ -30,9 +30,10 @@ import {
   UpdateWorkout,
   ValidateAndModifyUserSettings,
 } from "../helpers";
-import { useDefaultWorkout, useExerciseList, useWorkoutList } from "../hooks";
+import { useExerciseList, useWorkoutList } from "../hooks";
 import { GoToArrowIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
+import { DEFAULT_WORKOUT } from "../constants";
 
 type OperationType =
   | "edit"
@@ -44,13 +45,10 @@ type OperationType =
 export default function WorkoutList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] = useState<OperationType>("edit");
+  const [operatingWorkout, setOperatingWorkout] =
+    useState<Workout>(DEFAULT_WORKOUT);
 
   const store = useRef<Store>(null);
-
-  const defaultWorkout = useDefaultWorkout();
-
-  const [operatingWorkout, setOperatingWorkout] =
-    useState<Workout>(defaultWorkout);
 
   const navigate = useNavigate();
 
@@ -159,7 +157,7 @@ export default function WorkoutList() {
   };
 
   const resetOperatingWorkout = () => {
-    setOperatingWorkout(defaultWorkout);
+    setOperatingWorkout(DEFAULT_WORKOUT);
     setOperationType("edit");
   };
 
