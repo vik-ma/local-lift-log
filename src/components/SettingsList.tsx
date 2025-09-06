@@ -2,7 +2,7 @@ import { useState, useMemo, ReactNode } from "react";
 import {
   UserSettings,
   DefaultIncrementInputInvalidityMap,
-  UseSettingsListReturnType,
+  UseDefaultIncrementValuesReturnType,
 } from "../typings";
 import {
   CreateDefaultUserSettings,
@@ -39,7 +39,7 @@ type SettingsListProps = {
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
-  useSettingsList: UseSettingsListReturnType;
+  useDefaultIncrementValues: UseDefaultIncrementValuesReturnType;
 };
 
 type SettingsItemCategory =
@@ -59,7 +59,7 @@ type SettingsItem = {
 export const SettingsList = ({
   userSettings,
   setUserSettings,
-  useSettingsList,
+  useDefaultIncrementValues,
 }: SettingsListProps) => {
   const {
     defaultIncrementInputValues,
@@ -68,7 +68,7 @@ export const SettingsList = ({
     setDefaultIncrementOriginalValues,
     timeInSeconds,
     setTimeInSeconds,
-  } = useSettingsList;
+  } = useDefaultIncrementValues;
 
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [filterQuery, setFilterQuery] = useState<string>("");

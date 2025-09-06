@@ -6,18 +6,18 @@ import {
   ValidateAndModifyUserSettings,
 } from "../helpers";
 import { LoadingSpinner, SettingsList } from "../components";
-import { useSettingsList } from "../hooks";
+import { useDefaultIncrementValues } from "../hooks";
 
 export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
-  const settingsList = useSettingsList();
+  const defaultIncrementValuesInput = useDefaultIncrementValues();
 
   const {
     setDefaultIncrementInputValues,
     setDefaultIncrementOriginalValues,
     setTimeInSeconds,
-  } = settingsList;
+  } = defaultIncrementValuesInput;
 
   useEffect(() => {
     const loadPage = async () => {
@@ -90,7 +90,7 @@ export default function Settings() {
     <SettingsList
       userSettings={userSettings}
       setUserSettings={setUserSettings}
-      useSettingsList={settingsList}
+      useDefaultIncrementValues={defaultIncrementValuesInput}
     />
   );
 }

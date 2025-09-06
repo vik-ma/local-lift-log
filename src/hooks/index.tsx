@@ -30,7 +30,7 @@ export { useChartDateMap } from "./useChartDateMap";
 export { useChartTimePeriodIdSets } from "./useChartTimePeriodIdSets";
 export { useBodyMeasurementsSettings } from "./useBodyMeasurementsSettings";
 export { useIsDateBeforeEpochDate } from "./useIsDateBeforeEpochDate";
-export { useSettingsList } from "./useSettingsList";
+export { useDefaultIncrementValues } from "./useDefaultIncrementValues";
 export { useFilterDateRangeAndWeekdays } from "./useFilterDateRangeAndWeekdays";
 export { useFilterDateRange } from "./useFilterDateRange";
 export { useMeasurementListFilters } from "./useMeasurementListFilters";

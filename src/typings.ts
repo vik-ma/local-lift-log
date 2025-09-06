@@ -1120,7 +1120,7 @@ export type DefaultIncrementInputInvalidityMap = {
   calculationMultiplier: boolean;
 };
 
-export type UseSettingsListReturnType = {
+export type UseDefaultIncrementValuesReturnType = {
   defaultIncrementInputValues: DefaultIncrementInputs;
   setDefaultIncrementInputValues: React.Dispatch<
     React.SetStateAction<DefaultIncrementInputs>
