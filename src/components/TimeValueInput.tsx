@@ -74,8 +74,6 @@ export const TimeValueInput = ({
     userSettings.default_time_input
   );
 
-  const timeInputMap = TIME_INPUT_MAP;
-
   const hhmmssHoursInput = useRef<HTMLInputElement>(null);
   const hhmmssMinutesInput = useRef<HTMLInputElement>(null);
   const hhmmssSecondsInput = useRef<HTMLInputElement>(null);
@@ -344,8 +342,8 @@ export const TimeValueInput = ({
             endContent={<ChevronIcon size={18} color="#888" />}
           >
             {showTimeLabel
-              ? `Time (${timeInputMap.get(inputType)})`
-              : timeInputMap.get(inputType)}
+              ? `Time (${TIME_INPUT_MAP.get(inputType)})`
+              : TIME_INPUT_MAP.get(inputType)}
           </Button>
         </DropdownTrigger>
         <DropdownMenu
@@ -354,7 +352,7 @@ export const TimeValueInput = ({
           selectedKeys={[inputType]}
           onAction={(key) => setInputType(key as string)}
         >
-          {Array.from(timeInputMap).map(([key, value]) => (
+          {Array.from(TIME_INPUT_MAP).map(([key, value]) => (
             <DropdownItem key={key} value={key}>
               {value}
             </DropdownItem>

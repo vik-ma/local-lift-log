@@ -8,13 +8,10 @@ import { EMPTY_DEFAULT_INCREMENT_VALUES } from "../constants";
 export const useDefaultIncrementValues =
   (): UseDefaultIncrementValuesReturnType => {
     const [timeInSeconds, setTimeInSeconds] = useState<number>(0);
-
-    const emptyDefaultIncrementValues = EMPTY_DEFAULT_INCREMENT_VALUES;
-
     const [defaultIncrementInputValues, setDefaultIncrementInputValues] =
-      useState<DefaultIncrementInputs>(emptyDefaultIncrementValues);
+      useState<DefaultIncrementInputs>(EMPTY_DEFAULT_INCREMENT_VALUES);
     const [defaultIncrementOriginalValues, setDefaultIncrementOriginalValues] =
-      useState<DefaultIncrementInputs>(emptyDefaultIncrementValues);
+      useState<DefaultIncrementInputs>(EMPTY_DEFAULT_INCREMENT_VALUES);
 
     return {
       defaultIncrementInputValues,

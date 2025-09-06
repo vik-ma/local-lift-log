@@ -28,10 +28,8 @@ export const useExerciseListFilters = ({
     new Map()
   );
 
-  const defaultExerciseFilterValues = DEFAULT_EXERCISE_FILTER_VALUES;
-
   const [exerciseFilterValues, setExerciseFilterValues] =
-    useState<ExerciseFilterValues>(defaultExerciseFilterValues);
+    useState<ExerciseFilterValues>(DEFAULT_EXERCISE_FILTER_VALUES);
 
   const filterExerciseGroupModal = useDisclosure();
 
@@ -46,7 +44,7 @@ export const useExerciseListFilters = ({
 
   const removeFilter = () => {
     setFilterMap(new Map());
-    setExerciseFilterValues({ ...defaultExerciseFilterValues });
+    setExerciseFilterValues({ ...DEFAULT_EXERCISE_FILTER_VALUES });
     saveFilterMapToStore(new Map());
   };
 
@@ -114,14 +112,14 @@ export const useExerciseListFilters = ({
 
       if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
         handleFilterSaveButton(
-          defaultExerciseFilterValues,
+          DEFAULT_EXERCISE_FILTER_VALUES,
           exerciseGroupDictionary
         );
         return;
       }
 
       const filterStoreValues: ExerciseFilterValues = {
-        ...defaultExerciseFilterValues,
+        ...DEFAULT_EXERCISE_FILTER_VALUES,
       };
 
       const addedKeys = new Set<StoreFilterMapKey>();
@@ -157,7 +155,7 @@ export const useExerciseListFilters = ({
       handleFilterSaveButton(filterStoreValues, exerciseGroupDictionary);
     } catch {
       handleFilterSaveButton(
-        defaultExerciseFilterValues,
+        DEFAULT_EXERCISE_FILTER_VALUES,
         exerciseGroupDictionary
       );
     }

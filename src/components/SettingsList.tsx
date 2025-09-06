@@ -102,8 +102,6 @@ export const SettingsList = ({
       return values;
     }, [defaultIncrementInputValues]);
 
-  const timeInputMap = TIME_INPUT_MAP;
-
   const updateUserSetting = async <K extends keyof UserSettings>(
     key: K,
     value: UserSettings[K]
@@ -316,7 +314,7 @@ export const SettingsList = ({
               }
               disallowEmptySelection
             >
-              {Array.from(timeInputMap).map(([key, value]) => (
+              {Array.from(TIME_INPUT_MAP).map(([key, value]) => (
                 <SelectItem key={key}>{value}</SelectItem>
               ))}
             </Select>

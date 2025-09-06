@@ -34,10 +34,8 @@ export const useDietLogListFilters = ({
 }: UseDietLogListFiltersProps): UseDietLogListFiltersReturnType => {
   const [filterMap, setFilterMap] = useState<DietLogFilterMap>(new Map());
 
-  const defaultDietLogFilterValues = DEFAULT_DIET_LOG_FILTER_VALUES;
-
   const [dietLogFilterValues, setDietLogFilterValues] =
-    useState<DietLogFilterValues>(defaultDietLogFilterValues);
+    useState<DietLogFilterValues>(DEFAULT_DIET_LOG_FILTER_VALUES);
 
   const weekdayMap = WEEKDAY_MAP;
 
@@ -248,7 +246,7 @@ export const useDietLogListFilters = ({
 
   const resetFilter = () => {
     setFilterMap(new Map());
-    setDietLogFilterValues({ ...defaultDietLogFilterValues });
+    setDietLogFilterValues({ ...DEFAULT_DIET_LOG_FILTER_VALUES });
     saveFilterMapToStore(new Map());
   };
 
@@ -299,12 +297,12 @@ export const useDietLogListFilters = ({
         JSON.parse(val.value);
 
       if (!Array.isArray(storeFilterList) || storeFilterList.length === 0) {
-        handleFilterSaveButton(locale, defaultDietLogFilterValues);
+        handleFilterSaveButton(locale, DEFAULT_DIET_LOG_FILTER_VALUES);
         return;
       }
 
       const filterStoreValues: DietLogFilterValues = {
-        ...defaultDietLogFilterValues,
+        ...DEFAULT_DIET_LOG_FILTER_VALUES,
       };
 
       const addedKeys = new Set<StoreFilterMapKey>();
@@ -532,7 +530,7 @@ export const useDietLogListFilters = ({
 
       handleFilterSaveButton(locale, filterStoreValues, undefined);
     } catch {
-      handleFilterSaveButton(locale, defaultDietLogFilterValues);
+      handleFilterSaveButton(locale, DEFAULT_DIET_LOG_FILTER_VALUES);
     }
   };
 

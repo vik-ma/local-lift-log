@@ -68,10 +68,8 @@ export const PlateCalculator = ({
   userSettings,
   setUserSettings,
 }: PlateCalculatorProps) => {
-  const defaultPlateCalculatorItems = DEFAULT_PLATE_CALCULATOR_ITEMS;
-
   const [plateCalculatorResult, setPlateCalculatorResult] =
-    useState<PlateCalculatorItems>(defaultPlateCalculatorItems);
+    useState<PlateCalculatorItems>(DEFAULT_PLATE_CALCULATOR_ITEMS);
 
   const {
     otherUnitPlateCollection,
@@ -137,7 +135,7 @@ export const PlateCalculator = ({
       operatingPlateCollection.availablePlatesMap === undefined ||
       operatingPlateCollection.handle === undefined
     ) {
-      setPlateCalculatorResult(defaultPlateCalculatorItems);
+      setPlateCalculatorResult(DEFAULT_PLATE_CALCULATOR_ITEMS);
       return;
     }
 
@@ -245,7 +243,7 @@ export const PlateCalculator = ({
 
   const resetPlateCalculatorResult = () => {
     setTargetWeightInput("");
-    setPlateCalculatorResult(defaultPlateCalculatorItems);
+    setPlateCalculatorResult(DEFAULT_PLATE_CALCULATOR_ITEMS);
   };
 
   const switchWeightUnit = () => {
