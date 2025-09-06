@@ -14,6 +14,14 @@ import {
 } from "../typings";
 import { DEFAULT_SET_VALUES_INPUT } from "../constants";
 
+const MIN_VALUE = 0;
+const DO_NOT_ALLOW_MIN_VALUE_DEFAULT = false;
+const DO_NOT_ALLOW_MIN_VALUE_RPE = true;
+const DO_NOT_ALLOW_MIN_VALUE_USER_WEIGHT = true;
+const MAX_VALUE_DEFAULT = undefined;
+const MAX_VALUE_RPE = 10;
+const ALLOW_EMPTY_STRING = true;
+
 export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   const [isTimeInputInvalid, setIsTimeInputInvalid] = useState<boolean>(false);
   const [isSetEdited, setIsSetEdited] = useState<boolean>(false);
@@ -22,12 +30,8 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
     useState<boolean>(false);
   const [setNoteInput, setSetNoteInput] = useState<string>("");
   const [timeInSeconds, setTimeInSeconds] = useState<number>(0);
-
-  const defaultSetTrackingValuesInput: SetTrackingValuesInput =
-    DEFAULT_SET_VALUES_INPUT;
-
   const [setTrackingValuesInput, setSetTrackingValuesInput] =
-    useState<SetTrackingValuesInput>(defaultSetTrackingValuesInput);
+    useState<SetTrackingValuesInput>(DEFAULT_SET_VALUES_INPUT);
 
   const setInputsInvalidityMap = useMemo((): SetTrackingValuesInvalidity => {
     const values: SetTrackingValuesInvalidity = {
@@ -36,10 +40,10 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
       rir: IsStringInvalidInteger(setTrackingValuesInput.rir),
       rpe: IsStringInvalidInteger(
         setTrackingValuesInput.rpe,
-        0,
-        true,
-        10,
-        true
+        MIN_VALUE,
+        DO_NOT_ALLOW_MIN_VALUE_RPE,
+        MAX_VALUE_RPE,
+        ALLOW_EMPTY_STRING
       ),
       distance: IsStringInvalidNumber(setTrackingValuesInput.distance),
       resistance_level: IsStringInvalidNumber(
@@ -48,10 +52,10 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
       partial_reps: IsStringInvalidInteger(setTrackingValuesInput.partial_reps),
       user_weight: IsStringInvalidNumber(
         setTrackingValuesInput.user_weight,
-        0,
-        true,
-        undefined,
-        true
+        MIN_VALUE,
+        DO_NOT_ALLOW_MIN_VALUE_USER_WEIGHT,
+        MAX_VALUE_DEFAULT,
+        ALLOW_EMPTY_STRING
       ),
     };
     return values;
@@ -119,16 +123,15 @@ export const useSetTrackingInputs = (): UseSetTrackingInputsReturnType => {
   };
 
   const clearSetInputValues = () => {
-    setSetTrackingValuesInput(defaultSetTrackingValuesInput);
+    setSetTrackingValuesInput(DEFAULT_SET_VALUES_INPUT);
     setTimeInSeconds(0);
   };
 
   const areInputsEmpty = useMemo(() => {
     return (
-      setTrackingValuesInput === defaultSetTrackingValuesInput &&
-      timeInSeconds === 0
+      setTrackingValuesInput === DEFAULT_SET_VALUES_INPUT && timeInSeconds === 0
     );
-  }, [setTrackingValuesInput, defaultSetTrackingValuesInput, timeInSeconds]);
+  }, [setTrackingValuesInput, timeInSeconds]);
 
   return {
     isSetTrackingValuesInvalid,
