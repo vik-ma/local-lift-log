@@ -39,3 +39,4 @@ export { DEFAULT_EXERCISE_FILTER_VALUES } from "./DefaultExerciseFilterValues";
 export { DEFAULT_TIME_PERIOD_FILTER_VALUES } from "./DefaultTimePeriodFilterValues";
 export { DEFAULT_LIST_FILTER_VALUES } from "./DefaultListFilterValues";
 export { DEFAULT_SET_VALUES_INPUT } from "./DefaultSetInputValues";
+export { DEFAULT_PLATE_CALCULATOR_ITEMS } from "./DefaultPlateCalculatorItems";

@@ -20,6 +20,7 @@ import {
   PlateCollectionHandleConfig,
   WeightUnitDropdown,
 } from ".";
+import { DEFAULT_PLATE_CALCULATOR_ITEMS } from "../constants";
 
 type PlateCalculatorProps = {
   operatingPlateCollection: PlateCollection;
@@ -67,16 +68,10 @@ export const PlateCalculator = ({
   userSettings,
   setUserSettings,
 }: PlateCalculatorProps) => {
-  const defaultPlateCalculatorItems: PlateCalculatorItems = useMemo(() => {
-    return {
-      plateMap: new Map(),
-      targetWeight: 0,
-      finalWeight: 0,
-      success: false,
-      isOneHandle: true,
-      showResult: false,
-    };
-  }, []);
+  const defaultPlateCalculatorItems = DEFAULT_PLATE_CALCULATOR_ITEMS;
+
+  const [plateCalculatorResult, setPlateCalculatorResult] =
+    useState<PlateCalculatorItems>(defaultPlateCalculatorItems);
 
   const {
     otherUnitPlateCollection,
@@ -87,9 +82,6 @@ export const PlateCalculator = ({
     setIsDefaultPlateCollectionInvalid,
     updateAvailablePlatesMapKeys,
   } = usePresetsList;
-
-  const [plateCalculatorResult, setPlateCalculatorResult] =
-    useState<PlateCalculatorItems>(defaultPlateCalculatorItems);
 
   const isTargetWeightInputInvalid = useMemo(() => {
     return (
