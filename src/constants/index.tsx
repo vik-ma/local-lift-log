@@ -41,3 +41,5 @@ export { DEFAULT_LIST_FILTER_VALUES } from "./DefaultListFilterValues";
 export { DEFAULT_SET_VALUES_INPUT } from "./DefaultSetInputValues";
 export { DEFAULT_PLATE_CALCULATOR_ITEMS } from "./DefaultPlateCalculatorItems";
 export { DEFAULT_PLATE_COLLECTION } from "./DefaultPlateCollection";
+export { DEFAULT_EQUIPMENT_WEIGHT } from "./DefaultEquipmentWeight";
+export { DEFAULT_DISTANCE } from "./DefaultDistance";

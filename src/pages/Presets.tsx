@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   LoadingSpinner,
   DeleteModal,
@@ -53,6 +53,7 @@ import { usePlateCollectionModal, usePresetsList } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 import { useSearchParams } from "react-router-dom";
 import { Store } from "@tauri-apps/plugin-store";
+import { DEFAULT_DISTANCE, DEFAULT_EQUIPMENT_WEIGHT } from "../constants";
 
 type PresetTab = "equipment" | "distance" | "plate";
 
@@ -66,25 +67,8 @@ export default function Presets() {
 
   const [searchParams] = useSearchParams();
 
-  const defaultEquipmentWeight: EquipmentWeight = useMemo(() => {
-    return {
-      id: 0,
-      name: "",
-      weight: 0,
-      weight_unit: "kg",
-      is_favorite: 0,
-    };
-  }, []);
-
-  const defaultDistance: Distance = useMemo(() => {
-    return {
-      id: 0,
-      name: "",
-      distance: 0,
-      distance_unit: "km",
-      is_favorite: 0,
-    };
-  }, []);
+  const defaultEquipmentWeight = DEFAULT_EQUIPMENT_WEIGHT;
+  const defaultDistance = DEFAULT_DISTANCE;
 
   const [operatingEquipmentWeight, setOperatingEquipmentWeight] =
     useState<EquipmentWeight>(defaultEquipmentWeight);
