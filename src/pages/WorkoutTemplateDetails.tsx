@@ -193,11 +193,13 @@ export default function WorkoutTemplateDetails() {
   const handleClickWorkoutTemplate = async (
     workoutTemplateToCopy: WorkoutTemplate
   ) => {
+    const createSetsForWorkoutTemplate = true;
+
     const newGroupedSets = await CreateSetsFromWorkoutTemplate(
       workoutTemplate.id,
       workoutTemplateToCopy.id,
       exerciseList.exerciseGroupDictionary,
-      true
+      createSetsForWorkoutTemplate
     );
 
     const updatedGroupedSetList = MergeTwoGroupedSetLists(
