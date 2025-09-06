@@ -31,7 +31,12 @@ export const CreateSetsFromWorkoutTemplate = async (
       [workout_template_id]
     );
 
-    const exerciseOrder = await GetExerciseOrder(workout_template_id, true);
+    const isTemplate = true;
+
+    const exerciseOrder = await GetExerciseOrder(
+      workout_template_id,
+      isTemplate
+    );
 
     if (result.length === 0 || exerciseOrder === undefined) return [];
 
