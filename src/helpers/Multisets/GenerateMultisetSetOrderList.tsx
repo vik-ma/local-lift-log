@@ -6,8 +6,11 @@ export const GenerateMultisetSetOrderList = (
   const setIds = setOrderString.split(",");
   const setOrderList: number[] = [];
 
+  const minValue = 0;
+  const doNotAllowMinValue = true;
+
   for (const id of setIds) {
-    if (!IsStringInvalidInteger(id, 0, true)) {
+    if (!IsStringInvalidInteger(id, minValue, doNotAllowMinValue)) {
       setOrderList.push(Number(id));
     }
   }

@@ -11,8 +11,11 @@ export const GenerateActiveMeasurementList = (
   const activeMeasurementStringList: string[] =
     activeTrackingMeasurementString.split(",");
 
+  const minValue = 0;
+  const doNotAllowMinValue = true;
+
   activeMeasurementStringList.map((measurement) => {
-    if (!IsStringInvalidInteger(measurement, 0, true)) {
+    if (!IsStringInvalidInteger(measurement, minValue, doNotAllowMinValue)) {
       activeMeasurementList.push(Number(measurement));
     }
   });
