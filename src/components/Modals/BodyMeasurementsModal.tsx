@@ -224,14 +224,18 @@ export const BodyMeasurementsModal = ({
       return;
     }
 
+    const minValueBodyFatPercentage = 0;
+    const doNotAllowMinValueBodyFatPercentage = true;
+    const maxValueBodyFatPercentage = 100;
+
     setWeightInput(ConvertNumberToInputString(bodyMeasurements.weight));
     setCommentInput(ConvertNullToEmptyInputString(bodyMeasurements.comment));
     setBodyFatPercentageInput(
       ConvertNumberToInputString(
         bodyMeasurements.body_fat_percentage,
-        0,
-        true,
-        100
+        minValueBodyFatPercentage,
+        doNotAllowMinValueBodyFatPercentage,
+        maxValueBodyFatPercentage
       )
     );
     setWeightUnit(GetValidatedUnit(bodyMeasurements.weight_unit, "weight"));
