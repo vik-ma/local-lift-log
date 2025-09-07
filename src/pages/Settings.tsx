@@ -8,6 +8,12 @@ import {
 import { LoadingSpinner, SettingsList } from "../components";
 import { useDefaultIncrementValues } from "../hooks";
 
+const DEFAULT_INCREMENT_MIN_VALUE = 0;
+const DEFAULT_INCREMENT_DO_NOT_ALLOW_MIN_VALUE = true;
+const DEFAULT_INCREMENT_MAX_VALUE = undefined;
+const DEFAULT_INCREMENT_IS_INTEGER = false;
+const DEFAULT_INCREMENT_DEFAULT_INVALID_VALUE = "1";
+
 export default function Settings() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
@@ -42,36 +48,36 @@ export default function Settings() {
       const defaultIncrementValues: DefaultIncrementInputs = {
         weight: ConvertNumberToInputString(
           userSettings.default_increment_weight,
-          0,
-          true,
-          undefined,
-          false,
-          "1"
+          DEFAULT_INCREMENT_MIN_VALUE,
+          DEFAULT_INCREMENT_DO_NOT_ALLOW_MIN_VALUE,
+          DEFAULT_INCREMENT_MAX_VALUE,
+          DEFAULT_INCREMENT_IS_INTEGER,
+          DEFAULT_INCREMENT_DEFAULT_INVALID_VALUE
         ),
         distance: ConvertNumberToInputString(
           userSettings.default_increment_distance,
-          0,
-          true,
-          undefined,
-          false,
-          "1"
+          DEFAULT_INCREMENT_MIN_VALUE,
+          DEFAULT_INCREMENT_DO_NOT_ALLOW_MIN_VALUE,
+          DEFAULT_INCREMENT_MAX_VALUE,
+          DEFAULT_INCREMENT_IS_INTEGER,
+          DEFAULT_INCREMENT_DEFAULT_INVALID_VALUE
         ),
         time: userSettings.default_increment_time,
         resistanceLevel: ConvertNumberToInputString(
           userSettings.default_increment_resistance_level,
-          0,
-          true,
-          undefined,
-          false,
-          "1"
+          DEFAULT_INCREMENT_MIN_VALUE,
+          DEFAULT_INCREMENT_DO_NOT_ALLOW_MIN_VALUE,
+          DEFAULT_INCREMENT_MAX_VALUE,
+          DEFAULT_INCREMENT_IS_INTEGER,
+          DEFAULT_INCREMENT_DEFAULT_INVALID_VALUE
         ),
         calculationMultiplier: ConvertNumberToInputString(
           userSettings.default_increment_calculation_multiplier,
-          0,
-          true,
-          undefined,
-          false,
-          "1"
+          DEFAULT_INCREMENT_MIN_VALUE,
+          DEFAULT_INCREMENT_DO_NOT_ALLOW_MIN_VALUE,
+          DEFAULT_INCREMENT_MAX_VALUE,
+          DEFAULT_INCREMENT_IS_INTEGER,
+          DEFAULT_INCREMENT_DEFAULT_INVALID_VALUE
         ),
       };
 
