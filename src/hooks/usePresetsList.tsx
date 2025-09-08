@@ -31,6 +31,8 @@ type UsePresetsListProps = {
   store: StoreRef;
 };
 
+const IS_MAX_VALUE = true;
+
 export const usePresetsList = ({
   store,
 }: UsePresetsListProps): UsePresetsListReturnType => {
@@ -95,7 +97,7 @@ export const usePresetsList = ({
               listFiltersEquipment.listFilterValues.filterMinWeight,
               item.weight_unit,
               listFiltersEquipment.listFilterValues.filterWeightRangeUnit,
-              false
+              !IS_MAX_VALUE
             )) &&
           (!listFiltersEquipment.filterMap.has("max-weight") ||
             IsWeightWithinLimit(
@@ -103,7 +105,7 @@ export const usePresetsList = ({
               listFiltersEquipment.listFilterValues.filterMaxWeight,
               item.weight_unit,
               listFiltersEquipment.listFilterValues.filterWeightRangeUnit,
-              true
+              IS_MAX_VALUE
             )) &&
           (!listFiltersEquipment.filterMap.has("weight-units") ||
             listFiltersEquipment.listFilterValues.filterWeightUnits.has(
@@ -144,7 +146,7 @@ export const usePresetsList = ({
               listFiltersDistance.listFilterValues.filterMinDistance,
               item.distance_unit,
               listFiltersDistance.listFilterValues.filterDistanceRangeUnit,
-              false
+              !IS_MAX_VALUE
             )) &&
           (!listFiltersDistance.filterMap.has("max-distance") ||
             IsDistanceWithinLimit(
@@ -152,7 +154,7 @@ export const usePresetsList = ({
               listFiltersDistance.listFilterValues.filterMaxDistance,
               item.distance_unit,
               listFiltersDistance.listFilterValues.filterDistanceRangeUnit,
-              true
+              IS_MAX_VALUE
             )) &&
           (!listFiltersDistance.filterMap.has("distance-units") ||
             listFiltersDistance.listFilterValues.filterDistanceUnits.has(
