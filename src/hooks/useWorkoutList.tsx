@@ -28,6 +28,8 @@ type UseWorkoutListProps = {
   workoutIdToIgnore?: number;
 };
 
+const IS_MAX_VALUE = true;
+
 export const useWorkoutList = ({
   store,
   useExerciseList,
@@ -105,9 +107,9 @@ export const useWorkoutList = ({
               .toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
           (!filterMap.has("min-date") ||
-            IsDateWithinLimit(item.date, filterMinDate, false)) &&
+            IsDateWithinLimit(item.date, filterMinDate, !IS_MAX_VALUE)) &&
           (!filterMap.has("max-date") ||
-            IsDateWithinLimit(item.date, filterMaxDate, true)) &&
+            IsDateWithinLimit(item.date, filterMaxDate, IS_MAX_VALUE)) &&
           (!filterMap.has("weekdays") ||
             IsDateInWeekdaySet(item.date, filterWeekdays)) &&
           (!filterMap.has("routines") || filterRoutines.has(item.routine_id)) &&
