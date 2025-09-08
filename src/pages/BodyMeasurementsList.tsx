@@ -56,6 +56,8 @@ import { VerticalMenuIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
 import { DEFAULT_BODY_MEASUREMENTS } from "../constants";
 
+const IS_MAX_VALUE = true;
+
 export default function BodyMeasurementsList() {
   const [bodyMeasurements, setBodyMeasurements] = useState<BodyMeasurements[]>(
     []
@@ -152,9 +154,9 @@ export default function BodyMeasurementsList() {
               ?.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
           (!filterMap.has("min-date") ||
-            IsDateWithinLimit(item.date, filterMinDate, false)) &&
+            IsDateWithinLimit(item.date, filterMinDate, !IS_MAX_VALUE)) &&
           (!filterMap.has("max-date") ||
-            IsDateWithinLimit(item.date, filterMaxDate, true)) &&
+            IsDateWithinLimit(item.date, filterMaxDate, IS_MAX_VALUE)) &&
           (!filterMap.has("weekdays") ||
             IsDateInWeekdaySet(item.date, filterWeekdays)) &&
           (!filterMap.has("measurements") ||
@@ -168,7 +170,7 @@ export default function BodyMeasurementsList() {
               filterMinWeight,
               item.weight_unit,
               filterWeightRangeUnit,
-              false
+              !IS_MAX_VALUE
             )) &&
           (!filterMap.has("max-weight") ||
             IsWeightWithinLimit(
@@ -176,20 +178,20 @@ export default function BodyMeasurementsList() {
               filterMaxWeight,
               item.weight_unit,
               filterWeightRangeUnit,
-              true,
+              IS_MAX_VALUE,
               includeNullInMaxValues
             )) &&
           (!filterMap.has("min-bf") ||
             IsNumberWithinLimit(
               item.body_fat_percentage,
               filterMinBodyFatPercentage,
-              false
+              !IS_MAX_VALUE
             )) &&
           (!filterMap.has("max-bf") ||
             IsNumberWithinLimit(
               item.body_fat_percentage,
               filterMaxBodyFatPercentage,
-              true,
+              IS_MAX_VALUE,
               includeNullInMaxValuesSecondary
             ))
       );
