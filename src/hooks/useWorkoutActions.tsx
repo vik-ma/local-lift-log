@@ -107,7 +107,6 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     numExercises: 0,
     numSets: 0,
   });
-
   const [workout, setWorkout] = useState<Workout>(DEFAULT_WORKOUT);
   const [activeSet, setActiveSet] = useState<WorkoutSet>();
   const [incompleteSetIds, setIncompleteSetIds] = useState<number[]>([]);
@@ -117,8 +116,12 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
   const [isActiveSetExpanded, setIsActiveSetExpanded] =
     useState<boolean>(false);
   const [activeGroupedSet, setActiveGroupedSet] = useState<GroupedWorkoutSet>();
-
   const [numMultisetSets, setNumMultisetSets] = useState<number>(1);
+  const [userWeight, setUserWeight] = useState<UserWeight>();
+  const [showGetUserWeightButton, setShowGetUserWeightButton] =
+    useState<boolean>(true);
+  const [showOldUserWeightLabel, setShowOldUserWeightLabel] =
+    useState<boolean>(false);
 
   const defaultSet = useRef<WorkoutSet>(CreateDefaultSet(isTemplate));
 
@@ -159,12 +162,6 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     store,
     defaultPage: "multiset-list",
   });
-
-  const [userWeight, setUserWeight] = useState<UserWeight>();
-  const [showGetUserWeightButton, setShowGetUserWeightButton] =
-    useState<boolean>(true);
-  const [showOldUserWeightLabel, setShowOldUserWeightLabel] =
-    useState<boolean>(false);
 
   useEffect(() => {
     const loadWorkoutActions = async () => {
