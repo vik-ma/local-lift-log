@@ -1070,10 +1070,10 @@ export const SettingsList = ({
           isListFiltered={false}
         />
         {filteredSettingsList.map((settingsItem) => settingsItem.content)}
-        <div className="flex pb-2">
+        <div className="flex justify-center pt-1 pb-3">
           <Button
             variant="flat"
-            size="sm"
+            color="danger"
             onPress={() => createDefaultSettingsModal.onOpen()}
           >
             Restore Default Settings
