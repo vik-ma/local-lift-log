@@ -7,7 +7,7 @@ import {
 } from "@heroui/react";
 import { Workout } from "../typings";
 import { VerticalMenuIcon } from "../assets";
-import { FormatNumItemsString } from "../helpers";
+import { FormatNumExercisesAndSetsStrings } from "../helpers";
 
 type WorkoutListItemProps = {
   workout: Workout;
@@ -60,8 +60,7 @@ export const WorkoutListItem = ({
           )}
         {workout.numSets! > 0 ? (
           <span className="text-xs text-secondary">
-            {FormatNumItemsString(numExercises, "Exercise")},{" "}
-            {FormatNumItemsString(workout.numSets, "Set")}
+            {FormatNumExercisesAndSetsStrings(numExercises, workout.numSets)}
           </span>
         ) : (
           <span className="text-xs text-stone-400">Empty</span>

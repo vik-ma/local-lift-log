@@ -13,7 +13,7 @@ import {
   WorkoutTemplateListOptions,
 } from "..";
 import { GoToArrowIcon } from "../../assets";
-import { FormatNumItemsString } from "../../helpers";
+import { FormatNumExercisesAndSetsStrings } from "../../helpers";
 
 type WorkoutTemplateModalListProps = {
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
@@ -90,13 +90,12 @@ export const WorkoutTemplateModalList = ({
               <span className="w-full truncate text-left">{template.name}</span>
               {template.numSets! > 0 ? (
                 <span className="text-xs text-secondary text-left">
-                  {FormatNumItemsString(
+                  {FormatNumExercisesAndSetsStrings(
                     template.exerciseIdSet !== undefined
                       ? template.exerciseIdSet.size
                       : 0,
-                    "Exercise"
+                    template.numSets
                   )}
-                  , {FormatNumItemsString(template.numSets, "Set")}
                 </span>
               ) : (
                 <span className="text-xs text-stone-400 text-left">Empty</span>

@@ -36,7 +36,6 @@ import {
   GenerateExerciseOrderString,
   UpdateWorkout,
   GetNumberOfUniqueExercisesInGroupedSets,
-  FormatNumItemsString,
   GetTotalNumberOfSetsInGroupedSetList,
   GetWorkoutSetList,
   GetExerciseOrder,
@@ -51,6 +50,7 @@ import { useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
 import {
   useDetailsHeaderOptionsMenu,
+  useNumExercisesAndSetsString,
   useWorkoutActions,
   useWorkoutList,
 } from "../hooks";
@@ -160,6 +160,11 @@ export default function WorkoutDetails() {
 
   const { handleOpenWorkoutTemplateListModal, workoutTemplateListModal } =
     workoutTemplateList;
+
+  const workoutDetailsSubHeader = useNumExercisesAndSetsString(
+    workoutNumbers.numExercises,
+    workoutNumbers.numSets
+  );
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
@@ -614,10 +619,7 @@ export default function WorkoutDetails() {
       <div className="flex flex-col">
         <DetailsHeader
           header={workout.formattedDate ?? workout.date}
-          subHeader={`${FormatNumItemsString(
-            workoutNumbers.numExercises,
-            "Exercise"
-          )}, ${FormatNumItemsString(workoutNumbers.numSets, "Set")}`}
+          subHeader={workoutDetailsSubHeader}
           note={workout.comment}
           detailsType="Workout"
           editButtonAction={() => workoutModal.onOpen()}

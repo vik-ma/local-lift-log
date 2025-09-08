@@ -29,7 +29,6 @@ import {
   CreateGroupedWorkoutSetList,
   UpdateWorkoutTemplate,
   GetNumberOfUniqueExercisesInGroupedSets,
-  FormatNumItemsString,
   UpdateExerciseOrder,
   CreateSetsFromWorkoutTemplate,
   MergeTwoGroupedSetLists,
@@ -40,6 +39,7 @@ import {
   useWorkoutActions,
   useDetailsHeaderOptionsMenu,
   useWorkoutTemplateList,
+  useNumExercisesAndSetsString,
 } from "../hooks";
 
 export default function WorkoutTemplateDetails() {
@@ -107,6 +107,11 @@ export default function WorkoutTemplateDetails() {
 
   const { handleOpenWorkoutTemplateListModal, workoutTemplateListModal } =
     workoutTemplateList;
+
+  const workoutTemplateDetailsSubHeader = useNumExercisesAndSetsString(
+    workoutNumbers.numExercises,
+    workoutNumbers.numSets
+  );
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
@@ -369,10 +374,7 @@ export default function WorkoutTemplateDetails() {
       <div className="flex flex-col">
         <DetailsHeader
           header={workoutTemplate.name}
-          subHeader={`${FormatNumItemsString(
-            workoutNumbers.numExercises,
-            "Exercise"
-          )}, ${FormatNumItemsString(workoutNumbers.numSets, "Set")}`}
+          subHeader={workoutTemplateDetailsSubHeader}
           note={workoutTemplate.note}
           detailsType="Workout Template"
           editButtonAction={() => workoutTemplateModal.onOpen()}
