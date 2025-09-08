@@ -31,6 +31,8 @@ type UseRoutineListProps = {
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
 };
 
+const IS_MAX_VALUE = true;
+
 export const useRoutineList = ({
   store,
   useExerciseList,
@@ -100,7 +102,7 @@ export const useRoutineList = ({
               IsNumberWithinLimit(
                 item.num_days_in_schedule,
                 filterMinNumScheduleDays,
-                false
+                !IS_MAX_VALUE
               ))) &&
           (!filterMap.has("max-num-schedule-days") ||
             (item.schedule_type === 2 && includeNullInMaxValues) ||
@@ -108,7 +110,7 @@ export const useRoutineList = ({
               IsNumberWithinLimit(
                 item.num_days_in_schedule,
                 filterMaxNumScheduleDays,
-                true
+                IS_MAX_VALUE
               )))
       );
     }
