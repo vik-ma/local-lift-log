@@ -30,6 +30,8 @@ type UseDietLogListProps = {
   store: StoreRef;
 };
 
+const IS_MAX_VALUE = true;
+
 export const useDietLogList = ({
   store,
 }: UseDietLogListProps): UseDietLogListReturnType => {
@@ -80,40 +82,52 @@ export const useDietLogList = ({
               ?.toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
           (!filterMap.has("min-date") ||
-            IsDateWithinLimit(item.date, filterMinDate, false)) &&
+            IsDateWithinLimit(item.date, filterMinDate, !IS_MAX_VALUE)) &&
           (!filterMap.has("max-date") ||
-            IsDateWithinLimit(item.date, filterMaxDate, true)) &&
+            IsDateWithinLimit(item.date, filterMaxDate, IS_MAX_VALUE)) &&
           (!filterMap.has("weekdays") ||
             IsDateInWeekdaySet(item.date, filterWeekdays)) &&
           (!filterMap.has("min-calories") ||
-            IsNumberWithinLimit(item.calories, filterMinCalories, false)) &&
+            IsNumberWithinLimit(
+              item.calories,
+              filterMinCalories,
+              !IS_MAX_VALUE
+            )) &&
           (!filterMap.has("max-calories") ||
-            IsNumberWithinLimit(item.calories, filterMaxCalories, true)) &&
+            IsNumberWithinLimit(
+              item.calories,
+              filterMaxCalories,
+              IS_MAX_VALUE
+            )) &&
           (!filterMap.has("min-fat") ||
-            IsNumberWithinLimit(item.fat, filterMinFat, false)) &&
+            IsNumberWithinLimit(item.fat, filterMinFat, !IS_MAX_VALUE)) &&
           (!filterMap.has("max-fat") ||
             IsNumberWithinLimit(
               item.fat,
               filterMaxFat,
-              true,
+              IS_MAX_VALUE,
               includeNullInMaxValuesFat
             )) &&
           (!filterMap.has("min-carbs") ||
-            IsNumberWithinLimit(item.carbs, filterMinCarbs, false)) &&
+            IsNumberWithinLimit(item.carbs, filterMinCarbs, !IS_MAX_VALUE)) &&
           (!filterMap.has("max-carbs") ||
             IsNumberWithinLimit(
               item.carbs,
               filterMaxCarbs,
-              true,
+              IS_MAX_VALUE,
               includeNullInMaxValuesCarbs
             )) &&
           (!filterMap.has("min-protein") ||
-            IsNumberWithinLimit(item.protein, filterMinProtein, false)) &&
+            IsNumberWithinLimit(
+              item.protein,
+              filterMinProtein,
+              !IS_MAX_VALUE
+            )) &&
           (!filterMap.has("max-protein") ||
             IsNumberWithinLimit(
               item.protein,
               filterMaxProtein,
-              true,
+              IS_MAX_VALUE,
               includeNullInMaxValuesProtein
             ))
       );
