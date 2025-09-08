@@ -37,7 +37,6 @@ import {
   useChartDateMap,
   useExerciseList,
   useMeasurementList,
-  useChartTimePeriodIdSets,
   useTimePeriodList,
 } from "../hooks";
 import { useEffect, useRef, useState, useMemo } from "react";
@@ -171,6 +170,7 @@ export default function Analytics() {
     countSecondaryExerciseGroupsAsOne,
     setCountSecondaryExerciseGroupsAsOne,
   ] = useState<boolean>(false);
+  const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
   const store = useRef<Store>(null);
 
@@ -178,8 +178,6 @@ export default function Analytics() {
 
   const { chartLineColorList, chartAreaColorList, referenceAreaColorList } =
     CHART_COLOR_LISTS;
-
-  const [showTestButtons, setShowTestButtons] = useState<boolean>(false);
 
   const loadedBodyMeasurementsIds = useRef<Set<number>>(new Set());
 
@@ -250,10 +248,21 @@ export default function Analytics() {
 
   const disabledExerciseGroups = useRef<string[]>([]);
 
-  const { timePeriodIdSet, shownTimePeriodIdSet } = useChartTimePeriodIdSets({
-    referenceAreas,
-    shownReferenceAreas,
-  });
+  const timePeriodIdSet = useMemo(
+    () =>
+      new Set<string>(
+        referenceAreas.map((area) => area.timePeriodId.toString())
+      ),
+    [referenceAreas]
+  );
+
+  const shownTimePeriodIdSet = useMemo(
+    () =>
+      new Set<string>(
+        shownReferenceAreas.map((area) => area.timePeriodId.toString())
+      ),
+    [shownReferenceAreas]
+  );
 
   const timePeriodList = useTimePeriodList({ store: store });
 
