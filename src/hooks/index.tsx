@@ -27,7 +27,6 @@ export { useDietLogList } from "./useDietLogList";
 export { useDietLogListFilters } from "./useDietLogListFilters";
 export { useDateRange } from "./useDateRange";
 export { useChartDateMap } from "./useChartDateMap";
-export { useChartTimePeriodIdSets } from "./useChartTimePeriodIdSets";
 export { useBodyMeasurementsSettings } from "./useBodyMeasurementsSettings";
 export { useIsDateBeforeEpochDate } from "./useIsDateBeforeEpochDate";
 export { useDefaultIncrementValues } from "./useDefaultIncrementValues";
