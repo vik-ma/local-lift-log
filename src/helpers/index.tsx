@@ -209,6 +209,7 @@ export { GetPaceUnitFromDistanceUnit } from "./Strings/GetPaceUnitFromDistanceUn
 export { ConvertNumberToInputString } from "./Strings/ConvertNumberToInputString";
 export { ConvertNullToEmptyInputString } from "./Strings/ConvertNullToEmptyInputString";
 export { GetValidatedUnit } from "./Strings/GetValidatedUnit";
+export { FormatNumExercisesAndSetsStrings } from "./Strings/FormatNumExercisesAndSetsStrings";
 
 export { UpdateItemInList } from "./Lists/UpdateItemInList";
 export { DeleteItemFromList } from "./Lists/DeleteItemFromList";

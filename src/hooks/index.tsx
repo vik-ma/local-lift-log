@@ -33,3 +33,4 @@ export { useDefaultIncrementValues } from "./useDefaultIncrementValues";
 export { useFilterDateRangeAndWeekdays } from "./useFilterDateRangeAndWeekdays";
 export { useFilterDateRange } from "./useFilterDateRange";
 export { useMeasurementListFilters } from "./useMeasurementListFilters";
+export { useNumExercisesAndSetsString } from "./useNumExercisesAndSetsString";
