@@ -25,6 +25,8 @@ type UseTimePeriodListProps = {
   store: StoreRef;
 };
 
+const IS_MAX_VALUE = true;
+
 export const useTimePeriodList = ({
   store,
 }: UseTimePeriodListProps): UseTimePeriodListReturnType => {
@@ -88,24 +90,36 @@ export const useTimePeriodList = ({
             (item.end_date &&
               "end date".includes(filterQuery.toLocaleLowerCase()))) &&
           (!filterMap.has("min-date-start") ||
-            IsDateWithinLimit(item.start_date, filterMinStartDate, false)) &&
+            IsDateWithinLimit(
+              item.start_date,
+              filterMinStartDate,
+              !IS_MAX_VALUE
+            )) &&
           (!filterMap.has("max-date-start") ||
-            IsDateWithinLimit(item.start_date, filterMaxStartDate, true)) &&
+            IsDateWithinLimit(
+              item.start_date,
+              filterMaxStartDate,
+              IS_MAX_VALUE
+            )) &&
           (!filterMap.has("min-date-end") ||
-            IsDateWithinLimit(item.end_date, filterMinEndDate, false)) &&
+            IsDateWithinLimit(
+              item.end_date,
+              filterMinEndDate,
+              !IS_MAX_VALUE
+            )) &&
           (!filterMap.has("max-date-end") ||
-            IsDateWithinLimit(item.end_date, filterMaxEndDate, true)) &&
+            IsDateWithinLimit(item.end_date, filterMaxEndDate, IS_MAX_VALUE)) &&
           (!filterMap.has("min-duration") ||
             IsNumberWithinLimit(
               item.numDaysBetweenDates,
               filterMinDuration,
-              false
+              !IS_MAX_VALUE
             )) &&
           (!filterMap.has("max-duration") ||
             IsNumberWithinLimit(
               item.numDaysBetweenDates,
               filterMaxDuration,
-              true
+              IS_MAX_VALUE
             )) &&
           (!filterMap.has("diet-phase") ||
             (item.diet_phase !== null &&
