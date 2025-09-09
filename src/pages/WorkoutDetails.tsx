@@ -636,7 +636,11 @@ export default function WorkoutDetails() {
           isNoteComment
         />
         {!isActiveSetExpanded && (
-          <div className="pt-2 pb-[5.5rem]">
+          <div
+            className={
+              activeSet !== undefined ? "pt-2 pb-[5.5rem]" : "pt-2 pb-3"
+            }
+          >
             <WorkoutGroupedSetList
               groupedSets={groupedSets}
               setGroupedSets={setGroupedSets}
