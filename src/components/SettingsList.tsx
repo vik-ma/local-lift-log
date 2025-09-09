@@ -1070,7 +1070,7 @@ export const SettingsList = ({
           isListFiltered={false}
         />
         {filteredSettingsList.map((settingsItem) => settingsItem.content)}
-        <div className="flex justify-center pt-1 pb-3">
+        <div className="flex justify-center pt-0.5 pb-2.5">
           <Button
             variant="flat"
             color="danger"
