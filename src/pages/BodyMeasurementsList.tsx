@@ -649,7 +649,7 @@ export default function BodyMeasurementsList() {
         useBodyMeasurementsSettings={bodyMeasurementsSettings}
         useMeasurementList={measurementList}
       />
-      <div className="flex flex-col items-center gap-1.5">
+      <div className="flex flex-col items-center gap-1 pb-1.5">
         <ListPageSearchInput
           header="Body Measurements"
           filterQuery={filterQuery}

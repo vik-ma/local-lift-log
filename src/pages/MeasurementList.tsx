@@ -371,7 +371,7 @@ export default function MeasurementList() {
           )}
         </ModalContent>
       </Modal>
-      <div className="flex flex-col items-center gap-1.5">
+      <div className="flex flex-col items-center gap-1 pb-1.5">
         <ListPageSearchInput
           header="Measurement List"
           filterQuery={filterQuery}
@@ -504,9 +504,11 @@ export default function MeasurementList() {
             <EmptyListLabel itemName="Measurements" />
           )}
         </div>
-        <Button variant="flat" onPress={() => setUnitsModal.onOpen()}>
-          Restore Default Measurements
-        </Button>
+        <div className="flex justify-center pt-0.5">
+          <Button variant="flat" onPress={() => setUnitsModal.onOpen()}>
+            Restore Default Measurements
+          </Button>
+        </div>
       </div>
     </>
   );

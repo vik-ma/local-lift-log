@@ -260,7 +260,7 @@ export default function WorkoutTemplateList() {
         setUserSettings={setUserSettings}
       />
       <FilterExerciseGroupsModal useExerciseList={exerciseList} />
-      <div className="flex flex-col items-center gap-1.5">
+      <div className="flex flex-col items-center gap-1 pb-1.5">
         <ListPageSearchInput
           header="Workout Templates"
           filterQuery={filterQuery}

@@ -250,7 +250,7 @@ export default function TimePeriodList() {
         }
         deleteButtonAction={deleteTimePeriod}
       />
-      <div className="flex flex-col items-center gap-1.5">
+      <div className="flex flex-col items-center gap-1 pb-1.5">
         <ListPageSearchInput
           header="Time Period List"
           filterQuery={filterQuery}

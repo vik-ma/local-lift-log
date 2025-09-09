@@ -258,7 +258,7 @@ export default function ExerciseList() {
         resetInputsAfterSaving
       />
       <FilterExerciseGroupsModal useExerciseList={exerciseList} />
-      <div className="flex flex-col items-center gap-1.5">
+      <div className="flex flex-col items-center gap-1 pb-1.5">
         <ListPageSearchInput
           header="Exercise List"
           filterQuery={filterQuery}
@@ -385,9 +385,11 @@ export default function ExerciseList() {
             <EmptyListLabel itemName="Exercises" />
           )}
         </div>
-        <Button variant="flat" onPress={restoreDefaultExercises}>
-          Restore Default Exercises
-        </Button>
+        <div className="flex justify-center pt-0.5">
+          <Button variant="flat" onPress={restoreDefaultExercises}>
+            Restore Default Exercises
+          </Button>
+        </div>
       </div>
     </>
   );
