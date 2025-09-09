@@ -635,28 +635,30 @@ export default function WorkoutDetails() {
           }
           isNoteComment
         />
-        <div className="pt-2 pb-[4.5rem]">
-          <WorkoutGroupedSetList
-            groupedSets={groupedSets}
-            setGroupedSets={setGroupedSets}
-            updateExerciseOrder={updateExerciseOrder}
-            handleGroupedSetAccordionClick={handleGroupedSetAccordionClick}
-            handleGroupedSetOptionSelection={handleGroupedSetOptionSelection}
-            handleClickSet={handleClickSet}
-            handleSetOptionSelection={handleSetOptionSelection}
-            updateShownSetListComments={updateShownSetListComments}
-            shownSetListComments={shownSetListComments}
-            handleAddSetButton={handleAddSetButton}
-            handleAddSetMultisetButton={handleAddMultisetButton}
-            setIsExerciseBeingDragged={setIsExerciseBeingDragged}
-            handleReassignExercise={handleReassignExercise}
-            isTemplate={false}
-            activeSetId={activeSet?.id}
-            completedSetsMap={completedSetsMap}
-            multisetTypeMap={multisetActions.multisetTypeMap}
-            openSetNotesModal={openSetNotesModal}
-          />
-        </div>
+        {!isActiveSetExpanded && (
+          <div className="pt-2 pb-[4.5rem]">
+            <WorkoutGroupedSetList
+              groupedSets={groupedSets}
+              setGroupedSets={setGroupedSets}
+              updateExerciseOrder={updateExerciseOrder}
+              handleGroupedSetAccordionClick={handleGroupedSetAccordionClick}
+              handleGroupedSetOptionSelection={handleGroupedSetOptionSelection}
+              handleClickSet={handleClickSet}
+              handleSetOptionSelection={handleSetOptionSelection}
+              updateShownSetListComments={updateShownSetListComments}
+              shownSetListComments={shownSetListComments}
+              handleAddSetButton={handleAddSetButton}
+              handleAddSetMultisetButton={handleAddMultisetButton}
+              setIsExerciseBeingDragged={setIsExerciseBeingDragged}
+              handleReassignExercise={handleReassignExercise}
+              isTemplate={false}
+              activeSetId={activeSet?.id}
+              completedSetsMap={completedSetsMap}
+              multisetTypeMap={multisetActions.multisetTypeMap}
+              openSetNotesModal={openSetNotesModal}
+            />
+          </div>
+        )}
         <ActiveSet
           activeSet={activeSet}
           setActiveSet={setActiveSet}
