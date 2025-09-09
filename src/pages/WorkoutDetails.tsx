@@ -636,7 +636,7 @@ export default function WorkoutDetails() {
           isNoteComment
         />
         {!isActiveSetExpanded && (
-          <div className="pt-2 pb-[4.5rem]">
+          <div className="pt-2 pb-[5.5rem]">
             <WorkoutGroupedSetList
               groupedSets={groupedSets}
               setGroupedSets={setGroupedSets}
