@@ -213,16 +213,11 @@ export default function RoutineDetails() {
       await LoadStore(store);
 
       await loadWorkoutTemplateList(userSettings);
+
+      await Promise.all([getRoutine(), getWorkoutRoutineSchedules()]);
     };
 
-    if (isWorkoutTemplateListLoaded.current) {
-      getRoutine();
-    }
-
-    if (isRoutineLoaded.current) {
-      getWorkoutRoutineSchedules();
-      loadPage();
-    }
+    loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRoutineLoaded.current, isWorkoutTemplateListLoaded.current]);
 
