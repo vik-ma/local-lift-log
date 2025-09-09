@@ -1332,6 +1332,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
       setIncompleteSetIds([]);
       setActiveSet(undefined);
       setActiveGroupedSet(undefined);
+      setIsActiveSetExpanded(false);
       return;
     }
 
