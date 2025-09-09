@@ -66,14 +66,26 @@ export const SiteHeader = () => {
             <DropdownMenu aria-label="Dropdown Menu With Navigation To More Pages">
               <DropdownItem
                 className="nav-menu-dropdown-item"
-                textValue="Exercise List"
+                textValue="Exercises"
                 key="exercises"
               >
                 <NavLink
                   className="nav-menu-dropdown-item-link"
                   to="/exercises"
                 >
-                  Exercise List
+                  Exercises
+                </NavLink>
+              </DropdownItem>
+              <DropdownItem
+                className="nav-menu-dropdown-item"
+                textValue="Workout Templates"
+                key="workout-templates"
+              >
+                <NavLink
+                  className="nav-menu-dropdown-item-link"
+                  to="/workout-templates"
+                >
+                  Workout Templates
                 </NavLink>
               </DropdownItem>
               <DropdownItem
@@ -94,28 +106,7 @@ export const SiteHeader = () => {
                   className="nav-menu-dropdown-item-link"
                   to="/multisets"
                 >
-                  Multisets
-                </NavLink>
-              </DropdownItem>
-              <DropdownItem
-                className="nav-menu-dropdown-item"
-                textValue="Workout Templates"
-                key="workout-templates"
-              >
-                <NavLink
-                  className="nav-menu-dropdown-item-link"
-                  to="/workout-templates"
-                >
-                  Workout Templates
-                </NavLink>
-              </DropdownItem>
-              <DropdownItem
-                className="nav-menu-dropdown-item"
-                textValue="Logging"
-                key="logging"
-              >
-                <NavLink className="nav-menu-dropdown-item-link" to="/logging">
-                  Logging
+                  Multiset Templates
                 </NavLink>
               </DropdownItem>
               <DropdownItem
@@ -125,6 +116,15 @@ export const SiteHeader = () => {
               >
                 <NavLink className="nav-menu-dropdown-item-link" to="/presets">
                   Presets
+                </NavLink>
+              </DropdownItem>
+              <DropdownItem
+                className="nav-menu-dropdown-item"
+                textValue="Logging"
+                key="logging"
+              >
+                <NavLink className="nav-menu-dropdown-item-link" to="/logging">
+                  Logging
                 </NavLink>
               </DropdownItem>
               <DropdownItem
