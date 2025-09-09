@@ -57,7 +57,7 @@ import { DEFAULT_DISTANCE, DEFAULT_EQUIPMENT_WEIGHT } from "../constants";
 
 type PresetTab = "equipment" | "distance" | "plate";
 
-export default function Presets() {
+export default function PresetsList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] =
     useState<PresetsOperationType>("add");

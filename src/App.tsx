@@ -13,10 +13,10 @@ import {
   WorkoutListPage,
   WorkoutDetailsPage,
   LoggingIndexPage,
-  PresetsPage,
+  PresetsListPage,
   MeasurementListPage,
   TestPage,
-  MultisetsPage,
+  MultisetTemplateListPage,
   TimePeriodListPage,
   DietLogListPage,
   AnalyticsPage,
@@ -53,7 +53,7 @@ function App() {
                 <Route index element={<ExerciseDetailsPage />} />
               </Route>
             </Route>
-            <Route path="/multisets" element={<MultisetsPage />} />
+            <Route path="/multisets" element={<MultisetTemplateListPage />} />
             <Route path="/workout-templates">
               <Route index element={<WorkoutTemplateListPage />} />
               <Route path=":id" element={<WorkoutTemplateDetailsPage />} />
@@ -79,7 +79,7 @@ function App() {
               />
               <Route path="diet-log-list" element={<DietLogListPage />} />
             </Route>
-            <Route path="/presets" element={<PresetsPage />} />
+            <Route path="/presets" element={<PresetsListPage />} />
             <Route path="/time-periods" element={<TimePeriodListPage />} />
             <Route path="/test" element={<TestPage />} />
             <Route path="*" element={<NotFound />} />
