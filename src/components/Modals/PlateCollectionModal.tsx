@@ -49,8 +49,6 @@ export const PlateCollectionModal = ({
   const isNameInputValid = useValidateName({ name: nameInput });
 
   const {
-    sortCategoryEquipment,
-    handleSortOptionSelectionEquipment,
     otherUnitPlateCollection,
     setOtherUnitPlateCollection,
     updateAvailablePlatesMapKeys,
@@ -60,16 +58,12 @@ export const PlateCollectionModal = ({
     usePlateCollectionModal;
 
   const handleSetHandleButton = () => {
-    if (sortCategoryEquipment !== "favorite") {
-      handleSortOptionSelectionEquipment("favorite");
-    }
     setOperationType("set-handle");
     setPlateCalculatorPage("equipment-list");
   };
 
   const handleSetAvailablePlatesButton = () => {
     setOperationType("set-plates");
-    handleSortOptionSelectionEquipment("plate-col");
     setPlateCalculatorPage("equipment-list");
   };
 
