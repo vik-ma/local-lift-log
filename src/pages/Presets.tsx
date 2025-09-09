@@ -832,6 +832,7 @@ export default function Presets() {
       <div className="flex flex-col items-center">
         <Tabs
           className="sticky top-[4.5rem] z-30"
+          classNames={{ panel: "!pt-0.5" }}
           aria-label="Preset Types"
           size="sm"
           fullWidth
@@ -839,7 +840,7 @@ export default function Presets() {
           onSelectionChange={(key) => changeTab(key as PresetTab)}
         >
           <Tab
-            className="flex flex-col gap-1 w-full px-0 py-1"
+            className="flex flex-col gap-1 w-full px-0 py-1.5"
             key="equipment"
             title="Equipment Weights"
           >
@@ -958,7 +959,6 @@ export default function Presets() {
                   </div>
                   <div className="flex justify-center">
                     <Button
-                      size="sm"
                       variant="flat"
                       onPress={handleRestoreEquipmentButton}
                     >
@@ -1086,7 +1086,6 @@ export default function Presets() {
                   </div>
                   <div className="flex justify-center">
                     <Button
-                      size="sm"
                       variant="flat"
                       onPress={handleRefilterValueDistanceButton}
                     >
