@@ -506,7 +506,7 @@ export default function LoggingIndex() {
         useBodyMeasurementsSettings={bodyMeasurementsSettings}
         useMeasurementList={measurementList}
       />
-      <div className="flex flex-col gap-3 items-center w-full">
+      <div className="flex flex-col gap-3 items-center w-full pb-1.5">
         <div className="flex flex-col gap-1 items-center w-full">
           <div className="bg-neutral-900 px-5 py-1.5 rounded-xl text-center">
             <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-4xl bg-clip-text text-transparent bg-gradient-to-b truncate">

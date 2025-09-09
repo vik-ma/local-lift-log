@@ -380,7 +380,7 @@ export default function WorkoutTemplateDetails() {
           editButtonAction={() => workoutTemplateModal.onOpen()}
           useDetailsHeaderOptions={useDetailsHeaderOptions}
         />
-        <div className="pt-2">
+        <div className="pt-2 pb-2">
           <WorkoutGroupedSetList
             groupedSets={groupedSets}
             setGroupedSets={setGroupedSets}

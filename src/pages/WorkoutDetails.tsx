@@ -638,7 +638,7 @@ export default function WorkoutDetails() {
         {!isActiveSetExpanded && (
           <div
             className={
-              activeSet !== undefined ? "pt-2 pb-[5.5rem]" : "pt-2 pb-2.5"
+              activeSet !== undefined ? "pt-2 pb-[5.5rem]" : "pt-2 pb-2"
             }
           >
             <WorkoutGroupedSetList

@@ -600,7 +600,7 @@ export default function RoutineDetails() {
           </span>
         }
       />
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 pb-1.5">
         <DetailsHeader
           header={routine.name}
           subHeader={

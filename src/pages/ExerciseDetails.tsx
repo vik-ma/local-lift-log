@@ -501,7 +501,7 @@ export default function ExerciseDetails() {
         buttonAction={updateExercise}
       />
 
-      <div className="flex flex-col gap-2.5">
+      <div className="flex flex-col gap-2.5 pb-1.5">
         <DetailsHeader
           header={exercise.name}
           subHeader={exercise.formattedGroupStringPrimary ?? ""}
