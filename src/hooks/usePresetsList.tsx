@@ -314,27 +314,6 @@ export const usePresetsList = ({
     setDistances(distanceList);
   };
 
-  const sortEquipmentWeightsByPlateCalcFirst = (
-    equipmentWeightList: EquipmentWeight[]
-  ) => {
-    if (operatingPlateCollection.availablePlatesMap === undefined) return;
-
-    const platesMap = operatingPlateCollection.availablePlatesMap;
-
-    equipmentWeightList.sort((a, b) => {
-      const aInMap = platesMap.has(a) ? 1 : 0;
-      const bInMap = platesMap.has(b) ? 1 : 0;
-
-      if (platesMap.has(b) !== platesMap.has(a)) {
-        return bInMap - aInMap;
-      } else {
-        return a.name.localeCompare(b.name);
-      }
-    });
-
-    setEquipmentWeights(equipmentWeightList);
-  };
-
   const handleSortOptionSelectionEquipment = async (key: string) => {
     if (store.current === null) return;
 
@@ -430,9 +409,6 @@ export const usePresetsList = ({
         break;
       case "weight-desc":
         sortEquipmentWeightsByWeight([...equipmentWeightList], !isAscending);
-        break;
-      case "plate-col":
-        sortEquipmentWeightsByPlateCalcFirst([...equipmentWeightList]);
         break;
       default:
         // Overwrite invalid categories

@@ -1164,8 +1164,7 @@ export type EquipmentWeightSortCategory =
   | "favorite"
   | "name"
   | "weight-desc"
-  | "weight-asc"
-  | "plate-col";
+  | "weight-asc";
 
 export type DistanceSortCategory =
   | "favorite"
