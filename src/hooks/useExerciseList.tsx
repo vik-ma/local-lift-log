@@ -15,7 +15,11 @@ import {
   StoreRef,
   UserSettings,
 } from "../typings";
-import { useExerciseGroupList, useExerciseListFilters } from ".";
+import {
+  useExerciseGroupList,
+  useExerciseListFilters,
+  usePaginatedList,
+} from ".";
 import { EXERCISE_GROUP_DICTIONARY } from "../constants";
 
 type UseExerciseListProps = {
@@ -23,8 +27,6 @@ type UseExerciseListProps = {
   showTotalNumSets?: boolean;
   ignoreExercisesWithNoSets?: boolean;
 };
-
-const PAGE_SIZE = 20;
 
 export const useExerciseList = ({
   store,
@@ -37,7 +39,6 @@ export const useExerciseList = ({
     useState<ExerciseSortCategory>("favorite");
   const [showSecondaryGroups, setShowSecondaryGroups] =
     useState<boolean>(false);
-  const [paginationPage, setPaginationPage] = useState<number>(1);
 
   const exerciseMap = useRef<ExerciseMap>(new Map());
 
@@ -91,12 +92,13 @@ export const useExerciseList = ({
     includeSecondaryGroups,
   ]);
 
-  const paginatedExercises = useMemo(() => {
-    const start = (paginationPage - 1) * PAGE_SIZE;
-    return filteredExercises.slice(start, start + PAGE_SIZE);
-  }, [filteredExercises, paginationPage]);
-
-  const totalPaginationPages = Math.ceil(filteredExercises.length / PAGE_SIZE);
+  const {
+    paginationPage,
+    setPaginationPage,
+    itemsPerPaginationPage,
+    paginatedList: paginatedExercises,
+    totalPaginationPages,
+  } = usePaginatedList(filteredExercises);
 
   const sortExercisesByName = (exerciseList: Exercise[]) => {
     exerciseList.sort((a, b) => {

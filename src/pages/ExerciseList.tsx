@@ -390,12 +390,17 @@ export default function ExerciseList() {
             <EmptyListLabel itemName="Exercises" />
           )}
         </div>
-        <Pagination
-          size="lg"
-          page={paginationPage}
-          total={totalPaginationPages}
-          onChange={setPaginationPage}
-        />
+        {totalPaginationPages > 1 && (
+          <div className="pt-0.5">
+            <Pagination
+              size="lg"
+              showControls
+              page={paginationPage}
+              total={totalPaginationPages}
+              onChange={setPaginationPage}
+            />
+          </div>
+        )}
         <div className="flex justify-center pt-0.5">
           <Button variant="flat" onPress={restoreDefaultExercises}>
             Restore Default Exercises
