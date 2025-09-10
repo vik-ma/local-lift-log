@@ -36,15 +36,6 @@ export const SetNotesModal = ({
     ? operatingSet.set_index
     : 0;
 
-  useEffect(() => {
-    setCommentInput(
-      ConvertNullToEmptyInputString(
-        isTemplate ? operatingSet.note : operatingSet.comment
-      )
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [operatingSet.id]);
-
   const disableSaveButton = useMemo(() => {
     if (!isTemplate && operatingSet.comment === commentInput) return true;
     if (
@@ -60,6 +51,15 @@ export const SetNotesModal = ({
 
     return false;
   }, [operatingSet.comment, operatingSet.note, commentInput, isTemplate]);
+
+  useEffect(() => {
+    setCommentInput(
+      ConvertNullToEmptyInputString(
+        isTemplate ? operatingSet.note : operatingSet.comment
+      )
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [operatingSet.id]);
 
   return (
     <Modal

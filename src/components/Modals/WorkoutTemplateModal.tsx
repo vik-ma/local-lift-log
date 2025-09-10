@@ -33,12 +33,6 @@ export const WorkoutTemplateModal = ({
 
   const isNameValid = useValidateName({ name: nameInput });
 
-  useEffect(() => {
-    setNameInput(workoutTemplate.name);
-    setNoteInput(ConvertNullToEmptyInputString(workoutTemplate.note));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [workoutTemplate.id]);
-
   const handleSaveButton = () => {
     if (!isNameValid) return;
 
@@ -59,6 +53,12 @@ export const WorkoutTemplateModal = ({
     setNameInput("");
     setNoteInput("");
   };
+
+  useEffect(() => {
+    setNameInput(workoutTemplate.name);
+    setNoteInput(ConvertNullToEmptyInputString(workoutTemplate.note));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workoutTemplate.id]);
 
   return (
     <Modal

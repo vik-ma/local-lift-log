@@ -49,8 +49,6 @@ type CalculationModalProps = {
   >;
 };
 
-
-
 export const CalculationModal = ({
   useCalculationModal,
   usePresetsList,
@@ -209,13 +207,6 @@ export const CalculationModal = ({
     }
   };
 
-  useEffect(() => {
-    if (calculationModalTab === "plate") {
-      loadPlateCollectionList(userSettings);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calculationModalTab]);
-
   const showBackButton = useMemo(() => {
     if (calculationModalTab === "sum" && sumCalculatorPage !== "base")
       return true;
@@ -249,6 +240,13 @@ export const CalculationModal = ({
     operationTypeSumCalc,
     operationTypePlateCalc,
   ]);
+
+  useEffect(() => {
+    if (calculationModalTab === "plate") {
+      loadPlateCollectionList(userSettings);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [calculationModalTab]);
 
   return (
     <Modal

@@ -47,23 +47,6 @@ export const TimeInputModal = ({
   const [currentDate, setCurrentDate] = useState<CalendarDate | null>(null);
   const [newDate, setNewDate] = useState<CalendarDate | null>(null);
 
-  useEffect(() => {
-    if (value === null || !ValidateISODateString(value)) return;
-
-    const is24hFormat = true;
-
-    const currentTimeString = ConvertDateStringToTimeString(value, is24hFormat);
-    const parsedCurrentTime = parseTime(currentTimeString);
-
-    const currentDateString = ConvertDateToYmdString(new Date(value));
-    const parsedCurrentDate = parseDate(currentDateString);
-
-    setNewTime(parsedCurrentTime);
-    setCurrentTime(parsedCurrentTime);
-    setNewDate(parsedCurrentDate);
-    setCurrentDate(parsedCurrentDate);
-  }, [value]);
-
   const handleSaveButton = () => {
     if (newTime === null || newDate === null) return;
 
@@ -80,6 +63,23 @@ export const TimeInputModal = ({
 
     saveButtonAction(dateString);
   };
+
+  useEffect(() => {
+    if (value === null || !ValidateISODateString(value)) return;
+
+    const is24hFormat = true;
+
+    const currentTimeString = ConvertDateStringToTimeString(value, is24hFormat);
+    const parsedCurrentTime = parseTime(currentTimeString);
+
+    const currentDateString = ConvertDateToYmdString(new Date(value));
+    const parsedCurrentDate = parseDate(currentDateString);
+
+    setNewTime(parsedCurrentTime);
+    setCurrentTime(parsedCurrentTime);
+    setNewDate(parsedCurrentDate);
+    setCurrentDate(parsedCurrentDate);
+  }, [value]);
 
   return (
     <Modal

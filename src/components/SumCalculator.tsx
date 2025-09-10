@@ -117,42 +117,6 @@ export const SumCalculator = ({
 
   const numberInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (calculationString === null) {
-      if (presetsType === "equipment") {
-        setCalculationListWeight([]);
-      } else {
-        setCalculationListDistance([]);
-      }
-
-      setTotalMultiplierInput("");
-
-      return;
-    }
-
-    const unit = presetsType === "equipment" ? weightUnit : distanceUnit;
-
-    const { calculationList, totalMultiplier } = LoadCalculationString(
-      calculationString,
-      unit,
-      presetsType,
-      equipmentWeights,
-      distances
-    );
-
-    const totalMultiplierInput =
-      totalMultiplier === 1 ? "" : totalMultiplier.toString();
-
-    setTotalMultiplierInput(totalMultiplierInput);
-
-    if (presetsType === "equipment") {
-      setCalculationListWeight(calculationList);
-    } else {
-      setCalculationListDistance(calculationList);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const addItemToCalculationList = (calculationItem: CalculationListItem) => {
     if (presetsType === "equipment") {
       const updatedCalculationListWeight = [
@@ -586,6 +550,42 @@ export const SumCalculator = ({
       }
     }
   };
+
+  useEffect(() => {
+    if (calculationString === null) {
+      if (presetsType === "equipment") {
+        setCalculationListWeight([]);
+      } else {
+        setCalculationListDistance([]);
+      }
+
+      setTotalMultiplierInput("");
+
+      return;
+    }
+
+    const unit = presetsType === "equipment" ? weightUnit : distanceUnit;
+
+    const { calculationList, totalMultiplier } = LoadCalculationString(
+      calculationString,
+      unit,
+      presetsType,
+      equipmentWeights,
+      distances
+    );
+
+    const totalMultiplierInput =
+      totalMultiplier === 1 ? "" : totalMultiplier.toString();
+
+    setTotalMultiplierInput(totalMultiplierInput);
+
+    if (presetsType === "equipment") {
+      setCalculationListWeight(calculationList);
+    } else {
+      setCalculationListDistance(calculationList);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (showNumberInput && numberInputRef.current) {

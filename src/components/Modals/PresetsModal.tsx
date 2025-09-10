@@ -71,18 +71,6 @@ export const PresetsModal = ({
     return false;
   }, [isNameInputValid, isValueInputInvalid]);
 
-  useEffect(() => {
-    setNameInput(operatingEquipmentWeight.name);
-    setValueInput(ConvertNumberToInputString(operatingEquipmentWeight.weight));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [operatingEquipmentWeight.id]);
-
-  useEffect(() => {
-    setNameInput(operatingDistance.name);
-    setValueInput(ConvertNumberToInputString(operatingDistance.distance));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [operatingDistance.id]);
-
   const handleSaveButton = async () => {
     if (isNewPresetInvalid) return;
 
@@ -115,6 +103,18 @@ export const PresetsModal = ({
     setNameInput("");
     setValueInput("");
   };
+
+  useEffect(() => {
+    setNameInput(operatingEquipmentWeight.name);
+    setValueInput(ConvertNumberToInputString(operatingEquipmentWeight.weight));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [operatingEquipmentWeight.id]);
+
+  useEffect(() => {
+    setNameInput(operatingDistance.name);
+    setValueInput(ConvertNumberToInputString(operatingDistance.distance));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [operatingDistance.id]);
 
   return (
     <Modal

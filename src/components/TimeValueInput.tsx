@@ -175,31 +175,6 @@ export const TimeValueInput = ({
     return !allow0 && timeInSeconds === 0;
   }, [allow0, timeInSeconds]);
 
-  useEffect(() => {
-    if (setIsTimeInputInvalid === undefined) return;
-
-    if (
-      isSecondsInputInvalid ||
-      isMinutesInputInvalid ||
-      isHhmmssHoursInputInvalid ||
-      isHhmmssMinutesInputInvalid ||
-      isHhmmssSecondsInputInvalid ||
-      isValue0AndInvalid
-    ) {
-      setIsTimeInputInvalid(true);
-    } else {
-      setIsTimeInputInvalid(false);
-    }
-  }, [
-    isSecondsInputInvalid,
-    isMinutesInputInvalid,
-    isHhmmssHoursInputInvalid,
-    isHhmmssMinutesInputInvalid,
-    isHhmmssSecondsInputInvalid,
-    setIsTimeInputInvalid,
-    isValue0AndInvalid,
-  ]);
-
   const handleSecondsInputChange = (value: string) => {
     setSecondsInput(value);
     const seconds = IsStringEmpty(value) ? 0 : Number(value);
@@ -321,6 +296,31 @@ export const TimeValueInput = ({
       setIsSetEdited(true);
     }
   };
+
+  useEffect(() => {
+    if (setIsTimeInputInvalid === undefined) return;
+
+    if (
+      isSecondsInputInvalid ||
+      isMinutesInputInvalid ||
+      isHhmmssHoursInputInvalid ||
+      isHhmmssMinutesInputInvalid ||
+      isHhmmssSecondsInputInvalid ||
+      isValue0AndInvalid
+    ) {
+      setIsTimeInputInvalid(true);
+    } else {
+      setIsTimeInputInvalid(false);
+    }
+  }, [
+    isSecondsInputInvalid,
+    isMinutesInputInvalid,
+    isHhmmssHoursInputInvalid,
+    isHhmmssMinutesInputInvalid,
+    isHhmmssSecondsInputInvalid,
+    setIsTimeInputInvalid,
+    isValue0AndInvalid,
+  ]);
 
   useEffect(() => {
     setSecondsInput(timeInSeconds === 0 ? "" : timeInSeconds.toString());

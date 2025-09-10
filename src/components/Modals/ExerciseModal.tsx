@@ -85,19 +85,6 @@ export const ExerciseModal = ({
     }
   };
 
-  useEffect(() => {
-    const multiplierInputMap: Map<string, string> = new Map();
-
-    if (exercise.exerciseGroupStringMapSecondary !== undefined) {
-      for (const [key, value] of exercise.exerciseGroupStringMapSecondary) {
-        multiplierInputMap.set(key, value);
-      }
-    }
-
-    setMultiplierInputMap(multiplierInputMap);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [exercise.exerciseGroupStringMapSecondary]);
-
   const handleExerciseGroupStringPrimaryChange = (
     exerciseGroupStringListPrimary: string[]
   ) => {
@@ -180,41 +167,6 @@ export const ExerciseModal = ({
     setMultiplierInputMap(updatedMultiplierInputMap);
   };
 
-  useEffect(() => {
-    if (isSecondaryAccordionExpanded) {
-      setTimeout(() => {
-        if (secondaryAccordionRef.current !== null) {
-          secondaryAccordionRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }
-      }, 105);
-    }
-  }, [isSecondaryAccordionExpanded]);
-
-  useEffect(() => {
-    if (isMultiplierAccordionExpanded) {
-      setTimeout(() => {
-        if (multiplierAccordionRef.current !== null) {
-          multiplierAccordionRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }
-      }, 105);
-    }
-  }, [isMultiplierAccordionExpanded]);
-
-  useEffect(() => {
-    setNameInput(exercise.name);
-    setNoteInput(ConvertNullToEmptyInputString(exercise.note));
-    // Expand the Primary Exercise Group accordion when creating new Exercise
-    // Keep accordion closed if editing existing Exercise
-    setIsPrimaryAccordionExpanded(!isExerciseGroupSetPrimaryStringValid);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [exercise.id]);
-
   const exerciseGroupStringListPrimary: string[] = useMemo(
     () =>
       exercise.exerciseGroupStringSetPrimary !== undefined
@@ -254,6 +206,54 @@ export const ExerciseModal = ({
     setIsSecondaryAccordionExpanded(false);
     setIsMultiplierAccordionExpanded(false);
   };
+
+  useEffect(() => {
+    const multiplierInputMap: Map<string, string> = new Map();
+
+    if (exercise.exerciseGroupStringMapSecondary !== undefined) {
+      for (const [key, value] of exercise.exerciseGroupStringMapSecondary) {
+        multiplierInputMap.set(key, value);
+      }
+    }
+
+    setMultiplierInputMap(multiplierInputMap);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [exercise.exerciseGroupStringMapSecondary]);
+
+  useEffect(() => {
+    if (isSecondaryAccordionExpanded) {
+      setTimeout(() => {
+        if (secondaryAccordionRef.current !== null) {
+          secondaryAccordionRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 105);
+    }
+  }, [isSecondaryAccordionExpanded]);
+
+  useEffect(() => {
+    if (isMultiplierAccordionExpanded) {
+      setTimeout(() => {
+        if (multiplierAccordionRef.current !== null) {
+          multiplierAccordionRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 105);
+    }
+  }, [isMultiplierAccordionExpanded]);
+
+  useEffect(() => {
+    setNameInput(exercise.name);
+    setNoteInput(ConvertNullToEmptyInputString(exercise.note));
+    // Expand the Primary Exercise Group accordion when creating new Exercise
+    // Keep accordion closed if editing existing Exercise
+    setIsPrimaryAccordionExpanded(!isExerciseGroupSetPrimaryStringValid);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [exercise.id]);
 
   return (
     <Modal

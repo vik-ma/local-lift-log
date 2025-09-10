@@ -190,39 +190,6 @@ export const DietLogModal = ({
     );
   }, [dietLogMap, dateStringToday, dateStringYesterday]);
 
-  useEffect(() => {
-    if (dateEntryType === "custom" || dateEntryType === "range") return;
-
-    if (disableTodayOrYesterdayEntry) {
-      setDateEntryType("custom");
-    }
-
-    if (
-      userSettings.default_diet_log_day_is_yesterday &&
-      !dietLogMap.has(dateStringYesterday)
-    ) {
-      setTargetDay("Yesterday");
-      return;
-    }
-
-    if (targetDay === "Yesterday" && dietLogMap.has(dateStringYesterday)) {
-      setTargetDay("Today");
-    }
-
-    if (targetDay === "Today" && dietLogMap.has(dateStringToday)) {
-      setTargetDay("Yesterday");
-    }
-  }, [
-    dietLogMap,
-    targetDay,
-    dateStringToday,
-    dateStringYesterday,
-    disableTodayOrYesterdayEntry,
-    dateEntryType,
-    setDateEntryType,
-    userSettings,
-  ]);
-
   const disableSaveButton = useMemo(() => {
     if (!isDietLogEntryInputValid) return true;
 
@@ -376,6 +343,39 @@ export const DietLogModal = ({
     setCommentInput("");
     setSelectedDate(null);
   };
+
+  useEffect(() => {
+    if (dateEntryType === "custom" || dateEntryType === "range") return;
+
+    if (disableTodayOrYesterdayEntry) {
+      setDateEntryType("custom");
+    }
+
+    if (
+      userSettings.default_diet_log_day_is_yesterday &&
+      !dietLogMap.has(dateStringYesterday)
+    ) {
+      setTargetDay("Yesterday");
+      return;
+    }
+
+    if (targetDay === "Yesterday" && dietLogMap.has(dateStringYesterday)) {
+      setTargetDay("Today");
+    }
+
+    if (targetDay === "Today" && dietLogMap.has(dateStringToday)) {
+      setTargetDay("Yesterday");
+    }
+  }, [
+    dietLogMap,
+    targetDay,
+    dateStringToday,
+    dateStringYesterday,
+    disableTodayOrYesterdayEntry,
+    dateEntryType,
+    setDateEntryType,
+    userSettings,
+  ]);
 
   useEffect(() => {
     setCaloriesInput(ConvertNumberToInputString(dietLog.calories));

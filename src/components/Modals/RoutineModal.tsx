@@ -85,12 +85,6 @@ export const RoutineModal = ({
     setRoutine((prev) => ({ ...prev, num_days_in_schedule: numDays }));
   };
 
-  useEffect(() => {
-    setNameInput(routine.name);
-    setNoteInput(ConvertNullToEmptyInputString(routine.note));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [routine.id]);
-
   const handleSaveButton = () => {
     if (!isRoutineNameValid) return;
 
@@ -111,6 +105,12 @@ export const RoutineModal = ({
     setNameInput("");
     setNoteInput("");
   };
+
+  useEffect(() => {
+    setNameInput(routine.name);
+    setNoteInput(ConvertNullToEmptyInputString(routine.note));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [routine.id]);
 
   return (
     <Modal

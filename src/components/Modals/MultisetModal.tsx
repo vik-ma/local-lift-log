@@ -191,18 +191,6 @@ export const MultisetModal = ({
     setIsSetEdited(false);
   };
 
-  useEffect(() => {
-    assignSetTrackingValuesInputs(operatingSet);
-    setUneditedSet({ ...operatingSet });
-    setIsSetEdited(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [operatingSet.id]);
-
-  useEffect(() => {
-    setMultisetNoteInput(ConvertNullToEmptyInputString(multiset.note));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [multiset.id]);
-
   const handleMultisetNoteInputChange = (value: string) => {
     setMultisetNoteInput(value);
 
@@ -219,6 +207,18 @@ export const MultisetModal = ({
 
     undoOperatingMultisetChanges();
   };
+
+  useEffect(() => {
+    assignSetTrackingValuesInputs(operatingSet);
+    setUneditedSet({ ...operatingSet });
+    setIsSetEdited(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [operatingSet.id]);
+
+  useEffect(() => {
+    setMultisetNoteInput(ConvertNullToEmptyInputString(multiset.note));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [multiset.id]);
 
   return (
     <Modal isOpen={multisetModal.isOpen} onOpenChange={closeMultisetModal}>

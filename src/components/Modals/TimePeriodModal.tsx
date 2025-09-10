@@ -99,15 +99,6 @@ export const TimePeriodModal = ({
     return endDateDate.toISOString();
   }, [endDate]);
 
-  useEffect(() => {
-    setNameInput(timePeriod.name);
-    setNoteInput(ConvertNullToEmptyInputString(timePeriod.note));
-    setInjuryInput(ConvertNullToEmptyInputString(timePeriod.injury));
-    setStartDate(ConvertISODateStringToCalendarDate(timePeriod.start_date));
-    setEndDate(ConvertISODateStringToCalendarDate(timePeriod.end_date));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timePeriod.id]);
-
   const isDateUnavailable = (date: DateValue) => {
     return IsDateBeforeEpochDate(date as CalendarDate);
   };
@@ -159,6 +150,15 @@ export const TimePeriodModal = ({
     setStartDate(null);
     setEndDate(null);
   };
+
+  useEffect(() => {
+    setNameInput(timePeriod.name);
+    setNoteInput(ConvertNullToEmptyInputString(timePeriod.note));
+    setInjuryInput(ConvertNullToEmptyInputString(timePeriod.injury));
+    setStartDate(ConvertISODateStringToCalendarDate(timePeriod.start_date));
+    setEndDate(ConvertISODateStringToCalendarDate(timePeriod.end_date));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timePeriod.id]);
 
   return (
     <Modal
