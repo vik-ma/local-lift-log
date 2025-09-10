@@ -34,3 +34,4 @@ export { useFilterDateRangeAndWeekdays } from "./useFilterDateRangeAndWeekdays";
 export { useFilterDateRange } from "./useFilterDateRange";
 export { useMeasurementListFilters } from "./useMeasurementListFilters";
 export { useNumExercisesAndSetsString } from "./useNumExercisesAndSetsString";
+export { usePaginatedList } from "./usePaginatedList";
