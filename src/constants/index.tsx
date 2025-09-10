@@ -24,6 +24,7 @@ export { BODY_FAT_CALCULATION_AGE_GROUPS } from "./BodyFatCalculationAgeGroups";
 export { NUM_DAYS_IN_SCHEDULE_OPTIONS } from "./NumDaysInScheduleOptions";
 export { CHART_COLOR_LISTS } from "./ChartColorLists";
 export { EMPTY_DEFAULT_INCREMENT_VALUES } from "./EmptyDefaultIncrementValues";
+export { PAGINATION_OPTIONS } from "./PaginationOptions";
 
 export { DEFAULT_BODY_MEASUREMENTS } from "./DefaultBodyMeasurements";
 export { DEFAULT_DIET_LOG } from "./DefaultDietLog";
