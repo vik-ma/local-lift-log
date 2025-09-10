@@ -22,9 +22,7 @@ type PresetsModalListProps = {
   handlePresetClick: (equipment?: EquipmentWeight, distance?: Distance) => void;
   heightString: string;
   showModifyButton?: boolean;
-  showSortButton?: boolean;
   validWeightUnit?: string;
-  isSelectingForPlateCollection?: boolean;
   hideToggleInvalidWeightUnitButton?: boolean;
 };
 
@@ -33,9 +31,7 @@ export const PresetsModalList = ({
   handlePresetClick,
   heightString,
   showModifyButton,
-  showSortButton,
   validWeightUnit,
-  isSelectingForPlateCollection,
   hideToggleInvalidWeightUnitButton,
 }: PresetsModalListProps) => {
   const {
@@ -119,12 +115,7 @@ export const PresetsModalList = ({
                   {hideInvalidUnitItems ? "Show" : "Hide"} Invalid Units
                 </Button>
               )}
-            {showSortButton && (
-              <PresetsListOptions
-                usePresetsList={presetsList}
-                isSelectingForPlateCollection={isSelectingForPlateCollection}
-              />
-            )}
+            <PresetsListOptions usePresetsList={presetsList} />
           </div>
         </div>
         {filterMap.size > 0 && (

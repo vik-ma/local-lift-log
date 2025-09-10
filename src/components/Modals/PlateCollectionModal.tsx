@@ -245,12 +245,8 @@ export const PlateCollectionModal = ({
                         ? setHandle
                         : updateAvailablePlatesMapKeys
                     }
-                    showSortButton
                     heightString="h-[450px]"
                     validWeightUnit={plateCollection.weight_unit}
-                    isSelectingForPlateCollection={
-                      operationType === "set-plates"
-                    }
                     hideToggleInvalidWeightUnitButton
                   />
                 )}

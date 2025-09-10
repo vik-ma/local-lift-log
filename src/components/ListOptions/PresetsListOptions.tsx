@@ -10,12 +10,10 @@ import { useMemo } from "react";
 
 type PresetsListOptionsProps = {
   usePresetsList: UsePresetsListReturnType;
-  isSelectingForPlateCollection?: boolean;
 };
 
 export const PresetsListOptions = ({
   usePresetsList,
-  isSelectingForPlateCollection,
 }: PresetsListOptionsProps) => {
   const {
     sortCategoryEquipment,
@@ -70,12 +68,6 @@ export const PresetsListOptions = ({
             <DropdownItem key="name">Name (A-Z)</DropdownItem>
             <DropdownItem key="weight-desc">Weight (High-Low)</DropdownItem>
             <DropdownItem key="weight-asc">Weight (Low-High)</DropdownItem>
-            <DropdownItem
-              className={isSelectingForPlateCollection ? "" : "hidden"}
-              key="plate-col"
-            >
-              Plate Collection Items First
-            </DropdownItem>
           </DropdownMenu>
         ) : (
           <DropdownMenu

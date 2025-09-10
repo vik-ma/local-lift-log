@@ -121,10 +121,6 @@ export const PlateCalculator = ({
   };
 
   const handleEditAvailablePlatesButton = async () => {
-    if (sortCategoryEquipment !== "plate-col") {
-      handleSortOptionSelectionEquipment("plate-col");
-    }
-
     setOperationTypePlateCalc("show-list");
     setPlateCalculatorPage("equipment-list");
   };
@@ -464,10 +460,8 @@ export const PlateCalculator = ({
               : updateAvailablePlatesMapKeys
           }
           showModifyButton
-          showSortButton
           heightString="h-[400px]"
           validWeightUnit={operatingPlateCollection.weight_unit}
-          isSelectingForPlateCollection={operationTypePlateCalc === "show-list"}
           hideToggleInvalidWeightUnitButton
         />
       ) : (
