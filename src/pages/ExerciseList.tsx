@@ -19,6 +19,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  Pagination,
 } from "@heroui/react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -67,6 +68,10 @@ export default function ExerciseList() {
     filteredExercises,
     exerciseListFilters,
     showSecondaryGroups,
+    paginationPage,
+    setPaginationPage,
+    paginatedExercises,
+    totalPaginationPages,
   } = exerciseList;
 
   const { filterMap, removeFilter, prefixMap } = exerciseListFilters;
@@ -294,7 +299,7 @@ export default function ExerciseList() {
           }
         />
         <div className="flex flex-col gap-1 w-full">
-          {filteredExercises.map((exercise) => (
+          {paginatedExercises.map((exercise) => (
             <div
               className="flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
               key={exercise.id}
@@ -385,6 +390,12 @@ export default function ExerciseList() {
             <EmptyListLabel itemName="Exercises" />
           )}
         </div>
+        <Pagination
+          size="lg"
+          page={paginationPage}
+          total={totalPaginationPages}
+          onChange={setPaginationPage}
+        />
         <div className="flex justify-center pt-0.5">
           <Button variant="flat" onPress={restoreDefaultExercises}>
             Restore Default Exercises

@@ -377,6 +377,10 @@ export type UseExerciseListReturnType = {
   loadExerciseGroupsString: (exerciseGroupsString: string) => string[];
   loadExerciseList: (userSettings: UserSettings) => Promise<void>;
   exerciseListFilters: UseExerciseListFiltersReturnType;
+  paginationPage: number;
+  setPaginationPage: React.Dispatch<React.SetStateAction<number>>;
+  paginatedExercises: Exercise[];
+  totalPaginationPages: number;
 };
 
 export type UseExerciseListFiltersReturnType = {

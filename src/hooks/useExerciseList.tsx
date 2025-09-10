@@ -24,6 +24,8 @@ type UseExerciseListProps = {
   ignoreExercisesWithNoSets?: boolean;
 };
 
+const PAGE_SIZE = 20;
+
 export const useExerciseList = ({
   store,
   showTotalNumSets,
@@ -35,6 +37,8 @@ export const useExerciseList = ({
     useState<ExerciseSortCategory>("favorite");
   const [showSecondaryGroups, setShowSecondaryGroups] =
     useState<boolean>(false);
+  const [paginationPage, setPaginationPage] = useState<number>(1);
+
   const exerciseMap = useRef<ExerciseMap>(new Map());
 
   const exerciseGroupDictionary = EXERCISE_GROUP_DICTIONARY;
@@ -86,6 +90,13 @@ export const useExerciseList = ({
     showSecondaryGroups,
     includeSecondaryGroups,
   ]);
+
+  const paginatedExercises = useMemo(() => {
+    const start = (paginationPage - 1) * PAGE_SIZE;
+    return filteredExercises.slice(start, start + PAGE_SIZE);
+  }, [filteredExercises, paginationPage]);
+
+  const totalPaginationPages = Math.ceil(filteredExercises.length / PAGE_SIZE);
 
   const sortExercisesByName = (exerciseList: Exercise[]) => {
     exerciseList.sort((a, b) => {
@@ -274,5 +285,9 @@ export const useExerciseList = ({
     loadExerciseGroupsString,
     loadExerciseList,
     exerciseListFilters,
+    paginationPage,
+    setPaginationPage,
+    paginatedExercises,
+    totalPaginationPages,
   };
 };
