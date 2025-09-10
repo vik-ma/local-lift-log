@@ -74,8 +74,6 @@ export const PlateCalculator = ({
   const {
     otherUnitPlateCollection,
     setOtherUnitPlateCollection,
-    sortCategoryEquipment,
-    handleSortOptionSelectionEquipment,
     isDefaultPlateCollectionInvalid,
     setIsDefaultPlateCollectionInvalid,
     updateAvailablePlatesMapKeys,
@@ -112,10 +110,6 @@ export const PlateCalculator = ({
   }, [isTargetWeightInputInvalid, operatingPlateCollection, targetWeightInput]);
 
   const handleSetHandleButton = () => {
-    if (sortCategoryEquipment !== "favorite") {
-      handleSortOptionSelectionEquipment("favorite");
-    }
-
     setOperationTypePlateCalc("set-handle");
     setPlateCalculatorPage("equipment-list");
   };
