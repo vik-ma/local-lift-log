@@ -3,7 +3,7 @@ import {
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
 } from "..";
-import { LOCALE_MAP } from "../../constants";
+import { LOCALE_MAP, PAGINATION_OPTIONS } from "../../constants";
 import { UserSettings } from "../../typings";
 
 type UserSettingsPropsToValidate =
@@ -12,7 +12,8 @@ type UserSettingsPropsToValidate =
   | "default_unit_measurement"
   | "locale"
   | "time_input"
-  | "increment_multipliers";
+  | "increment_multipliers"
+  | "pagination_items";
 
 export const ValidateAndModifyUserSettings = (
   userSettings: UserSettings,
@@ -45,10 +46,8 @@ export const ValidateAndModifyUserSettings = (
         break;
       }
       case "locale": {
-        const localeMap = LOCALE_MAP;
-
-        if (!localeMap.has(userSettings.locale)) {
-          userSettings.locale = localeMap.keys().next().value!;
+        if (!LOCALE_MAP.has(userSettings.locale)) {
+          userSettings.locale = LOCALE_MAP.keys().next().value!;
         }
 
         break;
@@ -59,6 +58,16 @@ export const ValidateAndModifyUserSettings = (
       }
       case "increment_multipliers": {
         ValidateAndModifyIncrementMultipliers(userSettings);
+        break;
+      }
+      case "pagination_items": {
+        if (
+          !PAGINATION_OPTIONS.includes(
+            userSettings.num_pagination_items_list_desktop
+          )
+        ) {
+          userSettings.num_pagination_items_list_desktop = 50;
+        }
         break;
       }
     }

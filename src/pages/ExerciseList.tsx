@@ -11,6 +11,7 @@ import {
   UpdateExercise,
   LoadStore,
   GetSortCategoryFromStore,
+  ValidateAndModifyUserSettings,
 } from "../helpers";
 import {
   Button,
@@ -214,6 +215,11 @@ export default function ExerciseList() {
       const userSettings = await GetUserSettings();
 
       if (userSettings === undefined) return;
+
+      ValidateAndModifyUserSettings(
+        userSettings,
+        new Set(["pagination_items"])
+      );
 
       setUserSettings(userSettings);
 
