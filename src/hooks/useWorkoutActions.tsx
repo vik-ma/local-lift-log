@@ -196,7 +196,9 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
         await LoadStore(store);
 
-        await loadExerciseList(userSettings);
+        const isExerciseListInModal = true;
+
+        await loadExerciseList(userSettings, isExerciseListInModal);
       } catch (error) {
         console.log(error);
       }

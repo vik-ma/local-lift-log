@@ -172,7 +172,9 @@ export const useWorkoutTemplateList = ({
   const loadWorkoutTemplateList = async (userSettings: UserSettings) => {
     if (isWorkoutTemplateListLoaded.current) return;
 
-    await loadExerciseList(userSettings);
+    const isExerciseListInModal = true;
+
+    await loadExerciseList(userSettings, isExerciseListInModal);
 
     const validFilterKeys = new Set<StoreFilterMapKey>([
       "exercises",

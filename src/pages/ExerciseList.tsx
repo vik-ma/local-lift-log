@@ -225,7 +225,9 @@ export default function ExerciseList() {
 
       await LoadStore(store);
 
-      await loadExerciseList(userSettings);
+      const isExerciseListInModal = false;
+
+      await loadExerciseList(userSettings, isExerciseListInModal);
     };
 
     loadPage();

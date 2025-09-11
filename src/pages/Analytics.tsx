@@ -336,7 +336,9 @@ export default function Analytics() {
 
       await LoadStore(store);
 
-      await loadExerciseList(userSettings);
+      const isExerciseListInModal = true;
+
+      await loadExerciseList(userSettings, isExerciseListInModal);
     };
 
     loadPage();

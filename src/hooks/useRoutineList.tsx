@@ -287,7 +287,9 @@ export const useRoutineList = ({
   const loadRoutineList = async (userSettings: UserSettings) => {
     if (isRoutineListLoaded.current) return;
 
-    await loadExerciseList(userSettings);
+    const isExerciseListInModal = true;
+
+    await loadExerciseList(userSettings, isExerciseListInModal);
 
     await loadWorkoutTemplateList(userSettings);
 

@@ -229,7 +229,9 @@ export const useWorkoutList = ({
   const loadWorkoutList = async (userSettings: UserSettings) => {
     if (isWorkoutListLoaded.current) return;
 
-    await loadExerciseList(userSettings);
+    const isExerciseListInModal = true;
+
+    await loadExerciseList(userSettings, isExerciseListInModal);
 
     await loadWorkoutTemplateList(userSettings);
 
