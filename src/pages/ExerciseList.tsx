@@ -39,11 +39,9 @@ import {
 import { VerticalMenuIcon } from "../assets";
 import { useExerciseList } from "../hooks";
 import { Store } from "@tauri-apps/plugin-store";
-import { DEFAULT_EXERCISE } from "../constants";
+import { DEFAULT_EXERCISE, STORE_LIST_KEY_EXERCISES } from "../constants";
 
 type OperationType = "add" | "edit" | "delete";
-
-const STORE_LIST_PREFIX = "exercises";
 
 export default function ExerciseList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -167,7 +165,7 @@ export default function ExerciseList() {
     const sortCategory = await GetSortCategoryFromStore(
       store,
       "favorite" as ExerciseSortCategory,
-      STORE_LIST_PREFIX
+      STORE_LIST_KEY_EXERCISES
     );
 
     await getExercises(sortCategory);
@@ -413,7 +411,7 @@ export default function ExerciseList() {
                   value,
                   store,
                   setPaginationPage,
-                  STORE_LIST_PREFIX
+                  STORE_LIST_KEY_EXERCISES
                 )
               }
             />

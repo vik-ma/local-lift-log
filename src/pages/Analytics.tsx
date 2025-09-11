@@ -107,8 +107,8 @@ import {
   CHART_COLOR_LISTS,
   LOAD_EXERCISE_OPTIONS_MAP,
   MEASUREMENT_UNITS,
+  DEFAULT_CHART_MAPS_AND_CONFIG,
 } from "../constants";
-import { DEFAULT_CHART_MAPS_AND_CONFIG } from "../constants/DefaultChartMapsAndConfig";
 
 export type AnalyticsChartListModalPage =
   | "measurement-list"

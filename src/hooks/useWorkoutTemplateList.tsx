@@ -17,6 +17,7 @@ import {
   GetSortCategoryFromStore,
 } from "../helpers";
 import { useListFilters } from ".";
+import { STORE_LIST_KEY_WORKOUT_TEMPLATES } from "../constants";
 
 type UseWorkoutTemplateListProps = {
   store: StoreRef;
@@ -24,6 +25,8 @@ type UseWorkoutTemplateListProps = {
   ignoreEmptyWorkoutTemplates?: boolean;
   workoutTemplateIdToIgnore?: number;
 };
+
+const STORE_SORT_CATEGORY_KEY = `sort-category-${STORE_LIST_KEY_WORKOUT_TEMPLATES}`;
 
 export const useWorkoutTemplateList = ({
   store,
@@ -52,7 +55,7 @@ export const useWorkoutTemplateList = ({
 
   const listFilters = useListFilters({
     store: store,
-    filterMapSuffix: "workout-templates",
+    filterMapSuffix: STORE_LIST_KEY_WORKOUT_TEMPLATES,
     useExerciseList,
   });
 
@@ -186,7 +189,7 @@ export const useWorkoutTemplateList = ({
     const workoutTemplateSortCategory = await GetSortCategoryFromStore(
       store,
       "name" as WorkoutTemplateSortCategory,
-      "workout-templates"
+      STORE_LIST_KEY_WORKOUT_TEMPLATES
     );
 
     await getWorkoutTemplates(workoutTemplateSortCategory);
@@ -247,7 +250,7 @@ export const useWorkoutTemplateList = ({
   const handleSortOptionSelection = async (key: string) => {
     if (store.current === null) return;
 
-    await store.current.set("sort-category-workout-templates", { value: key });
+    await store.current.set(STORE_SORT_CATEGORY_KEY, { value: key });
 
     await sortWorkoutTemplatesByActiveCategory(
       [...workoutTemplates],
@@ -294,7 +297,7 @@ export const useWorkoutTemplateList = ({
       default:
         // Overwrite invalid categories
         setSortCategory("name");
-        await store.current.set("sort-category-workout-templates", {
+        await store.current.set(STORE_SORT_CATEGORY_KEY, {
           value: "name",
         });
         sortWorkoutTemplatesByName([...workoutTemplateList]);

@@ -24,11 +24,13 @@ import {
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
 import { useDietLogListFilters } from ".";
-import { DEFAULT_DIET_LOG } from "../constants";
+import { DEFAULT_DIET_LOG, STORE_LIST_KEY_DIET_LOGS } from "../constants";
 
 type UseDietLogListProps = {
   store: StoreRef;
 };
+
+const STORE_SORT_CATEGORY_KEY = `sort-category-${STORE_LIST_KEY_DIET_LOGS}`;
 
 const IS_MAX_VALUE = true;
 
@@ -379,7 +381,7 @@ export const useDietLogList = ({
   const handleSortOptionSelection = async (key: string) => {
     if (store.current === null) return;
 
-    await store.current.set("sort-category-diet-logs", { value: key });
+    await store.current.set(STORE_SORT_CATEGORY_KEY, { value: key });
 
     await sortDietLogsByActiveCategory(
       [...dietLogs],
@@ -417,7 +419,7 @@ export const useDietLogList = ({
       default:
         // Overwrite invalid categories
         setSortCategory("date-desc");
-        await store.current.set("sort-category-diet-logs", {
+        await store.current.set(STORE_SORT_CATEGORY_KEY, {
           value: "date-desc",
         });
         sortDietLogsByDate([...dietLogList], !isAscending);
@@ -433,7 +435,7 @@ export const useDietLogList = ({
     const sortCategory = await GetSortCategoryFromStore(
       store,
       "date-desc" as DietLogSortCategory,
-      "diet-logs"
+      STORE_LIST_KEY_DIET_LOGS
     );
 
     await getDietLogs(sortCategory);

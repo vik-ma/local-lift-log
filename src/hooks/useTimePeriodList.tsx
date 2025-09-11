@@ -20,10 +20,13 @@ import {
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
 import { useTimePeriodListFilters } from ".";
+import { STORE_LIST_KEY_TIME_PERIODS } from "../constants";
 
 type UseTimePeriodListProps = {
   store: StoreRef;
 };
+
+const STORE_SORT_CATEGORY_KEY = `sort-category-${STORE_LIST_KEY_TIME_PERIODS}`;
 
 const IS_MAX_VALUE = true;
 
@@ -315,7 +318,7 @@ export const useTimePeriodList = ({
   const handleSortOptionSelection = async (key: string) => {
     if (store.current === null) return;
 
-    await store.current.set("sort-category-time-periods", { value: key });
+    await store.current.set(STORE_SORT_CATEGORY_KEY, { value: key });
 
     await sortTimePeriodsByActiveCategory(
       [...timePeriods],
@@ -365,7 +368,7 @@ export const useTimePeriodList = ({
       default:
         // Overwrite invalid categories
         setSortCategory("ongoing");
-        await store.current.set("sort-category-time-periods", {
+        await store.current.set(STORE_SORT_CATEGORY_KEY, {
           value: "ongoing",
         });
         sortTimePeriodsByOngoingFirst([...timePeriodList]);
@@ -381,7 +384,7 @@ export const useTimePeriodList = ({
     const sortCategory = await GetSortCategoryFromStore(
       store,
       "ongoing" as TimePeriodSortCategory,
-      "time-periods"
+      STORE_LIST_KEY_TIME_PERIODS
     );
 
     await getTimePeriods(userSettings.locale, sortCategory);

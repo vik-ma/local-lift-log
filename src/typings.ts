@@ -1219,6 +1219,7 @@ export type ListStoreKey =
   | "distances"
   | "measurements"
   | "body-measurements"
+  | "multiset-templates"
   | "time-periods"
   | "diet-logs";
 

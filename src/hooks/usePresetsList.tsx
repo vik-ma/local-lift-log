@@ -25,11 +25,18 @@ import {
 } from "../helpers";
 import { useListFilters, usePresetsTypeString } from ".";
 import { useDisclosure } from "@heroui/react";
-import { DEFAULT_PLATE_COLLECTION } from "../constants";
+import {
+  DEFAULT_PLATE_COLLECTION,
+  STORE_LIST_KEY_DISTANCES,
+  STORE_LIST_KEY_EQUIPMENT_WEIGHTS,
+} from "../constants";
 
 type UsePresetsListProps = {
   store: StoreRef;
 };
+
+const STORE_SORT_CATEGORY_KEY_WEIGHTS = `sort-category-${STORE_LIST_KEY_EQUIPMENT_WEIGHTS}`;
+const STORE_SORT_CATEGORY_KEY_DISTANCES = `sort-category-${STORE_LIST_KEY_DISTANCES}`;
 
 const IS_MAX_VALUE = true;
 
@@ -72,7 +79,7 @@ export const usePresetsList = ({
 
   const listFiltersEquipment = useListFilters({
     store: store,
-    filterMapSuffix: "equipment-weights",
+    filterMapSuffix: STORE_LIST_KEY_EQUIPMENT_WEIGHTS,
   });
 
   const filterPresetsListModal = useDisclosure();
@@ -126,7 +133,7 @@ export const usePresetsList = ({
 
   const listFiltersDistance = useListFilters({
     store: store,
-    filterMapSuffix: "distances",
+    filterMapSuffix: STORE_LIST_KEY_DISTANCES,
   });
 
   const filteredDistances = useMemo(() => {
@@ -317,7 +324,7 @@ export const usePresetsList = ({
   const handleSortOptionSelectionEquipment = async (key: string) => {
     if (store.current === null) return;
 
-    await store.current.set("sort-category-equipment-weights", { value: key });
+    await store.current.set(STORE_SORT_CATEGORY_KEY_WEIGHTS, { value: key });
 
     await sortEquipmentWeightsByActiveCategory(
       [...equipmentWeights],
@@ -328,7 +335,7 @@ export const usePresetsList = ({
   const handleSortOptionSelectionDistance = async (key: string) => {
     if (store.current === null) return;
 
-    await store.current.set("sort-category-distances", { value: key });
+    await store.current.set(STORE_SORT_CATEGORY_KEY_DISTANCES, { value: key });
 
     await sortDistancesByActiveCategory(
       [...distances],
@@ -413,7 +420,7 @@ export const usePresetsList = ({
       default:
         // Overwrite invalid categories
         setSortCategoryEquipment("favorite");
-        await store.current.set("sort-category-equipment-weights", {
+        await store.current.set(STORE_SORT_CATEGORY_KEY_WEIGHTS, {
           value: "favorite",
         });
         sortEquipmentWeightsByFavoritesFirst([...equipmentWeightList]);
@@ -451,7 +458,7 @@ export const usePresetsList = ({
       default:
         // Overwrite invalid categories
         setSortCategoryDistance("favorite");
-        await store.current.set("sort-category-distances", {
+        await store.current.set(STORE_SORT_CATEGORY_KEY_DISTANCES, {
           value: "favorite",
         });
         sortDistancesByFavoritesFirst([...distanceList]);
@@ -535,7 +542,7 @@ export const usePresetsList = ({
     const sortCategory = await GetSortCategoryFromStore(
       store,
       "favorite" as EquipmentWeightSortCategory,
-      "equipment-weights"
+      STORE_LIST_KEY_EQUIPMENT_WEIGHTS
     );
 
     await getEquipmentWeights(sortCategory);
@@ -559,7 +566,7 @@ export const usePresetsList = ({
     const sortCategory = await GetSortCategoryFromStore(
       store,
       "favorite" as DistanceSortCategory,
-      "distances"
+      STORE_LIST_KEY_DISTANCES
     );
 
     await getDistances(sortCategory);

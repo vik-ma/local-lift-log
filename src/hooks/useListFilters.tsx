@@ -11,6 +11,7 @@ import {
   UseWorkoutTemplateListReturnType,
   UserSettings,
   StoreFilterMapKey,
+  ListStoreKey,
 } from "../typings";
 import {
   ConvertCalendarDateToLocalizedString,
@@ -33,7 +34,7 @@ import {
 
 type UseListFiltersProps = {
   store: StoreRef;
-  filterMapSuffix: string;
+  filterMapSuffix: ListStoreKey;
   useExerciseList?: UseExerciseListReturnType;
   useRoutineList?: UseRoutineListReturnType;
   useMeasurementList?: UseMeasurementListReturnType;

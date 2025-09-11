@@ -24,12 +24,15 @@ import {
 } from "../helpers";
 import Database from "@tauri-apps/plugin-sql";
 import { useListFilters } from ".";
+import { STORE_LIST_KEY_ROUTINES } from "../constants";
 
 type UseRoutineListProps = {
   store: StoreRef;
   useExerciseList: UseExerciseListReturnType;
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
 };
+
+const STORE_SORT_CATEGORY_KEY = `sort-category-${STORE_LIST_KEY_ROUTINES}`;
 
 const IS_MAX_VALUE = true;
 
@@ -59,7 +62,7 @@ export const useRoutineList = ({
 
   const listFilters = useListFilters({
     store: store,
-    filterMapSuffix: "routines",
+    filterMapSuffix: STORE_LIST_KEY_ROUTINES,
     useExerciseList: useExerciseList,
     useWorkoutTemplateList: useWorkoutTemplateList,
   });
@@ -235,7 +238,7 @@ export const useRoutineList = ({
   const handleSortOptionSelection = async (key: string) => {
     if (store.current === null) return;
 
-    await store.current.set("sort-category-routines", { value: key });
+    await store.current.set(STORE_SORT_CATEGORY_KEY, { value: key });
 
     await sortRoutinesByActiveCategory(
       [...routines],
@@ -276,7 +279,7 @@ export const useRoutineList = ({
       default:
         // Overwrite invalid categories
         setSortCategory("name");
-        await store.current.set("sort-category-routines", {
+        await store.current.set(STORE_SORT_CATEGORY_KEY, {
           value: "name",
         });
         sortRoutinesByName([...routineList]);
@@ -305,7 +308,7 @@ export const useRoutineList = ({
     const routineSortCategory = await GetSortCategoryFromStore(
       store,
       "name" as RoutineSortCategory,
-      "routines"
+      STORE_LIST_KEY_ROUTINES
     );
 
     await getRoutines(routineSortCategory);

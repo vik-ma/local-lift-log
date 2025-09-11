@@ -17,12 +17,15 @@ import {
   UpdateItemInList,
 } from "../helpers";
 import { useMeasurementListFilters } from ".";
+import { STORE_LIST_KEY_MEASUREMENTS } from "../constants";
 
 type UseMeasurementListProps = {
   store: StoreRef;
   showNumberOfBodyMeasurementsEntries?: boolean;
   ignoreMeasurementsWithNoEntries?: boolean;
 };
+
+const STORE_SORT_CATEGORY_KEY = `sort-category-${STORE_LIST_KEY_MEASUREMENTS}`;
 
 export const useMeasurementList = ({
   store,
@@ -197,7 +200,7 @@ export const useMeasurementList = ({
   const handleSortOptionSelection = async (key: string) => {
     if (store.current === null) return;
 
-    await store.current.set("sort-category-measurements", { value: key });
+    await store.current.set(STORE_SORT_CATEGORY_KEY, { value: key });
 
     await sortMeasurementsByActiveCategory(
       [...measurements],
@@ -235,7 +238,7 @@ export const useMeasurementList = ({
       default:
         // Overwrite invalid categories
         setSortCategory("favorite");
-        await store.current.set("sort-category-measurements", {
+        await store.current.set(STORE_SORT_CATEGORY_KEY, {
           value: "favorite",
         });
         sortMeasurementsByFavoritesFirst(
@@ -262,7 +265,7 @@ export const useMeasurementList = ({
     const sortCategory = await GetSortCategoryFromStore(
       store,
       "favorite" as MeasurementSortCategory,
-      "measurements"
+      STORE_LIST_KEY_MEASUREMENTS
     );
 
     await getMeasurements(sortCategory, activeMeasurementSet);

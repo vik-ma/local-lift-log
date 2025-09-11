@@ -20,13 +20,18 @@ import {
   useExerciseListFilters,
   usePaginatedList,
 } from ".";
-import { EXERCISE_GROUP_DICTIONARY } from "../constants";
+import {
+  EXERCISE_GROUP_DICTIONARY,
+  STORE_LIST_KEY_EXERCISES,
+} from "../constants";
 
 type UseExerciseListProps = {
   store: StoreRef;
   showTotalNumSets?: boolean;
   ignoreExercisesWithNoSets?: boolean;
 };
+
+const STORE_SORT_CATEGORY_KEY = `sort-category-${STORE_LIST_KEY_EXERCISES}`;
 
 export const useExerciseList = ({
   store,
@@ -157,7 +162,7 @@ export const useExerciseList = ({
   const handleSortOptionSelection = async (key: string) => {
     if (store.current === null) return;
 
-    await store.current.set("sort-category-exercises", { value: key });
+    await store.current.set(STORE_SORT_CATEGORY_KEY, { value: key });
 
     await sortExercisesByActiveCategory(
       [...exercises],
@@ -190,7 +195,7 @@ export const useExerciseList = ({
       default:
         // Overwrite invalid categories
         setSortCategory("favorite");
-        await store.current.set("sort-category-exercises", {
+        await store.current.set(STORE_SORT_CATEGORY_KEY, {
           value: "favorite",
         });
         sortExercisesByFavoritesFirst([...exerciseList]);
@@ -263,7 +268,7 @@ export const useExerciseList = ({
     const sortCategory = await GetSortCategoryFromStore(
       store,
       "favorite" as ExerciseSortCategory,
-      "exercises"
+      STORE_LIST_KEY_EXERCISES
     );
 
     await getExercises(sortCategory);

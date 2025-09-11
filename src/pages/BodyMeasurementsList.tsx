@@ -54,7 +54,12 @@ import {
 import toast from "react-hot-toast";
 import { VerticalMenuIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
-import { DEFAULT_BODY_MEASUREMENTS } from "../constants";
+import {
+  DEFAULT_BODY_MEASUREMENTS,
+  STORE_LIST_KEY_BODY_MEASUREMENTS,
+} from "../constants";
+
+const STORE_SORT_CATEGORY_KEY = `sort-category-${STORE_LIST_KEY_BODY_MEASUREMENTS}`;
 
 const IS_MAX_VALUE = true;
 
@@ -99,7 +104,7 @@ export default function BodyMeasurementsList() {
 
   const listFilters = useListFilters({
     store: store,
-    filterMapSuffix: "body-measurements",
+    filterMapSuffix: STORE_LIST_KEY_BODY_MEASUREMENTS,
     useMeasurementList: measurementList,
   });
 
@@ -394,7 +399,7 @@ export default function BodyMeasurementsList() {
       default:
         // Overwrite invalid categories
         setSortCategory("date-desc");
-        await store.current.set("sort-category-body-measurements", {
+        await store.current.set(STORE_SORT_CATEGORY_KEY, {
           value: "date-desc",
         });
         sortBodyMeasurementsByDate([...bodyMeasurementsList], !isAscending);
@@ -405,7 +410,7 @@ export default function BodyMeasurementsList() {
   const handleSortOptionSelection = async (key: string) => {
     if (store.current === null) return;
 
-    await store.current.set("sort-category-body-measurements", { value: key });
+    await store.current.set(STORE_SORT_CATEGORY_KEY, { value: key });
 
     await sortBodyMeasurementsByActiveCategory(
       [...bodyMeasurements],

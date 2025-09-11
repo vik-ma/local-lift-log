@@ -20,6 +20,7 @@ import {
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
 import { useListFilters, useRoutineList, useWorkoutTemplateList } from ".";
+import { STORE_LIST_KEY_WORKOUTS } from "../constants";
 
 type UseWorkoutListProps = {
   store: StoreRef;
@@ -27,6 +28,8 @@ type UseWorkoutListProps = {
   ignoreEmptyWorkouts?: boolean;
   workoutIdToIgnore?: number;
 };
+
+const STORE_SORT_CATEGORY_KEY = `sort-category-${STORE_LIST_KEY_WORKOUTS}`;
 
 const IS_MAX_VALUE = true;
 
@@ -65,7 +68,7 @@ export const useWorkoutList = ({
 
   const listFilters = useListFilters({
     store: store,
-    filterMapSuffix: "workouts",
+    filterMapSuffix: STORE_LIST_KEY_WORKOUTS,
     useExerciseList,
     useRoutineList: routineList,
     useWorkoutTemplateList: workoutTemplateList,
@@ -259,7 +262,7 @@ export const useWorkoutList = ({
     const workoutSortCategory = await GetSortCategoryFromStore(
       store,
       "name" as WorkoutSortCategory,
-      "workouts"
+      STORE_LIST_KEY_WORKOUTS
     );
 
     await getWorkouts(workoutSortCategory);
@@ -320,7 +323,7 @@ export const useWorkoutList = ({
   const handleSortOptionSelection = async (key: string) => {
     if (store.current === null) return;
 
-    await store.current.set("sort-category-workouts", { value: key });
+    await store.current.set(STORE_SORT_CATEGORY_KEY, { value: key });
 
     await sortWorkoutsByActiveCategory(
       [...workouts],
@@ -364,7 +367,7 @@ export const useWorkoutList = ({
       default:
         // Overwrite invalid categories
         setSortCategory("date-desc");
-        await store.current.set("sort-category-workouts", {
+        await store.current.set(STORE_SORT_CATEGORY_KEY, {
           value: "date-desc",
         });
         sortWorkoutsByDate([...workoutList], !isAscending);

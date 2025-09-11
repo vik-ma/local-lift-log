@@ -53,7 +53,12 @@ import { usePlateCollectionModal, usePresetsList } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 import { useSearchParams } from "react-router-dom";
 import { Store } from "@tauri-apps/plugin-store";
-import { DEFAULT_DISTANCE, DEFAULT_EQUIPMENT_WEIGHT } from "../constants";
+import {
+  DEFAULT_DISTANCE,
+  DEFAULT_EQUIPMENT_WEIGHT,
+  STORE_LIST_KEY_DISTANCES,
+  STORE_LIST_KEY_EQUIPMENT_WEIGHTS,
+} from "../constants";
 
 type PresetTab = "equipment" | "distance" | "plate";
 
@@ -670,7 +675,7 @@ export default function PresetsList() {
     const sortCategory = await GetSortCategoryFromStore(
       store,
       "favorite" as EquipmentWeightSortCategory,
-      "equipment-weights"
+      STORE_LIST_KEY_EQUIPMENT_WEIGHTS
     );
 
     await CreateDefaultEquipmentWeights(useMetricUnits);
@@ -685,7 +690,7 @@ export default function PresetsList() {
     const sortCategory = await GetSortCategoryFromStore(
       store,
       "favorite" as DistanceSortCategory,
-      "distances"
+      STORE_LIST_KEY_DISTANCES
     );
 
     await CreateDefaultDistances(useMetricUnits);
