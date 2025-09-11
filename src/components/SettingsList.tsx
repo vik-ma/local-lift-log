@@ -1086,7 +1086,9 @@ export const SettingsList = ({
           totalListLength={settingsList.length}
           isListFiltered={false}
         />
-        {filteredSettingsList.map((settingsItem) => settingsItem.content)}
+        <div className="flex flex-col gap-2 w-full px-0.5">
+          {filteredSettingsList.map((settingsItem) => settingsItem.content)}
+        </div>
         <div className="flex justify-center pt-0.5 pb-2.5">
           <Button
             variant="flat"
