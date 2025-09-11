@@ -1,8 +1,8 @@
-import { ListCategoryStoreKey, StoreRef } from "../../typings";
+import { ListStoreKey, StoreRef } from "../../typings";
 
 export const GetFilterMapFromStore = async (
   store: StoreRef,
-  storeKey: ListCategoryStoreKey
+  storeKey: ListStoreKey
 ) => {
   if (store.current === null) return new Map();
 

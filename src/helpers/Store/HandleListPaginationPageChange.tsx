@@ -1,16 +1,16 @@
-import { StoreRef } from "../../typings";
+import { ListStoreKey, StoreRef } from "../../typings";
 
 export const HandleListPaginationPageChange = async (
   page: number,
   store: StoreRef,
   setPaginationPage: React.Dispatch<React.SetStateAction<number>>,
-  listPrefix: string
+  storeKey: ListStoreKey
 ) => {
   if (store.current === null) return;
 
   setPaginationPage(page);
 
-  await store.current.set(`${listPrefix}-page`, {
+  await store.current.set(`pagination-page-${storeKey}`, {
     value: page,
   });
 };

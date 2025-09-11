@@ -1,13 +1,9 @@
-import {
-  ListSortCategory,
-  StoreRef,
-  ListCategoryStoreKey,
-} from "../../typings";
+import { ListSortCategory, StoreRef, ListStoreKey } from "../../typings";
 
 export const GetSortCategoryFromStore = async <T extends ListSortCategory>(
   store: StoreRef,
   defaultSortCategory: T,
-  storeKey: ListCategoryStoreKey
+  storeKey: ListStoreKey
 ) => {
   let sortCategory: T = defaultSortCategory;
 

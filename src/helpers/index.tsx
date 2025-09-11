@@ -218,7 +218,6 @@ export { FindIndexInList } from "./Lists/FindIndexInList";
 export { ReplaceNumberIn2DList } from "./Lists/ReplaceNumberIn2DList";
 export { DoesListOrSetHaveCommonElement } from "./Lists/DoesListOrSetHaveCommonElement";
 export { HandleFilterListObjectClick } from "./Lists/HandleFilterListObjectClick";
-export { HandleListPaginationPageChange } from "./Lists/HandleListPaginationPageChange";
 
 export { CreateCalculationString } from "./CalculationItems/CreateCalculationString";
 export { UpdateCalculationString } from "./CalculationItems/UpdateCalculationString";
@@ -235,3 +234,4 @@ export { GetAllDietLogs } from "./DietLogs/GetAllDietLogs";
 export { LoadStore } from "./Store/LoadStore";
 export { GetSortCategoryFromStore } from "./Store/GetSortCategoryFromStore";
 export { GetFilterMapFromStore } from "./Store/GetFilterMapFromStore";
+export { HandleListPaginationPageChange } from "./Store/HandleListPaginationPageChange";
