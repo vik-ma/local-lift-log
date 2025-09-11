@@ -211,7 +211,7 @@ export const useExerciseList = ({
     isExerciseListLoaded.current = true;
   };
 
-  const loadExerciseGroupsString = (exerciseGroupsString: string) => {
+  const loadFilterExerciseGroupsString = (exerciseGroupsString: string) => {
     const exerciseGroupSet = new Set<string>();
 
     const exerciseGroups = exerciseGroupsString.split(",");
@@ -249,7 +249,7 @@ export const useExerciseList = ({
 
     await loadFilterMapFromStore(
       exerciseGroupDictionary,
-      loadExerciseGroupsString
+      loadFilterExerciseGroupsString
     );
 
     const sortCategory = await GetSortCategoryFromStore(
@@ -279,7 +279,7 @@ export const useExerciseList = ({
     exerciseMap,
     exerciseGroupDictionary,
     loadFilterExercisesString,
-    loadExerciseGroupsString,
+    loadFilterExerciseGroupsString,
     loadExerciseList,
     exerciseListFilters,
     paginationPage,

@@ -325,12 +325,7 @@ export const useRoutineList = ({
     await loadRoutineList(userSettings);
   };
 
-  const loadRoutinesString = async (
-    userSettings: UserSettings,
-    routinesString: string
-  ) => {
-    await loadRoutineList(userSettings);
-
+  const loadFilterRoutinesString = async (routinesString: string) => {
     const routineIdSet = new Set<number>();
 
     const routineIds = routinesString.split(",");
@@ -362,6 +357,6 @@ export const useRoutineList = ({
     handleOpenFilterButton,
     sortRoutinesByActiveCategory,
     loadRoutineList,
-    loadRoutinesString,
+    loadFilterRoutinesString,
   };
 };

@@ -316,12 +316,9 @@ export const useWorkoutTemplateList = ({
     await loadWorkoutTemplateList(userSettings);
   };
 
-  const loadWorkoutTemplatesString = async (
-    userSettings: UserSettings,
+  const loadFilterWorkoutTemplatesString = async (
     workoutTemplatesString: string
   ) => {
-    await loadWorkoutTemplateList(userSettings);
-
     const workoutTemplateIdSet = new Set<number>();
 
     const workoutTemplateIds = workoutTemplatesString.split(",");
@@ -353,6 +350,6 @@ export const useWorkoutTemplateList = ({
     isWorkoutTemplateListLoaded,
     sortWorkoutTemplatesByActiveCategory,
     loadWorkoutTemplateList,
-    loadWorkoutTemplatesString,
+    loadFilterWorkoutTemplatesString,
   };
 };

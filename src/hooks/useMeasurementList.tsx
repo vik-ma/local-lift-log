@@ -268,12 +268,7 @@ export const useMeasurementList = ({
     await getMeasurements(sortCategory, activeMeasurementSet);
   };
 
-  const loadMeasurementsString = async (
-    userSettings: UserSettings,
-    measurementsString: string
-  ) => {
-    await loadMeasurementList(userSettings);
-
+  const loadFilterMeasurementsString = async (measurementsString: string) => {
     const measurementIdSet = new Set<string>();
 
     const measurementIds = measurementsString.split(",");
@@ -304,6 +299,6 @@ export const useMeasurementList = ({
     createMeasurement,
     measurementListFilters,
     loadMeasurementList,
-    loadMeasurementsString,
+    loadFilterMeasurementsString,
   };
 };

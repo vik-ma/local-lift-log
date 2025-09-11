@@ -372,11 +372,8 @@ export type UseExerciseListReturnType = {
   exerciseMap: React.RefObject<ExerciseMap>;
   exerciseGroupDictionary: ExerciseGroupMap;
   loadFilterExercisesString: (exercisesString: string) => Promise<Set<number>>;
-  loadExerciseGroupsString: (exerciseGroupsString: string) => string[];
-  loadExerciseList: (
-    userSettings: UserSettings,
-    numPaginationItems: number
-  ) => Promise<void>;
+  loadFilterExerciseGroupsString: (exerciseGroupsString: string) => string[];
+  loadExerciseList: (userSettings: UserSettings) => Promise<void>;
   exerciseListFilters: UseExerciseListFiltersReturnType;
   paginationPage: number;
   setPaginationPage: React.Dispatch<React.SetStateAction<number>>;
@@ -397,7 +394,7 @@ export type UseExerciseListFiltersReturnType = {
   exerciseFilterValues: ExerciseFilterValues;
   loadFilterMapFromStore: (
     exerciseGroupDictionary: ExerciseGroupMap,
-    loadExerciseGroupsString: (exerciseGroupsString: string) => string[]
+    loadFilterExerciseGroupsString: (exerciseGroupsString: string) => string[]
   ) => Promise<void>;
 };
 
@@ -518,8 +515,7 @@ export type UseWorkoutTemplateListReturnType = {
     workoutTemplateList: WorkoutTemplate[]
   ) => void;
   loadWorkoutTemplateList: (userSettings: UserSettings) => Promise<void>;
-  loadWorkoutTemplatesString: (
-    userSettings: UserSettings,
+  loadFilterWorkoutTemplatesString: (
     workoutTemplatesString: string
   ) => Promise<Set<number>>;
 };
@@ -704,10 +700,7 @@ export type UseRoutineListReturnType = {
   ) => Promise<void>;
   sortRoutinesByActiveCategory: (routineList: Routine[]) => void;
   loadRoutineList: (userSettings: UserSettings) => Promise<void>;
-  loadRoutinesString: (
-    userSettings: UserSettings,
-    routinesString: string
-  ) => Promise<Set<number>>;
+  loadFilterRoutinesString: (routinesString: string) => Promise<Set<number>>;
 };
 
 export type UseMeasurementListReturnType = {
@@ -727,8 +720,7 @@ export type UseMeasurementListReturnType = {
   createMeasurement: (newMeasurement: Measurement) => Promise<number>;
   measurementListFilters: UseMeasurementListFiltersReturnType;
   loadMeasurementList: (userSettings: UserSettings) => Promise<void>;
-  loadMeasurementsString: (
-    userSettings: UserSettings,
+  loadFilterMeasurementsString: (
     measurementsString: string
   ) => Promise<Set<string>>;
 };

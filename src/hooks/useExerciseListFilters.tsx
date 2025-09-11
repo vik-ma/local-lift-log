@@ -95,7 +95,7 @@ export const useExerciseListFilters = ({
 
   const loadFilterMapFromStore = async (
     exerciseGroupDictionary: ExerciseGroupMap,
-    loadExerciseGroupsString: (exerciseGroupsString: string) => string[]
+    loadFilterExerciseGroupsString: (exerciseGroupsString: string) => string[]
   ) => {
     if (store.current === null) return;
 
@@ -135,7 +135,7 @@ export const useExerciseListFilters = ({
             const exerciseGroupsString = value as string;
 
             const exerciseGroups =
-              loadExerciseGroupsString(exerciseGroupsString);
+              loadFilterExerciseGroupsString(exerciseGroupsString);
 
             filterStoreValues.filterExerciseGroups = exerciseGroups;
 

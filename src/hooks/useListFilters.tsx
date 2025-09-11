@@ -722,8 +722,7 @@ export const useListFilters = ({
             const routinesString = value as string;
 
             if (useRoutineList !== undefined) {
-              const routines = await useRoutineList.loadRoutinesString(
-                userSettings,
+              const routines = await useRoutineList.loadFilterRoutinesString(
                 routinesString
               );
 
@@ -750,7 +749,9 @@ export const useListFilters = ({
 
             if (useExerciseList !== undefined) {
               const exerciseGroups =
-                useExerciseList.loadExerciseGroupsString(exerciseGroupsString);
+                useExerciseList.loadFilterExerciseGroupsString(
+                  exerciseGroupsString
+                );
 
               filterStoreValues.filterExerciseGroups = exerciseGroups;
             }
@@ -791,8 +792,7 @@ export const useListFilters = ({
 
             if (useMeasurementList !== undefined) {
               const measurements =
-                await useMeasurementList.loadMeasurementsString(
-                  userSettings,
+                await useMeasurementList.loadFilterMeasurementsString(
                   measurementsString
                 );
 
@@ -806,8 +806,7 @@ export const useListFilters = ({
 
             if (useWorkoutTemplateList !== undefined) {
               const workoutTemplates =
-                await useWorkoutTemplateList.loadWorkoutTemplatesString(
-                  userSettings,
+                await useWorkoutTemplateList.loadFilterWorkoutTemplatesString(
                   workoutTemplatesString
                 );
 
