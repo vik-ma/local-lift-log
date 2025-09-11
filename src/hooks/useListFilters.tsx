@@ -736,8 +736,7 @@ export const useListFilters = ({
             const exercisesString = value as string;
 
             if (useExerciseList !== undefined) {
-              const exercises = await useExerciseList.loadExercisesString(
-                userSettings,
+              const exercises = await useExerciseList.loadFilterExercisesString(
                 exercisesString
               );
 

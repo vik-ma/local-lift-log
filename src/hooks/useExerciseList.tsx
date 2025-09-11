@@ -227,15 +227,10 @@ export const useExerciseList = ({
     return exerciseGroupList;
   };
 
-  const loadExercisesString = async (
-    userSettings: UserSettings,
-    exercisesString: string
-  ) => {
-    await loadExerciseList(userSettings);
-
+  const loadFilterExercisesString = async (filterExercisesString: string) => {
     const exerciseIdSet = new Set<number>();
 
-    const exerciseIds = exercisesString.split(",");
+    const exerciseIds = filterExercisesString.split(",");
 
     for (const exerciseId of exerciseIds) {
       const id = Number(exerciseId);
@@ -283,7 +278,7 @@ export const useExerciseList = ({
     isExerciseListLoaded,
     exerciseMap,
     exerciseGroupDictionary,
-    loadExercisesString,
+    loadFilterExercisesString,
     loadExerciseGroupsString,
     loadExerciseList,
     exerciseListFilters,
