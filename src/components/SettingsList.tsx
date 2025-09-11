@@ -267,77 +267,38 @@ export const SettingsList = ({
   const settingsList = useMemo(() => {
     const settingsItemList: SettingsItem[] = [
       {
-        label: "Default Weight Unit",
+        label: "Number Of Items Displayed Per Page In Lists",
         content: (
           <div
-            key="default_unit_weight"
+            key="num_pagination_items_list_desktop"
             className="flex gap-3 items-center justify-between"
           >
-            <span>Default Weight Unit</span>
-            <WeightUnitDropdown
-              value={userSettings.default_unit_weight}
+            <span>Number Of Items Per Page In Lists</span>
+            <PaginationOptionsDropdown
+              value={userSettings.num_pagination_items_list_desktop}
               updateUserSetting={updateUserSetting}
-              targetType="settings"
             />
           </div>
         ),
         category: "General",
       },
       {
-        label: "Default Distance Unit",
+        label: "Never Show Delete Modal Confirmation When Deleting Item",
         content: (
           <div
-            key="default_unit_distance"
+            key="never_show_delete_modal"
             className="flex gap-3 items-center justify-between"
           >
-            <span>Default Distance Unit</span>
-            <DistanceUnitDropdown
-              value={userSettings.default_unit_distance}
-              updateUserSetting={updateUserSetting}
-              targetType="settings"
-            />
-          </div>
-        ),
-        category: "General",
-      },
-      {
-        label: "Default Time Input",
-        content: (
-          <div
-            key="default_time_input"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span>Default Time Input</span>
-            <Select
-              aria-label="Time Input Type Dropdown List"
-              className="w-32"
-              variant="faded"
-              selectedKeys={[userSettings.default_time_input]}
-              onChange={(e) =>
-                updateUserSetting("default_time_input", e.target.value)
+            <span>Never Show Delete Modal Confirmation When Deleting Item</span>
+            <Switch
+              aria-label="Never Show Delete Modal Confirmation Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={userSettings.never_show_delete_modal ? true : false}
+              onValueChange={(value) =>
+                updateUserSetting("never_show_delete_modal", value ? 1 : 0)
               }
-              disallowEmptySelection
-            >
-              {Array.from(TIME_INPUT_MAP).map(([key, value]) => (
-                <SelectItem key={key}>{value}</SelectItem>
-              ))}
-            </Select>
-          </div>
-        ),
-        category: "General",
-      },
-      {
-        label: "Default Measurement Unit (Circumference)",
-        content: (
-          <div
-            key="default_unit_measurement"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span>Default Measurement Unit (Circumference)</span>
-            <MeasurementUnitDropdown
-              value={userSettings.default_unit_measurement}
-              updateUserSetting={updateUserSetting}
-              targetType="settings"
             />
           </div>
         ),
@@ -375,6 +336,83 @@ export const SettingsList = ({
         category: "General",
       },
       {
+        label: "Default Weight Unit",
+        content: (
+          <div
+            key="default_unit_weight"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span>Default Weight Unit</span>
+            <WeightUnitDropdown
+              value={userSettings.default_unit_weight}
+              updateUserSetting={updateUserSetting}
+              targetType="settings"
+            />
+          </div>
+        ),
+        category: "General",
+      },
+      {
+        label: "Default Distance Unit",
+        content: (
+          <div
+            key="default_unit_distance"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span>Default Distance Unit</span>
+            <DistanceUnitDropdown
+              value={userSettings.default_unit_distance}
+              updateUserSetting={updateUserSetting}
+              targetType="settings"
+            />
+          </div>
+        ),
+        category: "General",
+      },
+      {
+        label: "Default Measurement Unit (Circumference)",
+        content: (
+          <div
+            key="default_unit_measurement"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span>Default Measurement Unit (Circumference)</span>
+            <MeasurementUnitDropdown
+              value={userSettings.default_unit_measurement}
+              updateUserSetting={updateUserSetting}
+              targetType="settings"
+            />
+          </div>
+        ),
+        category: "General",
+      },
+      {
+        label: "Default Time Input",
+        content: (
+          <div
+            key="default_time_input"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span>Default Time Input</span>
+            <Select
+              aria-label="Time Input Type Dropdown List"
+              className="w-32"
+              variant="faded"
+              selectedKeys={[userSettings.default_time_input]}
+              onChange={(e) =>
+                updateUserSetting("default_time_input", e.target.value)
+              }
+              disallowEmptySelection
+            >
+              {Array.from(TIME_INPUT_MAP).map(([key, value]) => (
+                <SelectItem key={key}>{value}</SelectItem>
+              ))}
+            </Select>
+          </div>
+        ),
+        category: "General",
+      },
+      {
         label: "Time Input Behavior For HH:MM:SS",
         content: (
           <div
@@ -405,44 +443,6 @@ export const SettingsList = ({
               value={userSettings.time_input_behavior_mmss}
               updateUserSetting={updateUserSetting}
               isHhmmss={false}
-            />
-          </div>
-        ),
-        category: "General",
-      },
-      {
-        label: "Never Show Delete Modal Confirmation When Deleting Item",
-        content: (
-          <div
-            key="never_show_delete_modal"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span>Never Show Delete Modal Confirmation When Deleting Item</span>
-            <Switch
-              aria-label="Never Show Delete Modal Confirmation Switch Element"
-              className="flex-row-reverse gap-3"
-              color="primary"
-              size="lg"
-              isSelected={userSettings.never_show_delete_modal ? true : false}
-              onValueChange={(value) =>
-                updateUserSetting("never_show_delete_modal", value ? 1 : 0)
-              }
-            />
-          </div>
-        ),
-        category: "General",
-      },
-      {
-        label: "Number Of Items Displayed Per Page In Lists",
-        content: (
-          <div
-            key="num_pagination_items_list_desktop"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span>Number Of Items Per Page In Lists</span>
-            <PaginationOptionsDropdown
-              value={userSettings.num_pagination_items_list_desktop}
-              updateUserSetting={updateUserSetting}
             />
           </div>
         ),
