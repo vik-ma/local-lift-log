@@ -12,6 +12,7 @@ import {
   LoadStore,
   GetSortCategoryFromStore,
   ValidateAndModifyUserSettings,
+  HandleListPaginationPageChange,
 } from "../helpers";
 import {
   Button,
@@ -41,6 +42,8 @@ import { Store } from "@tauri-apps/plugin-store";
 import { DEFAULT_EXERCISE } from "../constants";
 
 type OperationType = "add" | "edit" | "delete";
+
+const STORE_LIST_PREFIX = "exercises";
 
 export default function ExerciseList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -164,7 +167,7 @@ export default function ExerciseList() {
     const sortCategory = await GetSortCategoryFromStore(
       store,
       "favorite" as ExerciseSortCategory,
-      "exercises"
+      STORE_LIST_PREFIX
     );
 
     await getExercises(sortCategory);
@@ -405,7 +408,14 @@ export default function ExerciseList() {
               showControls
               page={paginationPage}
               total={totalPaginationPages}
-              onChange={setPaginationPage}
+              onChange={(value) =>
+                HandleListPaginationPageChange(
+                  value,
+                  store,
+                  setPaginationPage,
+                  STORE_LIST_PREFIX
+                )
+              }
             />
           </div>
         )}
