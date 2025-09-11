@@ -1,0 +1,10 @@
+export const STORE_LIST_KEY_EXERCISES = "exercises";
+export const STORE_LIST_KEY_WORKOUTS = "workouts";
+export const STORE_LIST_KEY_WORKOUT_TEMPLATES = "workout-templates";
+export const STORE_LIST_KEY_ROUTINES = "routines";
+export const STORE_LIST_KEY_EQUIPMENT_WEIGHTS = "equipment-weights";
+export const STORE_LIST_KEY_DISTANCES = "distances";
+export const STORE_LIST_KEY_MEASUREMENT = "measurements";
+export const STORE_LIST_KEY_BODY_MEASUREMENT = "body-measurements";
+export const STORE_LIST_KEY_TIME_PERIODS = "time-periods";
+export const STORE_LIST_KEY_DIET_LOGS = "diet-logs";
