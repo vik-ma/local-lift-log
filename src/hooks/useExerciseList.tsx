@@ -242,8 +242,16 @@ export const useExerciseList = ({
     return exerciseIdSet;
   };
 
-  const loadExerciseList = async (userSettings: UserSettings) => {
+  const loadExerciseList = async (
+    userSettings: UserSettings,
+    isInModal: boolean
+  ) => {
     if (isExerciseListLoaded.current) return;
+
+    if (!isInModal) {
+      itemsPerPaginationPage.current =
+        userSettings.num_pagination_items_list_desktop;
+    }
 
     setShowSecondaryGroups(!!userSettings.show_secondary_exercise_groups);
 

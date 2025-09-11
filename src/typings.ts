@@ -373,7 +373,10 @@ export type UseExerciseListReturnType = {
   exerciseGroupDictionary: ExerciseGroupMap;
   loadFilterExercisesString: (exercisesString: string) => Promise<Set<number>>;
   loadFilterExerciseGroupsString: (exerciseGroupsString: string) => string[];
-  loadExerciseList: (userSettings: UserSettings) => Promise<void>;
+  loadExerciseList: (
+    userSettings: UserSettings,
+    isInModal: boolean
+  ) => Promise<void>;
   exerciseListFilters: UseExerciseListFiltersReturnType;
   paginationPage: number;
   setPaginationPage: React.Dispatch<React.SetStateAction<number>>;
