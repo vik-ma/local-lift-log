@@ -16,7 +16,7 @@ import {
   DISTANCE_UNITS,
   MEASUREMENT_UNITS,
   WEIGHT_UNITS,
-  PAGINATION_OPTIONS,
+  PAGINATION_OPTIONS_LIST_PAGE,
 } from "../../constants";
 import { UserSettings } from "../../typings";
 
@@ -119,7 +119,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
     case "show_outdated_body_weight_message":
       return IsNumberValidBinary(value as number);
     case "num_pagination_items_list_desktop":
-      return PAGINATION_OPTIONS.includes(value as number);
+      return PAGINATION_OPTIONS_LIST_PAGE.includes(value as number);
     default:
       return false;
   }

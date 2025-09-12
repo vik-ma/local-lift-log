@@ -1,6 +1,6 @@
 import { Select, SelectItem } from "@heroui/react";
 import { UpdateUserSettingFunction } from "../../typings";
-import { PAGINATION_OPTIONS } from "../../constants";
+import { PAGINATION_OPTIONS_LIST_PAGE } from "../../constants";
 
 type PaginationOptionsDropdownProps = {
   value: number;
@@ -11,7 +11,7 @@ export const PaginationOptionsDropdown = ({
   value,
   updateUserSetting,
 }: PaginationOptionsDropdownProps) => {
-  const paginationOptions = PAGINATION_OPTIONS;
+  const paginationOptions = PAGINATION_OPTIONS_LIST_PAGE;
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const numValue = Number(e.target.value);

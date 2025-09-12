@@ -3,7 +3,7 @@ import {
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
 } from "..";
-import { LOCALE_MAP, PAGINATION_OPTIONS } from "../../constants";
+import { LOCALE_MAP, PAGINATION_OPTIONS_LIST_PAGE } from "../../constants";
 import { UserSettings } from "../../typings";
 
 type UserSettingsPropsToValidate =
@@ -62,7 +62,7 @@ export const ValidateAndModifyUserSettings = (
       }
       case "pagination_items": {
         if (
-          !PAGINATION_OPTIONS.includes(
+          !PAGINATION_OPTIONS_LIST_PAGE.includes(
             userSettings.num_pagination_items_list_desktop
           )
         ) {
