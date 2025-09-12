@@ -3,6 +3,7 @@ import {
   DoesListOrSetHaveCommonElement,
   GetExerciseListWithGroupStrings,
   GetExerciseListWithGroupStringsAndTotalSets,
+  GetPaginationPageFromStore,
   GetSortCategoryFromStore,
   UpdateIsFavorite,
   UpdateItemInList,
@@ -256,6 +257,13 @@ export const useExerciseList = ({
     if (!isInModal) {
       itemsPerPaginationPage.current =
         userSettings.num_pagination_items_list_desktop;
+
+      const storePaginationPage = await GetPaginationPageFromStore(
+        store,
+        STORE_LIST_KEY_EXERCISES
+      );
+
+      setPaginationPage(storePaginationPage);
     }
 
     setShowSecondaryGroups(!!userSettings.show_secondary_exercise_groups);
