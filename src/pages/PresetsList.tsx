@@ -884,7 +884,7 @@ export default function PresetsList() {
                     </div>
                   }
                 />
-                <div className="flex flex-col gap-1.5">
+                <div className="flex flex-col gap-1">
                   <div className="flex flex-col gap-1">
                     {filteredEquipmentWeights.map((equipment) => (
                       <div
@@ -962,7 +962,7 @@ export default function PresetsList() {
                       <EmptyListLabel itemName="Equipment Weights" />
                     )}
                   </div>
-                  <div className="flex justify-center">
+                  <div className="flex justify-center pt-1">
                     <Button
                       variant="flat"
                       onPress={handleRestoreEquipmentButton}
@@ -1014,7 +1014,7 @@ export default function PresetsList() {
                     </div>
                   }
                 />
-                <div className="flex flex-col gap-1.5">
+                <div className="flex flex-col gap-1">
                   <div className="flex flex-col gap-1">
                     {filteredDistances.map((distance) => (
                       <div
@@ -1089,7 +1089,7 @@ export default function PresetsList() {
                       <EmptyListLabel itemName="Distances" />
                     )}
                   </div>
-                  <div className="flex justify-center">
+                  <div className="flex justify-center pt-1">
                     <Button
                       variant="flat"
                       onPress={handleRefilterValueDistanceButton}
