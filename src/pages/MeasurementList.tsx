@@ -349,12 +349,15 @@ export default function MeasurementList() {
             <>
               <ModalHeader>Choose Unit Type</ModalHeader>
               <ModalBody>
-                <p>Use Metric or Imperial units?</p>
+                <p>
+                  Use <span className="font-medium">metric</span> or{" "}
+                  <span className="font-medium">imperial</span> units for
+                  Measurements?
+                </p>
               </ModalBody>
               <ModalFooter className="flex justify-center gap-5">
                 <Button
-                  className="text-lg font-medium"
-                  size="lg"
+                  className="font-medium text-lg"
                   color="primary"
                   onPress={() => {
                     const useMetricUnits = true;
@@ -364,8 +367,7 @@ export default function MeasurementList() {
                   Metric
                 </Button>
                 <Button
-                  className="text-lg font-medium"
-                  size="lg"
+                  className="font-medium text-lg"
                   color="primary"
                   onPress={() => {
                     const useMetricUnits = false;
