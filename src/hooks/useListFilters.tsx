@@ -34,7 +34,7 @@ import {
 
 type UseListFiltersProps = {
   store: StoreRef;
-  filterMapSuffix: ListStoreKey;
+  filterMapKey: ListStoreKey;
   useExerciseList?: UseExerciseListReturnType;
   useRoutineList?: UseRoutineListReturnType;
   useMeasurementList?: UseMeasurementListReturnType;
@@ -47,7 +47,7 @@ type StoreFilterMap = Map<StoreFilterMapKey, string | number | boolean>;
 
 export const useListFilters = ({
   store,
-  filterMapSuffix,
+  filterMapKey,
   useExerciseList,
   useRoutineList,
   useMeasurementList,
@@ -610,7 +610,7 @@ export const useListFilters = ({
   const saveFilterMapToStore = async (storeFilterMap: StoreFilterMap) => {
     if (store.current === null) return;
 
-    await store.current.set(`filter-map-${filterMapSuffix}`, {
+    await store.current.set(`filter-map-${filterMapKey}`, {
       value: JSON.stringify(Array.from(storeFilterMap.entries())),
     });
 
@@ -630,7 +630,7 @@ export const useListFilters = ({
     };
 
     const val = await store.current.get<{ value: string }>(
-      `filter-map-${filterMapSuffix}`
+      `filter-map-${filterMapKey}`
     );
 
     if (val === undefined) {

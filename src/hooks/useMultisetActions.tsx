@@ -24,7 +24,11 @@ import {
   DoesListOrSetHaveCommonElement,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
-import { DEFAULT_EXERCISE, MULTISET_TYPES, STORE_LIST_KEY_MULTISET_TEMPLATES } from "../constants";
+import {
+  DEFAULT_EXERCISE,
+  MULTISET_TYPES,
+  STORE_LIST_KEY_MULTISET_TEMPLATES,
+} from "../constants";
 
 type UseMultisetActionsProps = {
   operatingMultiset: Multiset;
@@ -79,7 +83,7 @@ export const useMultisetActions = ({
 
   const listFilters = useListFilters({
     store: store,
-    filterMapSuffix: STORE_LIST_KEY_MULTISET_TEMPLATES,
+    filterMapKey: STORE_LIST_KEY_MULTISET_TEMPLATES,
     useExerciseList: exerciseList,
   });
 

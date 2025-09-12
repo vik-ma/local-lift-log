@@ -55,7 +55,7 @@ export const useWorkoutTemplateList = ({
 
   const listFilters = useListFilters({
     store: store,
-    filterMapSuffix: STORE_LIST_KEY_WORKOUT_TEMPLATES,
+    filterMapKey: STORE_LIST_KEY_WORKOUT_TEMPLATES,
     useExerciseList,
   });
 

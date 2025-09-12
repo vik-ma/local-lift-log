@@ -104,7 +104,7 @@ export default function BodyMeasurementsList() {
 
   const listFilters = useListFilters({
     store: store,
-    filterMapSuffix: STORE_LIST_KEY_BODY_MEASUREMENTS,
+    filterMapKey: STORE_LIST_KEY_BODY_MEASUREMENTS,
     useMeasurementList: measurementList,
   });
 

@@ -62,7 +62,7 @@ export const useRoutineList = ({
 
   const listFilters = useListFilters({
     store: store,
-    filterMapSuffix: STORE_LIST_KEY_ROUTINES,
+    filterMapKey: STORE_LIST_KEY_ROUTINES,
     useExerciseList: useExerciseList,
     useWorkoutTemplateList: useWorkoutTemplateList,
   });

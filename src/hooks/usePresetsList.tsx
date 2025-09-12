@@ -79,7 +79,7 @@ export const usePresetsList = ({
 
   const listFiltersEquipment = useListFilters({
     store: store,
-    filterMapSuffix: STORE_LIST_KEY_EQUIPMENT_WEIGHTS,
+    filterMapKey: STORE_LIST_KEY_EQUIPMENT_WEIGHTS,
   });
 
   const filterPresetsListModal = useDisclosure();
@@ -133,7 +133,7 @@ export const usePresetsList = ({
 
   const listFiltersDistance = useListFilters({
     store: store,
-    filterMapSuffix: STORE_LIST_KEY_DISTANCES,
+    filterMapKey: STORE_LIST_KEY_DISTANCES,
   });
 
   const filteredDistances = useMemo(() => {
