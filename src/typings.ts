@@ -726,6 +726,10 @@ export type UseMeasurementListReturnType = {
   loadFilterMeasurementsString: (
     measurementsString: string
   ) => Promise<Set<string>>;
+  getMeasurements: (
+    category: MeasurementSortCategory,
+    activeMeasurements?: Set<number>
+  ) => Promise<void>;
 };
 
 export type WorkoutTemplateMap = Map<number, WorkoutTemplate>;

@@ -9,7 +9,7 @@ import {
   ListFilters,
   MeasurementListOptions,
 } from "../components";
-import { Measurement, UserSettings } from "../typings";
+import { Measurement, MeasurementSortCategory, UserSettings } from "../typings";
 import Database from "@tauri-apps/plugin-sql";
 import {
   Button,
@@ -35,11 +35,12 @@ import {
   UpdateUserSetting,
   LoadStore,
   ValidateAndModifyUserSettings,
+  GetSortCategoryFromStore,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import { useMeasurementList } from "../hooks";
 import { Store } from "@tauri-apps/plugin-store";
-import { DEFAULT_MEASUREMENT } from "../constants";
+import { DEFAULT_MEASUREMENT, STORE_LIST_KEY_MEASUREMENTS } from "../constants";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -74,6 +75,7 @@ export default function MeasurementList() {
     createMeasurement,
     measurementListFilters,
     loadMeasurementList,
+    getMeasurements,
   } = measurementList;
 
   const { filterMap, removeFilter, prefixMap } = measurementListFilters;
@@ -222,9 +224,15 @@ export default function MeasurementList() {
   };
 
   const restoreDefaultMeasurements = async (useMetricUnits: boolean) => {
-    const newMeasurements = await CreateDefaultMeasurements(useMetricUnits);
+    await CreateDefaultMeasurements(useMetricUnits);
 
-    sortMeasurementsByActiveCategory(newMeasurements);
+    const sortCategory = await GetSortCategoryFromStore(
+      store,
+      "favorite" as MeasurementSortCategory,
+      STORE_LIST_KEY_MEASUREMENTS
+    );
+
+    await getMeasurements(sortCategory, activeMeasurementSet);
 
     setUnitsModal.onClose();
     toast.success("Default Measurements Restored");

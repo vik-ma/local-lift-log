@@ -303,5 +303,6 @@ export const useMeasurementList = ({
     measurementListFilters,
     loadMeasurementList,
     loadFilterMeasurementsString,
+    getMeasurements,
   };
 };
