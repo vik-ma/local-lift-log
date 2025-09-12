@@ -514,7 +514,7 @@ export default function MeasurementList() {
             <EmptyListLabel itemName="Measurements" />
           )}
         </div>
-        <div className="flex justify-center pt-0.5">
+        <div className="flex justify-center pt-1">
           <Button variant="flat" onPress={() => setUnitsModal.onOpen()}>
             Restore Default Measurements
           </Button>

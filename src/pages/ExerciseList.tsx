@@ -417,7 +417,7 @@ export default function ExerciseList() {
             />
           </div>
         )}
-        <div className="flex justify-center pt-0.5">
+        <div className="flex justify-center pt-1">
           <Button variant="flat" onPress={restoreDefaultExercises}>
             Restore Default Exercises
           </Button>
