@@ -53,6 +53,7 @@ export type UserSettings = {
   show_get_latest_body_weight_button: number;
   show_outdated_body_weight_message: number;
   num_pagination_items_list_desktop: number;
+  num_pagination_items_modal_desktop: number;
 };
 
 export type Exercise = {
