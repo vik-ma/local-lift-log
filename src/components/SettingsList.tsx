@@ -283,23 +283,6 @@ export const SettingsList = ({
         category: "General",
       },
       {
-        label: "Number Of Items Displayed Per Page In Modal Lists",
-        content: (
-          <div
-            key="num_pagination_items_modal_desktop"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span>Number Of Items Per Page In Lists (Modal)</span>
-            <PaginationOptionsDropdown
-              value={userSettings.num_pagination_items_modal_desktop}
-              updateUserSetting={updateUserSetting}
-              isModalOption
-            />
-          </div>
-        ),
-        category: "General",
-      },
-      {
         label: "Never Show Delete Modal Confirmation When Deleting Item",
         content: (
           <div

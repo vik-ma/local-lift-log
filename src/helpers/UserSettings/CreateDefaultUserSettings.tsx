@@ -71,7 +71,6 @@ export const CreateDefaultUserSettings = async (
   const show_outdated_body_weight_message = 1;
 
   const num_pagination_items_list_desktop = 50;
-  const num_pagination_items_modal_desktop = 40;
 
   try {
     const db = await Database.load(import.meta.env.VITE_DB);
@@ -99,11 +98,10 @@ export const CreateDefaultUserSettings = async (
         show_pace_in_exercise_details, show_set_comments_in_exercise_details,
         show_workout_comments_in_exercise_details, never_show_delete_modal, 
         body_fat_calculation_settings, show_get_latest_body_weight_button,
-        show_outdated_body_weight_message, num_pagination_items_list_desktop,
-        num_pagination_items_modal_desktop) 
+        show_outdated_body_weight_message, num_pagination_items_list_desktop) 
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, 
         $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, 
-        $33, $34, $35, $36, $37)`,
+        $33, $34, $35, $36)`,
       [
         show_timestamp_on_completed_set,
         active_routine_id,
@@ -141,7 +139,6 @@ export const CreateDefaultUserSettings = async (
         show_get_latest_body_weight_button,
         show_outdated_body_weight_message,
         num_pagination_items_list_desktop,
-        num_pagination_items_modal_desktop,
       ]
     );
 
@@ -185,7 +182,6 @@ export const CreateDefaultUserSettings = async (
       show_get_latest_body_weight_button,
       show_outdated_body_weight_message,
       num_pagination_items_list_desktop,
-      num_pagination_items_modal_desktop,
     };
 
     return defaultUserSettings;

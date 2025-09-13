@@ -1,25 +1,16 @@
 import { Select, SelectItem } from "@heroui/react";
 import { UpdateUserSettingFunction } from "../../typings";
-import {
-  PAGINATION_OPTIONS_LIST_PAGE,
-  PAGINATION_OPTIONS_MODAL,
-} from "../../constants";
+import { PAGINATION_OPTIONS_LIST_PAGE } from "../../constants";
 
 type PaginationOptionsDropdownProps = {
   value: number;
   updateUserSetting: UpdateUserSettingFunction;
-  isModalOption?: boolean;
 };
 
 export const PaginationOptionsDropdown = ({
   value,
   updateUserSetting,
-  isModalOption,
 }: PaginationOptionsDropdownProps) => {
-  const paginationOptions = isModalOption
-    ? PAGINATION_OPTIONS_MODAL
-    : PAGINATION_OPTIONS_LIST_PAGE;
-
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const numValue = Number(e.target.value);
 
@@ -35,7 +26,7 @@ export const PaginationOptionsDropdown = ({
       onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      {paginationOptions.map((option) => (
+      {PAGINATION_OPTIONS_LIST_PAGE.map((option) => (
         <SelectItem key={option}>{option.toString()}</SelectItem>
       ))}
     </Select>

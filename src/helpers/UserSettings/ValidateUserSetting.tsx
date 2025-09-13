@@ -17,7 +17,6 @@ import {
   MEASUREMENT_UNITS,
   WEIGHT_UNITS,
   PAGINATION_OPTIONS_LIST_PAGE,
-  PAGINATION_OPTIONS_MODAL,
 } from "../../constants";
 import { UserSettings } from "../../typings";
 
@@ -121,8 +120,6 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
       return IsNumberValidBinary(value as number);
     case "num_pagination_items_list_desktop":
       return PAGINATION_OPTIONS_LIST_PAGE.includes(value as number);
-    case "num_pagination_items_modal_desktop":
-      return PAGINATION_OPTIONS_MODAL.includes(value as number);
     default:
       return false;
   }

@@ -3,11 +3,7 @@ import {
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
 } from "..";
-import {
-  LOCALE_MAP,
-  PAGINATION_OPTIONS_LIST_PAGE,
-  PAGINATION_OPTIONS_MODAL,
-} from "../../constants";
+import { LOCALE_MAP, PAGINATION_OPTIONS_LIST_PAGE } from "../../constants";
 import { UserSettings } from "../../typings";
 
 type UserSettingsPropsToValidate =
@@ -72,15 +68,6 @@ export const ValidateAndModifyUserSettings = (
         ) {
           userSettings.num_pagination_items_list_desktop =
             PAGINATION_OPTIONS_LIST_PAGE[1];
-        }
-
-        if (
-          !PAGINATION_OPTIONS_MODAL.includes(
-            userSettings.num_pagination_items_modal_desktop
-          )
-        ) {
-          userSettings.num_pagination_items_modal_desktop =
-            PAGINATION_OPTIONS_MODAL[1];
         }
 
         break;
