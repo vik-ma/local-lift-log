@@ -3,7 +3,7 @@ import { useMemo, useRef, useState } from "react";
 export const usePaginatedList = <T,>(list: T[]) => {
   const [paginationPage, setPaginationPage] = useState<number>(1);
 
-  const itemsPerPaginationPage = useRef<number>(50);
+  const itemsPerPaginationPage = useRef<number>(20);
 
   const totalPaginationPages = Math.ceil(
     list.length / itemsPerPaginationPage.current

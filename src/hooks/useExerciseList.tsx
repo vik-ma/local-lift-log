@@ -275,9 +275,6 @@ export const useExerciseList = ({
         userSettings.num_pagination_items_list_desktop;
 
       shouldSetPaginationPage = true;
-    } else {
-      itemsPerPaginationPage.current =
-        userSettings.num_pagination_items_modal_desktop;
     }
 
     setShowSecondaryGroups(!!userSettings.show_secondary_exercise_groups);
