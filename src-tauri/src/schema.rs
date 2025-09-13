@@ -51,7 +51,6 @@ diesel::table! {
         show_get_latest_body_weight_button -> Integer,
         show_outdated_body_weight_message -> Integer,
         num_pagination_items_list_desktop -> Integer,
-        num_pagination_items_modal_desktop -> Integer,
     }
 }
 
