@@ -54,10 +54,14 @@ export const ExerciseModalList = ({
 
   const { filterMap, removeFilter, prefixMap } = exerciseListFilters;
 
+  const navigate = useNavigate();
+
   const height =
     customHeightString !== undefined ? customHeightString : "h-[400px]";
 
-  const navigate = useNavigate();
+  const showPaginationControls = totalPaginationPages > 1;
+
+  const listHeight = showPaginationControls ? "h-[278px]" : "h-[312px]";
 
   return (
     <div className={`${height} flex flex-col gap-1.5`}>
@@ -96,7 +100,7 @@ export const ExerciseModalList = ({
       </div>
       {isExerciseListLoaded.current ? (
         <div className="flex flex-col justify-between gap-1.5">
-          <ScrollShadow className="flex flex-col h-[278px] gap-1">
+          <ScrollShadow className={`${listHeight} flex flex-col gap-1`}>
             {paginatedExercises.map((exercise) => (
               <div
                 key={exercise.id}
@@ -167,7 +171,7 @@ export const ExerciseModalList = ({
               />
             )}
           </ScrollShadow>
-          {totalPaginationPages > 1 && (
+          {showPaginationControls && (
             <div className="flex justify-center">
               <Pagination
                 showControls
