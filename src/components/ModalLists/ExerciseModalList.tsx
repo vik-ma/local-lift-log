@@ -48,7 +48,7 @@ export const ExerciseModalList = ({
     isExerciseListLoaded,
     paginatedExercises,
     totalPaginationPages,
-    paginationPage,
+    validPaginationPage,
     setPaginationPage,
   } = useExerciseList;
 
@@ -170,7 +170,7 @@ export const ExerciseModalList = ({
               <Pagination
                 size="lg"
                 showControls
-                page={paginationPage}
+                page={validPaginationPage}
                 total={totalPaginationPages}
                 onChange={setPaginationPage}
               />

@@ -379,7 +379,7 @@ export type UseExerciseListReturnType = {
     isInModal: boolean
   ) => Promise<void>;
   exerciseListFilters: UseExerciseListFiltersReturnType;
-  paginationPage: number;
+  validPaginationPage: number;
   setPaginationPage: React.Dispatch<React.SetStateAction<number>>;
   paginatedExercises: Exercise[];
   totalPaginationPages: number;

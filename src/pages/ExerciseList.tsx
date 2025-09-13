@@ -70,7 +70,7 @@ export default function ExerciseList() {
     filteredExercises,
     exerciseListFilters,
     showSecondaryGroups,
-    paginationPage,
+    validPaginationPage,
     setPaginationPage,
     paginatedExercises,
     totalPaginationPages,
@@ -404,7 +404,7 @@ export default function ExerciseList() {
             <Pagination
               size="lg"
               showControls
-              page={paginationPage}
+              page={validPaginationPage}
               total={totalPaginationPages}
               onChange={(value) =>
                 HandleListPaginationPageChange(

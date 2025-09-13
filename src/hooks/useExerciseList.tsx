@@ -99,7 +99,7 @@ export const useExerciseList = ({
   ]);
 
   const {
-    paginationPage,
+    validPaginationPage,
     setPaginationPage,
     itemsPerPaginationPage,
     paginatedList: paginatedExercises,
@@ -317,7 +317,7 @@ export const useExerciseList = ({
     loadFilterExerciseGroupsString,
     loadExerciseList,
     exerciseListFilters,
-    paginationPage,
+    validPaginationPage,
     setPaginationPage,
     paginatedExercises,
     totalPaginationPages,
