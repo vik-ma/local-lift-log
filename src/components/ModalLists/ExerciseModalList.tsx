@@ -1,4 +1,4 @@
-import { Button, ScrollShadow } from "@heroui/react";
+import { Button, Pagination, ScrollShadow } from "@heroui/react";
 import {
   Exercise,
   UseExerciseListReturnType,
@@ -46,6 +46,10 @@ export const ExerciseModalList = ({
     setFilterQuery,
     exerciseListFilters,
     isExerciseListLoaded,
+    paginatedExercises,
+    totalPaginationPages,
+    paginationPage,
+    setPaginationPage,
   } = useExerciseList;
 
   const { filterMap, removeFilter, prefixMap } = exerciseListFilters;
@@ -92,7 +96,7 @@ export const ExerciseModalList = ({
       </div>
       {isExerciseListLoaded.current ? (
         <ScrollShadow className="flex flex-col gap-1">
-          {filteredExercises.map((exercise) => (
+          {paginatedExercises.map((exercise) => (
             <div
               key={exercise.id}
               className={
@@ -160,6 +164,17 @@ export const ExerciseModalList = ({
                 )
               }
             />
+          )}
+          {totalPaginationPages > 1 && (
+            <div className="flex justify-center pt-0.5">
+              <Pagination
+                size="lg"
+                showControls
+                page={paginationPage}
+                total={totalPaginationPages}
+                onChange={setPaginationPage}
+              />
+            </div>
           )}
         </ScrollShadow>
       ) : (
