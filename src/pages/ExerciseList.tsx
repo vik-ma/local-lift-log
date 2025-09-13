@@ -404,6 +404,7 @@ export default function ExerciseList() {
             <Pagination
               size="lg"
               showControls
+              loop
               page={validPaginationPage}
               total={totalPaginationPages}
               onChange={(value) =>

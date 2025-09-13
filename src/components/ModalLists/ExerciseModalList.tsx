@@ -166,10 +166,10 @@ export const ExerciseModalList = ({
             />
           )}
           {totalPaginationPages > 1 && (
-            <div className="flex justify-center pt-0.5">
+            <div className="flex justify-center pt-px">
               <Pagination
-                size="lg"
                 showControls
+                loop
                 page={validPaginationPage}
                 total={totalPaginationPages}
                 onChange={setPaginationPage}
