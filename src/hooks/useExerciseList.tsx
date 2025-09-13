@@ -204,13 +204,27 @@ export const useExerciseList = ({
     }
   };
 
-  const getExercises = async (category: ExerciseSortCategory) => {
+  const getExercises = async (
+    category: ExerciseSortCategory,
+    shouldSetPaginationPage?: boolean
+  ) => {
     const { exercises, newExerciseMap } = showTotalNumSets
       ? await GetExerciseListWithGroupStringsAndTotalSets(
           exerciseGroupDictionary,
           ignoreExercisesWithNoSets
         )
       : await GetExerciseListWithGroupStrings(exerciseGroupDictionary);
+
+    if (shouldSetPaginationPage) {
+      const storePaginationPage = await GetPaginationPageFromStore(
+        store,
+        STORE_LIST_KEY_EXERCISES,
+        itemsPerPaginationPage.current,
+        exercises.length
+      );
+
+      setPaginationPage(storePaginationPage);
+    }
 
     sortExercisesByActiveCategory(exercises, category);
     exerciseMap.current = newExerciseMap;
@@ -254,16 +268,13 @@ export const useExerciseList = ({
   ) => {
     if (isExerciseListLoaded.current) return;
 
+    let shouldSetPaginationPage = false;
+
     if (!isInModal) {
       itemsPerPaginationPage.current =
         userSettings.num_pagination_items_list_desktop;
 
-      const storePaginationPage = await GetPaginationPageFromStore(
-        store,
-        STORE_LIST_KEY_EXERCISES
-      );
-
-      setPaginationPage(storePaginationPage);
+      shouldSetPaginationPage = true;
     }
 
     setShowSecondaryGroups(!!userSettings.show_secondary_exercise_groups);
@@ -279,7 +290,7 @@ export const useExerciseList = ({
       STORE_LIST_KEY_EXERCISES
     );
 
-    await getExercises(sortCategory);
+    await getExercises(sortCategory, shouldSetPaginationPage);
   };
 
   return {
