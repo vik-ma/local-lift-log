@@ -279,7 +279,7 @@ export const FilterWorkoutListModal = ({
                   selectedExercises={filterExercises}
                 />
               ) : modalPage === "exercise-groups" ? (
-                <div className="h-[400px]">
+                <div className="h-[450px]">
                   <ExerciseGroupCheckboxes
                     isValid={true}
                     value={filterExerciseGroups}
@@ -299,7 +299,7 @@ export const FilterWorkoutListModal = ({
                   filterWorkoutTemplates={filterWorkoutTemplates}
                 />
               ) : (
-                <ScrollShadow className="h-[400px]">
+                <ScrollShadow className="h-[450px]">
                   <div className="flex flex-col gap-3.5 w-[24rem]">
                     <FilterDateRangeAndWeekdays
                       useFilterDateRangeAndWeekdays={filterDateRangeAndWeekdays}

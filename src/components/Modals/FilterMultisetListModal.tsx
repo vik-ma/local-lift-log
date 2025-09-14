@@ -163,7 +163,7 @@ export const FilterMultisetListModal = ({
                   selectedExercises={filterExercises}
                 />
               ) : modalPage === "exercise-groups" ? (
-                <div className="h-[400px]">
+                <div className="h-[450px]">
                   <ExerciseGroupCheckboxes
                     isValid={true}
                     value={filterExerciseGroups}
@@ -176,7 +176,7 @@ export const FilterMultisetListModal = ({
                   />
                 </div>
               ) : (
-                <ScrollShadow className="h-[400px]">
+                <ScrollShadow className="h-[450px]">
                   <div className="flex flex-col gap-3.5 w-[24rem]">
                     <div className="flex flex-col gap-0.5 pb-0.5">
                       <h3 className="font-semibold text-lg px-0.5">

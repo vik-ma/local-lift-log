@@ -425,7 +425,7 @@ export const LoadExerciseOptionsModal = ({
             </ModalHeader>
             <ModalBody className="py-0">
               {selectedExercise === undefined ? (
-                <div className="h-[456px] flex flex-col gap-1.5">
+                <div className="h-[450px] flex flex-col gap-1.5">
                   <ExerciseModalList
                     handleClickExercise={handleClickExercise}
                     useExerciseList={useExerciseList}
@@ -435,7 +435,7 @@ export const LoadExerciseOptionsModal = ({
                   />
                 </div>
               ) : (
-                <div className="h-[456px] flex flex-col gap-1.5">
+                <div className="h-[450px] flex flex-col gap-1.5">
                   <div className="flex flex-col gap-0.5">
                     <div className="relative">
                       <div className="flex items-end">

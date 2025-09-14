@@ -154,7 +154,7 @@ export const FilterWorkoutTemplateListModal = ({
                   selectedExercises={filterExercises}
                 />
               ) : modalPage === "exercise-groups" ? (
-                <div className="h-[400px]">
+                <div className="h-[450px]">
                   <ExerciseGroupCheckboxes
                     isValid={true}
                     value={filterExerciseGroups}
@@ -167,7 +167,7 @@ export const FilterWorkoutTemplateListModal = ({
                   />
                 </div>
               ) : (
-                <ScrollShadow className="h-[400px]">
+                <ScrollShadow className="h-[450px]">
                   <div className="flex flex-col gap-3 w-[24rem]">
                     <div className="flex flex-col gap-2">
                       <div className="flex flex-col">
