@@ -33,7 +33,7 @@ import {
   ConvertSetInputValuesToNumbers,
   GetValidatedNumNewSets,
 } from "../../helpers";
-import { NUM_NEW_SETS_OPTIONS_LIST } from "../../constants";
+import { MODAL_BODY_HEIGHT, NUM_NEW_SETS_OPTIONS_LIST } from "../../constants";
 
 type MultisetModalProps = {
   multiset: Multiset;
@@ -267,7 +267,9 @@ export const MultisetModal = ({
                   userSettings={userSettings}
                 />
               ) : (
-                <div className="h-[450px] flex flex-col items-center gap-1.5">
+                <div
+                  className={`${MODAL_BODY_HEIGHT} flex flex-col items-center gap-1.5`}
+                >
                   <div className="flex items-center gap-2">
                     <MultisetTypeDropdown
                       multiset_type={multiset.multiset_type}

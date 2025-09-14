@@ -20,6 +20,7 @@ import {
   GetFilterExerciseGroupsString,
   HandleFilterListObjectClick,
 } from "../../helpers";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type FilterWorkoutTemplateListModalProps = {
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
@@ -154,7 +155,7 @@ export const FilterWorkoutTemplateListModal = ({
                   selectedExercises={filterExercises}
                 />
               ) : modalPage === "exercise-groups" ? (
-                <div className="h-[450px]">
+                <div className={`${MODAL_BODY_HEIGHT}`}>
                   <ExerciseGroupCheckboxes
                     isValid={true}
                     value={filterExerciseGroups}
@@ -167,7 +168,7 @@ export const FilterWorkoutTemplateListModal = ({
                   />
                 </div>
               ) : (
-                <ScrollShadow className="h-[450px]">
+                <ScrollShadow className={`${MODAL_BODY_HEIGHT}`}>
                   <div className="flex flex-col gap-3 w-[24rem]">
                     <div className="flex flex-col gap-2">
                       <div className="flex flex-col">

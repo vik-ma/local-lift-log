@@ -30,7 +30,10 @@ import {
 import { useMemo, useState } from "react";
 import { CreateLoadExerciseOptionsList } from "../../helpers";
 import { ExerciseModalList } from "..";
-import { LOAD_EXERCISE_OPTIONS_CATEGORIES } from "../../constants";
+import {
+  LOAD_EXERCISE_OPTIONS_CATEGORIES,
+  MODAL_BODY_HEIGHT,
+} from "../../constants";
 
 type LoadExerciseOptionsModalProps = {
   loadExerciseOptionsModal: UseDisclosureReturnType;
@@ -425,7 +428,7 @@ export const LoadExerciseOptionsModal = ({
             </ModalHeader>
             <ModalBody className="py-0">
               {selectedExercise === undefined ? (
-                <div className="h-[450px] flex flex-col gap-1.5">
+                <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}>
                   <ExerciseModalList
                     handleClickExercise={handleClickExercise}
                     useExerciseList={useExerciseList}
@@ -435,7 +438,7 @@ export const LoadExerciseOptionsModal = ({
                   />
                 </div>
               ) : (
-                <div className="h-[450px] flex flex-col gap-1.5">
+                <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}>
                   <div className="flex flex-col gap-0.5">
                     <div className="relative">
                       <div className="flex items-end">

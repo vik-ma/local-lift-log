@@ -30,6 +30,7 @@ import {
   HandleFilterListObjectClick,
 } from "../../helpers";
 import { useFilterDateRangeAndWeekdays } from "../../hooks";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type FilterWorkoutListModalProps = {
   useWorkoutList: UseWorkoutListReturnType;
@@ -279,7 +280,7 @@ export const FilterWorkoutListModal = ({
                   selectedExercises={filterExercises}
                 />
               ) : modalPage === "exercise-groups" ? (
-                <div className="h-[450px]">
+                <div className={`${MODAL_BODY_HEIGHT}`}>
                   <ExerciseGroupCheckboxes
                     isValid={true}
                     value={filterExerciseGroups}
@@ -299,7 +300,7 @@ export const FilterWorkoutListModal = ({
                   filterWorkoutTemplates={filterWorkoutTemplates}
                 />
               ) : (
-                <ScrollShadow className="h-[450px]">
+                <ScrollShadow className={`${MODAL_BODY_HEIGHT}`}>
                   <div className="flex flex-col gap-3.5 w-[24rem]">
                     <FilterDateRangeAndWeekdays
                       useFilterDateRangeAndWeekdays={filterDateRangeAndWeekdays}

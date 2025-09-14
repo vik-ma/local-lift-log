@@ -12,6 +12,7 @@ import {
   MultisetListOptions,
   SearchInput,
 } from "..";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type MultisetTemplateModalListProps = {
   useMultisetActions: UseMultisetActionsReturnType;
@@ -47,7 +48,7 @@ export const MultisetTemplateModalList = ({
   };
 
   return (
-    <div className="h-[450px] flex flex-col gap-1.5">
+    <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}>
       <div className="flex flex-col gap-1.5">
         <SearchInput
           filterQuery={filterQuery}
