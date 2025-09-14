@@ -57,11 +57,11 @@ export const ExerciseModalList = ({
   const navigate = useNavigate();
 
   const height =
-    customHeightString !== undefined ? customHeightString : "h-[400px]";
+    customHeightString !== undefined ? customHeightString : "h-[450px]";
 
   const showPaginationControls = totalPaginationPages > 1;
 
-  const listHeight = showPaginationControls ? "h-[278px]" : "h-[312px]";
+  const listHeight = showPaginationControls ? "h-[320px]" : "h-[358px]";
 
   return (
     <div className={`${height} flex flex-col gap-1.5`}>
