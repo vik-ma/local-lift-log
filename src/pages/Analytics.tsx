@@ -2974,7 +2974,6 @@ export default function Analytics() {
                   <MeasurementModalList
                     useMeasurementList={measurementList}
                     handleMeasurementClick={loadMeasurement}
-                    customHeightString="h-[440px]"
                     hiddenMeasurements={loadedMeasurements}
                     isInAnalyticsPage
                   />
@@ -2984,7 +2983,6 @@ export default function Analytics() {
                     handleTimePeriodClick={handleClickTimePeriod}
                     userSettings={userSettings}
                     setUserSettings={setUserSettings}
-                    customHeightString="h-[440px]"
                     hiddenTimePeriods={timePeriodIdSet}
                   />
                 ) : (

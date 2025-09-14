@@ -22,7 +22,6 @@ type TimePeriodModalListProps = {
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
-  customHeightString?: string;
   hiddenTimePeriods?: Set<string>;
 };
 
@@ -31,7 +30,6 @@ export const TimePeriodModalList = ({
   handleTimePeriodClick,
   userSettings,
   setUserSettings,
-  customHeightString,
   hiddenTimePeriods,
 }: TimePeriodModalListProps) => {
   const {
@@ -46,13 +44,10 @@ export const TimePeriodModalList = ({
 
   const { filterMap, removeFilter, prefixMap } = timePeriodListFilters;
 
-  const height =
-    customHeightString !== undefined ? customHeightString : "h-[400px]";
-
   const navigate = useNavigate();
 
   return (
-    <div className={`${height} flex flex-col gap-1.5`}>
+    <div className="h-[400px] flex flex-col gap-1.5">
       <div className="flex flex-col gap-1.5">
         <SearchInput
           filterQuery={filterQuery}

@@ -20,7 +20,6 @@ type RoutineModalListProps = {
   onClickAction: (routine: Routine) => void;
   activeRoutineId?: number;
   highlightedRoutines?: Set<number>;
-  customHeightString?: string;
 };
 
 export const RoutineModalList = ({
@@ -29,7 +28,6 @@ export const RoutineModalList = ({
   onClickAction,
   activeRoutineId,
   highlightedRoutines,
-  customHeightString,
 }: RoutineModalListProps) => {
   const {
     routines,
@@ -42,13 +40,10 @@ export const RoutineModalList = ({
 
   const { filterMap, removeFilter, prefixMap } = listFilters;
 
-  const height =
-    customHeightString !== undefined ? customHeightString : "h-[440px]";
-
   const navigate = useNavigate();
 
   return (
-    <div className={`${height} flex flex-col gap-1.5`}>
+    <div className="h-[440px] flex flex-col gap-1.5">
       <div className="flex flex-col gap-1.5">
         <SearchInput
           filterQuery={filterQuery}

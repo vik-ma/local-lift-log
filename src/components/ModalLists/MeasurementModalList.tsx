@@ -16,7 +16,6 @@ type MeasurementModalListProps = {
   useMeasurementList: UseMeasurementListReturnType;
   handleMeasurementClick: (measurement: Measurement) => void;
   highlightedMeasurements?: Set<string>;
-  customHeightString?: string;
   hiddenMeasurements?: Map<number, Measurement>;
   isInAnalyticsPage?: boolean;
   bodyFatMeasurementsMap?: Map<number, Measurement>;
@@ -27,7 +26,6 @@ export const MeasurementModalList = ({
   useMeasurementList,
   handleMeasurementClick,
   highlightedMeasurements,
-  customHeightString,
   hiddenMeasurements,
   isInAnalyticsPage,
   bodyFatMeasurementsMap,
@@ -45,13 +43,10 @@ export const MeasurementModalList = ({
 
   const { filterMap, removeFilter, prefixMap } = measurementListFilters;
 
-  const height =
-    customHeightString !== undefined ? customHeightString : "h-[400px]";
-
   const navigate = useNavigate();
 
   return (
-    <div className={`${height} flex flex-col gap-1.5`}>
+    <div className="h-[400px] flex flex-col gap-1.5">
       <div className="flex flex-col gap-1.5">
         <SearchInput
           filterQuery={filterQuery}
