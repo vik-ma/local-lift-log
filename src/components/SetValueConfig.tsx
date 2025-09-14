@@ -116,7 +116,7 @@ export const SetValueConfig = ({
   }, [operatingSet.addCalculationTrigger]);
 
   return (
-    <div className="flex flex-col gap-1 h-[400px]">
+    <div className="h-[450px] flex flex-col gap-1">
       <div className="flex items-center justify-between">
         <h2 className="flex text-2xl font-semibold justify-between w-full items-end">
           <div className="flex gap-1 max-w-[21rem]">
