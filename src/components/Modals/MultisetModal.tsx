@@ -325,13 +325,7 @@ export const MultisetModal = ({
                 </div>
               )}
             </ModalBody>
-            <ModalFooter
-              className={
-                operationType === "add"
-                  ? "flex justify-between items-center h-[5rem]"
-                  : "flex justify-between items-center"
-              }
-            >
+            <ModalFooter className="flex justify-between items-center">
               <div>
                 {isAddingMultisetToWorkout &&
                   (modalPage === "base" || modalPage === "multiset-list") && (

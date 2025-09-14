@@ -187,14 +187,7 @@ export const SetModal = ({
                 />
               )}
             </ModalBody>
-            <ModalFooter
-              className={
-                operationType === "add" ||
-                operationType === "add-sets-to-multiset"
-                  ? "flex justify-between items-center"
-                  : "flex justify-between items-center"
-              }
-            >
+            <ModalFooter className="flex justify-between items-center">
               <div>
                 {isAddingExercise && (
                   <NumSetsDropdown
