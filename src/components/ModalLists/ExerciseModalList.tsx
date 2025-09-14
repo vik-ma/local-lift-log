@@ -56,7 +56,7 @@ export const ExerciseModalList = ({
 
   const showPaginationControls = totalPaginationPages > 1;
 
-  const listHeight = showPaginationControls ? "h-[320px]" : "h-[358px]";
+  const listHeight = showPaginationControls ? "h-[316px]" : "h-[354px]";
 
   return (
     <div className="h-[450px] flex flex-col gap-1.5">

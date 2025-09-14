@@ -191,7 +191,7 @@ export const SetModal = ({
               className={
                 operationType === "add" ||
                 operationType === "add-sets-to-multiset"
-                  ? "flex justify-between items-center h-[5rem]"
+                  ? "flex justify-between items-center"
                   : "flex justify-between items-center"
               }
             >
