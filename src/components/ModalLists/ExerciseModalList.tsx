@@ -23,7 +23,6 @@ type ExerciseModalListProps = {
   setUserSettings: React.Dispatch<
     React.SetStateAction<UserSettings | undefined>
   >;
-  customHeightString?: string;
   selectedExercises?: Set<number>;
   isInAnalyticsPage?: boolean;
 };
@@ -33,7 +32,6 @@ export const ExerciseModalList = ({
   useExerciseList,
   userSettings,
   setUserSettings,
-  customHeightString,
   selectedExercises,
   isInAnalyticsPage,
 }: ExerciseModalListProps) => {
@@ -56,15 +54,12 @@ export const ExerciseModalList = ({
 
   const navigate = useNavigate();
 
-  const height =
-    customHeightString !== undefined ? customHeightString : "h-[450px]";
-
   const showPaginationControls = totalPaginationPages > 1;
 
   const listHeight = showPaginationControls ? "h-[320px]" : "h-[358px]";
 
   return (
-    <div className={`${height} flex flex-col gap-1.5`}>
+    <div className="h-[450px] flex flex-col gap-1.5">
       <div className="flex flex-col gap-1.5">
         <SearchInput
           filterQuery={filterQuery}

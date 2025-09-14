@@ -431,7 +431,6 @@ export const LoadExerciseOptionsModal = ({
                     useExerciseList={useExerciseList}
                     userSettings={userSettings}
                     setUserSettings={setUserSettings}
-                    customHeightString="h-[456px]"
                     isInAnalyticsPage
                   />
                 </div>
