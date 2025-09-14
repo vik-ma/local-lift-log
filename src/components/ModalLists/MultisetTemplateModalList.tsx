@@ -47,7 +47,7 @@ export const MultisetTemplateModalList = ({
   };
 
   return (
-    <div className="h-[400px] flex flex-col gap-1.5">
+    <div className="h-[450px] flex flex-col gap-1.5">
       <div className="flex flex-col gap-1.5">
         <SearchInput
           filterQuery={filterQuery}
