@@ -66,7 +66,7 @@ export const FilterExerciseGroupsModal = ({
         {(onClose) => (
           <>
             <ModalHeader>Filter Exercise Groups</ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <ExerciseGroupCheckboxes
                 isValid={true}
                 value={filterExerciseGroups}

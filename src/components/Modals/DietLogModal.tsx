@@ -402,7 +402,7 @@ export const DietLogModal = ({
                 ? "Edit Diet Log Entry"
                 : "New Diet Log Entry"}
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <div className="flex gap-6">
                 <div className="flex flex-col gap-2 pt-[0.25rem] w-[12.5rem]">
                   <div className="flex flex-col gap-1.5">

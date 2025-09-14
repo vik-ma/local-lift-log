@@ -266,7 +266,7 @@ export const ExerciseModal = ({
             <ModalHeader>
               {exercise.id === 0 ? "New" : "Edit"} Exercise
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <ScrollShadow className="h-[440px]">
                 <div className="flex flex-col gap-4 w-[23.75rem]">
                   <div className="flex flex-col gap-0.5">

@@ -166,7 +166,7 @@ export const SetModal = ({
                 ? "Select Exercise"
                 : "Tracking Options"}
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               {selectedExercise === undefined ? (
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}

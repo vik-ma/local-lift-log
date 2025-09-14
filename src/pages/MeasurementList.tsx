@@ -348,7 +348,7 @@ export default function MeasurementList() {
           {() => (
             <>
               <ModalHeader>Choose Unit Type</ModalHeader>
-              <ModalBody>
+              <ModalBody className="py-0">
                 <p>
                   Use <span className="font-medium">metric</span> or{" "}
                   <span className="font-medium">imperial</span> units for

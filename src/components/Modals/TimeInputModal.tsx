@@ -90,7 +90,7 @@ export const TimeInputModal = ({
         {(onClose) => (
           <>
             <ModalHeader>{header}</ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <div className="flex flex-col gap-3 font-medium">
                 <div className="flex gap-2.5 items-center justify-center">
                   <span className="w-[5rem] text-lg text-neutral-400">

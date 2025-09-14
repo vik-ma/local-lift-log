@@ -152,7 +152,7 @@ export const PlateCollectionModal = ({
                 ? "New Plate Collection"
                 : "Edit Plate Collection"}
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <div className="h-[440px]">
                 {plateCalculatorPage === "base" ? (
                   <div className="flex flex-col gap-2.5">

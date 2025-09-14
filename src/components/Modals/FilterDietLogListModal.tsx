@@ -199,7 +199,7 @@ export const FilterDietLogListModal = ({
         {(onClose) => (
           <>
             <ModalHeader>Filter Diet Log Entries</ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <ScrollShadow className="h-[400px]">
                 <div className="flex flex-col gap-4 w-[24rem]">
                   <FilterDateRangeAndWeekdays

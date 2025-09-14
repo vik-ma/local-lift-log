@@ -63,7 +63,7 @@ export const WorkoutListModal = ({
         {(onClose) => (
           <>
             <ModalHeader>Select Workout</ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <div className="h-[440px] flex flex-col gap-1.5">
                 <div className="flex flex-col gap-1.5">
                   <SearchInput

@@ -153,7 +153,7 @@ export const FilterMultisetListModal = ({
                 ? "Select Exercise Groups To Filter"
                 : "Filter Multisets"}
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               {modalPage === "exercise-list" ? (
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}

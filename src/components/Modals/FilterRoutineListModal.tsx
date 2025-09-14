@@ -173,7 +173,7 @@ export const FilterRoutineListModal = ({
                 ? "Select Workout Templates To Filter"
                 : "Filter Routines"}
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               {modalPage === "workout-template-list" ? (
                 <WorkoutTemplateModalList
                   useWorkoutTemplateList={useWorkoutTemplateList}

@@ -123,7 +123,7 @@ export const RoutineModal = ({
             <ModalHeader>
               {routine.id === 0 ? "New" : "Edit"} Routine
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <div className="flex flex-col gap-5">
                 <div className="flex flex-col gap-0.5">
                   <Input

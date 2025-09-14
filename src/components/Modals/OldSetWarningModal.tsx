@@ -51,7 +51,7 @@ export const OldSetWarningModal = ({
               )}{" "}
               days old
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <div className="flex flex-col justify-between h-[4.5rem]">
                 <div>
                   Do you want to set the date for the completed Set as{" "}

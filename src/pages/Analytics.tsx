@@ -2969,7 +2969,7 @@ export default function Analytics() {
                   ? "Select Time Period"
                   : "Select Exercise Groups"}
               </ModalHeader>
-              <ModalBody>
+              <ModalBody className="py-0">
                 {listModalPage === "measurement-list" ? (
                   <MeasurementModalList
                     useMeasurementList={measurementList}

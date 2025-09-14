@@ -171,7 +171,7 @@ export const TimePeriodModal = ({
             <ModalHeader>
               {timePeriod.id === 0 ? "New" : "Edit"} Time Period
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <div className="flex flex-col">
                 <Input
                   className="h-[4.5rem]"

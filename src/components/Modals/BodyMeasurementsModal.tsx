@@ -336,7 +336,7 @@ export const BodyMeasurementsModal = ({
         {(onClose) => (
           <>
             <ModalHeader>{header}</ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               {modalPage === "measurement-list" ? (
                 <MeasurementModalList
                   useMeasurementList={useMeasurementList}

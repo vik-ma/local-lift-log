@@ -128,7 +128,7 @@ export const PresetsModal = ({
               {operationType === "edit" ? "Edit" : "New"}{" "}
               {presetsType === "equipment" ? "Equipment Weight" : "Distance"}
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <div className="flex flex-col gap-0.5">
                 <Input
                   className="h-[5rem]"

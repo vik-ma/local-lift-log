@@ -144,7 +144,7 @@ export const FilterWorkoutTemplateListModal = ({
                 ? "Select Exercise Groups To Filter"
                 : "Filter Workout Templates"}
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               {modalPage === "exercise-list" ? (
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}

@@ -87,7 +87,7 @@ export const BodyFatCalculationModal = ({
                 ? `Select Measurement For ${operatingCaliperMeasurement}`
                 : "Body Fat Percentage Calculation Settings"}
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               {modalPage === "base" ? (
                 <div className="flex flex-col gap-2 h-[400px]">
                   <div className="flex gap-[2.75rem]">

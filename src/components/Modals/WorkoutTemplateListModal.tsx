@@ -38,7 +38,7 @@ export const WorkoutTemplateListModal = ({
         {(onClose) => (
           <>
             <ModalHeader>{header}</ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <WorkoutTemplateModalList
                 useWorkoutTemplateList={useWorkoutTemplateList}
                 userSettings={userSettings}

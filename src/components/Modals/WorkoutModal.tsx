@@ -79,7 +79,7 @@ export const WorkoutModal = ({
         {(onClose) => (
           <>
             <ModalHeader>{header}</ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <div className="flex flex-col gap-2.5 h-[440px]">
                 {workoutTemplateNote && (
                   <div className="flex flex-col px-0.5">

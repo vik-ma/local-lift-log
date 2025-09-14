@@ -33,7 +33,7 @@ export const RoutineListModal = ({
         {(onClose) => (
           <>
             <ModalHeader>Select Routine</ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <RoutineModalList
                 useRoutineList={useRoutineList}
                 onClickAction={onClickAction}

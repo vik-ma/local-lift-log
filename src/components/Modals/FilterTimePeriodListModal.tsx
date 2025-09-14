@@ -159,7 +159,7 @@ export const FilterTimePeriodListModal = ({
         {(onClose) => (
           <>
             <ModalHeader>Filter Time Periods</ModalHeader>
-            <ModalBody className="pt-0">
+            <ModalBody className="py-0">
               <ScrollShadow className="h-[400px]">
                 <div className="flex flex-col w-[24rem]">
                   <div className="flex flex-col gap-2 pt-2">

@@ -61,7 +61,7 @@ export const FilterMinAndMaxDatesModal = ({
         {(onClose) => (
           <>
             <ModalHeader>Filter Dates</ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <FilterMinAndMaxDates
                 useFilterDateRange={filterDateRange}
                 locale={locale}

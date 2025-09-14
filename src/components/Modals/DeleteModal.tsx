@@ -30,7 +30,7 @@ export const DeleteModal = ({
         {(onClose) => (
           <>
             <ModalHeader>{header}</ModalHeader>
-            <ModalBody>{body}</ModalBody>
+            <ModalBody className="py-0">{body}</ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>
                 Close

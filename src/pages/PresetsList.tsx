@@ -803,7 +803,7 @@ export default function PresetsList() {
           {() => (
             <>
               <ModalHeader>Choose Unit Type</ModalHeader>
-              <ModalBody>
+              <ModalBody className="py-0">
                 <p>Use Metric or Imperial units?</p>
               </ModalBody>
               <ModalFooter className="flex justify-center gap-5">

@@ -196,7 +196,7 @@ export const FilterPresetsListModal = ({
         {(onClose) => (
           <>
             <ModalHeader>Filter {presetsTypeString}</ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               {presetsType === "equipment" ? (
                 <div className="flex flex-col gap-1">
                   <div className="flex flex-col gap-px">

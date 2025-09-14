@@ -70,7 +70,7 @@ export const SetNotesModal = ({
         {(onClose) => (
           <>
             <ModalHeader>{operatingSet.exercise_name} Set Notes</ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <ScrollShadow className="flex flex-col gap-1.5 h-[400px]">
                 <div className="flex flex-col">
                   <h3 className="text-lg font-semibold">Exercise Note</h3>

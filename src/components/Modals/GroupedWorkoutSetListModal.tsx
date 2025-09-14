@@ -41,7 +41,7 @@ export const GroupedWorkoutSetListModal = ({
         {(onClose) => (
           <>
             <ModalHeader>Select Exercise Or Multiset To Merge Into</ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <ScrollShadow className="max-h-[400px] flex flex-col gap-1">
                 {groupedWorkoutSetList.map((groupedSet) => {
                   const isOperatingGroupedSet =

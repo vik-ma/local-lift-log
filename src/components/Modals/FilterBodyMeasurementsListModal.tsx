@@ -220,7 +220,7 @@ export const FilterBodyMeasurementsListModal = ({
                 ? "Select Measurements To Filter"
                 : "Filter Body Measurements"}
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               {modalPage === "measurement-list" ? (
                 <MeasurementModalList
                   useMeasurementList={useMeasurementList}

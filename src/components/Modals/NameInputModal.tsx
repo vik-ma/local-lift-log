@@ -47,7 +47,7 @@ export const NameInputModal = ({
         {(onClose) => (
           <>
             <ModalHeader>{header}</ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <div className="h-16">
                 <Input
                   value={nameInput}

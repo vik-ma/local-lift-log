@@ -71,7 +71,7 @@ export const WorkoutTemplateModal = ({
             <ModalHeader>
               {workoutTemplate.id === 0 ? "New" : "Edit"} Workout Template
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               <div className="flex flex-col gap-0.5">
                 <Input
                   className="h-[5rem]"

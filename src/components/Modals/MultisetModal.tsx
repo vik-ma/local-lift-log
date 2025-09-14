@@ -238,7 +238,7 @@ export const MultisetModal = ({
                 ? "Create Multiset"
                 : "Edit Multiset"}
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="py-0">
               {modalPage === "exercise-list" ? (
                 <ExerciseModalList
                   handleClickExercise={handleClickExercise}
