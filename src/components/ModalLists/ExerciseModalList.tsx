@@ -15,6 +15,11 @@ import {
 } from "..";
 import { GoToArrowIcon } from "../../assets";
 import { FormatSetsCompletedString } from "../../helpers";
+import {
+  LIST_HEIGHT_WITH_PAGINATION,
+  LIST_HEIGHT_WITHOUT_PAGINATION,
+  MODAL_BODY_HEIGHT,
+} from "../../constants";
 
 type ExerciseModalListProps = {
   handleClickExercise: (exercise: Exercise) => void;
@@ -56,10 +61,12 @@ export const ExerciseModalList = ({
 
   const showPaginationControls = totalPaginationPages > 1;
 
-  const listHeight = showPaginationControls ? "h-[316px]" : "h-[354px]";
+  const listHeight = showPaginationControls
+    ? LIST_HEIGHT_WITH_PAGINATION
+    : LIST_HEIGHT_WITHOUT_PAGINATION;
 
   return (
-    <div className="h-[450px] flex flex-col gap-1.5">
+    <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}>
       <div className="flex flex-col gap-1.5">
         <SearchInput
           filterQuery={filterQuery}
