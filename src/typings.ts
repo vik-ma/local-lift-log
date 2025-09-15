@@ -360,7 +360,10 @@ export type UseExerciseListReturnType = {
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredExercises: Exercise[];
-  getExercises: (category: ExerciseSortCategory) => Promise<void>;
+  getExercises: (
+    category: ExerciseSortCategory,
+    shouldSetPaginationPage?: boolean
+  ) => Promise<void>;
   toggleFavorite: (exercises: Exercise) => void;
   handleSortOptionSelection: (key: string) => void;
   sortCategory: ExerciseSortCategory;
@@ -532,9 +535,12 @@ export type UsePresetsListReturnType = {
   setDistances: React.Dispatch<React.SetStateAction<Distance[]>>;
   getEquipmentWeights: (
     category: EquipmentWeightSortCategory,
-    defaultPlateCollectionId?: number
+    shouldSetPaginationPage?: boolean
   ) => Promise<void>;
-  getDistances: (category: DistanceSortCategory) => Promise<void>;
+  getDistances: (
+    category: DistanceSortCategory,
+    shouldSetPaginationPage?: boolean
+  ) => Promise<void>;
   presetsType: PresetsType;
   setPresetsType: React.Dispatch<React.SetStateAction<PresetsType>>;
   filterQueryEquipment: string;
@@ -582,9 +588,18 @@ export type UsePresetsListReturnType = {
   listFiltersDistance: UseListFiltersReturnType;
   filterPresetsListModal: UseDisclosureReturnType;
   presetsTypeString: string;
-  loadEquipmentWeightList: (userSettings: UserSettings) => Promise<void>;
-  loadDistanceList: (userSettings: UserSettings) => Promise<void>;
-  loadPlateCollectionList: (userSettings: UserSettings) => Promise<void>;
+  loadEquipmentWeightList: (
+    userSettings: UserSettings,
+    isInModal: boolean
+  ) => Promise<void>;
+  loadDistanceList: (
+    userSettings: UserSettings,
+    isInModal: boolean
+  ) => Promise<void>;
+  loadPlateCollectionList: (
+    userSettings: UserSettings,
+    isInModal: boolean
+  ) => Promise<void>;
   equipmentWeightMap: React.RefObject<Map<number, EquipmentWeight>>;
   isPlateCollectionListLoaded: React.RefObject<boolean>;
   paginatedListEquipmentWeights: UsePaginatedListReturnType<EquipmentWeight>;

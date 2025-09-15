@@ -16,6 +16,7 @@ import {
   ConvertDistanceToMeter,
   ConvertWeightToKg,
   CreatePlateCollectionList,
+  GetPaginationPageFromStore,
   GetSortCategoryFromStore,
   IsDistanceWithinLimit,
   IsWeightWithinLimit,
@@ -29,6 +30,7 @@ import {
   DEFAULT_PLATE_COLLECTION,
   STORE_LIST_KEY_DISTANCES,
   STORE_LIST_KEY_EQUIPMENT_WEIGHTS,
+  STORE_LIST_KEY_PLATE_COLLECTIONS,
 } from "../constants";
 
 type UsePresetsListProps = {
@@ -201,7 +203,10 @@ export const usePresetsList = ({
     filteredPlateCollections
   );
 
-  const getEquipmentWeights = async (category: EquipmentWeightSortCategory) => {
+  const getEquipmentWeights = async (
+    category: EquipmentWeightSortCategory,
+    shouldSetPaginationPage?: boolean
+  ) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -209,26 +214,50 @@ export const usePresetsList = ({
         "SELECT * FROM equipment_weights WHERE weight_unit IN ('kg', 'lbs')"
       );
 
+      if (shouldSetPaginationPage) {
+        const storePaginationPage = await GetPaginationPageFromStore(
+          store,
+          STORE_LIST_KEY_EQUIPMENT_WEIGHTS,
+          paginatedListEquipmentWeights.itemsPerPaginationPage.current,
+          equipmentWeights.length
+        );
+
+        paginatedListEquipmentWeights.setPaginationPage(storePaginationPage);
+      }
+
       equipmentWeightMap.current = equipmentWeights.reduce(
         (map, equipment) => map.set(equipment.id, equipment),
         new Map()
       );
 
       sortEquipmentWeightsByActiveCategory(equipmentWeights, category);
-
       isEquipmentWeightListLoaded.current = true;
     } catch (error) {
       console.log(error);
     }
   };
 
-  const getDistances = async (category: DistanceSortCategory) => {
+  const getDistances = async (
+    category: DistanceSortCategory,
+    shouldSetPaginationPage?: boolean
+  ) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
       const result = await db.select<Distance[]>(
         "SELECT * FROM distances WHERE distance_unit IN ('km', 'm', 'mi', 'ft', 'yd')"
       );
+
+      if (shouldSetPaginationPage) {
+        const storePaginationPage = await GetPaginationPageFromStore(
+          store,
+          STORE_LIST_KEY_DISTANCES,
+          paginatedListDistances.itemsPerPaginationPage.current,
+          result.length
+        );
+
+        paginatedListDistances.setPaginationPage(storePaginationPage);
+      }
 
       sortDistancesByActiveCategory(result, category);
       isDistanceListLoaded.current = true;
@@ -534,8 +563,20 @@ export const usePresetsList = ({
     setOperatingPlateCollection(updatedPlateCollection);
   };
 
-  const loadEquipmentWeightList = async (userSettings: UserSettings) => {
+  const loadEquipmentWeightList = async (
+    userSettings: UserSettings,
+    isInModal: boolean
+  ) => {
     if (isEquipmentWeightListLoaded.current) return;
+
+    let shouldSetPaginationPage = false;
+
+    if (!isInModal) {
+      paginatedListEquipmentWeights.itemsPerPaginationPage.current =
+        userSettings.num_pagination_items_list_desktop;
+
+      shouldSetPaginationPage = true;
+    }
 
     const validFilterKeys = new Set<StoreFilterMapKey>([
       "min-weight",
@@ -555,11 +596,23 @@ export const usePresetsList = ({
       STORE_LIST_KEY_EQUIPMENT_WEIGHTS
     );
 
-    await getEquipmentWeights(sortCategory);
+    await getEquipmentWeights(sortCategory, shouldSetPaginationPage);
   };
 
-  const loadDistanceList = async (userSettings: UserSettings) => {
+  const loadDistanceList = async (
+    userSettings: UserSettings,
+    isInModal: boolean
+  ) => {
     if (isDistanceListLoaded.current) return;
+
+    let shouldSetPaginationPage = false;
+
+    if (!isInModal) {
+      paginatedListDistances.itemsPerPaginationPage.current =
+        userSettings.num_pagination_items_list_desktop;
+
+      shouldSetPaginationPage = true;
+    }
 
     const validFilterKeys = new Set<StoreFilterMapKey>([
       "min-distance",
@@ -579,13 +632,27 @@ export const usePresetsList = ({
       STORE_LIST_KEY_DISTANCES
     );
 
-    await getDistances(sortCategory);
+    await getDistances(sortCategory, shouldSetPaginationPage);
   };
 
-  const loadPlateCollectionList = async (userSettings: UserSettings) => {
+  const loadPlateCollectionList = async (
+    userSettings: UserSettings,
+    isInModal: boolean
+  ) => {
     if (isPlateCollectionListLoaded.current) return;
 
-    await loadEquipmentWeightList(userSettings);
+    const isEquipmentWeightListInModal = true;
+
+    await loadEquipmentWeightList(userSettings, isEquipmentWeightListInModal);
+
+    let shouldSetPaginationPage = false;
+
+    if (!isInModal) {
+      paginatedListPlateCollections.itemsPerPaginationPage.current =
+        userSettings.num_pagination_items_list_desktop;
+
+      shouldSetPaginationPage = true;
+    }
 
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -605,6 +672,17 @@ export const usePresetsList = ({
         setOperatingPlateCollection(defaultPlateCollection);
       } else {
         setIsDefaultPlateCollectionInvalid(true);
+      }
+
+      if (shouldSetPaginationPage) {
+        const storePaginationPage = await GetPaginationPageFromStore(
+          store,
+          STORE_LIST_KEY_PLATE_COLLECTIONS,
+          paginatedListPlateCollections.itemsPerPaginationPage.current,
+          plateCollectionList.length
+        );
+
+        paginatedListPlateCollections.setPaginationPage(storePaginationPage);
       }
 
       setPlateCollections(plateCollectionList);
