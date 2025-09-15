@@ -1362,3 +1362,11 @@ export type UseMeasurementListFiltersReturnType = {
   removeFilter: () => void;
   loadFilterFromStore: () => Promise<void>;
 };
+
+export type UsePaginatedListReturnType<T> = {
+  setPaginationPage: React.Dispatch<React.SetStateAction<number>>;
+  itemsPerPaginationPage: React.RefObject<number>;
+  paginatedList: T[];
+  totalPaginationPages: number;
+  validPaginationPage: number;
+};

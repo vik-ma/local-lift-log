@@ -1,6 +1,9 @@
 import { useMemo, useRef, useState } from "react";
+import { UsePaginatedListReturnType } from "../typings";
 
-export const usePaginatedList = <T,>(list: T[]) => {
+export const usePaginatedList = <T,>(
+  list: T[]
+): UsePaginatedListReturnType<T> => {
   const [paginationPage, setPaginationPage] = useState<number>(1);
 
   const itemsPerPaginationPage = useRef<number>(20);
