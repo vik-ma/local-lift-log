@@ -456,6 +456,7 @@ export const PlateCalculator = ({
           showModifyButton
           validWeightUnit={operatingPlateCollection.weight_unit}
           hideToggleInvalidWeightUnitButton
+          isInModalTab
         />
       ) : (
         <PlateCollectionModalList

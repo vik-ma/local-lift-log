@@ -16,7 +16,7 @@ import {
 } from "../../typings";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { MODAL_BODY_HEIGHT } from "../../constants";
+import { MODAL_BODY_HEIGHT, MODAL_TAB_HEIGHT } from "../../constants";
 
 type PresetsModalListProps = {
   presetsList: UsePresetsListReturnType;
@@ -24,6 +24,7 @@ type PresetsModalListProps = {
   showModifyButton?: boolean;
   validWeightUnit?: string;
   hideToggleInvalidWeightUnitButton?: boolean;
+  isInModalTab?: boolean;
 };
 
 export const PresetsModalList = ({
@@ -32,6 +33,7 @@ export const PresetsModalList = ({
   showModifyButton,
   validWeightUnit,
   hideToggleInvalidWeightUnitButton,
+  isInModalTab,
 }: PresetsModalListProps) => {
   const {
     presetsType,
@@ -62,8 +64,10 @@ export const PresetsModalList = ({
 
   const navigate = useNavigate();
 
+  const height = isInModalTab ? MODAL_TAB_HEIGHT : MODAL_BODY_HEIGHT;
+
   return (
-    <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}>
+    <div className={`${height} flex flex-col gap-1.5`}>
       <div className="flex flex-col gap-1.5">
         <SearchInput
           filterQuery={
