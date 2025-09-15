@@ -11,6 +11,7 @@ import { Measurement, UseMeasurementListReturnType } from "../../typings";
 import { CheckmarkIcon, GoToArrowIcon } from "../../assets";
 import { Link, useNavigate } from "react-router-dom";
 import { FormatNumBodyMeasurementsEntriesString } from "../../helpers";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type MeasurementModalListProps = {
   useMeasurementList: UseMeasurementListReturnType;
@@ -46,7 +47,7 @@ export const MeasurementModalList = ({
   const navigate = useNavigate();
 
   return (
-    <div className="h-[400px] flex flex-col gap-1.5">
+    <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}>
       <div className="flex flex-col gap-1.5">
         <SearchInput
           filterQuery={filterQuery}

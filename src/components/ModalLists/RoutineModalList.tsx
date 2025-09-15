@@ -13,6 +13,7 @@ import {
 import { Routine, UseRoutineListReturnType, UserSettings } from "../../typings";
 import { GoToArrowIcon } from "../../assets";
 import { useNavigate } from "react-router-dom";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type RoutineModalListProps = {
   useRoutineList: UseRoutineListReturnType;
@@ -43,7 +44,7 @@ export const RoutineModalList = ({
   const navigate = useNavigate();
 
   return (
-    <div className="h-[440px] flex flex-col gap-1.5">
+    <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}>
       <div className="flex flex-col gap-1.5">
         <SearchInput
           filterQuery={filterQuery}
