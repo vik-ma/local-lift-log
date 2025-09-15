@@ -12,6 +12,7 @@ import {
   SearchInput,
 } from "..";
 import { GoToArrowIcon } from "../../assets";
+import { MODAL_TAB_HEIGHT } from "../../constants";
 
 type PlateCollectionModalListProps = {
   usePresetsList: UsePresetsListReturnType;
@@ -41,7 +42,7 @@ export const PlateCollectionModalList = ({
   const navigate = useNavigate();
 
   return (
-    <div className="h-[408px] flex flex-col gap-1.5">
+    <div className={`${MODAL_TAB_HEIGHT} flex flex-col gap-1.5`}>
       <SearchInput
         filterQuery={filterQueryPlateCollection}
         setFilterQuery={setFilterQueryPlateCollection}

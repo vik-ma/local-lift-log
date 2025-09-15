@@ -42,6 +42,7 @@ export {
   MODAL_BODY_HEIGHT,
   LIST_HEIGHT_WITH_PAGINATION,
   LIST_HEIGHT_WITHOUT_PAGINATION,
+  MODAL_TAB_HEIGHT,
 } from "./ListModalHeightStrings";
 
 export { DEFAULT_BODY_MEASUREMENTS } from "./DefaultBodyMeasurements";
