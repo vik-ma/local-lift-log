@@ -178,6 +178,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
             "locale",
             "time_input",
             "increment_multipliers",
+            "pagination_items",
           ])
         );
 

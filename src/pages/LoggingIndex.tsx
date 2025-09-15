@@ -106,7 +106,12 @@ export default function LoggingIndex() {
 
       ValidateAndModifyUserSettings(
         userSettings,
-        new Set(["default_unit_weight", "default_unit_measurement", "locale"])
+        new Set([
+          "default_unit_weight",
+          "default_unit_measurement",
+          "locale",
+          "pagination_items",
+        ])
       );
 
       await LoadStore(store);

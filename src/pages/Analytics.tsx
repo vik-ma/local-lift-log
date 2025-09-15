@@ -327,6 +327,7 @@ export default function Analytics() {
           "default_unit_distance",
           "default_unit_measurement",
           "locale",
+          "pagination_items",
         ])
       );
 

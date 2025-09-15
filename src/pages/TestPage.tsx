@@ -121,7 +121,12 @@ export default function Test() {
 
       ValidateAndModifyUserSettings(
         userSettings,
-        new Set(["default_unit_weight", "default_unit_distance", "locale"])
+        new Set([
+          "default_unit_weight",
+          "default_unit_distance",
+          "locale",
+          "pagination_items",
+        ])
       );
 
       setUserSettings(userSettings);

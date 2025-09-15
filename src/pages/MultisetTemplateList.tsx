@@ -168,6 +168,7 @@ export default function Multisets() {
           "locale",
           "time_input",
           "increment_multipliers",
+          "pagination_items",
         ])
       );
 

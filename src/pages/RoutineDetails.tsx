@@ -206,7 +206,10 @@ export default function RoutineDetails() {
 
       if (userSettings === undefined) return;
 
-      ValidateAndModifyUserSettings(userSettings, new Set(["locale"]));
+      ValidateAndModifyUserSettings(
+        userSettings,
+        new Set(["locale", "pagination_items"])
+      );
 
       setUserSettings(userSettings);
 

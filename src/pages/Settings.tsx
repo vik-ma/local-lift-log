@@ -40,6 +40,7 @@ export default function Settings() {
           "locale",
           "time_input",
           "increment_multipliers",
+          "pagination_items",
         ])
       );
 

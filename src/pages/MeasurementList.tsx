@@ -91,7 +91,7 @@ export default function MeasurementList() {
 
         ValidateAndModifyUserSettings(
           userSettings,
-          new Set(["default_unit_measurement", "locale"])
+          new Set(["default_unit_measurement", "locale", "pagination_items"])
         );
 
         setOperatingMeasurement((prev) => ({
