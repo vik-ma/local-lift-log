@@ -16,11 +16,11 @@ import {
 } from "../../typings";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type PresetsModalListProps = {
   presetsList: UsePresetsListReturnType;
   handlePresetClick: (equipment?: EquipmentWeight, distance?: Distance) => void;
-  heightString: string;
   showModifyButton?: boolean;
   validWeightUnit?: string;
   hideToggleInvalidWeightUnitButton?: boolean;
@@ -29,7 +29,6 @@ type PresetsModalListProps = {
 export const PresetsModalList = ({
   presetsList,
   handlePresetClick,
-  heightString,
   showModifyButton,
   validWeightUnit,
   hideToggleInvalidWeightUnitButton,
@@ -64,7 +63,7 @@ export const PresetsModalList = ({
   const navigate = useNavigate();
 
   return (
-    <div className={`flex flex-col gap-1.5 ${heightString}`}>
+    <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}>
       <div className="flex flex-col gap-1.5">
         <SearchInput
           filterQuery={

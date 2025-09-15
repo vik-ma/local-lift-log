@@ -24,6 +24,7 @@ import {
 } from "..";
 import { CrossCircleIcon } from "../../assets";
 import { UpdateAvailablePlatesInPlateCollection } from "../../helpers";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type PlateCollectionModalProps = {
   usePlateCollectionModal: UsePlateCollectionModalReturnType;
@@ -153,7 +154,7 @@ export const PlateCollectionModal = ({
                 : "Edit Plate Collection"}
             </ModalHeader>
             <ModalBody className="py-0">
-              <div className="h-[440px]">
+              <div className={`${MODAL_BODY_HEIGHT}`}>
                 {plateCalculatorPage === "base" ? (
                   <div className="flex flex-col gap-2.5">
                     <div className="flex gap-2.5 items-start">
@@ -245,7 +246,6 @@ export const PlateCollectionModal = ({
                         ? setHandle
                         : updateAvailablePlatesMapKeys
                     }
-                    heightString="h-[450px]"
                     validWeightUnit={plateCollection.weight_unit}
                     hideToggleInvalidWeightUnitButton
                   />
