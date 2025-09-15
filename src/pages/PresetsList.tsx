@@ -62,6 +62,8 @@ import {
 
 type PresetTab = "equipment" | "distance" | "plate";
 
+const IS_LIST_IN_MODAL = false;
+
 export default function PresetsList() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
   const [operationType, setOperationType] =
@@ -121,6 +123,9 @@ export default function PresetsList() {
     loadEquipmentWeightList,
     loadDistanceList,
     loadPlateCollectionList,
+    paginatedListEquipmentWeights,
+    paginatedListDistances,
+    paginatedListPlateCollections,
   } = presetsList;
 
   useEffect(() => {
@@ -155,12 +160,12 @@ export default function PresetsList() {
 
       if (searchParams.get("tab") === "distance") {
         setSelectedTab("distance");
-        await loadDistanceList(userSettings);
+        await loadDistanceList(userSettings, IS_LIST_IN_MODAL);
       } else if (searchParams.get("tab") === "plate") {
         setSelectedTab("plate");
-        await loadPlateCollectionList(userSettings);
+        await loadPlateCollectionList(userSettings, IS_LIST_IN_MODAL);
       } else {
-        await loadEquipmentWeightList(userSettings);
+        await loadEquipmentWeightList(userSettings, IS_LIST_IN_MODAL);
       }
     };
 
@@ -724,16 +729,21 @@ export default function PresetsList() {
     switch (key) {
       case "equipment": {
         setPresetsType("equipment");
-        await loadEquipmentWeightList(userSettings);
+        paginatedListEquipmentWeights.itemsPerPaginationPage.current =
+          userSettings.num_pagination_items_list_desktop;
+        await loadEquipmentWeightList(userSettings, IS_LIST_IN_MODAL);
         break;
       }
       case "distance": {
         setPresetsType("distance");
-        await loadDistanceList(userSettings);
+        await loadDistanceList(userSettings, IS_LIST_IN_MODAL);
         break;
       }
       case "plate": {
-        await loadPlateCollectionList(userSettings);
+        // Change itemsPerPaginationPage for Equipment Weights because 
+        // they will be displayed in PresetsModalList (PlateCollectionModal)
+        paginatedListEquipmentWeights.itemsPerPaginationPage.current = 20;
+        await loadPlateCollectionList(userSettings, IS_LIST_IN_MODAL);
         break;
       }
     }
