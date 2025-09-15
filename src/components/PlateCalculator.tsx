@@ -454,7 +454,6 @@ export const PlateCalculator = ({
               : updateAvailablePlatesMapKeys
           }
           showModifyButton
-          heightString="h-[400px]"
           validWeightUnit={operatingPlateCollection.weight_unit}
           hideToggleInvalidWeightUnitButton
         />

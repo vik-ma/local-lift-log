@@ -31,6 +31,7 @@ import {
   IsStringInvalidNumber,
 } from "../../helpers";
 import { PlateCalculator, SumCalculator } from "..";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type CalculationModalProps = {
   useCalculationModal: UseCalculationModalReturnType;
@@ -258,7 +259,7 @@ export const CalculationModal = ({
           <>
             <ModalHeader>{modalHeader}</ModalHeader>
             <ModalBody className="py-0">
-              <div className="h-[440px]">
+              <div className={`${MODAL_BODY_HEIGHT}`}>
                 <Tabs
                   aria-label="Calculator Options"
                   classNames={{ panel: "px-0 py-1.5" }}

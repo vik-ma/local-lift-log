@@ -892,7 +892,6 @@ export const SumCalculator = ({
           presetsList={usePresetsList}
           handlePresetClick={handlePresetClick}
           showModifyButton
-          heightString="h-[410px]"
         />
       )}
     </>
