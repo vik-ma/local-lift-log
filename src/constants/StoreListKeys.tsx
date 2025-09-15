@@ -9,3 +9,4 @@ export const STORE_LIST_KEY_BODY_MEASUREMENTS = "body-measurements";
 export const STORE_LIST_KEY_MULTISET_TEMPLATES = "multiset-templates";
 export const STORE_LIST_KEY_TIME_PERIODS = "time-periods";
 export const STORE_LIST_KEY_DIET_LOGS = "diet-logs";
+export const STORE_LIST_KEY_PLATE_COLLECTIONS = "plate-collections";

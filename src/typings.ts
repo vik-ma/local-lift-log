@@ -1228,7 +1228,8 @@ export type ListStoreKey =
   | "body-measurements"
   | "multiset-templates"
   | "time-periods"
-  | "diet-logs";
+  | "diet-logs"
+  | "plate-collections";
 
 export type ListFilterMapKey =
   | "min-date"
