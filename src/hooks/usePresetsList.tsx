@@ -23,7 +23,7 @@ import {
   UpdateIsFavorite,
   UpdateItemInList,
 } from "../helpers";
-import { useListFilters, usePresetsTypeString } from ".";
+import { useListFilters, usePaginatedList, usePresetsTypeString } from ".";
 import { useDisclosure } from "@heroui/react";
 import {
   DEFAULT_PLATE_COLLECTION,
@@ -131,6 +131,10 @@ export const usePresetsList = ({
     listFiltersEquipment.listFilterValues.filterWeightUnits,
   ]);
 
+  const paginatedListEquipmentWeights = usePaginatedList(
+    filteredEquipmentWeights
+  );
+
   const listFiltersDistance = useListFilters({
     store: store,
     filterMapKey: STORE_LIST_KEY_DISTANCES,
@@ -180,6 +184,8 @@ export const usePresetsList = ({
     listFiltersDistance.listFilterValues.filterDistanceUnits,
   ]);
 
+  const paginatedListDistances = usePaginatedList(filteredDistances);
+
   const filteredPlateCollections = useMemo(() => {
     if (filterQueryPlateCollection !== "") {
       return plateCollections.filter((item) =>
@@ -190,6 +196,10 @@ export const usePresetsList = ({
     }
     return plateCollections;
   }, [plateCollections, filterQueryPlateCollection]);
+
+  const paginatedListPlateCollections = usePaginatedList(
+    filteredPlateCollections
+  );
 
   const getEquipmentWeights = async (category: EquipmentWeightSortCategory) => {
     try {
@@ -652,5 +662,8 @@ export const usePresetsList = ({
     loadPlateCollectionList,
     equipmentWeightMap,
     isPlateCollectionListLoaded,
+    paginatedListEquipmentWeights,
+    paginatedListDistances,
+    paginatedListPlateCollections,
   };
 };

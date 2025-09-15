@@ -587,6 +587,9 @@ export type UsePresetsListReturnType = {
   loadPlateCollectionList: (userSettings: UserSettings) => Promise<void>;
   equipmentWeightMap: React.RefObject<Map<number, EquipmentWeight>>;
   isPlateCollectionListLoaded: React.RefObject<boolean>;
+  paginatedListEquipmentWeights: UsePaginatedListReturnType<EquipmentWeight>;
+  paginatedListDistances: UsePaginatedListReturnType<Distance>;
+  paginatedListPlateCollections: UsePaginatedListReturnType<PlateCollection>;
 };
 
 export type CalculationModalTab = "sum" | "plate";
