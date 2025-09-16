@@ -4,7 +4,7 @@ import {
   UsePresetsListReturnType,
   UserSettings,
 } from "../../typings";
-import { Button, ScrollShadow } from "@heroui/react";
+import { Button, Pagination, ScrollShadow } from "@heroui/react";
 import {
   EmptyListLabel,
   LoadingSpinner,
@@ -12,7 +12,11 @@ import {
   SearchInput,
 } from "..";
 import { GoToArrowIcon } from "../../assets";
-import { MODAL_TAB_HEIGHT } from "../../constants";
+import {
+  MODAL_TAB_HEIGHT,
+  TAB_LIST_HEIGHT_WITH_PAGINATION,
+  TAB_LIST_HEIGHT_WITHOUT_PAGINATION,
+} from "../../constants";
 
 type PlateCollectionModalListProps = {
   usePresetsList: UsePresetsListReturnType;
@@ -37,9 +41,17 @@ export const PlateCollectionModalList = ({
     filterQueryPlateCollection,
     setFilterQueryPlateCollection,
     isPlateCollectionListLoaded,
+    paginatedListPlateCollections,
   } = usePresetsList;
 
   const navigate = useNavigate();
+
+  const showPaginationControls =
+    paginatedListPlateCollections.totalPaginationPages > 1;
+
+  const listHeight = showPaginationControls
+    ? TAB_LIST_HEIGHT_WITH_PAGINATION
+    : TAB_LIST_HEIGHT_WITHOUT_PAGINATION;
 
   return (
     <div className={`${MODAL_TAB_HEIGHT} flex flex-col gap-1.5`}>
@@ -62,55 +74,68 @@ export const PlateCollectionModalList = ({
         </Button>
       </div>
       {isPlateCollectionListLoaded.current ? (
-        <ScrollShadow className="flex flex-col gap-1 w-full">
-          {filteredPlateCollections.map((plate) => {
-            if (
-              plate.handle === undefined ||
-              plate.availablePlatesMap!.size === 0
-            )
-              return null;
+        <div className="flex flex-col justify-between gap-1.5">
+          <ScrollShadow className={`${listHeight} flex flex-col gap-1 w-full`}>
+            {paginatedListPlateCollections.paginatedList.map((plate) => {
+              if (
+                plate.handle === undefined ||
+                plate.availablePlatesMap!.size === 0
+              )
+                return null;
 
-            return (
-              <div
-                className={
-                  plate.id === defaultPlateCollectionId
-                    ? "flex justify-between items-center gap-1 cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                    : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                }
-                key={`plate-calculation-${plate.id}`}
-                onClick={() => handlePlateCollectionClick(plate)}
-              >
-                <div className="flex flex-col justify-start items-start pl-2 py-1">
-                  <span className="w-[19rem] truncate">{plate.name}</span>
-                  <span className="w-[19rem] truncate text-xs text-secondary">
-                    {plate.formattedAvailablePlatesString} {plate.weight_unit}
-                  </span>
-                  <span className="text-xs text-stone-400">
-                    {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
-                    {plate.handle !== undefined ? (
-                      ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`
-                    ) : (
-                      <span className="text-red-700"> (Unknown Handle)</span>
+              return (
+                <div
+                  className={
+                    plate.id === defaultPlateCollectionId
+                      ? "flex justify-between items-center gap-1 cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                      : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  }
+                  key={`plate-calculation-${plate.id}`}
+                  onClick={() => handlePlateCollectionClick(plate)}
+                >
+                  <div className="flex flex-col justify-start items-start pl-2 py-1">
+                    <span className="w-[19rem] truncate">{plate.name}</span>
+                    <span className="w-[19rem] truncate text-xs text-secondary">
+                      {plate.formattedAvailablePlatesString} {plate.weight_unit}
+                    </span>
+                    <span className="text-xs text-stone-400">
+                      {plate.num_handles === 1 ? "1 Handle" : "2 Handles"}
+                      {plate.handle !== undefined ? (
+                        ` (${plate.handle.name}: ${plate.handle.weight} ${plate.handle.weight_unit})`
+                      ) : (
+                        <span className="text-red-700"> (Unknown Handle)</span>
+                      )}
+                    </span>
+                  </div>
+                  {userSettings !== undefined &&
+                    setUserSettings !== undefined && (
+                      <div className="flex items-center pr-1">
+                        <PlateCollectionButton
+                          userSettings={userSettings}
+                          setUserSettings={setUserSettings}
+                          plateCollection={plate}
+                        />
+                      </div>
                     )}
-                  </span>
                 </div>
-                {userSettings !== undefined &&
-                  setUserSettings !== undefined && (
-                    <div className="flex items-center pr-1">
-                      <PlateCollectionButton
-                        userSettings={userSettings}
-                        setUserSettings={setUserSettings}
-                        plateCollection={plate}
-                      />
-                    </div>
-                  )}
-              </div>
-            );
-          })}
-          {filteredPlateCollections.length === 0 && (
-            <EmptyListLabel itemName="Plate Collections" />
+              );
+            })}
+            {filteredPlateCollections.length === 0 && (
+              <EmptyListLabel itemName="Plate Collections" />
+            )}
+          </ScrollShadow>
+          {showPaginationControls && (
+            <div className="flex justify-center">
+              <Pagination
+                showControls
+                loop
+                page={paginatedListPlateCollections.validPaginationPage}
+                total={paginatedListPlateCollections.totalPaginationPages}
+                onChange={paginatedListPlateCollections.setPaginationPage}
+              />
+            </div>
           )}
-        </ScrollShadow>
+        </div>
       ) : (
         <LoadingSpinner />
       )}
