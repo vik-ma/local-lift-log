@@ -36,6 +36,8 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
     presetsList: UsePresetsListReturnType,
     userSettings: UserSettings
   ) => {
+    const isInModal = true;
+
     if (isWeight) {
       presetsList.setPresetsType("equipment");
 
@@ -55,14 +57,14 @@ export const useCalculationModal = (): UseCalculationModalReturnType => {
 
       setUpPlateCollectionValues(set, presetsList);
 
-      await presetsList.loadEquipmentWeightList(userSettings);
+      await presetsList.loadEquipmentWeightList(userSettings, isInModal);
     } else {
       presetsList.setPresetsType("distance");
 
       setCalculationModalTab("sum");
       setDistanceUnit(set.distance_unit);
 
-      await presetsList.loadDistanceList(userSettings);
+      await presetsList.loadDistanceList(userSettings, isInModal);
     }
 
     setCalculationString(exercise.calculation_string);
