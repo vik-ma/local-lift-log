@@ -153,7 +153,7 @@ export const PresetsModalList = ({
               <LoadingSpinner />
             ) : (
               <>
-                {filteredEquipmentWeights.map((equipment) => {
+                {paginatedListEquipmentWeights.paginatedList.map((equipment) => {
                   const isInPlateCollection =
                     operatingPlateCollection?.availablePlatesMap?.has(
                       equipment
@@ -231,7 +231,7 @@ export const PresetsModalList = ({
             <LoadingSpinner />
           ) : (
             <>
-              {filteredDistances.map((distance) => (
+              {paginatedListDistances.paginatedList.map((distance) => (
                 <div
                   className="flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
                   key={`distance-${distance.id}`}
