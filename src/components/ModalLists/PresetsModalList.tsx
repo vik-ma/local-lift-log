@@ -21,6 +21,8 @@ import {
   LIST_HEIGHT_WITHOUT_PAGINATION,
   MODAL_BODY_HEIGHT,
   MODAL_TAB_HEIGHT,
+  TAB_LIST_HEIGHT_WITH_PAGINATION,
+  TAB_LIST_HEIGHT_WITHOUT_PAGINATION,
 } from "../../constants";
 
 type PresetsModalListProps = {
@@ -78,9 +80,14 @@ export const PresetsModalList = ({
       ? paginatedListEquipmentWeights.totalPaginationPages > 1
       : paginatedListDistances.totalPaginationPages > 1;
 
-  const listHeight = showPaginationControls
-    ? LIST_HEIGHT_WITH_PAGINATION
-    : LIST_HEIGHT_WITHOUT_PAGINATION;
+  const listHeight =
+    isInModalTab && showPaginationControls
+      ? TAB_LIST_HEIGHT_WITH_PAGINATION
+      : isInModalTab
+      ? TAB_LIST_HEIGHT_WITHOUT_PAGINATION
+      : showPaginationControls
+      ? LIST_HEIGHT_WITH_PAGINATION
+      : LIST_HEIGHT_WITHOUT_PAGINATION;
 
   return (
     <div className={`${height} flex flex-col gap-1.5`}>
@@ -153,75 +160,79 @@ export const PresetsModalList = ({
               <LoadingSpinner />
             ) : (
               <>
-                {paginatedListEquipmentWeights.paginatedList.map((equipment) => {
-                  const isInPlateCollection =
-                    operatingPlateCollection?.availablePlatesMap?.has(
-                      equipment
-                    ) ?? false;
+                {paginatedListEquipmentWeights.paginatedList.map(
+                  (equipment) => {
+                    const isInPlateCollection =
+                      operatingPlateCollection?.availablePlatesMap?.has(
+                        equipment
+                      ) ?? false;
 
-                  const numAvailable =
-                    operatingPlateCollection?.availablePlatesMap?.get(
-                      equipment
-                    ) ?? 0;
+                    const numAvailable =
+                      operatingPlateCollection?.availablePlatesMap?.get(
+                        equipment
+                      ) ?? 0;
 
-                  const isInvalidUnit =
-                    validWeightUnit !== undefined &&
-                    equipment.weight_unit !== validWeightUnit;
+                    const isInvalidUnit =
+                      validWeightUnit !== undefined &&
+                      equipment.weight_unit !== validWeightUnit;
 
-                  return (
-                    <div
-                      className={
-                        isInvalidUnit && hideInvalidUnitItems
-                          ? "hidden"
-                          : isInvalidUnit
-                          ? "flex justify-between items-center gap-1 opacity-40 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                          : isInPlateCollection
-                          ? "flex justify-between items-center gap-1 cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                          : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                      }
-                      key={`equipment-${equipment.id}`}
-                      onClick={
-                        isInvalidUnit
-                          ? () => {}
-                          : () => handlePresetClick(equipment, undefined)
-                      }
-                    >
-                      <div className="flex flex-col justify-start items-start pl-2 py-1">
-                        <span
-                          className={
-                            isInPlateCollection
-                              ? "w-[11.5rem] truncate text-left"
-                              : "w-[16.25rem] truncate text-left"
-                          }
-                        >
-                          {equipment.name}
-                        </span>
-                        <span className="text-xs text-secondary text-left">
-                          {equipment.weight} {equipment.weight_unit}
-                        </span>
-                      </div>
-                      <div className="flex gap-1 items-center pr-2">
-                        {numAvailable !== 0 && (
-                          <AvailablePlatesDropdown
-                            value={numAvailable}
-                            equipmentWeight={equipment}
-                            operatingPlateCollection={operatingPlateCollection}
-                            setOperatingPlateCollection={
-                              setOperatingPlateCollection
+                    return (
+                      <div
+                        className={
+                          isInvalidUnit && hideInvalidUnitItems
+                            ? "hidden"
+                            : isInvalidUnit
+                            ? "flex justify-between items-center gap-1 opacity-40 bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                            : isInPlateCollection
+                            ? "flex justify-between items-center gap-1 cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                            : "flex justify-between items-center gap-1 cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                        }
+                        key={`equipment-${equipment.id}`}
+                        onClick={
+                          isInvalidUnit
+                            ? () => {}
+                            : () => handlePresetClick(equipment, undefined)
+                        }
+                      >
+                        <div className="flex flex-col justify-start items-start pl-2 py-1">
+                          <span
+                            className={
+                              isInPlateCollection
+                                ? "w-[11.5rem] truncate text-left"
+                                : "w-[16.25rem] truncate text-left"
                             }
-                            isActive={isInPlateCollection}
+                          >
+                            {equipment.name}
+                          </span>
+                          <span className="text-xs text-secondary text-left">
+                            {equipment.weight} {equipment.weight_unit}
+                          </span>
+                        </div>
+                        <div className="flex gap-1 items-center pr-2">
+                          {numAvailable !== 0 && (
+                            <AvailablePlatesDropdown
+                              value={numAvailable}
+                              equipmentWeight={equipment}
+                              operatingPlateCollection={
+                                operatingPlateCollection
+                              }
+                              setOperatingPlateCollection={
+                                setOperatingPlateCollection
+                              }
+                              isActive={isInPlateCollection}
+                            />
+                          )}
+                          <FavoriteButton
+                            name={equipment.name}
+                            isFavorite={!!equipment.is_favorite}
+                            item={equipment}
+                            toggleFavorite={toggleFavoriteEquipmentWeight}
                           />
-                        )}
-                        <FavoriteButton
-                          name={equipment.name}
-                          isFavorite={!!equipment.is_favorite}
-                          item={equipment}
-                          toggleFavorite={toggleFavoriteEquipmentWeight}
-                        />
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  }
+                )}
                 {filteredEquipmentWeights.length === 0 && (
                   <EmptyListLabel itemName="Equipment Weights" />
                 )}
