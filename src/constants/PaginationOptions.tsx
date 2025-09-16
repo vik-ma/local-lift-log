@@ -1,1 +1,2 @@
 export const PAGINATION_OPTIONS_LIST_PAGE = Object.freeze([20, 50, 100]);
+export const DEFAULT_MODAL_PAGINATION_ITEMS = 20;
