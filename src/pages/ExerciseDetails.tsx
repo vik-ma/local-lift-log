@@ -561,6 +561,7 @@ export default function ExerciseDetails() {
                       {showWarmupsCheckbox.current && (
                         <Checkbox
                           className="hover:underline"
+                          classNames={{ wrapper: "mr-[5px]" }}
                           size="sm"
                           isSelected={showWarmups}
                           onValueChange={(value) =>
@@ -573,6 +574,7 @@ export default function ExerciseDetails() {
                       {showMultisetsCheckbox.current && (
                         <Checkbox
                           className="hover:underline"
+                          classNames={{ wrapper: "mr-[5px]" }}
                           size="sm"
                           isSelected={showMultisets}
                           onValueChange={(value) =>
@@ -585,6 +587,7 @@ export default function ExerciseDetails() {
                       {showPaceCheckbox.current && (
                         <Checkbox
                           className="hover:underline"
+                          classNames={{ wrapper: "mr-[5px]" }}
                           size="sm"
                           isSelected={showPace}
                           onValueChange={(value) =>
@@ -597,6 +600,7 @@ export default function ExerciseDetails() {
                       {showSetCommentsCheckbox.current && (
                         <Checkbox
                           className="hover:underline"
+                          classNames={{ wrapper: "mr-[5px]" }}
                           size="sm"
                           isSelected={showSetComments}
                           onValueChange={(value) =>
@@ -609,6 +613,7 @@ export default function ExerciseDetails() {
                       {showWorkoutCommentsCheckbox.current && (
                         <Checkbox
                           className="hover:underline"
+                          classNames={{ wrapper: "mr-[5px]" }}
                           size="sm"
                           isSelected={showWorkoutComments}
                           onValueChange={(value) =>
