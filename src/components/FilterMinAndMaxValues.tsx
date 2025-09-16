@@ -34,7 +34,7 @@ export const FilterMinAndMaxValues = ({
         <div className="px-px absolute -top-[3px] w-[24rem]">
           <Checkbox
             className="hover:underline"
-            classNames={{ label: "text-sm" }}
+            classNames={{ label: "text-sm", wrapper: "mr-[5px]" }}
             size="sm"
             color="primary"
             isSelected={includeNullInMaxValues}
