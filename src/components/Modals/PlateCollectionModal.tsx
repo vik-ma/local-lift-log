@@ -154,103 +154,99 @@ export const PlateCollectionModal = ({
                 : "Edit Plate Collection"}
             </ModalHeader>
             <ModalBody className="py-0">
-              <div className={`${MODAL_BODY_HEIGHT}`}>
-                {plateCalculatorPage === "base" ? (
-                  <div className="flex flex-col gap-2.5">
-                    <div className="flex gap-2.5 items-start">
-                      <Input
-                        className="h-[5rem]"
-                        value={nameInput}
-                        isInvalid={!isNameInputValid}
-                        label="Name"
-                        errorMessage={
-                          !isNameInputValid && "Name can't be empty"
-                        }
-                        variant="faded"
-                        onValueChange={setNameInput}
-                        isRequired
-                        isClearable
-                      />
-                      <WeightUnitDropdown
-                        value={plateCollection.weight_unit}
-                        targetType="plate-collection"
-                        setPlateCollection={setPlateCollection}
-                        showLabel
-                        switchWeightUnit={switchWeightUnit}
-                      />
-                    </div>
-                    <PlateCollectionHandleConfig
-                      plateCollection={plateCollection}
-                      setPlateCollection={setPlateCollection}
-                      handleSetHandleButton={handleSetHandleButton}
+              {plateCalculatorPage === "base" ? (
+                <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-2.5`}>
+                  <div className="flex gap-2.5 items-start">
+                    <Input
+                      className="h-[5rem]"
+                      value={nameInput}
+                      isInvalid={!isNameInputValid}
+                      label="Name"
+                      errorMessage={!isNameInputValid && "Name can't be empty"}
+                      variant="faded"
+                      onValueChange={setNameInput}
+                      isRequired
+                      isClearable
                     />
-                    <div className="flex flex-col gap-0.5">
-                      <div className="flex justify-between items-end">
-                        <h3 className="text-lg font-medium pl-0.5">
-                          Available Plates
-                        </h3>
-                        {plateCollection.availablePlatesMap!.size > 0 && (
-                          <span className="text-sm text-stone-500 pr-7">
-                            Number Of Plates
-                          </span>
-                        )}
-                      </div>
-                      <ScrollShadow className="flex flex-col gap-1 h-[250px]">
-                        {Array.from(
-                          plateCollection.availablePlatesMap!.entries()
-                        ).map(([key, value]) => (
-                          <div
-                            key={`plate-${key.id}`}
-                            className="flex gap-1.5 items-center"
-                          >
-                            <div className="flex pl-1.5 py-0.5 bg-default-50 border-2 border-default-200 rounded-lg hover:border-default-400 focus:bg-default-200 focus:border-default-400">
-                              <div className="flex gap-1 w-[16.5rem]">
-                                <span className="truncate max-w-[5rem]">
-                                  {key.weight}
-                                </span>
-                                <span>{key.weight_unit}</span>
-                              </div>
-                            </div>
-                            <AvailablePlatesDropdown
-                              value={value}
-                              equipmentWeight={key}
-                              operatingPlateCollection={plateCollection}
-                              setOperatingPlateCollection={setPlateCollection}
-                              isSmall
-                            />
-                            <Button
-                              aria-label={`Remove ${key.name} From Available Plates`}
-                              size="sm"
-                              color="danger"
-                              isIconOnly
-                              variant="light"
-                              onPress={() => removePlate(key)}
-                            >
-                              <CrossCircleIcon size={22} />
-                            </Button>
-                          </div>
-                        ))}
-                        {plateCollection.availablePlatesMap?.size === 0 && (
-                          <span className="px-0.5 text-danger">
-                            No Plates Selected
-                          </span>
-                        )}
-                      </ScrollShadow>
-                    </div>
+                    <WeightUnitDropdown
+                      value={plateCollection.weight_unit}
+                      targetType="plate-collection"
+                      setPlateCollection={setPlateCollection}
+                      showLabel
+                      switchWeightUnit={switchWeightUnit}
+                    />
                   </div>
-                ) : (
-                  <PresetsModalList
-                    presetsList={usePresetsList}
-                    handlePresetClick={
-                      operationType === "set-handle"
-                        ? setHandle
-                        : updateAvailablePlatesMapKeys
-                    }
-                    validWeightUnit={plateCollection.weight_unit}
-                    hideToggleInvalidWeightUnitButton
+                  <PlateCollectionHandleConfig
+                    plateCollection={plateCollection}
+                    setPlateCollection={setPlateCollection}
+                    handleSetHandleButton={handleSetHandleButton}
                   />
-                )}
-              </div>
+                  <div className="flex flex-col gap-0.5">
+                    <div className="flex justify-between items-end">
+                      <h3 className="text-lg font-medium pl-0.5">
+                        Available Plates
+                      </h3>
+                      {plateCollection.availablePlatesMap!.size > 0 && (
+                        <span className="text-sm text-stone-500 pr-7">
+                          Number Of Plates
+                        </span>
+                      )}
+                    </div>
+                    <ScrollShadow className="flex flex-col gap-1 h-[250px]">
+                      {Array.from(
+                        plateCollection.availablePlatesMap!.entries()
+                      ).map(([key, value]) => (
+                        <div
+                          key={`plate-${key.id}`}
+                          className="flex gap-1.5 items-center"
+                        >
+                          <div className="flex pl-1.5 py-0.5 bg-default-50 border-2 border-default-200 rounded-lg hover:border-default-400 focus:bg-default-200 focus:border-default-400">
+                            <div className="flex gap-1 w-[16.5rem]">
+                              <span className="truncate max-w-[5rem]">
+                                {key.weight}
+                              </span>
+                              <span>{key.weight_unit}</span>
+                            </div>
+                          </div>
+                          <AvailablePlatesDropdown
+                            value={value}
+                            equipmentWeight={key}
+                            operatingPlateCollection={plateCollection}
+                            setOperatingPlateCollection={setPlateCollection}
+                            isSmall
+                          />
+                          <Button
+                            aria-label={`Remove ${key.name} From Available Plates`}
+                            size="sm"
+                            color="danger"
+                            isIconOnly
+                            variant="light"
+                            onPress={() => removePlate(key)}
+                          >
+                            <CrossCircleIcon size={22} />
+                          </Button>
+                        </div>
+                      ))}
+                      {plateCollection.availablePlatesMap?.size === 0 && (
+                        <span className="px-0.5 text-danger">
+                          No Plates Selected
+                        </span>
+                      )}
+                    </ScrollShadow>
+                  </div>
+                </div>
+              ) : (
+                <PresetsModalList
+                  presetsList={usePresetsList}
+                  handlePresetClick={
+                    operationType === "set-handle"
+                      ? setHandle
+                      : updateAvailablePlatesMapKeys
+                  }
+                  validWeightUnit={plateCollection.weight_unit}
+                  hideToggleInvalidWeightUnitButton
+                />
+              )}
             </ModalBody>
             <ModalFooter className="flex justify-between">
               <div className="flex gap-2">
