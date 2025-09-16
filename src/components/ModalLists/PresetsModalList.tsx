@@ -1,4 +1,4 @@
-import { Button, ScrollShadow } from "@heroui/react";
+import { Button, Pagination, ScrollShadow } from "@heroui/react";
 import {
   AvailablePlatesDropdown,
   EmptyListLabel,
@@ -16,7 +16,12 @@ import {
 } from "../../typings";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { MODAL_BODY_HEIGHT, MODAL_TAB_HEIGHT } from "../../constants";
+import {
+  LIST_HEIGHT_WITH_PAGINATION,
+  LIST_HEIGHT_WITHOUT_PAGINATION,
+  MODAL_BODY_HEIGHT,
+  MODAL_TAB_HEIGHT,
+} from "../../constants";
 
 type PresetsModalListProps = {
   presetsList: UsePresetsListReturnType;
@@ -54,6 +59,8 @@ export const PresetsModalList = ({
     presetsTypeString,
     listFiltersEquipment,
     listFiltersDistance,
+    paginatedListEquipmentWeights,
+    paginatedListDistances,
   } = presetsList;
 
   const { filterMap, removeFilter, prefixMap } =
@@ -65,6 +72,15 @@ export const PresetsModalList = ({
   const navigate = useNavigate();
 
   const height = isInModalTab ? MODAL_TAB_HEIGHT : MODAL_BODY_HEIGHT;
+
+  const showPaginationControls =
+    presetsType === "equipment"
+      ? paginatedListEquipmentWeights.totalPaginationPages > 1
+      : paginatedListDistances.totalPaginationPages > 1;
+
+  const listHeight = showPaginationControls
+    ? LIST_HEIGHT_WITH_PAGINATION
+    : LIST_HEIGHT_WITHOUT_PAGINATION;
 
   return (
     <div className={`${height} flex flex-col gap-1.5`}>
@@ -130,7 +146,7 @@ export const PresetsModalList = ({
           />
         )}
       </div>
-      <ScrollShadow className="flex flex-col gap-1 w-full">
+      <ScrollShadow className={`${listHeight} flex flex-col gap-1 w-full`}>
         {presetsType === "equipment" ? (
           !isEquipmentWeightListLoaded.current ? (
             <LoadingSpinner />
@@ -244,6 +260,29 @@ export const PresetsModalList = ({
           </>
         )}
       </ScrollShadow>
+      {showPaginationControls && (
+        <div className="flex justify-center">
+          <Pagination
+            showControls
+            loop
+            page={
+              presetsType === "equipment"
+                ? paginatedListEquipmentWeights.validPaginationPage
+                : paginatedListDistances.validPaginationPage
+            }
+            total={
+              presetsType === "equipment"
+                ? paginatedListEquipmentWeights.totalPaginationPages
+                : paginatedListDistances.totalPaginationPages
+            }
+            onChange={
+              presetsType === "equipment"
+                ? paginatedListEquipmentWeights.setPaginationPage
+                : paginatedListDistances.setPaginationPage
+            }
+          />
+        </div>
+      )}
     </div>
   );
 };
