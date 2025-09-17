@@ -3,7 +3,7 @@ import {
   UserSettings,
   UseTimePeriodListReturnType,
 } from "../../typings";
-import { Button, ScrollShadow } from "@heroui/react";
+import { Button, Pagination, ScrollShadow } from "@heroui/react";
 import {
   EmptyListLabel,
   ListFilters,
@@ -14,7 +14,11 @@ import {
 } from "..";
 import { GoToArrowIcon } from "../../assets";
 import { Link, useNavigate } from "react-router-dom";
-import { MODAL_BODY_HEIGHT } from "../../constants";
+import {
+  LIST_HEIGHT_WITH_PAGINATION,
+  LIST_HEIGHT_WITHOUT_PAGINATION,
+  MODAL_BODY_HEIGHT,
+} from "../../constants";
 
 type TimePeriodModalListProps = {
   useTimePeriodList: UseTimePeriodListReturnType;
@@ -41,11 +45,21 @@ export const TimePeriodModalList = ({
     timePeriodListFilters,
     selectedTimePeriodProperties,
     isTimePeriodListLoaded,
+    paginatedTimePeriods,
+    totalPaginationPages,
+    validPaginationPage,
+    setPaginationPage,
   } = useTimePeriodList;
 
   const { filterMap, removeFilter, prefixMap } = timePeriodListFilters;
 
   const navigate = useNavigate();
+
+  const showPaginationControls = totalPaginationPages > 1;
+
+  const listHeight = showPaginationControls
+    ? LIST_HEIGHT_WITH_PAGINATION
+    : LIST_HEIGHT_WITHOUT_PAGINATION;
 
   return (
     <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}>
@@ -83,35 +97,48 @@ export const TimePeriodModalList = ({
         )}
       </div>
       {isTimePeriodListLoaded.current ? (
-        <ScrollShadow className="flex flex-col gap-1">
-          {filteredTimePeriods.map((timePeriod) => (
-            <div
-              key={timePeriod.id}
-              className={
-                hiddenTimePeriods?.has(timePeriod.id.toString())
-                  ? "hidden"
-                  : "flex justify-between items-center cursor-pointer w-full bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-              }
-              onClick={() => handleTimePeriodClick(timePeriod)}
-            >
-              <TimePeriodListItemContent
-                timePeriod={timePeriod}
-                selectedTimePeriodProperties={selectedTimePeriodProperties}
-                isInModalList={true}
+        <div className="flex flex-col justify-between gap-1.5">
+          <ScrollShadow className={`${listHeight} flex flex-col gap-1`}>
+            {paginatedTimePeriods.map((timePeriod) => (
+              <div
+                key={timePeriod.id}
+                className={
+                  hiddenTimePeriods?.has(timePeriod.id.toString())
+                    ? "hidden"
+                    : "flex justify-between items-center cursor-pointer w-full bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                }
+                onClick={() => handleTimePeriodClick(timePeriod)}
+              >
+                <TimePeriodListItemContent
+                  timePeriod={timePeriod}
+                  selectedTimePeriodProperties={selectedTimePeriodProperties}
+                  isInModalList={true}
+                />
+              </div>
+            ))}
+            {filteredTimePeriods.length === 0 && (
+              <EmptyListLabel
+                itemName="Time Periods"
+                extraContent={
+                  timePeriods.length > 0 ? undefined : (
+                    <Link to={"/time-periods"}>Create Time Periods Here</Link>
+                  )
+                }
+              />
+            )}
+          </ScrollShadow>
+          {showPaginationControls && (
+            <div className="flex justify-center">
+              <Pagination
+                showControls
+                loop
+                page={validPaginationPage}
+                total={totalPaginationPages}
+                onChange={setPaginationPage}
               />
             </div>
-          ))}
-          {filteredTimePeriods.length === 0 && (
-            <EmptyListLabel
-              itemName="Time Periods"
-              extraContent={
-                timePeriods.length > 0 ? undefined : (
-                  <Link to={"/time-periods"}>Create Time Periods Here</Link>
-                )
-              }
-            />
           )}
-        </ScrollShadow>
+        </div>
       ) : (
         <LoadingSpinner />
       )}
