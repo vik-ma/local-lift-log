@@ -11,6 +11,7 @@ import {
   CreateShownPropertiesSet,
   FormatISODateString,
   GetNumberOfDaysBetweenDates,
+  GetPaginationPageFromStore,
   GetSortCategoryFromStore,
   GetValidatedDietPhase,
   IsDatePassed,
@@ -19,7 +20,7 @@ import {
   ValidateStartAndEndDateStrings,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
-import { useTimePeriodListFilters } from ".";
+import { usePaginatedList, useTimePeriodListFilters } from ".";
 import { STORE_LIST_KEY_TIME_PERIODS } from "../constants";
 
 type UseTimePeriodListProps = {
@@ -151,9 +152,18 @@ export const useTimePeriodList = ({
     filterStatus,
   ]);
 
+  const {
+    validPaginationPage,
+    setPaginationPage,
+    itemsPerPaginationPage,
+    paginatedList: paginatedTimePeriods,
+    totalPaginationPages,
+  } = usePaginatedList(filteredTimePeriods);
+
   const getTimePeriods = async (
     locale: string,
-    category: TimePeriodSortCategory
+    category: TimePeriodSortCategory,
+    shouldSetPaginationPage: boolean
   ) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -193,6 +203,17 @@ export const useTimePeriodList = ({
         };
 
         timePeriods.push(timePeriod);
+      }
+
+      if (shouldSetPaginationPage) {
+        const storePaginationPage = await GetPaginationPageFromStore(
+          store,
+          STORE_LIST_KEY_TIME_PERIODS,
+          itemsPerPaginationPage.current,
+          timePeriods.length
+        );
+
+        setPaginationPage(storePaginationPage);
       }
 
       sortTimePeriodsByActiveCategory(timePeriods, category);
@@ -376,8 +397,27 @@ export const useTimePeriodList = ({
     }
   };
 
-  const loadTimePeriodList = async (userSettings: UserSettings) => {
+  const loadTimePeriodList = async (
+    userSettings: UserSettings,
+    isInModal: boolean
+  ) => {
     if (isTimePeriodListLoaded.current) return;
+
+    let shouldSetPaginationPage = false;
+
+    if (!isInModal) {
+      itemsPerPaginationPage.current =
+        userSettings.num_pagination_items_list_desktop;
+
+      shouldSetPaginationPage = true;
+    }
+
+    const timePeriodPropertySet = CreateShownPropertiesSet(
+      userSettings.shown_time_period_properties,
+      "time-period"
+    );
+
+    setSelectedTimePeriodProperties(timePeriodPropertySet);
 
     await loadTimePeriodFilterMapFromStore(userSettings.locale);
 
@@ -387,14 +427,11 @@ export const useTimePeriodList = ({
       STORE_LIST_KEY_TIME_PERIODS
     );
 
-    await getTimePeriods(userSettings.locale, sortCategory);
-
-    const timePeriodPropertySet = CreateShownPropertiesSet(
-      userSettings.shown_time_period_properties,
-      "time-period"
+    await getTimePeriods(
+      userSettings.locale,
+      sortCategory,
+      shouldSetPaginationPage
     );
-
-    setSelectedTimePeriodProperties(timePeriodPropertySet);
   };
 
   return {
@@ -413,5 +450,9 @@ export const useTimePeriodList = ({
     setSelectedTimePeriodProperties,
     loadTimePeriodFilterMapFromStore,
     loadTimePeriodList,
+    validPaginationPage,
+    setPaginationPage,
+    paginatedTimePeriods,
+    totalPaginationPages,
   };
 };

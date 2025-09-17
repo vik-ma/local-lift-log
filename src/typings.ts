@@ -860,7 +860,14 @@ export type UseTimePeriodListReturnType = {
     React.SetStateAction<Set<string>>
   >;
   loadTimePeriodFilterMapFromStore: (locale: string) => Promise<void>;
-  loadTimePeriodList: (userSettings: UserSettings) => Promise<void>;
+  loadTimePeriodList: (
+    userSettings: UserSettings,
+    isInModal: boolean
+  ) => Promise<void>;
+  validPaginationPage: number;
+  setPaginationPage: React.Dispatch<React.SetStateAction<number>>;
+  paginatedTimePeriods: TimePeriod[];
+  totalPaginationPages: number;
 };
 
 export type ShownPropertiesTargetType = "workout" | "time-period";
