@@ -740,14 +740,22 @@ export type UseMeasurementListReturnType = {
   measurementMap: React.RefObject<MeasurementMap>;
   createMeasurement: (newMeasurement: Measurement) => Promise<number>;
   measurementListFilters: UseMeasurementListFiltersReturnType;
-  loadMeasurementList: (userSettings: UserSettings) => Promise<void>;
+  loadMeasurementList: (
+    userSettings: UserSettings,
+    isInModal: boolean
+  ) => Promise<void>;
   loadFilterMeasurementsString: (
     measurementsString: string
   ) => Promise<Set<string>>;
   getMeasurements: (
     category: MeasurementSortCategory,
-    activeMeasurements?: Set<number>
+    activeMeasurements?: Set<number>,
+    shouldSetPaginationPage?: boolean
   ) => Promise<void>;
+  validPaginationPage: number;
+  setPaginationPage: React.Dispatch<React.SetStateAction<number>>;
+  paginatedMeasurements: Measurement[];
+  totalPaginationPages: number;
 };
 
 export type WorkoutTemplateMap = Map<number, WorkoutTemplate>;

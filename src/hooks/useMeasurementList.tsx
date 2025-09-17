@@ -11,12 +11,13 @@ import {
   GenerateActiveMeasurementList,
   GetMeasurementList,
   GetMeasurementListWithNumberOfBodyMeasurementsEntries,
+  GetPaginationPageFromStore,
   GetSortCategoryFromStore,
   InsertMeasurementIntoDatabase,
   UpdateIsFavorite,
   UpdateItemInList,
 } from "../helpers";
-import { useMeasurementListFilters } from ".";
+import { useMeasurementListFilters, usePaginatedList } from ".";
 import { STORE_LIST_KEY_MEASUREMENTS } from "../constants";
 
 type UseMeasurementListProps = {
@@ -64,6 +65,14 @@ export const useMeasurementList = ({
     }
     return measurements;
   }, [measurements, filterQuery, filterMap, filterMeasurementTypes]);
+
+  const {
+    validPaginationPage,
+    setPaginationPage,
+    itemsPerPaginationPage,
+    paginatedList: paginatedMeasurements,
+    totalPaginationPages,
+  } = usePaginatedList(filteredMeasurements);
 
   const sortMeasurementsByName = (measurements: Measurement[]) => {
     measurements.sort((a, b) => {
@@ -125,7 +134,8 @@ export const useMeasurementList = ({
 
   const getMeasurements = async (
     category: MeasurementSortCategory,
-    activeMeasurements?: Set<number>
+    activeMeasurements?: Set<number>,
+    shouldSetPaginationPage?: boolean
   ) => {
     const { measurements, newMeasurementMap } =
       showNumberOfBodyMeasurementsEntries
@@ -134,7 +144,19 @@ export const useMeasurementList = ({
           )
         : await GetMeasurementList();
 
+    if (shouldSetPaginationPage) {
+      const storePaginationPage = await GetPaginationPageFromStore(
+        store,
+        STORE_LIST_KEY_MEASUREMENTS,
+        itemsPerPaginationPage.current,
+        measurements.length
+      );
+
+      setPaginationPage(storePaginationPage);
+    }
+
     measurementMap.current = newMeasurementMap;
+
     sortMeasurementsByActiveCategory(
       measurements,
       activeMeasurements,
@@ -249,8 +271,20 @@ export const useMeasurementList = ({
     }
   };
 
-  const loadMeasurementList = async (userSettings: UserSettings) => {
+  const loadMeasurementList = async (
+    userSettings: UserSettings,
+    isInModal: boolean
+  ) => {
     if (isMeasurementListLoaded.current) return;
+
+    let shouldSetPaginationPage = false;
+
+    if (!isInModal) {
+      itemsPerPaginationPage.current =
+        userSettings.num_pagination_items_list_desktop;
+
+      shouldSetPaginationPage = true;
+    }
 
     const activeMeasurementList = GenerateActiveMeasurementList(
       userSettings.active_tracking_measurements
@@ -268,7 +302,11 @@ export const useMeasurementList = ({
       STORE_LIST_KEY_MEASUREMENTS
     );
 
-    await getMeasurements(sortCategory, activeMeasurementSet);
+    await getMeasurements(
+      sortCategory,
+      activeMeasurementSet,
+      shouldSetPaginationPage
+    );
   };
 
   const loadFilterMeasurementsString = async (measurementsString: string) => {
@@ -304,5 +342,9 @@ export const useMeasurementList = ({
     loadMeasurementList,
     loadFilterMeasurementsString,
     getMeasurements,
+    validPaginationPage,
+    setPaginationPage,
+    paginatedMeasurements,
+    totalPaginationPages,
   };
 };
