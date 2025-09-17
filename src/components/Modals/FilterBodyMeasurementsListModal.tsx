@@ -30,6 +30,7 @@ import {
   ConvertInputStringToNumberOrNull,
   ConvertNumberToInputString,
 } from "../../helpers";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type FilterBodyMeasurementsListModalProps = {
   filterBodyMeasurementsListModal: UseDisclosureReturnType;
@@ -228,7 +229,7 @@ export const FilterBodyMeasurementsListModal = ({
                   highlightedMeasurements={filterMeasurements}
                 />
               ) : (
-                <ScrollShadow className="h-[400px]">
+                <ScrollShadow className={`${MODAL_BODY_HEIGHT}`}>
                   <div className="flex flex-col gap-4 w-[24rem]">
                     <FilterDateRangeAndWeekdays
                       useFilterDateRangeAndWeekdays={filterDateRangeAndWeekdays}

@@ -39,6 +39,7 @@ import {
   IsStringEmpty,
   IsStringInvalidNumber,
 } from "../../helpers";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type BodyMeasurementsModalProps = {
   bodyMeasurementsModal: UseDisclosureReturnType;
@@ -345,7 +346,7 @@ export const BodyMeasurementsModal = ({
                   bodyFatMeasurementsMap={bodyFatMeasurementsMap}
                 />
               ) : (
-                <div className="h-[400px]">
+                <div className={`${MODAL_BODY_HEIGHT}`}>
                   <ScrollShadow className="flex flex-col gap-1.5 pr-2.5 h-full">
                     <div className="flex gap-1.5 items-center">
                       <Input

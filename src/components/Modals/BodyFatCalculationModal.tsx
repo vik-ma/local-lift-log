@@ -15,6 +15,7 @@ import {
 } from "../../typings";
 import { useState } from "react";
 import { MeasurementModalList } from "..";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type BodyFatCalculationModalProps = {
   useBodyMeasurementsSettings: UseBodyMeasurementsSettingsReturnType;
@@ -89,7 +90,7 @@ export const BodyFatCalculationModal = ({
             </ModalHeader>
             <ModalBody className="py-0">
               {modalPage === "base" ? (
-                <div className="flex flex-col gap-2 h-[400px]">
+                <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-2`}>
                   <div className="flex gap-[2.75rem]">
                     <div className="flex flex-col gap-1.5">
                       <Select
