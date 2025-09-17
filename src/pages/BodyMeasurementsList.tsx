@@ -22,6 +22,7 @@ import {
   useBodyMeasurementsSettings,
   useListFilters,
   useMeasurementList,
+  usePaginatedList,
   useReassignMeasurement,
 } from "../hooks";
 import {
@@ -30,7 +31,9 @@ import {
   DeleteBodyMeasurementsWithId,
   DeleteItemFromList,
   GetAllBodyMeasurements,
+  GetPaginationPageFromStore,
   GetUserSettings,
+  HandleListPaginationPageChange,
   InsertBodyMeasurementsIntoDatabase,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
@@ -49,6 +52,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Pagination,
   useDisclosure,
 } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -220,6 +224,14 @@ export default function BodyMeasurementsList() {
     includeNullInMaxValuesSecondary,
   ]);
 
+  const {
+    validPaginationPage,
+    setPaginationPage,
+    itemsPerPaginationPage,
+    paginatedList: paginatedBodyMeasurements,
+    totalPaginationPages,
+  } = usePaginatedList(filteredBodyMeasurements);
+
   const getBodyMeasurements = async (clockStyle: string) => {
     if (!isMeasurementListLoaded.current) return;
 
@@ -227,6 +239,15 @@ export default function BodyMeasurementsList() {
       clockStyle,
       measurementMap.current
     );
+
+    const storePaginationPage = await GetPaginationPageFromStore(
+      store,
+      STORE_LIST_KEY_BODY_MEASUREMENTS,
+      itemsPerPaginationPage.current,
+      detailedBodyMeasurements.length
+    );
+
+    setPaginationPage(storePaginationPage);
 
     const isAscending = false;
 
@@ -236,6 +257,9 @@ export default function BodyMeasurementsList() {
 
   const loadBodyMeasurementsList = async (userSettings: UserSettings) => {
     if (isBodyMeasurementsListLoaded.current) return;
+
+    itemsPerPaginationPage.current =
+      userSettings.num_pagination_items_list_desktop;
 
     await loadMeasurementList(userSettings);
 
@@ -758,7 +782,7 @@ export default function BodyMeasurementsList() {
           }
         />
         <BodyMeasurementsAccordions
-          bodyMeasurements={filteredBodyMeasurements}
+          bodyMeasurements={paginatedBodyMeasurements}
           handleBodyMeasurementsAccordionClick={
             handleBodyMeasurementAccordionClick
           }
@@ -768,6 +792,25 @@ export default function BodyMeasurementsList() {
           }
           handleReassignMeasurement={handleReassignMeasurement}
         />
+        {totalPaginationPages > 1 && (
+          <div className="pt-0.5">
+            <Pagination
+              size="lg"
+              showControls
+              loop
+              page={validPaginationPage}
+              total={totalPaginationPages}
+              onChange={(value) =>
+                HandleListPaginationPageChange(
+                  value,
+                  store,
+                  setPaginationPage,
+                  STORE_LIST_KEY_BODY_MEASUREMENTS
+                )
+              }
+            />
+          </div>
+        )}
       </div>
     </>
   );
