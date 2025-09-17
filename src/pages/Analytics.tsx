@@ -355,8 +355,10 @@ export default function Analytics() {
 
     listModal.onOpen();
 
+    const isInModal = true;
+
     if (modalListType === "measurement-list") {
-      await loadMeasurementList(userSettings);
+      await loadMeasurementList(userSettings, isInModal);
     }
 
     if (modalListType === "time-period-list") {

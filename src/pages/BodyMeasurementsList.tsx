@@ -261,7 +261,9 @@ export default function BodyMeasurementsList() {
     itemsPerPaginationPage.current =
       userSettings.num_pagination_items_list_desktop;
 
-    await loadMeasurementList(userSettings);
+    const isMeasurementListInModal = true;
+
+    await loadMeasurementList(userSettings, isMeasurementListInModal);
 
     loadBodyMeasurementsSettings(userSettings, measurementMap.current);
 

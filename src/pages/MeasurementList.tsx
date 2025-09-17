@@ -101,7 +101,9 @@ export default function MeasurementList() {
 
         await LoadStore(store);
 
-        await loadMeasurementList(userSettings);
+        const isMeasurementListInModal = false;
+
+        await loadMeasurementList(userSettings, isMeasurementListInModal);
       } catch (error) {
         console.log(error);
       }

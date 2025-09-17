@@ -116,8 +116,10 @@ export default function LoggingIndex() {
 
       await LoadStore(store);
 
+      const isMeasurementListInModal = true;
+
       await Promise.all([
-        loadMeasurementList(userSettings),
+        loadMeasurementList(userSettings, isMeasurementListInModal),
         loadDietLogList(userSettings),
       ]);
 
