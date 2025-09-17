@@ -1,4 +1,4 @@
-import { Button, ScrollShadow } from "@heroui/react";
+import { Button, Pagination, ScrollShadow } from "@heroui/react";
 import {
   EmptyListLabel,
   FavoriteButton,
@@ -11,7 +11,11 @@ import { Measurement, UseMeasurementListReturnType } from "../../typings";
 import { CheckmarkIcon, GoToArrowIcon } from "../../assets";
 import { Link, useNavigate } from "react-router-dom";
 import { FormatNumBodyMeasurementsEntriesString } from "../../helpers";
-import { MODAL_BODY_HEIGHT } from "../../constants";
+import {
+  LIST_HEIGHT_WITH_PAGINATION,
+  LIST_HEIGHT_WITHOUT_PAGINATION,
+  MODAL_BODY_HEIGHT,
+} from "../../constants";
 
 type MeasurementModalListProps = {
   useMeasurementList: UseMeasurementListReturnType;
@@ -40,11 +44,21 @@ export const MeasurementModalList = ({
     toggleFavorite,
     measurementListFilters,
     isMeasurementListLoaded,
+    paginatedMeasurements,
+    totalPaginationPages,
+    validPaginationPage,
+    setPaginationPage,
   } = useMeasurementList;
 
   const { filterMap, removeFilter, prefixMap } = measurementListFilters;
 
   const navigate = useNavigate();
+
+  const showPaginationControls = totalPaginationPages > 1;
+
+  const listHeight = showPaginationControls
+    ? LIST_HEIGHT_WITH_PAGINATION
+    : LIST_HEIGHT_WITHOUT_PAGINATION;
 
   return (
     <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}>
@@ -78,97 +92,110 @@ export const MeasurementModalList = ({
         )}
       </div>
       {isMeasurementListLoaded.current ? (
-        <ScrollShadow className="flex flex-col gap-1">
-          {filteredMeasurements.map((measurement) => (
-            <div
-              key={measurement.id}
-              className={
-                hideCircumferenceMeasurements &&
-                measurement.measurement_type !== "Caliper"
-                  ? "hidden"
-                  : hiddenMeasurements?.has(measurement.id)
-                  ? "hidden"
-                  : highlightedMeasurements?.has(measurement.id.toString())
-                  ? "flex cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                  : "flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-              }
-              onClick={() => handleMeasurementClick(measurement)}
-            >
-              <div className="flex justify-between items-center py-1 pl-2 w-full">
-                <div className="flex gap-2.5 items-center">
-                  {highlightedMeasurements !== undefined && (
-                    <CheckmarkIcon
-                      isChecked={highlightedMeasurements.has(
-                        measurement.id.toString()
-                      )}
-                      size={29}
-                    />
-                  )}
-                  <div className="flex flex-col justify-start items-start">
-                    <span
-                      className={
-                        bodyFatMeasurementsMap?.has(measurement.id) &&
-                        highlightedMeasurements !== undefined
-                          ? "w-[14rem] truncate text-left"
-                          : highlightedMeasurements !== undefined
-                          ? "w-[17.5rem] truncate text-left"
-                          : "w-[20rem] truncate text-left"
-                      }
-                    >
-                      {measurement.name}
-                    </span>
-                    <span className="text-xs text-stone-400 text-left">
-                      {measurement.measurement_type}
-                    </span>
-                    {measurement.numBodyMeasurementsEntries! > 0 && (
+        <div className="flex flex-col justify-between gap-1.5">
+          <ScrollShadow className={`${listHeight} flex flex-col gap-1`}>
+            {paginatedMeasurements.map((measurement) => (
+              <div
+                key={measurement.id}
+                className={
+                  hideCircumferenceMeasurements &&
+                  measurement.measurement_type !== "Caliper"
+                    ? "hidden"
+                    : hiddenMeasurements?.has(measurement.id)
+                    ? "hidden"
+                    : highlightedMeasurements?.has(measurement.id.toString())
+                    ? "flex cursor-pointer bg-amber-100 border-2 border-amber-300 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                    : "flex cursor-pointer bg-default-100 border-2 border-default-200 rounded-xl transition-colors duration-100 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                }
+                onClick={() => handleMeasurementClick(measurement)}
+              >
+                <div className="flex justify-between items-center py-1 pl-2 w-full">
+                  <div className="flex gap-2.5 items-center">
+                    {highlightedMeasurements !== undefined && (
+                      <CheckmarkIcon
+                        isChecked={highlightedMeasurements.has(
+                          measurement.id.toString()
+                        )}
+                        size={29}
+                      />
+                    )}
+                    <div className="flex flex-col justify-start items-start">
                       <span
                         className={
+                          bodyFatMeasurementsMap?.has(measurement.id) &&
                           highlightedMeasurements !== undefined
-                            ? "w-[17.5rem] truncate text-xs text-secondary text-left"
-                            : "w-[21rem] truncate text-xs text-secondary text-left"
+                            ? "w-[14rem] truncate text-left"
+                            : highlightedMeasurements !== undefined
+                            ? "w-[17.5rem] truncate text-left"
+                            : "w-[20rem] truncate text-left"
                         }
                       >
-                        {FormatNumBodyMeasurementsEntriesString(
-                          measurement.numBodyMeasurementsEntries
-                        )}
+                        {measurement.name}
                       </span>
+                      <span className="text-xs text-stone-400 text-left">
+                        {measurement.measurement_type}
+                      </span>
+                      {measurement.numBodyMeasurementsEntries! > 0 && (
+                        <span
+                          className={
+                            highlightedMeasurements !== undefined
+                              ? "w-[17.5rem] truncate text-xs text-secondary text-left"
+                              : "w-[21rem] truncate text-xs text-secondary text-left"
+                          }
+                        >
+                          {FormatNumBodyMeasurementsEntriesString(
+                            measurement.numBodyMeasurementsEntries
+                          )}
+                        </span>
+                      )}
+                    </div>
+                    {bodyFatMeasurementsMap?.has(measurement.id) && (
+                      <div className="px-2.5 py-1 rounded-md text-sm text-yellow-600 bg-primary/30 z-50">
+                        BF%
+                      </div>
                     )}
                   </div>
-                  {bodyFatMeasurementsMap?.has(measurement.id) && (
-                    <div className="px-2.5 py-1 rounded-md text-sm text-yellow-600 bg-primary/30 z-50">
-                      BF%
-                    </div>
-                  )}
-                </div>
-                <div className="flex items-center pr-2">
-                  <FavoriteButton
-                    name={measurement.name}
-                    isFavorite={!!measurement.is_favorite}
-                    item={measurement}
-                    toggleFavorite={() => toggleFavorite(measurement)}
-                  />
+                  <div className="flex items-center pr-2">
+                    <FavoriteButton
+                      name={measurement.name}
+                      isFavorite={!!measurement.is_favorite}
+                      item={measurement}
+                      toggleFavorite={() => toggleFavorite(measurement)}
+                    />
+                  </div>
                 </div>
               </div>
+            ))}
+            {filteredMeasurements.length === 0 && (
+              <EmptyListLabel
+                itemName="Measurements"
+                customLabel={
+                  isInAnalyticsPage && measurements.length === 0
+                    ? "No Body Measurements Have Been Recorded"
+                    : undefined
+                }
+                extraContent={
+                  measurements.length > 0 ? undefined : (
+                    <Link to={"/measurements/measurement-list"}>
+                      Create Or Restore Default Measurements
+                    </Link>
+                  )
+                }
+              />
+            )}
+          </ScrollShadow>
+          {showPaginationControls && (
+            <div className="flex justify-center">
+              <Pagination
+                showControls
+                loop
+                page={validPaginationPage}
+                total={totalPaginationPages}
+                onChange={setPaginationPage}
+              />
             </div>
-          ))}
-          {filteredMeasurements.length === 0 && (
-            <EmptyListLabel
-              itemName="Measurements"
-              customLabel={
-                isInAnalyticsPage && measurements.length === 0
-                  ? "No Body Measurements Have Been Recorded"
-                  : undefined
-              }
-              extraContent={
-                measurements.length > 0 ? undefined : (
-                  <Link to={"/measurements/measurement-list"}>
-                    Create Or Restore Default Measurements
-                  </Link>
-                )
-              }
-            />
           )}
-        </ScrollShadow>
+        </div>
       ) : (
         <LoadingSpinner />
       )}
