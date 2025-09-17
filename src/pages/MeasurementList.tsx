@@ -23,6 +23,7 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownTrigger,
+  Pagination,
 } from "@heroui/react";
 import toast from "react-hot-toast";
 import {
@@ -36,6 +37,7 @@ import {
   LoadStore,
   ValidateAndModifyUserSettings,
   GetSortCategoryFromStore,
+  HandleListPaginationPageChange,
 } from "../helpers";
 import { CheckmarkIcon, VerticalMenuIcon } from "../assets";
 import { useMeasurementList } from "../hooks";
@@ -76,6 +78,10 @@ export default function MeasurementList() {
     measurementListFilters,
     loadMeasurementList,
     getMeasurements,
+    validPaginationPage,
+    setPaginationPage,
+    paginatedMeasurements,
+    totalPaginationPages,
   } = measurementList;
 
   const { filterMap, removeFilter, prefixMap } = measurementListFilters;
@@ -418,7 +424,7 @@ export default function MeasurementList() {
           }
         />
         <div className="flex flex-col gap-1 w-full">
-          {filteredMeasurements.map((measurement) => (
+          {paginatedMeasurements.map((measurement) => (
             <div
               key={measurement.id}
               className={
@@ -516,6 +522,25 @@ export default function MeasurementList() {
             <EmptyListLabel itemName="Measurements" />
           )}
         </div>
+        {totalPaginationPages > 1 && (
+          <div className="pt-0.5">
+            <Pagination
+              size="lg"
+              showControls
+              loop
+              page={validPaginationPage}
+              total={totalPaginationPages}
+              onChange={(value) =>
+                HandleListPaginationPageChange(
+                  value,
+                  store,
+                  setPaginationPage,
+                  STORE_LIST_KEY_MEASUREMENTS
+                )
+              }
+            />
+          </div>
+        )}
         <div className="flex justify-center pt-1">
           <Button variant="flat" onPress={() => setUnitsModal.onOpen()}>
             Restore Default Measurements
