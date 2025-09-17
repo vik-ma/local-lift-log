@@ -140,7 +140,7 @@ export const MeasurementModalList = ({
                           className={
                             highlightedMeasurements !== undefined
                               ? "w-[17.5rem] truncate text-xs text-secondary text-left"
-                              : "w-[21rem] truncate text-xs text-secondary text-left"
+                              : "w-[20rem] truncate text-xs text-secondary text-left"
                           }
                         >
                           {FormatNumBodyMeasurementsEntriesString(
