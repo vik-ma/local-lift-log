@@ -362,7 +362,7 @@ export default function Analytics() {
     }
 
     if (modalListType === "time-period-list") {
-      await loadTimePeriodList(userSettings);
+      await loadTimePeriodList(userSettings, isInModal);
     }
   };
 

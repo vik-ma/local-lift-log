@@ -5,6 +5,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Pagination,
 } from "@heroui/react";
 import {
   DeleteModal,
@@ -26,12 +27,13 @@ import {
   UpdateItemInList,
   LoadStore,
   ValidateAndModifyUserSettings,
+  HandleListPaginationPageChange,
 } from "../helpers";
 import Database from "@tauri-apps/plugin-sql";
 import toast from "react-hot-toast";
 import { VerticalMenuIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
-import { DEFAULT_TIME_PERIOD } from "../constants";
+import { DEFAULT_TIME_PERIOD, STORE_LIST_KEY_TIME_PERIODS } from "../constants";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -59,6 +61,10 @@ export default function TimePeriodList() {
     timePeriodListFilters,
     selectedTimePeriodProperties,
     loadTimePeriodList,
+    validPaginationPage,
+    setPaginationPage,
+    paginatedTimePeriods,
+    totalPaginationPages,
   } = timePeriodList;
 
   useEffect(() => {
@@ -76,7 +82,9 @@ export default function TimePeriodList() {
 
       await LoadStore(store);
 
-      await loadTimePeriodList(userSettings);
+      const isTimePeriodListInModal = false;
+
+      await loadTimePeriodList(userSettings, isTimePeriodListInModal);
     };
 
     loadPage();
@@ -288,7 +296,7 @@ export default function TimePeriodList() {
             </div>
           }
         />
-        {filteredTimePeriods.map((timePeriod) => (
+        {paginatedTimePeriods.map((timePeriod) => (
           <div
             key={timePeriod.id}
             className="flex justify-between items-center cursor-pointer w-full bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
@@ -331,6 +339,25 @@ export default function TimePeriodList() {
           <EmptyListLabel itemName="Time Periods" />
         )}
       </div>
+      {totalPaginationPages > 1 && (
+        <div className="pt-0.5">
+          <Pagination
+            size="lg"
+            showControls
+            loop
+            page={validPaginationPage}
+            total={totalPaginationPages}
+            onChange={(value) =>
+              HandleListPaginationPageChange(
+                value,
+                store,
+                setPaginationPage,
+                STORE_LIST_KEY_TIME_PERIODS
+              )
+            }
+          />
+        </div>
+      )}
     </>
   );
 }
