@@ -26,7 +26,7 @@ import {
   ConvertNumberToInputString,
   HandleFilterListObjectClick,
 } from "../../helpers";
-import { ROUTINE_SCHEDULE_TYPES } from "../../constants";
+import { MODAL_BODY_HEIGHT, ROUTINE_SCHEDULE_TYPES } from "../../constants";
 
 type FilterRoutineListModalProps = {
   useRoutineList: UseRoutineListReturnType;
@@ -182,7 +182,7 @@ export const FilterRoutineListModal = ({
                   filterWorkoutTemplates={filterWorkoutTemplates}
                 />
               ) : (
-                <ScrollShadow className="h-[400px]">
+                <ScrollShadow className={`${MODAL_BODY_HEIGHT}`}>
                   <div className="flex flex-col gap-2 w-[24rem]">
                     <div className="flex flex-col gap-1">
                       <h3 className="font-semibold text-lg px-0.5">

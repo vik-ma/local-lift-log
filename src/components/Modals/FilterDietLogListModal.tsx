@@ -22,6 +22,7 @@ import {
   ConvertInputStringToNumberOrNull,
   ConvertNumberToInputString,
 } from "../../helpers";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type FilterDietLogListModalProps = {
   useDietLogList: UseDietLogListReturnType;
@@ -200,7 +201,7 @@ export const FilterDietLogListModal = ({
           <>
             <ModalHeader>Filter Diet Log Entries</ModalHeader>
             <ModalBody className="py-0">
-              <ScrollShadow className="h-[400px]">
+              <ScrollShadow className={`${MODAL_BODY_HEIGHT}`}>
                 <div className="flex flex-col gap-4 w-[24rem]">
                   <FilterDateRangeAndWeekdays
                     useFilterDateRangeAndWeekdays={filterDateRangeAndWeekdays}

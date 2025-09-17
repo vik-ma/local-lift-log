@@ -26,6 +26,7 @@ import {
   ConvertInputStringToNumberOrNull,
   ConvertNumberToInputString,
 } from "../../helpers";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type FilterTimePeriodListModalProps = {
   useTimePeriodList: UseTimePeriodListReturnType;
@@ -160,7 +161,7 @@ export const FilterTimePeriodListModal = ({
           <>
             <ModalHeader>Filter Time Periods</ModalHeader>
             <ModalBody className="py-0">
-              <ScrollShadow className="h-[400px]">
+              <ScrollShadow className={`${MODAL_BODY_HEIGHT}`}>
                 <div className="flex flex-col w-[24rem]">
                   <div className="flex flex-col gap-2 pt-2">
                     <FilterMinAndMaxDates
