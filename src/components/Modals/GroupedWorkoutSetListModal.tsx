@@ -16,6 +16,7 @@ import {
   FormatNumItemsString,
   GenerateMultisetExerciseListText,
 } from "../../helpers";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type GroupedWorkoutSetListModal = {
   groupedWorkoutSetListModal: UseDisclosureReturnType;
@@ -42,7 +43,9 @@ export const GroupedWorkoutSetListModal = ({
           <>
             <ModalHeader>Select Exercise Or Multiset To Merge Into</ModalHeader>
             <ModalBody className="py-0">
-              <ScrollShadow className="max-h-[400px] flex flex-col gap-1">
+              <ScrollShadow
+                className={`max-${MODAL_BODY_HEIGHT} flex flex-col gap-1`}
+              >
                 {groupedWorkoutSetList.map((groupedSet) => {
                   const isOperatingGroupedSet =
                     operatingGroupedSet?.id === groupedSet.id;

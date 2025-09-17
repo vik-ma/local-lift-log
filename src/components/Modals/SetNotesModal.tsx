@@ -15,6 +15,7 @@ import {
   Input,
 } from "@heroui/react";
 import { ConvertNullToEmptyInputString, IsStringEmpty } from "../../helpers";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type SetNotesModalProps = {
   setNotesModal: UseDisclosureReturnType;
@@ -71,7 +72,9 @@ export const SetNotesModal = ({
           <>
             <ModalHeader>{operatingSet.exercise_name} Set Notes</ModalHeader>
             <ModalBody className="py-0">
-              <ScrollShadow className="flex flex-col gap-1.5 h-[400px]">
+              <ScrollShadow
+                className={`max-${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}
+              >
                 <div className="flex flex-col">
                   <h3 className="text-lg font-semibold">Exercise Note</h3>
                   {operatingGroupedWorkoutSet?.exerciseList[setIndex!].note ===
