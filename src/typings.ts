@@ -720,8 +720,15 @@ export type UseRoutineListReturnType = {
     userSettings: UserSettings | undefined
   ) => Promise<void>;
   sortRoutinesByActiveCategory: (routineList: Routine[]) => void;
-  loadRoutineList: (userSettings: UserSettings) => Promise<void>;
+  loadRoutineList: (
+    userSettings: UserSettings,
+    isRoutineListInModal: boolean
+  ) => Promise<void>;
   loadFilterRoutinesString: (routinesString: string) => Promise<Set<number>>;
+  validPaginationPage: number;
+  setPaginationPage: React.Dispatch<React.SetStateAction<number>>;
+  paginatedRoutines: Routine[];
+  totalPaginationPages: number;
 };
 
 export type UseMeasurementListReturnType = {

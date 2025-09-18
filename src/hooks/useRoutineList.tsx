@@ -15,6 +15,7 @@ import {
   CreateRoutineWorkoutTemplateList,
   DoesListOrSetHaveCommonElement,
   FormatRoutineScheduleTypeString,
+  GetPaginationPageFromStore,
   GetSortCategoryFromStore,
   GetValidatedNumDaysInSchedule,
   GetValidatedRoutineScheduleType,
@@ -23,7 +24,7 @@ import {
   IsRoutineScheduleTypeFiltered,
 } from "../helpers";
 import Database from "@tauri-apps/plugin-sql";
-import { useListFilters } from ".";
+import { useListFilters, usePaginatedList } from ".";
 import { STORE_LIST_KEY_ROUTINES } from "../constants";
 
 type UseRoutineListProps = {
@@ -129,7 +130,18 @@ export const useRoutineList = ({
     includeNullInMaxValues,
   ]);
 
-  const getRoutines = async (category: RoutineSortCategory) => {
+  const {
+    validPaginationPage,
+    setPaginationPage,
+    itemsPerPaginationPage,
+    paginatedList: paginatedRoutines,
+    totalPaginationPages,
+  } = usePaginatedList(filteredRoutines);
+
+  const getRoutines = async (
+    category: RoutineSortCategory,
+    shouldSetPaginationPage: boolean
+  ) => {
     if (!isWorkoutTemplateListLoaded.current) return;
 
     try {
@@ -171,6 +183,17 @@ export const useRoutineList = ({
 
         newRoutineMap.set(routine.id, routine);
         routines.push(routine);
+      }
+
+      if (shouldSetPaginationPage) {
+        const storePaginationPage = await GetPaginationPageFromStore(
+          store,
+          STORE_LIST_KEY_ROUTINES,
+          itemsPerPaginationPage.current,
+          routines.length
+        );
+
+        setPaginationPage(storePaginationPage);
       }
 
       await sortRoutinesByActiveCategory(routines, category);
@@ -287,8 +310,20 @@ export const useRoutineList = ({
     }
   };
 
-  const loadRoutineList = async (userSettings: UserSettings) => {
+  const loadRoutineList = async (
+    userSettings: UserSettings,
+    isRoutineListInModal: boolean
+  ) => {
     if (isRoutineListLoaded.current) return;
+
+    let shouldSetPaginationPage = false;
+
+    if (!isRoutineListInModal) {
+      itemsPerPaginationPage.current =
+        userSettings.num_pagination_items_list_desktop;
+
+      shouldSetPaginationPage = true;
+    }
 
     const isExerciseListInModal = true;
 
@@ -311,13 +346,15 @@ export const useRoutineList = ({
       STORE_LIST_KEY_ROUTINES
     );
 
-    await getRoutines(routineSortCategory);
+    await getRoutines(routineSortCategory, shouldSetPaginationPage);
   };
 
   const handleOpenRoutineListModal = async (userSettings: UserSettings) => {
     routineListModal.onOpen();
 
-    await loadRoutineList(userSettings);
+    const isRoutineListInModal = true;
+
+    await loadRoutineList(userSettings, isRoutineListInModal);
   };
 
   const handleOpenFilterButton = async (
@@ -363,5 +400,9 @@ export const useRoutineList = ({
     sortRoutinesByActiveCategory,
     loadRoutineList,
     loadFilterRoutinesString,
+    validPaginationPage,
+    setPaginationPage,
+    paginatedRoutines,
+    totalPaginationPages,
   };
 };
