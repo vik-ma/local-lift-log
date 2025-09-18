@@ -14,7 +14,7 @@ import {
   useMultisetActions,
   usePresetsList,
 } from "../hooks";
-import { Button, useDisclosure } from "@heroui/react";
+import { Button, Pagination, useDisclosure } from "@heroui/react";
 import {
   AssignTrackingValuesIfCardio,
   ConvertEmptyStringToNull,
@@ -31,6 +31,7 @@ import {
   LoadStore,
   ValidateAndModifyUserSettings,
   CreateDefaultSet,
+  HandleListPaginationPageChange,
 } from "../helpers";
 import {
   CalculationModal,
@@ -47,7 +48,10 @@ import {
 } from "../components";
 import toast from "react-hot-toast";
 import { Store } from "@tauri-apps/plugin-store";
-import { DEFAULT_MULTISET } from "../constants";
+import {
+  DEFAULT_MULTISET,
+  STORE_LIST_KEY_MULTISET_TEMPLATES,
+} from "../constants";
 
 export type OperationType = "add" | "edit" | "delete";
 
@@ -187,7 +191,9 @@ export default function Multisets() {
 
       await LoadStore(store);
 
-      await multisetActions.loadMultisets(userSettings);
+      const isMultisetListInModal = false;
+
+      await multisetActions.loadMultisets(userSettings, isMultisetListInModal);
     };
 
     loadPage();
@@ -628,10 +634,7 @@ export default function Multisets() {
                 >
                   Create New Multiset
                 </Button>
-                <MultisetListOptions
-                  useMultisetActions={multisetActions}
-                  userSettings={userSettings}
-                />
+                <MultisetListOptions useMultisetActions={multisetActions} />
               </div>
               {multisetActions.listFilters.filterMap.size > 0 && (
                 <ListFilters
@@ -648,6 +651,25 @@ export default function Multisets() {
           handleMultisetAccordionsClick={handleMultisetAccordionsClick}
           handleMultisetOptionSelection={handleMultisetOptionSelection}
         />
+        {multisetActions.totalPaginationPages > 1 && (
+          <div className="pt-0.5">
+            <Pagination
+              size="lg"
+              showControls
+              loop
+              page={multisetActions.validPaginationPage}
+              total={multisetActions.totalPaginationPages}
+              onChange={(value) =>
+                HandleListPaginationPageChange(
+                  value,
+                  store,
+                  multisetActions.setPaginationPage,
+                  STORE_LIST_KEY_MULTISET_TEMPLATES
+                )
+              }
+            />
+          </div>
+        )}
       </div>
     </>
   );

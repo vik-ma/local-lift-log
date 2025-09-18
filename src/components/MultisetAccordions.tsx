@@ -25,11 +25,12 @@ export const MultisetAccordions = ({
     filteredMultisets,
     multisetTypeMap,
     handleMultisetSetOptionSelection,
+    paginatedMultisets,
   } = useMultisetActions;
 
   return (
     <div className="flex flex-col gap-1 w-full">
-      {filteredMultisets.map((multiset, index) => {
+      {paginatedMultisets.map((multiset, index) => {
         const multisetTypeText =
           multisetTypeMap.get(multiset.multiset_type) ?? "";
 
