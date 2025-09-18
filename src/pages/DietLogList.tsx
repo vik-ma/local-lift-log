@@ -16,15 +16,18 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Pagination,
   useDisclosure,
 } from "@heroui/react";
 import toast from "react-hot-toast";
 import {
   GetUserSettings,
+  HandleListPaginationPageChange,
   LoadStore,
   ValidateAndModifyUserSettings,
 } from "../helpers";
 import { Store } from "@tauri-apps/plugin-store";
+import { STORE_LIST_KEY_DIET_LOGS } from "../constants";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -59,6 +62,10 @@ export default function DietLogList() {
     addDietLogEntryRange,
     defaultDietLog,
     loadDietLogList,
+    validPaginationPage,
+    setPaginationPage,
+    paginatedDietLogs,
+    totalPaginationPages,
   } = dietLogList;
 
   const [operatingDietLog, setOperatingDietLog] =
@@ -303,10 +310,29 @@ export default function DietLogList() {
           }
         />
         <DietLogAccordions
-          dietLogEntries={filteredDietLogs}
+          dietLogEntries={paginatedDietLogs}
           handleDietLogAccordionClick={handleDietLogAccordionClick}
           handleDietLogOptionSelection={handleDietLogOptionSelection}
         />
+        {totalPaginationPages > 1 && (
+          <div className="pt-0.5">
+            <Pagination
+              size="lg"
+              showControls
+              loop
+              page={validPaginationPage}
+              total={totalPaginationPages}
+              onChange={(value) =>
+                HandleListPaginationPageChange(
+                  value,
+                  store,
+                  setPaginationPage,
+                  STORE_LIST_KEY_DIET_LOGS
+                )
+              }
+            />
+          </div>
+        )}
       </div>
     </>
   );
