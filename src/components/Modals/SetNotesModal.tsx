@@ -75,7 +75,7 @@ export const SetNotesModal = ({
               <ScrollShadow
                 className={`max-${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}
               >
-                <div className="flex flex-col">
+                <div className="flex flex-col px-px">
                   <h3 className="text-lg font-semibold">Exercise Note</h3>
                   {operatingGroupedWorkoutSet?.exerciseList[setIndex!].note ===
                   null ? (
@@ -89,7 +89,7 @@ export const SetNotesModal = ({
                   )}
                 </div>
                 {operatingGroupedWorkoutSet?.isMultiset && (
-                  <div className="flex flex-col">
+                  <div className="flex flex-col px-px">
                     <h3 className="text-lg font-semibold">Multiset Note</h3>
                     {operatingGroupedWorkoutSet.multiset!.note === null ? (
                       <span className="text-stone-400 italic text-sm">
@@ -104,7 +104,7 @@ export const SetNotesModal = ({
                 )}
                 {isTemplate ? (
                   <div className="flex flex-col gap-0.5">
-                    <h3 className="text-lg font-semibold">Set Note</h3>
+                    <h3 className="text-lg font-semibold px-px">Set Note</h3>
                     <Input
                       aria-label="Set Note Input"
                       value={commentInput}
@@ -115,7 +115,7 @@ export const SetNotesModal = ({
                     />
                   </div>
                 ) : (
-                  <div className="flex flex-col">
+                  <div className="flex flex-col px-px">
                     <h3 className="text-lg font-semibold">Set Note</h3>
                     {operatingSet.note === null ? (
                       <span className="text-stone-400 italic text-sm">
@@ -130,7 +130,7 @@ export const SetNotesModal = ({
                 )}
                 {!isTemplate && (
                   <div className="flex flex-col gap-0.5">
-                    <h3 className="text-lg font-semibold">Set Comment</h3>
+                    <h3 className="text-lg font-semibold px-px">Set Comment</h3>
                     <Input
                       aria-label="Set Comment Input"
                       value={commentInput}
