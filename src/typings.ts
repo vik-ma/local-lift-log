@@ -967,6 +967,10 @@ export type UseDietLogListReturnType = {
   defaultDietLog: DietLog;
   loadDietLogFilterMapFromStore: (locale: string) => Promise<void>;
   loadDietLogList: (userSettings: UserSettings) => Promise<void>;
+  validPaginationPage: number;
+  setPaginationPage: React.Dispatch<React.SetStateAction<number>>;
+  paginatedDietLogs: DietLog[];
+  totalPaginationPages: number;
 };
 
 export type UseDietLogListFiltersReturnType = {

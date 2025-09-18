@@ -14,6 +14,7 @@ import {
   DeleteItemFromList,
   FormatYmdDateString,
   GetAllDietLogs,
+  GetPaginationPageFromStore,
   GetSortCategoryFromStore,
   InsertDietLogIntoDatabase,
   IsDateInWeekdaySet,
@@ -23,7 +24,7 @@ import {
   UpdateItemInList,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
-import { useDietLogListFilters } from ".";
+import { useDietLogListFilters, usePaginatedList } from ".";
 import { DEFAULT_DIET_LOG, STORE_LIST_KEY_DIET_LOGS } from "../constants";
 
 type UseDietLogListProps = {
@@ -155,6 +156,14 @@ export const useDietLogList = ({
     includeNullInMaxValuesProtein,
   ]);
 
+  const {
+    validPaginationPage,
+    setPaginationPage,
+    itemsPerPaginationPage,
+    paginatedList: paginatedDietLogs,
+    totalPaginationPages,
+  } = usePaginatedList(filteredDietLogs);
+
   const getDietLogs = async (category: DietLogSortCategory) => {
     const isAscending = false;
 
@@ -195,6 +204,15 @@ export const useDietLogList = ({
         latestValidDietLog = dietLog;
       }
     }
+
+    const storePaginationPage = await GetPaginationPageFromStore(
+      store,
+      STORE_LIST_KEY_DIET_LOGS,
+      itemsPerPaginationPage.current,
+      dietLogs.length
+    );
+
+    setPaginationPage(storePaginationPage);
 
     sortDietLogsByActiveCategory(dietLogs, category);
     setDietLogMap(dietLogMap);
@@ -430,6 +448,9 @@ export const useDietLogList = ({
   const loadDietLogList = async (userSettings: UserSettings) => {
     if (isDietLogListLoaded.current) return;
 
+    itemsPerPaginationPage.current =
+      userSettings.num_pagination_items_list_desktop;
+
     await loadDietLogFilterMapFromStore(userSettings.locale);
 
     const sortCategory = await GetSortCategoryFromStore(
@@ -463,5 +484,9 @@ export const useDietLogList = ({
     defaultDietLog,
     loadDietLogFilterMapFromStore,
     loadDietLogList,
+    validPaginationPage,
+    setPaginationPage,
+    paginatedDietLogs,
+    totalPaginationPages,
   };
 };
