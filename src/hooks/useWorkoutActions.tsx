@@ -1459,7 +1459,9 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
     multisetActions.multisetModal.onOpen();
 
-    await multisetActions.loadMultisets(userSettings);
+    const isMultisetListInModal = true;
+
+    await multisetActions.loadMultisets(userSettings, isMultisetListInModal);
   };
 
   const resetOperatingMultiset = () => {
