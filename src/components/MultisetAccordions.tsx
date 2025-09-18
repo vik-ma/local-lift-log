@@ -8,7 +8,7 @@ import {
 import { VerticalMenuIcon, ChevronIcon } from "../assets";
 import { AnimatePresence, motion } from "framer-motion";
 import { Multiset, UseMultisetActionsReturnType } from "../typings";
-import { MultisetSetMenu } from ".";
+import { EmptyListLabel, MultisetSetMenu } from ".";
 
 type MultisetAccordionsProps = {
   useMultisetActions: UseMultisetActionsReturnType;
@@ -133,6 +133,9 @@ export const MultisetAccordions = ({
           </div>
         );
       })}
+      {filteredMultisets.length === 0 && (
+        <EmptyListLabel itemName="Multiset Templates" />
+      )}
     </div>
   );
 };
