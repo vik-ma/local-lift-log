@@ -66,10 +66,7 @@ export const MultisetTemplateModalList = ({
           >
             Create New Multiset
           </Button>
-          <MultisetListOptions
-            useMultisetActions={useMultisetActions}
-            userSettings={userSettings}
-          />
+          <MultisetListOptions useMultisetActions={useMultisetActions} />
         </div>
         {filterMap.size > 0 && (
           <ListFilters

@@ -555,12 +555,6 @@ export const useMultisetActions = ({
     isMultisetListLoaded.current = true;
   };
 
-  const handleOpenFilterButton = async (userSettings: UserSettings) => {
-    filterMultisetsModal.onOpen();
-
-    await loadMultisets(userSettings);
-  };
-
   return {
     multisets,
     setMultisets,
@@ -594,7 +588,6 @@ export const useMultisetActions = ({
     multisetModal,
     listFilters,
     filterMultisetsModal,
-    handleOpenFilterButton,
     isMultisetListLoaded,
     loadMultisets,
     validPaginationPage,
