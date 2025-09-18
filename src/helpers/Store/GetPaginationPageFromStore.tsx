@@ -1,4 +1,5 @@
 import { ListStoreKey, StoreRef } from "../../typings";
+import { IsNumberValidInteger } from "../Numbers/IsNumberValidInteger";
 
 export const GetPaginationPageFromStore = async (
   store: StoreRef,
@@ -6,19 +7,22 @@ export const GetPaginationPageFromStore = async (
   itemsPerPaginationPage: number,
   numItemsInList: number
 ) => {
-  if (store.current === null) return 1;
+  const minValue = 1;
+
+  if (store.current === null) return minValue;
 
   const val = await store.current.get<{ value: number }>(
     `pagination-page-${storeKey}`
   );
 
-  if (val === undefined) return 1;
+  if (val === undefined || !IsNumberValidInteger(val.value, minValue))
+    return minValue;
 
   const totalPaginationPages = Math.ceil(
     numItemsInList / itemsPerPaginationPage
   );
 
-  if (val.value > totalPaginationPages) return 1;
+  if (val.value > totalPaginationPages) return minValue;
 
   return val.value;
 };
