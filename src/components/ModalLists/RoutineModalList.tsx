@@ -63,10 +63,7 @@ export const RoutineModalList = ({
           >
             Edit Routines
           </Button>
-          <RoutineListOptions
-            useRoutineList={useRoutineList}
-            userSettings={userSettings}
-          />
+          <RoutineListOptions useRoutineList={useRoutineList} />
         </div>
         {filterMap.size > 0 && (
           <ListFilters

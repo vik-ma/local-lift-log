@@ -5,22 +5,20 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@heroui/react";
-import { UseRoutineListReturnType, UserSettings } from "../../typings";
+import { UseRoutineListReturnType } from "../../typings";
 
 type RoutineListOptionsProps = {
   useRoutineList: UseRoutineListReturnType;
-  userSettings: UserSettings;
 };
 
 export const RoutineListOptions = ({
   useRoutineList,
-  userSettings,
 }: RoutineListOptionsProps) => {
   const {
     sortCategory,
     handleSortOptionSelection,
     listFilters,
-    handleOpenFilterButton,
+    filterRoutineListModal,
   } = useRoutineList;
 
   const { filterMap } = listFilters;
@@ -32,7 +30,7 @@ export const RoutineListOptions = ({
         variant="flat"
         color={filterMap.size > 0 ? "secondary" : "default"}
         size="sm"
-        onPress={() => handleOpenFilterButton(userSettings)}
+        onPress={() => filterRoutineListModal.onOpen()}
       >
         Filter
       </Button>

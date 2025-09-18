@@ -357,16 +357,6 @@ export const useRoutineList = ({
     await loadRoutineList(userSettings, isRoutineListInModal);
   };
 
-  const handleOpenFilterButton = async (
-    userSettings: UserSettings | undefined
-  ) => {
-    if (userSettings === undefined) return;
-
-    filterRoutineListModal.onOpen();
-
-    await loadRoutineList(userSettings);
-  };
-
   const loadFilterRoutinesString = async (routinesString: string) => {
     const routineIdSet = new Set<number>();
 
@@ -396,7 +386,6 @@ export const useRoutineList = ({
     handleSortOptionSelection,
     listFilters,
     filterRoutineListModal,
-    handleOpenFilterButton,
     sortRoutinesByActiveCategory,
     loadRoutineList,
     loadFilterRoutinesString,

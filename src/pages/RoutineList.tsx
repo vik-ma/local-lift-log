@@ -334,10 +334,7 @@ export default function RoutineList() {
                 >
                   New Routine
                 </Button>
-                <RoutineListOptions
-                  useRoutineList={routineList}
-                  userSettings={userSettings}
-                />
+                <RoutineListOptions useRoutineList={routineList} />
               </div>
               {listFilters.filterMap.size > 0 && (
                 <ListFilters

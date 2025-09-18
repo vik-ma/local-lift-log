@@ -716,9 +716,6 @@ export type UseRoutineListReturnType = {
   handleSortOptionSelection: (key: string) => void;
   listFilters: UseListFiltersReturnType;
   filterRoutineListModal: UseDisclosureReturnType;
-  handleOpenFilterButton: (
-    userSettings: UserSettings | undefined
-  ) => Promise<void>;
   sortRoutinesByActiveCategory: (routineList: Routine[]) => void;
   loadRoutineList: (
     userSettings: UserSettings,
