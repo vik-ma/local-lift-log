@@ -826,7 +826,14 @@ export type UseMultisetActionsReturnType = {
   filterMultisetsModal: UseDisclosureReturnType;
   handleOpenFilterButton: (userSettings: UserSettings) => Promise<void>;
   isMultisetListLoaded: React.RefObject<boolean>;
-  loadMultisets: (userSettings: UserSettings) => Promise<void>;
+  loadMultisets: (
+    userSettings: UserSettings,
+    isMultisetListInModal: boolean
+  ) => Promise<void>;
+  validPaginationPage: number;
+  setPaginationPage: React.Dispatch<React.SetStateAction<number>>;
+  paginatedMultisets: Multiset[];
+  totalPaginationPages: number;
 };
 
 export type TimePeriod = {

@@ -12,7 +12,7 @@ import {
   StoreFilterMapKey,
 } from "../typings";
 import { useState, useMemo, useRef } from "react";
-import { useListFilters } from ".";
+import { useListFilters, usePaginatedList } from ".";
 import Database from "@tauri-apps/plugin-sql";
 import {
   GenerateSetListText,
@@ -22,6 +22,7 @@ import {
   IsNumberValidInteger,
   DeleteItemFromList,
   DoesListOrSetHaveCommonElement,
+  GetPaginationPageFromStore,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
 import {
@@ -142,6 +143,14 @@ export const useMultisetActions = ({
     filterExerciseGroups,
     includeSecondaryExerciseGroups,
   ]);
+
+  const {
+    validPaginationPage,
+    setPaginationPage,
+    itemsPerPaginationPage,
+    paginatedList: paginatedMultisets,
+    totalPaginationPages,
+  } = usePaginatedList(filteredMultisets);
 
   const handleEditSet = (set: WorkoutSet, multiset: Multiset) => {
     const exercise = exercises.find((obj) => obj.id === set.exercise_id);
@@ -498,8 +507,20 @@ export const useMultisetActions = ({
     setModalPage("base");
   };
 
-  const loadMultisets = async (userSettings: UserSettings) => {
+  const loadMultisets = async (
+    userSettings: UserSettings,
+    isMultisetListInModal: boolean
+  ) => {
     if (isMultisetListLoaded.current) return;
+
+    let shouldSetPaginationPage = false;
+
+    if (!isMultisetListInModal) {
+      itemsPerPaginationPage.current =
+        userSettings.num_pagination_items_list_desktop;
+
+      shouldSetPaginationPage = true;
+    }
 
     const isExerciseListInModal = true;
 
@@ -518,6 +539,17 @@ export const useMultisetActions = ({
       exerciseGroupDictionary,
       exerciseMap.current
     );
+
+    if (shouldSetPaginationPage) {
+      const storePaginationPage = await GetPaginationPageFromStore(
+        store,
+        STORE_LIST_KEY_MULTISET_TEMPLATES,
+        itemsPerPaginationPage.current,
+        multisets.length
+      );
+
+      setPaginationPage(storePaginationPage);
+    }
 
     setMultisets(multisets);
     isMultisetListLoaded.current = true;
@@ -565,5 +597,9 @@ export const useMultisetActions = ({
     handleOpenFilterButton,
     isMultisetListLoaded,
     loadMultisets,
+    validPaginationPage,
+    setPaginationPage,
+    paginatedMultisets,
+    totalPaginationPages,
   };
 };
