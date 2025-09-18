@@ -1,4 +1,4 @@
-import { Button, ScrollShadow } from "@heroui/react";
+import { Button, Pagination, ScrollShadow } from "@heroui/react";
 import {
   Multiset,
   MultisetModalPage,
@@ -12,7 +12,11 @@ import {
   MultisetListOptions,
   SearchInput,
 } from "..";
-import { MODAL_BODY_HEIGHT } from "../../constants";
+import {
+  LIST_HEIGHT_WITH_PAGINATION,
+  LIST_HEIGHT_WITHOUT_PAGINATION,
+  MODAL_BODY_HEIGHT,
+} from "../../constants";
 
 type MultisetTemplateModalListProps = {
   useMultisetActions: UseMultisetActionsReturnType;
@@ -37,9 +41,19 @@ export const MultisetTemplateModalList = ({
     multisetTypeMap,
     listFilters,
     isMultisetListLoaded,
+    paginatedMultisets,
+    totalPaginationPages,
+    validPaginationPage,
+    setPaginationPage,
   } = useMultisetActions;
 
   const { filterMap, removeFilter, prefixMap, resetFilter } = listFilters;
+
+  const showPaginationControls = totalPaginationPages > 1;
+
+  const listHeight = showPaginationControls
+    ? LIST_HEIGHT_WITH_PAGINATION
+    : LIST_HEIGHT_WITHOUT_PAGINATION;
 
   const handleCreateNewMultisetButton = () => {
     setModalPage("base");
@@ -78,30 +92,43 @@ export const MultisetTemplateModalList = ({
         )}
       </div>
       {isMultisetListLoaded.current ? (
-        <ScrollShadow className="flex flex-col gap-1">
-          {filteredMultisets.map((multiset) => {
-            const multisetTypeText =
-              multisetTypeMap.get(multiset.multiset_type) ?? "";
+        <div className="flex flex-col justify-between gap-1.5">
+          <ScrollShadow className={`${listHeight} flex flex-col gap-1`}>
+            {paginatedMultisets.map((multiset) => {
+              const multisetTypeText =
+                multisetTypeMap.get(multiset.multiset_type) ?? "";
 
-            return (
-              <button
-                key={multiset.id}
-                className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
-                onClick={() => handleClickMultiset(multiset, numNewSets)}
-              >
-                <span className="text-base max-w-full break-words text-left">
-                  {multiset.setListText}
-                </span>
-                <span className="text-xs text-secondary text-left">
-                  {multisetTypeText}
-                </span>
-              </button>
-            );
-          })}
-          {filteredMultisets.length === 0 && (
-            <EmptyListLabel itemName="Multiset Templates" />
+              return (
+                <button
+                  key={multiset.id}
+                  className="flex flex-col justify-start items-start bg-default-100 border-2 border-default-200 rounded-xl px-2 py-1 hover:bg-default-200 hover:border-default-400 focus:bg-default-200 focus:border-default-400"
+                  onClick={() => handleClickMultiset(multiset, numNewSets)}
+                >
+                  <span className="text-base max-w-full break-words text-left">
+                    {multiset.setListText}
+                  </span>
+                  <span className="text-xs text-secondary text-left">
+                    {multisetTypeText}
+                  </span>
+                </button>
+              );
+            })}
+            {filteredMultisets.length === 0 && (
+              <EmptyListLabel itemName="Multiset Templates" />
+            )}
+          </ScrollShadow>
+          {showPaginationControls && (
+            <div className="flex justify-center">
+              <Pagination
+                showControls
+                loop
+                page={validPaginationPage}
+                total={totalPaginationPages}
+                onChange={setPaginationPage}
+              />
+            </div>
           )}
-        </ScrollShadow>
+        </div>
       ) : (
         <LoadingSpinner />
       )}
