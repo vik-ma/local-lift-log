@@ -7,6 +7,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  Pagination,
 } from "@heroui/react";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -33,10 +34,14 @@ import {
   GetUserSettings,
   LoadStore,
   ValidateAndModifyUserSettings,
+  HandleListPaginationPageChange,
 } from "../helpers";
 import { VerticalMenuIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
-import { DEFAULT_WORKOUT_TEMPLATE } from "../constants";
+import {
+  DEFAULT_WORKOUT_TEMPLATE,
+  STORE_LIST_KEY_WORKOUT_TEMPLATES,
+} from "../constants";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -70,6 +75,10 @@ export default function WorkoutTemplateList() {
     isWorkoutTemplateListLoaded,
     sortWorkoutTemplatesByActiveCategory,
     loadWorkoutTemplateList,
+    validPaginationPage,
+    setPaginationPage,
+    paginatedWorkoutTemplates,
+    totalPaginationPages,
   } = workoutTemplateList;
 
   const { filterMap, removeFilter, prefixMap } = listFilters;
@@ -299,7 +308,7 @@ export default function WorkoutTemplateList() {
           }
         />
         <div className="flex flex-col gap-1 w-full">
-          {filteredWorkoutTemplates.map((template) => (
+          {paginatedWorkoutTemplates.map((template) => (
             <div
               className="flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:bg-default-200 focus:border-default-400"
               key={template.id}
@@ -367,6 +376,25 @@ export default function WorkoutTemplateList() {
             <EmptyListLabel itemName="Workout Templates" />
           )}
         </div>
+        {totalPaginationPages > 1 && (
+          <div className="pt-0.5">
+            <Pagination
+              size="lg"
+              showControls
+              loop
+              page={validPaginationPage}
+              total={totalPaginationPages}
+              onChange={(value) =>
+                HandleListPaginationPageChange(
+                  value,
+                  store,
+                  setPaginationPage,
+                  STORE_LIST_KEY_WORKOUT_TEMPLATES
+                )
+              }
+            />
+          </div>
+        )}
       </div>
     </>
   );
