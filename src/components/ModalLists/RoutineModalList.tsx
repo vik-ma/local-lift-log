@@ -10,7 +10,7 @@ import {
   FormatNumItemsString,
   FormatRoutineScheduleTypeString,
 } from "../../helpers";
-import { Routine, UseRoutineListReturnType, UserSettings } from "../../typings";
+import { Routine, UseRoutineListReturnType } from "../../typings";
 import { GoToArrowIcon } from "../../assets";
 import { useNavigate } from "react-router-dom";
 import {
@@ -21,7 +21,6 @@ import {
 
 type RoutineModalListProps = {
   useRoutineList: UseRoutineListReturnType;
-  userSettings: UserSettings;
   onClickAction: (routine: Routine) => void;
   activeRoutineId?: number;
   highlightedRoutines?: Set<number>;
@@ -29,7 +28,6 @@ type RoutineModalListProps = {
 
 export const RoutineModalList = ({
   useRoutineList,
-  userSettings,
   onClickAction,
   activeRoutineId,
   highlightedRoutines,

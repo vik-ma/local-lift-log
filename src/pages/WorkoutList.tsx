@@ -487,7 +487,6 @@ export default function WorkoutList() {
       <RoutineListModal
         useRoutineList={routineList}
         activeRoutineId={userSettings.active_routine_id}
-        userSettings={userSettings}
         onClickAction={
           operationType === "reassign-routine" ? reassignRoutine : changeRoutine
         }

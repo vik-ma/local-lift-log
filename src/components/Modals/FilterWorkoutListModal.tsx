@@ -269,7 +269,6 @@ export const FilterWorkoutListModal = ({
                   onClickAction={handleClickRoutine}
                   activeRoutineId={userSettings.active_routine_id}
                   highlightedRoutines={filterRoutines}
-                  userSettings={userSettings}
                 />
               ) : modalPage === "exercise-list" ? (
                 <ExerciseModalList
