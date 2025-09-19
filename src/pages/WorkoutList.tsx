@@ -18,13 +18,14 @@ import {
   FilterRoutineListModal,
 } from "../components";
 import Database from "@tauri-apps/plugin-sql";
-import { Button, useDisclosure } from "@heroui/react";
+import { Button, Pagination, useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
 import {
   DeleteMultisetWithId,
   DeleteWorkoutWithId,
   GetUniqueMultisetIds,
   GetUserSettings,
+  HandleListPaginationPageChange,
   LoadStore,
   UpdateItemInList,
   UpdateWorkout,
@@ -33,7 +34,7 @@ import {
 import { useExerciseList, useWorkoutList } from "../hooks";
 import { GoToArrowIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
-import { DEFAULT_WORKOUT } from "../constants";
+import { DEFAULT_WORKOUT, STORE_LIST_KEY_WORKOUTS } from "../constants";
 
 type OperationType =
   | "edit"
@@ -77,6 +78,10 @@ export default function WorkoutList() {
     sortWorkoutsByActiveCategory,
     selectedWorkoutProperties,
     setSelectedWorkoutProperties,
+    validPaginationPage,
+    setPaginationPage,
+    paginatedWorkouts,
+    totalPaginationPages,
   } = workoutList;
 
   const { filterMap } = listFilters;
@@ -99,7 +104,9 @@ export default function WorkoutList() {
 
       await LoadStore(store);
 
-      await loadWorkoutList(userSettings);
+      const isWorkoutListInModal = false;
+
+      await loadWorkoutList(userSettings, isWorkoutListInModal);
     };
 
     loadPage();
@@ -549,7 +556,7 @@ export default function WorkoutList() {
           }
         />
         <div className="flex flex-col gap-1 w-full">
-          {filteredWorkouts.map((workout) => (
+          {paginatedWorkouts.map((workout) => (
             <WorkoutListItem
               key={workout.id}
               workout={workout}
@@ -561,6 +568,25 @@ export default function WorkoutList() {
           ))}
           {workouts.length === 0 && <EmptyListLabel itemName="Workouts" />}
         </div>
+        {totalPaginationPages > 1 && (
+          <div className="pt-0.5">
+            <Pagination
+              size="lg"
+              showControls
+              loop
+              page={validPaginationPage}
+              total={totalPaginationPages}
+              onChange={(value) =>
+                HandleListPaginationPageChange(
+                  value,
+                  store,
+                  setPaginationPage,
+                  STORE_LIST_KEY_WORKOUTS
+                )
+              }
+            />
+          </div>
+        )}
       </div>
     </>
   );
