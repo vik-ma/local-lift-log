@@ -286,7 +286,6 @@ export default function WorkoutTemplateList() {
                 </Button>
                 <WorkoutTemplateListOptions
                   useWorkoutTemplateList={workoutTemplateList}
-                  userSettings={userSettings}
                 />
               </div>
               {filterMap.size > 0 && (

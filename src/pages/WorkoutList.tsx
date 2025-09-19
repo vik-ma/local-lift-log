@@ -470,7 +470,6 @@ export default function WorkoutList() {
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
-        userSettings={userSettings}
         onClickAction={
           operationType === "reassign-workout-template"
             ? reassignWorkoutTemplate

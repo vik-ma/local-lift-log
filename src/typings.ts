@@ -513,7 +513,6 @@ export type UseWorkoutTemplateListReturnType = {
   handleSortOptionSelection: (key: string) => void;
   sortCategory: WorkoutTemplateSortCategory;
   filterWorkoutTemplateListModal: UseDisclosureReturnType;
-  handleOpenFilterButton: (userSettings: UserSettings) => void;
   listFilters: UseListFiltersReturnType;
   workoutTemplateMap: React.RefObject<WorkoutTemplateMap>;
   isWorkoutTemplateListLoaded: React.RefObject<boolean>;

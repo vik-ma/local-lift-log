@@ -5,22 +5,20 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@heroui/react";
-import { UserSettings, UseWorkoutTemplateListReturnType } from "../../typings";
+import { UseWorkoutTemplateListReturnType } from "../../typings";
 
 type WorkoutTemplateListOptionsProps = {
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
-  userSettings: UserSettings;
 };
 
 export const WorkoutTemplateListOptions = ({
   useWorkoutTemplateList,
-  userSettings,
 }: WorkoutTemplateListOptionsProps) => {
   const {
     sortCategory,
     handleSortOptionSelection,
-    handleOpenFilterButton,
     listFilters,
+    filterWorkoutTemplateListModal,
   } = useWorkoutTemplateList;
 
   const { filterMap } = listFilters;
@@ -32,7 +30,7 @@ export const WorkoutTemplateListOptions = ({
         variant="flat"
         color={filterMap.size > 0 ? "secondary" : "default"}
         size="sm"
-        onPress={() => handleOpenFilterButton(userSettings)}
+        onPress={() => filterWorkoutTemplateListModal.onOpen()}
       >
         Filter
       </Button>

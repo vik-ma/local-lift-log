@@ -7,7 +7,6 @@ import {
   ModalFooter,
 } from "@heroui/react";
 import {
-  UserSettings,
   UseWorkoutTemplateListReturnType,
   WorkoutTemplate,
 } from "../../typings";
@@ -16,14 +15,12 @@ import { WorkoutTemplateModalList } from "..";
 
 type WorkoutTemplateListModalProps = {
   useWorkoutTemplateList: UseWorkoutTemplateListReturnType;
-  userSettings: UserSettings;
   onClickAction: (workoutTemplate: WorkoutTemplate) => void;
   header: ReactNode;
 };
 
 export const WorkoutTemplateListModal = ({
   useWorkoutTemplateList,
-  userSettings,
   onClickAction,
   header,
 }: WorkoutTemplateListModalProps) => {
@@ -41,7 +38,6 @@ export const WorkoutTemplateListModal = ({
             <ModalBody className="py-0">
               <WorkoutTemplateModalList
                 useWorkoutTemplateList={useWorkoutTemplateList}
-                userSettings={userSettings}
                 onClickAction={onClickAction}
               />
             </ModalBody>

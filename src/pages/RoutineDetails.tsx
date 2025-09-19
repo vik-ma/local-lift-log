@@ -577,7 +577,6 @@ export default function RoutineDetails() {
       />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
-        userSettings={userSettings}
         onClickAction={
           routine.schedule_type == 2
             ? addWorkoutTemplateToNoDaySchedule

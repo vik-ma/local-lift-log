@@ -295,7 +295,6 @@ export const FilterWorkoutListModal = ({
                 <WorkoutTemplateModalList
                   useWorkoutTemplateList={useWorkoutTemplateList}
                   onClickAction={handleClickWorkoutTemplate}
-                  userSettings={userSettings}
                   filterWorkoutTemplates={filterWorkoutTemplates}
                 />
               ) : (

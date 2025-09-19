@@ -342,7 +342,6 @@ export default function WorkoutTemplateDetails() {
       <FilterExerciseGroupsModal useExerciseList={exerciseList} />
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
-        userSettings={userSettings}
         onClickAction={handleClickWorkoutTemplate}
         header="Select Workout Template To Copy"
       />
