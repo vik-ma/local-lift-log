@@ -5,6 +5,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  Pagination,
 } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
@@ -23,6 +24,7 @@ import {
   UpdateUserSetting,
   LoadStore,
   ValidateAndModifyUserSettings,
+  HandleListPaginationPageChange,
 } from "../helpers";
 import {
   LoadingSpinner,
@@ -43,7 +45,7 @@ import {
 } from "../hooks";
 import { VerticalMenuIcon } from "../assets";
 import { Store } from "@tauri-apps/plugin-store";
-import { DEFAULT_ROUTINE } from "../constants";
+import { DEFAULT_ROUTINE, STORE_LIST_KEY_ROUTINES } from "../constants";
 
 type OperationType = "add" | "edit" | "delete";
 
@@ -90,6 +92,10 @@ export default function RoutineList() {
     listFilters,
     sortRoutinesByActiveCategory,
     loadRoutineList,
+    validPaginationPage,
+    setPaginationPage,
+    paginatedRoutines,
+    totalPaginationPages,
   } = routineList;
 
   const { filterMap } = listFilters;
@@ -109,7 +115,9 @@ export default function RoutineList() {
 
       await LoadStore(store);
 
-      await loadRoutineList(userSettings);
+      const isRoutineListInModal = false;
+
+      await loadRoutineList(userSettings, isRoutineListInModal);
     };
 
     loadPage();
@@ -347,7 +355,7 @@ export default function RoutineList() {
           }
         />
         <div className="flex flex-col gap-1 w-full">
-          {filteredRoutines.map((routine, index) => {
+          {paginatedRoutines.map((routine, index) => {
             const isActiveRoutine =
               userSettings.active_routine_id === routine.id;
             const numWorkoutTemplates =
@@ -435,6 +443,25 @@ export default function RoutineList() {
             <EmptyListLabel itemName="Routines" />
           )}
         </div>
+        {totalPaginationPages > 1 && (
+          <div className="pt-0.5">
+            <Pagination
+              size="lg"
+              showControls
+              loop
+              page={validPaginationPage}
+              total={totalPaginationPages}
+              onChange={(value) =>
+                HandleListPaginationPageChange(
+                  value,
+                  store,
+                  setPaginationPage,
+                  STORE_LIST_KEY_ROUTINES
+                )
+              }
+            />
+          </div>
+        )}
       </div>
     </>
   );
