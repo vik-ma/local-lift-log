@@ -1,4 +1,4 @@
-import { Button, ScrollShadow } from "@heroui/react";
+import { Button, Pagination, ScrollShadow } from "@heroui/react";
 import {
   EmptyListLabel,
   ListFilters,
@@ -13,7 +13,11 @@ import {
 import { Routine, UseRoutineListReturnType, UserSettings } from "../../typings";
 import { GoToArrowIcon } from "../../assets";
 import { useNavigate } from "react-router-dom";
-import { MODAL_BODY_HEIGHT } from "../../constants";
+import {
+  LIST_HEIGHT_WITH_PAGINATION,
+  LIST_HEIGHT_WITHOUT_PAGINATION,
+  MODAL_BODY_HEIGHT,
+} from "../../constants";
 
 type RoutineModalListProps = {
   useRoutineList: UseRoutineListReturnType;
@@ -37,11 +41,21 @@ export const RoutineModalList = ({
     setFilterQuery,
     listFilters,
     isRoutineListLoaded,
+    paginatedRoutines,
+    totalPaginationPages,
+    validPaginationPage,
+    setPaginationPage,
   } = useRoutineList;
 
   const { filterMap, removeFilter, prefixMap } = listFilters;
 
   const navigate = useNavigate();
+
+  const showPaginationControls = totalPaginationPages > 1;
+
+  const listHeight = showPaginationControls
+    ? LIST_HEIGHT_WITH_PAGINATION
+    : LIST_HEIGHT_WITHOUT_PAGINATION;
 
   return (
     <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}>
@@ -75,62 +89,75 @@ export const RoutineModalList = ({
         )}
       </div>
       {isRoutineListLoaded.current ? (
-        <ScrollShadow className="flex flex-col gap-1">
-          {filteredRoutines.map((routine) => {
-            const numWorkoutTemplates =
-              routine.workoutTemplateIdList !== undefined
-                ? routine.workoutTemplateIdList.length
-                : 0;
+        <div className="flex flex-col justify-between gap-1.5">
+          <ScrollShadow className={`${listHeight} flex flex-col gap-1`}>
+            {paginatedRoutines.map((routine) => {
+              const numWorkoutTemplates =
+                routine.workoutTemplateIdList !== undefined
+                  ? routine.workoutTemplateIdList.length
+                  : 0;
 
-            const isActiveRoutine = activeRoutineId === routine.id;
-            return (
-              <button
-                className={
-                  highlightedRoutines?.has(routine.id)
-                    ? "flex justify-between items-center bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:border-default-400"
-                    : "flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:border-default-400"
-                }
-                key={routine.id}
-              >
-                <div
-                  className="flex flex-col justify-start items-start pl-2 py-1"
-                  onClick={() => onClickAction(routine)}
+              const isActiveRoutine = activeRoutineId === routine.id;
+              return (
+                <button
+                  className={
+                    highlightedRoutines?.has(routine.id)
+                      ? "flex justify-between items-center bg-amber-100 border-2 border-amber-300 rounded-xl hover:border-default-400 focus:border-default-400"
+                      : "flex justify-between items-center bg-default-100 border-2 border-default-200 rounded-xl hover:border-default-400 focus:border-default-400"
+                  }
+                  key={routine.id}
                 >
-                  <span
-                    className={
-                      isActiveRoutine
-                        ? "w-[16.5rem] truncate text-left"
-                        : "w-[23.5rem] truncate text-left"
-                    }
+                  <div
+                    className="flex flex-col justify-start items-start pl-2 py-1"
+                    onClick={() => onClickAction(routine)}
                   >
-                    {routine.name}
-                  </span>
-                  {numWorkoutTemplates > 0 && (
-                    <span className="text-xs text-secondary text-left">
-                      {FormatNumItemsString(numWorkoutTemplates, "Workout")}
+                    <span
+                      className={
+                        isActiveRoutine
+                          ? "w-[16.5rem] truncate text-left"
+                          : "w-[23.5rem] truncate text-left"
+                      }
+                    >
+                      {routine.name}
                     </span>
-                  )}
-                  <span className="text-xs text-stone-400 text-left">
-                    {FormatRoutineScheduleTypeString(
-                      routine.schedule_type,
-                      routine.num_days_in_schedule
+                    {numWorkoutTemplates > 0 && (
+                      <span className="text-xs text-secondary text-left">
+                        {FormatNumItemsString(numWorkoutTemplates, "Workout")}
+                      </span>
                     )}
-                  </span>
-                </div>
-                {isActiveRoutine && (
-                  <div className="pr-2">
-                    <div className="flex justify-center px-1.5 py-0.5 text-sm text-success rounded-lg bg-success/10 border-2 border-success/40">
-                      Active Routine
-                    </div>
+                    <span className="text-xs text-stone-400 text-left">
+                      {FormatRoutineScheduleTypeString(
+                        routine.schedule_type,
+                        routine.num_days_in_schedule
+                      )}
+                    </span>
                   </div>
-                )}
-              </button>
-            );
-          })}
-          {filteredRoutines.length === 0 && (
-            <EmptyListLabel itemName="Routines" />
+                  {isActiveRoutine && (
+                    <div className="pr-2">
+                      <div className="flex justify-center px-1.5 py-0.5 text-sm text-success rounded-lg bg-success/10 border-2 border-success/40">
+                        Active Routine
+                      </div>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+            {filteredRoutines.length === 0 && (
+              <EmptyListLabel itemName="Routines" />
+            )}
+          </ScrollShadow>
+          {showPaginationControls && (
+            <div className="flex justify-center">
+              <Pagination
+                showControls
+                loop
+                page={validPaginationPage}
+                total={totalPaginationPages}
+                onChange={setPaginationPage}
+              />
+            </div>
           )}
-        </ScrollShadow>
+        </div>
       ) : (
         <LoadingSpinner />
       )}
