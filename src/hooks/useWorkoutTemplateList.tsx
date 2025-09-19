@@ -14,9 +14,10 @@ import Database from "@tauri-apps/plugin-sql";
 import {
   CreateExerciseSetIds,
   DoesListOrSetHaveCommonElement,
+  GetPaginationPageFromStore,
   GetSortCategoryFromStore,
 } from "../helpers";
-import { useListFilters } from ".";
+import { useListFilters, usePaginatedList } from ".";
 import { STORE_LIST_KEY_WORKOUT_TEMPLATES } from "../constants";
 
 type UseWorkoutTemplateListProps = {
@@ -107,7 +108,18 @@ export const useWorkoutTemplateList = ({
     includeSecondaryExerciseGroups,
   ]);
 
-  const getWorkoutTemplates = async (category: WorkoutTemplateSortCategory) => {
+  const {
+    validPaginationPage,
+    setPaginationPage,
+    itemsPerPaginationPage,
+    paginatedList: paginatedWorkoutTemplates,
+    totalPaginationPages,
+  } = usePaginatedList(filteredWorkoutTemplates);
+
+  const getWorkoutTemplates = async (
+    category: WorkoutTemplateSortCategory,
+    shouldSetPaginationPage: boolean
+  ) => {
     if (!isExerciseListLoaded.current) return;
 
     try {
@@ -164,6 +176,17 @@ export const useWorkoutTemplateList = ({
         newWorkoutTemplateMap.set(workoutTemplate.id, workoutTemplate);
       }
 
+      if (shouldSetPaginationPage) {
+        const storePaginationPage = await GetPaginationPageFromStore(
+          store,
+          STORE_LIST_KEY_WORKOUT_TEMPLATES,
+          itemsPerPaginationPage.current,
+          workoutTemplates.length
+        );
+
+        setPaginationPage(storePaginationPage);
+      }
+
       sortWorkoutTemplatesByActiveCategory(workoutTemplates, category);
       workoutTemplateMap.current = newWorkoutTemplateMap;
       isWorkoutTemplateListLoaded.current = true;
@@ -172,8 +195,20 @@ export const useWorkoutTemplateList = ({
     }
   };
 
-  const loadWorkoutTemplateList = async (userSettings: UserSettings) => {
+  const loadWorkoutTemplateList = async (
+    userSettings: UserSettings,
+    isWorkoutTemplateListInModal: boolean
+  ) => {
     if (isWorkoutTemplateListLoaded.current) return;
+
+    let shouldSetPaginationPage = false;
+
+    if (!isWorkoutTemplateListInModal) {
+      itemsPerPaginationPage.current =
+        userSettings.num_pagination_items_list_desktop;
+
+      shouldSetPaginationPage = true;
+    }
 
     const isExerciseListInModal = true;
 
@@ -192,7 +227,10 @@ export const useWorkoutTemplateList = ({
       STORE_LIST_KEY_WORKOUT_TEMPLATES
     );
 
-    await getWorkoutTemplates(workoutTemplateSortCategory);
+    await getWorkoutTemplates(
+      workoutTemplateSortCategory,
+      shouldSetPaginationPage
+    );
   };
 
   const sortWorkoutTemplatesByName = (
@@ -318,7 +356,9 @@ export const useWorkoutTemplateList = ({
 
     workoutTemplateListModal.onOpen();
 
-    await loadWorkoutTemplateList(userSettings);
+    const isWorkoutTemplateListInModal = true;
+
+    await loadWorkoutTemplateList(userSettings, isWorkoutTemplateListInModal);
   };
 
   const loadFilterWorkoutTemplatesString = async (
@@ -356,5 +396,9 @@ export const useWorkoutTemplateList = ({
     sortWorkoutTemplatesByActiveCategory,
     loadWorkoutTemplateList,
     loadFilterWorkoutTemplatesString,
+    validPaginationPage,
+    setPaginationPage,
+    paginatedWorkoutTemplates,
+    totalPaginationPages,
   };
 };

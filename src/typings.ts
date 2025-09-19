@@ -520,10 +520,17 @@ export type UseWorkoutTemplateListReturnType = {
   sortWorkoutTemplatesByActiveCategory: (
     workoutTemplateList: WorkoutTemplate[]
   ) => void;
-  loadWorkoutTemplateList: (userSettings: UserSettings) => Promise<void>;
+  loadWorkoutTemplateList: (
+    userSettings: UserSettings,
+    isWorkoutTemplateListInModal: boolean
+  ) => Promise<void>;
   loadFilterWorkoutTemplatesString: (
     workoutTemplatesString: string
   ) => Promise<Set<number>>;
+  validPaginationPage: number;
+  setPaginationPage: React.Dispatch<React.SetStateAction<number>>;
+  paginatedWorkoutTemplates: WorkoutTemplate[];
+  totalPaginationPages: number;
 };
 
 export type PresetsType = "equipment" | "distance";
