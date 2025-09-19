@@ -89,7 +89,9 @@ export default function WorkoutTemplateList() {
 
       await LoadStore(store);
 
-      await loadWorkoutTemplateList(userSettings);
+      const isWorkoutTemplateListInModal = false;
+
+      await loadWorkoutTemplateList(userSettings, isWorkoutTemplateListInModal);
     };
 
     loadPage();

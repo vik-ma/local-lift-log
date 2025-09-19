@@ -329,7 +329,9 @@ export const useRoutineList = ({
 
     await loadExerciseList(userSettings, isExerciseListInModal);
 
-    await loadWorkoutTemplateList(userSettings);
+    const isWorkoutTemplateListInModal = true;
+
+    await loadWorkoutTemplateList(userSettings, isWorkoutTemplateListInModal);
 
     const validFilterKeys = new Set<StoreFilterMapKey>([
       "workout-templates",

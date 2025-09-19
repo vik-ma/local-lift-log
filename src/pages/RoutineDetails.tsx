@@ -214,8 +214,9 @@ export default function RoutineDetails() {
       setUserSettings(userSettings);
 
       await LoadStore(store);
+      const isWorkoutTemplateListInModal = true;
 
-      await loadWorkoutTemplateList(userSettings);
+      await loadWorkoutTemplateList(userSettings, isWorkoutTemplateListInModal);
 
       await Promise.all([getRoutine(), getWorkoutRoutineSchedules()]);
     };

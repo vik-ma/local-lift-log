@@ -236,9 +236,13 @@ export const useWorkoutList = ({
 
     await loadExerciseList(userSettings, isExerciseListInModal);
 
-    await loadWorkoutTemplateList(userSettings);
+    const isWorkoutTemplateListInModal = true;
 
-    await loadRoutineList(userSettings);
+    await loadWorkoutTemplateList(userSettings, isWorkoutTemplateListInModal);
+
+    const isRoutineListInModal = true;
+
+    await loadRoutineList(userSettings, isRoutineListInModal);
 
     const workoutPropertySet = CreateShownPropertiesSet(
       userSettings.shown_workout_properties,
