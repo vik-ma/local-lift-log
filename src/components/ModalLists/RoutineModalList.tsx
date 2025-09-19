@@ -113,7 +113,7 @@ export const RoutineModalList = ({
                       className={
                         isActiveRoutine
                           ? "w-[16.5rem] truncate text-left"
-                          : "w-[23.5rem] truncate text-left"
+                          : "w-[22.75rem] truncate text-left"
                       }
                     >
                       {routine.name}
