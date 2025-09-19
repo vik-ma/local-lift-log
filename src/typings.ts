@@ -462,7 +462,6 @@ export type UseWorkoutListReturnType = {
   sortCategory: WorkoutSortCategory;
   handleSortOptionSelection: (key: string) => void;
   filterWorkoutListModal: UseDisclosureReturnType;
-  handleOpenFilterButton: (userSettings: UserSettings) => void;
   routineList: UseRoutineListReturnType;
   listFilters: UseListFiltersReturnType;
   workoutTemplateList: UseWorkoutTemplateListReturnType;

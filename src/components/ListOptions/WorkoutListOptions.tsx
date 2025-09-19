@@ -33,9 +33,9 @@ export const WorkoutListOptions = ({
   const {
     sortCategory,
     handleSortOptionSelection,
-    handleOpenFilterButton,
     listFilters,
     workoutListHasEmptyWorkouts,
+    filterWorkoutListModal,
   } = useWorkoutList;
 
   const { filterMap } = listFilters;
@@ -53,7 +53,7 @@ export const WorkoutListOptions = ({
         variant="flat"
         color={filterMap.size > 0 ? "secondary" : "default"}
         size="sm"
-        onPress={() => handleOpenFilterButton(userSettings)}
+        onPress={() => filterWorkoutListModal.onOpen()}
       >
         Filter
       </Button>

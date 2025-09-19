@@ -418,11 +418,6 @@ export const useWorkoutList = ({
         break;
     }
   };
-  const handleOpenFilterButton = async (userSettings: UserSettings) => {
-    filterWorkoutListModal.onOpen();
-
-    await loadWorkoutList(userSettings);
-  };
 
   const handleOpenWorkoutListModal = async (
     userSettings: UserSettings | undefined
@@ -448,7 +443,6 @@ export const useWorkoutList = ({
     sortCategory,
     handleSortOptionSelection,
     filterWorkoutListModal,
-    handleOpenFilterButton,
     routineList,
     listFilters,
     workoutTemplateList,
