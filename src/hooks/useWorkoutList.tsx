@@ -14,12 +14,18 @@ import {
   CreateShownPropertiesSet,
   DoesListOrSetHaveCommonElement,
   FormatDateString,
+  GetPaginationPageFromStore,
   GetSortCategoryFromStore,
   IsDateInWeekdaySet,
   IsDateWithinLimit,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
-import { useListFilters, useRoutineList, useWorkoutTemplateList } from ".";
+import {
+  useListFilters,
+  usePaginatedList,
+  useRoutineList,
+  useWorkoutTemplateList,
+} from ".";
 import { STORE_LIST_KEY_WORKOUTS } from "../constants";
 
 type UseWorkoutListProps = {
@@ -150,7 +156,18 @@ export const useWorkoutList = ({
     filterWorkoutTemplates,
   ]);
 
-  const getWorkouts = async (category: WorkoutSortCategory) => {
+  const {
+    validPaginationPage,
+    setPaginationPage,
+    itemsPerPaginationPage,
+    paginatedList: paginatedWorkouts,
+    totalPaginationPages,
+  } = usePaginatedList(filteredWorkouts);
+
+  const getWorkouts = async (
+    category: WorkoutSortCategory,
+    shouldSetPaginationPage: boolean
+  ) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
@@ -222,6 +239,17 @@ export const useWorkoutList = ({
         workouts.push(workout);
       }
 
+      if (shouldSetPaginationPage) {
+        const storePaginationPage = await GetPaginationPageFromStore(
+          store,
+          STORE_LIST_KEY_WORKOUTS,
+          itemsPerPaginationPage.current,
+          workouts.length
+        );
+
+        setPaginationPage(storePaginationPage);
+      }
+
       await sortWorkoutsByActiveCategory(workouts, category);
       isWorkoutListLoaded.current = true;
     } catch (error) {
@@ -229,8 +257,20 @@ export const useWorkoutList = ({
     }
   };
 
-  const loadWorkoutList = async (userSettings: UserSettings) => {
+  const loadWorkoutList = async (
+    userSettings: UserSettings,
+    isWorkoutListInModal: boolean
+  ) => {
     if (isWorkoutListLoaded.current) return;
+
+    let shouldSetPaginationPage = false;
+
+    if (!isWorkoutListInModal) {
+      itemsPerPaginationPage.current =
+        userSettings.num_pagination_items_list_desktop;
+
+      shouldSetPaginationPage = true;
+    }
 
     const isExerciseListInModal = true;
 
@@ -269,7 +309,7 @@ export const useWorkoutList = ({
       STORE_LIST_KEY_WORKOUTS
     );
 
-    await getWorkouts(workoutSortCategory);
+    await getWorkouts(workoutSortCategory, shouldSetPaginationPage);
   };
 
   const sortWorkoutsByDate = (workoutList: Workout[], isAscending: boolean) => {
@@ -391,7 +431,9 @@ export const useWorkoutList = ({
 
     workoutListModal.onOpen();
 
-    await loadWorkoutList(userSettings);
+    const isWorkoutListInModal = true;
+
+    await loadWorkoutList(userSettings, isWorkoutListInModal);
   };
 
   return {
@@ -415,5 +457,9 @@ export const useWorkoutList = ({
     loadWorkoutList,
     selectedWorkoutProperties,
     setSelectedWorkoutProperties,
+    validPaginationPage,
+    setPaginationPage,
+    paginatedWorkouts,
+    totalPaginationPages,
   };
 };

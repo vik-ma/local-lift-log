@@ -468,11 +468,18 @@ export type UseWorkoutListReturnType = {
   workoutTemplateList: UseWorkoutTemplateListReturnType;
   isWorkoutListLoaded: React.RefObject<boolean>;
   workoutListHasEmptyWorkouts: React.RefObject<boolean>;
-  loadWorkoutList: (userSettings: UserSettings) => Promise<void>;
+  loadWorkoutList: (
+    userSettings: UserSettings,
+    isWorkoutListInModal: boolean
+  ) => Promise<void>;
   selectedWorkoutProperties: Set<string>;
   setSelectedWorkoutProperties: React.Dispatch<
     React.SetStateAction<Set<string>>
   >;
+  validPaginationPage: number;
+  setPaginationPage: React.Dispatch<React.SetStateAction<number>>;
+  paginatedWorkouts: Workout[];
+  totalPaginationPages: number;
 };
 
 export type UseListFiltersReturnType = {
