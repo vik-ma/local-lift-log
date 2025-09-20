@@ -31,6 +31,7 @@ import {
   UpdateUserSetting,
   UpdateExercise,
   ValidateAndModifyUserSettings,
+  ValidateAndModifySet,
 } from "../helpers";
 import { useDetailsHeaderOptionsMenu } from "../hooks";
 import toast from "react-hot-toast";
@@ -127,6 +128,8 @@ export default function ExerciseDetails() {
         new Date(set.time_completed!),
         locale
       );
+
+      ValidateAndModifySet(set);
 
       if (set.is_tracking_weight && set.is_tracking_reps) {
         const weight = ConvertNumberToTwoDecimals(
