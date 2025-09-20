@@ -36,6 +36,7 @@ export const ExerciseGroupCheckboxes = ({
           <div>
             <Checkbox
               className="hover:underline"
+              classNames={{ wrapper: "mr-[7px]" }}
               isSelected={includeSecondaryGroups}
               onValueChange={setIncludeSecondaryGroups}
               color="default"
@@ -63,6 +64,7 @@ export const ExerciseGroupCheckboxes = ({
             <div className="w-[10.5rem]" key={useValueAsValue ? value : key}>
               <Checkbox
                 className="hover:underline w-full min-w-full"
+                classNames={{ wrapper: "mr-[7px]" }}
                 color="primary"
                 value={useValueAsValue ? value : key}
                 isDisabled={disabledKeysSet.has(key)}

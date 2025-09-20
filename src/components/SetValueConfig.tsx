@@ -172,6 +172,7 @@ export const SetValueConfig = ({
               <div className="w-[11rem]">
                 <Checkbox
                   className="hover:underline w-full min-w-full"
+                  classNames={{ wrapper: "mr-[7px]" }}
                   color="primary"
                   isSelected={operatingSet.is_tracking_weight ? true : false}
                   onValueChange={(value) =>
@@ -184,6 +185,7 @@ export const SetValueConfig = ({
               <div className="w-[9rem]">
                 <Checkbox
                   className="hover:underline w-full min-w-full"
+                  classNames={{ wrapper: "mr-[7px]" }}
                   color="primary"
                   isSelected={operatingSet.is_tracking_reps ? true : false}
                   onValueChange={(value) =>
@@ -196,6 +198,7 @@ export const SetValueConfig = ({
               <div className="w-[11rem]">
                 <Checkbox
                   className="hover:underline w-full min-w-full"
+                  classNames={{ wrapper: "mr-[7px]" }}
                   color="primary"
                   isSelected={operatingSet.is_tracking_distance ? true : false}
                   onValueChange={(value) =>
@@ -208,6 +211,7 @@ export const SetValueConfig = ({
               <div className="w-[9rem]">
                 <Checkbox
                   className="hover:underline w-full min-w-full"
+                  classNames={{ wrapper: "mr-[7px]" }}
                   color="primary"
                   isSelected={operatingSet.is_tracking_time ? true : false}
                   onValueChange={(value) =>
@@ -220,6 +224,7 @@ export const SetValueConfig = ({
               <div className="w-[11rem]">
                 <Checkbox
                   className="hover:underline w-full min-w-full"
+                  classNames={{ wrapper: "mr-[7px]" }}
                   color="primary"
                   isSelected={operatingSet.is_tracking_rir ? true : false}
                   onValueChange={(value) =>
@@ -232,6 +237,7 @@ export const SetValueConfig = ({
               <div className="w-[9rem]">
                 <Checkbox
                   className="hover:underline w-full min-w-full"
+                  classNames={{ wrapper: "mr-[7px]" }}
                   color="primary"
                   isSelected={operatingSet.is_tracking_rpe ? true : false}
                   onValueChange={(value) =>
@@ -244,6 +250,7 @@ export const SetValueConfig = ({
               <div className="w-[11rem]">
                 <Checkbox
                   className="hover:underline w-full min-w-full"
+                  classNames={{ wrapper: "mr-[7px]" }}
                   color="primary"
                   isSelected={
                     operatingSet.is_tracking_resistance_level ? true : false
@@ -258,6 +265,7 @@ export const SetValueConfig = ({
               <div className="w-[9rem]">
                 <Checkbox
                   className="hover:underline w-full min-w-full"
+                  classNames={{ wrapper: "mr-[7px]" }}
                   color="primary"
                   isSelected={
                     operatingSet.is_tracking_partial_reps ? true : false
@@ -272,6 +280,7 @@ export const SetValueConfig = ({
               <div className="w-[11rem]">
                 <Checkbox
                   className="hover:underline w-full min-w-full"
+                  classNames={{ wrapper: "mr-[7px]" }}
                   color="primary"
                   isSelected={
                     operatingSet.is_tracking_user_weight ? true : false
@@ -286,6 +295,7 @@ export const SetValueConfig = ({
               <div className="w-[9rem]">
                 <Checkbox
                   className="hover:underline w-full min-w-full"
+                  classNames={{ wrapper: "mr-[7px]" }}
                   color="primary"
                   isSelected={operatingSet.is_warmup ? true : false}
                   onValueChange={(value) =>

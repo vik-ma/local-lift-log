@@ -150,6 +150,7 @@ export const WorkoutListModal = ({
               <div>
                 <Checkbox
                   className="hover:underline"
+                  classNames={{ wrapper: "mr-[7px]" }}
                   color="primary"
                   isSelected={keepSetValues}
                   onValueChange={setKeepSetValues}

@@ -519,6 +519,7 @@ export const LoadExerciseOptionsModal = ({
                           <Checkbox
                             key={key}
                             className="hover:underline w-full min-w-full -mb-1"
+                            classNames={{ wrapper: "mr-[7px]" }}
                             color="primary"
                             isSelected={loadExerciseOptions.has(
                               key as ChartDataExerciseCategoryBase
@@ -542,6 +543,7 @@ export const LoadExerciseOptionsModal = ({
                     <div className="px-0.5 py-0.5 flex gap-12">
                       <Checkbox
                         className="hover:underline"
+                        classNames={{ wrapper: "mr-[7px]" }}
                         color="default"
                         isSelected={ignoreWarmups}
                         onValueChange={setIgnoreWarmups}
@@ -550,6 +552,7 @@ export const LoadExerciseOptionsModal = ({
                       </Checkbox>
                       <Checkbox
                         className="hover:underline"
+                        classNames={{ wrapper: "mr-[7px]" }}
                         color="default"
                         isSelected={ignoreMultisets}
                         onValueChange={setIgnoreMultisets}

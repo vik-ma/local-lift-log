@@ -64,6 +64,7 @@ export const OldSetWarningModal = ({
                 <div className="flex justify-end">
                   <Checkbox
                     className="hover:underline pt-0 pb-px"
+                    classNames={{ wrapper: "mr-[7px]" }}
                     color="primary"
                     isSelected={doNotShowOldSetWarningModal}
                     onValueChange={setDoNotShowOldSetWarningModal}
