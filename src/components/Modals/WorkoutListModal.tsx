@@ -7,6 +7,7 @@ import {
   ModalFooter,
   ScrollShadow,
   Checkbox,
+  Pagination,
 } from "@heroui/react";
 import { UserSettings, UseWorkoutListReturnType, Workout } from "../../typings";
 import { CreateShownPropertiesSet } from "../../helpers";
@@ -19,6 +20,11 @@ import {
   WorkoutListOptions,
   LoadingSpinner,
 } from "..";
+import {
+  LIST_HEIGHT_WITH_PAGINATION,
+  LIST_HEIGHT_WITHOUT_PAGINATION,
+  MODAL_BODY_HEIGHT,
+} from "../../constants";
 
 type WorkoutListModalProps = {
   workoutList: UseWorkoutListReturnType;
@@ -50,9 +56,19 @@ export const WorkoutListModal = ({
     setFilterQuery,
     listFilters,
     isWorkoutListLoaded,
+    paginatedWorkouts,
+    totalPaginationPages,
+    validPaginationPage,
+    setPaginationPage,
   } = workoutList;
 
   const { filterMap } = listFilters;
+
+  const showPaginationControls = totalPaginationPages > 1;
+
+  const listHeight = showPaginationControls
+    ? LIST_HEIGHT_WITH_PAGINATION
+    : LIST_HEIGHT_WITHOUT_PAGINATION;
 
   return (
     <Modal
@@ -64,7 +80,7 @@ export const WorkoutListModal = ({
           <>
             <ModalHeader>Select Workout</ModalHeader>
             <ModalBody className="py-0">
-              <div className="h-[440px] flex flex-col gap-1.5">
+              <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-1.5`}>
                 <div className="flex flex-col gap-1.5">
                   <SearchInput
                     filterQuery={filterQuery}
@@ -104,21 +120,36 @@ export const WorkoutListModal = ({
                   )}
                 </div>
                 {isWorkoutListLoaded.current ? (
-                  <ScrollShadow className="flex flex-col gap-1">
-                    {filteredWorkouts.map((workout) => (
-                      <WorkoutListItem
-                        key={workout.id}
-                        workout={workout}
-                        selectedWorkoutProperties={selectedWorkoutProperties}
-                        onClickAction={() =>
-                          onClickAction(workout, keepSetValues)
-                        }
-                      />
-                    ))}
-                    {filteredWorkouts.length === 0 && (
-                      <EmptyListLabel itemName="Workouts" />
+                  <div className="flex flex-col justify-between gap-1.5">
+                    <ScrollShadow
+                      className={`${listHeight} flex flex-col gap-1`}
+                    >
+                      {paginatedWorkouts.map((workout) => (
+                        <WorkoutListItem
+                          key={workout.id}
+                          workout={workout}
+                          selectedWorkoutProperties={selectedWorkoutProperties}
+                          onClickAction={() =>
+                            onClickAction(workout, keepSetValues)
+                          }
+                        />
+                      ))}
+                      {filteredWorkouts.length === 0 && (
+                        <EmptyListLabel itemName="Workouts" />
+                      )}
+                    </ScrollShadow>
+                    {showPaginationControls && (
+                      <div className="flex justify-center">
+                        <Pagination
+                          showControls
+                          loop
+                          page={validPaginationPage}
+                          total={totalPaginationPages}
+                          onChange={setPaginationPage}
+                        />
+                      </div>
                     )}
-                  </ScrollShadow>
+                  </div>
                 ) : (
                   <LoadingSpinner />
                 )}
