@@ -90,16 +90,7 @@ export const WorkoutListModal = ({
                     isListFiltered={filterMap.size > 0}
                   />
                   <div className="flex justify-between items-center pl-1">
-                    <div>
-                      <Checkbox
-                        className="hover:underline"
-                        color="primary"
-                        isSelected={keepSetValues}
-                        onValueChange={setKeepSetValues}
-                      >
-                        Copy Set Values
-                      </Checkbox>
-                    </div>
+                    <div></div>
                     <WorkoutListOptions
                       useWorkoutList={workoutList}
                       selectedWorkoutProperties={selectedWorkoutProperties}
@@ -155,7 +146,17 @@ export const WorkoutListModal = ({
                 )}
               </div>
             </ModalBody>
-            <ModalFooter>
+            <ModalFooter className="flex justify-between items-center">
+              <div>
+                <Checkbox
+                  className="hover:underline"
+                  color="primary"
+                  isSelected={keepSetValues}
+                  onValueChange={setKeepSetValues}
+                >
+                  Copy All Set Values From Workout
+                </Checkbox>
+              </div>
               <Button color="primary" variant="light" onPress={onClose}>
                 Close
               </Button>
