@@ -50,6 +50,7 @@ import toast from "react-hot-toast";
 import { Store } from "@tauri-apps/plugin-store";
 import {
   DEFAULT_MULTISET,
+  MODAL_BODY_HEIGHT,
   STORE_LIST_KEY_MULTISET_TEMPLATES,
 } from "../constants";
 
@@ -527,7 +528,7 @@ export default function Multisets() {
         header={operationType === "delete" ? "Delete Multiset" : "Remove Set"}
         body={
           operationType === "delete" ? (
-            <p className="max-h-[382px] overflow-hidden">
+            <p className={`max-${MODAL_BODY_HEIGHT} overflow-hidden`}>
               Are you sure you want to permanently delete the Multiset
               containing the following {operatingMultiset.setList.length}{" "}
               exercises?
@@ -550,7 +551,7 @@ export default function Multisets() {
               and permanently delete Multiset?
             </p>
           ) : (
-            <p className="max-h-[386px] overflow-hidden">
+            <p className={`max-${MODAL_BODY_HEIGHT} overflow-hidden`}>
               Are you sure you want to remove set of the following exercise from
               Multiset?
               <div className="pt-1">
