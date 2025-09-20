@@ -24,19 +24,15 @@ export const ValidateAndModifySet = (
   }
 
   if (set.is_tracking_rir || validateAllValues) {
-    let rir = GetValidatedSetValue(set.rir, "rir");
+    set.rir = GetValidatedSetValue(set.rir, "rir");
 
-    if (set.is_completed && rir === -1) rir = 0;
-
-    set.rir = rir;
+    if (set.is_completed && set.rir === -1) set.is_tracking_rir = 0;
   }
 
   if (set.is_tracking_rpe || validateAllValues) {
-    let rpe = GetValidatedSetValue(set.rpe, "rpe");
+    set.rpe = GetValidatedSetValue(set.rpe, "rpe");
 
-    if (set.is_completed && rpe === 0) rpe = 1;
-
-    set.rpe = rpe;
+    if (set.is_completed && set.rpe === 0) set.is_tracking_rpe = 0;
   }
 
   if (set.is_tracking_resistance_level || validateAllValues) {
@@ -51,11 +47,10 @@ export const ValidateAndModifySet = (
   }
 
   if (set.is_tracking_user_weight || validateAllValues) {
-    const userWeight = GetValidatedSetValue(set.user_weight, "weight");
-
-    set.user_weight = userWeight;
+    set.user_weight = GetValidatedSetValue(set.user_weight, "weight");
     set.user_weight_unit = GetValidatedUnit(set.user_weight_unit, "weight");
 
-    if (set.is_completed && userWeight === 0) set.is_tracking_user_weight = 0;
+    if (set.is_completed && set.user_weight === 0)
+      set.is_tracking_user_weight = 0;
   }
 };
