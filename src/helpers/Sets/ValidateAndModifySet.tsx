@@ -38,4 +38,9 @@ export const ValidateAndModifySet = (set: WorkoutSet) => {
   if (set.is_tracking_partial_reps) {
     set.partial_reps = GetValidatedSetValue(set.partial_reps, "partial_reps");
   }
+
+  if (set.is_tracking_user_weight) {
+    set.user_weight = GetValidatedSetValue(set.user_weight, "weight");
+    set.user_weight_unit = GetValidatedUnit(set.user_weight_unit, "weight");
+  }
 };
