@@ -8,7 +8,7 @@ import {
 import {
   GetExerciseWithId,
   GetMultisetGroupedSet,
-  GetValidatedUnit,
+  ValidateAndModifySet,
   ValidateExerciseOrderEntry,
 } from "..";
 
@@ -89,10 +89,10 @@ export const CreateGroupedWorkoutSetList = async (
 
   const unassignedSetMap = new Map<number, WorkoutSet[]>();
 
+  const validateAllSetValues = true;
+
   for (const set of setList) {
-    set.weight_unit = GetValidatedUnit(set.weight_unit, "weight");
-    set.distance_unit = GetValidatedUnit(set.distance_unit, "distance");
-    set.user_weight_unit = GetValidatedUnit(set.user_weight_unit, "weight");
+    ValidateAndModifySet(set, validateAllSetValues);
 
     if (set.multiset_id !== 0) continue;
 
