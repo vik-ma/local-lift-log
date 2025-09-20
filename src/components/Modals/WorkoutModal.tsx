@@ -17,6 +17,7 @@ import {
 } from "../../helpers";
 import { InfoIcon } from "../../assets";
 import { useEffect, useState } from "react";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type WorkoutModalProps = {
   workoutModal: UseDisclosureReturnType;
@@ -80,7 +81,7 @@ export const WorkoutModal = ({
           <>
             <ModalHeader>{header}</ModalHeader>
             <ModalBody className="py-0">
-              <div className="flex flex-col gap-2.5 h-[440px]">
+              <div className={`${MODAL_BODY_HEIGHT} flex flex-col gap-2.5`}>
                 {workoutTemplateNote && (
                   <div className="flex flex-col px-0.5">
                     <h3 className="font-medium text-secondary">

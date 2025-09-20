@@ -31,6 +31,7 @@ import {
   useValidateExerciseGroupStringPrimary,
   useValidateName,
 } from "../../hooks";
+import { MODAL_BODY_HEIGHT } from "../../constants";
 
 type ExerciseModalProps = {
   exerciseModal: UseDisclosureReturnType;
@@ -267,7 +268,7 @@ export const ExerciseModal = ({
               {exercise.id === 0 ? "New" : "Edit"} Exercise
             </ModalHeader>
             <ModalBody className="py-0">
-              <ScrollShadow className="h-[440px]">
+              <ScrollShadow className={`${MODAL_BODY_HEIGHT}`}>
                 <div className="flex flex-col gap-4 w-[23.75rem]">
                   <div className="flex flex-col gap-0.5">
                     <Input
