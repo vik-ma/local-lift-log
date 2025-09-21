@@ -6,7 +6,7 @@ import {
   WorkoutSet,
 } from "../typings";
 import { useState, useEffect, useRef } from "react";
-import { Checkbox, useDisclosure } from "@heroui/react";
+import { Checkbox, Pagination, useDisclosure } from "@heroui/react";
 import {
   LoadingSpinner,
   ExerciseModal,
@@ -33,7 +33,7 @@ import {
   ValidateAndModifyUserSettings,
   ValidateAndModifySet,
 } from "../helpers";
-import { useDetailsHeaderOptionsMenu } from "../hooks";
+import { useDetailsHeaderOptionsMenu, usePaginatedList } from "../hooks";
 import toast from "react-hot-toast";
 import { TrophyIcon } from "../assets";
 import { DEFAULT_EXERCISE, EXERCISE_GROUP_DICTIONARY } from "../constants";
@@ -106,6 +106,14 @@ export default function ExerciseDetails() {
   const dateWorkoutCommentMap = useRef<Map<string, Map<number, string>>>(
     new Map()
   );
+
+  const {
+    setPaginationPage,
+    itemsPerPaginationPage,
+    paginatedList,
+    totalPaginationPages,
+    validPaginationPage,
+  } = usePaginatedList(Array.from(dateSetListMap));
 
   const getDateSetListMap = async (
     weightUnit: string,
@@ -634,7 +642,7 @@ export default function ExerciseDetails() {
                         Click on set to go to workout
                       </span>
                     </div>
-                    {Array.from(dateSetListMap).map(([date, setList]) => {
+                    {paginatedList.map(([date, setList]) => {
                       // Hide entire date if all sets in setList are warmups/multisets and if corresponding checkbox is unchecked
                       if (
                         !showMultisets &&
@@ -841,6 +849,18 @@ export default function ExerciseDetails() {
                       );
                     })}
                   </div>
+                  {totalPaginationPages > 1 && (
+                    <div className="flex justify-center pt-0.5">
+                      <Pagination
+                        size="lg"
+                        showControls
+                        loop
+                        page={validPaginationPage}
+                        total={totalPaginationPages}
+                        onChange={setPaginationPage}
+                      />
+                    </div>
+                  )}
                 </div>
               )}
               {tabPage === "weight" && (
