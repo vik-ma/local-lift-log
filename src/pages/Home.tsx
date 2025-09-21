@@ -79,24 +79,24 @@ export default function Home() {
         createDefaultSettingsModal={createDefaultSettingsModal}
         doneButtonAction={createDefaultUserSettings}
       />
-      <CalendarModal calendarModal={calendarModal} />
+      {userSettings !== undefined && (
+        <CalendarModal
+          calendarModal={calendarModal}
+          userSettings={userSettings}
+        />
+      )}
       <div className="flex flex-col gap-4">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
             Home
           </h1>
         </div>
-        <div className="flex flex-col justify-center items-center gap-4">
+        <div className="flex flex-col justify-center items-center gap-3">
           <div className="flex flex-col items-center">
             <p>Settings Id: {userSettings?.id}</p>
             <p>Active Routine Id: {userSettings?.active_routine_id}</p>
           </div>
-          <Button
-            className="font-medium"
-            size="lg"
-            color="primary"
-            onPress={handleOpenCalendarButton}
-          >
+          <Button color="primary" onPress={handleOpenCalendarButton}>
             Open Calendar
           </Button>
         </div>

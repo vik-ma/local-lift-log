@@ -6,13 +6,18 @@ import {
   ModalBody,
   ModalFooter,
 } from "@heroui/react";
-import { UseDisclosureReturnType } from "../../typings";
+import { UseDisclosureReturnType, UserSettings } from "../../typings";
 
 type CalendarModalProps = {
   calendarModal: UseDisclosureReturnType;
+  userSettings: UserSettings;
 };
 
-export const CalendarModal = ({ calendarModal }: CalendarModalProps) => {
+export const CalendarModal = ({
+  calendarModal,
+  userSettings,
+}: CalendarModalProps) => {
+
   return (
     <Modal
       isOpen={calendarModal.isOpen}
