@@ -26,7 +26,7 @@ export { CHART_COLOR_LISTS } from "./ChartColorLists";
 export { EMPTY_DEFAULT_INCREMENT_VALUES } from "./EmptyDefaultIncrementValues";
 export {
   PAGINATION_OPTIONS_LIST_PAGE,
-  DEFAULT_MODAL_PAGINATION_ITEMS,
+  DEFAULT_NUM_PAGINATION_ITEMS_MODAL,
 } from "./PaginationOptions";
 export {
   STORE_LIST_KEY_EXERCISES,

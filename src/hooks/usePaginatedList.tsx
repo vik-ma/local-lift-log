@@ -1,13 +1,15 @@
 import { useMemo, useRef, useState } from "react";
 import { UsePaginatedListReturnType } from "../typings";
-import { DEFAULT_MODAL_PAGINATION_ITEMS } from "../constants";
+import { DEFAULT_NUM_PAGINATION_ITEMS_MODAL } from "../constants";
 
 export const usePaginatedList = <T,>(
   list: T[]
 ): UsePaginatedListReturnType<T> => {
   const [paginationPage, setPaginationPage] = useState<number>(1);
 
-  const itemsPerPaginationPage = useRef<number>(DEFAULT_MODAL_PAGINATION_ITEMS);
+  const itemsPerPaginationPage = useRef<number>(
+    DEFAULT_NUM_PAGINATION_ITEMS_MODAL
+  );
 
   const totalPaginationPages = Math.ceil(
     list.length / itemsPerPaginationPage.current

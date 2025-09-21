@@ -58,7 +58,7 @@ import { Store } from "@tauri-apps/plugin-store";
 import {
   DEFAULT_DISTANCE,
   DEFAULT_EQUIPMENT_WEIGHT,
-  DEFAULT_MODAL_PAGINATION_ITEMS,
+  DEFAULT_NUM_PAGINATION_ITEMS_MODAL,
   STORE_LIST_KEY_DISTANCES,
   STORE_LIST_KEY_EQUIPMENT_WEIGHTS,
   STORE_LIST_KEY_PLATE_COLLECTIONS,
@@ -747,7 +747,7 @@ export default function PresetsList() {
         // Change itemsPerPaginationPage for Equipment Weights because
         // they will be displayed in PresetsModalList (PlateCollectionModal)
         paginatedListEquipmentWeights.itemsPerPaginationPage.current =
-          DEFAULT_MODAL_PAGINATION_ITEMS;
+          DEFAULT_NUM_PAGINATION_ITEMS_MODAL;
         await loadPlateCollectionList(userSettings, IS_LIST_IN_MODAL);
         break;
       }
