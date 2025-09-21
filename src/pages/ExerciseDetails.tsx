@@ -55,6 +55,8 @@ type PaceRecord = {
   date: string;
 };
 
+const NUM_PAGINATION_ITEMS = 100;
+
 export default function ExerciseDetails() {
   const { id } = useParams();
   const [exercise, setExercise] = useState<Exercise>();
@@ -377,14 +379,11 @@ export default function ExerciseDetails() {
 
       if (userSettings === undefined) return;
 
+      itemsPerPaginationPage.current = NUM_PAGINATION_ITEMS;
+
       ValidateAndModifyUserSettings(
         userSettings,
-        new Set([
-          "default_unit_weight",
-          "default_unit_distance",
-          "locale",
-          "pagination_items",
-        ])
+        new Set(["default_unit_weight", "default_unit_distance", "locale"])
       );
 
       const speedUnit = GetSpeedUnitFromDistanceUnit(
