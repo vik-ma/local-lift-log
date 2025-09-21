@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Button, useDisclosure } from "@heroui/react";
-import { useNavigate } from "react-router-dom";
 import { UserSettings } from "../typings";
 import {
   GetUserSettings,
@@ -15,8 +14,6 @@ import { CalendarModal, CreateDefaultSettingsModal } from "../components";
 
 export default function Home() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
-
-  const navigate = useNavigate();
 
   const createDefaultSettingsModal = useDisclosure();
   const calendarModal = useDisclosure();
@@ -89,21 +86,11 @@ export default function Home() {
             Home
           </h1>
         </div>
-        <div className="flex justify-center">
-          <Button
-            className="font-medium"
-            size="lg"
-            color="primary"
-            onPress={() => navigate("/test")}
-          >
-            GO TO TEST PAGE
-          </Button>
-        </div>
-        <div className="flex flex-col justify-center items-center gap-2">
-          <p>Settings Id: {userSettings?.id}</p>
-          <p>Active Routine Id: {userSettings?.active_routine_id}</p>
-        </div>
-        <div className="flex justify-center">
+        <div className="flex flex-col justify-center items-center gap-4">
+          <div className="flex flex-col items-center">
+            <p>Settings Id: {userSettings?.id}</p>
+            <p>Active Routine Id: {userSettings?.active_routine_id}</p>
+          </div>
           <Button
             className="font-medium"
             size="lg"
