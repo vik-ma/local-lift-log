@@ -24,7 +24,7 @@ import {
   CalculationModalTab,
   PlateCollection,
 } from "../../typings";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ConvertNumberToTwoDecimals,
   IsStringEmpty,
@@ -242,12 +242,13 @@ export const CalculationModal = ({
     operationTypePlateCalc,
   ]);
 
-  useEffect(() => {
-    if (calculationModalTab === "plate") {
-      loadPlateCollectionList(userSettings);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calculationModalTab]);
+  const handleLoadPlateCollectionButton = async () => {
+    const isPlateCollectionListInModal = true;
+
+    await loadPlateCollectionList(userSettings, isPlateCollectionListInModal);
+
+    setPlateCalculatorPage("plate-calc-list");
+  };
 
   return (
     <Modal
@@ -333,7 +334,7 @@ export const CalculationModal = ({
                     <Button
                       variant="flat"
                       color="secondary"
-                      onPress={() => setPlateCalculatorPage("plate-calc-list")}
+                      onPress={handleLoadPlateCollectionButton}
                     >
                       Load Plate Collection
                     </Button>
