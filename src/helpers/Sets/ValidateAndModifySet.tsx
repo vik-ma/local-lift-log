@@ -25,14 +25,10 @@ export const ValidateAndModifySet = (
 
   if (set.is_tracking_rir || validateAllValues) {
     set.rir = GetValidatedSetValue(set.rir, "rir");
-
-    if (set.is_completed && set.rir === -1) set.is_tracking_rir = 0;
   }
 
   if (set.is_tracking_rpe || validateAllValues) {
     set.rpe = GetValidatedSetValue(set.rpe, "rpe");
-
-    if (set.is_completed && set.rpe === 0) set.is_tracking_rpe = 0;
   }
 
   if (set.is_tracking_resistance_level || validateAllValues) {
@@ -49,8 +45,5 @@ export const ValidateAndModifySet = (
   if (set.is_tracking_user_weight || validateAllValues) {
     set.user_weight = GetValidatedSetValue(set.user_weight, "weight");
     set.user_weight_unit = GetValidatedUnit(set.user_weight_unit, "weight");
-
-    if (set.is_completed && set.user_weight === 0)
-      set.is_tracking_user_weight = 0;
   }
 };
