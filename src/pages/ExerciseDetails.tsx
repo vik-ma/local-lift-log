@@ -774,23 +774,25 @@ export default function ExerciseDetails() {
                                           {set.paceUnit})
                                         </div>
                                       )}
-                                      {set.is_tracking_rpe === 1 && (
-                                        <div className="w-[5rem] font-normal">
-                                          RPE
-                                          <span className="max-w-[2.5rem] truncate font-semibold">
-                                            {" "}
-                                            {set.rpe}
-                                          </span>
-                                        </div>
-                                      )}
-                                      {set.is_tracking_rir === 1 && (
-                                        <div className="w-[5rem] font-normal">
-                                          <span className="max-w-[4rem] truncate font-semibold">
-                                            {set.rir}{" "}
-                                          </span>
-                                          RIR
-                                        </div>
-                                      )}
+                                      {set.is_tracking_rpe === 1 &&
+                                        set.rpe !== 0 && (
+                                          <div className="w-[5rem] font-normal">
+                                            RPE
+                                            <span className="max-w-[2.5rem] truncate font-semibold">
+                                              {" "}
+                                              {set.rpe}
+                                            </span>
+                                          </div>
+                                        )}
+                                      {set.is_tracking_rir === 1 &&
+                                        set.rir !== -1 && (
+                                          <div className="w-[5rem] font-normal">
+                                            <span className="max-w-[4rem] truncate font-semibold">
+                                              {set.rir}{" "}
+                                            </span>
+                                            RIR
+                                          </div>
+                                        )}
                                       {set.is_tracking_resistance_level ===
                                         1 && (
                                         <div className="w-[10rem] font-normal">
@@ -810,16 +812,17 @@ export default function ExerciseDetails() {
                                           {set.partial_reps !== 1 && "s"}
                                         </div>
                                       )}
-                                      {set.is_tracking_user_weight === 1 && (
-                                        <div className="w-[10rem] font-normal">
-                                          Body Weight
-                                          <span className="max-w-[3rem] truncate font-semibold">
-                                            {" "}
-                                            {set.user_weight}{" "}
-                                          </span>
-                                          {set.user_weight_unit}
-                                        </div>
-                                      )}
+                                      {set.is_tracking_user_weight === 1 &&
+                                        set.user_weight !== 0 && (
+                                          <div className="w-[10rem] font-normal">
+                                            Body Weight
+                                            <span className="max-w-[3rem] truncate font-semibold">
+                                              {" "}
+                                              {set.user_weight}{" "}
+                                            </span>
+                                            {set.user_weight_unit}
+                                          </div>
+                                        )}
                                     </div>
                                   </div>
                                   {(set.comment !== null ||
