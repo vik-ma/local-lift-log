@@ -166,52 +166,6 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const loadWorkoutActions = async () => {
-      try {
-        const userSettings = await GetUserSettings();
-
-        if (userSettings === undefined) return;
-
-        ValidateAndModifyUserSettings(
-          userSettings,
-          new Set([
-            "default_unit_weight",
-            "default_unit_distance",
-            "locale",
-            "time_input",
-            "increment_multipliers",
-            "pagination_items",
-          ])
-        );
-
-        setUserSettings(userSettings);
-
-        const emptySet: WorkoutSet = {
-          ...defaultSet.current,
-          weight_unit: userSettings.default_unit_weight,
-          distance_unit: userSettings.default_unit_distance,
-          user_weight_unit: userSettings.default_unit_weight,
-        };
-
-        defaultSet.current = emptySet;
-
-        setOperatingSet({ ...emptySet });
-
-        await LoadStore(store);
-
-        const isExerciseListInModal = true;
-
-        await loadExerciseList(userSettings, isExerciseListInModal);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    loadWorkoutActions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const addSetsToExercise = async (newSet: WorkoutSet, numSets: string) => {
     if (selectedExercise === undefined || newSet.id !== 0) return;
 
@@ -2835,6 +2789,52 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
     navigate(`/exercises/${exercise.id}`);
   };
+
+  useEffect(() => {
+    const loadWorkoutActions = async () => {
+      try {
+        const userSettings = await GetUserSettings();
+
+        if (userSettings === undefined) return;
+
+        ValidateAndModifyUserSettings(
+          userSettings,
+          new Set([
+            "default_unit_weight",
+            "default_unit_distance",
+            "locale",
+            "time_input",
+            "increment_multipliers",
+            "pagination_items",
+          ])
+        );
+
+        setUserSettings(userSettings);
+
+        const emptySet: WorkoutSet = {
+          ...defaultSet.current,
+          weight_unit: userSettings.default_unit_weight,
+          distance_unit: userSettings.default_unit_distance,
+          user_weight_unit: userSettings.default_unit_weight,
+        };
+
+        defaultSet.current = emptySet;
+
+        setOperatingSet({ ...emptySet });
+
+        await LoadStore(store);
+
+        const isExerciseListInModal = true;
+
+        await loadExerciseList(userSettings, isExerciseListInModal);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    loadWorkoutActions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     updateExerciseOrder,
