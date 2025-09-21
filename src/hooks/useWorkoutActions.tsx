@@ -66,6 +66,7 @@ import {
   DEFAULT_WORKOUT_TEMPLATE,
   NUM_NEW_SETS_OPTIONS_LIST,
 } from "../constants";
+import { useNavigate } from "react-router-dom";
 
 type OperationType =
   | "add"
@@ -162,6 +163,8 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     store,
     defaultPage: "multiset-list",
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadWorkoutActions = async () => {
@@ -609,6 +612,9 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
       }
       case "view-notes":
         openSetNotesModal(set, index, groupedSet);
+        break;
+      case "go-to-exercise-details":
+        goToExerciseDetailsPage(exercise);
         break;
     }
   };
@@ -2822,6 +2828,12 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
     updateExerciseOrder(updatedGroupedSets);
 
     if (!isTemplate) populateIncompleteSets(updatedGroupedSets);
+  };
+
+  const goToExerciseDetailsPage = (exercise: Exercise) => {
+    if (exercise.isInvalid) return;
+
+    navigate(`/exercises/${exercise.id}`);
   };
 
   return {
