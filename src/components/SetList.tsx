@@ -16,6 +16,7 @@ import {
   VerticalMenuIcon,
   CommentIcon,
   EditIcon,
+  GoToArrowIcon,
 } from "../assets";
 import { FormatTimeInSecondsToHhmmssString } from "../helpers";
 
@@ -275,6 +276,13 @@ export const SetList = ({
                     ) : (
                       <DropdownItem key="set-warmup">Set Warmup</DropdownItem>
                     )}
+                    <DropdownItem
+                      className={exercise.isInvalid ? "hidden" : ""}
+                      key="go-to-exercise-details"
+                      endContent={<GoToArrowIcon color="#808080" />}
+                    >
+                      View Exercise History
+                    </DropdownItem>
                     <DropdownItem
                       className={set.is_completed === 0 ? "hidden" : ""}
                       key="update-completed-set-time"
