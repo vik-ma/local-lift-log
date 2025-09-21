@@ -11,7 +11,7 @@ import {
   CreateDefaultDistances,
   ValidateAndModifyUserSettings,
 } from "../helpers";
-import { CreateDefaultSettingsModal } from "../components";
+import { CalendarModal, CreateDefaultSettingsModal } from "../components";
 
 export default function Home() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
@@ -19,6 +19,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   const createDefaultSettingsModal = useDisclosure();
+  const calendarModal = useDisclosure();
 
   const createDefaultUserSettings = async (
     unitType: string,
@@ -50,6 +51,10 @@ export default function Home() {
     }
   };
 
+  const handleOpenCalendarButton = () => {
+    calendarModal.onOpen();
+  };
+
   useEffect(() => {
     const loadPage = async () => {
       try {
@@ -77,6 +82,7 @@ export default function Home() {
         createDefaultSettingsModal={createDefaultSettingsModal}
         doneButtonAction={createDefaultUserSettings}
       />
+      <CalendarModal calendarModal={calendarModal} />
       <div className="flex flex-col gap-4">
         <div className="flex justify-center bg-neutral-900 px-6 py-4 rounded-xl">
           <h1 className="tracking-tight inline font-bold from-[#FF705B] to-[#FFB457] text-6xl bg-clip-text text-transparent bg-gradient-to-b truncate">
@@ -96,6 +102,16 @@ export default function Home() {
         <div className="flex flex-col justify-center items-center gap-2">
           <p>Settings Id: {userSettings?.id}</p>
           <p>Active Routine Id: {userSettings?.active_routine_id}</p>
+        </div>
+        <div className="flex justify-center">
+          <Button
+            className="font-medium"
+            size="lg"
+            color="primary"
+            onPress={handleOpenCalendarButton}
+          >
+            Open Calendar
+          </Button>
         </div>
       </div>
     </>
