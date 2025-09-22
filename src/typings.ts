@@ -1430,3 +1430,7 @@ export type UsePaginatedListReturnType<T> = {
   totalPaginationPages: number;
   validPaginationPage: number;
 };
+
+export type UseCalendarModalReturnType = {
+  calendarModal: UseDisclosureReturnType;
+};

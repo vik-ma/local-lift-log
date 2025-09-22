@@ -35,3 +35,4 @@ export { useFilterDateRange } from "./useFilterDateRange";
 export { useMeasurementListFilters } from "./useMeasurementListFilters";
 export { useNumExercisesAndSetsString } from "./useNumExercisesAndSetsString";
 export { usePaginatedList } from "./usePaginatedList";
+export { useCalendarModal } from "./useCalendarModal";
