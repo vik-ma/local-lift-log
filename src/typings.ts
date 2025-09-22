@@ -1433,10 +1433,11 @@ export type UsePaginatedListReturnType<T> = {
 
 export type UseCalendarModalReturnType = {
   calendarModal: UseDisclosureReturnType;
-  openCalendarModal: () => void;
+  openCalendarModal: () => Promise<void>;
+  calendarWorkoutList: CalendarWorkoutItem[];
 };
 
 export type CalendarWorkoutItem = {
   id: number;
   date: string;
-}
+};
