@@ -1435,3 +1435,8 @@ export type UseCalendarModalReturnType = {
   calendarModal: UseDisclosureReturnType;
   openCalendarModal: () => void;
 };
+
+export type CalendarWorkoutItem = {
+  id: number;
+  date: string;
+}
