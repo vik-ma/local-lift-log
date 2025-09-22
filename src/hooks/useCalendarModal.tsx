@@ -51,11 +51,14 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
 
     selectedMonth.current = yearMonth;
 
-    if (
-      yearMonth < currentMonth.current ||
-      !monthWorkoutListMap.current.has(yearMonth)
-    )
+    if (yearMonth > currentMonth.current) return;
+
+    if (monthWorkoutListMap.current.has(yearMonth)) {
+      const workoutList = monthWorkoutListMap.current.get(yearMonth)!;
+      setCalendarWorkoutList(workoutList);
+    } else {
       await getWorkoutListForMonth(yearMonth);
+    }
   };
 
   return {
