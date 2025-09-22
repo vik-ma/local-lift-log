@@ -11,6 +11,7 @@ import { UseCalendarModalReturnType, UserSettings } from "../../typings";
 import { MODAL_BODY_HEIGHT } from "../../constants";
 import { useEffect } from "react";
 import { I18nProvider } from "@react-aria/i18n";
+import { FormatISODateStringToCalendarAriaLabelString } from "../../helpers";
 
 type CalendarModalProps = {
   useCalendarModal: UseCalendarModalReturnType;
@@ -24,9 +25,16 @@ export const CalendarModal = ({
   const { calendarModal } = useCalendarModal;
 
   useEffect(() => {
-    const el = document.querySelector(
-      '[aria-label="Monday, September 8, 2025"]'
-    ) as HTMLElement;
+    if (!calendarModal.isOpen) return;
+
+    const date = FormatISODateStringToCalendarAriaLabelString(
+      "2025-09-08T14:30:00Z",
+      userSettings.locale
+    );
+
+    const querySelectorString = `[aria-label="${date}"]`;
+
+    const el = document.querySelector(querySelectorString) as HTMLElement;
 
     if (el) {
       const overlay = document.createElement("div");
@@ -43,6 +51,8 @@ export const CalendarModal = ({
 
       el.appendChild(overlay);
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calendarModal.isOpen]);
 
   return (
