@@ -22,34 +22,37 @@ export const CalendarModal = ({
   useCalendarModal,
   userSettings,
 }: CalendarModalProps) => {
-  const { calendarModal, isCalendarWorkoutListLoaded } = useCalendarModal;
+  const { calendarModal, calendarWorkoutList, isCalendarWorkoutListLoaded } =
+    useCalendarModal;
 
   useEffect(() => {
     if (!calendarModal.isOpen || !isCalendarWorkoutListLoaded.current) return;
 
-    const date = FormatISODateStringToCalendarAriaLabelString(
-      "2025-09-08T14:30:00Z",
-      userSettings.locale
-    );
+    for (const workout of calendarWorkoutList) {
+      const date = FormatISODateStringToCalendarAriaLabelString(
+        workout.date,
+        userSettings.locale
+      );
 
-    const querySelectorString = `[aria-label="${date}"]`;
+      const querySelectorString = `[aria-label="${date}"]`;
 
-    const el = document.querySelector(querySelectorString) as HTMLElement;
+      const el = document.querySelector(querySelectorString) as HTMLElement;
 
-    if (el) {
-      const overlay = document.createElement("div");
+      if (el) {
+        const overlay = document.createElement("div");
 
-      overlay.style.position = "absolute";
-      overlay.style.top = "0";
-      overlay.style.left = "0";
-      overlay.style.width = "100%";
-      overlay.style.height = "100%";
-      overlay.style.backgroundColor = "rgba(0,0,0,0.2)";
-      overlay.style.pointerEvents = "none";
+        overlay.style.position = "absolute";
+        overlay.style.top = "0";
+        overlay.style.left = "0";
+        overlay.style.width = "100%";
+        overlay.style.height = "100%";
+        overlay.style.backgroundColor = "rgba(0,0,0,0.2)";
+        overlay.style.pointerEvents = "none";
 
-      el.style.position = "relative";
+        el.style.position = "relative";
 
-      el.appendChild(overlay);
+        el.appendChild(overlay);
+      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
