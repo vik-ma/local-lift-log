@@ -1,6 +1,9 @@
 import { useDisclosure } from "@heroui/react";
 import { CalendarWorkoutItem, UseCalendarModalReturnType } from "../typings";
-import { GetCalendarWorkoutList, GetCurrentYmdDateString } from "../helpers";
+import {
+  ConvertDateToYearMonthString,
+  GetCalendarWorkoutList,
+} from "../helpers";
 import { useRef, useState } from "react";
 
 export const useCalendarModal = (): UseCalendarModalReturnType => {
@@ -19,7 +22,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
   const calendarModal = useDisclosure();
 
   const openCalendarModal = async () => {
-    const currentYearMonth = GetCurrentYmdDateString().substring(0, 7);
+    const currentYearMonth = ConvertDateToYearMonthString(new Date());
 
     const workoutList = await GetCalendarWorkoutList(currentYearMonth);
 

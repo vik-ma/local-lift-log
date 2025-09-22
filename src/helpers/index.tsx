@@ -28,6 +28,7 @@ export { IsDateBeforeEpochDate } from "./Dates/IsDateBeforeEpochDate";
 export { IsDateStringOlderThan24Hours } from "./Dates/IsDateStringOlderThan24Hours";
 export { GetLatestTimeForDayISODateString } from "./Dates/GetLatestTimeForDayISODateString";
 export { FormatISODateStringToCalendarAriaLabelString } from "./Dates/FormatISODateStringToCalendarAriaLabelString";
+export { ConvertDateToYearMonthString } from "./Dates/ConvertDateToYearMonthString";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringSetPrimaryToString } from "./Exercises/ConvertExerciseGroupStringSetPrimaryToString";
@@ -197,7 +198,7 @@ export { MergeTwoGroupedSetLists } from "./Workouts/MergeTwoGroupedSetLists";
 export { GetUniqueMultisetIds } from "./Workouts/GetUniqueMultisetIds";
 export { CreateWorkout } from "./Workouts/CreateWorkout";
 export { DeleteWorkoutWithId } from "./Workouts/DeleteWorkoutWithId";
-export { GetCalendarWorkoutList } from "./Workouts/GetCalendarWorkoutList"
+export { GetCalendarWorkoutList } from "./Workouts/GetCalendarWorkoutList";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
