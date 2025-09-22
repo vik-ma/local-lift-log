@@ -22,16 +22,21 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
 
   const calendarModal = useDisclosure();
 
-  const openCalendarModal = async () => {
-    const currentYearMonth = ConvertDateToYearMonthString(new Date());
-
-    const workoutList = await GetCalendarWorkoutList(currentYearMonth);
+  const getWorkoutListForMonth = async (yearMonth: string) => {
+    const workoutList = await GetCalendarWorkoutList(yearMonth);
 
     setCalendarWorkoutList(workoutList);
 
+    selectedMonth.current = yearMonth;
+    monthWorkoutListMap.current.set(yearMonth, workoutList);
+  };
+
+  const openCalendarModal = async () => {
+    const currentYearMonth = ConvertDateToYearMonthString(new Date());
+
+    await getWorkoutListForMonth(currentYearMonth);
+
     currentMonth.current = currentYearMonth;
-    selectedMonth.current = currentYearMonth;
-    monthWorkoutListMap.current.set(currentYearMonth, workoutList);
 
     isCalendarWorkoutListLoaded.current = true;
 
