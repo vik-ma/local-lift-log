@@ -27,6 +27,7 @@ export { ConvertISODateStringToYmdDateString } from "./Dates/ConvertISODateStrin
 export { IsDateBeforeEpochDate } from "./Dates/IsDateBeforeEpochDate";
 export { IsDateStringOlderThan24Hours } from "./Dates/IsDateStringOlderThan24Hours";
 export { GetLatestTimeForDayISODateString } from "./Dates/GetLatestTimeForDayISODateString";
+export { FormatISODateStringToCalendarAriaLabelString } from "./Dates/FormatISODateStringToCalendarAriaLabelString";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringSetPrimaryToString } from "./Exercises/ConvertExerciseGroupStringSetPrimaryToString";
