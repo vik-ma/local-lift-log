@@ -10,6 +10,7 @@ import {
 import { UseDisclosureReturnType, UserSettings } from "../../typings";
 import { MODAL_BODY_HEIGHT } from "../../constants";
 import { useEffect } from "react";
+import { I18nProvider } from "@react-aria/i18n";
 
 type CalendarModalProps = {
   calendarModal: UseDisclosureReturnType;
@@ -34,9 +35,9 @@ export const CalendarModal = ({
       overlay.style.width = "100%";
       overlay.style.height = "100%";
       overlay.style.backgroundColor = "rgba(0,0,0,0.2)";
-      overlay.style.pointerEvents = "none"; 
+      overlay.style.pointerEvents = "none";
 
-      el.style.position = "relative"; 
+      el.style.position = "relative";
 
       el.appendChild(overlay);
     }
@@ -55,7 +56,9 @@ export const CalendarModal = ({
               <div
                 className={`${MODAL_BODY_HEIGHT} flex flex-col items-center gap-1.5`}
               >
-                <Calendar calendarWidth={280} showMonthAndYearPickers />
+                <I18nProvider locale={userSettings.locale}>
+                  <Calendar calendarWidth={280} showMonthAndYearPickers />
+                </I18nProvider>
               </div>
             </ModalBody>
             <ModalFooter>
