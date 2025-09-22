@@ -34,9 +34,11 @@ export const CalendarModal = ({
 
       const querySelectorString = `[aria-label="${date}"]`;
 
-      const el = document.querySelector(querySelectorString) as HTMLElement;
+      const dateCell = document.querySelector(
+        querySelectorString
+      ) as HTMLElement;
 
-      if (el) {
+      if (dateCell) {
         const overlay = document.createElement("div");
 
         overlay.style.position = "absolute";
@@ -47,9 +49,9 @@ export const CalendarModal = ({
         overlay.style.backgroundColor = "rgba(0,0,0,0.2)";
         overlay.style.pointerEvents = "none";
 
-        el.style.position = "relative";
+        dateCell.style.position = "relative";
 
-        el.appendChild(overlay);
+        dateCell.appendChild(overlay);
       }
     }
   };
