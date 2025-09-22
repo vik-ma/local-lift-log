@@ -42,7 +42,9 @@ export const CalendarModal = ({
         querySelectorString
       ) as HTMLElement;
 
-      if (dateCell) {
+      const parentCell = dateCell.parentElement;
+
+      if (parentCell) {
         const overlay = document.createElement("div");
 
         overlay.style.position = "absolute";
@@ -53,9 +55,9 @@ export const CalendarModal = ({
         overlay.style.backgroundColor = "rgba(0,0,0,0.2)";
         overlay.style.pointerEvents = "none";
 
-        dateCell.style.position = "relative";
+        parentCell.style.position = "relative";
 
-        dateCell.appendChild(overlay);
+        parentCell.appendChild(overlay);
       }
     }
   };
