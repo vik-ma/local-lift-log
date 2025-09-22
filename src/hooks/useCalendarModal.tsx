@@ -4,5 +4,9 @@ import { UseCalendarModalReturnType } from "../typings";
 export const useCalendarModal = (): UseCalendarModalReturnType => {
   const calendarModal = useDisclosure();
 
-  return { calendarModal };
+  const openCalendarModal = () => {
+    calendarModal.onOpen();
+  };
+
+  return { calendarModal, openCalendarModal };
 };

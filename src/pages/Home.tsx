@@ -20,6 +20,8 @@ export default function Home() {
 
   const calendarModal = useCalendarModal();
 
+  const { openCalendarModal } = calendarModal;
+
   const createDefaultUserSettings = async (
     unitType: string,
     locale: string,
@@ -48,10 +50,6 @@ export default function Home() {
 
       createDefaultSettingsModal.onClose();
     }
-  };
-
-  const handleOpenCalendarButton = () => {
-    calendarModal.onOpen();
   };
 
   useEffect(() => {
@@ -98,7 +96,7 @@ export default function Home() {
             <p>Settings Id: {userSettings?.id}</p>
             <p>Active Routine Id: {userSettings?.active_routine_id}</p>
           </div>
-          <Button color="primary" onPress={handleOpenCalendarButton}>
+          <Button color="primary" onPress={openCalendarModal}>
             Open Calendar
           </Button>
         </div>

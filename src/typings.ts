@@ -1433,4 +1433,5 @@ export type UsePaginatedListReturnType<T> = {
 
 export type UseCalendarModalReturnType = {
   calendarModal: UseDisclosureReturnType;
+  openCalendarModal: () => void;
 };
