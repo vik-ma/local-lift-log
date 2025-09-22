@@ -17,7 +17,6 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
   );
 
   const currentMonth = useRef<string>("");
-  const selectedMonth = useRef<string>("");
 
   const isCalendarWorkoutListLoaded = useRef<boolean>(false);
 
@@ -28,7 +27,6 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
 
     setCalendarWorkoutList(workoutList);
 
-    selectedMonth.current = yearMonth;
     monthWorkoutListMap.current.set(yearMonth, workoutList);
   };
 
@@ -49,8 +47,6 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
       date.toDate(getLocalTimeZone())
     );
 
-    selectedMonth.current = yearMonth;
-
     if (yearMonth > currentMonth.current) return;
 
     if (monthWorkoutListMap.current.has(yearMonth)) {
@@ -66,7 +62,6 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     openCalendarModal,
     calendarWorkoutList,
     isCalendarWorkoutListLoaded,
-    selectedMonth,
     monthWorkoutListMap,
     handleCalendarMonthChange,
   };
