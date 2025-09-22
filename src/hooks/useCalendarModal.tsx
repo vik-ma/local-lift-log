@@ -15,6 +15,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     new Map()
   );
 
+  const currentMonth = useRef<string>("");
   const selectedMonth = useRef<string>("");
 
   const isCalendarWorkoutListLoaded = useRef<boolean>(false);
@@ -28,6 +29,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
 
     setCalendarWorkoutList(workoutList);
 
+    currentMonth.current = currentYearMonth;
     selectedMonth.current = currentYearMonth;
     monthWorkoutListMap.current.set(currentYearMonth, workoutList);
 
