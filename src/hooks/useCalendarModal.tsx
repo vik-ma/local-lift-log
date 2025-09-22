@@ -1,10 +1,11 @@
-import { useDisclosure } from "@heroui/react";
+import { CalendarDate, useDisclosure } from "@heroui/react";
 import { CalendarWorkoutItem, UseCalendarModalReturnType } from "../typings";
 import {
   ConvertDateToYearMonthString,
   GetCalendarWorkoutList,
 } from "../helpers";
 import { useRef, useState } from "react";
+import { getLocalTimeZone } from "@internationalized/date";
 
 export const useCalendarModal = (): UseCalendarModalReturnType => {
   const [calendarWorkoutList, setCalendarWorkoutList] = useState<
@@ -43,6 +44,20 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     calendarModal.onOpen();
   };
 
+  const handleCalendarMonthChange = async (date: CalendarDate) => {
+    const yearMonth = ConvertDateToYearMonthString(
+      date.toDate(getLocalTimeZone())
+    );
+
+    selectedMonth.current = yearMonth;
+
+    if (
+      yearMonth < currentMonth.current ||
+      !monthWorkoutListMap.current.has(yearMonth)
+    )
+      await getWorkoutListForMonth(yearMonth);
+  };
+
   return {
     calendarModal,
     openCalendarModal,
@@ -50,5 +65,6 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     isCalendarWorkoutListLoaded,
     selectedMonth,
     monthWorkoutListMap,
+    handleCalendarMonthChange,
   };
 };

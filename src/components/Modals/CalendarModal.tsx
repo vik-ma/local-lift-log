@@ -22,8 +22,12 @@ export const CalendarModal = ({
   useCalendarModal,
   userSettings,
 }: CalendarModalProps) => {
-  const { calendarModal, calendarWorkoutList, isCalendarWorkoutListLoaded } =
-    useCalendarModal;
+  const {
+    calendarModal,
+    calendarWorkoutList,
+    isCalendarWorkoutListLoaded,
+    handleCalendarMonthChange,
+  } = useCalendarModal;
 
   const renderWorkoutListOverlay = () => {
     for (const workout of calendarWorkoutList) {
@@ -81,7 +85,7 @@ export const CalendarModal = ({
                   <Calendar
                     calendarWidth={280}
                     showMonthAndYearPickers
-                    onFocusChange={(value) => console.log(value)}
+                    onFocusChange={(value) => handleCalendarMonthChange(value)}
                   />
                 </I18nProvider>
               </div>
