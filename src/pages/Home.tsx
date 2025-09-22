@@ -11,12 +11,14 @@ import {
   ValidateAndModifyUserSettings,
 } from "../helpers";
 import { CalendarModal, CreateDefaultSettingsModal } from "../components";
+import { useCalendarModal } from "../hooks";
 
 export default function Home() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
 
   const createDefaultSettingsModal = useDisclosure();
-  const calendarModal = useDisclosure();
+
+  const calendarModal = useCalendarModal();
 
   const createDefaultUserSettings = async (
     unitType: string,
@@ -81,7 +83,7 @@ export default function Home() {
       />
       {userSettings !== undefined && (
         <CalendarModal
-          calendarModal={calendarModal}
+          useCalendarModal={calendarModal}
           userSettings={userSettings}
         />
       )}

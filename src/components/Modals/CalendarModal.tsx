@@ -7,20 +7,22 @@ import {
   ModalFooter,
   Calendar,
 } from "@heroui/react";
-import { UseDisclosureReturnType, UserSettings } from "../../typings";
+import { UseCalendarModalReturnType, UserSettings } from "../../typings";
 import { MODAL_BODY_HEIGHT } from "../../constants";
 import { useEffect } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 
 type CalendarModalProps = {
-  calendarModal: UseDisclosureReturnType;
+  useCalendarModal: UseCalendarModalReturnType;
   userSettings: UserSettings;
 };
 
 export const CalendarModal = ({
-  calendarModal,
+  useCalendarModal,
   userSettings,
 }: CalendarModalProps) => {
+  const { calendarModal } = useCalendarModal;
+
   useEffect(() => {
     const el = document.querySelector(
       '[aria-label="Monday, September 8, 2025"]'
