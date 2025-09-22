@@ -1,12 +1,14 @@
 import { useDisclosure } from "@heroui/react";
 import { CalendarWorkoutItem, UseCalendarModalReturnType } from "../typings";
 import { GetCalendarWorkoutList, GetCurrentYmdDateString } from "../helpers";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export const useCalendarModal = (): UseCalendarModalReturnType => {
   const [calendarWorkoutList, setCalendarWorkoutList] = useState<
     CalendarWorkoutItem[]
   >([]);
+
+  const isCalendarWorkoutListLoaded = useRef<boolean>(false);
 
   const calendarModal = useDisclosure();
 
@@ -17,8 +19,15 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
 
     setCalendarWorkoutList(workoutList);
 
+    isCalendarWorkoutListLoaded.current = true;
+
     calendarModal.onOpen();
   };
 
-  return { calendarModal, openCalendarModal, calendarWorkoutList };
+  return {
+    calendarModal,
+    openCalendarModal,
+    calendarWorkoutList,
+    isCalendarWorkoutListLoaded,
+  };
 };

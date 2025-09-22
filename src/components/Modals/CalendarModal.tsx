@@ -22,10 +22,10 @@ export const CalendarModal = ({
   useCalendarModal,
   userSettings,
 }: CalendarModalProps) => {
-  const { calendarModal } = useCalendarModal;
+  const { calendarModal, isCalendarWorkoutListLoaded } = useCalendarModal;
 
   useEffect(() => {
-    if (!calendarModal.isOpen) return;
+    if (!calendarModal.isOpen || !isCalendarWorkoutListLoaded.current) return;
 
     const date = FormatISODateStringToCalendarAriaLabelString(
       "2025-09-08T14:30:00Z",

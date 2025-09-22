@@ -1435,6 +1435,7 @@ export type UseCalendarModalReturnType = {
   calendarModal: UseDisclosureReturnType;
   openCalendarModal: () => Promise<void>;
   calendarWorkoutList: CalendarWorkoutItem[];
+  isCalendarWorkoutListLoaded: React.RefObject<boolean>;
 };
 
 export type CalendarWorkoutItem = {
