@@ -48,10 +48,11 @@ export const CalendarModal = ({
         const overlay = document.createElement("div");
 
         overlay.style.position = "absolute";
-        overlay.style.top = "0";
-        overlay.style.left = "0";
-        overlay.style.width = "100%";
-        overlay.style.height = "100%";
+        overlay.style.bottom = "2px";
+        overlay.style.left = "50%";
+        overlay.style.width = "6px";
+        overlay.style.height = "6px";
+        overlay.style.transform = "translateX(-50%)";
         overlay.style.backgroundColor = "rgba(0,0,0,0.2)";
         overlay.style.pointerEvents = "none";
 
