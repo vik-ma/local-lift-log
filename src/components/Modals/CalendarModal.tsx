@@ -66,7 +66,7 @@ export const CalendarModal = ({
     renderWorkoutListOverlay();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calendarModal.isOpen]);
+  }, [calendarModal.isOpen, calendarWorkoutList]);
 
   return (
     <Modal
