@@ -25,9 +25,7 @@ export const CalendarModal = ({
   const { calendarModal, calendarWorkoutList, isCalendarWorkoutListLoaded } =
     useCalendarModal;
 
-  useEffect(() => {
-    if (!calendarModal.isOpen || !isCalendarWorkoutListLoaded.current) return;
-
+  const renderWorkoutListOverlay = () => {
     for (const workout of calendarWorkoutList) {
       const date = FormatISODateStringToCalendarAriaLabelString(
         workout.date,
@@ -54,6 +52,12 @@ export const CalendarModal = ({
         el.appendChild(overlay);
       }
     }
+  };
+
+  useEffect(() => {
+    if (!calendarModal.isOpen || !isCalendarWorkoutListLoaded.current) return;
+
+    renderWorkoutListOverlay();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calendarModal.isOpen]);
@@ -72,7 +76,11 @@ export const CalendarModal = ({
                 className={`${MODAL_BODY_HEIGHT} flex flex-col items-center gap-1.5`}
               >
                 <I18nProvider locale={userSettings.locale}>
-                  <Calendar calendarWidth={280} showMonthAndYearPickers />
+                  <Calendar
+                    calendarWidth={280}
+                    showMonthAndYearPickers
+                    onFocusChange={(value) => console.log(value)}
+                  />
                 </I18nProvider>
               </div>
             </ModalBody>
