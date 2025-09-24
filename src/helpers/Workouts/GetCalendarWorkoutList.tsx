@@ -6,7 +6,9 @@ export const GetCalendarWorkoutList = async (yearMonthString: string) => {
     const db = await Database.load(import.meta.env.VITE_DB);
 
     const result = await db.select<CalendarWorkoutItem[]>(
-      `SELECT id, date FROM workouts WHERE date LIKE '${yearMonthString}%';`
+      `SELECT id, date, workout_template_id 
+       FROM workouts 
+       WHERE date LIKE '${yearMonthString}%';`
     );
 
     return result;

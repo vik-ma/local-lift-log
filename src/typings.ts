@@ -1444,4 +1444,5 @@ export type UseCalendarModalReturnType = {
 export type CalendarWorkoutItem = {
   id: number;
   date: string;
+  workout_template_id: number;
 };
