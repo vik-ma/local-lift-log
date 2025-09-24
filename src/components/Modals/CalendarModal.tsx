@@ -27,6 +27,7 @@ export const CalendarModal = ({
     calendarWorkoutList,
     isCalendarWorkoutListLoaded,
     handleCalendarMonthChange,
+    currentDateString,
   } = useCalendarModal;
 
   const renderWorkoutListOverlay = () => {
@@ -38,7 +39,10 @@ export const CalendarModal = ({
         userSettings.locale
       );
 
-      const querySelectorString = `[aria-label="${date}"]`;
+      const querySelectorString =
+        date === currentDateString.current
+          ? `[aria-label="Today, ${date}"]`
+          : `[aria-label="${date}"]`;
 
       const dateCell = document.querySelector(
         querySelectorString
