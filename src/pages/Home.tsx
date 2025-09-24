@@ -22,6 +22,12 @@ export default function Home() {
 
   const { openCalendarModal } = calendarModal;
 
+  const handleOpenCalendarModal = async () => {
+    if (userSettings === undefined) return;
+
+    await openCalendarModal(userSettings.locale);
+  };
+
   const createDefaultUserSettings = async (
     unitType: string,
     locale: string,
@@ -96,7 +102,7 @@ export default function Home() {
             <p>Settings Id: {userSettings?.id}</p>
             <p>Active Routine Id: {userSettings?.active_routine_id}</p>
           </div>
-          <Button color="primary" onPress={openCalendarModal}>
+          <Button color="primary" onPress={handleOpenCalendarModal}>
             Open Calendar
           </Button>
         </div>
