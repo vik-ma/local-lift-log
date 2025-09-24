@@ -54,6 +54,9 @@ export const CalendarModal = ({
 
       if (dateWrapperCellMap.has(date)) {
         wrapper = dateWrapperCellMap.get(date)!;
+
+        // Do not add more than 16 dots per date
+        if (wrapper.children.length >= 16) continue;
       } else {
         wrapper.style.position = "absolute";
         wrapper.style.width = "100%";
