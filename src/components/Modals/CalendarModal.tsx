@@ -56,11 +56,12 @@ export const CalendarModal = ({
         wrapper = dateWrapperCellMap.get(date)!;
       } else {
         wrapper.style.position = "absolute";
+        wrapper.style.width = "100%";
         wrapper.style.display = "flex";
+        wrapper.style.flexWrap = "wrap-reverse";
+        wrapper.style.justifyContent = "center";
         wrapper.style.gap = "1px";
         wrapper.style.bottom = "3px";
-        wrapper.style.left = "50%";
-        wrapper.style.transform = "translateX(-50%)";
         wrapper.style.pointerEvents = "none";
 
         parentCell.style.position = "relative";
