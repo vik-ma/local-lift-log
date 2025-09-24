@@ -64,7 +64,7 @@ export const CalendarModal = ({
         wrapper.style.flexWrap = "wrap-reverse";
         wrapper.style.justifyContent = "center";
         wrapper.style.gap = "1px";
-        wrapper.style.bottom = "3px";
+        wrapper.style.bottom = "4px";
         wrapper.style.pointerEvents = "none";
 
         parentCell.style.position = "relative";
