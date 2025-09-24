@@ -57,7 +57,7 @@ export const CalendarModal = ({
       } else {
         wrapper.style.position = "absolute";
         wrapper.style.display = "flex";
-        wrapper.style.gap = "2px";
+        wrapper.style.gap = "1px";
         wrapper.style.bottom = "3px";
         wrapper.style.left = "50%";
         wrapper.style.transform = "translateX(-50%)";
@@ -74,6 +74,7 @@ export const CalendarModal = ({
 
       dot.style.width = "6px";
       dot.style.height = "6px";
+      dot.style.borderRadius = "50%";
       dot.style.backgroundColor = "rgba(0,0,0,0.2)";
 
       wrapper.appendChild(dot);
