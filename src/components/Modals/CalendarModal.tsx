@@ -8,7 +8,7 @@ import {
   Calendar,
 } from "@heroui/react";
 import { UseCalendarModalReturnType, UserSettings } from "../../typings";
-import { MODAL_BODY_HEIGHT } from "../../constants";
+import { CALENDAR_DOT_COLOR_LIST, MODAL_BODY_HEIGHT } from "../../constants";
 import { useEffect } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import { FormatISODateStringToCalendarAriaLabelString } from "../../helpers";
@@ -54,13 +54,23 @@ export const CalendarModal = ({
 
       if (parentCell === null) continue;
 
+      const dot = document.createElement("div");
+
+      dot.style.width = "6px";
+      dot.style.height = "6px";
+      dot.style.borderRadius = "50%";
+
       let wrapper = document.createElement("div");
 
       if (dateWrapperCellMap.has(date)) {
         wrapper = dateWrapperCellMap.get(date)!;
 
+        const numExistingDots = wrapper.children.length;
+
         // Do not add more than 16 dots per date
-        if (wrapper.children.length >= 16) continue;
+        if (numExistingDots >= 16) continue;
+
+        dot.style.backgroundColor = CALENDAR_DOT_COLOR_LIST[numExistingDots];
       } else {
         wrapper.style.position = "absolute";
         wrapper.style.width = "100%";
@@ -76,14 +86,9 @@ export const CalendarModal = ({
         parentCell.appendChild(wrapper);
 
         dateWrapperCellMap.set(date, wrapper);
+
+        dot.style.backgroundColor = CALENDAR_DOT_COLOR_LIST[0];
       }
-
-      const dot = document.createElement("div");
-
-      dot.style.width = "6px";
-      dot.style.height = "6px";
-      dot.style.borderRadius = "50%";
-      dot.style.backgroundColor = "rgba(0,0,0,0.2)";
 
       wrapper.appendChild(dot);
     }
