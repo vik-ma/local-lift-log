@@ -33,21 +33,31 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
   };
 
   const openCalendarModal = async (locale: string) => {
-    const currentDate = new Date();
+    if (!isCalendarWorkoutListLoaded.current) {
+      const currentDate = new Date();
 
-    const currentDateAriaLabelString =
-      FormatISODateStringToCalendarAriaLabelString(
-        currentDate.toISOString(),
-        locale
-      );
-    const currentYearMonth = ConvertDateToYearMonthString(currentDate);
+      const currentDateAriaLabelString =
+        FormatISODateStringToCalendarAriaLabelString(
+          currentDate.toISOString(),
+          locale
+        );
+      const currentYearMonth = ConvertDateToYearMonthString(currentDate);
 
-    await getWorkoutListForMonth(currentYearMonth);
+      await getWorkoutListForMonth(currentYearMonth);
 
-    currentDateString.current = currentDateAriaLabelString;
-    currentMonth.current = currentYearMonth;
+      currentDateString.current = currentDateAriaLabelString;
+      currentMonth.current = currentYearMonth;
 
-    isCalendarWorkoutListLoaded.current = true;
+      isCalendarWorkoutListLoaded.current = true;
+    } else {
+      // Always set calendarWorkoutList to current month if already loaded,
+      // since it will be automatically selected when opening modal
+      const currentMonthWorkoutList = monthWorkoutListMap.current.get(
+        currentMonth.current
+      )!;
+
+      setCalendarWorkoutList(currentMonthWorkoutList);
+    }
 
     calendarModal.onOpen();
   };
