@@ -30,6 +30,8 @@ export const CalendarModal = ({
   } = useCalendarModal;
 
   const renderWorkoutListOverlay = () => {
+    const dateWrapperCellMap = new Map<string, HTMLDivElement>();
+
     for (const workout of calendarWorkoutList) {
       const date = FormatISODateStringToCalendarAriaLabelString(
         workout.date,
@@ -42,24 +44,39 @@ export const CalendarModal = ({
         querySelectorString
       ) as HTMLElement;
 
+      if (dateCell === null) continue;
+
       const parentCell = dateCell.parentElement;
 
-      if (parentCell) {
-        const overlay = document.createElement("div");
+      if (parentCell === null) continue;
 
-        overlay.style.position = "absolute";
-        overlay.style.bottom = "2px";
-        overlay.style.left = "50%";
-        overlay.style.width = "6px";
-        overlay.style.height = "6px";
-        overlay.style.transform = "translateX(-50%)";
-        overlay.style.backgroundColor = "rgba(0,0,0,0.2)";
-        overlay.style.pointerEvents = "none";
+      let wrapper = document.createElement("div");
+
+      if (dateWrapperCellMap.has(date)) {
+        wrapper = dateWrapperCellMap.get(date)!;
+      } else {
+        wrapper.style.position = "absolute";
+        wrapper.style.display = "flex";
+        wrapper.style.gap = "2px";
+        wrapper.style.bottom = "3px";
+        wrapper.style.left = "50%";
+        wrapper.style.transform = "translateX(-50%)";
+        wrapper.style.pointerEvents = "none";
 
         parentCell.style.position = "relative";
 
-        parentCell.appendChild(overlay);
+        parentCell.appendChild(wrapper);
+
+        dateWrapperCellMap.set(date, wrapper);
       }
+
+      const dot = document.createElement("div");
+
+      dot.style.width = "6px";
+      dot.style.height = "6px";
+      dot.style.backgroundColor = "rgba(0,0,0,0.2)";
+
+      wrapper.appendChild(dot);
     }
   };
 
