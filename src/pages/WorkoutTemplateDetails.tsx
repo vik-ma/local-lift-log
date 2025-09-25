@@ -101,7 +101,6 @@ export default function WorkoutTemplateDetails() {
   const workoutTemplateList = useWorkoutTemplateList({
     store: store,
     useExerciseList: exerciseList,
-    ignoreEmptyWorkoutTemplates: true,
     workoutTemplateIdToIgnore: Number(id),
   });
 

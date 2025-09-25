@@ -59,7 +59,6 @@ export const useWorkoutList = ({
   const workoutTemplateList = useWorkoutTemplateList({
     store: store,
     useExerciseList: useExerciseList,
-    ignoreEmptyWorkoutTemplates: true,
   });
 
   const { loadWorkoutTemplateList, workoutTemplateMap } = workoutTemplateList;

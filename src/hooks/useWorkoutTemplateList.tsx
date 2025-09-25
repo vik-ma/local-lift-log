@@ -23,7 +23,6 @@ import { STORE_LIST_KEY_WORKOUT_TEMPLATES } from "../constants";
 type UseWorkoutTemplateListProps = {
   store: StoreRef;
   useExerciseList: UseExerciseListReturnType;
-  ignoreEmptyWorkoutTemplates?: boolean;
   workoutTemplateIdToIgnore?: number;
 };
 
@@ -32,7 +31,6 @@ const STORE_SORT_CATEGORY_KEY = `sort-category-${STORE_LIST_KEY_WORKOUT_TEMPLATE
 export const useWorkoutTemplateList = ({
   store,
   useExerciseList,
-  ignoreEmptyWorkoutTemplates,
   workoutTemplateIdToIgnore,
 }: UseWorkoutTemplateListProps): UseWorkoutTemplateListReturnType => {
   const [workoutTemplates, setWorkoutTemplates] = useState<WorkoutTemplate[]>(
@@ -149,11 +147,7 @@ export const useWorkoutTemplateList = ({
       const newWorkoutTemplateMap: WorkoutTemplateMap = new Map();
 
       for (const row of result) {
-        if (
-          row.id === workoutTemplateIdToIgnore ||
-          (ignoreEmptyWorkoutTemplates && row.numSets === 0)
-        )
-          continue;
+        if (row.id === workoutTemplateIdToIgnore) continue;
 
         const exerciseIds = CreateExerciseSetIds(
           row.exerciseIdList,
