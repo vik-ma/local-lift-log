@@ -1436,7 +1436,7 @@ export type UseCalendarModalReturnType = {
   openCalendarModal: (locale: string) => Promise<void>;
   calendarWorkoutList: CalendarWorkoutItem[];
   isCalendarWorkoutListLoaded: React.RefObject<boolean>;
-  monthWorkoutListMap: React.RefObject<Map<string, CalendarWorkoutItem[]>>;
+  calendarMonthMap: React.RefObject<Map<string, CalendarMonthItem>>;
   handleCalendarMonthChange: (date: CalendarDate) => Promise<void>;
   currentDateString: React.RefObject<string>;
 };
@@ -1446,4 +1446,9 @@ export type CalendarWorkoutItem = {
   date: string;
   workout_template_id: number;
   workout_template_name: string;
+};
+
+export type CalendarMonthItem = {
+  workoutList: CalendarWorkoutItem[];
+  workoutTemplateMap: Map<number, string>;
 };

@@ -1,5 +1,9 @@
 import { CalendarDate, useDisclosure } from "@heroui/react";
-import { CalendarWorkoutItem, UseCalendarModalReturnType } from "../typings";
+import {
+  CalendarMonthItem,
+  CalendarWorkoutItem,
+  UseCalendarModalReturnType,
+} from "../typings";
 import {
   ConvertDateToYearMonthString,
   FormatISODateStringToCalendarAriaLabelString,
@@ -13,12 +17,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     CalendarWorkoutItem[]
   >([]);
 
-  const monthWorkoutListMap = useRef<Map<string, CalendarWorkoutItem[]>>(
-    new Map()
-  );
-  const monthTemplateListMap = useRef<Map<string, Map<number, string>>>(
-    new Map()
-  );
+  const calendarMonthMap = useRef<Map<string, CalendarMonthItem>>(new Map());
 
   const currentDateString = useRef<string>("");
   const currentMonth = useRef<string>("");
@@ -39,8 +38,12 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
       ])
     );
 
-    monthWorkoutListMap.current.set(yearMonth, workoutList);
-    monthTemplateListMap.current.set(yearMonth, workoutTemplateMap);
+    const calendarMonthItem: CalendarMonthItem = {
+      workoutList,
+      workoutTemplateMap,
+    };
+
+    calendarMonthMap.current.set(yearMonth, calendarMonthItem);
   };
 
   const openCalendarModal = async (locale: string) => {
@@ -63,9 +66,9 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     } else {
       // Always set calendarWorkoutList to current month if already loaded,
       // since it will be automatically selected when opening modal
-      const currentMonthWorkoutList = monthWorkoutListMap.current.get(
+      const currentMonthWorkoutList = calendarMonthMap.current.get(
         currentMonth.current
-      )!;
+      )!.workoutList;
 
       setCalendarWorkoutList(currentMonthWorkoutList);
     }
@@ -80,8 +83,8 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
 
     if (yearMonth > currentMonth.current) return;
 
-    if (monthWorkoutListMap.current.has(yearMonth)) {
-      const workoutList = monthWorkoutListMap.current.get(yearMonth)!;
+    if (calendarMonthMap.current.has(yearMonth)) {
+      const workoutList = calendarMonthMap.current.get(yearMonth)!.workoutList;
       setCalendarWorkoutList(workoutList);
     } else {
       await getWorkoutListForMonth(yearMonth);
@@ -93,7 +96,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     openCalendarModal,
     calendarWorkoutList,
     isCalendarWorkoutListLoaded,
-    monthWorkoutListMap,
+    calendarMonthMap,
     handleCalendarMonthChange,
     currentDateString,
   };
