@@ -16,6 +16,9 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
   const monthWorkoutListMap = useRef<Map<string, CalendarWorkoutItem[]>>(
     new Map()
   );
+  const monthTemplateListMap = useRef<Map<string, Map<number, string>>>(
+    new Map()
+  );
 
   const currentDateString = useRef<string>("");
   const currentMonth = useRef<string>("");
@@ -29,7 +32,15 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
 
     setCalendarWorkoutList(workoutList);
 
+    const workoutTemplateMap = new Map<number, string>(
+      workoutList.map((calendarItem) => [
+        calendarItem.workout_template_id,
+        calendarItem.workout_template_name,
+      ])
+    );
+
     monthWorkoutListMap.current.set(yearMonth, workoutList);
+    monthTemplateListMap.current.set(yearMonth, workoutTemplateMap);
   };
 
   const openCalendarModal = async (locale: string) => {
