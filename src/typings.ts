@@ -1434,7 +1434,7 @@ export type UsePaginatedListReturnType<T> = {
 export type UseCalendarModalReturnType = {
   calendarModal: UseDisclosureReturnType;
   openCalendarModal: (locale: string) => Promise<void>;
-  calendarMonthItem: CalendarMonthItem;
+  operatingCalendarMonth: CalendarMonthItem;
   isCalendarWorkoutListLoaded: React.RefObject<boolean>;
   calendarMonthMap: React.RefObject<Map<string, CalendarMonthItem>>;
   handleCalendarMonthChange: (date: CalendarDate) => Promise<void>;

@@ -9,9 +9,11 @@ import { useRef, useState } from "react";
 import { getLocalTimeZone } from "@internationalized/date";
 
 export const useCalendarModal = (): UseCalendarModalReturnType => {
-  const [calendarMonthItem, setCalendarMonthItem] = useState<CalendarMonthItem>(
-    { workoutList: [], workoutTemplateMap: new Map() }
-  );
+  const [operatingCalendarMonth, setOperatingCalendarMonth] =
+    useState<CalendarMonthItem>({
+      workoutList: [],
+      workoutTemplateMap: new Map(),
+    });
 
   const calendarMonthMap = useRef<Map<string, CalendarMonthItem>>(new Map());
 
@@ -32,14 +34,14 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
       ])
     );
 
-    const calendarMonthItemForMonth: CalendarMonthItem = {
+    const calendarMonthItem: CalendarMonthItem = {
       workoutList,
       workoutTemplateMap,
     };
 
-    setCalendarMonthItem(calendarMonthItemForMonth);
+    setOperatingCalendarMonth(calendarMonthItem);
 
-    calendarMonthMap.current.set(yearMonth, calendarMonthItemForMonth);
+    calendarMonthMap.current.set(yearMonth, calendarMonthItem);
   };
 
   const openCalendarModal = async (locale: string) => {
@@ -66,7 +68,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
         currentMonth.current
       )!;
 
-      setCalendarMonthItem(currentMonthItem);
+      setOperatingCalendarMonth(currentMonthItem);
     }
 
     calendarModal.onOpen();
@@ -80,9 +82,8 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     if (yearMonth > currentMonth.current) return;
 
     if (calendarMonthMap.current.has(yearMonth)) {
-      const calendarMonthItemForMonth =
-        calendarMonthMap.current.get(yearMonth)!;
-      setCalendarMonthItem(calendarMonthItemForMonth);
+      const calendarMonthItem = calendarMonthMap.current.get(yearMonth)!;
+      setOperatingCalendarMonth(calendarMonthItem);
     } else {
       await getWorkoutListForMonth(yearMonth);
     }
@@ -91,7 +92,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
   return {
     calendarModal,
     openCalendarModal,
-    calendarMonthItem,
+    operatingCalendarMonth,
     isCalendarWorkoutListLoaded,
     calendarMonthMap,
     handleCalendarMonthChange,
