@@ -3,7 +3,11 @@ import {
   ValidateAndModifyIncrementMultipliers,
   ValidateAndModifyTimeInputBehavior,
 } from "..";
-import { LOCALE_MAP, PAGINATION_OPTIONS_LIST_PAGE } from "../../constants";
+import {
+  CALENDAR_DISPLAY_OPTIONS_MAP,
+  LOCALE_MAP,
+  PAGINATION_OPTIONS_LIST_PAGE,
+} from "../../constants";
 import { UserSettings } from "../../typings";
 
 type UserSettingsPropsToValidate =
@@ -13,7 +17,8 @@ type UserSettingsPropsToValidate =
   | "locale"
   | "time_input"
   | "increment_multipliers"
-  | "pagination_items";
+  | "pagination_items"
+  | "calendar_display_option";
 
 export const ValidateAndModifyUserSettings = (
   userSettings: UserSettings,
@@ -68,6 +73,18 @@ export const ValidateAndModifyUserSettings = (
         ) {
           userSettings.num_pagination_items_list_desktop =
             PAGINATION_OPTIONS_LIST_PAGE[1];
+        }
+
+        break;
+      }
+      case "calendar_display_option": {
+        if (
+          !CALENDAR_DISPLAY_OPTIONS_MAP.has(
+            userSettings.calendar_display_option
+          )
+        ) {
+          userSettings.calendar_display_option =
+            CALENDAR_DISPLAY_OPTIONS_MAP.keys().next().value!;
         }
 
         break;
