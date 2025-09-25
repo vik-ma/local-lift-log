@@ -25,6 +25,7 @@ export { NUM_DAYS_IN_SCHEDULE_OPTIONS } from "./NumDaysInScheduleOptions";
 export { CHART_COLOR_LISTS } from "./ChartColorLists";
 export { EMPTY_DEFAULT_INCREMENT_VALUES } from "./EmptyDefaultIncrementValues";
 export { CALENDAR_COLOR_LIST } from "./CalendarColorList";
+export { CALENDAR_DISPLAY_OPTIONS_MAP } from "./CalendarDisplayOptionsMap";
 export {
   PAGINATION_OPTIONS_LIST_PAGE,
   DEFAULT_NUM_PAGINATION_ITEMS_MODAL,
