@@ -1,4 +1,4 @@
-export const CALENDAR_DOT_COLOR_LIST = [
+export const CALENDAR_COLOR_LIST = [
   // Alpha value of 70% (B3)
   "#007FFFB3", // Blue
   "#FFA500B3", // Orange/Yellow
@@ -16,4 +16,5 @@ export const CALENDAR_DOT_COLOR_LIST = [
   "#697F03B3", // Dark Green
   "#C04000B3", // Brown/Red
   "#FF68CEB3", // Pink
+  "#000000B3", // Black
 ];
