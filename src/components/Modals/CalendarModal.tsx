@@ -8,7 +8,7 @@ import {
   Calendar,
 } from "@heroui/react";
 import { UseCalendarModalReturnType, UserSettings } from "../../typings";
-import { CALENDAR_DOT_COLOR_LIST, MODAL_BODY_HEIGHT } from "../../constants";
+import { CALENDAR_COLOR_LIST, MODAL_BODY_HEIGHT } from "../../constants";
 import { useEffect } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import { FormatISODateStringToCalendarAriaLabelString } from "../../helpers";
@@ -70,7 +70,7 @@ export const CalendarModal = ({
         // Do not add more than 16 dots per date
         if (numExistingDots >= 16) continue;
 
-        dot.style.backgroundColor = CALENDAR_DOT_COLOR_LIST[numExistingDots];
+        dot.style.backgroundColor = CALENDAR_COLOR_LIST[numExistingDots];
       } else {
         wrapper.style.position = "absolute";
         wrapper.style.width = "100%";
@@ -87,7 +87,7 @@ export const CalendarModal = ({
 
         dateWrapperCellMap.set(date, wrapper);
 
-        dot.style.backgroundColor = CALENDAR_DOT_COLOR_LIST[0];
+        dot.style.backgroundColor = CALENDAR_COLOR_LIST[0];
       }
 
       wrapper.appendChild(dot);
