@@ -24,7 +24,7 @@ export const CalendarModal = ({
 }: CalendarModalProps) => {
   const {
     calendarModal,
-    calendarWorkoutList,
+    operatingCalendarMonth,
     isCalendarWorkoutListLoaded,
     handleCalendarMonthChange,
     currentDateString,
@@ -33,7 +33,7 @@ export const CalendarModal = ({
   const renderWorkoutListOverlay = () => {
     const dateWrapperCellMap = new Map<string, HTMLDivElement>();
 
-    for (const workout of calendarWorkoutList) {
+    for (const workout of operatingCalendarMonth.workoutList) {
       const date = FormatISODateStringToCalendarAriaLabelString(
         workout.date,
         userSettings.locale
@@ -100,7 +100,7 @@ export const CalendarModal = ({
     renderWorkoutListOverlay();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calendarModal.isOpen, calendarWorkoutList]);
+  }, [calendarModal.isOpen, operatingCalendarMonth]);
 
   return (
     <Modal
