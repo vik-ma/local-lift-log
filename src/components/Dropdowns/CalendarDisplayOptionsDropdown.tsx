@@ -7,6 +7,7 @@ export const CalendarDisplayOptionsDropdown = ({
   targetType,
   setValue,
   updateUserSetting,
+  isCompact,
 }: SettingsDropdownProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "settings" && updateUserSetting !== undefined) {
@@ -21,7 +22,7 @@ export const CalendarDisplayOptionsDropdown = ({
   return (
     <Select
       aria-label="Calendar Display Options Dropdown List"
-      className="w-[13.5rem]"
+      className={isCompact ? "w-[11.25rem]" : "w-[13.25rem]"}
       variant="faded"
       selectedKeys={[value]}
       onChange={(e) => handleChange(e)}
