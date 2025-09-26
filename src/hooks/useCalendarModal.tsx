@@ -14,6 +14,8 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
       workoutList: [],
       workoutTemplateMap: new Map(),
     });
+  const [calendarDisplayOption, setCalendarDisplayOption] =
+    useState<string>("workouts");
 
   const calendarMonthMap = useRef<Map<string, CalendarMonthItem>>(new Map());
 
@@ -97,5 +99,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     calendarMonthMap,
     handleCalendarMonthChange,
     currentDateString,
+    calendarDisplayOption,
+    setCalendarDisplayOption,
   };
 };
