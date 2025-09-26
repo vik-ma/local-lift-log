@@ -207,7 +207,6 @@ export type SettingsDropdownProps = {
   targetType: "settings" | "state";
   setValue?: React.Dispatch<React.SetStateAction<string>>;
   updateUserSetting?: UpdateUserSettingFunction;
-  isCompact?: boolean;
 };
 
 export type SetTrackingValuesInput = {
