@@ -64,7 +64,10 @@ export default function Home() {
         const userSettings = await GetUserSettings();
 
         if (userSettings !== undefined) {
-          ValidateAndModifyUserSettings(userSettings, new Set(["locale"]));
+          ValidateAndModifyUserSettings(
+            userSettings,
+            new Set(["locale", "calendar_display_option"])
+          );
 
           setUserSettings(userSettings);
         } else {
