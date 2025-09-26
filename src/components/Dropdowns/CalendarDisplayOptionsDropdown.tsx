@@ -21,7 +21,7 @@ export const CalendarDisplayOptionsDropdown = ({
   return (
     <Select
       aria-label="Calendar Display Options Dropdown List"
-      className="w-[11.5rem]"
+      className="w-[13.5rem]"
       variant="faded"
       selectedKeys={[value]}
       onChange={(e) => handleChange(e)}
