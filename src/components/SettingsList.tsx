@@ -30,6 +30,7 @@ import {
   DietLogDayDropdown,
   SearchInput,
   PaginationOptionsDropdown,
+  CalendarDisplayOptionsDropdown,
 } from "../components";
 import toast from "react-hot-toast";
 import Database from "@tauri-apps/plugin-sql";
@@ -381,6 +382,23 @@ export const SettingsList = ({
               onValueChange={(value) =>
                 updateUserSetting("never_show_delete_modal", value ? 1 : 0)
               }
+            />
+          </div>
+        ),
+        category: "General",
+      },
+      {
+        label: "Default Calendar Display Option",
+        content: (
+          <div
+            key="calendar_display_option"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span>Default Calendar Display Option</span>
+            <CalendarDisplayOptionsDropdown
+              value={userSettings.calendar_display_option}
+              updateUserSetting={updateUserSetting}
+              targetType="settings"
             />
           </div>
         ),
