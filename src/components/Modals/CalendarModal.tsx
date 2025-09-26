@@ -12,6 +12,7 @@ import { CALENDAR_COLOR_LIST, MODAL_BODY_HEIGHT } from "../../constants";
 import { useEffect } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import { FormatISODateStringToCalendarAriaLabelString } from "../../helpers";
+import { CalendarDisplayOptionsDropdown } from "../Dropdowns/CalendarDisplayOptionsDropdown";
 
 type CalendarModalProps = {
   useCalendarModal: UseCalendarModalReturnType;
@@ -28,6 +29,8 @@ export const CalendarModal = ({
     isCalendarWorkoutListLoaded,
     handleCalendarMonthChange,
     currentDateString,
+    calendarDisplayOption,
+    setCalendarDisplayOption,
   } = useCalendarModal;
 
   const renderWorkoutListOverlay = () => {
@@ -113,8 +116,14 @@ export const CalendarModal = ({
             <ModalHeader>Calendar</ModalHeader>
             <ModalBody className="py-0">
               <div
-                className={`${MODAL_BODY_HEIGHT} flex flex-col items-center gap-1.5`}
+                className={`${MODAL_BODY_HEIGHT} flex flex-col items-center gap-2`}
               >
+                <CalendarDisplayOptionsDropdown
+                  value={calendarDisplayOption}
+                  setValue={setCalendarDisplayOption}
+                  targetType="state"
+                  isInCalendarModal
+                />
                 <I18nProvider locale={userSettings.locale}>
                   <Calendar
                     calendarWidth={280}
