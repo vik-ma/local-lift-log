@@ -45,5 +45,3 @@ export const TimeInputBehaviorDropdown = ({
     </Select>
   );
 };
-
-export default TimeInputBehaviorDropdown;

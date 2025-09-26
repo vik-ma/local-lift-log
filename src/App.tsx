@@ -25,7 +25,7 @@ import {
 import { SiteHeader } from "./components";
 import { Toaster } from "react-hot-toast";
 
-function App() {
+export default function App() {
   return (
     <>
       <Toaster
@@ -89,5 +89,3 @@ function App() {
     </>
   );
 }
-
-export default App;

@@ -33,5 +33,3 @@ export const LocaleDropdown = ({
     </Select>
   );
 };
-
-export default LocaleDropdown;

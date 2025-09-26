@@ -384,5 +384,3 @@ export const MultisetModal = ({
     </Modal>
   );
 };
-
-export default MultisetModal;

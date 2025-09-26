@@ -125,5 +125,3 @@ export const MeasurementUnitDropdown = ({
     </div>
   );
 };
-
-export default MeasurementUnitDropdown;

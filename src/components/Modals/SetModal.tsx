@@ -251,5 +251,3 @@ export const SetModal = ({
     </Modal>
   );
 };
-
-export default SetModal;

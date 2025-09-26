@@ -45,5 +45,3 @@ export const DeleteModal = ({
     </Modal>
   );
 };
-
-export default DeleteModal;

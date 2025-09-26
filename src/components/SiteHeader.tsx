@@ -167,5 +167,3 @@ export const SiteHeader = () => {
     </nav>
   );
 };
-
-export default SiteHeader;

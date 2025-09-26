@@ -110,5 +110,3 @@ export const WeightUnitDropdown = ({
     </div>
   );
 };
-
-export default WeightUnitDropdown;

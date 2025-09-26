@@ -91,5 +91,3 @@ export const DistanceUnitDropdown = ({
     </div>
   );
 };
-
-export default DistanceUnitDropdown;

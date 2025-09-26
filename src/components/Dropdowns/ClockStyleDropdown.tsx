@@ -31,5 +31,3 @@ export const ClockStyleDropdown = ({
     </Select>
   );
 };
-
-export default ClockStyleDropdown;
