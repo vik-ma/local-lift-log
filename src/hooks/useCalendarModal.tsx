@@ -1,5 +1,9 @@
 import { CalendarDate, useDisclosure } from "@heroui/react";
-import { CalendarMonthItem, UseCalendarModalReturnType } from "../typings";
+import {
+  CalendarMonthItem,
+  UseCalendarModalReturnType,
+  UserSettings,
+} from "../typings";
 import {
   ConvertDateToYearMonthString,
   FormatISODateStringToCalendarAriaLabelString,
@@ -46,14 +50,14 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     calendarMonthMap.current.set(yearMonth, calendarMonthItem);
   };
 
-  const openCalendarModal = async (locale: string) => {
+  const openCalendarModal = async (userSettings: UserSettings) => {
     if (!isCalendarWorkoutListLoaded.current) {
       const currentDate = new Date();
 
       const currentDateAriaLabelString =
         FormatISODateStringToCalendarAriaLabelString(
           currentDate.toISOString(),
-          locale
+          userSettings.locale
         );
       const currentYearMonth = ConvertDateToYearMonthString(currentDate);
 
@@ -61,6 +65,8 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
 
       currentDateString.current = currentDateAriaLabelString;
       currentMonth.current = currentYearMonth;
+
+      setCalendarDisplayOption(userSettings.calendar_display_option);
 
       isCalendarWorkoutListLoaded.current = true;
     } else {

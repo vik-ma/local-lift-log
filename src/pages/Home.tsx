@@ -25,7 +25,7 @@ export default function Home() {
   const handleOpenCalendarModal = async () => {
     if (userSettings === undefined) return;
 
-    await openCalendarModal(userSettings.locale);
+    await openCalendarModal(userSettings);
   };
 
   const createDefaultUserSettings = async (
