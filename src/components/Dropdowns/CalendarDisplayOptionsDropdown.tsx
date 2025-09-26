@@ -36,7 +36,7 @@ export const CalendarDisplayOptionsDropdown = ({
         labelPlacement="outside-left"
         classNames={{
           label: isInCalendarModal ? "text-sm" : "",
-          mainWrapper: "w-[11.5rem]",
+          mainWrapper: "w-[11.25rem]",
         }}
         variant="faded"
         selectedKeys={[value]}
