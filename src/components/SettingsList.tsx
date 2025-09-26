@@ -267,44 +267,6 @@ export const SettingsList = ({
   const settingsList = useMemo(() => {
     const settingsItemList: SettingsItem[] = [
       {
-        label: "Number Of Items Displayed Per Page In Lists",
-        content: (
-          <div
-            key="num_pagination_items_list_desktop"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span>Number Of Items Per Page In Lists</span>
-            <PaginationOptionsDropdown
-              value={userSettings.num_pagination_items_list_desktop}
-              updateUserSetting={updateUserSetting}
-            />
-          </div>
-        ),
-        category: "General",
-      },
-      {
-        label: "Never Show Delete Modal Confirmation When Deleting Item",
-        content: (
-          <div
-            key="never_show_delete_modal"
-            className="flex gap-3 items-center justify-between"
-          >
-            <span>Never Show Delete Modal Confirmation When Deleting Item</span>
-            <Switch
-              aria-label="Never Show Delete Modal Confirmation Switch Element"
-              className="flex-row-reverse gap-3"
-              color="primary"
-              size="lg"
-              isSelected={userSettings.never_show_delete_modal ? true : false}
-              onValueChange={(value) =>
-                updateUserSetting("never_show_delete_modal", value ? 1 : 0)
-              }
-            />
-          </div>
-        ),
-        category: "General",
-      },
-      {
         label: "Date Format",
         content: (
           <div key="locale" className="flex gap-3 items-center justify-between">
@@ -381,6 +343,44 @@ export const SettingsList = ({
               value={userSettings.default_unit_measurement}
               updateUserSetting={updateUserSetting}
               targetType="settings"
+            />
+          </div>
+        ),
+        category: "General",
+      },
+      {
+        label: "Number Of Items Displayed Per Page In Lists",
+        content: (
+          <div
+            key="num_pagination_items_list_desktop"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span>Number Of Items Per Page In Lists</span>
+            <PaginationOptionsDropdown
+              value={userSettings.num_pagination_items_list_desktop}
+              updateUserSetting={updateUserSetting}
+            />
+          </div>
+        ),
+        category: "General",
+      },
+      {
+        label: "Never Show Delete Modal Confirmation When Deleting Item",
+        content: (
+          <div
+            key="never_show_delete_modal"
+            className="flex gap-3 items-center justify-between"
+          >
+            <span>Never Show Delete Modal Confirmation When Deleting Item</span>
+            <Switch
+              aria-label="Never Show Delete Modal Confirmation Switch Element"
+              className="flex-row-reverse gap-3"
+              color="primary"
+              size="lg"
+              isSelected={userSettings.never_show_delete_modal ? true : false}
+              onValueChange={(value) =>
+                updateUserSetting("never_show_delete_modal", value ? 1 : 0)
+              }
             />
           </div>
         ),
