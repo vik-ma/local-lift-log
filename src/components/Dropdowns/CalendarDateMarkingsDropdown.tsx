@@ -30,7 +30,7 @@ export const CalendarDateMarkingsDropdown = ({
   return (
     <div>
       <Select
-        aria-label="Calendar Display Options Dropdown List"
+        aria-label="Calendar Date Markings Dropdown List"
         label={isInCalendarModal ? "Date Markings" : undefined}
         size={isInCalendarModal ? "sm" : "md"}
         labelPlacement="outside-left"
