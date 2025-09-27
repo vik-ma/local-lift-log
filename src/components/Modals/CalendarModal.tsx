@@ -117,13 +117,10 @@ export const CalendarModal = ({
       <div className="flex flex-col">
         {Array.from(operatingCalendarMonth.workoutTemplateMap).map(
           ([id, name], index) => {
-            const textColor = `text-[${CALENDAR_COLOR_LIST[index].substring(
-              0,
-              7
-            )}]`;
+            const textColor = CALENDAR_COLOR_LIST[index].substring(0, 7);
 
             return (
-              <span key={id} className={textColor}>
+              <span key={id} style={{ color: textColor }}>
                 {name}
               </span>
             );
