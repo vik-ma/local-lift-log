@@ -30,7 +30,7 @@ import {
   DietLogDayDropdown,
   SearchInput,
   PaginationOptionsDropdown,
-  CalendarDisplayOptionsDropdown,
+  CalendarDateMarkingsDropdown,
 } from "../components";
 import toast from "react-hot-toast";
 import Database from "@tauri-apps/plugin-sql";
@@ -395,7 +395,7 @@ export const SettingsList = ({
             className="flex gap-3 items-center justify-between"
           >
             <span>Default Calendar Display Option</span>
-            <CalendarDisplayOptionsDropdown
+            <CalendarDateMarkingsDropdown
               value={userSettings.calendar_date_marking}
               updateUserSetting={updateUserSetting}
               targetType="settings"

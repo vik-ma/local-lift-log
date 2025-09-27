@@ -12,7 +12,7 @@ import { CALENDAR_COLOR_LIST, MODAL_BODY_HEIGHT } from "../../constants";
 import { useEffect } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import { FormatISODateStringToCalendarAriaLabelString } from "../../helpers";
-import { CalendarDisplayOptionsDropdown } from "../Dropdowns/CalendarDisplayOptionsDropdown";
+import { CalendarDateMarkingsDropdown } from "..";
 
 type CalendarModalProps = {
   useCalendarModal: UseCalendarModalReturnType;
@@ -118,7 +118,7 @@ export const CalendarModal = ({
               <div
                 className={`${MODAL_BODY_HEIGHT} flex flex-col items-center gap-2`}
               >
-                <CalendarDisplayOptionsDropdown
+                <CalendarDateMarkingsDropdown
                   value={calendarDisplayOption}
                   setValue={setCalendarDisplayOption}
                   targetType="state"

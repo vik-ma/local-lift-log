@@ -2,7 +2,7 @@ import { Select, SelectItem } from "@heroui/react";
 import { CALENDAR_DATE_MARKINGS_MAP } from "../../constants";
 import { UpdateUserSettingFunction } from "../../typings";
 
-type CalendarDisplayOptionsDropdownProps = {
+type CalendarDateMarkingsDropdownProps = {
   value: string;
   targetType: "settings" | "state";
   setValue?: React.Dispatch<React.SetStateAction<string>>;
@@ -10,13 +10,13 @@ type CalendarDisplayOptionsDropdownProps = {
   isInCalendarModal?: boolean;
 };
 
-export const CalendarDisplayOptionsDropdown = ({
+export const CalendarDateMarkingsDropdown = ({
   value,
   targetType,
   setValue,
   updateUserSetting,
   isInCalendarModal,
-}: CalendarDisplayOptionsDropdownProps) => {
+}: CalendarDateMarkingsDropdownProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "settings" && updateUserSetting !== undefined) {
       updateUserSetting("calendar_date_marking", e.target.value);
