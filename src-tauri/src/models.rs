@@ -54,7 +54,7 @@ pub struct UserSetting {
     pub show_get_latest_body_weight_button: i32,
     pub show_outdated_body_weight_message: i32,
     pub num_pagination_items_list_desktop: i32,
-    pub calendar_display_option: String,
+    pub calendar_date_marking: String,
 }
 
 #[derive(Queryable, Selectable)]
