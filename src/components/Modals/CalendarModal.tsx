@@ -36,11 +36,23 @@ export const CalendarModal = ({
   const renderWorkoutListOverlay = () => {
     const dateWrapperCellMap = new Map<string, HTMLDivElement>();
 
+    let isBuildingNewMap = false;
+
     for (const workout of operatingCalendarMonth.workoutList) {
       const date = FormatISODateStringToCalendarAriaLabelString(
         workout.date,
         userSettings.locale
       );
+
+      const wrapperIdString = `${date}-marking-wrapper`;
+
+      const existingWrapper = document.getElementById(wrapperIdString);
+
+      if (existingWrapper && !isBuildingNewMap) {
+        existingWrapper.remove();
+      }
+
+      if (calendarDisplayOption === "none") continue;
 
       const querySelectorString =
         date === currentDateString.current
@@ -75,6 +87,7 @@ export const CalendarModal = ({
 
         dot.style.backgroundColor = CALENDAR_COLOR_LIST[numExistingDots];
       } else {
+        wrapper.id = wrapperIdString;
         wrapper.style.position = "absolute";
         wrapper.style.width = "100%";
         wrapper.style.display = "flex";
@@ -91,6 +104,8 @@ export const CalendarModal = ({
         dateWrapperCellMap.set(date, wrapper);
 
         dot.style.backgroundColor = CALENDAR_COLOR_LIST[0];
+
+        isBuildingNewMap = true;
       }
 
       wrapper.appendChild(dot);
@@ -103,7 +118,7 @@ export const CalendarModal = ({
     renderWorkoutListOverlay();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calendarModal.isOpen, operatingCalendarMonth]);
+  }, [calendarModal.isOpen, operatingCalendarMonth, calendarDisplayOption]);
 
   return (
     <Modal
