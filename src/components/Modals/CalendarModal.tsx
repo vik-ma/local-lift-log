@@ -146,6 +146,13 @@ export const CalendarModal = ({
                     onFocusChange={(value) => handleCalendarMonthChange(value)}
                   />
                 </I18nProvider>
+                <div className="flex flex-col">
+                  {Array.from(operatingCalendarMonth.workoutTemplateMap).map(
+                    ([id, name]) => (
+                      <span key={id}>{name}</span>
+                    )
+                  )}
+                </div>
               </div>
             </ModalBody>
             <ModalFooter>
