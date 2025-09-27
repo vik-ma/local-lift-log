@@ -9,7 +9,7 @@ import {
 } from "@heroui/react";
 import { UseCalendarModalReturnType, UserSettings } from "../../typings";
 import { CALENDAR_COLOR_LIST, MODAL_BODY_HEIGHT } from "../../constants";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import { FormatISODateStringToCalendarAriaLabelString } from "../../helpers";
 import { CalendarDateMarkingsDropdown } from "..";
@@ -112,6 +112,27 @@ export const CalendarModal = ({
     }
   };
 
+  const workoutTemplateList = useMemo(() => {
+    return (
+      <div className="flex flex-col">
+        {Array.from(operatingCalendarMonth.workoutTemplateMap).map(
+          ([id, name], index) => {
+            const textColor = `text-[${CALENDAR_COLOR_LIST[index].substring(
+              0,
+              7
+            )}]`;
+
+            return (
+              <span key={id} className={textColor}>
+                {name}
+              </span>
+            );
+          }
+        )}
+      </div>
+    );
+  }, [operatingCalendarMonth.workoutTemplateMap]);
+
   useEffect(() => {
     if (!calendarModal.isOpen || !isCalendarWorkoutListLoaded.current) return;
 
@@ -146,13 +167,7 @@ export const CalendarModal = ({
                     onFocusChange={(value) => handleCalendarMonthChange(value)}
                   />
                 </I18nProvider>
-                <div className="flex flex-col">
-                  {Array.from(operatingCalendarMonth.workoutTemplateMap).map(
-                    ([id, name]) => (
-                      <span key={id}>{name}</span>
-                    )
-                  )}
-                </div>
+                {workoutTemplateList}
               </div>
             </ModalBody>
             <ModalFooter>
