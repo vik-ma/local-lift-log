@@ -19,7 +19,7 @@ export const CalendarDisplayOptionsDropdown = ({
 }: CalendarDisplayOptionsDropdownProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "settings" && updateUserSetting !== undefined) {
-      updateUserSetting("calendar_display_option", e.target.value);
+      updateUserSetting("calendar_date_marking", e.target.value);
     }
 
     if (targetType === "state" && setValue !== undefined) {
@@ -36,7 +36,7 @@ export const CalendarDisplayOptionsDropdown = ({
         labelPlacement="outside-left"
         classNames={{
           label: isInCalendarModal ? "text-sm" : "",
-          mainWrapper: "w-[11.25rem]",
+          mainWrapper: "w-[11.5rem]",
         }}
         variant="faded"
         selectedKeys={[value]}

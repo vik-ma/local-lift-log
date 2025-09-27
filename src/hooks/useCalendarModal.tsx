@@ -66,7 +66,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
       currentDateString.current = currentDateAriaLabelString;
       currentMonth.current = currentYearMonth;
 
-      setCalendarDisplayOption(userSettings.calendar_display_option);
+      setCalendarDisplayOption(userSettings.calendar_date_marking);
 
       isCalendarWorkoutListLoaded.current = true;
     } else {

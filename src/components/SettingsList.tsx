@@ -391,12 +391,12 @@ export const SettingsList = ({
         label: "Default Calendar Display Option",
         content: (
           <div
-            key="calendar_display_option"
+            key="calendar_date_marking"
             className="flex gap-3 items-center justify-between"
           >
             <span>Default Calendar Display Option</span>
             <CalendarDisplayOptionsDropdown
-              value={userSettings.calendar_display_option}
+              value={userSettings.calendar_date_marking}
               updateUserSetting={updateUserSetting}
               targetType="settings"
             />

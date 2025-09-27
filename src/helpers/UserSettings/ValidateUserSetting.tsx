@@ -121,7 +121,7 @@ export const ValidateUserSetting = <K extends keyof UserSettings>(
       return IsNumberValidBinary(value as number);
     case "num_pagination_items_list_desktop":
       return PAGINATION_OPTIONS_LIST_PAGE.includes(value as number);
-    case "calendar_display_option":
+    case "calendar_date_marking":
       return CALENDAR_DISPLAY_OPTIONS_MAP.has(value as string);
     default:
       return false;

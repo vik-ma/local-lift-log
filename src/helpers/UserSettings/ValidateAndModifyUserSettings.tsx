@@ -18,7 +18,7 @@ type UserSettingsPropsToValidate =
   | "time_input"
   | "increment_multipliers"
   | "pagination_items"
-  | "calendar_display_option";
+  | "calendar_date_marking";
 
 export const ValidateAndModifyUserSettings = (
   userSettings: UserSettings,
@@ -77,13 +77,13 @@ export const ValidateAndModifyUserSettings = (
 
         break;
       }
-      case "calendar_display_option": {
+      case "calendar_date_marking": {
         if (
           !CALENDAR_DISPLAY_OPTIONS_MAP.has(
-            userSettings.calendar_display_option
+            userSettings.calendar_date_marking
           )
         ) {
-          userSettings.calendar_display_option =
+          userSettings.calendar_date_marking =
             CALENDAR_DISPLAY_OPTIONS_MAP.keys().next().value!;
         }
 

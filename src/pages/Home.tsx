@@ -66,7 +66,7 @@ export default function Home() {
         if (userSettings !== undefined) {
           ValidateAndModifyUserSettings(
             userSettings,
-            new Set(["locale", "calendar_display_option"])
+            new Set(["locale", "calendar_date_marking"])
           );
 
           setUserSettings(userSettings);
