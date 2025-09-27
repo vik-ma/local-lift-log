@@ -1,4 +1,4 @@
-export const CALENDAR_DISPLAY_OPTIONS_MAP = Object.freeze(
+export const CALENDAR_DATE_MARKINGS_MAP = Object.freeze(
   new Map([
     ["workouts", "Workouts"],
     ["workouts-templates", "Workout Templates"],

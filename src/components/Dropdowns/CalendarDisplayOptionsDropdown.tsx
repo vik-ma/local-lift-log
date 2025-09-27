@@ -1,5 +1,5 @@
 import { Select, SelectItem } from "@heroui/react";
-import { CALENDAR_DISPLAY_OPTIONS_MAP } from "../../constants";
+import { CALENDAR_DATE_MARKINGS_MAP } from "../../constants";
 import { UpdateUserSettingFunction } from "../../typings";
 
 type CalendarDisplayOptionsDropdownProps = {
@@ -43,7 +43,7 @@ export const CalendarDisplayOptionsDropdown = ({
         onChange={(e) => handleChange(e)}
         disallowEmptySelection
       >
-        {Array.from(CALENDAR_DISPLAY_OPTIONS_MAP).map(([key, value]) => (
+        {Array.from(CALENDAR_DATE_MARKINGS_MAP).map(([key, value]) => (
           <SelectItem key={key}>{value}</SelectItem>
         ))}
       </Select>

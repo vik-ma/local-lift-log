@@ -4,7 +4,7 @@ import {
   ValidateAndModifyTimeInputBehavior,
 } from "..";
 import {
-  CALENDAR_DISPLAY_OPTIONS_MAP,
+  CALENDAR_DATE_MARKINGS_MAP,
   LOCALE_MAP,
   PAGINATION_OPTIONS_LIST_PAGE,
 } from "../../constants";
@@ -79,12 +79,10 @@ export const ValidateAndModifyUserSettings = (
       }
       case "calendar_date_marking": {
         if (
-          !CALENDAR_DISPLAY_OPTIONS_MAP.has(
-            userSettings.calendar_date_marking
-          )
+          !CALENDAR_DATE_MARKINGS_MAP.has(userSettings.calendar_date_marking)
         ) {
           userSettings.calendar_date_marking =
-            CALENDAR_DISPLAY_OPTIONS_MAP.keys().next().value!;
+            CALENDAR_DATE_MARKINGS_MAP.keys().next().value!;
         }
 
         break;
