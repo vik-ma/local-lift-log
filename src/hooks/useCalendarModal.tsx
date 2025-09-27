@@ -87,7 +87,16 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
       date.toDate(getLocalTimeZone())
     );
 
-    if (yearMonth > currentMonth.current) return;
+    if (yearMonth > currentMonth.current) {
+      const emptyCalendarMonthItem: CalendarMonthItem = {
+        workoutList: [],
+        workoutTemplateMap: new Map(),
+      };
+
+      setOperatingCalendarMonth(emptyCalendarMonthItem);
+      calendarMonthMap.current.set(yearMonth, emptyCalendarMonthItem);
+      return;
+    }
 
     if (calendarMonthMap.current.has(yearMonth)) {
       const calendarMonthItem = calendarMonthMap.current.get(yearMonth)!;
