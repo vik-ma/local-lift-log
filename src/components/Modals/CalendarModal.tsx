@@ -29,8 +29,8 @@ export const CalendarModal = ({
     isCalendarWorkoutListLoaded,
     handleCalendarMonthChange,
     currentDateString,
-    calendarDisplayOption,
-    setCalendarDisplayOption,
+    calendarDateMarking,
+    setCalendarDateMarking,
   } = useCalendarModal;
 
   const renderWorkoutListOverlay = () => {
@@ -52,7 +52,7 @@ export const CalendarModal = ({
         existingWrapper.remove();
       }
 
-      if (calendarDisplayOption === "none") continue;
+      if (calendarDateMarking === "none") continue;
 
       const querySelectorString =
         date === currentDateString.current
@@ -118,7 +118,7 @@ export const CalendarModal = ({
     renderWorkoutListOverlay();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calendarModal.isOpen, operatingCalendarMonth, calendarDisplayOption]);
+  }, [calendarModal.isOpen, operatingCalendarMonth, calendarDateMarking]);
 
   return (
     <Modal
@@ -134,8 +134,8 @@ export const CalendarModal = ({
                 className={`${MODAL_BODY_HEIGHT} flex flex-col items-center gap-2`}
               >
                 <CalendarDateMarkingsDropdown
-                  value={calendarDisplayOption}
-                  setValue={setCalendarDisplayOption}
+                  value={calendarDateMarking}
+                  setValue={setCalendarDateMarking}
                   targetType="state"
                   isInCalendarModal
                 />

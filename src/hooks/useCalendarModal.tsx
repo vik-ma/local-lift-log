@@ -18,7 +18,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
       workoutList: [],
       workoutTemplateMap: new Map(),
     });
-  const [calendarDisplayOption, setCalendarDisplayOption] =
+  const [calendarDateMarking, setCalendarDateMarking] =
     useState<string>("workouts");
 
   const calendarMonthMap = useRef<Map<string, CalendarMonthItem>>(new Map());
@@ -66,7 +66,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
       currentDateString.current = currentDateAriaLabelString;
       currentMonth.current = currentYearMonth;
 
-      setCalendarDisplayOption(userSettings.calendar_date_marking);
+      setCalendarDateMarking(userSettings.calendar_date_marking);
 
       isCalendarWorkoutListLoaded.current = true;
     } else {
@@ -105,7 +105,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     calendarMonthMap,
     handleCalendarMonthChange,
     currentDateString,
-    calendarDisplayOption,
-    setCalendarDisplayOption,
+    calendarDateMarking,
+    setCalendarDateMarking,
   };
 };
