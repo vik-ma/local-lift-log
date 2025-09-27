@@ -115,14 +115,15 @@ export const CalendarModal = ({
   const workoutTemplateList = useMemo(() => {
     return (
       <div className="flex flex-col">
+        <h4 className="font-medium">Workout Templates</h4>
         {Array.from(operatingCalendarMonth.workoutTemplateMap).map(
           ([id, name], index) => {
             const textColor = CALENDAR_COLOR_LIST[index].substring(0, 7);
 
             return (
-              <span key={id} style={{ color: textColor }}>
+              <div key={id} className="text-xs" style={{ color: textColor }}>
                 {name}
-              </span>
+              </div>
             );
           }
         )}
