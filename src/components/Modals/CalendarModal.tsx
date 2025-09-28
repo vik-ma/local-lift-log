@@ -119,6 +119,14 @@ export const CalendarModal = ({
   };
 
   const workoutTemplateList = useMemo(() => {
+    if (operatingCalendarMonth.workoutList.length === 0) {
+      return (
+        <div className="w-[9.1rem] text-center text-sm text-stone-400">
+          No Workouts
+        </div>
+      );
+    }
+
     return (
       <div className="flex flex-col max-h-[274px]">
         <h4 className="font-medium text-sm">Workout Templates</h4>
@@ -130,7 +138,11 @@ export const CalendarModal = ({
               ].substring(0, 7);
 
               return (
-                <div key={id} className="text-xs truncate" style={{ color: textColor }}>
+                <div
+                  key={id}
+                  className="text-xs truncate"
+                  style={{ color: textColor }}
+                >
                   {name}
                 </div>
               );
@@ -139,7 +151,7 @@ export const CalendarModal = ({
         </ScrollShadow>
       </div>
     );
-  }, [operatingCalendarMonth.workoutTemplateMap]);
+  }, [operatingCalendarMonth]);
 
   useEffect(() => {
     if (!calendarModal.isOpen || !isCalendarWorkoutListLoaded.current) return;
