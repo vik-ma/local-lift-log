@@ -115,7 +115,7 @@ export const CalendarModal = ({
   const workoutTemplateList = useMemo(() => {
     return (
       <div className="flex flex-col">
-        <h4 className="font-medium">Workout Templates</h4>
+        <h4 className="font-medium text-sm">Workout Templates</h4>
         {Array.from(operatingCalendarMonth.workoutTemplateMap).map(
           ([id, name], index) => {
             const textColor = CALENDAR_COLOR_LIST[
@@ -160,14 +160,18 @@ export const CalendarModal = ({
                   targetType="state"
                   isInCalendarModal
                 />
-                <I18nProvider locale={userSettings.locale}>
-                  <Calendar
-                    calendarWidth={280}
-                    showMonthAndYearPickers
-                    onFocusChange={(value) => handleCalendarMonthChange(value)}
-                  />
-                </I18nProvider>
-                {workoutTemplateList}
+                <div className="flex gap-2 justify-between">
+                  <I18nProvider locale={userSettings.locale}>
+                    <Calendar
+                      calendarWidth={280}
+                      showMonthAndYearPickers
+                      onFocusChange={(value) =>
+                        handleCalendarMonthChange(value)
+                      }
+                    />
+                  </I18nProvider>
+                  {workoutTemplateList}
+                </div>
               </div>
             </ModalBody>
             <ModalFooter>
