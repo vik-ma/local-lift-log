@@ -33,6 +33,11 @@ export const CalendarModal = ({
     setCalendarDateMarking,
   } = useCalendarModal;
 
+  const calendarWidth =
+    calendarDateMarking === "workouts" || calendarDateMarking === "none"
+      ? 280
+      : 262;
+
   const renderWorkoutListOverlay = () => {
     const dateWrapperCellMap = new Map<string, HTMLDivElement>();
 
@@ -163,14 +168,15 @@ export const CalendarModal = ({
                 <div className="flex gap-2 justify-between">
                   <I18nProvider locale={userSettings.locale}>
                     <Calendar
-                      calendarWidth={280}
+                      calendarWidth={calendarWidth}
                       showMonthAndYearPickers
                       onFocusChange={(value) =>
                         handleCalendarMonthChange(value)
                       }
                     />
                   </I18nProvider>
-                  {workoutTemplateList}
+                  {calendarDateMarking === "workout-templates" &&
+                    workoutTemplateList}
                 </div>
               </div>
             </ModalBody>
