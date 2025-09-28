@@ -1449,6 +1449,8 @@ export type CalendarWorkoutItem = {
   date: string;
   workout_template_id: number;
   workout_template_name: string;
+  exercise_groups_string: string;
+  exerciseGroupSet: Set<string>;
 };
 
 export type CalendarMonthItem = {

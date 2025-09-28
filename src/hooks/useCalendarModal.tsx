@@ -7,11 +7,13 @@ import {
 } from "../typings";
 import {
   ConvertDateToYearMonthString,
+  CreateExerciseGroupSetPrimary,
   FormatISODateStringToCalendarAriaLabelString,
   GetCalendarWorkoutList,
 } from "../helpers";
 import { useRef, useState } from "react";
 import { getLocalTimeZone } from "@internationalized/date";
+import { EXERCISE_GROUP_DICTIONARY } from "../constants";
 
 export const useCalendarModal = (): UseCalendarModalReturnType => {
   const [operatingCalendarMonth, setOperatingCalendarMonth] =
@@ -41,16 +43,21 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
 
     let nextIndex = 0;
 
-    for (const item of workoutList) {
-      const id = item.workout_template_id;
+    for (const workout of workoutList) {
+      const id = workout.workout_template_id;
 
       // Increment index for every unique Workout Template ID
       if (!workoutTemplateMap.has(id)) {
         workoutTemplateMap.set(id, {
           index: nextIndex++,
-          name: item.workout_template_name,
+          name: workout.workout_template_name,
         });
       }
+
+      workout.exerciseGroupSet = CreateExerciseGroupSetPrimary(
+        workout.exercise_groups_string,
+        EXERCISE_GROUP_DICTIONARY
+      );
     }
 
     const calendarMonthItem: CalendarMonthItem = {
