@@ -83,10 +83,6 @@ export const CalendarModal = ({
 
       if (dateWrapperCellMap.has(date)) {
         wrapper = dateWrapperCellMap.get(date)!;
-
-        const dotColorIndex = wrapper.children.length;
-
-        dot.style.backgroundColor = CALENDAR_COLOR_LIST[dotColorIndex];
       } else {
         wrapper.id = wrapperIdString;
         wrapper.style.position = "absolute";
@@ -103,11 +99,19 @@ export const CalendarModal = ({
         parentCell.appendChild(wrapper);
 
         dateWrapperCellMap.set(date, wrapper);
-
-        dot.style.backgroundColor = CALENDAR_COLOR_LIST[0];
       }
 
       if (wrapper.children.length < 16) {
+        const dotColorIndex =
+          calendarDateMarking === "workouts"
+            ? wrapper.children.length
+            : operatingCalendarMonth.workoutTemplateMap.get(
+                workout.workout_template_id
+              )!.index;
+
+        dot.style.backgroundColor =
+          CALENDAR_COLOR_LIST[dotColorIndex % CALENDAR_COLOR_LIST.length];
+
         wrapper.appendChild(dot);
       }
     }
