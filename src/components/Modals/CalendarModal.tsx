@@ -35,8 +35,8 @@ export const CalendarModal = ({
 
   const calendarWidth =
     calendarDateMarking === "workouts" || calendarDateMarking === "none"
-      ? 280
-      : 262;
+      ? 290
+      : 250;
 
   const renderWorkoutListOverlay = () => {
     const dateWrapperCellMap = new Map<string, HTMLDivElement>();
@@ -119,7 +119,7 @@ export const CalendarModal = ({
 
   const workoutTemplateList = useMemo(() => {
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col ">
         <h4 className="font-medium text-sm">Workout Templates</h4>
         {Array.from(operatingCalendarMonth.workoutTemplateMap).map(
           ([id, name], index) => {
@@ -165,11 +165,10 @@ export const CalendarModal = ({
                   targetType="state"
                   isInCalendarModal
                 />
-                <div className="flex gap-2 justify-between">
+                <div className="flex gap-2.5">
                   <I18nProvider locale={userSettings.locale}>
                     <Calendar
                       calendarWidth={calendarWidth}
-                      showMonthAndYearPickers
                       onFocusChange={(value) =>
                         handleCalendarMonthChange(value)
                       }
