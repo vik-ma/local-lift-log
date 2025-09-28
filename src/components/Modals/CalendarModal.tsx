@@ -123,14 +123,16 @@ export const CalendarModal = ({
       );
     }
 
+    console.log(operatingCalendarMonth.workoutTemplateMap)
+
     return (
       <div className="flex flex-col max-h-[274px]">
         <h4 className="font-medium text-sm">Workout Templates</h4>
         <ScrollShadow className="w-[9.125rem]">
           {Array.from(operatingCalendarMonth.workoutTemplateMap).map(
-            ([id, name], index) => {
+            ([id, item]) => {
               const textColor = CALENDAR_COLOR_LIST[
-                index % CALENDAR_COLOR_LIST.length
+                item.index % CALENDAR_COLOR_LIST.length
               ].substring(0, 7);
 
               return (
@@ -139,7 +141,7 @@ export const CalendarModal = ({
                   className="text-xs truncate"
                   style={{ color: textColor }}
                 >
-                  {name}
+                  {item.name}
                 </div>
               );
             }

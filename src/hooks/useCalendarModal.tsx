@@ -1,6 +1,7 @@
 import { CalendarDate, useDisclosure } from "@heroui/react";
 import {
   CalendarMonthItem,
+  CalendarWorkoutTemplateMapItem,
   UseCalendarModalReturnType,
   UserSettings,
 } from "../typings";
@@ -33,12 +34,24 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
   const getWorkoutListForMonth = async (yearMonth: string) => {
     const workoutList = await GetCalendarWorkoutList(yearMonth);
 
-    const workoutTemplateMap = new Map<number, string>(
-      workoutList.map((calendarItem) => [
-        calendarItem.workout_template_id,
-        calendarItem.workout_template_name,
-      ])
-    );
+    const workoutTemplateMap = new Map<
+      number,
+      CalendarWorkoutTemplateMapItem
+    >();
+
+    let nextIndex = 0;
+
+    for (const item of workoutList) {
+      const id = item.workout_template_id;
+
+      // Increment index for every unique Workout Template ID
+      if (!workoutTemplateMap.has(id)) {
+        workoutTemplateMap.set(id, {
+          index: nextIndex++,
+          name: item.workout_template_name,
+        });
+      }
+    }
 
     const calendarMonthItem: CalendarMonthItem = {
       workoutList,
