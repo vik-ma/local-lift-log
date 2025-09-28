@@ -84,12 +84,9 @@ export const CalendarModal = ({
       if (dateWrapperCellMap.has(date)) {
         wrapper = dateWrapperCellMap.get(date)!;
 
-        const numExistingDots = wrapper.children.length;
+        const dotColorIndex = wrapper.children.length;
 
-        // Do not add more than 16 dots per date
-        if (numExistingDots >= 16) continue;
-
-        dot.style.backgroundColor = CALENDAR_COLOR_LIST[numExistingDots];
+        dot.style.backgroundColor = CALENDAR_COLOR_LIST[dotColorIndex];
       } else {
         wrapper.id = wrapperIdString;
         wrapper.style.position = "absolute";
@@ -110,7 +107,9 @@ export const CalendarModal = ({
         dot.style.backgroundColor = CALENDAR_COLOR_LIST[0];
       }
 
-      wrapper.appendChild(dot);
+      if (wrapper.children.length < 16) {
+        wrapper.appendChild(dot);
+      }
     }
   };
 
@@ -122,8 +121,6 @@ export const CalendarModal = ({
         </div>
       );
     }
-
-    console.log(operatingCalendarMonth.workoutTemplateMap)
 
     return (
       <div className="flex flex-col max-h-[274px]">
