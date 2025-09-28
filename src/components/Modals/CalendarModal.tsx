@@ -169,7 +169,12 @@ export const CalendarModal = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader>Calendar</ModalHeader>
+            <ModalHeader className="flex items-baseline gap-1">
+              <span>Calendar</span>
+              <span className="font-medium text-secondary text-sm">
+                ({currentDateString.current})
+              </span>
+            </ModalHeader>
             <ModalBody className="py-0">
               <div
                 className={`${MODAL_BODY_HEIGHT} flex flex-col items-center gap-2`}
