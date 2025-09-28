@@ -42,8 +42,6 @@ export const CalendarModal = ({
   const renderWorkoutListOverlay = () => {
     const dateWrapperCellMap = new Map<string, HTMLDivElement>();
 
-    let isBuildingNewMap = false;
-
     for (const workout of operatingCalendarMonth.workoutList) {
       const date = FormatISODateStringToCalendarAriaLabelString(
         workout.date,
@@ -54,7 +52,7 @@ export const CalendarModal = ({
 
       const existingWrapper = document.getElementById(wrapperIdString);
 
-      if (existingWrapper && !isBuildingNewMap) {
+      if (existingWrapper && !dateWrapperCellMap.has(date)) {
         existingWrapper.remove();
       }
 
@@ -110,8 +108,6 @@ export const CalendarModal = ({
         dateWrapperCellMap.set(date, wrapper);
 
         dot.style.backgroundColor = CALENDAR_COLOR_LIST[0];
-
-        isBuildingNewMap = true;
       }
 
       wrapper.appendChild(dot);
