@@ -130,7 +130,7 @@ export const CalendarModal = ({
               ].substring(0, 7);
 
               return (
-                <div key={id} className="text-xs" style={{ color: textColor }}>
+                <div key={id} className="text-xs truncate" style={{ color: textColor }}>
                   {name}
                 </div>
               );
