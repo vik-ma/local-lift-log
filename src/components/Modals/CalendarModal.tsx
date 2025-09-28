@@ -181,7 +181,7 @@ export const CalendarModal = ({
                   targetType="state"
                   isInCalendarModal
                 />
-                <div className="max-h-[310px] flex gap-2">
+                <div className="max-h-[310px] flex gap-2.5">
                   <I18nProvider locale={userSettings.locale}>
                     <Calendar
                       calendarWidth={calendarWidth}
