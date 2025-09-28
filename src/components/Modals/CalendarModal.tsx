@@ -120,22 +120,24 @@ export const CalendarModal = ({
 
   const workoutTemplateList = useMemo(() => {
     return (
-      <ScrollShadow className="flex flex-col w-[9.125rem] max-h-[274px]">
+      <div className="flex flex-col max-h-[274px]">
         <h4 className="font-medium text-sm">Workout Templates</h4>
-        {Array.from(operatingCalendarMonth.workoutTemplateMap).map(
-          ([id, name], index) => {
-            const textColor = CALENDAR_COLOR_LIST[
-              index % CALENDAR_COLOR_LIST.length
-            ].substring(0, 7);
+        <ScrollShadow className="w-[9.125rem]">
+          {Array.from(operatingCalendarMonth.workoutTemplateMap).map(
+            ([id, name], index) => {
+              const textColor = CALENDAR_COLOR_LIST[
+                index % CALENDAR_COLOR_LIST.length
+              ].substring(0, 7);
 
-            return (
-              <div key={id} className="text-xs" style={{ color: textColor }}>
-                {name}
-              </div>
-            );
-          }
-        )}
-      </ScrollShadow>
+              return (
+                <div key={id} className="text-xs" style={{ color: textColor }}>
+                  {name}
+                </div>
+              );
+            }
+          )}
+        </ScrollShadow>
+      </div>
     );
   }, [operatingCalendarMonth.workoutTemplateMap]);
 
