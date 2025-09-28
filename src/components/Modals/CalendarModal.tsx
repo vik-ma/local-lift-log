@@ -6,6 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   Calendar,
+  ScrollShadow,
 } from "@heroui/react";
 import { UseCalendarModalReturnType, UserSettings } from "../../typings";
 import { CALENDAR_COLOR_LIST, MODAL_BODY_HEIGHT } from "../../constants";
@@ -119,7 +120,7 @@ export const CalendarModal = ({
 
   const workoutTemplateList = useMemo(() => {
     return (
-      <div className="flex flex-col ">
+      <ScrollShadow className="flex flex-col w-[9.125rem] max-h-[274px]">
         <h4 className="font-medium text-sm">Workout Templates</h4>
         {Array.from(operatingCalendarMonth.workoutTemplateMap).map(
           ([id, name], index) => {
@@ -134,7 +135,7 @@ export const CalendarModal = ({
             );
           }
         )}
-      </div>
+      </ScrollShadow>
     );
   }, [operatingCalendarMonth.workoutTemplateMap]);
 
@@ -165,7 +166,7 @@ export const CalendarModal = ({
                   targetType="state"
                   isInCalendarModal
                 />
-                <div className="flex gap-2.5">
+                <div className="max-h-[310px] flex gap-2">
                   <I18nProvider locale={userSettings.locale}>
                     <Calendar
                       calendarWidth={calendarWidth}
