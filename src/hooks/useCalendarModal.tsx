@@ -15,13 +15,15 @@ import { useRef, useState } from "react";
 import { getLocalTimeZone } from "@internationalized/date";
 import { EXERCISE_GROUP_DICTIONARY } from "../constants";
 
+const EMPTY_CALENDAR_MONTH_ITEM: CalendarMonthItem = {
+  workoutList: [],
+  workoutTemplateMap: new Map(),
+  exerciseGroupSet: new Set(),
+};
+
 export const useCalendarModal = (): UseCalendarModalReturnType => {
   const [operatingCalendarMonth, setOperatingCalendarMonth] =
-    useState<CalendarMonthItem>({
-      workoutList: [],
-      workoutTemplateMap: new Map(),
-      exerciseGroupSet: new Set(),
-    });
+    useState<CalendarMonthItem>(EMPTY_CALENDAR_MONTH_ITEM);
   const [calendarDateMarking, setCalendarDateMarking] =
     useState<string>("workouts");
 
@@ -114,14 +116,8 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     );
 
     if (yearMonth > currentMonth.current) {
-      const emptyCalendarMonthItem: CalendarMonthItem = {
-        workoutList: [],
-        workoutTemplateMap: new Map(),
-        exerciseGroupSet: new Set(),
-      };
-
-      setOperatingCalendarMonth(emptyCalendarMonthItem);
-      calendarMonthMap.current.set(yearMonth, emptyCalendarMonthItem);
+      setOperatingCalendarMonth(EMPTY_CALENDAR_MONTH_ITEM);
+      calendarMonthMap.current.set(yearMonth, EMPTY_CALENDAR_MONTH_ITEM);
       return;
     }
 
