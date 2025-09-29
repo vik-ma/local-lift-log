@@ -198,7 +198,6 @@ export { MergeTwoGroupedSetLists } from "./Workouts/MergeTwoGroupedSetLists";
 export { GetUniqueMultisetIds } from "./Workouts/GetUniqueMultisetIds";
 export { CreateWorkout } from "./Workouts/CreateWorkout";
 export { DeleteWorkoutWithId } from "./Workouts/DeleteWorkoutWithId";
-export { GetCalendarWorkoutList } from "./Workouts/GetCalendarWorkoutList";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
@@ -241,4 +240,5 @@ export { GetFilterMapFromStore } from "./Store/GetFilterMapFromStore";
 export { HandleListPaginationPageChange } from "./Store/HandleListPaginationPageChange";
 export { GetPaginationPageFromStore } from "./Store/GetPaginationPageFromStore";
 
+export { GetCalendarWorkoutList } from "./Calendar/GetCalendarWorkoutList";
 export { CreateDotDiv } from "./Calendar/CreateDotDiv";
