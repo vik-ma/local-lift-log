@@ -1456,6 +1456,7 @@ export type CalendarWorkoutItem = {
 export type CalendarMonthItem = {
   workoutList: CalendarWorkoutItem[];
   workoutTemplateMap: Map<number, CalendarWorkoutTemplateMapItem>;
+  exerciseGroupSet: Set<string>;
 };
 
 export type CalendarWorkoutTemplateMapItem = {

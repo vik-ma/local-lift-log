@@ -20,6 +20,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     useState<CalendarMonthItem>({
       workoutList: [],
       workoutTemplateMap: new Map(),
+      exerciseGroupSet: new Set(),
     });
   const [calendarDateMarking, setCalendarDateMarking] =
     useState<string>("workouts");
@@ -41,6 +42,8 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
       CalendarWorkoutTemplateMapItem
     >();
 
+    const exerciseGroupSet = new Set<string>();
+
     let nextIndex = 0;
 
     for (const workout of workoutList) {
@@ -58,11 +61,14 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
         workout.exercise_groups_string,
         EXERCISE_GROUP_DICTIONARY
       );
+
+      workout.exerciseGroupSet.forEach((item) => exerciseGroupSet.add(item));
     }
 
     const calendarMonthItem: CalendarMonthItem = {
       workoutList,
       workoutTemplateMap,
+      exerciseGroupSet,
     };
 
     setOperatingCalendarMonth(calendarMonthItem);
@@ -111,6 +117,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
       const emptyCalendarMonthItem: CalendarMonthItem = {
         workoutList: [],
         workoutTemplateMap: new Map(),
+        exerciseGroupSet: new Set(),
       };
 
       setOperatingCalendarMonth(emptyCalendarMonthItem);
