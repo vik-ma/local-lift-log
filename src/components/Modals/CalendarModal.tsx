@@ -90,7 +90,8 @@ export const CalendarModal = ({
 
       if (dateWrapperCellMap.has(date)) {
         wrapper = dateWrapperCellMap.get(date)!;
-        
+
+        // Do not add more than 16 dots per date
         if (wrapper.children.length >= 16) continue;
       } else {
         wrapper.id = wrapperIdString;
@@ -111,6 +112,24 @@ export const CalendarModal = ({
       }
 
       if (calendarDateMarking === "exercise-groups") {
+        const monthExerciseGroupList = Array.from(
+          operatingCalendarMonth.exerciseGroupSet
+        );
+
+        for (const exerciseGroup of workout.exerciseGroupSet) {
+          // Do not add more than 16 dots per date
+          if (wrapper.children.length >= 16) continue;
+
+          const dotColorIndex = monthExerciseGroupList.findIndex(
+            (obj) => obj === exerciseGroup
+          );
+
+          const dotColor = CALENDAR_COLOR_LIST[dotColorIndex];
+
+          const dot = CreateDotDiv(dotColor);
+
+          wrapper.appendChild(dot);
+        }
       } else {
         const dotColorIndex =
           calendarDateMarking === "workouts"
