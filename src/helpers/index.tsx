@@ -240,3 +240,5 @@ export { GetSortCategoryFromStore } from "./Store/GetSortCategoryFromStore";
 export { GetFilterMapFromStore } from "./Store/GetFilterMapFromStore";
 export { HandleListPaginationPageChange } from "./Store/HandleListPaginationPageChange";
 export { GetPaginationPageFromStore } from "./Store/GetPaginationPageFromStore";
+
+export { CreateDotDiv } from "./Calendar/CreateDotDiv";

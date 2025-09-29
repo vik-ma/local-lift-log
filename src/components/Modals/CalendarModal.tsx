@@ -16,7 +16,10 @@ import {
 } from "../../constants";
 import { useEffect, useMemo } from "react";
 import { I18nProvider } from "@react-aria/i18n";
-import { FormatISODateStringToCalendarAriaLabelString } from "../../helpers";
+import {
+  CreateDotDiv,
+  FormatISODateStringToCalendarAriaLabelString,
+} from "../../helpers";
 import { CalendarDateMarkingsDropdown } from "..";
 
 type CalendarModalProps = {
@@ -83,16 +86,12 @@ export const CalendarModal = ({
 
       if (parentCell === null) continue;
 
-      const dot = document.createElement("div");
-
-      dot.style.width = "6px";
-      dot.style.height = "6px";
-      dot.style.borderRadius = "50%";
-
       let wrapper = document.createElement("div");
 
       if (dateWrapperCellMap.has(date)) {
         wrapper = dateWrapperCellMap.get(date)!;
+        
+        if (wrapper.children.length >= 16) continue;
       } else {
         wrapper.id = wrapperIdString;
         wrapper.style.position = "absolute";
@@ -111,7 +110,8 @@ export const CalendarModal = ({
         dateWrapperCellMap.set(date, wrapper);
       }
 
-      if (wrapper.children.length < 16) {
+      if (calendarDateMarking === "exercise-groups") {
+      } else {
         const dotColorIndex =
           calendarDateMarking === "workouts"
             ? wrapper.children.length
@@ -119,8 +119,10 @@ export const CalendarModal = ({
                 workout.workout_template_id
               )!.index;
 
-        dot.style.backgroundColor =
+        const dotColor =
           CALENDAR_COLOR_LIST[dotColorIndex % CALENDAR_COLOR_LIST.length];
+
+        const dot = CreateDotDiv(dotColor);
 
         wrapper.appendChild(dot);
       }
