@@ -9,7 +9,11 @@ import {
   ScrollShadow,
 } from "@heroui/react";
 import { UseCalendarModalReturnType, UserSettings } from "../../typings";
-import { CALENDAR_COLOR_LIST, MODAL_BODY_HEIGHT } from "../../constants";
+import {
+  CALENDAR_COLOR_LIST,
+  EXERCISE_GROUP_DICTIONARY,
+  MODAL_BODY_HEIGHT,
+} from "../../constants";
 import { useEffect, useMemo } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import { FormatISODateStringToCalendarAriaLabelString } from "../../helpers";
@@ -152,6 +156,33 @@ export const CalendarModal = ({
     );
   }, [operatingCalendarMonth]);
 
+  const exerciseGroupList = useMemo(() => {
+    if (operatingCalendarMonth.workoutList.length === 0) return NO_WORKOUTS_DIV;
+
+    return (
+      <div className="flex flex-col max-h-[274px]">
+        <h4 className="font-medium text-sm">Exercise Groups</h4>
+        <ScrollShadow className="w-[9.125rem]">
+          {Array.from(operatingCalendarMonth.exerciseGroupSet).map(
+            (exerciseGroup, index) => {
+              const textColor = CALENDAR_COLOR_LIST[index].substring(0, 7);
+
+              return (
+                <div
+                  key={exerciseGroup}
+                  className="text-xs truncate"
+                  style={{ color: textColor }}
+                >
+                  {EXERCISE_GROUP_DICTIONARY.get(exerciseGroup)}
+                </div>
+              );
+            }
+          )}
+        </ScrollShadow>
+      </div>
+    );
+  }, [operatingCalendarMonth]);
+
   useEffect(() => {
     if (!calendarModal.isOpen || !isCalendarWorkoutListLoaded.current) return;
 
@@ -193,8 +224,11 @@ export const CalendarModal = ({
                       }
                     />
                   </I18nProvider>
-                  {calendarDateMarking === "workout-templates" &&
-                    workoutTemplateList}
+                  {calendarDateMarking === "workout-templates"
+                    ? workoutTemplateList
+                    : calendarDateMarking === "exercise-groups"
+                    ? exerciseGroupList
+                    : null}
                 </div>
               </div>
             </ModalBody>
