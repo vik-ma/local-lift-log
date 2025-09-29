@@ -20,6 +20,12 @@ type CalendarModalProps = {
   userSettings: UserSettings;
 };
 
+const NO_WORKOUTS_DIV = (
+  <div className="w-[9.1rem] text-center text-sm text-stone-400">
+    No Workouts
+  </div>
+);
+
 export const CalendarModal = ({
   useCalendarModal,
   userSettings,
@@ -118,13 +124,7 @@ export const CalendarModal = ({
   };
 
   const workoutTemplateList = useMemo(() => {
-    if (operatingCalendarMonth.workoutList.length === 0) {
-      return (
-        <div className="w-[9.1rem] text-center text-sm text-stone-400">
-          No Workouts
-        </div>
-      );
-    }
+    if (operatingCalendarMonth.workoutList.length === 0) return NO_WORKOUTS_DIV;
 
     return (
       <div className="flex flex-col max-h-[274px]">
