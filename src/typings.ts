@@ -1442,6 +1442,7 @@ export type UseCalendarModalReturnType = {
   currentDateString: React.RefObject<string>;
   calendarDateMarking: string;
   setCalendarDateMarking: React.Dispatch<React.SetStateAction<string>>;
+  operatingYearMonth: React.RefObject<string>;
 };
 
 export type CalendarWorkoutItem = {

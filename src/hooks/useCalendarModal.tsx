@@ -32,6 +32,8 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
   const currentDateString = useRef<string>("");
   const currentMonth = useRef<string>("");
 
+  const operatingYearMonth = useRef<string>("");
+
   const isCalendarWorkoutListLoaded = useRef<boolean>(false);
 
   const calendarModal = useDisclosure();
@@ -76,6 +78,8 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     setOperatingCalendarMonth(calendarMonthItem);
 
     calendarMonthMap.current.set(yearMonth, calendarMonthItem);
+
+    operatingYearMonth.current = yearMonth;
   };
 
   const openCalendarModal = async (userSettings: UserSettings) => {
@@ -93,6 +97,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
 
       currentDateString.current = currentDateAriaLabelString;
       currentMonth.current = currentYearMonth;
+      operatingYearMonth.current = currentYearMonth;
 
       setCalendarDateMarking(userSettings.calendar_date_marking);
 
@@ -105,6 +110,7 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
       )!;
 
       setOperatingCalendarMonth(currentMonthItem);
+      operatingYearMonth.current = currentMonth.current;
     }
 
     calendarModal.onOpen();
@@ -114,6 +120,8 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     const yearMonth = ConvertDateToYearMonthString(
       date.toDate(getLocalTimeZone())
     );
+
+    operatingYearMonth.current = yearMonth;
 
     if (yearMonth > currentMonth.current) {
       setOperatingCalendarMonth(EMPTY_CALENDAR_MONTH_ITEM);
@@ -139,5 +147,6 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     currentDateString,
     calendarDateMarking,
     setCalendarDateMarking,
+    operatingYearMonth,
   };
 };
