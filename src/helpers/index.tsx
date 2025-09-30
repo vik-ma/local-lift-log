@@ -58,9 +58,6 @@ export { IsRoutineScheduleTypeFiltered } from "./Routines/IsRoutineScheduleTypeF
 export { FormatRoutineScheduleTypeString } from "./Routines/FormatRoutineScheduleTypeString";
 export { CreateNoDayWorkoutTemplateList } from "./Routines/CreateNoDayWorkoutTemplateList";
 export { DeleteWorkoutRoutineSchedule } from "./Routines/DeleteWorkoutRoutineSchedule";
-export { GetValidatedRoutineScheduleType } from "./Routines/GetValidatedRoutineScheduleType";
-export { GetValidatedNumDaysInSchedule } from "./Routines/GetValidatedNumDaysInSchedule";
-export { GetValidatedStartDay } from "./Routines/GetValidatedStartDay";
 export { GetValidatedRoutineScheduleItemDay } from "./Routines/GetValidatedRoutineScheduleItemDay";
 export { ValidateAndModifyRoutineSchedule } from "./Routines/ValidateAndModifyRoutineSchedule";
 
