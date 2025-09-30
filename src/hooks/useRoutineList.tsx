@@ -164,7 +164,7 @@ export const useRoutineList = ({
         const { workoutTemplateIdList, workoutTemplateIdSet } =
           CreateRoutineWorkoutTemplateList(
             row.schedule_type === 2
-              ? `[${row.workout_template_order}]`
+              ? `[${row.no_set_days_workout_template_order}]`
               : row.workoutTemplateIds,
             workoutTemplateMap.current
           );

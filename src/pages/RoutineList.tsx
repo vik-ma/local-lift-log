@@ -181,7 +181,7 @@ export default function RoutineList() {
       const result = await db.execute(
         `INSERT into routines 
          (name, note, schedule_type, num_days_in_schedule, 
-         start_day, workout_template_order) 
+         start_day, no_set_days_workout_template_order) 
          VALUES ($1, $2, $3, $4, $5, $6)`,
         [
           routine.name,
@@ -189,7 +189,7 @@ export default function RoutineList() {
           routine.schedule_type,
           routine.num_days_in_schedule,
           routine.start_day,
-          routine.workout_template_order,
+          routine.no_set_days_workout_template_order,
         ]
       );
 
@@ -249,7 +249,7 @@ export default function RoutineList() {
       const { workoutTemplateIdList, workoutTemplateIdSet } =
         CreateRoutineWorkoutTemplateList(
           routine.schedule_type === 2
-            ? `[${operatingRoutine.workout_template_order}]`
+            ? `[${operatingRoutine.no_set_days_workout_template_order}]`
             : routine.workoutTemplateIds,
           workoutTemplateMap.current
         );

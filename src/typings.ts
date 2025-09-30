@@ -9,7 +9,7 @@ export type Routine = {
   schedule_type: number;
   num_days_in_schedule: number;
   start_day: number;
-  workout_template_order: string | null;
+  no_set_days_workout_template_order: string | null;
   workoutTemplateIds?: string;
   workoutTemplateIdList?: number[];
   workoutTemplateIdSet?: Set<number>;

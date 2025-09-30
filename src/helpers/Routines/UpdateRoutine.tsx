@@ -9,7 +9,7 @@ export const UpdateRoutine = async (routine: Routine): Promise<boolean> => {
       `UPDATE routines SET 
         name = $1, note = $2, schedule_type = $3, 
         num_days_in_schedule = $4, start_day = $5, 
-        workout_template_order = $6 
+        no_set_days_workout_template_order = $6 
        WHERE id = $7`,
       [
         routine.name,
@@ -17,7 +17,7 @@ export const UpdateRoutine = async (routine: Routine): Promise<boolean> => {
         routine.schedule_type,
         routine.num_days_in_schedule,
         routine.start_day,
-        routine.workout_template_order,
+        routine.no_set_days_workout_template_order,
         routine.id,
       ]
     );

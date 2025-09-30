@@ -165,7 +165,7 @@ export default function RoutineDetails() {
         const { workoutTemplateIdList, workoutTemplateIdSet } =
           CreateRoutineWorkoutTemplateList(
             isNoDaySchedule
-              ? `[${routine.workout_template_order}]`
+              ? `[${routine.no_set_days_workout_template_order}]`
               : routine.workoutTemplateIds,
             workoutTemplateMap.current
           );
@@ -226,7 +226,7 @@ export default function RoutineDetails() {
     if (routine.schedule_type !== 2 && updatedRoutine.schedule_type === 2) {
       const { workoutTemplateIdList, workoutTemplateIdSet } =
         CreateRoutineWorkoutTemplateList(
-          `[${routine.workout_template_order}]`,
+          `[${routine.no_set_days_workout_template_order}]`,
           workoutTemplateMap.current
         );
 
@@ -507,11 +507,12 @@ export default function RoutineDetails() {
       (item) => item.workout_template_id
     );
     const updatedWorkoutTemplateSet = new Set(updatedWorkoutTemplateIdList);
-    const workoutTemplateOrderString = updatedWorkoutTemplateIdList.join(",");
+    const noSetDaysWorkoutTemplateOrderString =
+      updatedWorkoutTemplateIdList.join(",");
 
     const updatedRoutine: Routine = {
       ...routine,
-      workout_template_order: workoutTemplateOrderString,
+      no_set_days_workout_template_order: noSetDaysWorkoutTemplateOrderString,
       workoutTemplateIdList: updatedWorkoutTemplateIdList,
       workoutTemplateIdSet: updatedWorkoutTemplateSet,
     };
