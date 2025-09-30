@@ -61,7 +61,7 @@ export const CalendarModal = ({
       ) as HTMLElement;
 
       if (todayCell) {
-        todayCell.style.border = "2px solid #d7a20099";
+        todayCell.style.border = "2px solid #f0c63bCC";
       }
     }
 
