@@ -10,7 +10,7 @@ pub struct Routine {
     pub schedule_type: i32,
     pub num_days_in_schedule: i32,
     pub start_day: i32,
-    pub workout_template_order: Option<String>,
+    pub no_set_days_workout_template_order: Option<String>,
 }
 
 #[derive(Queryable, Selectable)]
