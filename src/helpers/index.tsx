@@ -62,6 +62,7 @@ export { GetValidatedRoutineScheduleType } from "./Routines/GetValidatedRoutineS
 export { GetValidatedNumDaysInSchedule } from "./Routines/GetValidatedNumDaysInSchedule";
 export { GetValidatedStartDay } from "./Routines/GetValidatedStartDay";
 export { GetValidatedRoutineScheduleItemDay } from "./Routines/GetValidatedRoutineScheduleItemDay";
+export { ValidateAndModifyRoutineSchedule } from "./Routines/ValidateAndModifyRoutineSchedule";
 
 export { CreateDefaultUserSettings } from "./UserSettings/CreateDefaultUserSettings";
 export { GetUserSettings } from "./UserSettings/GetUserSettings";
