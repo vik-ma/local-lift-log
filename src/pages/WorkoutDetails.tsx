@@ -55,8 +55,8 @@ import {
   useWorkoutList,
 } from "../hooks";
 
-type WorkoutTemplateComment = {
-  comment: string | null;
+type WorkoutTemplateNote = {
+  note: string | null;
 };
 
 export default function WorkoutDetails() {
@@ -65,10 +65,10 @@ export default function WorkoutDetails() {
   const workoutModal = useDisclosure();
   const oldSetWarningModal = useDisclosure();
 
-  const [workoutTemplateNote, setWorkoutTemplateComment] = useState<
-    string | null
-  >(null);
-  const [showWorkoutTemplateComment, setShowWorkoutTemplateComment] =
+  const [workoutTemplateNote, setWorkoutTemplateNote] = useState<string | null>(
+    null
+  );
+  const [showWorkoutTemplateNote, setShowWorkoutTemplateNote] =
     useState<boolean>(false);
   const [isWorkoutOlderThan24Hours, setIsWorkoutOlderThan24Hours] =
     useState<boolean>(false);
@@ -168,10 +168,9 @@ export default function WorkoutDetails() {
 
   const additionalMenuItems: DetailHeaderOptionItem = useMemo(() => {
     return {
-      "toggle-workout-template-comment": {
-        text: "Toggle Workout Template Comment",
-        function: () =>
-          setShowWorkoutTemplateComment(!showWorkoutTemplateComment),
+      "toggle-workout-template-note": {
+        text: "Toggle Workout Template Note",
+        function: () => setShowWorkoutTemplateNote(!showWorkoutTemplateNote),
         className: workoutTemplateNote === null ? "hidden" : "",
       },
       "load-workout-template": {
@@ -185,7 +184,7 @@ export default function WorkoutDetails() {
     };
   }, [
     workoutTemplateNote,
-    showWorkoutTemplateComment,
+    showWorkoutTemplateNote,
     handleOpenWorkoutListModal,
     handleOpenWorkoutTemplateListModal,
     userSettings,
@@ -197,26 +196,26 @@ export default function WorkoutDetails() {
     isNoteComment: true,
   });
 
-  const getWorkoutTemplateComment = async (workoutTemplateId: number) => {
+  const getWorkoutTemplateNote = async (workoutTemplateId: number) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
 
-      const result = await db.select<WorkoutTemplateComment[]>(
-        "SELECT comment FROM workout_templates WHERE id = $1",
+      const result = await db.select<WorkoutTemplateNote[]>(
+        "SELECT note FROM workout_templates WHERE id = $1",
         [workoutTemplateId]
       );
 
-      const comment = result[0].comment;
+      const note = result[0].note;
 
-      if (!comment) return;
+      if (!note) return;
 
       if (workoutTemplateNote === null) {
-        setWorkoutTemplateComment(comment);
+        setWorkoutTemplateNote(note);
       } else {
-        // If a Workout Template comment already exists, extend existing comment
-        const newComment = workoutTemplateNote.concat(", ", comment);
+        // If a Workout Template note already exists, extend existing note
+        const newNote = workoutTemplateNote.concat(", ", note);
 
-        setWorkoutTemplateComment(newComment);
+        setWorkoutTemplateNote(newNote);
       }
     } catch (error) {
       console.log(error);
@@ -281,7 +280,7 @@ export default function WorkoutDetails() {
         workout.formattedDate = FormatDateString(workout.date);
 
         if (workout.workout_template_id !== 0) {
-          await getWorkoutTemplateComment(workout.workout_template_id);
+          await getWorkoutTemplateNote(workout.workout_template_id);
         }
 
         setWorkout(workout);
@@ -347,7 +346,7 @@ export default function WorkoutDetails() {
 
     populateIncompleteSets(updatedGroupedSetList);
 
-    await getWorkoutTemplateComment(workoutTemplate.id);
+    await getWorkoutTemplateNote(workoutTemplate.id);
 
     toast.success("Workout Template Loaded");
     workoutTemplateListModal.onClose();
@@ -624,7 +623,7 @@ export default function WorkoutDetails() {
           editButtonAction={() => workoutModal.onOpen()}
           useDetailsHeaderOptions={useDetailsHeaderOptions}
           extraContent={
-            showWorkoutTemplateComment && (
+            showWorkoutTemplateNote && (
               <div className="flex justify-center w-full">
                 <span className="break-all font-medium text-stone-500">
                   {workoutTemplateNote}
