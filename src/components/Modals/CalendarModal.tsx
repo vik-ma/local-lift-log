@@ -17,7 +17,7 @@ import {
 import { useEffect, useMemo } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import {
-  CreateDotDiv,
+  CreateCalendarDotDiv,
   FormatISODateStringToCalendarAriaLabelString,
 } from "../../helpers";
 import { CalendarDateMarkingsDropdown } from "..";
@@ -126,7 +126,7 @@ export const CalendarModal = ({
 
           const dotColor = CALENDAR_COLOR_LIST[dotColorIndex];
 
-          const dot = CreateDotDiv(dotColor);
+          const dot = CreateCalendarDotDiv(dotColor);
 
           wrapper.appendChild(dot);
         }
@@ -141,7 +141,7 @@ export const CalendarModal = ({
         const dotColor =
           CALENDAR_COLOR_LIST[dotColorIndex % CALENDAR_COLOR_LIST.length];
 
-        const dot = CreateDotDiv(dotColor);
+        const dot = CreateCalendarDotDiv(dotColor);
 
         wrapper.appendChild(dot);
       }

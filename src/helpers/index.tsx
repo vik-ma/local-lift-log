@@ -241,4 +241,4 @@ export { HandleListPaginationPageChange } from "./Store/HandleListPaginationPage
 export { GetPaginationPageFromStore } from "./Store/GetPaginationPageFromStore";
 
 export { GetCalendarWorkoutList } from "./Calendar/GetCalendarWorkoutList";
-export { CreateDotDiv } from "./Calendar/CreateDotDiv";
+export { CreateCalendarDotDiv } from "./Calendar/CreateCalendarDotDiv";

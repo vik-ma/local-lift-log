@@ -1,4 +1,4 @@
-export const CreateDotDiv = (color: string) => {
+export const CreateCalendarDotDiv = (color: string) => {
   const dot = document.createElement("div");
 
   dot.style.width = "6px";
