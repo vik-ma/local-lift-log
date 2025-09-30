@@ -148,5 +148,6 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     calendarDateMarking,
     setCalendarDateMarking,
     operatingYearMonth,
+    currentMonth
   };
 };

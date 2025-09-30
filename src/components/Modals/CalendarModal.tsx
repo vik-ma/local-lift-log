@@ -45,6 +45,8 @@ export const CalendarModal = ({
     currentDateString,
     calendarDateMarking,
     setCalendarDateMarking,
+    operatingYearMonth,
+    currentMonth,
   } = useCalendarModal;
 
   const calendarWidth =
@@ -53,6 +55,16 @@ export const CalendarModal = ({
       : 250;
 
   const renderWorkoutListOverlay = () => {
+    if (operatingYearMonth.current === currentMonth.current) {
+      const todayCell = document.querySelector(
+        `[aria-label="Today, ${currentDateString.current}"]`
+      ) as HTMLElement;
+
+      if (todayCell) {
+        todayCell.style.border = "2px solid #d7a20099";
+      }
+    }
+
     const dateWrapperCellMap = new Map<string, HTMLDivElement>();
 
     for (const workout of operatingCalendarMonth.workoutList) {
