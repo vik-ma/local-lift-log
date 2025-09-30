@@ -17,11 +17,9 @@ import {
   FormatRoutineScheduleTypeString,
   GetPaginationPageFromStore,
   GetSortCategoryFromStore,
-  GetValidatedNumDaysInSchedule,
-  GetValidatedRoutineScheduleType,
-  GetValidatedStartDay,
   IsNumberWithinLimit,
   IsRoutineScheduleTypeFiltered,
+  ValidateAndModifyRoutineSchedule,
 } from "../helpers";
 import Database from "@tauri-apps/plugin-sql";
 import { useListFilters, usePaginatedList } from ".";
@@ -161,11 +159,7 @@ export const useRoutineList = ({
       const newRoutineMap = new Map<number, Routine>();
 
       for (const row of result) {
-        row.schedule_type = GetValidatedRoutineScheduleType(row.schedule_type);
-        row.num_days_in_schedule = GetValidatedNumDaysInSchedule(
-          row.num_days_in_schedule
-        );
-        row.start_day = GetValidatedStartDay(row.start_day);
+        ValidateAndModifyRoutineSchedule(row);
 
         const { workoutTemplateIdList, workoutTemplateIdSet } =
           CreateRoutineWorkoutTemplateList(

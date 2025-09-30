@@ -30,12 +30,10 @@ import {
   DeleteItemFromList,
   DeleteWorkoutRoutineSchedule,
   UpdateUserSetting,
-  GetValidatedNumDaysInSchedule,
-  GetValidatedStartDay,
-  GetValidatedRoutineScheduleType,
   GetValidatedRoutineScheduleItemDay,
   LoadStore,
   ValidateAndModifyUserSettings,
+  ValidateAndModifyRoutineSchedule,
 } from "../helpers";
 import toast from "react-hot-toast";
 import {
@@ -160,13 +158,7 @@ export default function RoutineDetails() {
 
         const routine = result[0];
 
-        routine.schedule_type = GetValidatedRoutineScheduleType(
-          routine.schedule_type
-        );
-        routine.num_days_in_schedule = GetValidatedNumDaysInSchedule(
-          routine.num_days_in_schedule
-        );
-        routine.start_day = GetValidatedStartDay(routine.start_day);
+        ValidateAndModifyRoutineSchedule(routine);
 
         const isNoDaySchedule = routine.schedule_type === 2;
 
@@ -485,9 +477,10 @@ export default function RoutineDetails() {
   };
 
   const updateRoutineStartDay = async (weekdayNum: string) => {
-    const startDay = GetValidatedStartDay(Number(weekdayNum));
-
-    const updatedRoutine: Routine = { ...routine, start_day: startDay };
+    const updatedRoutine: Routine = {
+      ...routine,
+      start_day: Number(weekdayNum),
+    };
 
     const success = await UpdateRoutine(updatedRoutine);
 
