@@ -1,4 +1,4 @@
-import { IsNumberValidInteger, IsYmdDateStringValid } from "..";
+import { IsYmdDateStringValid } from "..";
 import {
   NUM_DAYS_IN_SCHEDULE_OPTIONS,
   ROUTINE_SCHEDULE_TYPES,
@@ -12,21 +12,6 @@ export const ValidateAndModifyRoutineSchedule = (routine: Routine) => {
 
   if (!NUM_DAYS_IN_SCHEDULE_OPTIONS.includes(routine.num_days_in_schedule)) {
     routine.num_days_in_schedule = NUM_DAYS_IN_SCHEDULE_OPTIONS[0];
-  }
-
-  const startDayMinValue = 0;
-  const startDayDoNotAllowMinValue = false;
-  const startDayMaxValue = 6;
-
-  if (
-    !IsNumberValidInteger(
-      routine.start_day,
-      startDayMinValue,
-      startDayDoNotAllowMinValue,
-      startDayMaxValue
-    )
-  ) {
-    routine.start_day = startDayMinValue;
   }
 
   const isNullAllowedCustomScheduleStartDate = true;
