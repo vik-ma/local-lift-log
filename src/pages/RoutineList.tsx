@@ -180,16 +180,13 @@ export default function RoutineList() {
 
       const result = await db.execute(
         `INSERT into routines 
-         (name, note, schedule_type, num_days_in_schedule, 
-         no_set_days_workout_template_order, custom_schedule_start_date) 
-         VALUES ($1, $2, $3, $4, $5, $6)`,
+         (name, note, schedule_type, num_days_in_schedule) 
+         VALUES ($1, $2, $3, $4)`,
         [
           routine.name,
           routine.note,
           routine.schedule_type,
           routine.num_days_in_schedule,
-          routine.no_set_days_workout_template_order,
-          routine.custom_schedule_start_date,
         ]
       );
 
