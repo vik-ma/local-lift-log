@@ -13,6 +13,7 @@ import {
   Chip,
   Switch,
   CalendarDate,
+  DatePicker,
 } from "@heroui/react";
 import Database from "@tauri-apps/plugin-sql";
 import {
@@ -21,7 +22,6 @@ import {
   RoutineModal,
   WorkoutTemplateListModal,
   DetailsHeader,
-  WeekdayDropdown,
 } from "../components";
 import {
   GetScheduleDayNames,
@@ -51,7 +51,8 @@ import {
 import { Link } from "react-router-dom";
 import { Reorder } from "framer-motion";
 import { Store } from "@tauri-apps/plugin-store";
-import { DEFAULT_ROUTINE, WEEKDAY_MAP } from "../constants";
+import { DEFAULT_ROUTINE } from "../constants";
+import { I18nProvider } from "@react-aria/i18n";
 
 export default function RoutineDetails() {
   const { id } = useParams();
@@ -493,20 +494,18 @@ export default function RoutineDetails() {
     toast.success("Workout removed");
   };
 
-  const updateRoutineStartDay = async (weekdayNum: string) => {
-    const updatedRoutine: Routine = {
-      ...routine,
-      start_day: Number(weekdayNum),
-    };
-
-    const success = await UpdateRoutine(updatedRoutine);
-
-    if (!success) return;
-
-    setRoutine(updatedRoutine);
-    setEditedRoutine(updatedRoutine);
-
-    toast.success("Start day updated");
+  const updateCustomScheduleStartDate = async (
+    startDate: CalendarDate | null
+  ) => {
+    // const updatedRoutine: Routine = {
+    //   ...routine,
+    //   start_day: Number(weekdayNum),
+    // };
+    // const success = await UpdateRoutine(updatedRoutine);
+    // if (!success) return;
+    // setRoutine(updatedRoutine);
+    // setEditedRoutine(updatedRoutine);
+    // toast.success("Start day updated");
   };
 
   const updateWorkoutTemplateOrder = async () => {
@@ -629,13 +628,25 @@ export default function RoutineDetails() {
         <div className="flex items-center justify-between">
           <div>
             {routine.schedule_type === 1 && (
-              <WeekdayDropdown
-                value={routine.start_day}
-                label="Start Day"
-                weekdayMap={WEEKDAY_MAP}
-                targetType="routine"
-                updateRoutineStartDay={updateRoutineStartDay}
-              />
+              <I18nProvider locale={userSettings.locale}>
+                <DatePicker
+                  classNames={{
+                    base: "gap-0.5 pb-0",
+                    inputWrapper: "!bg-default-100",
+                    innerWrapper: "gap-x-0.5",
+                    label: "text-neutral-700",
+                  }}
+                  label={
+                    <span className="text-base font-medium px-[3px]">
+                      Schedule Start Date
+                    </span>
+                  }
+                  labelPlacement="outside"
+                  variant="faded"
+                  value={customScheduleStartDate}
+                  onChange={(value) => updateCustomScheduleStartDate(value)}
+                />
+              </I18nProvider>
             )}
           </div>
           <Switch
