@@ -11,7 +11,6 @@ import {
   Button,
   useDisclosure,
   Chip,
-  Switch,
   CalendarDate,
   DatePicker,
 } from "@heroui/react";
@@ -35,7 +34,6 @@ import {
   CreateNoDayWorkoutTemplateList,
   DeleteItemFromList,
   DeleteWorkoutRoutineSchedule,
-  UpdateUserSetting,
   GetValidatedRoutineScheduleItemDay,
   LoadStore,
   ValidateAndModifyUserSettings,
@@ -370,19 +368,6 @@ export default function RoutineDetails() {
     }
   };
 
-  const handleChangeIsActiveRoutine = async (value: boolean) => {
-    if (userSettings === undefined) return;
-
-    const newValue = value ? routine.id : 0;
-
-    await UpdateUserSetting(
-      "active_routine_id",
-      newValue,
-      userSettings,
-      setUserSettings
-    );
-  };
-
   const deleteWorkoutTemplateSchedulesAboveDayNumber = async (
     numDaysInSchedule: number
   ) => {
@@ -659,16 +644,6 @@ export default function RoutineDetails() {
               </I18nProvider>
             )}
           </div>
-          <Switch
-            className="flex-row-reverse gap-3"
-            color="primary"
-            isSelected={
-              userSettings.active_routine_id === routine.id ? true : false
-            }
-            onValueChange={(value) => handleChangeIsActiveRoutine(value)}
-          >
-            <span className="text-stone-600 font-medium">Active Routine</span>
-          </Switch>
         </div>
         <div className="flex flex-col gap-0.5">
           {routine.schedule_type === 2 ? (
