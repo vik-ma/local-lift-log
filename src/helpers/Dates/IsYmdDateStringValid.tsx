@@ -1,4 +1,13 @@
-export const IsYmdDateStringValid = (dateString: string) => {
+export const IsYmdDateStringValid = (
+  dateString: string | null,
+  isNullAllowed?: boolean
+) => {
+  if (isNullAllowed) {
+    if (dateString === null) return true;
+  } else {
+    if (dateString === null) return false;
+  }
+
   const regex = /^\d{4}-\d{2}-\d{2}$/;
 
   // Check if the string matches the format YYYY-MM-DD
