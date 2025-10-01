@@ -9,6 +9,7 @@ diesel::table! {
         num_days_in_schedule -> Integer,
         start_day -> Integer,
         no_set_days_workout_template_order -> Nullable<Text>,
+        custom_schedule_start_date -> Nullable<Text>,
     }
 }
 
