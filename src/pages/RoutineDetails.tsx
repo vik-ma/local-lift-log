@@ -7,7 +7,13 @@ import {
   UserSettings,
 } from "../typings";
 import { useState, useEffect, useMemo, useRef } from "react";
-import { Button, useDisclosure, Chip, Switch } from "@heroui/react";
+import {
+  Button,
+  useDisclosure,
+  Chip,
+  Switch,
+  CalendarDate,
+} from "@heroui/react";
 import Database from "@tauri-apps/plugin-sql";
 import {
   LoadingSpinner,
@@ -34,6 +40,7 @@ import {
   LoadStore,
   ValidateAndModifyUserSettings,
   ValidateAndModifyRoutineSchedule,
+  ConvertYmdDateStringToCalendarDate,
 } from "../helpers";
 import toast from "react-hot-toast";
 import {
@@ -66,6 +73,8 @@ export default function RoutineDetails() {
   >([]);
   const [isScheduleItemBeingDragged, setIsScheduleItemBeingDragged] =
     useState<boolean>(false);
+  const [customScheduleStartDate, setCustomScheduleStartDate] =
+    useState<CalendarDate | null>(null);
 
   const store = useRef<Store>(null);
 
@@ -183,6 +192,14 @@ export default function RoutineDetails() {
           );
 
           setNoDayWorkoutTemplateList(noDayWorkoutTemplateList);
+        }
+
+        if (routine.custom_schedule_start_date !== null) {
+          const customStartDate = ConvertYmdDateStringToCalendarDate(
+            routine.custom_schedule_start_date
+          );
+
+          setCustomScheduleStartDate(customStartDate);
         }
 
         setRoutine(currentRoutine);
