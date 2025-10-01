@@ -41,6 +41,7 @@ import {
   ValidateAndModifyUserSettings,
   ValidateAndModifyRoutineSchedule,
   ConvertYmdDateStringToCalendarDate,
+  ConvertCalendarDateToYmdString,
 } from "../helpers";
 import toast from "react-hot-toast";
 import {
@@ -497,15 +498,24 @@ export default function RoutineDetails() {
   const updateCustomScheduleStartDate = async (
     startDate: CalendarDate | null
   ) => {
-    // const updatedRoutine: Routine = {
-    //   ...routine,
-    //   start_day: Number(weekdayNum),
-    // };
-    // const success = await UpdateRoutine(updatedRoutine);
-    // if (!success) return;
-    // setRoutine(updatedRoutine);
-    // setEditedRoutine(updatedRoutine);
-    // toast.success("Start day updated");
+    const customScheduleStartDateString =
+      ConvertCalendarDateToYmdString(startDate);
+
+    const updatedRoutine: Routine = {
+      ...routine,
+      custom_schedule_start_date: customScheduleStartDateString,
+    };
+
+    const success = await UpdateRoutine(updatedRoutine);
+
+    if (!success) return;
+
+    setRoutine(updatedRoutine);
+    setEditedRoutine(updatedRoutine);
+
+    setCustomScheduleStartDate(startDate);
+
+    toast.success("Start day updated");
   };
 
   const updateWorkoutTemplateOrder = async () => {
