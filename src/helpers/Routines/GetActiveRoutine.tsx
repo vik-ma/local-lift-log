@@ -61,6 +61,8 @@ export const GetActiveRoutine = async (activeRoutineId: number) => {
       activeRoutineScheduleList.push(schedule);
     }
 
+    activeRoutine.activeRoutineScheduleList = activeRoutineScheduleList;
+
     return activeRoutine;
   } catch (error) {
     console.log(error);

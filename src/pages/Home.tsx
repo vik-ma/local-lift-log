@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, useDisclosure } from "@heroui/react";
-import { UserSettings } from "../typings";
+import { Routine, UserSettings } from "../typings";
 import {
   GetUserSettings,
   CreateDefaultUserSettings,
@@ -9,12 +9,14 @@ import {
   CreateDefaultMeasurements,
   CreateDefaultDistances,
   ValidateAndModifyUserSettings,
+  GetActiveRoutine,
 } from "../helpers";
 import { CalendarModal, CreateDefaultSettingsModal } from "../components";
 import { useCalendarModal } from "../hooks";
 
 export default function Home() {
   const [userSettings, setUserSettings] = useState<UserSettings>();
+  const [activeRoutine, setActiveRoutine] = useState<Routine>();
 
   const createDefaultSettingsModal = useDisclosure();
 
@@ -70,6 +72,14 @@ export default function Home() {
           );
 
           setUserSettings(userSettings);
+
+          if (userSettings.active_routine_id !== 0) {
+            const activeRoutine = await GetActiveRoutine(
+              userSettings.active_routine_id
+            );
+
+            setActiveRoutine(activeRoutine);
+          }
         } else {
           createDefaultSettingsModal.onOpen();
         }
