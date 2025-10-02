@@ -2,6 +2,7 @@ import { CalendarDate, useDisclosure } from "@heroui/react";
 import {
   CalendarMonthItem,
   CalendarWorkoutTemplateMapItem,
+  Routine,
   UseCalendarModalReturnType,
   UserSettings,
 } from "../typings";
@@ -21,7 +22,13 @@ const EMPTY_CALENDAR_MONTH_ITEM: CalendarMonthItem = {
   exerciseGroupSet: new Set(),
 };
 
-export const useCalendarModal = (): UseCalendarModalReturnType => {
+type UseCalendarModalProps = {
+  activeRoutine: Routine | undefined;
+};
+
+export const useCalendarModal = ({
+  activeRoutine,
+}: UseCalendarModalProps): UseCalendarModalReturnType => {
   const [operatingCalendarMonth, setOperatingCalendarMonth] =
     useState<CalendarMonthItem>(EMPTY_CALENDAR_MONTH_ITEM);
   const [calendarDateMarking, setCalendarDateMarking] =
@@ -148,6 +155,6 @@ export const useCalendarModal = (): UseCalendarModalReturnType => {
     calendarDateMarking,
     setCalendarDateMarking,
     operatingYearMonth,
-    currentMonth
+    currentMonth,
   };
 };

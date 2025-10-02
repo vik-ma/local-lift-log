@@ -20,7 +20,7 @@ export default function Home() {
 
   const createDefaultSettingsModal = useDisclosure();
 
-  const calendarModal = useCalendarModal();
+  const calendarModal = useCalendarModal({ activeRoutine: activeRoutine });
 
   const { openCalendarModal } = calendarModal;
 
@@ -102,6 +102,7 @@ export default function Home() {
         <CalendarModal
           useCalendarModal={calendarModal}
           userSettings={userSettings}
+          activeRoutine={activeRoutine}
         />
       )}
       <div className="flex flex-col gap-4">

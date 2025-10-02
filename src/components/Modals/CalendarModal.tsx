@@ -8,7 +8,11 @@ import {
   Calendar,
   ScrollShadow,
 } from "@heroui/react";
-import { UseCalendarModalReturnType, UserSettings } from "../../typings";
+import {
+  Routine,
+  UseCalendarModalReturnType,
+  UserSettings,
+} from "../../typings";
 import {
   CALENDAR_COLOR_LIST,
   EXERCISE_GROUP_DICTIONARY,
@@ -25,6 +29,7 @@ import { CalendarDateMarkingsDropdown } from "..";
 type CalendarModalProps = {
   useCalendarModal: UseCalendarModalReturnType;
   userSettings: UserSettings;
+  activeRoutine: Routine | undefined;
 };
 
 const NO_WORKOUTS_DIV = (
@@ -36,6 +41,7 @@ const NO_WORKOUTS_DIV = (
 export const CalendarModal = ({
   useCalendarModal,
   userSettings,
+  activeRoutine,
 }: CalendarModalProps) => {
   const {
     calendarModal,
