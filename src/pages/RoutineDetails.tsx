@@ -620,7 +620,7 @@ export default function RoutineDetails() {
           editButtonAction={() => routineModal.onOpen()}
           useDetailsHeaderOptions={useDetailsHeaderOptions}
         />
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-center">
           <div>
             {routine.schedule_type === 1 && (
               <I18nProvider locale={userSettings.locale}>
@@ -661,6 +661,7 @@ export default function RoutineDetails() {
                 className="font-medium"
                 color="secondary"
                 variant="flat"
+                size="sm"
                 onPress={() => workoutTemplateListModal.onOpen()}
               >
                 Add Workout
