@@ -1,5 +1,6 @@
 import Database from "@tauri-apps/plugin-sql";
-import { Routine } from "../../typings";
+import { ActiveRoutineSchedule, Routine } from "../../typings";
+import { IsNumberValidInteger, ValidateAndModifyRoutineSchedule } from "..";
 
 export const GetActiveRoutine = async (activeRoutineId: number) => {
   try {
@@ -18,7 +19,7 @@ export const GetActiveRoutine = async (activeRoutineId: number) => {
               'name', workout_templates.name
             )
           END
-        ) AS routineSchedules
+        ) AS activeRoutineSchedules
        FROM routines
        LEFT JOIN workout_routine_schedules 
          ON routines.id = workout_routine_schedules.routine_id
@@ -31,6 +32,34 @@ export const GetActiveRoutine = async (activeRoutineId: number) => {
     if (result.length === 0) return undefined;
 
     const activeRoutine = result[0];
+
+    ValidateAndModifyRoutineSchedule(activeRoutine);
+
+    const schedules: (ActiveRoutineSchedule | null)[] = JSON.parse(
+      activeRoutine.activeRoutineSchedules!
+    );
+
+    const activeRoutineScheduleList: ActiveRoutineSchedule[] = [];
+
+    for (const schedule of schedules) {
+      if (schedule === null || schedule.name === null) continue;
+
+      const dayMinValue = 0;
+      const doNotAllowMinValue = false;
+      const dayMaxValue = activeRoutine.num_days_in_schedule - 1;
+
+      if (
+        !IsNumberValidInteger(
+          schedule.day,
+          dayMinValue,
+          doNotAllowMinValue,
+          dayMaxValue
+        )
+      )
+        continue;
+
+      activeRoutineScheduleList.push(schedule);
+    }
 
     return activeRoutine;
   } catch (error) {

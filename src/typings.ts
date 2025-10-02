@@ -13,6 +13,14 @@ export type Routine = {
   workoutTemplateIds?: string;
   workoutTemplateIdList?: number[];
   workoutTemplateIdSet?: Set<number>;
+  activeRoutineSchedules?: string;
+  activeRoutineScheduleList: ActiveRoutineSchedule[];
+};
+
+export type ActiveRoutineSchedule = {
+  workout_template_id: number;
+  day: number;
+  name: string;
 };
 
 export type UserSettings = {
