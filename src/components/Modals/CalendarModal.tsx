@@ -253,6 +253,10 @@ export const CalendarModal = ({
                   setValue={setCalendarDateMarking}
                   targetType="state"
                   isInCalendarModal
+                  disableActiveRoutine={
+                    activeRoutine === undefined ||
+                    activeRoutine.schedule_type === 2
+                  }
                 />
                 <div className="max-h-[310px] flex gap-2.5">
                   <I18nProvider locale={userSettings.locale}>

@@ -8,6 +8,7 @@ type CalendarDateMarkingsDropdownProps = {
   setValue?: React.Dispatch<React.SetStateAction<string>>;
   updateUserSetting?: UpdateUserSettingFunction;
   isInCalendarModal?: boolean;
+  disableActiveRoutine?: boolean;
 };
 
 export const CalendarDateMarkingsDropdown = ({
@@ -16,6 +17,7 @@ export const CalendarDateMarkingsDropdown = ({
   setValue,
   updateUserSetting,
   isInCalendarModal,
+  disableActiveRoutine,
 }: CalendarDateMarkingsDropdownProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "settings" && updateUserSetting !== undefined) {
@@ -41,6 +43,7 @@ export const CalendarDateMarkingsDropdown = ({
         variant="faded"
         selectedKeys={[value]}
         onChange={(e) => handleChange(e)}
+        disabledKeys={disableActiveRoutine ? ["active-routine"] : []}
         disallowEmptySelection
       >
         {Array.from(CALENDAR_DATE_MARKINGS_MAP).map(([key, value]) => (
