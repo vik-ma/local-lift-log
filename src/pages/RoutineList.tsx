@@ -124,7 +124,12 @@ export default function RoutineList() {
   }, []);
 
   const handleSetActiveButton = async (routine: Routine) => {
-    if (userSettings === undefined) return;
+    if (
+      userSettings === undefined ||
+      routine.workoutTemplateIdSet === undefined ||
+      routine.workoutTemplateIdSet.size === 0
+    )
+      return;
 
     const newActiveRoutineId =
       routine.id === userSettings.active_routine_id ? 0 : routine.id;
@@ -386,15 +391,17 @@ export default function RoutineList() {
                   </span>
                 </button>
                 <div className="flex items-center gap-1 pr-1">
-                  <Button
-                    className="w-[5.25rem]"
-                    color={isActiveRoutine ? "secondary" : "default"}
-                    variant="flat"
-                    size="sm"
-                    onPress={() => handleSetActiveButton(routine)}
-                  >
-                    {isActiveRoutine ? "Active" : "Set Active"}
-                  </Button>
+                  {routine.workoutTemplateIdSet!.size > 0 && (
+                    <Button
+                      className="w-[5.25rem]"
+                      color={isActiveRoutine ? "secondary" : "default"}
+                      variant="flat"
+                      size="sm"
+                      onPress={() => handleSetActiveButton(routine)}
+                    >
+                      {isActiveRoutine ? "Active" : "Set Active"}
+                    </Button>
+                  )}
                   <Dropdown shouldBlockScroll={false}>
                     <DropdownTrigger>
                       <Button
