@@ -4,9 +4,10 @@ import { UpdateUserSettingFunction } from "../../typings";
 
 type CalendarDateMarkingsDropdownProps = {
   value: string;
-  targetType: "settings" | "state";
+  targetType: "settings" | "state" | "calendar-modal";
   setValue?: React.Dispatch<React.SetStateAction<string>>;
   updateUserSetting?: UpdateUserSettingFunction;
+  handleChangeInModal?: (value: string) => Promise<void>;
   isInCalendarModal?: boolean;
   disableActiveRoutine?: boolean;
 };
@@ -16,12 +17,17 @@ export const CalendarDateMarkingsDropdown = ({
   targetType,
   setValue,
   updateUserSetting,
+  handleChangeInModal,
   isInCalendarModal,
   disableActiveRoutine,
 }: CalendarDateMarkingsDropdownProps) => {
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (targetType === "settings" && updateUserSetting !== undefined) {
-      updateUserSetting("calendar_date_marking", e.target.value);
+      await updateUserSetting("calendar_date_marking", e.target.value);
+    }
+
+    if (targetType === "calendar-modal" && handleChangeInModal !== undefined) {
+      await handleChangeInModal(e.target.value);
     }
 
     if (targetType === "state" && setValue !== undefined) {

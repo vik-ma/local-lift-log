@@ -102,6 +102,7 @@ export default function Home() {
         <CalendarModal
           useCalendarModal={calendarModal}
           userSettings={userSettings}
+          setUserSettings={setUserSettings}
           activeRoutine={activeRoutine}
         />
       )}

@@ -23,12 +23,16 @@ import { I18nProvider } from "@react-aria/i18n";
 import {
   CreateCalendarDotDiv,
   FormatISODateStringToCalendarAriaLabelString,
+  UpdateUserSetting,
 } from "../../helpers";
 import { CalendarDateMarkingsDropdown } from "..";
 
 type CalendarModalProps = {
   useCalendarModal: UseCalendarModalReturnType;
   userSettings: UserSettings;
+  setUserSettings: React.Dispatch<
+    React.SetStateAction<UserSettings | undefined>
+  >;
   activeRoutine: Routine | undefined;
 };
 
@@ -41,6 +45,7 @@ const NO_WORKOUTS_DIV = (
 export const CalendarModal = ({
   useCalendarModal,
   userSettings,
+  setUserSettings,
   activeRoutine,
 }: CalendarModalProps) => {
   const {
@@ -60,6 +65,17 @@ export const CalendarModal = ({
     calendarDateMarking === "workouts" || calendarDateMarking === "none"
       ? 290
       : 250;
+
+  const handleCalendarDateMarkingChange = async (value: string) => {
+    setCalendarDateMarking(value);
+
+    await UpdateUserSetting(
+      "calendar_date_marking",
+      value,
+      userSettings,
+      setUserSettings
+    );
+  };
 
   const renderWorkoutListOverlay = () => {
     if (operatingYearMonth.current === currentMonth.current) {
@@ -252,7 +268,8 @@ export const CalendarModal = ({
                 <CalendarDateMarkingsDropdown
                   value={calendarDateMarking}
                   setValue={setCalendarDateMarking}
-                  targetType="state"
+                  targetType="calendar-modal"
+                  handleChangeInModal={handleCalendarDateMarkingChange}
                   isInCalendarModal
                   disableActiveRoutine={disableActiveRoutineOption.current}
                 />
