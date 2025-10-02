@@ -43,6 +43,8 @@ export const useCalendarModal = ({
 
   const isCalendarWorkoutListLoaded = useRef<boolean>(false);
 
+  const disableActiveRoutineOption = useRef<boolean>(false);
+
   const calendarModal = useDisclosure();
 
   const getWorkoutListForMonth = async (yearMonth: string) => {
@@ -106,14 +108,15 @@ export const useCalendarModal = ({
       currentMonth.current = currentYearMonth;
       operatingYearMonth.current = currentYearMonth;
 
-      const disableActiveRoutineOption =
+      const disableActiveRoutine =
         activeRoutine === undefined || activeRoutine.schedule_type === 2;
 
       if (
         userSettings.calendar_date_marking === "active-routine" &&
-        disableActiveRoutineOption
+        disableActiveRoutine
       ) {
         userSettings.calendar_date_marking = "workouts";
+        disableActiveRoutineOption.current = true;
       }
 
       setCalendarDateMarking(userSettings.calendar_date_marking);
@@ -166,5 +169,6 @@ export const useCalendarModal = ({
     setCalendarDateMarking,
     operatingYearMonth,
     currentMonth,
+    disableActiveRoutineOption,
   };
 };
