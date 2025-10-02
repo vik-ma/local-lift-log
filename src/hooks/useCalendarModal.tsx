@@ -106,6 +106,16 @@ export const useCalendarModal = ({
       currentMonth.current = currentYearMonth;
       operatingYearMonth.current = currentYearMonth;
 
+      const disableActiveRoutineOption =
+        activeRoutine === undefined || activeRoutine.schedule_type === 2;
+
+      if (
+        userSettings.calendar_date_marking === "active-routine" &&
+        disableActiveRoutineOption
+      ) {
+        userSettings.calendar_date_marking = "workouts";
+      }
+
       setCalendarDateMarking(userSettings.calendar_date_marking);
 
       isCalendarWorkoutListLoaded.current = true;
