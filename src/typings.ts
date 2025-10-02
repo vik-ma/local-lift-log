@@ -13,15 +13,31 @@ export type Routine = {
   workoutTemplateIds?: string;
   workoutTemplateIdList?: number[];
   workoutTemplateIdSet?: Set<number>;
-  activeRoutineSchedules?: string;
-  activeRoutineScheduleList: ActiveRoutineSchedule[];
+  routineSchedules?: string;
+  routineScheduleList: SimpleRoutineScheduleItem[];
 };
 
-export type ActiveRoutineSchedule = {
-  workout_template_id: number;
+export type WorkoutRoutineSchedule = {
+  id: number;
   day: number;
+  workout_template_id: number;
+  routine_id: number;
+};
+
+export type RoutineScheduleItem = {
+  id: number;
+  day: number;
+  workout_template_id: number;
   name: string;
 };
+
+export type NoDayRoutineScheduleItem = {
+  id: number;
+  workout_template_id: number;
+  name: string;
+};
+
+export type SimpleRoutineScheduleItem = Omit<RoutineScheduleItem, "id">;
 
 export type UserSettings = {
   id: number;
@@ -94,26 +110,6 @@ export type WorkoutTemplate = {
   exerciseIdSet?: Set<number>;
   exerciseGroupSetPrimary?: Set<string>;
   exerciseGroupSetSecondary?: Set<string>;
-};
-
-export type WorkoutRoutineSchedule = {
-  id: number;
-  day: number;
-  workout_template_id: number;
-  routine_id: number;
-};
-
-export type RoutineScheduleItem = {
-  id: number;
-  day: number;
-  workout_template_id: number;
-  name: string;
-};
-
-export type NoDayRoutineScheduleItem = {
-  id: number;
-  workout_template_id: number;
-  name: string;
 };
 
 export type WorkoutSet = {
