@@ -10,6 +10,7 @@ export const GetCalendarWorkoutList = async (yearMonthString: string) => {
           w.id,
           w.date,
           w.workout_template_id,
+          w.routine_id,
           CASE 
               WHEN w.workout_template_id = 0 THEN 'No Workout Template'
               WHEN t.id IS NULL THEN 'Unknown Workout Template'
