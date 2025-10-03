@@ -1463,12 +1463,17 @@ export type CalendarWorkoutItem = {
 
 export type CalendarMonthItem = {
   workoutList: CalendarWorkoutItem[];
-  workoutTemplateMap: Map<number, CalendarWorkoutTemplateMapItem>;
+  workoutTemplateMap: CalendarWorkoutTemplateMap;
   exerciseGroupSet: Set<string>;
-  routineWorkoutTemplateMap: Map<number, CalendarWorkoutTemplateMapItem>;
+  routineWorkoutTemplateMap: CalendarWorkoutTemplateMap;
 };
 
 export type CalendarWorkoutTemplateMapItem = {
   index: number;
   name: string;
 };
+
+export type CalendarWorkoutTemplateMap = Map<
+  number,
+  CalendarWorkoutTemplateMapItem
+>;
