@@ -109,7 +109,10 @@ export const useCalendarModal = ({
       operatingYearMonth.current = currentYearMonth;
 
       const disableActiveRoutine =
-        activeRoutine === undefined || activeRoutine.schedule_type === 2;
+        activeRoutine === undefined ||
+        activeRoutine.schedule_type === 2 ||
+        (activeRoutine.schedule_type === 1 &&
+          activeRoutine.custom_schedule_start_date === null);
 
       if (
         userSettings.calendar_date_marking === "active-routine" &&
