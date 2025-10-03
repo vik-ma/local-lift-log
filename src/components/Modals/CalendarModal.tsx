@@ -37,7 +37,7 @@ type CalendarModalProps = {
 };
 
 const NO_WORKOUTS_DIV = (
-  <div className="w-[9.1rem] text-center text-sm text-stone-400">
+  <div className="w-[9.1rem] pt-0.5 text-sm font-medium text-center text-stone-400">
     No Workouts
   </div>
 );
