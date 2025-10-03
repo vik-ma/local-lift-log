@@ -102,7 +102,12 @@ export const CalendarModal = ({
         existingWrapper.remove();
       }
 
-      if (calendarDateMarking === "none") continue;
+      if (
+        calendarDateMarking === "none" ||
+        (calendarDateMarking === "active-routine" &&
+          workout.routine_id !== activeRoutine?.id)
+      )
+        continue;
 
       const querySelectorString =
         date === currentDateString.current
@@ -165,11 +170,15 @@ export const CalendarModal = ({
         }
       } else {
         const dotColorIndex =
-          calendarDateMarking === "workouts"
-            ? wrapper.children.length
-            : operatingCalendarMonth.workoutTemplateMap.get(
+          calendarDateMarking === "workout-templates"
+            ? operatingCalendarMonth.workoutTemplateMap.get(
                 workout.workout_template_id
-              )!.index;
+              )!.index
+            : calendarDateMarking === "active-routine"
+            ? operatingCalendarMonth.routineWorkoutTemplateMap.get(
+                workout.workout_template_id
+              )!.index
+            : wrapper.children.length;
 
         const dotColor =
           CALENDAR_COLOR_LIST[dotColorIndex % CALENDAR_COLOR_LIST.length];
@@ -179,10 +188,6 @@ export const CalendarModal = ({
         wrapper.appendChild(dot);
       }
     }
-  };
-
-  const renderCalendarDateMarkingsActiveRoutine = () => {
-    renderCurrentDateBorder();
   };
 
   const createWorkoutTemplateListDiv = (map: CalendarWorkoutTemplateMap) => (
@@ -247,11 +252,7 @@ export const CalendarModal = ({
   useEffect(() => {
     if (!calendarModal.isOpen || !isCalendarWorkoutListLoaded.current) return;
 
-    if (calendarDateMarking === "active-routine") {
-      renderCalendarDateMarkingsActiveRoutine();
-    } else {
-      renderCalendarDateMarkings();
-    }
+    renderCalendarDateMarkings();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calendarModal.isOpen, operatingCalendarMonth, calendarDateMarking]);
