@@ -13,7 +13,7 @@ export const GetCalendarWorkoutList = async (yearMonthString: string) => {
           w.routine_id,
           CASE 
               WHEN w.workout_template_id = 0 THEN 'No Workout Template'
-              WHEN t.id IS NULL THEN 'Unknown Workout Template'
+              WHEN t.id IS NULL THEN 'Unknown'
               ELSE t.name
           END AS workout_template_name,
           COALESCE(GROUP_CONCAT(DISTINCT e.exercise_group_set_string_primary), '') 
