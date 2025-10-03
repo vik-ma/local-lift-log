@@ -20,6 +20,7 @@ const EMPTY_CALENDAR_MONTH_ITEM: CalendarMonthItem = {
   workoutList: [],
   workoutTemplateMap: new Map(),
   exerciseGroupSet: new Set(),
+  routineWorkoutTemplateMap: new Map(),
 };
 
 type UseCalendarModalProps = {
@@ -82,6 +83,7 @@ export const useCalendarModal = ({
       workoutList,
       workoutTemplateMap,
       exerciseGroupSet,
+      routineWorkoutTemplateMap: new Map(),
     };
 
     setOperatingCalendarMonth(calendarMonthItem);
