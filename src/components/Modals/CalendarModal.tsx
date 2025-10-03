@@ -71,7 +71,7 @@ export const CalendarModal = ({
     );
   };
 
-  const renderCurrentDateBorder = () => {
+  const renderCalendarDateMarkings = () => {
     if (operatingYearMonth.current === currentMonth.current) {
       const todayCell = document.querySelector(
         `[aria-label="Today, ${currentDateString.current}"]`
@@ -81,10 +81,6 @@ export const CalendarModal = ({
         todayCell.style.border = "2px solid #f0c63bCC";
       }
     }
-  };
-
-  const renderCalendarDateMarkings = () => {
-    renderCurrentDateBorder();
 
     const dateWrapperCellMap = new Map<string, HTMLDivElement>();
 
