@@ -77,7 +77,7 @@ export const CalendarModal = ({
     );
   };
 
-  const renderCalendarDateMarkings = () => {
+  const renderCurrentDateBorder = () => {
     if (operatingYearMonth.current === currentMonth.current) {
       const todayCell = document.querySelector(
         `[aria-label="Today, ${currentDateString.current}"]`
@@ -87,6 +87,10 @@ export const CalendarModal = ({
         todayCell.style.border = "2px solid #f0c63bCC";
       }
     }
+  };
+
+  const renderCalendarDateMarkings = () => {
+    renderCurrentDateBorder();
 
     const dateWrapperCellMap = new Map<string, HTMLDivElement>();
 
@@ -183,6 +187,10 @@ export const CalendarModal = ({
     }
   };
 
+  const renderCalendarDateMarkingsActiveRoutine = () => {
+    renderCurrentDateBorder();
+  };
+
   const workoutTemplateList = useMemo(() => {
     if (operatingCalendarMonth.workoutList.length === 0) return NO_WORKOUTS_DIV;
 
@@ -242,7 +250,11 @@ export const CalendarModal = ({
   useEffect(() => {
     if (!calendarModal.isOpen || !isCalendarWorkoutListLoaded.current) return;
 
-    renderCalendarDateMarkings();
+    if (calendarDateMarking === "active-routine") {
+      renderCalendarDateMarkingsActiveRoutine();
+    } else {
+      renderCalendarDateMarkings();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calendarModal.isOpen, operatingCalendarMonth, calendarDateMarking]);

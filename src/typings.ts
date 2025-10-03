@@ -14,7 +14,7 @@ export type Routine = {
   workoutTemplateIdList?: number[];
   workoutTemplateIdSet?: Set<number>;
   routineSchedules?: string;
-  routineScheduleList: SimpleRoutineScheduleItem[];
+  routineScheduleList?: SimpleRoutineScheduleItem[];
 };
 
 export type WorkoutRoutineSchedule = {
