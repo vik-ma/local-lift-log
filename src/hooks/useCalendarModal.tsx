@@ -56,9 +56,15 @@ export const useCalendarModal = ({
       CalendarWorkoutTemplateMapItem
     >();
 
+    const routineWorkoutTemplateMap = new Map<
+      number,
+      CalendarWorkoutTemplateMapItem
+    >();
+
     const exerciseGroupSet = new Set<string>();
 
     let nextIndex = 0;
+    let nextIndexRoutine = 0;
 
     for (const workout of workoutList) {
       const id = workout.workout_template_id;
@@ -67,6 +73,16 @@ export const useCalendarModal = ({
       if (!workoutTemplateMap.has(id)) {
         workoutTemplateMap.set(id, {
           index: nextIndex++,
+          name: workout.workout_template_name,
+        });
+      }
+
+      if (
+        activeRoutine?.id === workout.routine_id &&
+        !routineWorkoutTemplateMap.has(id)
+      ) {
+        routineWorkoutTemplateMap.set(id, {
+          index: nextIndexRoutine++,
           name: workout.workout_template_name,
         });
       }
@@ -83,7 +99,7 @@ export const useCalendarModal = ({
       workoutList,
       workoutTemplateMap,
       exerciseGroupSet,
-      routineWorkoutTemplateMap: new Map(),
+      routineWorkoutTemplateMap,
     };
 
     setOperatingCalendarMonth(calendarMonthItem);
