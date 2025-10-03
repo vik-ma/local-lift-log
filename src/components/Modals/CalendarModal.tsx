@@ -77,7 +77,7 @@ export const CalendarModal = ({
     );
   };
 
-  const renderWorkoutListOverlay = () => {
+  const renderCalendarDateMarkings = () => {
     if (operatingYearMonth.current === currentMonth.current) {
       const todayCell = document.querySelector(
         `[aria-label="Today, ${currentDateString.current}"]`
@@ -242,7 +242,7 @@ export const CalendarModal = ({
   useEffect(() => {
     if (!calendarModal.isOpen || !isCalendarWorkoutListLoaded.current) return;
 
-    renderWorkoutListOverlay();
+    renderCalendarDateMarkings();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calendarModal.isOpen, operatingCalendarMonth, calendarDateMarking]);
