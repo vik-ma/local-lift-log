@@ -6,7 +6,6 @@ import {
   ModalBody,
   ModalFooter,
   Calendar,
-  ScrollShadow,
 } from "@heroui/react";
 import {
   Routine,
@@ -25,7 +24,7 @@ import {
   FormatISODateStringToCalendarAriaLabelString,
   UpdateUserSetting,
 } from "../../helpers";
-import { CalendarDateMarkingsDropdown } from "..";
+import { CalendarDateMarkingsDropdown, CalendarModalLegend } from "..";
 
 type CalendarModalProps = {
   useCalendarModal: UseCalendarModalReturnType;
@@ -35,12 +34,6 @@ type CalendarModalProps = {
   >;
   activeRoutine: Routine | undefined;
 };
-
-const NO_WORKOUTS_DIV = (
-  <div className="w-[9.1rem] pt-0.5 text-sm font-medium text-center text-stone-400">
-    No Workouts
-  </div>
-);
 
 export const CalendarModal = ({
   useCalendarModal,
@@ -191,61 +184,53 @@ export const CalendarModal = ({
     renderCurrentDateBorder();
   };
 
-  const workoutTemplateList = useMemo(() => {
-    if (operatingCalendarMonth.workoutList.length === 0) return NO_WORKOUTS_DIV;
+  const workoutTemplateList = useMemo(
+    () => (
+      <CalendarModalLegend
+        title="Workout Templates"
+        items={Array.from(operatingCalendarMonth.workoutTemplateMap)}
+        renderItem={([id, item]) => {
+          const textColor = CALENDAR_COLOR_LIST[
+            item.index % CALENDAR_COLOR_LIST.length
+          ].substring(0, 7);
 
-    return (
-      <div className="flex flex-col max-h-[274px]">
-        <h4 className="font-medium text-sm">Workout Templates</h4>
-        <ScrollShadow className="w-[9.125rem]">
-          {Array.from(operatingCalendarMonth.workoutTemplateMap).map(
-            ([id, item]) => {
-              const textColor = CALENDAR_COLOR_LIST[
-                item.index % CALENDAR_COLOR_LIST.length
-              ].substring(0, 7);
+          return (
+            <div
+              key={id}
+              className="text-xs truncate"
+              style={{ color: textColor }}
+            >
+              {item.name}
+            </div>
+          );
+        }}
+      />
+    ),
+    [operatingCalendarMonth]
+  );
 
-              return (
-                <div
-                  key={id}
-                  className="text-xs truncate"
-                  style={{ color: textColor }}
-                >
-                  {item.name}
-                </div>
-              );
-            }
-          )}
-        </ScrollShadow>
-      </div>
-    );
-  }, [operatingCalendarMonth]);
+  const exerciseGroupList = useMemo(
+    () => (
+      <CalendarModalLegend
+        title="Exercise Groups"
+        items={Array.from(operatingCalendarMonth.exerciseGroupSet)}
+        renderItem={(exerciseGroup, index) => {
+          const textColor = CALENDAR_COLOR_LIST[index].substring(0, 7);
 
-  const exerciseGroupList = useMemo(() => {
-    if (operatingCalendarMonth.workoutList.length === 0) return NO_WORKOUTS_DIV;
-
-    return (
-      <div className="flex flex-col max-h-[274px]">
-        <h4 className="font-medium text-sm">Exercise Groups</h4>
-        <ScrollShadow className="w-[9.125rem]">
-          {Array.from(operatingCalendarMonth.exerciseGroupSet).map(
-            (exerciseGroup, index) => {
-              const textColor = CALENDAR_COLOR_LIST[index].substring(0, 7);
-
-              return (
-                <div
-                  key={exerciseGroup}
-                  className="text-xs truncate"
-                  style={{ color: textColor }}
-                >
-                  {EXERCISE_GROUP_DICTIONARY.get(exerciseGroup)}
-                </div>
-              );
-            }
-          )}
-        </ScrollShadow>
-      </div>
-    );
-  }, [operatingCalendarMonth]);
+          return (
+            <div
+              key={exerciseGroup}
+              className="text-xs truncate"
+              style={{ color: textColor }}
+            >
+              {EXERCISE_GROUP_DICTIONARY.get(exerciseGroup)}
+            </div>
+          );
+        }}
+      />
+    ),
+    [operatingCalendarMonth]
+  );
 
   useEffect(() => {
     if (!calendarModal.isOpen || !isCalendarWorkoutListLoaded.current) return;
