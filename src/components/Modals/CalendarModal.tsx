@@ -213,6 +213,14 @@ export const CalendarModal = ({
     [operatingCalendarMonth]
   );
 
+  const activeRoutineWorkoutTemplateList = useMemo(
+    () =>
+      createWorkoutTemplateListDiv(
+        operatingCalendarMonth.routineWorkoutTemplateMap
+      ),
+    [operatingCalendarMonth]
+  );
+
   const exerciseGroupList = useMemo(
     () => (
       <CalendarModalLegend
@@ -287,6 +295,8 @@ export const CalendarModal = ({
                     ? workoutTemplateList
                     : calendarDateMarking === "exercise-groups"
                     ? exerciseGroupList
+                    : calendarDateMarking === "active-routine"
+                    ? activeRoutineWorkoutTemplateList
                     : null}
                 </div>
               </div>
