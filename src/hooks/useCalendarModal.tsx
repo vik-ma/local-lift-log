@@ -114,12 +114,13 @@ export const useCalendarModal = ({
         (activeRoutine.schedule_type === 1 &&
           activeRoutine.custom_schedule_start_date === null);
 
+      disableActiveRoutineOption.current = disableActiveRoutine;
+
       if (
         userSettings.calendar_date_marking === "active-routine" &&
         disableActiveRoutine
       ) {
         userSettings.calendar_date_marking = "workouts";
-        disableActiveRoutineOption.current = true;
       }
 
       setCalendarDateMarking(userSettings.calendar_date_marking);
