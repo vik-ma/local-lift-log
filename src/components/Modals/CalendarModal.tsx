@@ -8,6 +8,7 @@ import {
   Calendar,
 } from "@heroui/react";
 import {
+  CalendarWorkoutTemplateMap,
   Routine,
   UseCalendarModalReturnType,
   UserSettings,
@@ -184,28 +185,31 @@ export const CalendarModal = ({
     renderCurrentDateBorder();
   };
 
-  const workoutTemplateList = useMemo(
-    () => (
-      <CalendarModalLegend
-        title="Workout Templates"
-        items={Array.from(operatingCalendarMonth.workoutTemplateMap)}
-        renderItem={([id, item]) => {
-          const textColor = CALENDAR_COLOR_LIST[
-            item.index % CALENDAR_COLOR_LIST.length
-          ].substring(0, 7);
+  const createWorkoutTemplateListDiv = (map: CalendarWorkoutTemplateMap) => (
+    <CalendarModalLegend
+      title="Workout Templates"
+      items={Array.from(map)}
+      renderItem={([id, item]) => {
+        const textColor = CALENDAR_COLOR_LIST[
+          item.index % CALENDAR_COLOR_LIST.length
+        ].substring(0, 7);
 
-          return (
-            <div
-              key={id}
-              className="text-xs truncate"
-              style={{ color: textColor }}
-            >
-              {item.name}
-            </div>
-          );
-        }}
-      />
-    ),
+        return (
+          <div
+            key={id}
+            className="text-xs truncate"
+            style={{ color: textColor }}
+          >
+            {item.name}
+          </div>
+        );
+      }}
+    />
+  );
+
+  const workoutTemplateList = useMemo(
+    () =>
+      createWorkoutTemplateListDiv(operatingCalendarMonth.workoutTemplateMap),
     [operatingCalendarMonth]
   );
 
