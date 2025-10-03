@@ -11,6 +11,7 @@ import {
   CreateExerciseGroupSetPrimary,
   FormatISODateStringToCalendarAriaLabelString,
   GetCalendarWorkoutList,
+  IsRoutineCustomStartDateInvalid,
 } from "../helpers";
 import { useRef, useState } from "react";
 import { getLocalTimeZone } from "@internationalized/date";
@@ -123,8 +124,7 @@ export const useCalendarModal = ({
       const disableActiveRoutine =
         activeRoutine === undefined ||
         activeRoutine.schedule_type === 2 ||
-        (activeRoutine.schedule_type === 1 &&
-          activeRoutine.custom_schedule_start_date === null);
+        IsRoutineCustomStartDateInvalid(activeRoutine);
 
       disableActiveRoutineOption.current = disableActiveRoutine;
 
