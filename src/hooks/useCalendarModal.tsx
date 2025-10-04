@@ -123,7 +123,7 @@ export const useCalendarModal = ({
 
       const disableActiveRoutine =
         activeRoutine === undefined ||
-        activeRoutine.schedule_type === 2 ||
+        activeRoutine.schedule_type === "No Set Days" ||
         IsRoutineCustomStartDateInvalid(activeRoutine);
 
       disableActiveRoutineOption.current = disableActiveRoutine;

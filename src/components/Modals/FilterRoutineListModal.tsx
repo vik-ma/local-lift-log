@@ -51,8 +51,6 @@ export const FilterRoutineListModal = ({
 
   const { listFilters, filterRoutineListModal } = useRoutineList;
 
-  const routineSchedules = ROUTINE_SCHEDULE_TYPES;
-
   const filterMinAndMaxValueInputsProps: UseFilterMinAndMaxValueInputsProps = {
     minValue: 2,
     maxValue: 14,
@@ -196,7 +194,7 @@ export const FilterRoutineListModal = ({
                               <span className="text-secondary">
                                 {" "}
                                 ({filterScheduleTypes.size} out of{" "}
-                                {routineSchedules.length})
+                                {ROUTINE_SCHEDULE_TYPES.length})
                               </span>
                             )}
                           </>
@@ -212,7 +210,7 @@ export const FilterRoutineListModal = ({
                         }
                         disableAnimation
                       >
-                        {Array.from(routineSchedules.values()).map((value) => (
+                        {ROUTINE_SCHEDULE_TYPES.map((value) => (
                           <SelectItem key={value}>{value}</SelectItem>
                         ))}
                       </Select>

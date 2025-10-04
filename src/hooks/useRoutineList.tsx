@@ -18,7 +18,6 @@ import {
   GetPaginationPageFromStore,
   GetSortCategoryFromStore,
   IsNumberWithinLimit,
-  IsRoutineScheduleTypeFiltered,
   ValidateAndModifyRoutineSchedule,
 } from "../helpers";
 import Database from "@tauri-apps/plugin-sql";
@@ -95,20 +94,17 @@ export const useRoutineList = ({
               item.workoutTemplateIdSet
             )) &&
           (!filterMap.has("schedule-types") ||
-            IsRoutineScheduleTypeFiltered(
-              item.schedule_type,
-              filterScheduleTypes
-            )) &&
+            filterScheduleTypes.has(item.schedule_type)) &&
           (!filterMap.has("min-num-schedule-days") ||
-            (item.schedule_type !== 2 &&
+            (item.schedule_type !== "No Set Days" &&
               IsNumberWithinLimit(
                 item.num_days_in_schedule,
                 filterMinNumScheduleDays,
                 !IS_MAX_VALUE
               ))) &&
           (!filterMap.has("max-num-schedule-days") ||
-            (item.schedule_type === 2 && includeNullInMaxValues) ||
-            (item.schedule_type !== 2 &&
+            (item.schedule_type === "No Set Days" && includeNullInMaxValues) ||
+            (item.schedule_type !== "No Set Days" &&
               IsNumberWithinLimit(
                 item.num_days_in_schedule,
                 filterMaxNumScheduleDays,
@@ -163,7 +159,7 @@ export const useRoutineList = ({
 
         const { workoutTemplateIdList, workoutTemplateIdSet } =
           CreateRoutineWorkoutTemplateList(
-            row.schedule_type === 2
+            row.schedule_type === "No Set Days"
               ? `[${row.no_set_days_workout_template_order}]`
               : row.workoutTemplateIds,
             workoutTemplateMap.current

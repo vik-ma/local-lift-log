@@ -243,14 +243,14 @@ export default function RoutineList() {
 
     // If switching schedule_type from Weekly/Custom to No Day Set or vice versa
     if (
-      (routines[operatingRoutineIndex].schedule_type !== 2 &&
-        routine.schedule_type === 2) ||
-      (routines[operatingRoutineIndex].schedule_type === 2 &&
-        routine.schedule_type !== 2)
+      (routines[operatingRoutineIndex].schedule_type !== "No Set Days" &&
+        routine.schedule_type === "No Set Days") ||
+      (routines[operatingRoutineIndex].schedule_type === "No Set Days" &&
+        routine.schedule_type !== "No Set Days")
     ) {
       const { workoutTemplateIdList, workoutTemplateIdSet } =
         CreateRoutineWorkoutTemplateList(
-          routine.schedule_type === 2
+          routine.schedule_type === "No Set Days"
             ? `[${operatingRoutine.no_set_days_workout_template_order}]`
             : routine.workoutTemplateIds,
           workoutTemplateMap.current
