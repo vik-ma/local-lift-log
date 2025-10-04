@@ -7,7 +7,7 @@ pub struct Routine {
     pub id: i32,
     pub name: String,
     pub note: Option<String>,
-    pub schedule_type: i32,
+    pub schedule_type: String,
     pub num_days_in_schedule: i32,
     pub no_set_days_workout_template_order: Option<String>,
     pub custom_schedule_start_date: Option<String>,
