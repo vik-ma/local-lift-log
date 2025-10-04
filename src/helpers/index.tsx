@@ -54,7 +54,6 @@ export { GetScheduleDayNames } from "./Routines/GetScheduleDayNames";
 export { GetScheduleDayValues } from "./Routines/GetScheduleDayValues";
 export { UpdateRoutine } from "./Routines/UpdateRoutine";
 export { CreateRoutineWorkoutTemplateList } from "./Routines/CreateRoutineWorkoutTemplateList";
-export { IsRoutineScheduleTypeFiltered } from "./Routines/IsRoutineScheduleTypeFiltered";
 export { FormatRoutineScheduleTypeString } from "./Routines/FormatRoutineScheduleTypeString";
 export { CreateNoDayWorkoutTemplateList } from "./Routines/CreateNoDayWorkoutTemplateList";
 export { DeleteWorkoutRoutineSchedule } from "./Routines/DeleteWorkoutRoutineSchedule";
