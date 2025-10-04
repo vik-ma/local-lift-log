@@ -25,7 +25,8 @@ export const GetActiveRoutine = async (activeRoutineId: number) => {
          ON routines.id = workout_routine_schedules.routine_id
        LEFT JOIN workout_templates
          ON workout_routine_schedules.workout_template_id = workout_templates.id
-       WHERE routines.id = $1`,
+       WHERE routines.id = $1
+       GROUP BY routines.id`,
       [activeRoutineId]
     );
 
