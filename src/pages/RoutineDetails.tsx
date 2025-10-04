@@ -169,7 +169,7 @@ export default function RoutineDetails() {
 
         ValidateAndModifyRoutineSchedule(routine);
 
-        const isNoDaySchedule = routine.schedule_type === 2;
+        const isNoDaySchedule = routine.schedule_type === "No Set Days";
 
         const { workoutTemplateIdList, workoutTemplateIdSet } =
           CreateRoutineWorkoutTemplateList(
@@ -240,7 +240,10 @@ export default function RoutineDetails() {
 
   const updateRoutine = async (updatedRoutine: Routine) => {
     // If switching schedule_type from Weekly/Custom to No Day Set
-    if (routine.schedule_type !== 2 && updatedRoutine.schedule_type === 2) {
+    if (
+      routine.schedule_type !== "No Set Days" &&
+      updatedRoutine.schedule_type === "No Set Days"
+    ) {
       const { workoutTemplateIdList, workoutTemplateIdSet } =
         CreateRoutineWorkoutTemplateList(
           `[${routine.no_set_days_workout_template_order}]`,
@@ -259,7 +262,10 @@ export default function RoutineDetails() {
     }
 
     // If switching schedule_type from No Day Set to Weekly/Custom
-    if (routine.schedule_type === 2 && updatedRoutine.schedule_type !== 2) {
+    if (
+      routine.schedule_type === "No Set Days" &&
+      updatedRoutine.schedule_type !== "No Set Days"
+    ) {
       await getWorkoutRoutineSchedules();
     }
 
@@ -295,7 +301,7 @@ export default function RoutineDetails() {
 
     if (
       !IsNumberValidInteger(workoutTemplate.id, idMinValue) ||
-      routine.schedule_type === 2 ||
+      routine.schedule_type === "No Set Days" ||
       !IsNumberValidInteger(
         selectedDay,
         dayMinValue,
@@ -327,7 +333,8 @@ export default function RoutineDetails() {
   ) => {
     const scheduleItem = scheduleItemToDelete ?? operatingRoutineScheduleItem;
 
-    if (scheduleItem === undefined || routine.schedule_type === 2) return;
+    if (scheduleItem === undefined || routine.schedule_type === "No Set Days")
+      return;
 
     const day = scheduleItem.day;
 
@@ -414,7 +421,7 @@ export default function RoutineDetails() {
   const dayNameList: string[] = useMemo(() => {
     return GetScheduleDayNames(
       routine.num_days_in_schedule ?? 7,
-      routine.schedule_type === 0
+      routine.schedule_type === "Weekly"
     );
   }, [routine.num_days_in_schedule, routine.schedule_type]);
 
@@ -423,7 +430,7 @@ export default function RoutineDetails() {
   ) => {
     if (
       !IsNumberValidInteger(workoutTemplate.id, 1) ||
-      routine.schedule_type !== 2
+      routine.schedule_type !== "No Set Days"
     )
       return;
 
@@ -463,7 +470,8 @@ export default function RoutineDetails() {
     const scheduleItem =
       scheduleItemToDelete ?? operatingNoDayRoutineScheduleItem;
 
-    if (scheduleItem === undefined || routine.schedule_type !== 2) return;
+    if (scheduleItem === undefined || routine.schedule_type !== "No Set Days")
+      return;
 
     const updatedWorkoutTemplateOrder = DeleteItemFromList(
       noDayWorkoutTemplateList,
@@ -553,7 +561,7 @@ export default function RoutineDetails() {
         deleteModal={deleteModal}
         header="Remove Workout Template"
         body={
-          routine.schedule_type === 2 ? (
+          routine.schedule_type === "No Set Days" ? (
             <p>
               Are you sure you want to remove{" "}
               <span className="text-secondary truncate max-w-[23rem] inline-block align-top">
@@ -574,7 +582,7 @@ export default function RoutineDetails() {
           )
         }
         deleteButtonAction={
-          routine.schedule_type === 2
+          routine.schedule_type === "No Set Days"
             ? removeWorkoutTemplateFromNoDaySchedule
             : removeWorkoutTemplateFromDay
         }
@@ -583,14 +591,14 @@ export default function RoutineDetails() {
       <WorkoutTemplateListModal
         useWorkoutTemplateList={workoutTemplateList}
         onClickAction={
-          routine.schedule_type == 2
+          routine.schedule_type == "No Set Days"
             ? addWorkoutTemplateToNoDaySchedule
             : addWorkoutTemplateToDay
         }
         header={
           <span>
             Add Workout Template
-            {routine.schedule_type !== 2 && (
+            {routine.schedule_type !== "No Set Days" && (
               <span>
                 {" "}
                 to
@@ -622,7 +630,7 @@ export default function RoutineDetails() {
         />
         <div className="flex items-center justify-center">
           <div>
-            {routine.schedule_type === 1 && (
+            {routine.schedule_type === "Custom" && (
               <I18nProvider locale={userSettings.locale}>
                 <DatePicker
                   classNames={{
@@ -646,11 +654,11 @@ export default function RoutineDetails() {
           </div>
         </div>
         <div className="flex flex-col gap-0.5">
-          {routine.schedule_type === 2 ? (
+          {routine.schedule_type === "No Set Days" ? (
             <div className="flex items-end justify-between">
               <div className="flex flex-col px-1">
                 <h2 className="text-xl font-semibold">Workout Order</h2>
-                {routine.schedule_type === 2 &&
+                {routine.schedule_type === "No Set Days" &&
                   noDayWorkoutTemplateList.length > 1 && (
                     <span className="text-xs text-stone-500 font-normal">
                       Drag Workouts To Change Order
@@ -675,7 +683,7 @@ export default function RoutineDetails() {
               )}
             </h2>
           )}
-          {routine.schedule_type !== 2 ? (
+          {routine.schedule_type !== "No Set Days" ? (
             <div className="flex flex-col gap-0.5">
               {Array.from(Array(routine.num_days_in_schedule), (_, i) => (
                 <div
