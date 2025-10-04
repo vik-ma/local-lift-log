@@ -6,7 +6,7 @@ export type Routine = {
   id: number;
   name: string;
   note: string | null;
-  schedule_type: number;
+  schedule_type: string;
   num_days_in_schedule: number;
   no_set_days_workout_template_order: string | null;
   custom_schedule_start_date: string | null;
@@ -1019,8 +1019,6 @@ export type FilterMinAndMaxValuesSetStateMap = Map<
   string,
   React.Dispatch<React.SetStateAction<number | null>>
 >;
-
-export type RoutineScheduleTypeMap = Map<number, string>;
 
 export type UseDateRangeReturnType = {
   startDate: CalendarDate | null;

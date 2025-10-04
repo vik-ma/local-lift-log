@@ -6,8 +6,8 @@ import {
 import { Routine } from "../../typings";
 
 export const ValidateAndModifyRoutineSchedule = (routine: Routine) => {
-  if (!ROUTINE_SCHEDULE_TYPES.has(routine.schedule_type)) {
-    routine.schedule_type = ROUTINE_SCHEDULE_TYPES.keys().next().value!;
+  if (!ROUTINE_SCHEDULE_TYPES.includes(routine.schedule_type)) {
+    routine.schedule_type = ROUTINE_SCHEDULE_TYPES[0];
   }
 
   if (!NUM_DAYS_IN_SCHEDULE_OPTIONS.includes(routine.num_days_in_schedule)) {

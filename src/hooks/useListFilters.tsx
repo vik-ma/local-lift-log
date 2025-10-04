@@ -240,11 +240,11 @@ export const useListFilters = ({
 
       updatedFilterMap.set("schedule-types", filterScheduleTypesString);
 
-      const scheduleTypesStoreArray: number[] = [];
+      const scheduleTypesStoreArray: string[] = [];
 
-      for (const [key, value] of ROUTINE_SCHEDULE_TYPES) {
-        if (filterScheduleTypes.has(value)) {
-          scheduleTypesStoreArray.push(key);
+      for (const scheduleType of ROUTINE_SCHEDULE_TYPES) {
+        if (filterScheduleTypes.has(scheduleType)) {
+          scheduleTypesStoreArray.push(scheduleType);
         }
       }
 
@@ -824,11 +824,8 @@ export const useListFilters = ({
             const scheduleTypesSet = new Set<string>();
 
             for (const scheduleType of scheduleTypes) {
-              const scheduleTypeNum = Number(scheduleType);
-
-              if (ROUTINE_SCHEDULE_TYPES.has(scheduleTypeNum)) {
-                const type = ROUTINE_SCHEDULE_TYPES.get(scheduleTypeNum);
-                scheduleTypesSet.add(type!);
+              if (ROUTINE_SCHEDULE_TYPES.includes(scheduleType)) {
+                scheduleTypesSet.add(scheduleType);
               }
             }
 
