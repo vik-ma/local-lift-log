@@ -44,34 +44,20 @@ export const RoutineModal = ({
 
   const isRoutineNameValid = useValidateName({ name: nameInput });
 
-  const numDaysInScheduleOptions = NUM_DAYS_IN_SCHEDULE_OPTIONS;
-
-  const routineScheduleTypeMap = ROUTINE_SCHEDULE_TYPES;
-
   const handleScheduleTypeChange = (scheduleType: string) => {
+    const updatedRoutine = { ...routine, schedule_type: scheduleType };
+
     if (scheduleType === "Weekly") {
-      setRoutine((prev) => ({
-        ...prev,
-        schedule_type: 0,
-        num_days_in_schedule: 7,
-      }));
-    } else if (scheduleType === "Custom") {
-      setRoutine((prev) => ({
-        ...prev,
-        schedule_type: 1,
-      }));
-    } else {
-      setRoutine((prev) => ({
-        ...prev,
-        schedule_type: 2,
-      }));
+      updatedRoutine.num_days_in_schedule = 7;
     }
+
+    setRoutine(updatedRoutine);
   };
 
   const handleNumDaysInScheduleChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    if (routine.schedule_type !== 1) return;
+    if (routine.schedule_type !== "Custom") return;
 
     const numDays = Number(e.target.value);
 
@@ -147,19 +133,21 @@ export const RoutineModal = ({
                 </div>
                 <div className="flex justify-between items-center px-1 py-0.5 gap-4">
                   <RadioGroup
-                    value={routineScheduleTypeMap.get(routine.schedule_type)}
+                    value={routine.schedule_type}
                     onValueChange={(value) => handleScheduleTypeChange(value)}
                     label="Schedule Type"
                   >
-                    {Array.from(routineScheduleTypeMap).map(([key, value]) => (
-                      <Radio key={key} value={value}>
-                        {value}
+                    {ROUTINE_SCHEDULE_TYPES.map((scheduleType) => (
+                      <Radio key={scheduleType} value={scheduleType}>
+                        {scheduleType}
                       </Radio>
                     ))}
                   </RadioGroup>
                   <Select
                     className={
-                      routine.schedule_type === 1 ? "w-[15rem]" : "hidden"
+                      routine.schedule_type === "Custom"
+                        ? "w-[15rem]"
+                        : "hidden"
                     }
                     label={
                       <span className="text-default-500">
@@ -174,7 +162,7 @@ export const RoutineModal = ({
                     isRequired
                     disallowEmptySelection
                   >
-                    {numDaysInScheduleOptions.map((number) => (
+                    {NUM_DAYS_IN_SCHEDULE_OPTIONS.map((number) => (
                       <SelectItem key={number.toString()}>
                         {number.toString()}
                       </SelectItem>
