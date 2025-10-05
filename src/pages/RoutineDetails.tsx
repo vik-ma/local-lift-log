@@ -274,9 +274,7 @@ export default function RoutineDetails() {
     if (!success) return;
 
     if (updatedRoutine.num_days_in_schedule < routine.num_days_in_schedule) {
-      deleteWorkoutTemplateSchedulesAboveDayNumber(
-        updatedRoutine.num_days_in_schedule
-      );
+      deleteWorkoutTemplateSchedulesAboveDayNumber(updatedRoutine);
     }
 
     setRoutine(updatedRoutine);
@@ -376,7 +374,7 @@ export default function RoutineDetails() {
   };
 
   const deleteWorkoutTemplateSchedulesAboveDayNumber = async (
-    numDaysInSchedule: number
+    updatedRoutine: Routine
   ) => {
     try {
       const db = await Database.load(import.meta.env.VITE_DB);
@@ -386,16 +384,18 @@ export default function RoutineDetails() {
       await db.execute(
         `DELETE from workout_routine_schedules 
         WHERE routine_id = $1 AND day >= $2`,
-        [routine.id, numDaysInSchedule]
+        [updatedRoutine.id, updatedRoutine.num_days_in_schedule]
       );
 
-      await updateRoutineWorkoutTemplateList();
+      await updateRoutineWorkoutTemplateList(updatedRoutine);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updateRoutineWorkoutTemplateList = async () => {
+  const updateRoutineWorkoutTemplateList = async (
+    routineFromUpdateRoutineFunction?: Routine
+  ) => {
     const updatedSchedules = await getWorkoutRoutineSchedules();
 
     const scheduleWorkoutTemplateIds = updatedSchedules.map((item) => item.id);
@@ -408,14 +408,23 @@ export default function RoutineDetails() {
         workoutTemplateMap.current
       );
 
-    const updatedRoutine: Routine = {
-      ...routine,
-      workoutTemplateIds,
-      workoutTemplateIdList,
-      workoutTemplateIdSet,
-    };
+    if (routineFromUpdateRoutineFunction !== undefined) {
+      // Modify routine sent from updateRoutine function, which also updates the useState
+      routineFromUpdateRoutineFunction.workoutTemplateIds = workoutTemplateIds;
+      routineFromUpdateRoutineFunction.workoutTemplateIdList =
+        workoutTemplateIdList;
+      routineFromUpdateRoutineFunction.workoutTemplateIdSet =
+        workoutTemplateIdSet;
+    } else {
+      const updatedRoutine: Routine = {
+        ...routine,
+        workoutTemplateIds,
+        workoutTemplateIdList,
+        workoutTemplateIdSet,
+      };
 
-    setRoutine(updatedRoutine);
+      setRoutine(updatedRoutine);
+    }
   };
 
   const dayNameList: string[] = useMemo(() => {
