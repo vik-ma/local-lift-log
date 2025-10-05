@@ -23,6 +23,7 @@ import { I18nProvider } from "@react-aria/i18n";
 import {
   CreateCalendarDotDiv,
   FormatISODateStringToCalendarAriaLabelString,
+  IsRoutineCustomStartDateInvalid,
   UpdateUserSetting,
 } from "../../helpers";
 import { CalendarDateMarkingsDropdown, CalendarModalLegend } from "..";
@@ -184,6 +185,25 @@ export const CalendarModal = ({
         wrapper.appendChild(dot);
       }
     }
+
+    if (calendarDateMarking === "active-routine") {
+      renderFutureCalendarDateMarkingsForActiveRoutine();
+    }
+  };
+
+  const renderFutureCalendarDateMarkingsForActiveRoutine = () => {
+    if (
+      activeRoutine === undefined ||
+      disableActiveRoutineOption.current ||
+      IsRoutineCustomStartDateInvalid(activeRoutine)
+    )
+      return;
+
+    console.log(activeRoutine.routineScheduleList);
+
+    // LOOP FROM EITHER FIRST DATE IN MONTH OR TODAY EARLIEST TO LAST DATE IN MONTH
+    // IF TODAY HAS PLANNED WORKOUT, CHECK IF ALL PLANNED WORKOUTS EXIST
+    // OTHERWISE SHOW FUTURE WORKOUT
   };
 
   const createWorkoutTemplateListDiv = (map: CalendarWorkoutTemplateMap) => (
