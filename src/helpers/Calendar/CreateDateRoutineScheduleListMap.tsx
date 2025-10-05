@@ -1,8 +1,10 @@
+import { FormatISODateStringToCalendarAriaLabelString } from "..";
 import { SimpleRoutineScheduleItem } from "../../typings";
 
 export const CreateDateRoutineScheduleListMap = (
   routineScheduleList: SimpleRoutineScheduleItem[],
-  operatingYearMonth: string
+  operatingYearMonth: string,
+  locale: string
 ) => {
   const dateRoutineScheduleMap = new Map<string, SimpleRoutineScheduleItem[]>();
 
@@ -14,7 +16,10 @@ export const CreateDateRoutineScheduleListMap = (
 
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(year, month, day);
-    const dateKey = date.toDateString();
+    const dateKey = FormatISODateStringToCalendarAriaLabelString(
+      date.toISOString(),
+      locale
+    );
 
     const weekday = (date.getDay() + 6) % 7; // Convert Sunday=0 to Monday=0
     const weekdayRoutineScheduleList = routineScheduleList.filter(
