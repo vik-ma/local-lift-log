@@ -10,7 +10,7 @@ export { CALCULATION_STRINGS_REGEX } from "./CalculationStringsRegex";
 export { CALCULATION_MODAL_TABS } from "./CalculationModalTabs";
 export { WORKOUT_PROPERTIES_MAP } from "./WorkoutPropertiesMap";
 export { DEFAULT_PLATE_WEIGHTS } from "./DefaultPlateWeights";
-export { WEEKDAY_MAP } from "./WeekdayMap";
+export { WEEKDAY_LIST } from "./WeekdayList";
 export { MEASUREMENT_TYPES } from "./MeasurementTypes";
 export { MULTISET_TYPES } from "./MultisetTypes";
 export { DIET_PHASE_TYPES } from "./DietPhaseTypes";
