@@ -25,7 +25,7 @@ export const GetCalendarWorkoutList = async (yearMonthString: string) => {
           ON w.id = s.workout_id AND s.is_completed = 1
        LEFT JOIN exercises e 
            ON s.exercise_id = e.id
-       WHERE w.date LIKE '${yearMonthString}%'
+       WHERE w.date LIKE '${yearMonthString}%' AND date(w.date) <= date('now')
        GROUP BY w.id
        ORDER BY w.date`
     );
