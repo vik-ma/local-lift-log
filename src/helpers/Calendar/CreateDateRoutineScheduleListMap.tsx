@@ -1,8 +1,8 @@
 import { FormatISODateStringToCalendarAriaLabelString } from "..";
-import { SimpleRoutineScheduleItem } from "../../typings";
+import { Routine, SimpleRoutineScheduleItem } from "../../typings";
 
 export const CreateDateRoutineScheduleListMap = (
-  routineScheduleList: SimpleRoutineScheduleItem[],
+  activeRoutine: Routine,
   operatingYearMonth: string,
   locale: string,
   isCurrentMonth: boolean
@@ -22,6 +22,8 @@ export const CreateDateRoutineScheduleListMap = (
     startDay = today.getDate();
   }
 
+  const isWeeklySchedule = activeRoutine.schedule_type === "Weekly";
+
   for (let day = startDay; day <= daysInMonth; day++) {
     const date = new Date(year, month, day);
     const dateKey = FormatISODateStringToCalendarAriaLabelString(
@@ -29,13 +31,17 @@ export const CreateDateRoutineScheduleListMap = (
       locale
     );
 
-    const weekday = (date.getDay() + 6) % 7; // Convert Sunday=0 to Monday=0
-    const weekdayRoutineScheduleList = routineScheduleList.filter(
-      (item) => item.day === weekday
-    );
+    if (isWeeklySchedule) {
+      const weekday = (date.getDay() + 6) % 7; // Convert Sunday=0 to Monday=0
+      const weekdayRoutineScheduleList =
+        activeRoutine.routineScheduleList!.filter(
+          (item) => item.day === weekday
+        );
 
-    if (weekdayRoutineScheduleList.length > 0) {
-      dateRoutineScheduleMap.set(dateKey, weekdayRoutineScheduleList);
+      if (weekdayRoutineScheduleList.length > 0) {
+        dateRoutineScheduleMap.set(dateKey, weekdayRoutineScheduleList);
+      }
+    } else {
     }
   }
 

@@ -205,7 +205,7 @@ export const CalendarModal = ({
 
     if (activeRoutine.schedule_type === "Weekly") {
       const dateRoutineScheduleMap = CreateDateRoutineScheduleListMap(
-        activeRoutine.routineScheduleList!,
+        activeRoutine,
         operatingYearMonth.current,
         userSettings.locale,
         isCurrentMonth
