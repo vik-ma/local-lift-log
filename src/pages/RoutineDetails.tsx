@@ -685,7 +685,7 @@ export default function RoutineDetails() {
           )}
           {routine.schedule_type !== "No Set Days" ? (
             <div className="flex flex-col gap-0.5">
-              {Array.from(Array(routine.num_days_in_schedule), (_, i) => (
+              {Array.from({ length: routine.num_days_in_schedule }, (_, i) => (
                 <div
                   key={`day-${i + 1}`}
                   className="flex items-center justify-between"
