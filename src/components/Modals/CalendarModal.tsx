@@ -22,6 +22,7 @@ import { useEffect, useMemo } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import {
   CreateCalendarDotDiv,
+  CreateDateRoutineScheduleListMap,
   FormatISODateStringToCalendarAriaLabelString,
   IsRoutineCustomStartDateInvalid,
   UpdateUserSetting,
@@ -193,13 +194,21 @@ export const CalendarModal = ({
 
   const renderFutureCalendarDateMarkingsForActiveRoutine = () => {
     if (
+      operatingYearMonth.current < currentMonth.current ||
       activeRoutine === undefined ||
       disableActiveRoutineOption.current ||
       IsRoutineCustomStartDateInvalid(activeRoutine)
     )
       return;
 
-    console.log(activeRoutine.routineScheduleList);
+    if (activeRoutine.schedule_type === "Weekly") {
+      const dateRoutineScheduleMap = CreateDateRoutineScheduleListMap(
+        activeRoutine.routineScheduleList!,
+        operatingYearMonth.current
+      );
+
+      console.log(dateRoutineScheduleMap);
+    }
 
     // LOOP FROM EITHER FIRST DATE IN MONTH OR TODAY EARLIEST TO LAST DATE IN MONTH
     // IF TODAY HAS PLANNED WORKOUT, CHECK IF ALL PLANNED WORKOUTS EXIST

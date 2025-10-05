@@ -241,3 +241,4 @@ export { GetPaginationPageFromStore } from "./Store/GetPaginationPageFromStore";
 
 export { GetCalendarWorkoutList } from "./Calendar/GetCalendarWorkoutList";
 export { CreateCalendarDotDiv } from "./Calendar/CreateCalendarDotDiv";
+export { CreateDateRoutineScheduleListMap } from "./Calendar/CreateDateRoutineScheduleListMap";
