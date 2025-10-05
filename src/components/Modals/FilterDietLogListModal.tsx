@@ -61,7 +61,7 @@ export const FilterDietLogListModal = ({
     filterMap,
     handleFilterSaveButton,
     resetFilter,
-    weekdayMap,
+    weekdayList,
     dietLogFilterValues,
   } = dietLogListFilters;
 
@@ -206,7 +206,7 @@ export const FilterDietLogListModal = ({
                   <FilterDateRangeAndWeekdays
                     useFilterDateRangeAndWeekdays={filterDateRangeAndWeekdays}
                     locale={userSettings.locale}
-                    weekdayMap={weekdayMap}
+                    weekdayList={weekdayList}
                   />
                   <div className="flex flex-col">
                     <div className="flex flex-col gap-px">

@@ -79,7 +79,7 @@ export const FilterWorkoutListModal = ({
     getFilterExercisesString,
     getFilterWorkoutTemplatesString,
     filterMap,
-    weekdayMap,
+    weekdayList,
     listFilterValues,
   } = listFilters;
 
@@ -303,7 +303,7 @@ export const FilterWorkoutListModal = ({
                     <FilterDateRangeAndWeekdays
                       useFilterDateRangeAndWeekdays={filterDateRangeAndWeekdays}
                       locale={userSettings.locale}
-                      weekdayMap={weekdayMap}
+                      weekdayList={weekdayList}
                     />
                     <div className="flex flex-col gap-2.5">
                       <div className="flex flex-col">
