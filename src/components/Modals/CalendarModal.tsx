@@ -201,11 +201,14 @@ export const CalendarModal = ({
     )
       return;
 
+    const isCurrentMonth = operatingYearMonth.current === currentMonth.current;
+
     if (activeRoutine.schedule_type === "Weekly") {
       const dateRoutineScheduleMap = CreateDateRoutineScheduleListMap(
         activeRoutine.routineScheduleList!,
         operatingYearMonth.current,
-        userSettings.locale
+        userSettings.locale,
+        isCurrentMonth
       );
 
       console.log(dateRoutineScheduleMap);

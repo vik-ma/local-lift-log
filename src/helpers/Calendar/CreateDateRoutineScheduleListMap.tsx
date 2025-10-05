@@ -4,7 +4,8 @@ import { SimpleRoutineScheduleItem } from "../../typings";
 export const CreateDateRoutineScheduleListMap = (
   routineScheduleList: SimpleRoutineScheduleItem[],
   operatingYearMonth: string,
-  locale: string
+  locale: string,
+  isCurrentMonth: boolean
 ) => {
   const dateRoutineScheduleMap = new Map<string, SimpleRoutineScheduleItem[]>();
 
@@ -14,7 +15,14 @@ export const CreateDateRoutineScheduleListMap = (
 
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  for (let day = 1; day <= daysInMonth; day++) {
+  let startDay = 1;
+
+  if (isCurrentMonth) {
+    const today = new Date();
+    startDay = today.getDate();
+  }
+
+  for (let day = startDay; day <= daysInMonth; day++) {
     const date = new Date(year, month, day);
     const dateKey = FormatISODateStringToCalendarAriaLabelString(
       date.toISOString(),
