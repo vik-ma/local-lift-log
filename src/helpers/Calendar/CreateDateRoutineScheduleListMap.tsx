@@ -24,6 +24,14 @@ export const CreateDateRoutineScheduleListMap = (
 
   const isWeeklySchedule = activeRoutine.schedule_type === "Weekly";
 
+  let startDayTime = 0;
+
+  if (!isWeeklySchedule) {
+    startDayTime = new Date(
+      activeRoutine.custom_schedule_start_date!
+    ).getTime();
+  }
+
   for (let day = startDay; day <= daysInMonth; day++) {
     const date = new Date(year, month, day);
     const dateKey = FormatISODateStringToCalendarAriaLabelString(
@@ -42,6 +50,22 @@ export const CreateDateRoutineScheduleListMap = (
         dateRoutineScheduleMap.set(dateKey, weekdayRoutineScheduleList);
       }
     } else {
+      const daysSinceStart = Math.ceil(
+        (date.getTime() - startDayTime) / (1000 * 60 * 60 * 24)
+      );
+
+      if (daysSinceStart < 0) continue; // Skip days before schedule starts
+
+      const cycleDay = daysSinceStart % activeRoutine.num_days_in_schedule;
+
+      const weekdayRoutineScheduleList =
+        activeRoutine.routineScheduleList!.filter(
+          (item) => item.day === cycleDay
+        );
+
+      if (weekdayRoutineScheduleList.length > 0) {
+        dateRoutineScheduleMap.set(dateKey, weekdayRoutineScheduleList);
+      }
     }
   }
 

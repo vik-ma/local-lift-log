@@ -203,16 +203,14 @@ export const CalendarModal = ({
 
     const isCurrentMonth = operatingYearMonth.current === currentMonth.current;
 
-    if (activeRoutine.schedule_type === "Weekly") {
-      const dateRoutineScheduleMap = CreateDateRoutineScheduleListMap(
-        activeRoutine,
-        operatingYearMonth.current,
-        userSettings.locale,
-        isCurrentMonth
-      );
+    const dateRoutineScheduleMap = CreateDateRoutineScheduleListMap(
+      activeRoutine,
+      operatingYearMonth.current,
+      userSettings.locale,
+      isCurrentMonth
+    );
 
-      console.log(dateRoutineScheduleMap);
-    }
+    console.log(dateRoutineScheduleMap);
 
     // LOOP FROM EITHER FIRST DATE IN MONTH OR TODAY EARLIEST TO LAST DATE IN MONTH
     // IF TODAY HAS PLANNED WORKOUT, CHECK IF ALL PLANNED WORKOUTS EXIST
