@@ -27,7 +27,7 @@ import {
   MULTISET_TYPES,
   DISTANCE_UNITS,
   WEIGHT_UNITS,
-  WEEKDAY_MAP,
+  WEEKDAY_LIST,
   ROUTINE_SCHEDULE_TYPES,
   DEFAULT_LIST_FILTER_VALUES,
 } from "../constants";
@@ -58,7 +58,7 @@ export const useListFilters = ({
     DEFAULT_LIST_FILTER_VALUES
   );
 
-  const weekdayMap = WEEKDAY_MAP;
+  const weekdayList = WEEKDAY_LIST;
 
   const multisetTypeMap = MULTISET_TYPES;
 
@@ -132,7 +132,7 @@ export const useListFilters = ({
       const weekdaysArray = Array.from(filterWeekdays);
 
       const filterWeekdaysString = weekdaysArray
-        .map((day) => (weekdayMap.get(day) ?? "").substring(0, 3))
+        .map((day) => day.substring(0, 3))
         .join(", ");
 
       updatedFilterMap.set("weekdays", filterWeekdaysString);
@@ -710,7 +710,7 @@ export const useListFilters = ({
             const weekdaysSet = new Set<string>();
 
             for (const day of weekdays) {
-              if (weekdayMap.has(day)) {
+              if (weekdayList.includes(day)) {
                 weekdaysSet.add(day);
               }
             }
@@ -1048,7 +1048,7 @@ export const useListFilters = ({
     filterMap,
     resetFilter,
     removeFilter,
-    weekdayMap,
+    weekdayList,
     prefixMap,
     multisetTypeMap,
     getFilterRoutinesString,

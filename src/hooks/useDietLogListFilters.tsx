@@ -13,7 +13,7 @@ import {
   IsEndDateBeforeStartDate,
   IsNumberValidInteger,
 } from "../helpers";
-import { DEFAULT_DIET_LOG_FILTER_VALUES, WEEKDAY_MAP } from "../constants";
+import { DEFAULT_DIET_LOG_FILTER_VALUES, WEEKDAY_LIST } from "../constants";
 
 type UseDietLogListFiltersProps = {
   store: StoreRef;
@@ -36,7 +36,7 @@ export const useDietLogListFilters = ({
   const [dietLogFilterValues, setDietLogFilterValues] =
     useState<DietLogFilterValues>(DEFAULT_DIET_LOG_FILTER_VALUES);
 
-  const weekdayMap = WEEKDAY_MAP;
+  const weekdayList = WEEKDAY_LIST;
 
   const storeFilters = useRef<DietLogStoreFilterMap>(new Map());
 
@@ -97,7 +97,7 @@ export const useDietLogListFilters = ({
       const weekdaysArray = Array.from(filterWeekdays);
 
       const filterWeekdaysString = weekdaysArray
-        .map((day) => (weekdayMap.get(day) ?? "").substring(0, 3))
+        .map((day) => day.substring(0, 3))
         .join(", ");
 
       updatedFilterMap.set("weekdays", filterWeekdaysString);
@@ -362,7 +362,7 @@ export const useDietLogListFilters = ({
             const weekdaysSet = new Set<string>();
 
             for (const day of weekdays) {
-              if (weekdayMap.has(day)) {
+              if (weekdayList.includes(day)) {
                 weekdaysSet.add(day);
               }
             }
@@ -539,7 +539,7 @@ export const useDietLogListFilters = ({
     removeFilter,
     resetFilter,
     prefixMap,
-    weekdayMap,
+    weekdayList,
     loadDietLogFilterMapFromStore,
     dietLogFilterValues,
   };

@@ -495,7 +495,7 @@ export type UseListFiltersReturnType = {
   filterMap: ListFilterMap;
   removeFilter: (key: string) => void;
   resetFilter: (userSettings: UserSettings) => void;
-  weekdayMap: Map<string, string>;
+  weekdayList: readonly string[];
   prefixMap: ListFilterMap;
   multisetTypeMap: MultisetTypeMap;
   getFilterRoutinesString: (routineIdSet: Set<number>) => string;
@@ -1010,7 +1010,7 @@ export type UseDietLogListFiltersReturnType = {
   removeFilter: (key: string) => void;
   resetFilter: () => void;
   prefixMap: DietLogFilterMap;
-  weekdayMap: Map<string, string>;
+  weekdayList: readonly string[];
   loadDietLogFilterMapFromStore: (locale: string) => Promise<void>;
   dietLogFilterValues: DietLogFilterValues;
 };
