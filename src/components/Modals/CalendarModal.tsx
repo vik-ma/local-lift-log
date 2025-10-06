@@ -39,6 +39,8 @@ type CalendarModalProps = {
   activeRoutine: Routine | undefined;
 };
 
+const CALENDAR_DOT_ALPHA_CODE = "B3";
+
 export const CalendarModal = ({
   useCalendarModal,
   userSettings,
@@ -153,7 +155,8 @@ export const CalendarModal = ({
             (obj) => obj === exerciseGroup
           );
 
-          const dotColor = `${CALENDAR_COLOR_LIST[dotColorIndex]}B3`;
+          const dotColor =
+            CALENDAR_COLOR_LIST[dotColorIndex] + CALENDAR_DOT_ALPHA_CODE;
 
           const dot = CreateCalendarDotDiv(dotColor);
 
@@ -171,9 +174,9 @@ export const CalendarModal = ({
               )!.index
             : wrapper.children.length;
 
-        const dotColor = `${
-          CALENDAR_COLOR_LIST[dotColorIndex % CALENDAR_COLOR_LIST.length]
-        }B3`;
+        const dotColor =
+          CALENDAR_COLOR_LIST[dotColorIndex % CALENDAR_COLOR_LIST.length] +
+          CALENDAR_DOT_ALPHA_CODE;
 
         const dot = CreateCalendarDotDiv(dotColor);
 
