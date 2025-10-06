@@ -67,16 +67,16 @@ export const CalendarModal = ({
       ? 290
       : 250;
 
-  const futureWorkoutDateWrapperCellMap = useRef<Map<string, HTMLDivElement>>(
-    new Map()
-  );
+  const futureWorkoutDateWrapperCellList = useRef<HTMLDivElement[]>([]);
 
   const clearFutureWorkoutDateWrapperCellMap = () => {
-    for (const [date, cell] of futureWorkoutDateWrapperCellMap.current) {
+    if (futureWorkoutDateWrapperCellList.current.length === 0) return;
+
+    for (const cell of futureWorkoutDateWrapperCellList.current) {
       cell.remove();
     }
 
-    futureWorkoutDateWrapperCellMap.current = new Map();
+    futureWorkoutDateWrapperCellList.current = [];
   };
 
   const handleCalendarDateMarkingChange = async (value: string) => {
@@ -235,6 +235,7 @@ export const CalendarModal = ({
     );
 
     const dateWrapperCellMap = new Map<string, HTMLDivElement>();
+    const dateWrapperCellList: HTMLDivElement[] = [];
 
     for (const [date, workoutList] of dateRoutineScheduleMap) {
       const wrapperIdString = `${date}-marking-wrapper`;
@@ -290,9 +291,11 @@ export const CalendarModal = ({
 
         wrapper.appendChild(dot);
       }
+
+      dateWrapperCellList.push(wrapper);
     }
 
-    futureWorkoutDateWrapperCellMap.current = dateWrapperCellMap;
+    futureWorkoutDateWrapperCellList.current = dateWrapperCellList;
   };
 
   const createWorkoutTemplateListDiv = (map: CalendarWorkoutTemplateMap) => (
