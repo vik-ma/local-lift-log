@@ -217,11 +217,54 @@ export const CalendarModal = ({
       isCurrentMonth
     );
 
-    console.log(dateRoutineScheduleMap);
+    const dateWrapperCellMap = new Map<string, HTMLDivElement>();
 
-    // LOOP FROM EITHER FIRST DATE IN MONTH OR TODAY EARLIEST TO LAST DATE IN MONTH
-    // IF TODAY HAS PLANNED WORKOUT, CHECK IF ALL PLANNED WORKOUTS EXIST
-    // OTHERWISE SHOW FUTURE WORKOUT
+    for (const [date, workoutList] of dateRoutineScheduleMap) {
+      const wrapperIdString = `${date}-marking-wrapper`;
+
+      const isDateToday = date === currentDateString.current;
+
+      const querySelectorString = GetCalendarDateQuerySelectorString(
+        date,
+        isDateToday
+      );
+
+      const dateCell = document.querySelector(
+        querySelectorString
+      ) as HTMLElement;
+
+      if (dateCell === null) continue;
+
+      const parentCell = dateCell.parentElement;
+
+      if (parentCell === null) continue;
+
+      let wrapper = document.createElement("div");
+
+      if (dateWrapperCellMap.has(date)) {
+        wrapper = dateWrapperCellMap.get(date)!;
+
+        // Do not add more than 16 dots per date
+        if (wrapper.children.length >= 16) continue;
+      } else {
+        CreateCalendarDateWrapperDiv(
+          date,
+          wrapperIdString,
+          wrapper,
+          parentCell,
+          dateWrapperCellMap
+        );
+      }
+
+      for (const workout of workoutList) {
+        // Do not add more than 16 dots per date
+        if (wrapper.children.length >= 16) continue;
+
+        const dot = CreateCalendarDotDiv("#000000");
+
+        wrapper.appendChild(dot);
+      }
+    }
   };
 
   const createWorkoutTemplateListDiv = (map: CalendarWorkoutTemplateMap) => (
