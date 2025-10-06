@@ -92,10 +92,12 @@ export const useCalendarModal = ({
 
     if (activeRoutine !== undefined && yearMonth === currentMonth.current) {
       for (const schedule of activeRoutine.routineScheduleList!)
-        routineWorkoutTemplateMap.set(schedule.workout_template_id, {
-          index: nextIndexRoutine++,
-          name: schedule.name,
-        });
+        if (!routineWorkoutTemplateMap.has(schedule.workout_template_id)) {
+          routineWorkoutTemplateMap.set(schedule.workout_template_id, {
+            index: nextIndexRoutine++,
+            name: schedule.name,
+          });
+        }
     }
 
     const calendarMonthItem: CalendarMonthItem = {
@@ -180,10 +182,12 @@ export const useCalendarModal = ({
         let nextIndex = 0;
 
         for (const schedule of activeRoutine.routineScheduleList!)
-          routineWorkoutTemplateMap.set(schedule.workout_template_id, {
-            index: nextIndex++,
-            name: schedule.name,
-          });
+          if (!routineWorkoutTemplateMap.has(schedule.workout_template_id)) {
+            routineWorkoutTemplateMap.set(schedule.workout_template_id, {
+              index: nextIndex++,
+              name: schedule.name,
+            });
+          }
 
         emptyCalendarMonthItem.routineWorkoutTemplateMap =
           routineWorkoutTemplateMap;
