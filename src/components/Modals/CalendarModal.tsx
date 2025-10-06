@@ -18,7 +18,7 @@ import {
   EXERCISE_GROUP_DICTIONARY,
   MODAL_BODY_HEIGHT,
 } from "../../constants";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import {
   CreateCalendarDateWrapperDiv,
@@ -67,6 +67,18 @@ export const CalendarModal = ({
       ? 290
       : 250;
 
+  const futureWorkoutDateWrapperCellMap = useRef<Map<string, HTMLDivElement>>(
+    new Map()
+  );
+
+  const clearFutureWorkoutDateWrapperCellMap = () => {
+    for (const [date, cell] of futureWorkoutDateWrapperCellMap.current) {
+      cell.remove();
+    }
+
+    futureWorkoutDateWrapperCellMap.current = new Map();
+  };
+
   const handleCalendarDateMarkingChange = async (value: string) => {
     setCalendarDateMarking(value);
 
@@ -94,6 +106,10 @@ export const CalendarModal = ({
       if (todayCell) {
         todayCell.style.border = "2px solid #f0c63bCC";
       }
+    }
+
+    if (operatingYearMonth.current >= currentMonth.current) {
+      clearFutureWorkoutDateWrapperCellMap();
     }
 
     const dateWrapperCellMap = new Map<string, HTMLDivElement>();
@@ -275,6 +291,8 @@ export const CalendarModal = ({
         wrapper.appendChild(dot);
       }
     }
+
+    futureWorkoutDateWrapperCellMap.current = dateWrapperCellMap;
   };
 
   const createWorkoutTemplateListDiv = (map: CalendarWorkoutTemplateMap) => (
