@@ -242,6 +242,13 @@ export const CalendarModal = ({
 
       const isDateToday = date === currentDateString.current;
 
+      if (isDateToday) {
+        const existingWrapper = document.getElementById(wrapperIdString);
+
+        if (existingWrapper)
+          dateWrapperCellMap.set(date, existingWrapper as HTMLDivElement);
+      }
+
       const querySelectorString = GetCalendarDateQuerySelectorString(
         date,
         isDateToday
