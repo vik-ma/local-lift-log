@@ -25,6 +25,7 @@ import {
   CreateCalendarDotDiv,
   CreateDateRoutineScheduleListMap,
   FormatISODateStringToCalendarAriaLabelString,
+  GetCalendarDateQuerySelectorString,
   IsRoutineCustomStartDateInvalid,
   UpdateUserSetting,
 } from "../../helpers";
@@ -78,8 +79,15 @@ export const CalendarModal = ({
 
   const renderCalendarDateMarkings = () => {
     if (operatingYearMonth.current === currentMonth.current) {
+      const isDateToday = true;
+
+      const todayQuerySelectorString = GetCalendarDateQuerySelectorString(
+        currentDateString.current,
+        isDateToday
+      );
+
       const todayCell = document.querySelector(
-        `[aria-label="Today, ${currentDateString.current}"]`
+        todayQuerySelectorString
       ) as HTMLElement;
 
       if (todayCell) {
@@ -110,10 +118,12 @@ export const CalendarModal = ({
       )
         continue;
 
-      const querySelectorString =
-        date === currentDateString.current
-          ? `[aria-label="Today, ${date}"]`
-          : `[aria-label="${date}"]`;
+      const isDateToday = date === currentDateString.current;
+
+      const querySelectorString = GetCalendarDateQuerySelectorString(
+        date,
+        isDateToday
+      );
 
       const dateCell = document.querySelector(
         querySelectorString
