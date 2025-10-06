@@ -21,6 +21,7 @@ import {
 import { useEffect, useMemo } from "react";
 import { I18nProvider } from "@react-aria/i18n";
 import {
+  CreateCalendarDateWrapperDiv,
   CreateCalendarDotDiv,
   CreateDateRoutineScheduleListMap,
   FormatISODateStringToCalendarAriaLabelString,
@@ -130,21 +131,13 @@ export const CalendarModal = ({
         // Do not add more than 16 dots per date
         if (wrapper.children.length >= 16) continue;
       } else {
-        wrapper.id = wrapperIdString;
-        wrapper.style.position = "absolute";
-        wrapper.style.width = "100%";
-        wrapper.style.display = "flex";
-        wrapper.style.flexWrap = "wrap-reverse";
-        wrapper.style.justifyContent = "center";
-        wrapper.style.gap = "1px";
-        wrapper.style.bottom = "4px";
-        wrapper.style.pointerEvents = "none";
-
-        parentCell.style.position = "relative";
-
-        parentCell.appendChild(wrapper);
-
-        dateWrapperCellMap.set(date, wrapper);
+        CreateCalendarDateWrapperDiv(
+          date,
+          wrapperIdString,
+          wrapper,
+          parentCell,
+          dateWrapperCellMap
+        );
       }
 
       if (calendarDateMarking === "exercise-groups") {
