@@ -168,8 +168,30 @@ export const useCalendarModal = ({
     operatingYearMonth.current = yearMonth;
 
     if (yearMonth > currentMonth.current) {
-      setOperatingCalendarMonth(EMPTY_CALENDAR_MONTH_ITEM);
-      calendarMonthMap.current.set(yearMonth, EMPTY_CALENDAR_MONTH_ITEM);
+      const emptyCalendarMonthItem: CalendarMonthItem = {
+        ...EMPTY_CALENDAR_MONTH_ITEM,
+      };
+
+      if (
+        calendarDateMarking === "active-routine" &&
+        activeRoutine !== undefined
+      ) {
+        const routineWorkoutTemplateMap: CalendarWorkoutTemplateMap = new Map();
+        let nextIndex = 0;
+
+        for (const schedule of activeRoutine.routineScheduleList!)
+          routineWorkoutTemplateMap.set(schedule.workout_template_id, {
+            index: nextIndex++,
+            name: schedule.name,
+          });
+
+        emptyCalendarMonthItem.routineWorkoutTemplateMap =
+          routineWorkoutTemplateMap;
+      }
+
+      setOperatingCalendarMonth(emptyCalendarMonthItem);
+      calendarMonthMap.current.set(yearMonth, emptyCalendarMonthItem);
+
       return;
     }
 
