@@ -40,7 +40,8 @@ type CalendarModalProps = {
   activeRoutine: Routine | undefined;
 };
 
-const CALENDAR_DOT_ALPHA_CODE = "B3";
+const CALENDAR_DOT_ALPHA_CODE = "B3"; // 70%
+const CALENDAR_DOT_FUTURE_ALPHA_CODE = "66"; // 40%
 
 export const CalendarModal = ({
   useCalendarModal,
@@ -260,7 +261,16 @@ export const CalendarModal = ({
         // Do not add more than 16 dots per date
         if (wrapper.children.length >= 16) continue;
 
-        const dot = CreateCalendarDotDiv("#000000");
+        const dotColorIndex =
+          operatingCalendarMonth.routineWorkoutTemplateMap.get(
+            workout.workout_template_id
+          )!.index;
+
+        const dotColor =
+          CALENDAR_COLOR_LIST[dotColorIndex % CALENDAR_COLOR_LIST.length] +
+          CALENDAR_DOT_FUTURE_ALPHA_CODE;
+
+        const dot = CreateCalendarDotDiv(dotColor);
 
         wrapper.appendChild(dot);
       }
