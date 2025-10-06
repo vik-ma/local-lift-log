@@ -90,6 +90,14 @@ export const useCalendarModal = ({
       workout.exerciseGroupSet.forEach((item) => exerciseGroupSet.add(item));
     }
 
+    if (activeRoutine !== undefined && yearMonth === currentMonth.current) {
+      for (const schedule of activeRoutine.routineScheduleList!)
+        routineWorkoutTemplateMap.set(schedule.workout_template_id, {
+          index: nextIndexRoutine++,
+          name: schedule.name,
+        });
+    }
+
     const calendarMonthItem: CalendarMonthItem = {
       workoutList,
       workoutTemplateMap,
@@ -115,11 +123,11 @@ export const useCalendarModal = ({
         );
       const currentYearMonth = ConvertDateToYearMonthString(currentDate);
 
-      await getWorkoutListForMonth(currentYearMonth);
-
       currentDateString.current = currentDateAriaLabelString;
       currentMonth.current = currentYearMonth;
       operatingYearMonth.current = currentYearMonth;
+
+      await getWorkoutListForMonth(currentYearMonth);
 
       const disableActiveRoutine =
         activeRoutine === undefined ||
