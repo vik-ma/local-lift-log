@@ -153,7 +153,7 @@ export const CalendarModal = ({
             (obj) => obj === exerciseGroup
           );
 
-          const dotColor = CALENDAR_COLOR_LIST[dotColorIndex];
+          const dotColor = `${CALENDAR_COLOR_LIST[dotColorIndex]}B3`;
 
           const dot = CreateCalendarDotDiv(dotColor);
 
@@ -171,8 +171,9 @@ export const CalendarModal = ({
               )!.index
             : wrapper.children.length;
 
-        const dotColor =
-          CALENDAR_COLOR_LIST[dotColorIndex % CALENDAR_COLOR_LIST.length];
+        const dotColor = `${
+          CALENDAR_COLOR_LIST[dotColorIndex % CALENDAR_COLOR_LIST.length]
+        }B3`;
 
         const dot = CreateCalendarDotDiv(dotColor);
 
@@ -215,9 +216,8 @@ export const CalendarModal = ({
       title="Workout Templates"
       items={Array.from(map)}
       renderItem={([id, item]) => {
-        const textColor = CALENDAR_COLOR_LIST[
-          item.index % CALENDAR_COLOR_LIST.length
-        ].substring(0, 7);
+        const textColor =
+          CALENDAR_COLOR_LIST[item.index % CALENDAR_COLOR_LIST.length];
 
         return (
           <div
@@ -252,7 +252,7 @@ export const CalendarModal = ({
         title="Exercise Groups"
         items={Array.from(operatingCalendarMonth.exerciseGroupSet)}
         renderItem={(exerciseGroup, index) => {
-          const textColor = CALENDAR_COLOR_LIST[index].substring(0, 7);
+          const textColor = CALENDAR_COLOR_LIST[index];
 
           return (
             <div
