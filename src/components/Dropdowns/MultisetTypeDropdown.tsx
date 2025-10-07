@@ -16,20 +16,18 @@ export const MultisetTypeDropdown = ({
     new Set([multiset_type.toString()])
   );
 
-  const multisetTypeMap = MULTISET_TYPES;
-
   const handleChange = async (keys: Set<string>) => {
     if (keys.size !== 1) return;
 
-    const numberValue = Number(keys.values().next().value);
+    const value = keys.values().next().value;
 
-    if (!multisetTypeMap.has(numberValue)) return;
+    if (value === undefined || !MULTISET_TYPES.includes(value)) return;
 
     setSelectedKeys(keys);
 
     setMultiset((prev) => ({
       ...prev,
-      multiset_type: numberValue,
+      multiset_type: value,
       isEditedInModal: true,
     }));
   };
@@ -43,7 +41,7 @@ export const MultisetTypeDropdown = ({
       onSelectionChange={(keys) => handleChange(keys as Set<string>)}
       disallowEmptySelection
     >
-      {Array.from(multisetTypeMap).map(([key, value]) => (
+      {MULTISET_TYPES.map(([key, value]) => (
         <SelectItem key={key}>{value}</SelectItem>
       ))}
     </Select>

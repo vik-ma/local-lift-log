@@ -315,7 +315,7 @@ export type SetListNotes = {
 
 export type Multiset = {
   id: number;
-  multiset_type: number;
+  multiset_type: string;
   set_order: string;
   is_template: number;
   note: string | null;
@@ -329,8 +329,6 @@ export type Multiset = {
   exerciseGroupSetPrimary?: Set<string>;
   exerciseGroupSetSecondary?: Set<string>;
 };
-
-export type MultisetTypeMap = Map<number, string>;
 
 export type UseSetTrackingInputsReturnType = {
   isSetTrackingValuesInvalid: boolean;
@@ -497,7 +495,7 @@ export type UseListFiltersReturnType = {
   resetFilter: (userSettings: UserSettings) => void;
   weekdayList: readonly string[];
   prefixMap: ListFilterMap;
-  multisetTypeMap: MultisetTypeMap;
+  multisetTypes: readonly string[];
   getFilterRoutinesString: (routineIdSet: Set<number>) => string;
   getFilterExercisesString: (exerciseIdSet: Set<number>) => string;
   getFilterMeasurementsString: (measurementIdSet: Set<string>) => string;
@@ -820,7 +818,7 @@ export type UseMultisetActionsReturnType = {
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredMultisets: Multiset[];
-  multisetTypeMap: MultisetTypeMap;
+  multisetTypeMap: readonly string[];
   newMultisetSetIndex: number;
   setNewMultisetSetIndex: React.Dispatch<React.SetStateAction<number>>;
   newExerciseList: Exercise[];
