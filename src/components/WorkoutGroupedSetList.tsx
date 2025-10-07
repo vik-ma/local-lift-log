@@ -13,7 +13,6 @@ import {
   SetListNotes,
   WorkoutSet,
   Exercise,
-  MultisetTypeMap,
 } from "../typings";
 import { FormatNumItemsString, FormatSetsCompletedString } from "../helpers";
 
@@ -48,7 +47,6 @@ type WorkoutGroupedSetListProps = {
   isTemplate: boolean;
   activeSetId?: number;
   completedSetsMap?: Map<string, number>;
-  multisetTypeMap: MultisetTypeMap;
   openSetNotesModal: (
     set: WorkoutSet,
     index: number,
@@ -73,7 +71,6 @@ export const WorkoutGroupedSetList = ({
   isTemplate,
   activeSetId = 0,
   completedSetsMap,
-  multisetTypeMap,
   openSetNotesModal,
 }: WorkoutGroupedSetListProps) => {
   return (
@@ -115,7 +112,7 @@ export const WorkoutGroupedSetList = ({
               : groupedSet.exerciseList[0].note !== null;
 
             const title = isMultiset
-              ? multisetTypeMap.get(groupedSet.multiset!.multiset_type)
+              ? groupedSet.multiset!.multiset_type
               : groupedSet.exerciseList[0].name;
 
             return (

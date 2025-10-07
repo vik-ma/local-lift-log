@@ -64,6 +64,7 @@ import {
   DEFAULT_MULTISET,
   DEFAULT_WORKOUT,
   DEFAULT_WORKOUT_TEMPLATE,
+  MULTISET_TYPES,
   NUM_NEW_SETS_OPTIONS_LIST,
 } from "../constants";
 import { useNavigate } from "react-router-dom";
@@ -2395,7 +2396,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
     const newMultiset: Multiset = {
       id: 0,
-      multiset_type: 0,
+      multiset_type: MULTISET_TYPES[0],
       set_order: "",
       is_template: 0,
       note: null,
@@ -2568,7 +2569,7 @@ export const useWorkoutActions = ({ isTemplate }: UseWorkoutActionsProps) => {
 
     const newMultiset: Multiset = {
       id: 0,
-      multiset_type: 0,
+      multiset_type: MULTISET_TYPES[0],
       set_order: "",
       is_template: 0,
       note: null,

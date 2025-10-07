@@ -38,7 +38,6 @@ export const MultisetTemplateModalList = ({
     filterQuery,
     setFilterQuery,
     filteredMultisets,
-    multisetTypeMap,
     listFilters,
     isMultisetListLoaded,
     paginatedMultisets,
@@ -95,9 +94,6 @@ export const MultisetTemplateModalList = ({
         <div className="flex flex-col justify-between gap-1.5">
           <ScrollShadow className={`${listHeight} flex flex-col gap-1`}>
             {paginatedMultisets.map((multiset) => {
-              const multisetTypeText =
-                multisetTypeMap.get(multiset.multiset_type) ?? "";
-
               return (
                 <button
                   key={multiset.id}
@@ -108,7 +104,7 @@ export const MultisetTemplateModalList = ({
                     {multiset.setListText}
                   </span>
                   <span className="text-xs text-secondary text-left">
-                    {multisetTypeText}
+                    {multiset.multiset_type}
                   </span>
                 </button>
               );

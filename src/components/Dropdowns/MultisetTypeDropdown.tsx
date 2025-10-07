@@ -4,7 +4,7 @@ import { Select, SelectItem } from "@heroui/react";
 import { MULTISET_TYPES } from "../../constants";
 
 type MultisetTypeDropdownProps = {
-  multiset_type: number;
+  multiset_type: string;
   setMultiset: React.Dispatch<React.SetStateAction<Multiset>>;
 };
 
@@ -13,7 +13,7 @@ export const MultisetTypeDropdown = ({
   setMultiset,
 }: MultisetTypeDropdownProps) => {
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
-    new Set([multiset_type.toString()])
+    new Set([multiset_type])
   );
 
   const handleChange = async (keys: Set<string>) => {

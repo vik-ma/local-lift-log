@@ -7,11 +7,7 @@ import {
   ScrollShadow,
   Button,
 } from "@heroui/react";
-import {
-  GroupedWorkoutSet,
-  MultisetTypeMap,
-  UseDisclosureReturnType,
-} from "../../typings";
+import { GroupedWorkoutSet, UseDisclosureReturnType } from "../../typings";
 import {
   FormatNumItemsString,
   GenerateMultisetExerciseListText,
@@ -22,7 +18,6 @@ type GroupedWorkoutSetListModal = {
   groupedWorkoutSetListModal: UseDisclosureReturnType;
   operatingGroupedSet: GroupedWorkoutSet | undefined;
   groupedWorkoutSetList: GroupedWorkoutSet[];
-  multisetTypeMap: MultisetTypeMap;
   onClickAction: (groupedWorkoutSet: GroupedWorkoutSet) => void;
 };
 
@@ -30,7 +25,6 @@ export const GroupedWorkoutSetListModal = ({
   groupedWorkoutSetListModal,
   operatingGroupedSet,
   groupedWorkoutSetList,
-  multisetTypeMap,
   onClickAction,
 }: GroupedWorkoutSetListModal) => {
   return (
@@ -53,8 +47,7 @@ export const GroupedWorkoutSetListModal = ({
                   const header =
                     groupedSet.isMultiset &&
                     groupedSet.multiset !== undefined ? (
-                      multisetTypeMap.get(groupedSet.multiset.multiset_type) ??
-                      ""
+                      groupedSet.multiset.multiset_type
                     ) : (
                       <span
                         className={

@@ -487,9 +487,7 @@ export default function WorkoutDetails() {
               operatingGroupedSet?.isMultiset ? (
                 <>
                   <span className="text-secondary">
-                    {multisetActions.multisetTypeMap.get(
-                      operatingGroupedSet.multiset!.multiset_type
-                    )}
+                    {operatingGroupedSet.multiset!.multiset_type}
                   </span>{" "}
                   from Workout
                 </>
@@ -565,7 +563,6 @@ export default function WorkoutDetails() {
         groupedWorkoutSetListModal={groupedWorkoutSetListModal}
         operatingGroupedSet={operatingGroupedSet}
         groupedWorkoutSetList={groupedSets}
-        multisetTypeMap={multisetActions.multisetTypeMap}
         onClickAction={mergeGroupedSets}
       />
       <FilterWorkoutListModal
@@ -656,7 +653,6 @@ export default function WorkoutDetails() {
               isTemplate={false}
               activeSetId={activeSet?.id}
               completedSetsMap={completedSetsMap}
-              multisetTypeMap={multisetActions.multisetTypeMap}
               openSetNotesModal={openSetNotesModal}
             />
           </div>

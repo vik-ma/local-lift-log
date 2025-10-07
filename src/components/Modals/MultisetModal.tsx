@@ -33,7 +33,11 @@ import {
   ConvertSetInputValuesToNumbers,
   GetValidatedNumNewSets,
 } from "../../helpers";
-import { MODAL_BODY_HEIGHT, NUM_NEW_SETS_OPTIONS_LIST } from "../../constants";
+import {
+  MODAL_BODY_HEIGHT,
+  MULTISET_TYPES,
+  NUM_NEW_SETS_OPTIONS_LIST,
+} from "../../constants";
 
 type MultisetModalProps = {
   multiset: Multiset;
@@ -131,7 +135,7 @@ export const MultisetModal = ({
       multiset.id === 0 &&
       (multiset.setList.length > 0 ||
         multiset.note !== "" ||
-        multiset.multiset_type !== 0)
+        multiset.multiset_type !== MULTISET_TYPES[0])
     );
   }, [multiset]);
 
