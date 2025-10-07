@@ -48,7 +48,7 @@ export const useCalendarModal = ({
 
   const disableActiveRoutineOption = useRef<boolean>(false);
 
-  const completedWorkoutsForToday = useRef<CalendarWorkoutItem[]>([]);
+  const workoutsForCurrentDate = useRef<CalendarWorkoutItem[]>([]);
 
   const calendarModal = useDisclosure();
 
@@ -127,7 +127,7 @@ export const useCalendarModal = ({
     operatingYearMonth.current = yearMonth;
 
     if (yearMonth === currentMonth.current) {
-      completedWorkoutsForToday.current = workoutsForToday;
+      workoutsForCurrentDate.current = workoutsForToday;
     }
   };
 
@@ -240,6 +240,6 @@ export const useCalendarModal = ({
     operatingYearMonth,
     currentMonth,
     disableActiveRoutineOption,
-    completedWorkoutsForToday
+    workoutsForCurrentDate,
   };
 };

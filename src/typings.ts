@@ -1450,7 +1450,7 @@ export type UseCalendarModalReturnType = {
   operatingYearMonth: React.RefObject<string>;
   currentMonth: React.RefObject<string>;
   disableActiveRoutineOption: React.RefObject<boolean>;
-  completedWorkoutsForToday: React.RefObject<CalendarWorkoutItem[]>;
+  workoutsForCurrentDate: React.RefObject<CalendarWorkoutItem[]>;
 };
 
 export type CalendarWorkoutItem = {

@@ -60,7 +60,7 @@ export const CalendarModal = ({
     operatingYearMonth,
     currentMonth,
     disableActiveRoutineOption,
-    completedWorkoutsForToday,
+    workoutsForCurrentDate,
   } = useCalendarModal;
 
   const calendarWidth =
