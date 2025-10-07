@@ -339,6 +339,7 @@ export const CalendarModal = ({
   const createWorkoutTemplateListDiv = (map: CalendarWorkoutTemplateMap) => (
     <CalendarModalLegend
       title="Workout Templates"
+      emptyListText="No Workouts"
       items={Array.from(map)}
       renderItem={([id, item]) => {
         const textColor =
@@ -375,6 +376,7 @@ export const CalendarModal = ({
     () => (
       <CalendarModalLegend
         title="Exercise Groups"
+        emptyListText="No Sets Completed"
         items={Array.from(operatingCalendarMonth.exerciseGroupSet)}
         renderItem={(exerciseGroup, index) => {
           const textColor = CALENDAR_COLOR_LIST[index];

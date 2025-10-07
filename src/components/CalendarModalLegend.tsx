@@ -2,19 +2,21 @@ import { ScrollShadow } from "@heroui/react";
 
 type CalendarModalLegendProps<T> = {
   title: string;
+  emptyListText: string;
   items: T[];
   renderItem: (item: T, index: number) => React.ReactNode;
 };
 
 export const CalendarModalLegend = <T,>({
   title,
+  emptyListText,
   items,
   renderItem,
 }: CalendarModalLegendProps<T>) => {
   if (items.length === 0)
     return (
       <div className="w-[9.1rem] pt-0.5 text-sm font-medium text-center text-stone-400">
-        No Workouts
+        {emptyListText}
       </div>
     );
 
