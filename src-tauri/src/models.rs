@@ -180,7 +180,7 @@ pub struct Measurement {
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct Multiset {
     pub id: i32,
-    pub multiset_type: i32,
+    pub multiset_type: String,
     pub set_order: String,
     pub is_template: i32,
     pub note: Option<String>,

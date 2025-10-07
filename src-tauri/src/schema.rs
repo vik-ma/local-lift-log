@@ -168,7 +168,7 @@ diesel::table! {
 diesel::table! {
     multisets (id) {
         id -> Integer,
-        multiset_type -> Integer,
+        multiset_type -> Text,
         set_order -> Text,
         is_template -> Integer,
         note -> Nullable<Text>,
