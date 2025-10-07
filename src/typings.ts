@@ -1440,13 +1440,17 @@ export type UseCalendarModalReturnType = {
   operatingCalendarMonth: CalendarMonthItem;
   isCalendarWorkoutListLoaded: React.RefObject<boolean>;
   calendarMonthMap: React.RefObject<Map<string, CalendarMonthItem>>;
-  handleCalendarMonthChange: (date: CalendarDate) => Promise<void>;
+  handleCalendarMonthChange: (
+    date: CalendarDate,
+    locale: string
+  ) => Promise<void>;
   currentDateString: React.RefObject<string>;
   calendarDateMarking: string;
   setCalendarDateMarking: React.Dispatch<React.SetStateAction<string>>;
   operatingYearMonth: React.RefObject<string>;
   currentMonth: React.RefObject<string>;
   disableActiveRoutineOption: React.RefObject<boolean>;
+  completedWorkoutsForToday: React.RefObject<CalendarWorkoutItem[]>;
 };
 
 export type CalendarWorkoutItem = {

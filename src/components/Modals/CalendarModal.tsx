@@ -60,6 +60,7 @@ export const CalendarModal = ({
     operatingYearMonth,
     currentMonth,
     disableActiveRoutineOption,
+    completedWorkoutsForToday,
   } = useCalendarModal;
 
   const calendarWidth =
@@ -402,7 +403,7 @@ export const CalendarModal = ({
                     <Calendar
                       calendarWidth={calendarWidth}
                       onFocusChange={(value) =>
-                        handleCalendarMonthChange(value)
+                        handleCalendarMonthChange(value, userSettings.locale)
                       }
                     />
                   </I18nProvider>

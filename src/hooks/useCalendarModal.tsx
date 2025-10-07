@@ -1,6 +1,7 @@
 import { CalendarDate, useDisclosure } from "@heroui/react";
 import {
   CalendarMonthItem,
+  CalendarWorkoutItem,
   CalendarWorkoutTemplateMap,
   Routine,
   UseCalendarModalReturnType,
@@ -47,9 +48,11 @@ export const useCalendarModal = ({
 
   const disableActiveRoutineOption = useRef<boolean>(false);
 
+  const completedWorkoutsForToday = useRef<CalendarWorkoutItem[]>([]);
+
   const calendarModal = useDisclosure();
 
-  const getWorkoutListForMonth = async (yearMonth: string) => {
+  const getWorkoutListForMonth = async (yearMonth: string, locale: string) => {
     const workoutList = await GetCalendarWorkoutList(yearMonth);
 
     const workoutTemplateMap: CalendarWorkoutTemplateMap = new Map();
@@ -58,11 +61,21 @@ export const useCalendarModal = ({
 
     const exerciseGroupSet = new Set<string>();
 
+    const workoutsForToday: CalendarWorkoutItem[] = [];
+
     let nextIndex = 0;
     let nextIndexRoutine = 0;
 
     for (const workout of workoutList) {
       const id = workout.workout_template_id;
+
+      if (
+        yearMonth === currentMonth.current &&
+        FormatISODateStringToCalendarAriaLabelString(workout.date, locale) ===
+          currentDateString.current
+      ) {
+        workoutsForToday.push(workout);
+      }
 
       // Increment index for every unique Workout Template ID
       if (!workoutTemplateMap.has(id)) {
@@ -112,6 +125,10 @@ export const useCalendarModal = ({
     calendarMonthMap.current.set(yearMonth, calendarMonthItem);
 
     operatingYearMonth.current = yearMonth;
+
+    if (yearMonth === currentMonth.current) {
+      completedWorkoutsForToday.current = workoutsForToday;
+    }
   };
 
   const openCalendarModal = async (userSettings: UserSettings) => {
@@ -129,7 +146,7 @@ export const useCalendarModal = ({
       currentMonth.current = currentYearMonth;
       operatingYearMonth.current = currentYearMonth;
 
-      await getWorkoutListForMonth(currentYearMonth);
+      await getWorkoutListForMonth(currentYearMonth, userSettings.locale);
 
       const disableActiveRoutine =
         activeRoutine === undefined ||
@@ -162,7 +179,10 @@ export const useCalendarModal = ({
     calendarModal.onOpen();
   };
 
-  const handleCalendarMonthChange = async (date: CalendarDate) => {
+  const handleCalendarMonthChange = async (
+    date: CalendarDate,
+    locale: string
+  ) => {
     const yearMonth = ConvertDateToYearMonthString(
       date.toDate(getLocalTimeZone())
     );
@@ -203,7 +223,7 @@ export const useCalendarModal = ({
       const calendarMonthItem = calendarMonthMap.current.get(yearMonth)!;
       setOperatingCalendarMonth(calendarMonthItem);
     } else {
-      await getWorkoutListForMonth(yearMonth);
+      await getWorkoutListForMonth(yearMonth, locale);
     }
   };
 
@@ -220,5 +240,6 @@ export const useCalendarModal = ({
     operatingYearMonth,
     currentMonth,
     disableActiveRoutineOption,
+    completedWorkoutsForToday
   };
 };
