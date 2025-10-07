@@ -41,7 +41,7 @@ type CalendarModalProps = {
 };
 
 const CALENDAR_DOT_ALPHA_CODE = "B3"; // 70%
-const CALENDAR_DOT_FUTURE_ALPHA_CODE = "66"; // 40%
+const CALENDAR_DOT_FUTURE_ALPHA_CODE = "33"; // 40%
 
 export const CalendarModal = ({
   useCalendarModal,
@@ -238,7 +238,9 @@ export const CalendarModal = ({
     const dateWrapperCellMap = new Map<string, HTMLDivElement>();
     const dateWrapperCellList: HTMLDivElement[] = [];
 
-    for (const [date, workoutList] of dateRoutineScheduleMap) {
+    for (const [date, _workoutList] of dateRoutineScheduleMap) {
+      let workoutList = _workoutList;
+
       const wrapperIdString = `${date}-marking-wrapper`;
 
       const isDateToday = date === currentDateString.current;
@@ -246,8 +248,27 @@ export const CalendarModal = ({
       if (isDateToday) {
         const existingWrapper = document.getElementById(wrapperIdString);
 
-        if (existingWrapper)
+        if (existingWrapper) {
           dateWrapperCellMap.set(date, existingWrapper as HTMLDivElement);
+
+          if (workoutsForCurrentDate.current.length > 0) {
+            // Remove scheduled workout(s) that already has a CalendarWorkoutItem for today
+            // (Remove items with same workout_template_id and routine_id from workoutList)
+
+            const existingWorkoutIds = new Set(
+              workoutsForCurrentDate.current
+                .filter((workout) => workout.routine_id === activeRoutine.id)
+                .map((workout) => workout.workout_template_id)
+            );
+
+            const updatedWorkoutList = workoutList.filter(
+              (schedule) =>
+                !existingWorkoutIds.has(schedule.workout_template_id)
+            );
+
+            workoutList = updatedWorkoutList;
+          }
+        }
       }
 
       const querySelectorString = GetCalendarDateQuerySelectorString(
