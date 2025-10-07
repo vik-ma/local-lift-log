@@ -10,6 +10,7 @@ import {
 import {
   CalendarWorkoutTemplateMap,
   Routine,
+  SimpleRoutineScheduleItem,
   UseCalendarModalReturnType,
   UserSettings,
 } from "../../typings";
@@ -41,7 +42,7 @@ type CalendarModalProps = {
 };
 
 const CALENDAR_DOT_ALPHA_CODE = "B3"; // 70%
-const CALENDAR_DOT_FUTURE_ALPHA_CODE = "33"; // 40%
+const CALENDAR_DOT_FUTURE_ALPHA_CODE = "66"; // 40%
 
 export const CalendarModal = ({
   useCalendarModal,
@@ -255,16 +256,24 @@ export const CalendarModal = ({
             // Remove scheduled workout(s) that already has a CalendarWorkoutItem for today
             // (Remove items with same workout_template_id and routine_id from workoutList)
 
-            const existingWorkoutIds = new Set(
-              workoutsForCurrentDate.current
-                .filter((workout) => workout.routine_id === activeRoutine.id)
-                .map((workout) => workout.workout_template_id)
-            );
+            const workoutCounts = workoutsForCurrentDate.current
+              .filter((w) => w.routine_id === activeRoutine.id)
+              .reduce<Record<number, number>>((acc, w) => {
+                acc[w.workout_template_id] =
+                  (acc[w.workout_template_id] || 0) + 1;
+                return acc;
+              }, {});
 
-            const updatedWorkoutList = workoutList.filter(
-              (schedule) =>
-                !existingWorkoutIds.has(schedule.workout_template_id)
-            );
+            const updatedWorkoutList: SimpleRoutineScheduleItem[] = [];
+
+            for (const workout of workoutList) {
+              const id = workout.workout_template_id;
+              if (workoutCounts[id] && workoutCounts[id] > 0) {
+                workoutCounts[id]--;
+              } else {
+                updatedWorkoutList.push(workout);
+              }
+            }
 
             workoutList = updatedWorkoutList;
           }
