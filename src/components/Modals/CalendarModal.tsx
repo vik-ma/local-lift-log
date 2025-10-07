@@ -41,7 +41,7 @@ type CalendarModalProps = {
   activeRoutine: Routine | undefined;
 };
 
-const CALENDAR_DOT_ALPHA_CODE = "B3"; // 70%
+const CALENDAR_DOT_ALPHA_CODE = "CC"; // 80%
 const CALENDAR_DOT_FUTURE_ALPHA_CODE = "66"; // 40%
 
 export const CalendarModal = ({
