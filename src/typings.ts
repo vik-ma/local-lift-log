@@ -818,7 +818,6 @@ export type UseMultisetActionsReturnType = {
   filterQuery: string;
   setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
   filteredMultisets: Multiset[];
-  multisetTypeMap: readonly string[];
   newMultisetSetIndex: number;
   setNewMultisetSetIndex: React.Dispatch<React.SetStateAction<number>>;
   newExerciseList: Exercise[];

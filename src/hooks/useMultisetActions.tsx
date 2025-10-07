@@ -27,7 +27,6 @@ import {
 import { useDisclosure } from "@heroui/react";
 import {
   DEFAULT_EXERCISE,
-  MULTISET_TYPES,
   STORE_LIST_KEY_MULTISET_TEMPLATES,
 } from "../constants";
 
@@ -77,8 +76,6 @@ export const useMultisetActions = ({
   const [selectedMultisetExercise, setSelectedMultisetExercise] =
     useState<Exercise>(DEFAULT_EXERCISE);
 
-  const multisetTypeMap = MULTISET_TYPES;
-
   const multisetModal = useDisclosure();
   const filterMultisetsModal = useDisclosure();
 
@@ -109,9 +106,8 @@ export const useMultisetActions = ({
           (item.setListTextString
             ?.toLocaleLowerCase()
             .includes(filterQuery.toLocaleLowerCase()) ||
-            multisetTypeMap
-              .get(item.multiset_type)
-              ?.toLocaleLowerCase()
+            item.multiset_type
+              .toLocaleLowerCase()
               .includes(filterQuery.toLocaleLowerCase())) &&
           (!filterMap.has("multiset-types") ||
             filterMultisetTypes.has(item.multiset_type.toString())) &&
@@ -136,7 +132,6 @@ export const useMultisetActions = ({
   }, [
     multisets,
     filterQuery,
-    multisetTypeMap,
     filterMap,
     filterMultisetTypes,
     filterExercises,
@@ -571,7 +566,6 @@ export const useMultisetActions = ({
     filterQuery,
     setFilterQuery,
     filteredMultisets,
-    multisetTypeMap,
     newMultisetSetIndex,
     setNewMultisetSetIndex,
     newExerciseList,

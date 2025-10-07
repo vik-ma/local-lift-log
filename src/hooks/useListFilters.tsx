@@ -60,7 +60,7 @@ export const useListFilters = ({
 
   const weekdayList = WEEKDAY_LIST;
 
-  const multisetTypeMap = MULTISET_TYPES;
+  const multisetTypes = MULTISET_TYPES;
 
   const storeFilters = useRef<StoreFilterMap>(new Map());
 
@@ -304,9 +304,7 @@ export const useListFilters = ({
     if (filterMultisetTypes.size > 0) {
       const multisetTypesArray = Array.from(filterMultisetTypes, Number);
 
-      const filterMultisetTypesString = multisetTypesArray
-        .map((type) => multisetTypeMap.get(type) ?? "")
-        .join(", ");
+      const filterMultisetTypesString = multisetTypesArray.join(", ");
 
       updatedFilterMap.set("multiset-types", filterMultisetTypesString);
 
@@ -944,7 +942,7 @@ export const useListFilters = ({
             const multisetTypeSet = new Set<string>();
 
             for (const multisetType of multisetTypes) {
-              if (multisetTypeMap.has(Number(multisetType))) {
+              if (multisetTypes.includes(multisetType)) {
                 multisetTypeSet.add(multisetType);
               }
             }
@@ -1050,7 +1048,7 @@ export const useListFilters = ({
     removeFilter,
     weekdayList,
     prefixMap,
-    multisetTypeMap,
+    multisetTypes,
     getFilterRoutinesString,
     getFilterExercisesString,
     getFilterMeasurementsString,
