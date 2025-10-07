@@ -1,5 +1,4 @@
 import { Multiset } from "../../typings";
-import { useState } from "react";
 import { Select, SelectItem } from "@heroui/react";
 import { MULTISET_TYPES } from "../../constants";
 
@@ -12,18 +11,10 @@ export const MultisetTypeDropdown = ({
   multiset_type,
   setMultiset,
 }: MultisetTypeDropdownProps) => {
-  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(
-    new Set([multiset_type])
-  );
+  const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
 
-  const handleChange = async (keys: Set<string>) => {
-    if (keys.size !== 1) return;
-
-    const value = keys.values().next().value;
-
-    if (value === undefined || !MULTISET_TYPES.includes(value)) return;
-
-    setSelectedKeys(keys);
+    if (!MULTISET_TYPES.includes(value)) return;
 
     setMultiset((prev) => ({
       ...prev,
@@ -37,12 +28,12 @@ export const MultisetTypeDropdown = ({
       aria-label="Multiset Type"
       className="w-[8.5rem]"
       variant="faded"
-      selectedKeys={selectedKeys}
-      onSelectionChange={(keys) => handleChange(keys as Set<string>)}
+      selectedKeys={[multiset_type]}
+      onChange={(e) => handleChange(e)}
       disallowEmptySelection
     >
-      {MULTISET_TYPES.map(([key, value]) => (
-        <SelectItem key={key}>{value}</SelectItem>
+      {MULTISET_TYPES.map((multisetType) => (
+        <SelectItem key={multisetType}>{multisetType}</SelectItem>
       ))}
     </Select>
   );
