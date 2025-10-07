@@ -28,10 +28,9 @@ export const GetAllMultisetTemplates = async (
     const multisets: Multiset[] = [];
 
     for (let i = 0; i < result.length; i++) {
-      const validatedMultisetType = GetValidatedMultisetType(
+      result[i].multiset_type = GetValidatedMultisetType(
         result[i].multiset_type
       );
-      result[i].multiset_type = validatedMultisetType;
 
       const setOrderList = GenerateMultisetSetOrderList(result[i].set_order);
 

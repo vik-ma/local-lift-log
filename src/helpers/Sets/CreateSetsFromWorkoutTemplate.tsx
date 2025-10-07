@@ -81,10 +81,7 @@ export const CreateSetsFromWorkoutTemplate = async (
 
       if (multiset === undefined) continue;
 
-      const validatedMultisetType = GetValidatedMultisetType(
-        multiset.multiset_type
-      );
-      multiset.multiset_type = validatedMultisetType;
+      multiset.multiset_type = GetValidatedMultisetType(multiset.multiset_type);
 
       const setListIdList = GenerateMultisetSetListIdList(multiset.set_order);
 

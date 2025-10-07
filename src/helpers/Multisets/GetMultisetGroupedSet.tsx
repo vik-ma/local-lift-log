@@ -35,10 +35,7 @@ export const GetMultisetGroupedSet = async (
 
   if (multiset === undefined) return multisetExerciseAndSetList;
 
-  const validatedMultisetType = GetValidatedMultisetType(
-    multiset.multiset_type
-  );
-  multiset.multiset_type = validatedMultisetType;
+  multiset.multiset_type = GetValidatedMultisetType(multiset.multiset_type);
 
   // Split sets of Multiset
   const multisetStrings = multiset.set_order.split("/");

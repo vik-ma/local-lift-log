@@ -88,10 +88,7 @@ export const CopyWorkoutSetList = async (
 
     if (multiset === undefined) continue;
 
-    const validatedMultisetType = GetValidatedMultisetType(
-      multiset.multiset_type
-    );
-    multiset.multiset_type = validatedMultisetType;
+    multiset.multiset_type = GetValidatedMultisetType(multiset.multiset_type);
 
     const newMultisetId = await InsertMultisetIntoDatabase(multiset);
 
