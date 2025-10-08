@@ -124,7 +124,9 @@ export const CalendarModal = ({
 
       const wrapperIdString = `${date}-marking-wrapper`;
 
-      const existingWrapper = document.getElementById(wrapperIdString);
+      const existingWrapper = calendarGrid.querySelector(
+        `[id="${wrapperIdString}"]`
+      );
 
       if (existingWrapper && !dateWrapperCellMap.has(date)) {
         existingWrapper.remove();
@@ -209,11 +211,13 @@ export const CalendarModal = ({
     }
 
     if (calendarDateMarking === "active-routine") {
-      renderFutureCalendarDateMarkingsForActiveRoutine();
+      renderFutureCalendarDateMarkingsForActiveRoutine(calendarGrid);
     }
   };
 
-  const renderFutureCalendarDateMarkingsForActiveRoutine = () => {
+  const renderFutureCalendarDateMarkingsForActiveRoutine = (
+    calendarGrid: Element
+  ) => {
     if (
       operatingYearMonth.current < currentMonth.current ||
       activeRoutine === undefined ||
@@ -242,7 +246,9 @@ export const CalendarModal = ({
       const isDateToday = date === currentDateString.current;
 
       if (isDateToday) {
-        const existingWrapper = document.getElementById(wrapperIdString);
+        const existingWrapper = calendarGrid.querySelector(
+          `[id="${wrapperIdString}"]`
+        );
 
         if (existingWrapper) {
           dateWrapperCellMap.set(date, existingWrapper as HTMLDivElement);
