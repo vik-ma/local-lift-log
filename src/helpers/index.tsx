@@ -197,6 +197,7 @@ export { MergeTwoGroupedSetLists } from "./Workouts/MergeTwoGroupedSetLists";
 export { GetUniqueMultisetIds } from "./Workouts/GetUniqueMultisetIds";
 export { CreateWorkout } from "./Workouts/CreateWorkout";
 export { DeleteWorkoutWithId } from "./Workouts/DeleteWorkoutWithId";
+export { GetWorkoutWithId } from "./Workouts/GetWorkoutWithId"
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
