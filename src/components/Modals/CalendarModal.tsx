@@ -190,7 +190,7 @@ export const CalendarModal = ({
             ? operatingCalendarMonth.routineWorkoutTemplateMap.get(
                 workout.workout_template_id
               )!.index
-            : wrapper.children.length;
+            : 0;
 
         const dotColor =
           CALENDAR_COLOR_LIST[dotColorIndex % CALENDAR_COLOR_LIST.length] +
