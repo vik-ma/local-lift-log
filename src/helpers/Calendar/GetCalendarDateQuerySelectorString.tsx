@@ -1,3 +1,3 @@
 export const GetCalendarDateQuerySelectorString = (dateString: string) => {
-  return `[aria-label*="${dateString}"]`;
+  return `[aria-label$="${dateString}"]`;
 };

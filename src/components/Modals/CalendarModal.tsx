@@ -96,7 +96,7 @@ export const CalendarModal = ({
   const renderCalendarDateMarkings = () => {
     if (operatingYearMonth.current === currentMonth.current) {
       const todayCell = document.querySelector(
-        `[aria-label*="Today"]`
+        `[aria-label^="Today"]`
       ) as HTMLElement;
 
       if (todayCell) {
