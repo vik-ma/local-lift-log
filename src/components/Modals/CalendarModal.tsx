@@ -44,6 +44,8 @@ type CalendarModalProps = {
 const CALENDAR_DOT_ALPHA_CODE = "CC"; // 80%
 const CALENDAR_DOT_FUTURE_ALPHA_CODE = "66"; // 40%
 
+const CALENDAR_GRID_DATA_SLOT_VALUE = '[data-slot="grid-body"]';
+
 export const CalendarModal = ({
   useCalendarModal,
   userSettings,
@@ -94,8 +96,12 @@ export const CalendarModal = ({
   };
 
   const renderCalendarDateMarkings = () => {
+    const calendarGrid = document.querySelector(CALENDAR_GRID_DATA_SLOT_VALUE);
+
+    if (calendarGrid === null) return;
+
     if (operatingYearMonth.current === currentMonth.current) {
-      const todayCell = document.querySelector(
+      const todayCell = calendarGrid.querySelector(
         `[aria-label^="Today"]`
       ) as HTMLElement;
 
@@ -133,7 +139,7 @@ export const CalendarModal = ({
 
       const querySelectorString = GetCalendarDateQuerySelectorString(date);
 
-      const dateCell = document.querySelector(
+      const dateCell = calendarGrid.querySelector(
         querySelectorString
       ) as HTMLElement;
 
