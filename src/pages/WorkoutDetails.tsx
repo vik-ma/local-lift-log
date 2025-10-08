@@ -45,6 +45,7 @@ import {
   UpdateExerciseOrder,
   IsDateStringOlderThan24Hours,
   GetLatestTimeForDayISODateString,
+  GetWorkoutWithId,
 } from "../helpers";
 import { useDisclosure } from "@heroui/react";
 import toast from "react-hot-toast";
@@ -224,69 +225,54 @@ export default function WorkoutDetails() {
 
   useEffect(() => {
     const loadWorkout = async () => {
-      try {
-        const db = await Database.load(import.meta.env.VITE_DB);
+      const workout = await GetWorkoutWithId(Number(id));
 
-        const result = await db.select<Workout[]>(
-          `SELECT * FROM workouts 
-           WHERE id = $1 
-            AND date IS NOT NULL 
-            AND date LIKE '____-__-__T__:__:__.___Z'
-            AND date GLOB '[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]T[0-2][0-9]:[0-5][0-9]:[0-5][0-9].[0-9][0-9][0-9]Z'`,
-          [id]
+      if (workout === undefined) return;
+
+      if (IsDateStringOlderThan24Hours(workout.date)) {
+        setIsWorkoutOlderThan24Hours(true);
+      }
+
+      const setList = await GetWorkoutSetList(workout.id);
+
+      const { groupedSetList, shouldUpdateExerciseOrder } =
+        await CreateGroupedWorkoutSetList(
+          setList,
+          workout.exercise_order,
+          exerciseList.exerciseGroupDictionary
         );
 
-        if (result.length === 0) return;
+      if (shouldUpdateExerciseOrder) {
+        const isTemplate = false;
 
-        const workout: Workout = result[0];
+        const { success, exerciseOrderString } = await UpdateExerciseOrder(
+          groupedSetList,
+          Number(id),
+          isTemplate
+        );
 
-        if (IsDateStringOlderThan24Hours(workout.date)) {
-          setIsWorkoutOlderThan24Hours(true);
-        }
+        if (!success) return;
 
-        const setList = await GetWorkoutSetList(workout.id);
-
-        const { groupedSetList, shouldUpdateExerciseOrder } =
-          await CreateGroupedWorkoutSetList(
-            setList,
-            workout.exercise_order,
-            exerciseList.exerciseGroupDictionary
-          );
-
-        if (shouldUpdateExerciseOrder) {
-          const isTemplate = false;
-
-          const { success, exerciseOrderString } = await UpdateExerciseOrder(
-            groupedSetList,
-            Number(id),
-            isTemplate
-          );
-
-          if (!success) return;
-
-          workout.exercise_order = exerciseOrderString;
-        }
-
-        const workoutNumbers = {
-          numSets: setList.length,
-          numExercises: GetNumberOfUniqueExercisesInGroupedSets(groupedSetList),
-        };
-        setWorkoutNumbers(workoutNumbers);
-
-        setGroupedSets(groupedSetList);
-
-        populateIncompleteSets(groupedSetList);
-
-        workout.formattedDate = FormatDateString(workout.date);
-
-        if (workout.workout_template_id !== 0) {
-          await getWorkoutTemplateNote(workout.workout_template_id);
-        }
-
-        setWorkout(workout);
-      } catch (error) {
-        console.log(error);
+        workout.exercise_order = exerciseOrderString;
       }
+
+      const workoutNumbers = {
+        numSets: setList.length,
+        numExercises: GetNumberOfUniqueExercisesInGroupedSets(groupedSetList),
+      };
+      setWorkoutNumbers(workoutNumbers);
+
+      setGroupedSets(groupedSetList);
+
+      populateIncompleteSets(groupedSetList);
+
+      workout.formattedDate = FormatDateString(workout.date);
+
+      if (workout.workout_template_id !== 0) {
+        await getWorkoutTemplateNote(workout.workout_template_id);
+      }
+
+      setWorkout(workout);
     };
 
     loadWorkout();
