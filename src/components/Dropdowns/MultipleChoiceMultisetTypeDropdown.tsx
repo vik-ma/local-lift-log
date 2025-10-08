@@ -14,7 +14,7 @@ export const MultipleChoiceMultisetTypeDropdown = ({
 }: MultipleChoiceMultisetTypeDropdown) => {
   const { listFilters } = useMultisetActions;
 
-  const { multisetTypeMap } = listFilters;
+  const { multisetTypes } = listFilters;
 
   const handleChange = (keys: SharedSelection) => {
     const updatedFilterMultisetTypes = new Set(keys);
@@ -31,7 +31,7 @@ export const MultipleChoiceMultisetTypeDropdown = ({
           {filterMultisetTypes.size > 0 && (
             <span className="text-secondary">
               {" "}
-              ({filterMultisetTypes.size} out of {multisetTypeMap.size})
+              ({filterMultisetTypes.size} out of {multisetTypes.length})
             </span>
           )}
         </>
@@ -43,8 +43,8 @@ export const MultipleChoiceMultisetTypeDropdown = ({
       onSelectionChange={(keys) => handleChange(keys)}
       disableAnimation
     >
-      {Array.from(multisetTypeMap).map(([key, value]) => (
-        <SelectItem key={key.toString()}>{value}</SelectItem>
+      {multisetTypes.map((multisetType) => (
+        <SelectItem key={multisetType}>{multisetType}</SelectItem>
       ))}
     </Select>
   );
