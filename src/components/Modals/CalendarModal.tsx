@@ -95,15 +95,8 @@ export const CalendarModal = ({
 
   const renderCalendarDateMarkings = () => {
     if (operatingYearMonth.current === currentMonth.current) {
-      const isDateToday = true;
-
-      const todayQuerySelectorString = GetCalendarDateQuerySelectorString(
-        currentDateString.current,
-        isDateToday
-      );
-
       const todayCell = document.querySelector(
-        todayQuerySelectorString
+        `[aria-label*="Today"]`
       ) as HTMLElement;
 
       if (todayCell) {
@@ -138,12 +131,7 @@ export const CalendarModal = ({
       )
         continue;
 
-      const isDateToday = date === currentDateString.current;
-
-      const querySelectorString = GetCalendarDateQuerySelectorString(
-        date,
-        isDateToday
-      );
+      const querySelectorString = GetCalendarDateQuerySelectorString(date);
 
       const dateCell = document.querySelector(
         querySelectorString
@@ -281,10 +269,7 @@ export const CalendarModal = ({
         }
       }
 
-      const querySelectorString = GetCalendarDateQuerySelectorString(
-        date,
-        isDateToday
-      );
+      const querySelectorString = GetCalendarDateQuerySelectorString(date);
 
       const dateCell = document.querySelector(
         querySelectorString

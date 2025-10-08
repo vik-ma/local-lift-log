@@ -1,8 +1,3 @@
-export const GetCalendarDateQuerySelectorString = (
-  dateString: string,
-  isDateToday: boolean
-) => {
-  if (isDateToday) return `[aria-label*="Today, ${dateString}"]`;
-
+export const GetCalendarDateQuerySelectorString = (dateString: string) => {
   return `[aria-label*="${dateString}"]`;
 };
