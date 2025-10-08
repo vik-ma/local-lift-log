@@ -1,4 +1,4 @@
-import { CalendarDate, useDisclosure } from "@heroui/react";
+import { CalendarDate, useDisclosure, DateValue } from "@heroui/react";
 import {
   CalendarMonthItem,
   CalendarWorkoutItem,
@@ -227,6 +227,10 @@ export const useCalendarModal = ({
     }
   };
 
+  const handleDateClick = async (date: DateValue) => {
+    console.log(date);
+  };
+
   return {
     calendarModal,
     openCalendarModal,
@@ -241,5 +245,6 @@ export const useCalendarModal = ({
     currentMonth,
     disableActiveRoutineOption,
     workoutsForCurrentDate,
+    handleDateClick,
   };
 };

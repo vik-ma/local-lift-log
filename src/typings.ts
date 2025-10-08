@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { CalendarDate, useDisclosure } from "@heroui/react";
+import { CalendarDate, useDisclosure, DateValue } from "@heroui/react";
 import { Store } from "@tauri-apps/plugin-store";
 
 export type Routine = {
@@ -1448,6 +1448,7 @@ export type UseCalendarModalReturnType = {
   currentMonth: React.RefObject<string>;
   disableActiveRoutineOption: React.RefObject<boolean>;
   workoutsForCurrentDate: React.RefObject<CalendarWorkoutItem[]>;
+  handleDateClick: (date: DateValue) => Promise<void>;
 };
 
 export type CalendarWorkoutItem = {

@@ -62,6 +62,7 @@ export const CalendarModal = ({
     currentMonth,
     disableActiveRoutineOption,
     workoutsForCurrentDate,
+    handleDateClick,
   } = useCalendarModal;
 
   const calendarWidth =
@@ -437,6 +438,7 @@ export const CalendarModal = ({
                       onFocusChange={(value) =>
                         handleCalendarMonthChange(value, userSettings.locale)
                       }
+                      onChange={(value) => handleDateClick(value)}
                     />
                   </I18nProvider>
                   {calendarDateMarking === "workout-templates"
