@@ -2,9 +2,12 @@ import Database from "@tauri-apps/plugin-sql";
 import { CalendarWorkoutItem } from "../../typings";
 import { ConvertDateToYearMonthString, GetNextMonthDate } from "..";
 
-export const GetCalendarWorkoutList = async (date: Date, yearMonthString: string) => {
+export const GetCalendarWorkoutList = async (
+  date: Date,
+  yearMonthString: string
+) => {
   try {
-    const nextMonthDate = GetNextMonthDate(date)
+    const nextMonthDate = GetNextMonthDate(date);
 
     const nextYearMonthString = ConvertDateToYearMonthString(nextMonthDate);
 
@@ -36,7 +39,7 @@ export const GetCalendarWorkoutList = async (date: Date, yearMonthString: string
           ON s.exercise_id = e.id
        WHERE datetime(w.date, '${timezoneOffset}') >= datetime('${yearMonthString}-01T00:00:00')
           AND datetime(w.date, '${timezoneOffset}') < datetime('${nextYearMonthString}-01T00:00:00')
-          AND datetime(w.date) <= datetime('now')
+          AND datetime(w.date, '${timezoneOffset}') <= datetime('now', '${timezoneOffset}')
        GROUP BY w.id
        ORDER BY w.date`
     );
