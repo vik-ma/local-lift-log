@@ -1,5 +1,11 @@
 import Database from "@tauri-apps/plugin-sql";
-import { Workout } from "../../typings";
+import { Workout, WorkoutWithGroupedSetList } from "../../typings";
+import {
+  CreateGroupedWorkoutSetList,
+  FormatDateString,
+  GetWorkoutSetList,
+} from "..";
+import { EXERCISE_GROUP_DICTIONARY } from "../../constants";
 
 export const GetWorkoutsWithSetListForDate = async (date: Date) => {
   try {
@@ -17,7 +23,30 @@ export const GetWorkoutsWithSetListForDate = async (date: Date) => {
          AND datetime(workouts.date) < datetime('${nextDayString}')`
     );
 
-    return workouts;
+    const workoutsWithGroupedSetList: WorkoutWithGroupedSetList[] = [];
+
+    const getOnlyCompletedSets = true;
+
+    for (const workout of workouts) {
+      const setList = await GetWorkoutSetList(workout.id, getOnlyCompletedSets);
+
+      const { groupedSetList } = await CreateGroupedWorkoutSetList(
+        setList,
+        workout.exercise_order,
+        EXERCISE_GROUP_DICTIONARY
+      );
+
+      workout.formattedDate = FormatDateString(workout.date);
+
+      const workoutWithGroupedSetList: WorkoutWithGroupedSetList = {
+        workout: workout,
+        groupedSetList: groupedSetList,
+      };
+
+      workoutsWithGroupedSetList.push(workoutWithGroupedSetList);
+    }
+
+    return workoutsWithGroupedSetList;
   } catch (error) {
     console.log(error);
     return [];

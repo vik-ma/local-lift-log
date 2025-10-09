@@ -263,16 +263,16 @@ export const useCalendarModal = ({
     }
 
     if (dateWorkoutMap.current.has(dateYmdString)) {
-      const workoutWithGroupedSetListList =
+      const workoutsWithGroupedSetList =
         dateWorkoutMap.current.get(dateYmdString)!;
-      setOperatingWorkoutDate(workoutWithGroupedSetListList);
+      setOperatingWorkoutDate(workoutsWithGroupedSetList);
       return;
     }
 
     // TODO: SET dateWorkoutMap AND operatingWorkoutDate
-    const workouts = await GetWorkoutsWithSetListForDate(date);
+    const workoutsWithGroupedSetList = await GetWorkoutsWithSetListForDate(date);
 
-    console.log(workouts);
+    console.log(workoutsWithGroupedSetList);
   };
 
   return {
