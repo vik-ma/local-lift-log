@@ -29,6 +29,7 @@ export { IsDateStringOlderThan24Hours } from "./Dates/IsDateStringOlderThan24Hou
 export { GetLatestTimeForDayISODateString } from "./Dates/GetLatestTimeForDayISODateString";
 export { FormatISODateStringToCalendarAriaLabelString } from "./Dates/FormatISODateStringToCalendarAriaLabelString";
 export { ConvertDateToYearMonthString } from "./Dates/ConvertDateToYearMonthString";
+export { GetNextMonthDate } from "./Dates/GetNextMonthDate";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringSetPrimaryToString } from "./Exercises/ConvertExerciseGroupStringSetPrimaryToString";

@@ -1,11 +1,10 @@
 import Database from "@tauri-apps/plugin-sql";
 import { CalendarWorkoutItem } from "../../typings";
-import { ConvertDateToYearMonthString } from "..";
+import { ConvertDateToYearMonthString, GetNextMonthDate } from "..";
 
 export const GetCalendarWorkoutList = async (date: Date, yearMonthString: string) => {
   try {
-    const nextMonthDate = new Date(date);
-    nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
+    const nextMonthDate = GetNextMonthDate(date)
 
     const nextYearMonthString = ConvertDateToYearMonthString(nextMonthDate);
 
