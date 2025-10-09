@@ -1477,3 +1477,8 @@ export type CalendarWorkoutTemplateMap = Map<
   number,
   CalendarWorkoutTemplateMapItem
 >;
+
+export type WorkoutWithGroupedSetList = {
+  workout: Workout;
+  groupedSetList: GroupedWorkoutSet[];
+};

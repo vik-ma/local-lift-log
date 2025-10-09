@@ -6,9 +6,11 @@ import {
   Routine,
   UseCalendarModalReturnType,
   UserSettings,
+  WorkoutWithGroupedSetList,
 } from "../typings";
 import {
   ConvertDateToYearMonthString,
+  ConvertDateToYmdString,
   ConvertISODateStringToYmdDateString,
   CreateExerciseGroupSetPrimary,
   FormatISODateStringToCalendarAriaLabelString,
@@ -40,6 +42,9 @@ export const useCalendarModal = ({
     useState<string>("workouts");
 
   const calendarMonthMap = useRef<Map<string, CalendarMonthItem>>(new Map());
+  const dateWorkoutMap = useRef<Map<string, WorkoutWithGroupedSetList[]>>(
+    new Map()
+  );
 
   const currentDateString = useRef<string>("");
   const currentMonth = useRef<string>("");
@@ -246,7 +251,13 @@ export const useCalendarModal = ({
   const handleDateClick = async (dateValue: DateValue) => {
     const date = dateValue.toDate(getLocalTimeZone());
 
-    // TODO: HANDLE FUTURE DATES
+    const dateYmdString = ConvertDateToYmdString(date);
+
+    if (!datesWithWorkouts.current.has(dateYmdString)) {
+      dateWorkoutMap.current.set(dateYmdString, []);
+      return;
+    }
+
     const workouts = await GetWorkoutsWithSetListForDate(date);
 
     console.log(workouts);
