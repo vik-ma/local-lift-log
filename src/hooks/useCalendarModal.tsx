@@ -12,6 +12,7 @@ import {
   CreateExerciseGroupSetPrimary,
   FormatISODateStringToCalendarAriaLabelString,
   GetCalendarWorkoutList,
+  GetWorkoutsWithSetListForDate,
   IsRoutineCustomStartDateInvalid,
 } from "../helpers";
 import { useRef, useState } from "react";
@@ -235,8 +236,13 @@ export const useCalendarModal = ({
     }
   };
 
-  const handleDateClick = async (date: DateValue) => {
-    console.log(date);
+  const handleDateClick = async (dateValue: DateValue) => {
+    const date = dateValue.toDate(getLocalTimeZone());
+
+    // TODO: HANDLE FUTURE DATES
+    const workouts = await GetWorkoutsWithSetListForDate(date);
+
+    console.log(workouts);
   };
 
   return {
