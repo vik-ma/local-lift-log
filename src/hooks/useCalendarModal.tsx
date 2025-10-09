@@ -40,6 +40,9 @@ export const useCalendarModal = ({
     useState<CalendarMonthItem>(EMPTY_CALENDAR_MONTH_ITEM);
   const [calendarDateMarking, setCalendarDateMarking] =
     useState<string>("workouts");
+  const [operatingWorkoutDate, setOperatingWorkoutDate] = useState<
+    WorkoutWithGroupedSetList[]
+  >([]);
 
   const calendarMonthMap = useRef<Map<string, CalendarMonthItem>>(new Map());
   const dateWorkoutMap = useRef<Map<string, WorkoutWithGroupedSetList[]>>(
@@ -255,9 +258,18 @@ export const useCalendarModal = ({
 
     if (!datesWithWorkouts.current.has(dateYmdString)) {
       dateWorkoutMap.current.set(dateYmdString, []);
+      setOperatingWorkoutDate([]);
       return;
     }
 
+    if (dateWorkoutMap.current.has(dateYmdString)) {
+      const workoutWithGroupedSetListList =
+        dateWorkoutMap.current.get(dateYmdString)!;
+      setOperatingWorkoutDate(workoutWithGroupedSetListList);
+      return;
+    }
+
+    // TODO: SET dateWorkoutMap AND operatingWorkoutDate
     const workouts = await GetWorkoutsWithSetListForDate(date);
 
     console.log(workouts);
