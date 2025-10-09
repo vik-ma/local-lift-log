@@ -52,8 +52,12 @@ export const useCalendarModal = ({
 
   const calendarModal = useDisclosure();
 
-  const getWorkoutListForMonth = async (yearMonth: string, locale: string) => {
-    const workoutList = await GetCalendarWorkoutList(yearMonth);
+  const getWorkoutListForMonth = async (
+    yearMonth: string,
+    date: Date,
+    locale: string
+  ) => {
+    const workoutList = await GetCalendarWorkoutList(date, yearMonth);
 
     const workoutTemplateMap: CalendarWorkoutTemplateMap = new Map();
 
@@ -146,7 +150,11 @@ export const useCalendarModal = ({
       currentMonth.current = currentYearMonth;
       operatingYearMonth.current = currentYearMonth;
 
-      await getWorkoutListForMonth(currentYearMonth, userSettings.locale);
+      await getWorkoutListForMonth(
+        currentYearMonth,
+        currentDate,
+        userSettings.locale
+      );
 
       const disableActiveRoutine =
         activeRoutine === undefined ||
@@ -180,12 +188,12 @@ export const useCalendarModal = ({
   };
 
   const handleCalendarMonthChange = async (
-    date: CalendarDate,
+    calendarDate: CalendarDate,
     locale: string
   ) => {
-    const yearMonth = ConvertDateToYearMonthString(
-      date.toDate(getLocalTimeZone())
-    );
+    const date = calendarDate.toDate(getLocalTimeZone());
+
+    const yearMonth = ConvertDateToYearMonthString(date);
 
     operatingYearMonth.current = yearMonth;
 
@@ -223,7 +231,7 @@ export const useCalendarModal = ({
       const calendarMonthItem = calendarMonthMap.current.get(yearMonth)!;
       setOperatingCalendarMonth(calendarMonthItem);
     } else {
-      await getWorkoutListForMonth(yearMonth, locale);
+      await getWorkoutListForMonth(yearMonth, date, locale);
     }
   };
 

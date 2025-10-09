@@ -1438,7 +1438,7 @@ export type UseCalendarModalReturnType = {
   isCalendarWorkoutListLoaded: React.RefObject<boolean>;
   calendarMonthMap: React.RefObject<Map<string, CalendarMonthItem>>;
   handleCalendarMonthChange: (
-    date: CalendarDate,
+    calendarDate: CalendarDate,
     locale: string
   ) => Promise<void>;
   currentDateString: React.RefObject<string>;
