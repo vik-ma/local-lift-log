@@ -1,6 +1,5 @@
 import Database from "@tauri-apps/plugin-sql";
 import { Workout } from "../../typings";
-import { GetTimezoneOffsetString } from "..";
 
 export const GetWorkoutsWithSetListForDate = async (date: Date) => {
   try {
@@ -10,14 +9,12 @@ export const GetWorkoutsWithSetListForDate = async (date: Date) => {
     const dateString = date.toISOString();
     const nextDayString = nextDay.toISOString();
 
-    const timezoneOffset = GetTimezoneOffsetString();
-
     const db = await Database.load(import.meta.env.VITE_DB);
 
     const workouts = await db.select<Workout[]>(
       `SELECT * FROM workouts
-       WHERE datetime(workouts.date, '${timezoneOffset}') >= datetime('${dateString}')
-         AND datetime(workouts.date, '${timezoneOffset}') < datetime('${nextDayString}')`
+       WHERE datetime(workouts.date) >= datetime('${dateString}')
+         AND datetime(workouts.date) < datetime('${nextDayString}')`
     );
 
     return workouts;
