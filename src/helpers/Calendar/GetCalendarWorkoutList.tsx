@@ -1,6 +1,10 @@
 import Database from "@tauri-apps/plugin-sql";
 import { CalendarWorkoutItem } from "../../typings";
-import { ConvertDateToYearMonthString, GetNextMonthDate } from "..";
+import {
+  ConvertDateToYearMonthString,
+  GetNextMonthDate,
+  GetTimezoneOffsetString,
+} from "..";
 
 export const GetCalendarWorkoutList = async (
   date: Date,
@@ -11,9 +15,7 @@ export const GetCalendarWorkoutList = async (
 
     const nextYearMonthString = ConvertDateToYearMonthString(nextMonthDate);
 
-    const offsetMinutes = new Date().getTimezoneOffset();
-    const offsetHours = -offsetMinutes / 60;
-    const timezoneOffset = `${offsetHours >= 0 ? "+" : ""}${offsetHours} hours`;
+    const timezoneOffset = GetTimezoneOffsetString();
 
     const db = await Database.load(import.meta.env.VITE_DB);
 

@@ -30,6 +30,7 @@ export { GetLatestTimeForDayISODateString } from "./Dates/GetLatestTimeForDayISO
 export { FormatISODateStringToCalendarAriaLabelString } from "./Dates/FormatISODateStringToCalendarAriaLabelString";
 export { ConvertDateToYearMonthString } from "./Dates/ConvertDateToYearMonthString";
 export { GetNextMonthDate } from "./Dates/GetNextMonthDate";
+export { GetTimezoneOffsetString } from "./Dates/GetTimezoneOffsetString";
 
 export { ConvertExerciseGroupSetStringPrimary } from "./Exercises/ConvertExerciseGroupSetStringPrimary";
 export { ConvertExerciseGroupStringSetPrimaryToString } from "./Exercises/ConvertExerciseGroupStringSetPrimaryToString";
