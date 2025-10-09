@@ -9,6 +9,7 @@ import {
 } from "../typings";
 import {
   ConvertDateToYearMonthString,
+  ConvertISODateStringToYmdDateString,
   CreateExerciseGroupSetPrimary,
   FormatISODateStringToCalendarAriaLabelString,
   GetCalendarWorkoutList,
@@ -45,6 +46,8 @@ export const useCalendarModal = ({
 
   const operatingYearMonth = useRef<string>("");
 
+  const datesWithWorkouts = useRef<Set<string>>(new Set());
+
   const isCalendarWorkoutListLoaded = useRef<boolean>(false);
 
   const disableActiveRoutineOption = useRef<boolean>(false);
@@ -73,6 +76,10 @@ export const useCalendarModal = ({
 
     for (const workout of workoutList) {
       const id = workout.workout_template_id;
+
+      const ymdDateString = ConvertISODateStringToYmdDateString(workout.date);
+
+      datesWithWorkouts.current.add(ymdDateString);
 
       if (
         yearMonth === currentMonth.current &&
