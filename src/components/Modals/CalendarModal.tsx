@@ -457,15 +457,22 @@ export const CalendarModal = ({
                       <h4 className="text-lg font-medium leading-snug">
                         {operatingCalendarModalDate.date}
                       </h4>
-                      <div>
-                        {operatingCalendarModalDate.workoutsWithGroupedSetList.map(
-                          (workoutAndSetList) => (
-                            <div key={workoutAndSetList.workout.id}>
-                              {workoutAndSetList.workout.id}
-                            </div>
-                          )
-                        )}
-                      </div>
+                      {operatingCalendarModalDate.workoutsWithGroupedSetList
+                        .length > 0 ? (
+                        <div>
+                          {operatingCalendarModalDate.workoutsWithGroupedSetList.map(
+                            (workoutAndSetList) => (
+                              <div key={workoutAndSetList.workout.id}>
+                                {workoutAndSetList.workout.id}
+                              </div>
+                            )
+                          )}
+                        </div>
+                      ) : (
+                        <div className="px-px text-sm text-stone-400">
+                          No Workouts
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
