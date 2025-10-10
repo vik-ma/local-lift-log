@@ -66,7 +66,7 @@ export const CalendarModal = ({
     disableActiveRoutineOption,
     workoutsForCurrentDate,
     handleDateClick,
-    operatingWorkoutDate,
+    operatingCalendarModalDate,
   } = useCalendarModal;
 
   const calendarWidth =
@@ -443,16 +443,18 @@ export const CalendarModal = ({
                     ? activeRoutineWorkoutTemplateList
                     : null}
                 </div>
-                {operatingWorkoutDate !== undefined && (
+                {operatingCalendarModalDate !== undefined && (
                   <ScrollShadow className="w-full px-4">
-                    {operatingWorkoutDate.map((workoutAndSetList) => (
-                      <div className="flex flex-col divide-y-1">
-                        <h4 className="font-medium leading-snug">
-                          {workoutAndSetList.workout.formattedDate}
-                        </h4>
-                        <div></div>
-                      </div>
-                    ))}
+                    <div className="flex flex-col divide-y-1">
+                      <h4 className="text-lg font-medium leading-snug">
+                        {operatingCalendarModalDate.date}
+                      </h4>
+                      {operatingCalendarModalDate.workoutsWithGroupedSetList.map(
+                        (workoutAndSetList) => (
+                          <div>{workoutAndSetList.workout.id}</div>
+                        )
+                      )}
+                    </div>
                   </ScrollShadow>
                 )}
               </div>
