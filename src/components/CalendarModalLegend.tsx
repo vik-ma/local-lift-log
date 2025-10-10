@@ -15,7 +15,7 @@ export const CalendarModalLegend = <T,>({
 }: CalendarModalLegendProps<T>) => {
   if (items.length === 0)
     return (
-      <div className="w-[9.1rem] pt-0.5 text-sm font-medium text-center text-stone-400">
+      <div className="w-[8.5rem] pt-0.5 text-sm font-medium text-center text-stone-400">
         {emptyListText}
       </div>
     );
@@ -23,7 +23,7 @@ export const CalendarModalLegend = <T,>({
   return (
     <div className="flex flex-col max-h-[274px]">
       <h4 className="font-medium text-sm">{title}</h4>
-      <ScrollShadow className="w-[9.125rem]">
+      <ScrollShadow className="w-[8.5rem]">
         {items.map(renderItem)}
       </ScrollShadow>
     </div>

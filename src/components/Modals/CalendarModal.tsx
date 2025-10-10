@@ -415,7 +415,8 @@ export const CalendarModal = ({
             <ModalHeader>Calendar</ModalHeader>
             <ModalBody className="py-0">
               <ScrollShadow
-                className={`${MODAL_BODY_HEIGHT} flex flex-col items-center gap-4`}
+                className={`${MODAL_BODY_HEIGHT} flex flex-col items-center gap-2`}
+                hideScrollBar
               >
                 <div className="flex flex-col items-center gap-2">
                   <CalendarDateMarkingsDropdown
@@ -427,15 +428,20 @@ export const CalendarModal = ({
                     disableActiveRoutine={disableActiveRoutineOption.current}
                   />
                   <div className="max-h-[310px] flex gap-2.5">
-                    <I18nProvider locale={userSettings.locale}>
-                      <Calendar
-                        calendarWidth={calendarWidth}
-                        onFocusChange={(value) =>
-                          handleCalendarMonthChange(value, userSettings.locale)
-                        }
-                        onChange={(value) => handleDateClick(value)}
-                      />
-                    </I18nProvider>
+                    <div>
+                      <I18nProvider locale={userSettings.locale}>
+                        <Calendar
+                          calendarWidth={calendarWidth}
+                          onFocusChange={(value) =>
+                            handleCalendarMonthChange(
+                              value,
+                              userSettings.locale
+                            )
+                          }
+                          onChange={(value) => handleDateClick(value)}
+                        />
+                      </I18nProvider>
+                    </div>
                     {calendarDateMarking === "workout-templates"
                       ? workoutTemplateList
                       : calendarDateMarking === "exercise-groups"
@@ -446,7 +452,7 @@ export const CalendarModal = ({
                   </div>
                 </div>
                 {operatingCalendarModalDate !== undefined && (
-                  <div className="w-full px-4">
+                  <div className="w-full px-1">
                     <div className="flex flex-col divide-y-1">
                       <h4 className="text-lg font-medium leading-snug">
                         {operatingCalendarModalDate.date}
