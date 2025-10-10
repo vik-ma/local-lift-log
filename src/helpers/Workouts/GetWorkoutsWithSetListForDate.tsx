@@ -1,10 +1,6 @@
 import Database from "@tauri-apps/plugin-sql";
 import { Workout, WorkoutWithGroupedSetList } from "../../typings";
-import {
-  CreateGroupedWorkoutSetList,
-  FormatDateString,
-  GetWorkoutSetList,
-} from "..";
+import { CreateGroupedWorkoutSetList, GetWorkoutSetList } from "..";
 import { EXERCISE_GROUP_DICTIONARY } from "../../constants";
 
 export const GetWorkoutsWithSetListForDate = async (date: Date) => {
@@ -35,8 +31,6 @@ export const GetWorkoutsWithSetListForDate = async (date: Date) => {
         workout.exercise_order,
         EXERCISE_GROUP_DICTIONARY
       );
-
-      workout.formattedDate = FormatDateString(workout.date);
 
       const workoutWithGroupedSetList: WorkoutWithGroupedSetList = {
         workout: workout,
