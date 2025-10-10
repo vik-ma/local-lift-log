@@ -10,10 +10,11 @@ import {
 } from "../typings";
 import {
   ConvertDateToYearMonthString,
+  ConvertDateToYmdString,
   ConvertISODateStringToYmdDateString,
   CreateExerciseGroupSetPrimary,
-  FormatDateString,
   FormatISODateStringToCalendarAriaLabelString,
+  FormatYmdDateString,
   GetCalendarWorkoutList,
   GetWorkoutsWithSetListForDate,
   IsRoutineCustomStartDateInvalid,
@@ -251,21 +252,23 @@ export const useCalendarModal = ({
   const handleDateClick = async (dateValue: DateValue) => {
     const date = dateValue.toDate(getLocalTimeZone());
 
-    const formattedDate = FormatDateString(date.toISOString());
+    const ymdDateString = ConvertDateToYmdString(date);
 
-    if (!datesWithWorkouts.current.has(formattedDate)) {
+    const formattedDate = FormatYmdDateString(ymdDateString);
+
+    if (!datesWithWorkouts.current.has(ymdDateString)) {
       const emptyCalendarModalDateItem: CalendarModalDateItem = {
         date: formattedDate,
         workoutsWithGroupedSetList: [],
       };
 
-      dateWorkoutMap.current.set(formattedDate, emptyCalendarModalDateItem);
+      dateWorkoutMap.current.set(ymdDateString, emptyCalendarModalDateItem);
       setOperatingCalendarModalDate(emptyCalendarModalDateItem);
       return;
     }
 
-    if (dateWorkoutMap.current.has(formattedDate)) {
-      const calendarModalDateItem = dateWorkoutMap.current.get(formattedDate)!;
+    if (dateWorkoutMap.current.has(ymdDateString)) {
+      const calendarModalDateItem = dateWorkoutMap.current.get(ymdDateString)!;
       setOperatingCalendarModalDate(calendarModalDateItem);
       return;
     }
@@ -279,7 +282,7 @@ export const useCalendarModal = ({
       workoutsWithGroupedSetList: workoutsWithGroupedSetList,
     };
 
-    dateWorkoutMap.current.set(formattedDate, newCalendarModalDateItem);
+    dateWorkoutMap.current.set(ymdDateString, newCalendarModalDateItem);
 
     setOperatingCalendarModalDate(newCalendarModalDateItem);
   };
