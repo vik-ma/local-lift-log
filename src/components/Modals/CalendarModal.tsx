@@ -6,6 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   Calendar,
+  ScrollShadow,
 } from "@heroui/react";
 import {
   CalendarWorkoutTemplateMap,
@@ -65,6 +66,7 @@ export const CalendarModal = ({
     disableActiveRoutineOption,
     workoutsForCurrentDate,
     handleDateClick,
+    operatingWorkoutDate,
   } = useCalendarModal;
 
   const calendarWidth =
@@ -446,6 +448,18 @@ export const CalendarModal = ({
                     ? activeRoutineWorkoutTemplateList
                     : null}
                 </div>
+                {operatingWorkoutDate !== undefined && (
+                  <ScrollShadow className="w-full px-4">
+                    {operatingWorkoutDate.map((workoutAndSetList) => (
+                      <div className="flex flex-col divide-y-1">
+                        <h4 className="font-medium leading-snug">
+                          {workoutAndSetList.workout.formattedDate}
+                        </h4>
+                        <div></div>
+                      </div>
+                    ))}
+                  </ScrollShadow>
+                )}
               </div>
             </ModalBody>
             <ModalFooter>
