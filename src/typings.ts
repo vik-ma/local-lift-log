@@ -1449,7 +1449,7 @@ export type UseCalendarModalReturnType = {
   disableActiveRoutineOption: React.RefObject<boolean>;
   workoutsForCurrentDate: React.RefObject<CalendarWorkoutItem[]>;
   handleDateClick: (dateValue: DateValue) => Promise<void>;
-  operatingWorkoutDate: WorkoutWithGroupedSetList[];
+  operatingCalendarModalDate: CalendarModalDateItem | undefined;
 };
 
 export type CalendarWorkoutItem = {
@@ -1482,4 +1482,9 @@ export type CalendarWorkoutTemplateMap = Map<
 export type WorkoutWithGroupedSetList = {
   workout: Workout;
   groupedSetList: GroupedWorkoutSet[];
+};
+
+export type CalendarModalDateItem = {
+  date: string;
+  workoutsWithGroupedSetList: WorkoutWithGroupedSetList[];
 };
