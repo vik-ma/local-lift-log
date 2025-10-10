@@ -414,50 +414,56 @@ export const CalendarModal = ({
           <>
             <ModalHeader>Calendar</ModalHeader>
             <ModalBody className="py-0">
-              <div
-                className={`${MODAL_BODY_HEIGHT} flex flex-col items-center gap-2`}
+              <ScrollShadow
+                className={`${MODAL_BODY_HEIGHT} flex flex-col items-center gap-4`}
               >
-                <CalendarDateMarkingsDropdown
-                  value={calendarDateMarking}
-                  setValue={setCalendarDateMarking}
-                  targetType="calendar-modal"
-                  handleChangeInModal={handleCalendarDateMarkingChange}
-                  isInCalendarModal
-                  disableActiveRoutine={disableActiveRoutineOption.current}
-                />
-                <div className="max-h-[310px] flex gap-2.5">
-                  <I18nProvider locale={userSettings.locale}>
-                    <Calendar
-                      calendarWidth={calendarWidth}
-                      onFocusChange={(value) =>
-                        handleCalendarMonthChange(value, userSettings.locale)
-                      }
-                      onChange={(value) => handleDateClick(value)}
-                    />
-                  </I18nProvider>
-                  {calendarDateMarking === "workout-templates"
-                    ? workoutTemplateList
-                    : calendarDateMarking === "exercise-groups"
-                    ? exerciseGroupList
-                    : calendarDateMarking === "active-routine"
-                    ? activeRoutineWorkoutTemplateList
-                    : null}
+                <div className="flex flex-col items-center gap-2">
+                  <CalendarDateMarkingsDropdown
+                    value={calendarDateMarking}
+                    setValue={setCalendarDateMarking}
+                    targetType="calendar-modal"
+                    handleChangeInModal={handleCalendarDateMarkingChange}
+                    isInCalendarModal
+                    disableActiveRoutine={disableActiveRoutineOption.current}
+                  />
+                  <div className="max-h-[310px] flex gap-2.5">
+                    <I18nProvider locale={userSettings.locale}>
+                      <Calendar
+                        calendarWidth={calendarWidth}
+                        onFocusChange={(value) =>
+                          handleCalendarMonthChange(value, userSettings.locale)
+                        }
+                        onChange={(value) => handleDateClick(value)}
+                      />
+                    </I18nProvider>
+                    {calendarDateMarking === "workout-templates"
+                      ? workoutTemplateList
+                      : calendarDateMarking === "exercise-groups"
+                      ? exerciseGroupList
+                      : calendarDateMarking === "active-routine"
+                      ? activeRoutineWorkoutTemplateList
+                      : null}
+                  </div>
                 </div>
                 {operatingCalendarModalDate !== undefined && (
-                  <ScrollShadow className="w-full px-4">
+                  <div className="w-full px-4">
                     <div className="flex flex-col divide-y-1">
                       <h4 className="text-lg font-medium leading-snug">
                         {operatingCalendarModalDate.date}
                       </h4>
-                      {operatingCalendarModalDate.workoutsWithGroupedSetList.map(
-                        (workoutAndSetList) => (
-                          <div>{workoutAndSetList.workout.id}</div>
-                        )
-                      )}
+                      <div>
+                        {operatingCalendarModalDate.workoutsWithGroupedSetList.map(
+                          (workoutAndSetList) => (
+                            <div key={workoutAndSetList.workout.id}>
+                              {workoutAndSetList.workout.id}
+                            </div>
+                          )
+                        )}
+                      </div>
                     </div>
-                  </ScrollShadow>
+                  </div>
                 )}
-              </div>
+              </ScrollShadow>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" variant="light" onPress={onClose}>
