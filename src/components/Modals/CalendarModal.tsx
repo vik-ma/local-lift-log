@@ -454,7 +454,7 @@ export const CalendarModal = ({
                 {operatingCalendarModalDate !== undefined && (
                   <div className="w-full px-1">
                     <div className="flex flex-col divide-y-1">
-                      <h4 className="text-lg font-medium leading-snug">
+                      <h4 className="text-secondary text-lg font-medium leading-tight">
                         {operatingCalendarModalDate.date}
                       </h4>
                       {operatingCalendarModalDate.workoutsWithGroupedSetList
