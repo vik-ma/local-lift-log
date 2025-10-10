@@ -14,9 +14,18 @@ export const GetWorkoutsWithSetListForDate = async (date: Date) => {
     const db = await Database.load(import.meta.env.VITE_DB);
 
     const workouts = await db.select<Workout[]>(
-      `SELECT * FROM workouts
-       WHERE datetime(workouts.date) >= datetime('${dateString}')
-         AND datetime(workouts.date) < datetime('${nextDayString}')`
+      `SELECT 
+        w.*,         
+        CASE 
+         WHEN w.workout_template_id = 0 THEN 'No Workout Template'
+         WHEN t.id IS NULL THEN 'Unknown'
+         ELSE t.name
+        END AS workoutTemplateName
+       FROM workouts w
+       LEFT JOIN workout_templates t 
+         ON w.workout_template_id = t.id
+       WHERE datetime(w.date) >= datetime('${dateString}')
+         AND datetime(w.date) < datetime('${nextDayString}')`
     );
 
     const workoutsWithGroupedSetList: WorkoutWithGroupedSetList[] = [];
@@ -36,6 +45,8 @@ export const GetWorkoutsWithSetListForDate = async (date: Date) => {
         workout: workout,
         groupedSetList: groupedSetList,
       };
+
+      console.log(workout)
 
       workoutsWithGroupedSetList.push(workoutWithGroupedSetList);
     }

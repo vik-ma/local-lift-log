@@ -264,6 +264,7 @@ export type Workout = {
   exerciseIdSet?: Set<number>;
   exerciseGroupSetPrimary?: Set<string>;
   exerciseGroupSetSecondary?: Set<string>;
+  workoutTemplateName?: string;
 };
 
 export type EquipmentWeight = {
