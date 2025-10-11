@@ -457,32 +457,34 @@ export const CalendarModal = ({
                       <h4 className="text-secondary text-lg font-medium leading-tight">
                         {operatingCalendarModalDate.date}
                       </h4>
-                      {operatingCalendarModalDate.workoutsWithGroupedSetList
-                        .length > 0 ? (
-                        <div>
-                          {operatingCalendarModalDate.workoutsWithGroupedSetList.map(
-                            (workoutAndSetList) => (
-                              <div key={workoutAndSetList.workout.id}>
-                                {workoutAndSetList.workout.id}
-                                <div className="">
-                                  {workoutAndSetList.groupedSetList.length >
-                                  0 ? (
-                                    <div></div>
-                                  ) : (
-                                    <div className="text-sm text-stone-400">
-                                      No Sets Completed
-                                    </div>
-                                  )}
+                      <div className="px-px">
+                        {operatingCalendarModalDate.workoutsWithGroupedSetList
+                          .length > 0 ? (
+                          <div>
+                            {operatingCalendarModalDate.workoutsWithGroupedSetList.map(
+                              (workoutAndSetList) => (
+                                <div key={workoutAndSetList.workout.id}>
+                                  {workoutAndSetList.workout.id}
+                                  <div className="">
+                                    {workoutAndSetList.groupedSetList.length >
+                                    0 ? (
+                                      <div></div>
+                                    ) : (
+                                      <div className="text-sm text-stone-400">
+                                        No Sets Completed
+                                      </div>
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                            )
-                          )}
-                        </div>
-                      ) : (
-                        <div className="px-px text-sm text-stone-400">
-                          No Workouts
-                        </div>
-                      )}
+                              )
+                            )}
+                          </div>
+                        ) : (
+                          <div className="text-sm text-stone-400">
+                            No Workouts
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}
