@@ -1,21 +1,15 @@
 import { Select, SelectItem, SharedSelection } from "@heroui/react";
-import { UseMultisetActionsReturnType } from "../../typings";
+import { MULTISET_TYPES } from "../../constants";
 
 type MultipleChoiceMultisetTypeDropdown = {
-  useMultisetActions: UseMultisetActionsReturnType;
   filterMultisetTypes: Set<string>;
   setFilterMultisetTypes: React.Dispatch<React.SetStateAction<Set<string>>>;
 };
 
 export const MultipleChoiceMultisetTypeDropdown = ({
-  useMultisetActions,
   filterMultisetTypes,
   setFilterMultisetTypes,
 }: MultipleChoiceMultisetTypeDropdown) => {
-  const { listFilters } = useMultisetActions;
-
-  const { multisetTypes } = listFilters;
-
   const handleChange = (keys: SharedSelection) => {
     const updatedFilterMultisetTypes = new Set(keys);
 
@@ -31,7 +25,7 @@ export const MultipleChoiceMultisetTypeDropdown = ({
           {filterMultisetTypes.size > 0 && (
             <span className="text-secondary">
               {" "}
-              ({filterMultisetTypes.size} out of {multisetTypes.length})
+              ({filterMultisetTypes.size} out of {MULTISET_TYPES.length})
             </span>
           )}
         </>
@@ -43,7 +37,7 @@ export const MultipleChoiceMultisetTypeDropdown = ({
       onSelectionChange={(keys) => handleChange(keys)}
       disableAnimation
     >
-      {multisetTypes.map((multisetType) => (
+      {MULTISET_TYPES.map((multisetType) => (
         <SelectItem key={multisetType}>{multisetType}</SelectItem>
       ))}
     </Select>

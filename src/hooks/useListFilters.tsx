@@ -58,10 +58,6 @@ export const useListFilters = ({
     DEFAULT_LIST_FILTER_VALUES
   );
 
-  const weekdayList = WEEKDAY_LIST;
-
-  const multisetTypes = MULTISET_TYPES;
-
   const storeFilters = useRef<StoreFilterMap>(new Map());
 
   const handleFilterSaveButton = (
@@ -708,7 +704,7 @@ export const useListFilters = ({
             const weekdaysSet = new Set<string>();
 
             for (const day of weekdays) {
-              if (weekdayList.includes(day)) {
+              if (WEEKDAY_LIST.includes(day)) {
                 weekdaysSet.add(day);
               }
             }
@@ -942,7 +938,7 @@ export const useListFilters = ({
             const multisetTypeSet = new Set<string>();
 
             for (const multisetType of multisetTypes) {
-              if (multisetTypes.includes(multisetType)) {
+              if (MULTISET_TYPES.includes(multisetType)) {
                 multisetTypeSet.add(multisetType);
               }
             }
@@ -1046,9 +1042,7 @@ export const useListFilters = ({
     filterMap,
     resetFilter,
     removeFilter,
-    weekdayList,
     prefixMap,
-    multisetTypes,
     getFilterRoutinesString,
     getFilterExercisesString,
     getFilterMeasurementsString,

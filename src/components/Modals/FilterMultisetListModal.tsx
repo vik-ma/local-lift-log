@@ -184,7 +184,6 @@ export const FilterMultisetListModal = ({
                         Multiset Types
                       </h3>
                       <MultipleChoiceMultisetTypeDropdown
-                        useMultisetActions={useMultisetActions}
                         filterMultisetTypes={filterMultisetTypes}
                         setFilterMultisetTypes={setFilterMultisetTypes}
                       />

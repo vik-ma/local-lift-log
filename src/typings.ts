@@ -494,9 +494,7 @@ export type UseListFiltersReturnType = {
   filterMap: ListFilterMap;
   removeFilter: (key: string) => void;
   resetFilter: (userSettings: UserSettings) => void;
-  weekdayList: readonly string[];
   prefixMap: ListFilterMap;
-  multisetTypes: readonly string[];
   getFilterRoutinesString: (routineIdSet: Set<number>) => string;
   getFilterExercisesString: (exerciseIdSet: Set<number>) => string;
   getFilterMeasurementsString: (measurementIdSet: Set<string>) => string;
