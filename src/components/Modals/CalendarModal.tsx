@@ -31,7 +31,11 @@ import {
   IsRoutineCustomStartDateInvalid,
   UpdateUserSetting,
 } from "../../helpers";
-import { CalendarDateMarkingsDropdown, CalendarModalLegend } from "..";
+import {
+  CalendarDateMarkingsDropdown,
+  CalendarModalDateWorkoutTitle,
+  CalendarModalLegend,
+} from "..";
 
 type CalendarModalProps = {
   useCalendarModal: UseCalendarModalReturnType;
@@ -464,12 +468,10 @@ export const CalendarModal = ({
                             {operatingCalendarModalDate.workoutsWithGroupedSetList.map(
                               (workoutAndSetList, index) => (
                                 <div key={workoutAndSetList.workout.id}>
-                                  {operatingCalendarModalDate
-                                    .workoutsWithGroupedSetList.length > 1 && (
-                                    <h4 className="font-medium leading-snug">
-                                      Workout {index + 1}
-                                    </h4>
-                                  )}
+                                  <CalendarModalDateWorkoutTitle
+                                    useCalendarModal={useCalendarModal}
+                                    index={index}
+                                  />
                                   <div className="">
                                     {workoutAndSetList.groupedSetList.length >
                                     0 ? (

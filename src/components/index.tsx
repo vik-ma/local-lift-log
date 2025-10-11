@@ -36,6 +36,7 @@ export { TimePeriodListItemContent } from "./TimePeriodListItemContent";
 export { ExerciseMaxValues } from "./ExerciseMaxValues";
 export { SettingsList } from "./SettingsList";
 export { CalendarModalLegend } from "./CalendarModalLegend";
+export { CalendarModalDateWorkoutTitle } from "./CalendarModalDateWorkoutTitle";
 
 export { WeightUnitDropdown } from "./Dropdowns/WeightUnitDropdown";
 export { DistanceUnitDropdown } from "./Dropdowns/DistanceUnitDropdown";
