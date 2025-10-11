@@ -1,18 +1,15 @@
-import { CalendarMonthItem, CalendarWorkoutItem } from "../../typings";
+import { CalendarMonthItem } from "../../typings";
 
 export const GetCalendarDateMarkingColorIndex = (
   calendarDateMarking: string,
-  workout: CalendarWorkoutItem,
+  workoutTemplateId: number,
   operatingCalendarMonth: CalendarMonthItem,
   workoutIndex: number
 ) => {
   return calendarDateMarking === "workout-templates"
-    ? operatingCalendarMonth.workoutTemplateMap.get(
-        workout.workout_template_id
-      )!.index
+    ? operatingCalendarMonth.workoutTemplateMap.get(workoutTemplateId)!.index
     : calendarDateMarking === "active-routine"
-    ? operatingCalendarMonth.routineWorkoutTemplateMap.get(
-        workout.workout_template_id
-      )!.index
+    ? operatingCalendarMonth.routineWorkoutTemplateMap.get(workoutTemplateId)!
+        .index
     : workoutIndex;
 };

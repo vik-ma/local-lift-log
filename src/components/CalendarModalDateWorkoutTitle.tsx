@@ -1,15 +1,21 @@
+import { CALENDAR_COLOR_LIST } from "../constants";
+import { GetCalendarDateMarkingColorIndex } from "../helpers";
 import { UseCalendarModalReturnType } from "../typings";
 
 type CalendarModalDateWorkoutTitleProps = {
   useCalendarModal: UseCalendarModalReturnType;
-  index: number;
+  workoutIndex: number;
 };
 
 export const CalendarModalDateWorkoutTitle = ({
   useCalendarModal,
-  index,
+  workoutIndex,
 }: CalendarModalDateWorkoutTitleProps) => {
-  const { operatingCalendarModalDate } = useCalendarModal;
+  const {
+    operatingCalendarModalDate,
+    calendarDateMarking,
+    operatingCalendarMonth,
+  } = useCalendarModal;
 
   if (
     operatingCalendarModalDate === undefined ||
@@ -17,5 +23,20 @@ export const CalendarModalDateWorkoutTitle = ({
   )
     return null;
 
-  return <h4 className="font-medium leading-snug">Workout {index + 1}</h4>;
+  const textColorIndex = GetCalendarDateMarkingColorIndex(
+    calendarDateMarking,
+    operatingCalendarModalDate.workoutsWithGroupedSetList[workoutIndex].workout
+      .workout_template_id,
+    operatingCalendarMonth,
+    workoutIndex
+  );
+
+  const textColor =
+    CALENDAR_COLOR_LIST[textColorIndex % CALENDAR_COLOR_LIST.length];
+
+  return (
+    <h4 className="font-medium leading-snug" style={{ color: textColor }}>
+      Workout {workoutIndex + 1}
+    </h4>
+  );
 };

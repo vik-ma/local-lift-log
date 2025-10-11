@@ -198,7 +198,7 @@ export const CalendarModal = ({
       } else {
         const dotColorIndex = GetCalendarDateMarkingColorIndex(
           calendarDateMarking,
-          workout,
+          workout.workout_template_id,
           operatingCalendarMonth,
           wrapper.children.length
         );
@@ -467,7 +467,7 @@ export const CalendarModal = ({
                                 <div key={workoutAndSetList.workout.id}>
                                   <CalendarModalDateWorkoutTitle
                                     useCalendarModal={useCalendarModal}
-                                    index={index}
+                                    workoutIndex={index}
                                   />
                                   <div className="">
                                     {workoutAndSetList.groupedSetList.length >
