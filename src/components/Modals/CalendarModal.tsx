@@ -454,17 +454,22 @@ export const CalendarModal = ({
                 {operatingCalendarModalDate !== undefined && (
                   <div className="w-full px-1">
                     <div className="flex flex-col divide-y-1">
-                      <h4 className="text-secondary text-lg font-medium leading-tight">
+                      <h3 className="text-secondary text-lg font-medium leading-tight">
                         {operatingCalendarModalDate.date}
-                      </h4>
-                      <div className="px-px">
+                      </h3>
+                      <div className="px-px pt-px">
                         {operatingCalendarModalDate.workoutsWithGroupedSetList
                           .length > 0 ? (
                           <div>
                             {operatingCalendarModalDate.workoutsWithGroupedSetList.map(
-                              (workoutAndSetList) => (
+                              (workoutAndSetList, index) => (
                                 <div key={workoutAndSetList.workout.id}>
-                                  {workoutAndSetList.workout.id}
+                                  {operatingCalendarModalDate
+                                    .workoutsWithGroupedSetList.length > 1 && (
+                                    <h4 className="font-medium leading-snug">
+                                      Workout {index + 1}
+                                    </h4>
+                                  )}
                                   <div className="">
                                     {workoutAndSetList.groupedSetList.length >
                                     0 ? (
