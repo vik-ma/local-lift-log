@@ -36,8 +36,6 @@ export const useDietLogListFilters = ({
   const [dietLogFilterValues, setDietLogFilterValues] =
     useState<DietLogFilterValues>(DEFAULT_DIET_LOG_FILTER_VALUES);
 
-  const weekdayList = WEEKDAY_LIST;
-
   const storeFilters = useRef<DietLogStoreFilterMap>(new Map());
 
   const handleFilterSaveButton = (
@@ -362,7 +360,7 @@ export const useDietLogListFilters = ({
             const weekdaysSet = new Set<string>();
 
             for (const day of weekdays) {
-              if (weekdayList.includes(day)) {
+              if (WEEKDAY_LIST.includes(day)) {
                 weekdaysSet.add(day);
               }
             }
@@ -539,7 +537,6 @@ export const useDietLogListFilters = ({
     removeFilter,
     resetFilter,
     prefixMap,
-    weekdayList,
     loadDietLogFilterMapFromStore,
     dietLogFilterValues,
   };

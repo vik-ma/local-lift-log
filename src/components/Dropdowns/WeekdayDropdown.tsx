@@ -1,9 +1,9 @@
 import { Select, SelectItem } from "@heroui/react";
+import { WEEKDAY_LIST } from "../../constants";
 
 type WeekdayDropdownProps = {
   value: number;
   label: string;
-  weekdayList: readonly string[];
   targetType: "routine";
   updateRoutineStartDay?: (weekdayNum: string) => void;
 };
@@ -11,7 +11,6 @@ type WeekdayDropdownProps = {
 export const WeekdayDropdown = ({
   value,
   label,
-  weekdayList,
   targetType,
   updateRoutineStartDay,
 }: WeekdayDropdownProps) => {
@@ -33,7 +32,7 @@ export const WeekdayDropdown = ({
       disallowEmptySelection
       disableAnimation
     >
-      {weekdayList.map((weekday) => (
+      {WEEKDAY_LIST.map((weekday) => (
         <SelectItem key={weekday}>{weekday}</SelectItem>
       ))}
     </Select>

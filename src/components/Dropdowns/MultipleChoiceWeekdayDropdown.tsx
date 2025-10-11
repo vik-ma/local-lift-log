@@ -1,15 +1,14 @@
 import { Button, Select, SelectItem } from "@heroui/react";
+import { WEEKDAY_LIST } from "../../constants";
 
 type MultipleChoiceWeekdayDropdownProps = {
   values: Set<string>;
   setValues: React.Dispatch<React.SetStateAction<Set<string>>>;
-  weekdayList: readonly string[];
 };
 
 export const MultipleChoiceWeekdayDropdown = ({
   values,
   setValues,
-  weekdayList,
 }: MultipleChoiceWeekdayDropdownProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const weekdayKeys = e.target.value.split(",");
@@ -34,7 +33,7 @@ export const MultipleChoiceWeekdayDropdown = ({
             {values.size > 0 && (
               <span className="text-secondary">
                 {" "}
-                ({values.size} out of {weekdayList.length})
+                ({values.size} out of {WEEKDAY_LIST.length})
               </span>
             )}
           </>
@@ -46,7 +45,7 @@ export const MultipleChoiceWeekdayDropdown = ({
         onChange={(e) => handleChange(e)}
         disableAnimation
       >
-        {weekdayList.map((weekday) => (
+        {WEEKDAY_LIST.map((weekday) => (
           <SelectItem key={weekday}>{weekday}</SelectItem>
         ))}
       </Select>

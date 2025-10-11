@@ -82,7 +82,6 @@ export const FilterBodyMeasurementsListModal = ({
     resetFilter,
     handleFilterSaveButton,
     getFilterMeasurementsString,
-    weekdayList,
     listFilterValues,
   } = useListFilters;
 
@@ -234,7 +233,6 @@ export const FilterBodyMeasurementsListModal = ({
                     <FilterDateRangeAndWeekdays
                       useFilterDateRangeAndWeekdays={filterDateRangeAndWeekdays}
                       locale={userSettings.locale}
-                      weekdayList={weekdayList}
                     />
                     <div className="flex flex-col gap-0.5">
                       <div className="flex flex-col gap-px">

@@ -1006,7 +1006,6 @@ export type UseDietLogListFiltersReturnType = {
   removeFilter: (key: string) => void;
   resetFilter: () => void;
   prefixMap: DietLogFilterMap;
-  weekdayList: readonly string[];
   loadDietLogFilterMapFromStore: (locale: string) => Promise<void>;
   dietLogFilterValues: DietLogFilterValues;
 };

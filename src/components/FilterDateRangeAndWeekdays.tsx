@@ -4,13 +4,11 @@ import { UseFilterDateRangeAndWeekdaysReturnType } from "../typings";
 type FilterDateRangeAndWeekdaysProps = {
   useFilterDateRangeAndWeekdays: UseFilterDateRangeAndWeekdaysReturnType;
   locale: string;
-  weekdayList: readonly string[];
 };
 
 export const FilterDateRangeAndWeekdays = ({
   useFilterDateRangeAndWeekdays,
   locale,
-  weekdayList,
 }: FilterDateRangeAndWeekdaysProps) => {
   const { filterDateRange, filterWeekdays, setFilterWeekdays } =
     useFilterDateRangeAndWeekdays;
@@ -26,7 +24,6 @@ export const FilterDateRangeAndWeekdays = ({
         <MultipleChoiceWeekdayDropdown
           values={filterWeekdays}
           setValues={setFilterWeekdays}
-          weekdayList={weekdayList}
         />
       </div>
     </div>
