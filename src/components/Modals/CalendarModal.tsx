@@ -200,8 +200,8 @@ export const CalendarModal = ({
             ? operatingCalendarMonth.routineWorkoutTemplateMap.get(
                 workout.workout_template_id
               )!.index
-            : 0;
-
+            : wrapper.children.length;
+            
         const dotColor =
           CALENDAR_COLOR_LIST[dotColorIndex % CALENDAR_COLOR_LIST.length] +
           CALENDAR_DOT_ALPHA_CODE;
