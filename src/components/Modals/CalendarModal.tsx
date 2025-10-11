@@ -463,24 +463,33 @@ export const CalendarModal = ({
                           .length > 0 ? (
                           <div>
                             {operatingCalendarModalDate.workoutsWithGroupedSetList.map(
-                              (workoutAndSetList, index) => (
-                                <div key={workoutAndSetList.workout.id}>
-                                  <CalendarModalDateWorkoutTitle
-                                    useCalendarModal={useCalendarModal}
-                                    workoutIndex={index}
-                                  />
-                                  <div className="">
-                                    {workoutAndSetList.groupedSetList.length >
-                                    0 ? (
-                                      <div></div>
-                                    ) : (
-                                      <div className="text-sm text-stone-400">
-                                        No Sets Completed
-                                      </div>
-                                    )}
+                              (workoutAndSetList, index) => {
+                                const ignoreWorkout =
+                                  calendarDateMarking === "active-routine" &&
+                                  activeRoutine?.id !==
+                                    workoutAndSetList.workout.routine_id;
+
+                                if (ignoreWorkout) return null;
+
+                                return (
+                                  <div key={workoutAndSetList.workout.id}>
+                                    <CalendarModalDateWorkoutTitle
+                                      useCalendarModal={useCalendarModal}
+                                      workoutIndex={index}
+                                    />
+                                    <div className="">
+                                      {workoutAndSetList.groupedSetList.length >
+                                      0 ? (
+                                        <div></div>
+                                      ) : (
+                                        <div className="text-sm text-stone-400">
+                                          No Sets Completed
+                                        </div>
+                                      )}
+                                    </div>
                                   </div>
-                                </div>
-                              )
+                                );
+                              }
                             )}
                           </div>
                         ) : (
