@@ -199,7 +199,7 @@ export { MergeTwoGroupedSetLists } from "./Workouts/MergeTwoGroupedSetLists";
 export { GetUniqueMultisetIds } from "./Workouts/GetUniqueMultisetIds";
 export { CreateWorkout } from "./Workouts/CreateWorkout";
 export { DeleteWorkoutWithId } from "./Workouts/DeleteWorkoutWithId";
-export { GetWorkoutsWithSetListForDate } from "./Workouts/GetWorkoutsWithSetListForDate"
+export { GetWorkoutsWithSetListForDate } from "./Workouts/GetWorkoutsWithSetListForDate";
 
 export { ConvertEmptyStringToNull } from "./Strings/ConvertEmptyStringToNull";
 export { IsStringEmpty } from "./Strings/IsStringEmpty";
@@ -247,3 +247,4 @@ export { CreateCalendarDotDiv } from "./Calendar/CreateCalendarDotDiv";
 export { CreateDateRoutineScheduleListMap } from "./Calendar/CreateDateRoutineScheduleListMap";
 export { CreateCalendarDateWrapperDiv } from "./Calendar/CreateCalendarDateWrapperDiv";
 export { GetCalendarDateQuerySelectorString } from "./Calendar/GetCalendarDateQuerySelectorString";
+export { GetCalendarDateMarkingColorIndex } from "./Calendar/GetCalendarDateMarkingColorIndex";

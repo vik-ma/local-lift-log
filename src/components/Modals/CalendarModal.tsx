@@ -27,6 +27,7 @@ import {
   CreateCalendarDotDiv,
   CreateDateRoutineScheduleListMap,
   FormatISODateStringToCalendarAriaLabelString,
+  GetCalendarDateMarkingColorIndex,
   GetCalendarDateQuerySelectorString,
   IsRoutineCustomStartDateInvalid,
   UpdateUserSetting,
@@ -195,16 +196,12 @@ export const CalendarModal = ({
           wrapper.appendChild(dot);
         }
       } else {
-        const dotColorIndex =
-          calendarDateMarking === "workout-templates"
-            ? operatingCalendarMonth.workoutTemplateMap.get(
-                workout.workout_template_id
-              )!.index
-            : calendarDateMarking === "active-routine"
-            ? operatingCalendarMonth.routineWorkoutTemplateMap.get(
-                workout.workout_template_id
-              )!.index
-            : wrapper.children.length;
+        const dotColorIndex = GetCalendarDateMarkingColorIndex(
+          calendarDateMarking,
+          workout,
+          operatingCalendarMonth,
+          wrapper.children.length
+        );
 
         const dotColor =
           CALENDAR_COLOR_LIST[dotColorIndex % CALENDAR_COLOR_LIST.length] +
