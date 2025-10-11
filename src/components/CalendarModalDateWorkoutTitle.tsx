@@ -5,11 +5,13 @@ import { UseCalendarModalReturnType } from "../typings";
 type CalendarModalDateWorkoutTitleProps = {
   useCalendarModal: UseCalendarModalReturnType;
   workoutIndex: number;
+  ignoreWorkout: boolean;
 };
 
 export const CalendarModalDateWorkoutTitle = ({
   useCalendarModal,
   workoutIndex,
+  ignoreWorkout,
 }: CalendarModalDateWorkoutTitleProps) => {
   const {
     operatingCalendarModalDate,
@@ -31,17 +33,22 @@ export const CalendarModalDateWorkoutTitle = ({
     workoutIndex
   );
 
-  const textColor =
-    CALENDAR_COLOR_LIST[textColorIndex % CALENDAR_COLOR_LIST.length];
+  const textColor = ignoreWorkout
+    ? "#a8a29e" // text-stone-400
+    : CALENDAR_COLOR_LIST[textColorIndex % CALENDAR_COLOR_LIST.length];
 
   return (
     <h4
       className="font-medium leading-snug"
       style={{
-        color: calendarDateMarking === "exercise-groups" ? undefined : textColor,
+        color:
+          calendarDateMarking === "exercise-groups" ? undefined : textColor,
       }}
     >
       Workout {workoutIndex + 1}
+      {ignoreWorkout && (
+        <span className="text-xs font-normal"> (Not In Active Routine)</span>
+      )}
     </h4>
   );
 };

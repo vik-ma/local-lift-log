@@ -469,24 +469,25 @@ export const CalendarModal = ({
                                   activeRoutine?.id !==
                                     workoutAndSetList.workout.routine_id;
 
-                                if (ignoreWorkout) return null;
-
                                 return (
                                   <div key={workoutAndSetList.workout.id}>
                                     <CalendarModalDateWorkoutTitle
                                       useCalendarModal={useCalendarModal}
                                       workoutIndex={index}
+                                      ignoreWorkout={ignoreWorkout}
                                     />
-                                    <div className="">
-                                      {workoutAndSetList.groupedSetList.length >
-                                      0 ? (
-                                        <div></div>
-                                      ) : (
-                                        <div className="text-sm text-stone-400">
-                                          No Sets Completed
-                                        </div>
-                                      )}
-                                    </div>
+                                    {ignoreWorkout ? null : (
+                                      <div>
+                                        {workoutAndSetList.groupedSetList
+                                          .length > 0 ? (
+                                          <div></div>
+                                        ) : (
+                                          <div className="text-sm text-stone-400">
+                                            No Sets Completed
+                                          </div>
+                                        )}
+                                      </div>
+                                    )}
                                   </div>
                                 );
                               }
