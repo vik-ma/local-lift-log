@@ -46,8 +46,6 @@ export const GetWorkoutsWithSetListForDate = async (date: Date) => {
         groupedSetList: groupedSetList,
       };
 
-      console.log(workout)
-
       workoutsWithGroupedSetList.push(workoutWithGroupedSetList);
     }
 

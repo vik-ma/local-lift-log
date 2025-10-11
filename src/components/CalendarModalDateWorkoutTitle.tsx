@@ -35,7 +35,12 @@ export const CalendarModalDateWorkoutTitle = ({
     CALENDAR_COLOR_LIST[textColorIndex % CALENDAR_COLOR_LIST.length];
 
   return (
-    <h4 className="font-medium leading-snug" style={{ color: textColor }}>
+    <h4
+      className="font-medium leading-snug"
+      style={{
+        color: calendarDateMarking === "exercise-groups" ? undefined : textColor,
+      }}
+    >
       Workout {workoutIndex + 1}
     </h4>
   );
