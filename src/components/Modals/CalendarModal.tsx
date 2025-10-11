@@ -201,7 +201,7 @@ export const CalendarModal = ({
                 workout.workout_template_id
               )!.index
             : wrapper.children.length;
-            
+
         const dotColor =
           CALENDAR_COLOR_LIST[dotColorIndex % CALENDAR_COLOR_LIST.length] +
           CALENDAR_DOT_ALPHA_CODE;
@@ -464,6 +464,16 @@ export const CalendarModal = ({
                             (workoutAndSetList) => (
                               <div key={workoutAndSetList.workout.id}>
                                 {workoutAndSetList.workout.id}
+                                <div className="">
+                                  {workoutAndSetList.groupedSetList.length >
+                                  0 ? (
+                                    <div></div>
+                                  ) : (
+                                    <div className="text-sm text-stone-400">
+                                      No Sets Completed
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                             )
                           )}
